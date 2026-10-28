@@ -20,6 +20,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   modifiedOn: "modified_on",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Argo",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -151,6 +165,8 @@ export const getSmartRouting: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSmartRouting",
 }));
 
 export type GetTieredCachingError =
@@ -176,6 +192,8 @@ export const getTieredCaching: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTieredCaching",
 }));
 
 export type PatchSmartRoutingError =
@@ -201,6 +219,8 @@ export const patchSmartRouting: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSmartRouting",
 }));
 
 export type PatchTieredCachingError = InvalidObjectIdentifier | Forbidden | CloudflareOpError;
@@ -216,6 +236,8 @@ export const patchTieredCaching: API.OperationMethod<
   errors: [InvalidObjectIdentifier, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchTieredCaching",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

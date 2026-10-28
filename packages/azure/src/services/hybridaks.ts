@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.HybridContainerService" },
+  prefix: "Hybridaks",
+  service: "Hybridaks",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** OSType to be used to specify OS type for the VMs. Choose from Linux and Windows. Default to Linux. Possible values include: 'Linux', 'Windows' */
 export type OSType = "Linux" | "Windows";
 /** Specifies the OS SKU used by the agent pool. The default is CBLMariner if OSType is Linux. The default is Windows2019 when OSType is Windows. */
@@ -1337,6 +1358,14 @@ export const AgentPoolCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AgentPoolCreateOrUpdate",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
+    },
+  },
 }));
 
 export type DeleteAgentPoolError = AzureOpError;
@@ -1352,6 +1381,14 @@ export const DeleteAgentPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteAgentPool",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
+    },
+  },
 }));
 
 export type DeleteHybridIdentityMetadataError = AzureOpError;
@@ -1367,6 +1404,14 @@ export const DeleteHybridIdentityMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteHybridIdentityMetadata",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
+    },
+  },
 }));
 
 export type DeleteKubernetesVersionsError = AzureOpError;
@@ -1382,6 +1427,14 @@ export const DeleteKubernetesVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteKubernetesVersions",
+    attributes: {
+      "url.template":
+        "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
+    },
+  },
 }));
 
 export type DeleteProvisionedClusterInstanceError = AzureOpError;
@@ -1397,6 +1450,14 @@ export const DeleteProvisionedClusterInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteProvisionedClusterInstance",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
+    },
+  },
 }));
 
 export type DeleteVirtualNetworkError = AzureOpError;
@@ -1412,6 +1473,8 @@ export const DeleteVirtualNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVirtualNetwork",
 }));
 
 export type DeleteVMSkusError = AzureOpError;
@@ -1427,6 +1490,14 @@ export const DeleteVMSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteVMSkus",
+    attributes: {
+      "url.template":
+        "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/skus/default",
+    },
+  },
 }));
 
 export type GetAgentPoolError = AzureOpError;
@@ -1442,6 +1513,14 @@ export const GetAgentPool: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetAgentPool",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
+    },
+  },
 }));
 
 export type GetHybridIdentityMetadataError = AzureOpError;
@@ -1457,6 +1536,14 @@ export const GetHybridIdentityMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetHybridIdentityMetadata",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
+    },
+  },
 }));
 
 export type GetKubernetesVersionsError = AzureOpError;
@@ -1472,6 +1559,14 @@ export const GetKubernetesVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetKubernetesVersions",
+    attributes: {
+      "url.template":
+        "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
+    },
+  },
 }));
 
 export type GetProvisionedClusterInstanceError = AzureOpError;
@@ -1487,6 +1582,14 @@ export const GetProvisionedClusterInstance: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetProvisionedClusterInstance",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
+    },
+  },
 }));
 
 export type GetProvisionedClusterInstanceUpgradeProfileError = AzureOpError;
@@ -1506,6 +1609,14 @@ export const GetProvisionedClusterInstanceUpgradeProfile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetProvisionedClusterInstanceUpgradeProfile",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/upgradeProfiles/default",
+    },
+  },
 }));
 
 export type GetVirtualNetworkError = AzureOpError;
@@ -1521,6 +1632,8 @@ export const GetVirtualNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualNetwork",
 }));
 
 export type GetVMSkusError = AzureOpError;
@@ -1536,6 +1649,14 @@ export const GetVMSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetVMSkus",
+    attributes: {
+      "url.template":
+        "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/skus/default",
+    },
+  },
 }));
 
 export type ListAgentPoolByProvisionedClusterError = AzureOpError;
@@ -1551,6 +1672,14 @@ export const ListAgentPoolByProvisionedCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListAgentPoolByProvisionedCluster",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools",
+    },
+  },
 }));
 
 export type ListHybridIdentityMetadataByClusterError = AzureOpError;
@@ -1566,6 +1695,14 @@ export const ListHybridIdentityMetadataByCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListHybridIdentityMetadataByCluster",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata",
+    },
+  },
 }));
 
 export type ListKubernetesVersionsError = AzureOpError;
@@ -1581,6 +1718,14 @@ export const ListKubernetesVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListKubernetesVersions",
+    attributes: {
+      "url.template":
+        "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions",
+    },
+  },
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1596,6 +1741,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListProvisionedClusterInstanceAdminKubeconfigError = AzureOpError;
@@ -1615,6 +1762,14 @@ export const ListProvisionedClusterInstanceAdminKubeconfig: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListProvisionedClusterInstanceAdminKubeconfig",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/listAdminKubeconfig",
+    },
+  },
 }));
 
 export type ListProvisionedClusterInstancesError = AzureOpError;
@@ -1630,6 +1785,14 @@ export const ListProvisionedClusterInstances: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListProvisionedClusterInstances",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances",
+    },
+  },
 }));
 
 export type ListProvisionedClusterInstanceUserKubeconfigError = AzureOpError;
@@ -1645,6 +1808,14 @@ export const ListProvisionedClusterInstanceUserKubeconfig: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListProvisionedClusterInstanceUserKubeconfig",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/listUserKubeconfig",
+    },
+  },
 }));
 
 export type ListVirtualNetworkByResourceGroupError = AzureOpError;
@@ -1660,6 +1831,8 @@ export const ListVirtualNetworkByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualNetworkByResourceGroup",
 }));
 
 export type ListVirtualNetworkBySubscriptionError = AzureOpError;
@@ -1675,6 +1848,8 @@ export const ListVirtualNetworkBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVirtualNetworkBySubscription",
 }));
 
 export type ListVMSkusError = AzureOpError;
@@ -1690,6 +1865,14 @@ export const ListVMSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListVMSkus",
+    attributes: {
+      "url.template":
+        "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/skus",
+    },
+  },
 }));
 
 export type ProvisionedClusterInstancesCreateOrUpdateError = AzureOpError;
@@ -1705,6 +1888,14 @@ export const ProvisionedClusterInstancesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ProvisionedClusterInstancesCreateOrUpdate",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
+    },
+  },
 }));
 
 export type PutHybridIdentityMetadataError = AzureOpError;
@@ -1720,6 +1911,14 @@ export const PutHybridIdentityMetadata: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutHybridIdentityMetadata",
+    attributes: {
+      "url.template":
+        "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
+    },
+  },
 }));
 
 export type PutKubernetesVersionsError = AzureOpError;
@@ -1735,6 +1934,14 @@ export const PutKubernetesVersions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutKubernetesVersions",
+    attributes: {
+      "url.template":
+        "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
+    },
+  },
 }));
 
 export type PutVMSkusError = AzureOpError;
@@ -1750,6 +1957,14 @@ export const PutVMSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutVMSkus",
+    attributes: {
+      "url.template":
+        "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/skus/default",
+    },
+  },
 }));
 
 export type UpdateVirtualNetworkError = AzureOpError;
@@ -1765,6 +1980,8 @@ export const UpdateVirtualNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualNetwork",
 }));
 
 export type VirtualNetworksCreateOrUpdateError = AzureOpError;
@@ -1780,6 +1997,8 @@ export const VirtualNetworksCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VirtualNetworksCreateOrUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

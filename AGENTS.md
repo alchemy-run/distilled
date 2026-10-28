@@ -12,7 +12,7 @@ cd distilled
 pnpm install
 ```
 
-That is a complete checkout: ~840 MB, of which ~770 MB is the committed
+That is a complete checkout: ~490 MB, of which ~400 MB is the committed
 generated SDKs. Drop `--depth=1` only if you need history.
 
 **Do not clone with `--recursive`, and never pass `--recursive` to
@@ -100,6 +100,9 @@ same condition. Tests use vitest: `pnpm vitest run
   `packages/*/src/services/` are erased by the next `pnpm generate`. Patches
   live in `packages/<pkg>/patches/` as RFC-6902 ops on the converted Smithy
   model, under the names the spec gives (`pnpm patches:names <pkg>`).
+  The converted models are not committed: `generate` keeps them in memory.
+  To read them, run the package's `convert`, which writes them to the
+  gitignored `.generated-specs/`.
 - **`stacks/*` are workspace members but are not in the root tsconfig's
   project references,** so `tsrs -b` never sees them. They have their own
   `typecheck` scripts and their own CI job.

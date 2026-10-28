@@ -11,6 +11,23 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "Meta",
+  propagate: "w3c",
+} as const;
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -145,6 +162,8 @@ export const get: API.OperationMethod<GetRequest, ApiOverview, GetError, GithubO
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Get",
   }));
 
 export type GetAllVersionsError = NotFound | GithubOpError;
@@ -160,6 +179,8 @@ export const getAllVersions: API.OperationMethod<
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllVersions",
 }));
 
 export type GetOctocatError = GithubOpError;
@@ -175,6 +196,8 @@ export const getOctocat: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOctocat",
 }));
 
 export type GetZenError = GithubOpError;
@@ -190,6 +213,8 @@ export const getZen: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetZen",
 }));
 
 export type Root2Error = GithubOpError;
@@ -201,6 +226,8 @@ export const root2: API.OperationMethod<Root2Request, Root, Root2Error, GithubOp
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "Root2",
   }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

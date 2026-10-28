@@ -29,6 +29,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   returnPathDomain: "return_path_domain",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "EmailSending",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -592,6 +606,8 @@ export const createSubdomain: API.OperationMethod<
   errors: [Forbidden, SendingSubdomainAlreadyExists, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSubdomain",
 }));
 
 export type CreateSuppressionError = CloudflareOpError;
@@ -607,6 +623,8 @@ export const createSuppression: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSuppression",
 }));
 
 export type DeleteSubdomainError = Forbidden | SendingSubdomainNotFound | CloudflareOpError;
@@ -622,6 +640,8 @@ export const deleteSubdomain: API.OperationMethod<
   errors: [Forbidden, SendingSubdomainNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSubdomain",
 }));
 
 export type DeleteSuppressionError = CloudflareOpError;
@@ -637,6 +657,8 @@ export const deleteSuppression: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSuppression",
 }));
 
 export type EditSubdomainError = CloudflareOpError;
@@ -652,6 +674,8 @@ export const editSubdomain: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditSubdomain",
 }));
 
 export type EditSuppressionError = CloudflareOpError;
@@ -667,6 +691,8 @@ export const editSuppression: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EditSuppression",
 }));
 
 export type GetSubdomainError = Forbidden | SendingSubdomainNotFound | CloudflareOpError;
@@ -682,6 +708,8 @@ export const getSubdomain: API.OperationMethod<
   errors: [Forbidden, SendingSubdomainNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubdomain",
 }));
 
 export type GetSubdomainDnsError = CloudflareOpError;
@@ -699,6 +727,8 @@ export const getSubdomainDns: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetSubdomainDns",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -717,6 +747,8 @@ export const getSuppression: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSuppression",
 }));
 
 export type ImportSuppressionError = CloudflareOpError;
@@ -732,6 +764,8 @@ export const importSuppression: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportSuppression",
 }));
 
 export type ListSubdomainsError = Forbidden | CloudflareOpError;
@@ -749,6 +783,8 @@ export const listSubdomains: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSubdomains",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -767,6 +803,8 @@ export const listSuppressions: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSuppressions",
 }));
 
 export type SendEmailSendingError = CloudflareOpError;
@@ -782,6 +820,8 @@ export const sendEmailSending: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendEmailSending",
 }));
 
 export type SendRawEmailSendingError = CloudflareOpError;
@@ -797,6 +837,8 @@ export const sendRawEmailSending: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendRawEmailSending",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

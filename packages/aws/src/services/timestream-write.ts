@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -92,6 +93,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://ingest.timestream.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "TimestreamWrite",
+  service: "TimestreamWrite",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -582,6 +598,8 @@ export const createBatchLoadTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchLoadTask",
+  telemetry: TELEMETRY,
+  span: "CreateBatchLoadTask",
 }));
 
 export type CreateDatabaseError =
@@ -620,6 +638,8 @@ export const createDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatabase",
+  telemetry: TELEMETRY,
+  span: "CreateDatabase",
 }));
 
 export type CreateTableError =
@@ -661,6 +681,8 @@ export const createTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTable",
+  telemetry: TELEMETRY,
+  span: "CreateTable",
 }));
 
 export type DeleteDatabaseError =
@@ -704,6 +726,8 @@ export const deleteDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatabase",
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type DeleteTableError =
@@ -744,6 +768,8 @@ export const deleteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTable",
+  telemetry: TELEMETRY,
+  span: "DeleteTable",
 }));
 
 export type DescribeBatchLoadTaskError =
@@ -777,6 +803,8 @@ export const describeBatchLoadTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBatchLoadTask",
+  telemetry: TELEMETRY,
+  span: "DescribeBatchLoadTask",
 }));
 
 export type DescribeDatabaseError =
@@ -812,6 +840,8 @@ export const describeDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatabase",
+  telemetry: TELEMETRY,
+  span: "DescribeDatabase",
 }));
 
 export type DescribeEndpointsError =
@@ -856,6 +886,8 @@ export const describeEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpoints",
+  telemetry: TELEMETRY,
+  span: "DescribeEndpoints",
 }));
 
 export type DescribeTableError =
@@ -891,6 +923,8 @@ export const describeTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTable",
+  telemetry: TELEMETRY,
+  span: "DescribeTable",
 }));
 
 export type ListBatchLoadTasksError =
@@ -929,6 +963,8 @@ export const listBatchLoadTasks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBatchLoadTasks",
 })) as any;
 
 export type ListDatabasesError =
@@ -967,6 +1003,8 @@ export const listDatabases: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatabases",
 })) as any;
 
 export type ListTablesError =
@@ -1007,6 +1045,8 @@ export const listTables: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTables",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1035,6 +1075,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ResumeBatchLoadTaskError =
@@ -1067,6 +1109,8 @@ export const resumeBatchLoadTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeBatchLoadTask",
+  telemetry: TELEMETRY,
+  span: "ResumeBatchLoadTask",
 }));
 
 export type TagResourceError =
@@ -1099,6 +1143,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1129,6 +1175,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDatabaseError =
@@ -1168,6 +1216,8 @@ export const updateDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatabase",
+  telemetry: TELEMETRY,
+  span: "UpdateDatabase",
 }));
 
 export type UpdateTableError =
@@ -1206,6 +1256,8 @@ export const updateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTable",
+  telemetry: TELEMETRY,
+  span: "UpdateTable",
 }));
 
 export type WriteRecordsError =
@@ -1282,6 +1334,8 @@ export const writeRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "WriteRecords",
+  telemetry: TELEMETRY,
+  span: "WriteRecords",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

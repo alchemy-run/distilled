@@ -12,6 +12,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "TokenService",
+  propagate: "w3c",
+} as const;
+
 export interface CreateTokenFlowRequest {
   utmSource?: string;
   localhostPort?: number;
@@ -69,6 +81,8 @@ export const createTokenFlow: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTokenFlow",
 }));
 
 export type GetTokenInfoError = ModalOpError;
@@ -83,6 +97,8 @@ export const getTokenInfo: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTokenInfo",
 }));
 
 export type WaitTokenFlowError = ModalOpError;
@@ -97,6 +113,8 @@ export const waitTokenFlow: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WaitTokenFlow",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

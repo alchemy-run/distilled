@@ -1,6 +1,9 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxMessage from "@distilled.cloud/core/telemetry-message-context";
+import * as TxName from "@distilled.cloud/core/telemetry-name-template";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -71,6 +74,22 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://sqs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  attributes: { "messaging.system": "aws_sqs" },
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SQS",
+  service: "SQS",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class BatchEntryIdsNotDistinct
   extends /*@__PURE__*/ S.TaggedError<BatchEntryIdsNotDistinct>()(
@@ -721,6 +740,16 @@ export const addPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPermission",
+  telemetry: TELEMETRY,
+  span: {
+    op: "AddPermission",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type CancelMessageMoveTaskError =
@@ -766,6 +795,8 @@ export const cancelMessageMoveTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMessageMoveTask",
+  telemetry: TELEMETRY,
+  span: "CancelMessageMoveTask",
 }));
 
 export type ChangeMessageVisibilityError =
@@ -842,6 +873,16 @@ export const changeMessageVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeMessageVisibility",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ChangeMessageVisibility",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type ChangeMessageVisibilityBatchError =
@@ -889,6 +930,17 @@ export const changeMessageVisibilityBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeMessageVisibilityBatch",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ChangeMessageVisibilityBatch",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+      Entries: [{ name: "messaging.batch.message_count", transform: "count" }],
+    },
+  },
 }));
 
 export type CreateQueueError =
@@ -974,6 +1026,8 @@ export const createQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueue",
+  telemetry: TELEMETRY,
+  span: "CreateQueue",
 }));
 
 export type DeleteMessageError =
@@ -1028,6 +1082,18 @@ export const deleteMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessage",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteMessage",
+    attributes: { "messaging.operation.name": "settle", "messaging.operation.type": "settle" },
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+    rename: TxName.nameTemplate("settle {messaging.destination.name}"),
+  },
 }));
 
 export type DeleteMessageBatchError =
@@ -1071,6 +1137,19 @@ export const deleteMessageBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessageBatch",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteMessageBatch",
+    attributes: { "messaging.operation.name": "settle", "messaging.operation.type": "settle" },
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+      Entries: [{ name: "messaging.batch.message_count", transform: "count" }],
+    },
+    rename: TxName.nameTemplate("settle {messaging.destination.name}"),
+  },
 }));
 
 export type DeleteQueueError =
@@ -1121,6 +1200,16 @@ export const deleteQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueue",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteQueue",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type GetQueueAttributesError =
@@ -1155,6 +1244,16 @@ export const getQueueAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueueAttributes",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetQueueAttributes",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type GetQueueUrlError =
@@ -1196,6 +1295,8 @@ export const getQueueUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueueUrl",
+  telemetry: TELEMETRY,
+  span: "GetQueueUrl",
 }));
 
 export type ListDeadLetterSourceQueuesError =
@@ -1245,6 +1346,16 @@ export const listDeadLetterSourceQueues: API.PaginatedOperationMethod<
     items: "queueUrls",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDeadLetterSourceQueues",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 })) as any;
 
 export type ListMessageMoveTasksError =
@@ -1288,6 +1399,8 @@ export const listMessageMoveTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMessageMoveTasks",
+  telemetry: TELEMETRY,
+  span: "ListMessageMoveTasks",
 }));
 
 export type ListQueuesError =
@@ -1333,6 +1446,8 @@ export const listQueues: API.PaginatedOperationMethod<
     items: "QueueUrls",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueues",
 })) as any;
 
 export type ListQueueTagsError =
@@ -1369,6 +1484,16 @@ export const listQueueTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQueueTags",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListQueueTags",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type PurgeQueueError =
@@ -1415,6 +1540,16 @@ export const purgeQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurgeQueue",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PurgeQueue",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type ReceiveMessageError =
@@ -1502,6 +1637,28 @@ export const receiveMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReceiveMessage",
+  telemetry: TELEMETRY,
+  span: {
+    op: "ReceiveMessage",
+    attributes: { "messaging.operation.name": "receive", "messaging.operation.type": "receive" },
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+    output: { Messages: [{ name: "messaging.batch.message_count", transform: "count" }] },
+    rename: TxName.nameTemplate("receive {messaging.destination.name}"),
+    extract: TxMessage.extractAwsMessageAttributes({
+      list: "Messages",
+      member: "MessageAttributes",
+      request: "MessageAttributeNames",
+      envelope: "Body",
+      system: "Attributes",
+      systemRequest: "MessageSystemAttributeNames",
+      messageId: "MessageId",
+    }),
+  },
 }));
 
 export type RemovePermissionError =
@@ -1541,6 +1698,16 @@ export const removePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
+  telemetry: TELEMETRY,
+  span: {
+    op: "RemovePermission",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type SendMessageError =
@@ -1599,6 +1766,21 @@ export const sendMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessage",
+  telemetry: TELEMETRY,
+  span: {
+    op: "SendMessage",
+    kind: "producer",
+    attributes: { "messaging.operation.name": "send", "messaging.operation.type": "send" },
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+    output: { MessageId: [{ name: "messaging.message.id" }] },
+    rename: TxName.nameTemplate("send {messaging.destination.name}"),
+    inject: TxMessage.injectAwsMessageAttributes({ member: "MessageAttributes" }),
+  },
 }));
 
 export type SendMessageBatchError =
@@ -1679,6 +1861,21 @@ export const sendMessageBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessageBatch",
+  telemetry: TELEMETRY,
+  span: {
+    op: "SendMessageBatch",
+    kind: "producer",
+    attributes: { "messaging.operation.name": "send", "messaging.operation.type": "send" },
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+      Entries: [{ name: "messaging.batch.message_count", transform: "count" }],
+    },
+    rename: TxName.nameTemplate("send {messaging.destination.name}"),
+    inject: TxMessage.injectAwsMessageAttributes({ list: "Entries", member: "MessageAttributes" }),
+  },
 }));
 
 export type SetQueueAttributesError =
@@ -1737,6 +1934,16 @@ export const setQueueAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetQueueAttributes",
+  telemetry: TELEMETRY,
+  span: {
+    op: "SetQueueAttributes",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type StartMessageMoveTaskError =
@@ -1787,6 +1994,8 @@ export const startMessageMoveTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMessageMoveTask",
+  telemetry: TELEMETRY,
+  span: "StartMessageMoveTask",
 }));
 
 export type TagQueueError =
@@ -1836,6 +2045,16 @@ export const tagQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagQueue",
+  telemetry: TELEMETRY,
+  span: {
+    op: "TagQueue",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 export type UntagQueueError =
@@ -1871,6 +2090,16 @@ export const untagQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagQueue",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UntagQueue",
+    input: {
+      QueueUrl: [
+        { name: "aws.sqs.queue.url" },
+        { name: "messaging.destination.name", transform: "lastPathSegment" },
+      ],
+    },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

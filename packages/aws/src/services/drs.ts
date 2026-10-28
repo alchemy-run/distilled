@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -73,6 +74,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://drs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "drs",
+  service: "drs",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1437,6 +1452,8 @@ export const associateSourceNetworkStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceNetworkStack",
+  telemetry: TELEMETRY,
+  span: "AssociateSourceNetworkStack",
 }));
 
 export type CancelRecoveryPlanExecutionError =
@@ -1471,6 +1488,8 @@ export const cancelRecoveryPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelRecoveryPlanExecution",
+  telemetry: TELEMETRY,
+  span: "CancelRecoveryPlanExecution",
 }));
 
 export type CreateExtendedSourceServerError =
@@ -1505,6 +1524,8 @@ export const createExtendedSourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExtendedSourceServer",
+  telemetry: TELEMETRY,
+  span: "CreateExtendedSourceServer",
 }));
 
 export type CreateLaunchConfigurationTemplateError =
@@ -1537,6 +1558,8 @@ export const createLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLaunchConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateLaunchConfigurationTemplate",
 }));
 
 export type CreateRecoveryPlanError =
@@ -1571,6 +1594,8 @@ export const createRecoveryPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecoveryPlan",
+  telemetry: TELEMETRY,
+  span: "CreateRecoveryPlan",
 }));
 
 export type CreateRecoveryPlanStepError =
@@ -1607,6 +1632,8 @@ export const createRecoveryPlanStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecoveryPlanStep",
+  telemetry: TELEMETRY,
+  span: "CreateRecoveryPlanStep",
 }));
 
 export type CreateReplicationConfigurationTemplateError =
@@ -1639,6 +1666,8 @@ export const createReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateReplicationConfigurationTemplate",
 }));
 
 export type CreateSourceNetworkError =
@@ -1673,6 +1702,8 @@ export const createSourceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSourceNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateSourceNetwork",
 }));
 
 export type DeleteJobError =
@@ -1703,6 +1734,8 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
+  telemetry: TELEMETRY,
+  span: "DeleteJob",
 }));
 
 export type DeleteLaunchActionError =
@@ -1733,6 +1766,8 @@ export const deleteLaunchAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLaunchAction",
+  telemetry: TELEMETRY,
+  span: "DeleteLaunchAction",
 }));
 
 export type DeleteLaunchConfigurationTemplateError =
@@ -1763,6 +1798,8 @@ export const deleteLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLaunchConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteLaunchConfigurationTemplate",
 }));
 
 export type DeleteRecoveryInstanceError =
@@ -1793,6 +1830,8 @@ export const deleteRecoveryInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteRecoveryInstance",
 }));
 
 export type DeleteRecoveryPlanError =
@@ -1827,6 +1866,8 @@ export const deleteRecoveryPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryPlan",
+  telemetry: TELEMETRY,
+  span: "DeleteRecoveryPlan",
 }));
 
 export type DeleteRecoveryPlanExecutionError =
@@ -1861,6 +1902,8 @@ export const deleteRecoveryPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryPlanExecution",
+  telemetry: TELEMETRY,
+  span: "DeleteRecoveryPlanExecution",
 }));
 
 export type DeleteRecoveryPlanStepError =
@@ -1895,6 +1938,8 @@ export const deleteRecoveryPlanStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryPlanStep",
+  telemetry: TELEMETRY,
+  span: "DeleteRecoveryPlanStep",
 }));
 
 export type DeleteReplicationConfigurationTemplateError =
@@ -1925,6 +1970,8 @@ export const deleteReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteReplicationConfigurationTemplate",
 }));
 
 export type DeleteSourceNetworkError =
@@ -1955,6 +2002,8 @@ export const deleteSourceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceNetwork",
+  telemetry: TELEMETRY,
+  span: "DeleteSourceNetwork",
 }));
 
 export type DeleteSourceServerError =
@@ -1985,6 +2034,8 @@ export const deleteSourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceServer",
+  telemetry: TELEMETRY,
+  span: "DeleteSourceServer",
 }));
 
 export type DescribeJobLogItemsError =
@@ -2020,6 +2071,8 @@ export const describeJobLogItems: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeJobLogItems",
 })) as any;
 
 export type DescribeJobsError =
@@ -2055,6 +2108,8 @@ export const describeJobs: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeJobs",
 })) as any;
 
 export type DescribeLaunchConfigurationTemplatesError =
@@ -2092,6 +2147,8 @@ export const describeLaunchConfigurationTemplates: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeLaunchConfigurationTemplates",
 })) as any;
 
 export type DescribeRecoveryInstancesError =
@@ -2127,6 +2184,8 @@ export const describeRecoveryInstances: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRecoveryInstances",
 })) as any;
 
 export type DescribeRecoverySnapshotsError =
@@ -2164,6 +2223,8 @@ export const describeRecoverySnapshots: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRecoverySnapshots",
 })) as any;
 
 export type DescribeReplicationConfigurationTemplatesError =
@@ -2201,6 +2262,8 @@ export const describeReplicationConfigurationTemplates: API.PaginatedOperationMe
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReplicationConfigurationTemplates",
 })) as any;
 
 export type DescribeSourceNetworksError =
@@ -2236,6 +2299,8 @@ export const describeSourceNetworks: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSourceNetworks",
 })) as any;
 
 export type DescribeSourceServersError =
@@ -2271,6 +2336,8 @@ export const describeSourceServers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSourceServers",
 })) as any;
 
 export type DisconnectRecoveryInstanceError =
@@ -2303,6 +2370,8 @@ export const disconnectRecoveryInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectRecoveryInstance",
+  telemetry: TELEMETRY,
+  span: "DisconnectRecoveryInstance",
 }));
 
 export type DisconnectSourceServerError =
@@ -2333,6 +2402,8 @@ export const disconnectSourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectSourceServer",
+  telemetry: TELEMETRY,
+  span: "DisconnectSourceServer",
 }));
 
 export type ExportSourceNetworkCfnTemplateError =
@@ -2365,6 +2436,8 @@ export const exportSourceNetworkCfnTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportSourceNetworkCfnTemplate",
+  telemetry: TELEMETRY,
+  span: "ExportSourceNetworkCfnTemplate",
 }));
 
 export type GetFailbackReplicationConfigurationError =
@@ -2393,6 +2466,8 @@ export const getFailbackReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFailbackReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetFailbackReplicationConfiguration",
 }));
 
 export type GetLaunchConfigurationError =
@@ -2421,6 +2496,8 @@ export const getLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLaunchConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetLaunchConfiguration",
 }));
 
 export type GetRecoveryPlanError =
@@ -2453,6 +2530,8 @@ export const getRecoveryPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPlan",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPlan",
 }));
 
 export type GetRecoveryPlanExecutionError =
@@ -2485,6 +2564,8 @@ export const getRecoveryPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPlanExecution",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPlanExecution",
 }));
 
 export type GetRecoveryPlanExecutionStepError =
@@ -2517,6 +2598,8 @@ export const getRecoveryPlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPlanExecutionStep",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPlanExecutionStep",
 }));
 
 export type GetRecoveryPlanStepError =
@@ -2549,6 +2632,8 @@ export const getRecoveryPlanStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPlanStep",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryPlanStep",
 }));
 
 export type GetReplicationConfigurationError =
@@ -2579,6 +2664,8 @@ export const getReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetReplicationConfiguration",
 }));
 
 export type InitializeServiceError =
@@ -2607,6 +2694,8 @@ export const initializeService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitializeService",
+  telemetry: TELEMETRY,
+  span: "InitializeService",
 }));
 
 export type ListExtensibleSourceServersError =
@@ -2644,6 +2733,8 @@ export const listExtensibleSourceServers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExtensibleSourceServers",
 })) as any;
 
 export type ListLaunchActionsError =
@@ -2681,6 +2772,8 @@ export const listLaunchActions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLaunchActions",
 })) as any;
 
 export type ListRecoveryPlanExecutionsError =
@@ -2718,6 +2811,8 @@ export const listRecoveryPlanExecutions: API.PaginatedOperationMethod<
     items: "recoveryPlanExecutions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPlanExecutions",
 })) as any;
 
 export type ListRecoveryPlanExecutionStepsError =
@@ -2757,6 +2852,8 @@ export const listRecoveryPlanExecutionSteps: API.PaginatedOperationMethod<
     items: "recoveryPlanExecutionSteps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPlanExecutionSteps",
 })) as any;
 
 export type ListRecoveryPlansError =
@@ -2794,6 +2891,8 @@ export const listRecoveryPlans: API.PaginatedOperationMethod<
     items: "recoveryPlans",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPlans",
 })) as any;
 
 export type ListRecoveryPlanStepsError =
@@ -2833,6 +2932,8 @@ export const listRecoveryPlanSteps: API.PaginatedOperationMethod<
     items: "recoveryPlanSteps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryPlanSteps",
 })) as any;
 
 export type ListStagingAccountsError =
@@ -2870,6 +2971,8 @@ export const listStagingAccounts: API.PaginatedOperationMethod<
     items: "accounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStagingAccounts",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2900,6 +3003,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutLaunchActionError =
@@ -2932,6 +3037,8 @@ export const putLaunchAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLaunchAction",
+  telemetry: TELEMETRY,
+  span: "PutLaunchAction",
 }));
 
 export type ReorderRecoveryPlanStepsError =
@@ -2966,6 +3073,8 @@ export const reorderRecoveryPlanSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReorderRecoveryPlanSteps",
+  telemetry: TELEMETRY,
+  span: "ReorderRecoveryPlanSteps",
 }));
 
 export type RetryDataReplicationError =
@@ -2996,6 +3105,8 @@ export const retryDataReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryDataReplication",
+  telemetry: TELEMETRY,
+  span: "RetryDataReplication",
 }));
 
 export type RetryRecoveryPlanExecutionStepError =
@@ -3030,6 +3141,8 @@ export const retryRecoveryPlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryRecoveryPlanExecutionStep",
+  telemetry: TELEMETRY,
+  span: "RetryRecoveryPlanExecutionStep",
 }));
 
 export type ReverseReplicationError =
@@ -3064,6 +3177,8 @@ export const reverseReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReverseReplication",
+  telemetry: TELEMETRY,
+  span: "ReverseReplication",
 }));
 
 export type StartFailbackLaunchError =
@@ -3096,6 +3211,8 @@ export const startFailbackLaunch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFailbackLaunch",
+  telemetry: TELEMETRY,
+  span: "StartFailbackLaunch",
 }));
 
 export type StartRecoveryError =
@@ -3126,6 +3243,8 @@ export const startRecovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecovery",
+  telemetry: TELEMETRY,
+  span: "StartRecovery",
 }));
 
 export type StartRecoveryPlanExecutionError =
@@ -3162,6 +3281,8 @@ export const startRecoveryPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecoveryPlanExecution",
+  telemetry: TELEMETRY,
+  span: "StartRecoveryPlanExecution",
 }));
 
 export type StartReplicationError =
@@ -3192,6 +3313,8 @@ export const startReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplication",
+  telemetry: TELEMETRY,
+  span: "StartReplication",
 }));
 
 export type StartSourceNetworkRecoveryError =
@@ -3224,6 +3347,8 @@ export const startSourceNetworkRecovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSourceNetworkRecovery",
+  telemetry: TELEMETRY,
+  span: "StartSourceNetworkRecovery",
 }));
 
 export type StartSourceNetworkReplicationError =
@@ -3254,6 +3379,8 @@ export const startSourceNetworkReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSourceNetworkReplication",
+  telemetry: TELEMETRY,
+  span: "StartSourceNetworkReplication",
 }));
 
 export type StopFailbackError =
@@ -3282,6 +3409,8 @@ export const stopFailback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFailback",
+  telemetry: TELEMETRY,
+  span: "StopFailback",
 }));
 
 export type StopReplicationError =
@@ -3312,6 +3441,8 @@ export const stopReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopReplication",
+  telemetry: TELEMETRY,
+  span: "StopReplication",
 }));
 
 export type StopSourceNetworkReplicationError =
@@ -3344,6 +3475,8 @@ export const stopSourceNetworkReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSourceNetworkReplication",
+  telemetry: TELEMETRY,
+  span: "StopSourceNetworkReplication",
 }));
 
 export type TagResourceError =
@@ -3374,6 +3507,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateRecoveryInstancesError =
@@ -3404,6 +3539,8 @@ export const terminateRecoveryInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateRecoveryInstances",
+  telemetry: TELEMETRY,
+  span: "TerminateRecoveryInstances",
 }));
 
 export type UntagResourceError =
@@ -3434,6 +3571,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateFailbackReplicationConfigurationError =
@@ -3464,6 +3603,8 @@ export const updateFailbackReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFailbackReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateFailbackReplicationConfiguration",
 }));
 
 export type UpdateLaunchConfigurationError =
@@ -3496,6 +3637,8 @@ export const updateLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLaunchConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateLaunchConfiguration",
 }));
 
 export type UpdateLaunchConfigurationTemplateError =
@@ -3528,6 +3671,8 @@ export const updateLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLaunchConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateLaunchConfigurationTemplate",
 }));
 
 export type UpdateRecoveryPlanError =
@@ -3562,6 +3707,8 @@ export const updateRecoveryPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPlan",
+  telemetry: TELEMETRY,
+  span: "UpdateRecoveryPlan",
 }));
 
 export type UpdateRecoveryPlanExecutionStepError =
@@ -3596,6 +3743,8 @@ export const updateRecoveryPlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPlanExecutionStep",
+  telemetry: TELEMETRY,
+  span: "UpdateRecoveryPlanExecutionStep",
 }));
 
 export type UpdateRecoveryPlanStepError =
@@ -3630,6 +3779,8 @@ export const updateRecoveryPlanStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPlanStep",
+  telemetry: TELEMETRY,
+  span: "UpdateRecoveryPlanStep",
 }));
 
 export type UpdateReplicationConfigurationError =
@@ -3664,6 +3815,8 @@ export const updateReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateReplicationConfiguration",
 }));
 
 export type UpdateReplicationConfigurationTemplateError =
@@ -3696,6 +3849,8 @@ export const updateReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationConfigurationTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateReplicationConfigurationTemplate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

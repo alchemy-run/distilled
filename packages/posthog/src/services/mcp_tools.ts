@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "McpTools",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** Arguments validated against the selected tool's schema. */
 export type CreateMcpToolRequestArgsMap = { [key: string]: unknown | undefined };
 export interface CreateMcpToolRequest {
@@ -51,6 +64,8 @@ export const createMcpTool: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpTool",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

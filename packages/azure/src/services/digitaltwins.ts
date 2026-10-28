@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.DigitalTwins" },
+  prefix: "Digitaltwins",
+  service: "Digitaltwins",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** The type of resource, for instance Microsoft.DigitalTwins/digitalTwinsInstances. */
 export type CheckDigitalTwinNameAvailabilityRequestType =
   "Microsoft.DigitalTwins/digitalTwinsInstances";
@@ -917,6 +938,8 @@ export const CheckDigitalTwinNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckDigitalTwinNameAvailability",
 }));
 
 export type DeleteDigitalTwinError = AzureOpError;
@@ -932,6 +955,8 @@ export const DeleteDigitalTwin: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDigitalTwin",
 }));
 
 export type DeleteDigitalTwinsEndpointError = AzureOpError;
@@ -947,6 +972,8 @@ export const DeleteDigitalTwinsEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDigitalTwinsEndpoint",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -962,6 +989,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteTimeSeriesDatabaseConnectionError = AzureOpError;
@@ -977,6 +1006,8 @@ export const DeleteTimeSeriesDatabaseConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTimeSeriesDatabaseConnection",
 }));
 
 export type DigitalTwinsCreateOrUpdateError = AzureOpError;
@@ -992,6 +1023,8 @@ export const DigitalTwinsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DigitalTwinsCreateOrUpdate",
 }));
 
 export type DigitalTwinsEndpointCreateOrUpdateError = AzureOpError;
@@ -1007,6 +1040,8 @@ export const DigitalTwinsEndpointCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DigitalTwinsEndpointCreateOrUpdate",
 }));
 
 export type GetDigitalTwinError = AzureOpError;
@@ -1022,6 +1057,8 @@ export const GetDigitalTwin: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDigitalTwin",
 }));
 
 export type GetDigitalTwinsEndpointError = AzureOpError;
@@ -1037,6 +1074,8 @@ export const GetDigitalTwinsEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDigitalTwinsEndpoint",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -1052,6 +1091,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -1067,6 +1108,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetTimeSeriesDatabaseConnectionError = AzureOpError;
@@ -1082,6 +1125,8 @@ export const GetTimeSeriesDatabaseConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTimeSeriesDatabaseConnection",
 }));
 
 export type ListDigitalTwinByResourceGroupError = AzureOpError;
@@ -1097,6 +1142,8 @@ export const ListDigitalTwinByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDigitalTwinByResourceGroup",
 }));
 
 export type ListDigitalTwinsError = AzureOpError;
@@ -1112,6 +1159,8 @@ export const ListDigitalTwins: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDigitalTwins",
 }));
 
 export type ListDigitalTwinsEndpointError = AzureOpError;
@@ -1127,6 +1176,8 @@ export const ListDigitalTwinsEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDigitalTwinsEndpoint",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -1142,6 +1193,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
@@ -1157,6 +1210,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnections",
 }));
 
 export type ListPrivateLinkResourcesError = AzureOpError;
@@ -1172,6 +1227,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResources",
 }));
 
 export type ListTimeSeriesDatabaseConnectionsError = AzureOpError;
@@ -1187,6 +1244,8 @@ export const ListTimeSeriesDatabaseConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTimeSeriesDatabaseConnections",
 }));
 
 export type PrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
@@ -1202,6 +1261,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsCreateOrUpdate",
 }));
 
 export type TimeSeriesDatabaseConnectionsCreateOrUpdateError = AzureOpError;
@@ -1221,6 +1282,8 @@ export const TimeSeriesDatabaseConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TimeSeriesDatabaseConnectionsCreateOrUpdate",
 }));
 
 export type UpdateDigitalTwinError = AzureOpError;
@@ -1236,6 +1299,8 @@ export const UpdateDigitalTwin: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDigitalTwin",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

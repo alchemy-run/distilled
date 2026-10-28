@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { GoogleWorkspaceOpError, GoogleWorkspaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "google-workspace-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Meet",
+  service: "meet",
+  labels: "google_workspace",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -591,6 +604,8 @@ export const batchUpdateSpacesMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateSpacesMembers",
 }));
 
 export type CreateSpacesError =
@@ -611,6 +626,8 @@ export const createSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpaces",
 }));
 
 export type CreateSpacesMembersError =
@@ -631,6 +648,8 @@ export const createSpacesMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSpacesMembers",
 }));
 
 export type DeleteSpacesMembersError =
@@ -651,6 +670,8 @@ export const deleteSpacesMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSpacesMembers",
 }));
 
 export type EndActiveConferenceSpacesError =
@@ -671,6 +692,8 @@ export const endActiveConferenceSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EndActiveConferenceSpaces",
 }));
 
 export type GetConferenceRecordsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -686,6 +709,8 @@ export const getConferenceRecords: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConferenceRecords",
 }));
 
 export type GetConferenceRecordsParticipantsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -701,6 +726,8 @@ export const getConferenceRecordsParticipants: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConferenceRecordsParticipants",
 }));
 
 export type GetConferenceRecordsParticipantsParticipantSessionsError =
@@ -723,6 +750,8 @@ export const getConferenceRecordsParticipantsParticipantSessions: API.OperationM
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConferenceRecordsParticipantsParticipantSessions",
 }));
 
 export type GetConferenceRecordsRecordingsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -738,6 +767,8 @@ export const getConferenceRecordsRecordings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConferenceRecordsRecordings",
 }));
 
 export type GetConferenceRecordsSmartNotesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -753,6 +784,8 @@ export const getConferenceRecordsSmartNotes: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConferenceRecordsSmartNotes",
 }));
 
 export type GetConferenceRecordsTranscriptsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -768,6 +801,8 @@ export const getConferenceRecordsTranscripts: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConferenceRecordsTranscripts",
 }));
 
 export type GetConferenceRecordsTranscriptsEntriesError =
@@ -786,6 +821,8 @@ export const getConferenceRecordsTranscriptsEntries: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConferenceRecordsTranscriptsEntries",
 }));
 
 export type GetSpacesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -801,6 +838,8 @@ export const getSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpaces",
 }));
 
 export type GetSpacesMembersError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -816,6 +855,8 @@ export const getSpacesMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSpacesMembers",
 }));
 
 export type ListConferenceRecordsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -832,6 +873,8 @@ export const listConferenceRecords: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConferenceRecords",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -849,6 +892,8 @@ export const listConferenceRecordsParticipants: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConferenceRecordsParticipants",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -873,6 +918,8 @@ export const listConferenceRecordsParticipantsParticipantSessions: API.Paginated
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConferenceRecordsParticipantsParticipantSessions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -890,6 +937,8 @@ export const listConferenceRecordsRecordings: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConferenceRecordsRecordings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -907,6 +956,8 @@ export const listConferenceRecordsSmartNotes: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConferenceRecordsSmartNotes",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -924,6 +975,8 @@ export const listConferenceRecordsTranscripts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConferenceRecordsTranscripts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -944,6 +997,8 @@ export const listConferenceRecordsTranscriptsEntries: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListConferenceRecordsTranscriptsEntries",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -961,6 +1016,8 @@ export const listSpacesMembers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSpacesMembers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -982,6 +1039,8 @@ export const patchSpaces: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSpaces",
 }));
 
 export type PatchSpacesMembersError =
@@ -1002,6 +1061,8 @@ export const patchSpacesMembers: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSpacesMembers",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

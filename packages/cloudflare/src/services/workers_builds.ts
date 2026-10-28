@@ -15,6 +15,20 @@ const __s: any[] = [];
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "WorkersBuilds",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class RepositoryConfigNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<RepositoryConfigNotFound>()("RepositoryConfigNotFound", {
@@ -1330,6 +1344,8 @@ export const cancelBuild: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelBuild",
 }));
 
 export type CreateTokenError = CloudflareOpError;
@@ -1345,6 +1361,8 @@ export const createToken: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateToken",
 }));
 
 export type CreateTriggerError = CloudflareOpError;
@@ -1360,6 +1378,8 @@ export const createTrigger: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTrigger",
 }));
 
 export type DeleteReposConnectionError = CloudflareOpError;
@@ -1375,6 +1395,8 @@ export const deleteReposConnection: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteReposConnection",
 }));
 
 export type DeleteTokenError = CloudflareOpError;
@@ -1390,6 +1412,8 @@ export const deleteToken: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteToken",
 }));
 
 export type DeleteTriggerError = CloudflareOpError;
@@ -1405,6 +1429,8 @@ export const deleteTrigger: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTrigger",
 }));
 
 export type DeleteTriggersEnvironmentVariableError = CloudflareOpError;
@@ -1420,6 +1446,8 @@ export const deleteTriggersEnvironmentVariable: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTriggersEnvironmentVariable",
 }));
 
 export type DeployHooksCreateError = CloudflareOpError;
@@ -1435,6 +1463,8 @@ export const deployHooksCreate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployHooksCreate",
 }));
 
 export type DeployHooksDeleteError = CloudflareOpError;
@@ -1450,6 +1480,8 @@ export const deployHooksDelete: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployHooksDelete",
 }));
 
 export type DeployHooksGetError = CloudflareOpError;
@@ -1465,6 +1497,8 @@ export const deployHooksGet: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployHooksGet",
 }));
 
 export type DeployHooksListError = CloudflareOpError;
@@ -1480,6 +1514,8 @@ export const deployHooksList: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployHooksList",
 }));
 
 export type DeployHooksTriggerError = CloudflareOpError;
@@ -1495,6 +1531,8 @@ export const deployHooksTrigger: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployHooksTrigger",
 }));
 
 export type DeployHooksUpdateError = CloudflareOpError;
@@ -1510,6 +1548,8 @@ export const deployHooksUpdate: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployHooksUpdate",
 }));
 
 export type GetAccountLimitsError = CloudflareOpError;
@@ -1525,6 +1565,8 @@ export const getAccountLimits: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountLimits",
 }));
 
 export type GetBuildError = CloudflareOpError;
@@ -1540,6 +1582,8 @@ export const getBuild: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuild",
 }));
 
 export type GetBuildsByVersionError = CloudflareOpError;
@@ -1555,6 +1599,8 @@ export const getBuildsByVersion: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuildsByVersion",
 }));
 
 export type GetBuildsLogError = CloudflareOpError;
@@ -1570,6 +1616,8 @@ export const getBuildsLog: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuildsLog",
 }));
 
 export type GetLatestBuildsError = CloudflareOpError;
@@ -1585,6 +1633,8 @@ export const getLatestBuilds: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLatestBuilds",
 }));
 
 export type GetReposConfigAutofillError = RepositoryConfigNotFound | CloudflareOpError;
@@ -1600,6 +1650,8 @@ export const getReposConfigAutofill: API.OperationMethod<
   errors: [RepositoryConfigNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReposConfigAutofill",
 }));
 
 export type ListBuildsError = CloudflareOpError;
@@ -1615,6 +1667,8 @@ export const listBuilds: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuilds",
 }));
 
 export type ListTokensError = CloudflareOpError;
@@ -1630,6 +1684,8 @@ export const listTokens: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTokens",
 }));
 
 export type ListTriggersError = CloudflareOpError;
@@ -1645,6 +1701,8 @@ export const listTriggers: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTriggers",
 }));
 
 export type ListTriggersEnvironmentVariablesError = CloudflareOpError;
@@ -1660,6 +1718,8 @@ export const listTriggersEnvironmentVariables: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTriggersEnvironmentVariables",
 }));
 
 export type TriggersCreateBuildError = CloudflareOpError;
@@ -1675,6 +1735,8 @@ export const triggersCreateBuild: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggersCreateBuild",
 }));
 
 export type TriggersPurgeCacheError = CloudflareOpError;
@@ -1690,6 +1752,8 @@ export const triggersPurgeCache: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggersPurgeCache",
 }));
 
 export type UpdateTriggerError = CloudflareOpError;
@@ -1705,6 +1769,8 @@ export const updateTrigger: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTrigger",
 }));
 
 export type UpsertReposConnectionError = CloudflareOpError;
@@ -1720,6 +1786,8 @@ export const upsertReposConnection: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertReposConnection",
 }));
 
 export type UpsertTriggersEnvironmentVariableError = CloudflareOpError;
@@ -1735,6 +1803,8 @@ export const upsertTriggersEnvironmentVariable: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertTriggersEnvironmentVariable",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

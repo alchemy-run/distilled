@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.PowerBI" },
+  prefix: "Powerbiembedded",
+  service: "Powerbiembedded",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 export interface CheckWorkspaceCollectionNameAvailabilityRequest {
   /** Gets subscription credentials which uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
@@ -205,6 +226,8 @@ export const CheckWorkspaceCollectionNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckWorkspaceCollectionNameAvailability",
 }));
 
 export type CreateWorkspaceCollectionError = AzureOpError;
@@ -220,6 +243,8 @@ export const CreateWorkspaceCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkspaceCollection",
 }));
 
 export type DeleteWorkspaceCollectionError = AzureOpError;
@@ -235,6 +260,8 @@ export const DeleteWorkspaceCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkspaceCollection",
 }));
 
 export type GetAvailableOperationsError = AzureOpError;
@@ -250,6 +277,8 @@ export const GetAvailableOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAvailableOperations",
 }));
 
 export type GetWorkspaceCollectionAccessKeysError = AzureOpError;
@@ -265,6 +294,8 @@ export const GetWorkspaceCollectionAccessKeys: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceCollectionAccessKeys",
 }));
 
 export type GetWorkspaceCollectionByNameError = AzureOpError;
@@ -280,6 +311,8 @@ export const GetWorkspaceCollectionByName: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkspaceCollectionByName",
 }));
 
 export type ListWorkspaceCollectionByResourceGroupError = AzureOpError;
@@ -295,6 +328,8 @@ export const ListWorkspaceCollectionByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceCollectionByResourceGroup",
 }));
 
 export type ListWorkspaceCollectionBySubscriptionError = AzureOpError;
@@ -310,6 +345,8 @@ export const ListWorkspaceCollectionBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaceCollectionBySubscription",
 }));
 
 export type ListWorkspacesError = AzureOpError;
@@ -325,6 +362,8 @@ export const ListWorkspaces: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkspaces",
 }));
 
 export type MigrateWorkspaceCollectionError = AzureOpError;
@@ -340,6 +379,11 @@ export const MigrateWorkspaceCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "MigrateWorkspaceCollection",
+    attributes: { "azure.resource_provider.namespace": null },
+  },
 }));
 
 export type RegenerateWorkspaceCollectionKeyError = AzureOpError;
@@ -355,6 +399,8 @@ export const RegenerateWorkspaceCollectionKey: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegenerateWorkspaceCollectionKey",
 }));
 
 export type UpdateWorkspaceCollectionError = AzureOpError;
@@ -370,6 +416,8 @@ export const UpdateWorkspaceCollection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceCollection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

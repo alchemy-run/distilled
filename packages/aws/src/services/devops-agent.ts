@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -70,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DevOpsAgent",
+  service: "DevOpsAgent",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2736,6 +2751,8 @@ export const associateService: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateService",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "AssociateService",
 }));
 
 export type CreateAgentSpaceError =
@@ -2769,6 +2786,8 @@ export const createAgentSpace: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAgentSpace",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "CreateAgentSpace",
 }));
 
 export type CreateAssetError =
@@ -2800,6 +2819,8 @@ export const createAsset: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAsset",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "CreateAsset",
 }));
 
 export type CreateAssetFileError =
@@ -2835,6 +2856,8 @@ export const createAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAssetFile",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "CreateAssetFile",
 }));
 
 export type CreateBacklogTaskError =
@@ -2868,6 +2891,8 @@ export const createBacklogTask: API.OperationMethod<
   retry: Retry,
   operationName: "CreateBacklogTask",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "CreateBacklogTask",
 }));
 
 export type CreateChatError =
@@ -2897,6 +2922,8 @@ export const createChat: API.OperationMethod<
   retry: Retry,
   operationName: "CreateChat",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "CreateChat",
 }));
 
 export type CreatePrivateConnectionError =
@@ -2928,6 +2955,8 @@ export const createPrivateConnection: API.OperationMethod<
   retry: Retry,
   operationName: "CreatePrivateConnection",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "CreatePrivateConnection",
 }));
 
 export type CreateTriggerError =
@@ -2961,6 +2990,8 @@ export const createTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "CreateTrigger",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "CreateTrigger",
 }));
 
 export type DeleteAgentSpaceError =
@@ -2992,6 +3023,8 @@ export const deleteAgentSpace: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAgentSpace",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentSpace",
 }));
 
 export type DeleteAssetError =
@@ -3025,6 +3058,8 @@ export const deleteAsset: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAsset",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "DeleteAsset",
 }));
 
 export type DeleteAssetFileError =
@@ -3056,6 +3091,8 @@ export const deleteAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAssetFile",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "DeleteAssetFile",
 }));
 
 export type DeletePrivateConnectionError =
@@ -3087,6 +3124,8 @@ export const deletePrivateConnection: API.OperationMethod<
   retry: Retry,
   operationName: "DeletePrivateConnection",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "DeletePrivateConnection",
 }));
 
 export type DeleteTriggerError =
@@ -3120,6 +3159,8 @@ export const deleteTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteTrigger",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "DeleteTrigger",
 }));
 
 export type DeregisterServiceError =
@@ -3151,6 +3192,8 @@ export const deregisterService: API.OperationMethod<
   retry: Retry,
   operationName: "DeregisterService",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "DeregisterService",
 }));
 
 export type DescribePrivateConnectionError =
@@ -3182,6 +3225,8 @@ export const describePrivateConnection: API.OperationMethod<
   retry: Retry,
   operationName: "DescribePrivateConnection",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "DescribePrivateConnection",
 }));
 
 export type DisableOperatorAppError =
@@ -3211,6 +3256,8 @@ export const disableOperatorApp: API.OperationMethod<
   retry: Retry,
   operationName: "DisableOperatorApp",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "DisableOperatorApp",
 }));
 
 export type DisassociateServiceError =
@@ -3240,6 +3287,8 @@ export const disassociateService: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateService",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "DisassociateService",
 }));
 
 export type EnableOperatorAppError =
@@ -3269,6 +3318,8 @@ export const enableOperatorApp: API.OperationMethod<
   retry: Retry,
   operationName: "EnableOperatorApp",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "EnableOperatorApp",
 }));
 
 export type GetAccountUsageError =
@@ -3300,6 +3351,8 @@ export const getAccountUsage: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccountUsage",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetAccountUsage",
 }));
 
 export type GetAgentSpaceError =
@@ -3329,6 +3382,8 @@ export const getAgentSpace: API.OperationMethod<
   retry: Retry,
   operationName: "GetAgentSpace",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "GetAgentSpace",
 }));
 
 export type GetAssetError =
@@ -3360,6 +3415,8 @@ export const getAsset: API.OperationMethod<
   retry: Retry,
   operationName: "GetAsset",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetAsset",
 }));
 
 export type GetAssetContentError =
@@ -3391,6 +3448,8 @@ export const getAssetContent: API.OperationMethod<
   retry: Retry,
   operationName: "GetAssetContent",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetAssetContent",
 }));
 
 export type GetAssetFileError =
@@ -3422,6 +3481,8 @@ export const getAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "GetAssetFile",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetAssetFile",
 }));
 
 export type GetAssociationError =
@@ -3451,6 +3512,8 @@ export const getAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "GetAssociation",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "GetAssociation",
 }));
 
 export type GetBacklogTaskError =
@@ -3484,6 +3547,8 @@ export const getBacklogTask: API.OperationMethod<
   retry: Retry,
   operationName: "GetBacklogTask",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetBacklogTask",
 }));
 
 export type GetOperatorAppError =
@@ -3507,6 +3572,8 @@ export const getOperatorApp: API.OperationMethod<
   retry: Retry,
   operationName: "GetOperatorApp",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "GetOperatorApp",
 }));
 
 export type GetRecommendationError =
@@ -3538,6 +3605,8 @@ export const getRecommendation: API.OperationMethod<
   retry: Retry,
   operationName: "GetRecommendation",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetRecommendation",
 }));
 
 export type GetServiceError =
@@ -3567,6 +3636,8 @@ export const getService: API.OperationMethod<
   retry: Retry,
   operationName: "GetService",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetTriggerError =
@@ -3598,6 +3669,8 @@ export const getTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "GetTrigger",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "GetTrigger",
 }));
 
 export type ListAgentSpacesError =
@@ -3628,6 +3701,8 @@ export const listAgentSpaces: API.PaginatedOperationMethod<
     items: "agentSpaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentSpaces",
 })) as any;
 
 export type ListAssetFilesError =
@@ -3666,6 +3741,8 @@ export const listAssetFiles: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetFiles",
 })) as any;
 
 export type ListAssetsError =
@@ -3702,6 +3779,8 @@ export const listAssets: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssets",
 })) as any;
 
 export type ListAssetTypesError =
@@ -3738,6 +3817,8 @@ export const listAssetTypes: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetTypes",
 })) as any;
 
 export type ListAssetVersionsError =
@@ -3776,6 +3857,8 @@ export const listAssetVersions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssetVersions",
 })) as any;
 
 export type ListAssociationsError =
@@ -3812,6 +3895,8 @@ export const listAssociations: API.PaginatedOperationMethod<
     items: "associations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAssociations",
 })) as any;
 
 export type ListBacklogTasksError =
@@ -3848,6 +3933,8 @@ export const listBacklogTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBacklogTasks",
 })) as any;
 
 export type ListChatsError =
@@ -3877,6 +3964,8 @@ export const listChats: API.OperationMethod<
   retry: Retry,
   operationName: "ListChats",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "ListChats",
 }));
 
 export type ListExecutionsError =
@@ -3915,6 +4004,8 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "executions",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExecutions",
 })) as any;
 
 export type ListGoalsError =
@@ -3951,6 +4042,8 @@ export const listGoals: API.PaginatedOperationMethod<
     items: "goals",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGoals",
 })) as any;
 
 export type ListJournalRecordsError =
@@ -3989,6 +4082,8 @@ export const listJournalRecords: API.PaginatedOperationMethod<
     items: "records",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJournalRecords",
 })) as any;
 
 export type ListPendingMessagesError =
@@ -4020,6 +4115,8 @@ export const listPendingMessages: API.OperationMethod<
   retry: Retry,
   operationName: "ListPendingMessages",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "ListPendingMessages",
 }));
 
 export type ListPrivateConnectionsError =
@@ -4049,6 +4146,8 @@ export const listPrivateConnections: API.OperationMethod<
   retry: Retry,
   operationName: "ListPrivateConnections",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "ListPrivateConnections",
 }));
 
 export type ListRecommendationsError =
@@ -4078,6 +4177,8 @@ export const listRecommendations: API.OperationMethod<
   retry: Retry,
   operationName: "ListRecommendations",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "ListRecommendations",
 }));
 
 export type ListServicesError =
@@ -4108,6 +4209,8 @@ export const listServices: API.PaginatedOperationMethod<
     items: "services",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4137,6 +4240,8 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTriggersError =
@@ -4175,6 +4280,8 @@ export const listTriggers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTriggers",
 })) as any;
 
 export type ListWebhooksError =
@@ -4204,6 +4311,8 @@ export const listWebhooks: API.OperationMethod<
   retry: Retry,
   operationName: "ListWebhooks",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "ListWebhooks",
 }));
 
 export type RegisterServiceError =
@@ -4233,6 +4342,8 @@ export const registerService: API.OperationMethod<
   retry: Retry,
   operationName: "RegisterService",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "RegisterService",
 }));
 
 export type SendMessageError =
@@ -4266,6 +4377,8 @@ export const sendMessage: API.OperationMethod<
   retry: Retry,
   operationName: "SendMessage",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "SendMessage",
 }));
 
 export type TagResourceError =
@@ -4295,6 +4408,8 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4324,6 +4439,8 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAgentSpaceError =
@@ -4355,6 +4472,8 @@ export const updateAgentSpace: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAgentSpace",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentSpace",
 }));
 
 export type UpdateApprovalActionError =
@@ -4390,6 +4509,8 @@ export const updateApprovalAction: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateApprovalAction",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateApprovalAction",
 }));
 
 export type UpdateAssetError =
@@ -4423,6 +4544,8 @@ export const updateAsset: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAsset",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateAsset",
 }));
 
 export type UpdateAssetFileError =
@@ -4458,6 +4581,8 @@ export const updateAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssetFile",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateAssetFile",
 }));
 
 export type UpdateAssociationError =
@@ -4487,6 +4612,8 @@ export const updateAssociation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssociation",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "UpdateAssociation",
 }));
 
 export type UpdateBacklogTaskError =
@@ -4520,6 +4647,8 @@ export const updateBacklogTask: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateBacklogTask",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateBacklogTask",
 }));
 
 export type UpdateGoalError =
@@ -4553,6 +4682,8 @@ export const updateGoal: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateGoal",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateGoal",
 }));
 
 export type UpdateOperatorAppIdpConfigError =
@@ -4582,6 +4713,8 @@ export const updateOperatorAppIdpConfig: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateOperatorAppIdpConfig",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "UpdateOperatorAppIdpConfig",
 }));
 
 export type UpdatePrivateConnectionCertificateError =
@@ -4613,6 +4746,8 @@ export const updatePrivateConnectionCertificate: API.OperationMethod<
   retry: Retry,
   operationName: "UpdatePrivateConnectionCertificate",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "UpdatePrivateConnectionCertificate",
 }));
 
 export type UpdateRecommendationError =
@@ -4646,6 +4781,8 @@ export const updateRecommendation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateRecommendation",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateRecommendation",
 }));
 
 export type UpdateTriggerError =
@@ -4677,6 +4814,8 @@ export const updateTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTrigger",
   endpointHostPrefix: "dp.",
+  telemetry: TELEMETRY,
+  span: "UpdateTrigger",
 }));
 
 export type ValidateAwsAssociationsError =
@@ -4706,6 +4845,8 @@ export const validateAwsAssociations: API.OperationMethod<
   retry: Retry,
   operationName: "ValidateAwsAssociations",
   endpointHostPrefix: "cp.",
+  telemetry: TELEMETRY,
+  span: "ValidateAwsAssociations",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

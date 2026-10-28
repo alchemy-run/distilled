@@ -55,6 +55,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the ZeroSSL Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   smithyDir: ".generated-specs",
   patchesDir: false,

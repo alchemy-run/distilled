@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { VercelOpError, VercelOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "vercel-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-vercel-id", name: "http.response.header.x-vercel-id", transform: "list" },
+  ],
+  prefix: "Vercel",
+  service: "Drains",
+  labels: "vercel",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2063,6 +2077,8 @@ export const createDrain: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDrain",
 }));
 
 export type DeleteDrainError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -2078,6 +2094,8 @@ export const deleteDrain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDrain",
 }));
 
 export type GetDrainError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -2093,6 +2111,8 @@ export const getDrain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDrain",
 }));
 
 export type GetDrainsError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -2108,6 +2128,8 @@ export const getDrains: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDrains",
 }));
 
 export type TestDrainError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -2123,6 +2145,8 @@ export const testDrain: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestDrain",
 }));
 
 export type UpdateDrainError = BadRequest | PaymentRequired | Forbidden | NotFound | VercelOpError;
@@ -2138,6 +2162,8 @@ export const updateDrain: API.OperationMethod<
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDrain",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { RenderOpError, RenderOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "render-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Render",
+  service: "Render",
+  labels: "render",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -5600,6 +5613,8 @@ export const addDisk: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddDisk",
 }));
 
 export type AddHeadersError = Forbidden | NotFound | RenderOpError;
@@ -5615,6 +5630,8 @@ export const addHeaders: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddHeaders",
 }));
 
 export type AddOrUpdateBuildSourceSecretFileError =
@@ -5634,6 +5651,8 @@ export const addOrUpdateBuildSourceSecretFile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOrUpdateBuildSourceSecretFile",
 }));
 
 export type AddOrUpdateSecretFileError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -5649,6 +5668,8 @@ export const addOrUpdateSecretFile: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddOrUpdateSecretFile",
 }));
 
 export type AddResourcesToEnvironmentError = BadRequest | NotFound | RenderOpError;
@@ -5664,6 +5685,8 @@ export const addResourcesToEnvironment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddResourcesToEnvironment",
 }));
 
 export type AddRouteError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -5675,6 +5698,8 @@ export const addRoute: API.OperationMethod<AddRouteRequest, Route, AddRouteError
     errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
     protocol: RenderProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "AddRoute",
   }));
 
 export type AutoscaleServiceError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -5690,6 +5715,8 @@ export const autoscaleService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AutoscaleService",
 }));
 
 export type CancelCronJobRunError = RenderOpError;
@@ -5705,6 +5732,8 @@ export const cancelCronJobRun: API.OperationMethod<
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelCronJobRun",
 }));
 
 export type CancelDeployError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -5720,6 +5749,8 @@ export const cancelDeploy: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelDeploy",
 }));
 
 export type CancelJobError = BadRequest | NotFound | RenderOpError;
@@ -5735,6 +5766,8 @@ export const cancelJob: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelJob",
 }));
 
 export type CancelTaskRunError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -5750,6 +5783,8 @@ export const cancelTaskRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTaskRun",
 }));
 
 export type CreateBuildSourceError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -5765,6 +5800,8 @@ export const createBuildSource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBuildSource",
 }));
 
 export type CreateCustomDomainError = BadRequest | Forbidden | NotFound | Conflict | RenderOpError;
@@ -5780,6 +5817,8 @@ export const createCustomDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCustomDomain",
 }));
 
 export type CreateDedicatedIpError = BadRequest | Forbidden | Conflict | RenderOpError;
@@ -5795,6 +5834,8 @@ export const createDedicatedIp: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDedicatedIp",
 }));
 
 export type CreateDeployError = BadRequest | NotFound | Conflict | RenderOpError;
@@ -5810,6 +5851,8 @@ export const createDeploy: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDeploy",
 }));
 
 export type CreateEnvGroupError = BadRequest | NotFound | RenderOpError;
@@ -5825,6 +5868,8 @@ export const createEnvGroup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvGroup",
 }));
 
 export type CreateEnvironmentError = BadRequest | NotFound | RenderOpError;
@@ -5840,6 +5885,8 @@ export const createEnvironment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEnvironment",
 }));
 
 export type CreateKeyValueError = BadRequest | NotFound | RenderOpError;
@@ -5855,6 +5902,8 @@ export const createKeyValue: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateKeyValue",
 }));
 
 export type CreatePostgresError = BadRequest | NotFound | RenderOpError;
@@ -5870,6 +5919,8 @@ export const createPostgres: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePostgres",
 }));
 
 export type CreatePostgresExportError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -5885,6 +5936,8 @@ export const createPostgresExport: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePostgresExport",
 }));
 
 export type CreatePostgresUserError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -5900,6 +5953,8 @@ export const createPostgresUser: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePostgresUser",
 }));
 
 export type CreateProjectError = BadRequest | NotFound | RenderOpError;
@@ -5915,6 +5970,8 @@ export const createProject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProject",
 }));
 
 export type CreateRegistryCredentialError = BadRequest | Conflict | RenderOpError;
@@ -5930,6 +5987,8 @@ export const createRegistryCredential: API.OperationMethod<
   errors: [BadRequest, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRegistryCredential",
 }));
 
 export type CreateServiceError = BadRequest | NotFound | Conflict | RenderOpError;
@@ -5945,6 +6004,8 @@ export const createService: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateService",
 }));
 
 export type CreateTaskError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -5960,6 +6021,8 @@ export const createTask: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTask",
 }));
 
 export type CreateWebhookError = BadRequest | NotFound | RenderOpError;
@@ -5975,6 +6038,8 @@ export const createWebhook: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type CreateWorkflowError = Forbidden | NotFound | RenderOpError;
@@ -5990,6 +6055,8 @@ export const createWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkflow",
 }));
 
 export type CreateWorkflowVersionError = Forbidden | NotFound | RenderOpError;
@@ -6005,6 +6072,8 @@ export const createWorkflowVersion: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkflowVersion",
 }));
 
 export type DeleteAutoscalingConfigError = Forbidden | NotFound | RenderOpError;
@@ -6020,6 +6089,8 @@ export const deleteAutoscalingConfig: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutoscalingConfig",
 }));
 
 export type DeleteBuildSourceError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -6035,6 +6106,8 @@ export const deleteBuildSource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBuildSource",
 }));
 
 export type DeleteBuildSourceEnvVarError = Forbidden | NotFound | RenderOpError;
@@ -6050,6 +6123,8 @@ export const deleteBuildSourceEnvVar: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBuildSourceEnvVar",
 }));
 
 export type DeleteBuildSourceSecretFileError = Forbidden | NotFound | RenderOpError;
@@ -6065,6 +6140,8 @@ export const deleteBuildSourceSecretFile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBuildSourceSecretFile",
 }));
 
 export type DeleteCustomDomainError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -6080,6 +6157,8 @@ export const deleteCustomDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCustomDomain",
 }));
 
 export type DeleteDedicatedIpError = Forbidden | NotFound | RenderOpError;
@@ -6095,6 +6174,8 @@ export const deleteDedicatedIp: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDedicatedIp",
 }));
 
 export type DeleteDiskError = Forbidden | NotFound | RenderOpError;
@@ -6110,6 +6191,8 @@ export const deleteDisk: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDisk",
 }));
 
 export type DeleteEnvGroupError = BadRequest | NotFound | RenderOpError;
@@ -6125,6 +6208,8 @@ export const deleteEnvGroup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvGroup",
 }));
 
 export type DeleteEnvGroupEnvVarError = BadRequest | NotFound | RenderOpError;
@@ -6140,6 +6225,8 @@ export const deleteEnvGroupEnvVar: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvGroupEnvVar",
 }));
 
 export type DeleteEnvGroupSecretFileError = BadRequest | NotFound | RenderOpError;
@@ -6155,6 +6242,8 @@ export const deleteEnvGroupSecretFile: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvGroupSecretFile",
 }));
 
 export type DeleteEnvironmentError = BadRequest | NotFound | RenderOpError;
@@ -6170,6 +6259,8 @@ export const deleteEnvironment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvironment",
 }));
 
 export type DeleteEnvVarError = Forbidden | NotFound | RenderOpError;
@@ -6185,6 +6276,8 @@ export const deleteEnvVar: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEnvVar",
 }));
 
 export type DeleteHeaderError = Forbidden | NotFound | RenderOpError;
@@ -6200,6 +6293,8 @@ export const deleteHeader: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHeader",
 }));
 
 export type DeleteKeyValueError = BadRequest | NotFound | RenderOpError;
@@ -6215,6 +6310,8 @@ export const deleteKeyValue: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteKeyValue",
 }));
 
 export type DeleteOwnerLogStreamError = BadRequest | NotFound | RenderOpError;
@@ -6230,6 +6327,8 @@ export const deleteOwnerLogStream: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOwnerLogStream",
 }));
 
 export type DeleteOwnerMetricsStreamError = BadRequest | NotFound | RenderOpError;
@@ -6245,6 +6344,8 @@ export const deleteOwnerMetricsStream: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOwnerMetricsStream",
 }));
 
 export type DeletePostgresError = BadRequest | NotFound | RenderOpError;
@@ -6260,6 +6361,8 @@ export const deletePostgres: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePostgres",
 }));
 
 export type DeletePostgresUserError = BadRequest | NotFound | RenderOpError;
@@ -6275,6 +6378,8 @@ export const deletePostgresUser: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePostgresUser",
 }));
 
 export type DeleteProjectError = BadRequest | NotFound | RenderOpError;
@@ -6290,6 +6395,8 @@ export const deleteProject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProject",
 }));
 
 export type DeleteRegistryCredentialError = Forbidden | NotFound | RenderOpError;
@@ -6305,6 +6412,8 @@ export const deleteRegistryCredential: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRegistryCredential",
 }));
 
 export type DeleteResourceLogStreamError = BadRequest | NotFound | RenderOpError;
@@ -6320,6 +6429,8 @@ export const deleteResourceLogStream: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceLogStream",
 }));
 
 export type DeleteRouteError = Forbidden | NotFound | RenderOpError;
@@ -6335,6 +6446,8 @@ export const deleteRoute: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRoute",
 }));
 
 export type DeleteSecretFileError = Forbidden | NotFound | RenderOpError;
@@ -6350,6 +6463,8 @@ export const deleteSecretFile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecretFile",
 }));
 
 export type DeleteServiceError = Forbidden | NotFound | RenderOpError;
@@ -6365,6 +6480,8 @@ export const deleteService: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteService",
 }));
 
 export type DeleteWebhookError = NotFound | RenderOpError;
@@ -6380,6 +6497,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DeleteWorkflowError = Forbidden | NotFound | RenderOpError;
@@ -6395,6 +6514,8 @@ export const deleteWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type DeployRollbackError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -6410,6 +6531,8 @@ export const deployRollback: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployRollback",
 }));
 
 export type DisconnectBlueprintError = Forbidden | NotFound | RenderOpError;
@@ -6425,6 +6548,8 @@ export const disconnectBlueprint: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisconnectBlueprint",
 }));
 
 export type FailoverPostgresError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -6440,6 +6565,8 @@ export const failoverPostgres: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FailoverPostgres",
 }));
 
 export type GetActiveConnectionsError = BadRequest | RenderOpError;
@@ -6455,6 +6582,8 @@ export const getActiveConnections: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetActiveConnections",
 }));
 
 export type GetBandwidthError = BadRequest | RenderOpError;
@@ -6470,6 +6599,8 @@ export const getBandwidth: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBandwidth",
 }));
 
 export type GetBandwidthSourcesError = BadRequest | RenderOpError;
@@ -6485,6 +6616,8 @@ export const getBandwidthSources: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBandwidthSources",
 }));
 
 export type GetBlueprintError = Forbidden | NotFound | RenderOpError;
@@ -6500,6 +6633,8 @@ export const getBlueprint: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBlueprint",
 }));
 
 export type GetBuildSourceError = BadRequest | NotFound | RenderOpError;
@@ -6515,6 +6650,8 @@ export const getBuildSource: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuildSource",
 }));
 
 export type GetBuildSourceEnvVarError = Forbidden | NotFound | RenderOpError;
@@ -6530,6 +6667,8 @@ export const getBuildSourceEnvVar: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuildSourceEnvVar",
 }));
 
 export type GetBuildSourceSecretFileError = Forbidden | NotFound | RenderOpError;
@@ -6545,6 +6684,8 @@ export const getBuildSourceSecretFile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBuildSourceSecretFile",
 }));
 
 export type GetCpuError = BadRequest | RenderOpError;
@@ -6560,6 +6701,8 @@ export const getCpu: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCpu",
 }));
 
 export type GetCpuLimitError = BadRequest | RenderOpError;
@@ -6575,6 +6718,8 @@ export const getCpuLimit: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCpuLimit",
 }));
 
 export type GetCpuTargetError = BadRequest | RenderOpError;
@@ -6590,6 +6735,8 @@ export const getCpuTarget: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCpuTarget",
 }));
 
 export type GetCustomDomainError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -6605,6 +6752,8 @@ export const getCustomDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomDomain",
 }));
 
 export type GetDedicatedIpError = Forbidden | NotFound | RenderOpError;
@@ -6620,6 +6769,8 @@ export const getDedicatedIp: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDedicatedIp",
 }));
 
 export type GetDeployError = Forbidden | NotFound | RenderOpError;
@@ -6635,6 +6786,8 @@ export const getDeploy: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploy",
 }));
 
 export type GetDiskError = Forbidden | NotFound | RenderOpError;
@@ -6646,6 +6799,8 @@ export const getDisk: API.OperationMethod<GetDiskRequest, Schema2, GetDiskError,
     errors: [Forbidden, NotFound, UnknownRenderError],
     protocol: RenderProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetDisk",
   }));
 
 export type GetDiskCapacityError = BadRequest | RenderOpError;
@@ -6661,6 +6816,8 @@ export const getDiskCapacity: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDiskCapacity",
 }));
 
 export type GetDiskUsageError = BadRequest | RenderOpError;
@@ -6676,6 +6833,8 @@ export const getDiskUsage: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDiskUsage",
 }));
 
 export type GetEnvGroupError = BadRequest | NotFound | RenderOpError;
@@ -6691,6 +6850,8 @@ export const getEnvGroup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvGroup",
 }));
 
 export type GetEnvGroupEnvVarError = BadRequest | NotFound | RenderOpError;
@@ -6706,6 +6867,8 @@ export const getEnvGroupEnvVar: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvGroupEnvVar",
 }));
 
 export type GetEnvGroupSecretFileError = BadRequest | NotFound | RenderOpError;
@@ -6721,6 +6884,8 @@ export const getEnvGroupSecretFile: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvGroupSecretFile",
 }));
 
 export type GetEnvironmentError = BadRequest | NotFound | RenderOpError;
@@ -6736,6 +6901,8 @@ export const getEnvironment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type GetEnvVarError = Forbidden | NotFound | RenderOpError;
@@ -6751,6 +6918,8 @@ export const getEnvVar: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvVar",
 }));
 
 export type GetEnvVarsForBuildSourceError = Forbidden | NotFound | RenderOpError;
@@ -6766,6 +6935,8 @@ export const getEnvVarsForBuildSource: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvVarsForBuildSource",
 }));
 
 export type GetEnvVarsForServiceError = Forbidden | NotFound | RenderOpError;
@@ -6781,6 +6952,8 @@ export const getEnvVarsForService: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEnvVarsForService",
 }));
 
 export type GetEventError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -6796,6 +6969,8 @@ export const getEvent: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEvent",
 }));
 
 export type GetHttpLatencyError = BadRequest | RenderOpError;
@@ -6811,6 +6986,8 @@ export const getHttpLatency: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHttpLatency",
 }));
 
 export type GetHttpRequestsError = BadRequest | RenderOpError;
@@ -6826,6 +7003,8 @@ export const getHttpRequests: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHttpRequests",
 }));
 
 export type GetInstanceCountError = BadRequest | RenderOpError;
@@ -6841,6 +7020,8 @@ export const getInstanceCount: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstanceCount",
 }));
 
 export type GetJobError = BadRequest | NotFound | RenderOpError;
@@ -6852,6 +7033,8 @@ export const getJob: API.OperationMethod<GetJobRequest, Schema7, GetJobError, Re
     errors: [BadRequest, NotFound, UnknownRenderError],
     protocol: RenderProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetJob",
   }));
 
 export type GetKeyValueError = BadRequest | NotFound | RenderOpError;
@@ -6867,6 +7050,8 @@ export const getKeyValue: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeyValue",
 }));
 
 export type GetKeyValueConnectionInfoError = BadRequest | NotFound | RenderOpError;
@@ -6882,6 +7067,8 @@ export const getKeyValueConnectionInfo: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetKeyValueConnectionInfo",
 }));
 
 export type GetMaintenanceError = BadRequest | NotFound | RenderOpError;
@@ -6897,6 +7084,8 @@ export const getMaintenance: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMaintenance",
 }));
 
 export type GetMemoryError = BadRequest | RenderOpError;
@@ -6912,6 +7101,8 @@ export const getMemory: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMemory",
 }));
 
 export type GetMemoryLimitError = BadRequest | RenderOpError;
@@ -6927,6 +7118,8 @@ export const getMemoryLimit: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMemoryLimit",
 }));
 
 export type GetMemoryTargetError = BadRequest | RenderOpError;
@@ -6942,6 +7135,8 @@ export const getMemoryTarget: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMemoryTarget",
 }));
 
 export type GetOwnerError = NotFound | RenderOpError;
@@ -6953,6 +7148,8 @@ export const getOwner: API.OperationMethod<GetOwnerRequest, Owner, GetOwnerError
     errors: [NotFound, UnknownRenderError],
     protocol: RenderProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetOwner",
   }));
 
 export type GetOwnerLogStreamError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -6968,6 +7165,8 @@ export const getOwnerLogStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOwnerLogStream",
 }));
 
 export type GetOwnerMembersError = NotFound | RenderOpError;
@@ -6983,6 +7182,8 @@ export const getOwnerMembers: API.OperationMethod<
   errors: [NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOwnerMembers",
 }));
 
 export type GetOwnerMetricsStreamError = BadRequest | NotFound | RenderOpError;
@@ -6998,6 +7199,8 @@ export const getOwnerMetricsStream: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOwnerMetricsStream",
 }));
 
 export type GetOwnerNotificationSettingsError = RenderOpError;
@@ -7013,6 +7216,8 @@ export const getOwnerNotificationSettings: API.OperationMethod<
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOwnerNotificationSettings",
 }));
 
 export type GetPostgresError = BadRequest | NotFound | RenderOpError;
@@ -7028,6 +7233,8 @@ export const getPostgres: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPostgres",
 }));
 
 export type GetPostgresConnectionInfoError = BadRequest | NotFound | RenderOpError;
@@ -7043,6 +7250,8 @@ export const getPostgresConnectionInfo: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPostgresConnectionInfo",
 }));
 
 export type GetPostgresRecoveryInfoError = BadRequest | NotFound | RenderOpError;
@@ -7058,6 +7267,8 @@ export const getPostgresRecoveryInfo: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPostgresRecoveryInfo",
 }));
 
 export type GetProjectError = BadRequest | NotFound | RenderOpError;
@@ -7073,6 +7284,8 @@ export const getProject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProject",
 }));
 
 export type GetRegistryCredentialError = Forbidden | NotFound | RenderOpError;
@@ -7088,6 +7301,8 @@ export const getRegistryCredential: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRegistryCredential",
 }));
 
 export type GetReplicationLagError = BadRequest | RenderOpError;
@@ -7103,6 +7318,8 @@ export const getReplicationLag: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReplicationLag",
 }));
 
 export type GetResourceLogStreamError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -7118,6 +7335,8 @@ export const getResourceLogStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceLogStream",
 }));
 
 export type GetSecretFileError = Forbidden | NotFound | RenderOpError;
@@ -7133,6 +7352,8 @@ export const getSecretFile: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecretFile",
 }));
 
 export type GetServiceError = Forbidden | NotFound | RenderOpError;
@@ -7148,6 +7369,8 @@ export const getService: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetService",
 }));
 
 export type GetServiceNotificationOverridesError = RenderOpError;
@@ -7163,6 +7386,8 @@ export const getServiceNotificationOverrides: API.OperationMethod<
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceNotificationOverrides",
 }));
 
 export type GetServiceOutboundIpsError = Forbidden | NotFound | RenderOpError;
@@ -7178,6 +7403,8 @@ export const getServiceOutboundIps: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServiceOutboundIps",
 }));
 
 export type GetTaskError = Forbidden | NotFound | RenderOpError;
@@ -7193,6 +7420,8 @@ export const getTask: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTask",
 }));
 
 export type GetTaskRunError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -7208,6 +7437,8 @@ export const getTaskRun: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskRun",
 }));
 
 export type GetTaskRunsCompletedError = BadRequest | RenderOpError;
@@ -7223,6 +7454,8 @@ export const getTaskRunsCompleted: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskRunsCompleted",
 }));
 
 export type GetTaskRunsQueuedError = BadRequest | RenderOpError;
@@ -7238,6 +7471,8 @@ export const getTaskRunsQueued: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTaskRunsQueued",
 }));
 
 export type GetUserError = RenderOpError;
@@ -7249,6 +7484,8 @@ export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, Re
     errors: [UnknownRenderError],
     protocol: RenderProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetUser",
   }));
 
 export type GetWebhookError = NotFound | RenderOpError;
@@ -7264,6 +7501,8 @@ export const getWebhook: API.OperationMethod<
   errors: [NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type GetWorkflowError = Forbidden | NotFound | RenderOpError;
@@ -7279,6 +7518,8 @@ export const getWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GetWorkflowVersionError = Forbidden | NotFound | RenderOpError;
@@ -7294,6 +7535,8 @@ export const getWorkflowVersion: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowVersion",
 }));
 
 export type LinkEnvGroupToBuildSourceError = BadRequest | NotFound | RenderOpError;
@@ -7309,6 +7552,8 @@ export const linkEnvGroupToBuildSource: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkEnvGroupToBuildSource",
 }));
 
 export type LinkServiceToEnvGroupError = BadRequest | NotFound | RenderOpError;
@@ -7324,6 +7569,8 @@ export const linkServiceToEnvGroup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkServiceToEnvGroup",
 }));
 
 export type ListApplicationFilterValuesError = BadRequest | RenderOpError;
@@ -7339,6 +7586,8 @@ export const listApplicationFilterValues: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationFilterValues",
 }));
 
 export type ListBlueprintsError = Forbidden | NotFound | RenderOpError;
@@ -7354,6 +7603,8 @@ export const listBlueprints: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBlueprints",
 }));
 
 export type ListBlueprintSyncsError = Forbidden | NotFound | RenderOpError;
@@ -7369,6 +7620,8 @@ export const listBlueprintSyncs: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBlueprintSyncs",
 }));
 
 export type ListBuildsInBuildSourceError = Forbidden | NotFound | RenderOpError;
@@ -7384,6 +7637,8 @@ export const listBuildsInBuildSource: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuildsInBuildSource",
 }));
 
 export type ListBuildSourcesError = BadRequest | RenderOpError;
@@ -7399,6 +7654,8 @@ export const listBuildSources: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBuildSources",
 }));
 
 export type ListCustomDomainsError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -7414,6 +7671,8 @@ export const listCustomDomains: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomDomains",
 }));
 
 export type ListDedicatedIpsError = BadRequest | Forbidden | RenderOpError;
@@ -7429,6 +7688,8 @@ export const listDedicatedIps: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDedicatedIps",
 }));
 
 export type ListDeploysError = Forbidden | NotFound | RenderOpError;
@@ -7444,6 +7705,8 @@ export const listDeploys: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeploys",
 }));
 
 export type ListDisksError = Forbidden | NotFound | RenderOpError;
@@ -7459,6 +7722,8 @@ export const listDisks: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDisks",
 }));
 
 export type ListEnvGroupsError = BadRequest | NotFound | RenderOpError;
@@ -7474,6 +7739,8 @@ export const listEnvGroups: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvGroups",
 }));
 
 export type ListEnvironmentsError = BadRequest | NotFound | RenderOpError;
@@ -7489,6 +7756,8 @@ export const listEnvironments: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 }));
 
 export type ListEventsError = BadRequest | NotFound | RenderOpError;
@@ -7504,6 +7773,8 @@ export const listEvents: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEvents",
 }));
 
 export type ListHeadersError = Forbidden | NotFound | RenderOpError;
@@ -7519,6 +7790,8 @@ export const listHeaders: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHeaders",
 }));
 
 export type ListHttpFilterValuesError = BadRequest | RenderOpError;
@@ -7534,6 +7807,8 @@ export const listHttpFilterValues: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHttpFilterValues",
 }));
 
 export type ListInstancesError = NotFound | RenderOpError;
@@ -7549,6 +7824,8 @@ export const listInstances: API.OperationMethod<
   errors: [NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInstances",
 }));
 
 export type ListJobError = BadRequest | NotFound | RenderOpError;
@@ -7564,6 +7841,8 @@ export const listJob: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListJob",
 }));
 
 export type ListKeyValueError = BadRequest | NotFound | Conflict | RenderOpError;
@@ -7579,6 +7858,8 @@ export const listKeyValue: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListKeyValue",
 }));
 
 export type ListLogsError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -7594,6 +7875,8 @@ export const listLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogs",
 }));
 
 export type ListLogsValuesError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -7609,6 +7892,8 @@ export const listLogsValues: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLogsValues",
 }));
 
 export type ListMaintenanceError = BadRequest | NotFound | RenderOpError;
@@ -7624,6 +7909,8 @@ export const listMaintenance: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMaintenance",
 }));
 
 export type ListNotificationOverridesError = RenderOpError;
@@ -7639,6 +7926,8 @@ export const listNotificationOverrides: API.OperationMethod<
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotificationOverrides",
 }));
 
 export type ListOrganizationAuditLogsError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -7654,6 +7943,8 @@ export const listOrganizationAuditLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationAuditLogs",
 }));
 
 export type ListOwnerAuditLogsError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -7669,6 +7960,8 @@ export const listOwnerAuditLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOwnerAuditLogs",
 }));
 
 export type ListOwnersError = RenderOpError;
@@ -7684,6 +7977,8 @@ export const listOwners: API.OperationMethod<
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOwners",
 }));
 
 export type ListPathFilterValuesError = BadRequest | RenderOpError;
@@ -7699,6 +7994,8 @@ export const listPathFilterValues: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPathFilterValues",
 }));
 
 export type ListPostgresError = BadRequest | NotFound | Conflict | RenderOpError;
@@ -7714,6 +8011,8 @@ export const listPostgres: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgres",
 }));
 
 export type ListPostgresExportError = BadRequest | NotFound | RenderOpError;
@@ -7729,6 +8028,8 @@ export const listPostgresExport: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresExport",
 }));
 
 export type ListPostgresProcessesError = BadRequest | NotFound | RenderOpError;
@@ -7744,6 +8045,8 @@ export const listPostgresProcesses: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresProcesses",
 }));
 
 export type ListPostgresSizesError = BadRequest | NotFound | RenderOpError;
@@ -7759,6 +8062,8 @@ export const listPostgresSizes: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresSizes",
 }));
 
 export type ListPostgresTableScansError = BadRequest | NotFound | RenderOpError;
@@ -7774,6 +8079,8 @@ export const listPostgresTableScans: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresTableScans",
 }));
 
 export type ListPostgresTopQueriesError = BadRequest | NotFound | RenderOpError;
@@ -7789,6 +8096,8 @@ export const listPostgresTopQueries: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresTopQueries",
 }));
 
 export type ListPostgresUsersError = BadRequest | NotFound | RenderOpError;
@@ -7804,6 +8113,8 @@ export const listPostgresUsers: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPostgresUsers",
 }));
 
 export type ListProjectsError = BadRequest | NotFound | RenderOpError;
@@ -7819,6 +8130,8 @@ export const listProjects: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjects",
 }));
 
 export type ListRegistryCredentialsError = RenderOpError;
@@ -7834,6 +8147,8 @@ export const listRegistryCredentials: API.OperationMethod<
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRegistryCredentials",
 }));
 
 export type ListResourceLogStreamsError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -7849,6 +8164,8 @@ export const listResourceLogStreams: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListResourceLogStreams",
 }));
 
 export type ListRoutesError = Forbidden | NotFound | RenderOpError;
@@ -7864,6 +8181,8 @@ export const listRoutes: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRoutes",
 }));
 
 export type ListSecretFilesForBuildSourceError = Forbidden | NotFound | RenderOpError;
@@ -7879,6 +8198,8 @@ export const listSecretFilesForBuildSource: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretFilesForBuildSource",
 }));
 
 export type ListSecretFilesForServiceError = Forbidden | NotFound | RenderOpError;
@@ -7894,6 +8215,8 @@ export const listSecretFilesForService: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSecretFilesForService",
 }));
 
 export type ListServicesError = RenderOpError;
@@ -7909,6 +8232,8 @@ export const listServices: API.OperationMethod<
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 }));
 
 export type ListSnapshotsError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -7924,6 +8249,8 @@ export const listSnapshots: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnapshots",
 }));
 
 export type ListTaskRunsError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -7939,6 +8266,8 @@ export const listTaskRuns: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTaskRuns",
 }));
 
 export type ListTasksError = Forbidden | NotFound | RenderOpError;
@@ -7954,6 +8283,8 @@ export const listTasks: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTasks",
 }));
 
 export type ListWebhookEventsError = BadRequest | NotFound | RenderOpError;
@@ -7969,6 +8300,8 @@ export const listWebhookEvents: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhookEvents",
 }));
 
 export type ListWebhooksError = BadRequest | NotFound | RenderOpError;
@@ -7984,6 +8317,8 @@ export const listWebhooks: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWebhooks",
 }));
 
 export type ListWorkflowsError = Forbidden | NotFound | RenderOpError;
@@ -7999,6 +8334,8 @@ export const listWorkflows: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflows",
 }));
 
 export type ListWorkflowVersionsError = Forbidden | NotFound | RenderOpError;
@@ -8014,6 +8351,8 @@ export const listWorkflowVersions: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowVersions",
 }));
 
 export type PatchOwnerNotificationSettingsError = RenderOpError;
@@ -8029,6 +8368,8 @@ export const patchOwnerNotificationSettings: API.OperationMethod<
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOwnerNotificationSettings",
 }));
 
 export type PatchRouteError = Forbidden | NotFound | RenderOpError;
@@ -8044,6 +8385,8 @@ export const patchRoute: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRoute",
 }));
 
 export type PatchServiceNotificationOverridesError = RenderOpError;
@@ -8059,6 +8402,8 @@ export const patchServiceNotificationOverrides: API.OperationMethod<
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchServiceNotificationOverrides",
 }));
 
 export type PostJobError = BadRequest | NotFound | RenderOpError;
@@ -8074,6 +8419,8 @@ export const postJob: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PostJob",
 }));
 
 export type PreviewServiceError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8089,6 +8436,8 @@ export const previewService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PreviewService",
 }));
 
 export type PurgeCacheError = BadRequest | NotFound | Conflict | RenderOpError;
@@ -8104,6 +8453,8 @@ export const purgeCache: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeCache",
 }));
 
 export type PutRoutesError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8119,6 +8470,8 @@ export const putRoutes: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutRoutes",
 }));
 
 export type RecoverPostgresError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8134,6 +8487,8 @@ export const recoverPostgres: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecoverPostgres",
 }));
 
 export type RefreshCustomDomainError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8149,6 +8504,8 @@ export const refreshCustomDomain: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshCustomDomain",
 }));
 
 export type RemoveResourcesFromEnvironmentError = BadRequest | NotFound | RenderOpError;
@@ -8164,6 +8521,8 @@ export const removeResourcesFromEnvironment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveResourcesFromEnvironment",
 }));
 
 export type RemoveWorkspaceMemberError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8179,6 +8538,8 @@ export const removeWorkspaceMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveWorkspaceMember",
 }));
 
 export type RestartPostgresError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8194,6 +8555,8 @@ export const restartPostgres: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartPostgres",
 }));
 
 export type RestartServiceError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8209,6 +8572,8 @@ export const restartService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartService",
 }));
 
 export type RestoreSnapshotError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8224,6 +8589,8 @@ export const restoreSnapshot: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreSnapshot",
 }));
 
 export type ResumeKeyValueError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8239,6 +8606,8 @@ export const resumeKeyValue: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeKeyValue",
 }));
 
 export type ResumePostgresError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8254,6 +8623,8 @@ export const resumePostgres: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumePostgres",
 }));
 
 export type ResumeServiceError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8269,6 +8640,8 @@ export const resumeService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeService",
 }));
 
 export type RunCronJobError = RenderOpError;
@@ -8284,6 +8657,8 @@ export const runCronJob: API.OperationMethod<
   errors: [UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunCronJob",
 }));
 
 export type ScaleServiceError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8299,6 +8674,8 @@ export const scaleService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScaleService",
 }));
 
 export type StreamTaskRunsEventsError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8314,6 +8691,8 @@ export const streamTaskRunsEvents: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StreamTaskRunsEvents",
 }));
 
 export type SubscribeLogsError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8329,6 +8708,8 @@ export const subscribeLogs: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeLogs",
 }));
 
 export type SuspendKeyValueError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8344,6 +8725,8 @@ export const suspendKeyValue: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendKeyValue",
 }));
 
 export type SuspendPostgresError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8359,6 +8742,8 @@ export const suspendPostgres: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendPostgres",
 }));
 
 export type SuspendServiceError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8374,6 +8759,8 @@ export const suspendService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SuspendService",
 }));
 
 export type TriggerBuildSourceBuildError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8389,6 +8776,8 @@ export const triggerBuildSourceBuild: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerBuildSourceBuild",
 }));
 
 export type TriggerMaintenanceError = BadRequest | NotFound | RenderOpError;
@@ -8404,6 +8793,8 @@ export const triggerMaintenance: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerMaintenance",
 }));
 
 export type UnlinkEnvGroupFromBuildSourceError = BadRequest | NotFound | RenderOpError;
@@ -8419,6 +8810,8 @@ export const unlinkEnvGroupFromBuildSource: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkEnvGroupFromBuildSource",
 }));
 
 export type UnlinkServiceFromEnvGroupError = BadRequest | NotFound | RenderOpError;
@@ -8434,6 +8827,8 @@ export const unlinkServiceFromEnvGroup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkServiceFromEnvGroup",
 }));
 
 export type UpdateBlueprintError = Forbidden | NotFound | RenderOpError;
@@ -8449,6 +8844,8 @@ export const updateBlueprint: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBlueprint",
 }));
 
 export type UpdateBuildSourceError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8464,6 +8861,8 @@ export const updateBuildSource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBuildSource",
 }));
 
 export type UpdateBuildSourceEnvVarError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8479,6 +8878,8 @@ export const updateBuildSourceEnvVar: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBuildSourceEnvVar",
 }));
 
 export type UpdateDedicatedIpError = BadRequest | Forbidden | NotFound | Conflict | RenderOpError;
@@ -8494,6 +8895,8 @@ export const updateDedicatedIp: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDedicatedIp",
 }));
 
 export type UpdateDiskError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8509,6 +8912,8 @@ export const updateDisk: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDisk",
 }));
 
 export type UpdateEnvGroupError = BadRequest | NotFound | RenderOpError;
@@ -8524,6 +8929,8 @@ export const updateEnvGroup: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvGroup",
 }));
 
 export type UpdateEnvGroupEnvVarError = BadRequest | NotFound | RenderOpError;
@@ -8539,6 +8946,8 @@ export const updateEnvGroupEnvVar: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvGroupEnvVar",
 }));
 
 export type UpdateEnvGroupSecretFileError = BadRequest | NotFound | RenderOpError;
@@ -8554,6 +8963,8 @@ export const updateEnvGroupSecretFile: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvGroupSecretFile",
 }));
 
 export type UpdateEnvironmentError = BadRequest | NotFound | RenderOpError;
@@ -8569,6 +8980,8 @@ export const updateEnvironment: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironment",
 }));
 
 export type UpdateEnvVarError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8584,6 +8997,8 @@ export const updateEnvVar: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvVar",
 }));
 
 export type UpdateEnvVarsForBuildSourceError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8599,6 +9014,8 @@ export const updateEnvVarsForBuildSource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvVarsForBuildSource",
 }));
 
 export type UpdateEnvVarsForServiceError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8614,6 +9031,8 @@ export const updateEnvVarsForService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvVarsForService",
 }));
 
 export type UpdateHeadersError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8629,6 +9048,8 @@ export const updateHeaders: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateHeaders",
 }));
 
 export type UpdateKeyValueError = BadRequest | NotFound | Conflict | RenderOpError;
@@ -8644,6 +9065,8 @@ export const updateKeyValue: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateKeyValue",
 }));
 
 export type UpdateMaintenanceError = BadRequest | NotFound | RenderOpError;
@@ -8659,6 +9082,8 @@ export const updateMaintenance: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMaintenance",
 }));
 
 export type UpdateOwnerLogStreamError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8674,6 +9099,8 @@ export const updateOwnerLogStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateOwnerLogStream",
 }));
 
 export type UpdatePostgresError = BadRequest | NotFound | Conflict | RenderOpError;
@@ -8689,6 +9116,8 @@ export const updatePostgres: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdatePostgres",
 }));
 
 export type UpdateProjectError = BadRequest | NotFound | RenderOpError;
@@ -8704,6 +9133,8 @@ export const updateProject: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProject",
 }));
 
 export type UpdateRegistryCredentialError =
@@ -8724,6 +9155,8 @@ export const updateRegistryCredential: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRegistryCredential",
 }));
 
 export type UpdateResourceLogStreamError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8739,6 +9172,8 @@ export const updateResourceLogStream: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourceLogStream",
 }));
 
 export type UpdateSecretFilesForBuildSourceError =
@@ -8758,6 +9193,8 @@ export const updateSecretFilesForBuildSource: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecretFilesForBuildSource",
 }));
 
 export type UpdateSecretFilesForServiceError = BadRequest | Forbidden | NotFound | RenderOpError;
@@ -8773,6 +9210,8 @@ export const updateSecretFilesForService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecretFilesForService",
 }));
 
 export type UpdateServiceError = BadRequest | Forbidden | NotFound | Conflict | RenderOpError;
@@ -8788,6 +9227,8 @@ export const updateService: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateService",
 }));
 
 export type UpdateWebhookError = BadRequest | NotFound | RenderOpError;
@@ -8803,6 +9244,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [BadRequest, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 export type UpdateWorkflowError = Forbidden | NotFound | RenderOpError;
@@ -8818,6 +9261,8 @@ export const updateWorkflow: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflow",
 }));
 
 export type UpdateWorkspaceMemberError =
@@ -8838,6 +9283,8 @@ export const updateWorkspaceMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkspaceMember",
 }));
 
 export type UpsertOwnerMetricsStreamError = BadRequest | RenderOpError;
@@ -8853,6 +9300,8 @@ export const upsertOwnerMetricsStream: API.OperationMethod<
   errors: [BadRequest, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpsertOwnerMetricsStream",
 }));
 
 export type ValidateBlueprintError = BadRequest | Forbidden | RenderOpError;
@@ -8868,6 +9317,8 @@ export const validateBlueprint: API.OperationMethod<
   errors: [BadRequest, Forbidden, UnknownRenderError],
   protocol: RenderProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateBlueprint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

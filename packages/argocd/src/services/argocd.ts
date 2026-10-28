@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { ArgocdOpError, ArgocdOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "argocd-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "ArgoCD",
+  service: "Argocd",
+  labels: "argocd",
+  propagate: "w3c",
+} as const;
+
 export interface AccountServiceCanIRequest {
   resource: string;
   action: string;
@@ -3356,6 +3369,8 @@ export const accountServiceCanI: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountServiceCanI",
 }));
 
 export type ApplicationServiceManagedResourcesError = ArgocdOpError;
@@ -3371,6 +3386,8 @@ export const applicationServiceManagedResources: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplicationServiceManagedResources",
 }));
 
 export type ApplicationServicePodLogsError = ArgocdOpError;
@@ -3386,6 +3403,8 @@ export const applicationServicePodLogs: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplicationServicePodLogs",
 }));
 
 export type ApplicationServicePodLogs2Error = ArgocdOpError;
@@ -3401,6 +3420,8 @@ export const applicationServicePodLogs2: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplicationServicePodLogs2",
 }));
 
 export type ApplicationServiceResourceTreeError = ArgocdOpError;
@@ -3416,6 +3437,8 @@ export const applicationServiceResourceTree: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplicationServiceResourceTree",
 }));
 
 export type ApplicationServiceRevisionChartDetailsError = ArgocdOpError;
@@ -3431,6 +3454,8 @@ export const applicationServiceRevisionChartDetails: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplicationServiceRevisionChartDetails",
 }));
 
 export type ApplicationServiceRevisionMetadataError = ArgocdOpError;
@@ -3446,6 +3471,8 @@ export const applicationServiceRevisionMetadata: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplicationServiceRevisionMetadata",
 }));
 
 export type ApplicationServiceRollbackError = ArgocdOpError;
@@ -3461,6 +3488,8 @@ export const applicationServiceRollback: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplicationServiceRollback",
 }));
 
 export type ApplicationServiceServerSideDiffError = ArgocdOpError;
@@ -3476,6 +3505,8 @@ export const applicationServiceServerSideDiff: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplicationServiceServerSideDiff",
 }));
 
 export type ApplicationSetServiceResourceTreeError = ArgocdOpError;
@@ -3491,6 +3522,8 @@ export const applicationSetServiceResourceTree: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApplicationSetServiceResourceTree",
 }));
 
 export type CreateAccountServiceTokenError = ArgocdOpError;
@@ -3506,6 +3539,8 @@ export const createAccountServiceToken: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAccountServiceToken",
 }));
 
 export type CreateApplicationServiceError = ArgocdOpError;
@@ -3521,6 +3556,8 @@ export const createApplicationService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplicationService",
 }));
 
 export type CreateApplicationSetServiceError = ArgocdOpError;
@@ -3536,6 +3573,8 @@ export const createApplicationSetService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApplicationSetService",
 }));
 
 export type CreateCertificateServiceCertificateError = ArgocdOpError;
@@ -3551,6 +3590,8 @@ export const createCertificateServiceCertificate: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificateServiceCertificate",
 }));
 
 export type CreateClusterServiceError = ArgocdOpError;
@@ -3566,6 +3607,8 @@ export const createClusterService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateClusterService",
 }));
 
 export type CreateGPGKeyServiceError = ArgocdOpError;
@@ -3581,6 +3624,8 @@ export const createGPGKeyService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGPGKeyService",
 }));
 
 export type CreateProjectServiceError = ArgocdOpError;
@@ -3596,6 +3641,8 @@ export const createProjectService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectService",
 }));
 
 export type CreateProjectServiceTokenError = ArgocdOpError;
@@ -3611,6 +3658,8 @@ export const createProjectServiceToken: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectServiceToken",
 }));
 
 export type CreateRepoCredsServiceRepositoryCredentialsError = ArgocdOpError;
@@ -3626,6 +3675,8 @@ export const createRepoCredsServiceRepositoryCredentials: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRepoCredsServiceRepositoryCredentials",
 }));
 
 export type CreateRepoCredsServiceWriteRepositoryCredentialsError = ArgocdOpError;
@@ -3645,6 +3696,8 @@ export const createRepoCredsServiceWriteRepositoryCredentials: API.OperationMeth
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRepoCredsServiceWriteRepositoryCredentials",
 }));
 
 export type CreateRepositoryServiceRepositoryError = ArgocdOpError;
@@ -3660,6 +3713,8 @@ export const createRepositoryServiceRepository: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRepositoryServiceRepository",
 }));
 
 export type CreateRepositoryServiceWriteRepositoryError = ArgocdOpError;
@@ -3675,6 +3730,8 @@ export const createRepositoryServiceWriteRepository: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRepositoryServiceWriteRepository",
 }));
 
 export type CreateSessionServiceError = ArgocdOpError;
@@ -3690,6 +3747,8 @@ export const createSessionService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionService",
 }));
 
 export type DeleteAccountServiceTokenError = ArgocdOpError;
@@ -3705,6 +3764,8 @@ export const deleteAccountServiceToken: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccountServiceToken",
 }));
 
 export type DeleteApplicationServiceError = ArgocdOpError;
@@ -3720,6 +3781,8 @@ export const deleteApplicationService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationService",
 }));
 
 export type DeleteApplicationServiceResourceError = ArgocdOpError;
@@ -3735,6 +3798,8 @@ export const deleteApplicationServiceResource: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationServiceResource",
 }));
 
 export type DeleteApplicationSetServiceError = ArgocdOpError;
@@ -3750,6 +3815,8 @@ export const deleteApplicationSetService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApplicationSetService",
 }));
 
 export type DeleteCertificateServiceCertificateError = ArgocdOpError;
@@ -3765,6 +3832,8 @@ export const deleteCertificateServiceCertificate: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificateServiceCertificate",
 }));
 
 export type DeleteClusterServiceError = ArgocdOpError;
@@ -3780,6 +3849,8 @@ export const deleteClusterService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteClusterService",
 }));
 
 export type DeleteGPGKeyServiceError = ArgocdOpError;
@@ -3795,6 +3866,8 @@ export const deleteGPGKeyService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGPGKeyService",
 }));
 
 export type DeleteProjectServiceError = ArgocdOpError;
@@ -3810,6 +3883,8 @@ export const deleteProjectService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectService",
 }));
 
 export type DeleteProjectServiceTokenError = ArgocdOpError;
@@ -3825,6 +3900,8 @@ export const deleteProjectServiceToken: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectServiceToken",
 }));
 
 export type DeleteRepoCredsServiceRepositoryCredentialsError = ArgocdOpError;
@@ -3844,6 +3921,8 @@ export const deleteRepoCredsServiceRepositoryCredentials: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepoCredsServiceRepositoryCredentials",
 }));
 
 export type DeleteRepoCredsServiceWriteRepositoryCredentialsError = ArgocdOpError;
@@ -3867,6 +3946,8 @@ export const deleteRepoCredsServiceWriteRepositoryCredentials: API.OperationMeth
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepoCredsServiceWriteRepositoryCredentials",
 }));
 
 export type DeleteRepositoryServiceRepositoryError = ArgocdOpError;
@@ -3882,6 +3963,8 @@ export const deleteRepositoryServiceRepository: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepositoryServiceRepository",
 }));
 
 export type DeleteRepositoryServiceWriteRepositoryError = ArgocdOpError;
@@ -3897,6 +3980,8 @@ export const deleteRepositoryServiceWriteRepository: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRepositoryServiceWriteRepository",
 }));
 
 export type DeleteSessionServiceError = ArgocdOpError;
@@ -3912,6 +3997,8 @@ export const deleteSessionService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSessionService",
 }));
 
 export type GenerateApplicationSetServiceError = ArgocdOpError;
@@ -3927,6 +4014,8 @@ export const generateApplicationSetService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateApplicationSetService",
 }));
 
 export type GetAccountServiceAccountError = ArgocdOpError;
@@ -3942,6 +4031,8 @@ export const getAccountServiceAccount: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountServiceAccount",
 }));
 
 export type GetApplicationServiceError = ArgocdOpError;
@@ -3957,6 +4048,8 @@ export const getApplicationService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationService",
 }));
 
 export type GetApplicationServiceApplicationSyncWindowsError = ArgocdOpError;
@@ -3972,6 +4065,8 @@ export const getApplicationServiceApplicationSyncWindows: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationServiceApplicationSyncWindows",
 }));
 
 export type GetApplicationServiceManifestsError = ArgocdOpError;
@@ -3987,6 +4082,8 @@ export const getApplicationServiceManifests: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationServiceManifests",
 }));
 
 export type GetApplicationServiceManifestsWithFilesError = ArgocdOpError;
@@ -4002,6 +4099,8 @@ export const getApplicationServiceManifestsWithFiles: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationServiceManifestsWithFiles",
 }));
 
 export type GetApplicationServiceOCIMetadataError = ArgocdOpError;
@@ -4017,6 +4116,8 @@ export const getApplicationServiceOCIMetadata: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationServiceOCIMetadata",
 }));
 
 export type GetApplicationServiceResourceError = ArgocdOpError;
@@ -4032,6 +4133,8 @@ export const getApplicationServiceResource: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationServiceResource",
 }));
 
 export type GetApplicationSetServiceError = ArgocdOpError;
@@ -4047,6 +4150,8 @@ export const getApplicationSetService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplicationSetService",
 }));
 
 export type GetClusterServiceError = ArgocdOpError;
@@ -4062,6 +4167,8 @@ export const getClusterService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClusterService",
 }));
 
 export type GetGPGKeyServiceError = ArgocdOpError;
@@ -4077,6 +4184,8 @@ export const getGPGKeyService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGPGKeyService",
 }));
 
 export type GetProjectServiceError = ArgocdOpError;
@@ -4092,6 +4201,8 @@ export const getProjectService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectService",
 }));
 
 export type GetProjectServiceDetailedProjectError = ArgocdOpError;
@@ -4107,6 +4218,8 @@ export const getProjectServiceDetailedProject: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectServiceDetailedProject",
 }));
 
 export type GetProjectServiceGlobalProjectsError = ArgocdOpError;
@@ -4122,6 +4235,8 @@ export const getProjectServiceGlobalProjects: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectServiceGlobalProjects",
 }));
 
 export type GetProjectServiceSyncWindowsStateError = ArgocdOpError;
@@ -4137,6 +4252,8 @@ export const getProjectServiceSyncWindowsState: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectServiceSyncWindowsState",
 }));
 
 export type GetRepositoryServiceError = ArgocdOpError;
@@ -4152,6 +4269,8 @@ export const getRepositoryService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepositoryService",
 }));
 
 export type GetRepositoryServiceAppDetailsError = ArgocdOpError;
@@ -4167,6 +4286,8 @@ export const getRepositoryServiceAppDetails: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepositoryServiceAppDetails",
 }));
 
 export type GetRepositoryServiceHelmChartsError = ArgocdOpError;
@@ -4182,6 +4303,8 @@ export const getRepositoryServiceHelmCharts: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepositoryServiceHelmCharts",
 }));
 
 export type GetRepositoryServiceWriteError = ArgocdOpError;
@@ -4197,6 +4320,8 @@ export const getRepositoryServiceWrite: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRepositoryServiceWrite",
 }));
 
 export type GetSessionServiceUserInfoError = ArgocdOpError;
@@ -4212,6 +4337,8 @@ export const getSessionServiceUserInfo: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSessionServiceUserInfo",
 }));
 
 export type GetSettingsServiceError = ArgocdOpError;
@@ -4227,6 +4354,8 @@ export const getSettingsService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingsService",
 }));
 
 export type GetSettingsServicePluginsError = ArgocdOpError;
@@ -4242,6 +4371,8 @@ export const getSettingsServicePlugins: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettingsServicePlugins",
 }));
 
 export type InvalidateClusterServiceCacheError = ArgocdOpError;
@@ -4257,6 +4388,8 @@ export const invalidateClusterServiceCache: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvalidateClusterServiceCache",
 }));
 
 export type ListAccountServiceAccountsError = ArgocdOpError;
@@ -4272,6 +4405,8 @@ export const listAccountServiceAccounts: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountServiceAccounts",
 }));
 
 export type ListApplicationServiceError = ArgocdOpError;
@@ -4287,6 +4422,8 @@ export const listApplicationService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationService",
 }));
 
 export type ListApplicationServiceLinksError = ArgocdOpError;
@@ -4302,6 +4439,8 @@ export const listApplicationServiceLinks: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationServiceLinks",
 }));
 
 export type ListApplicationServiceResourceActionsError = ArgocdOpError;
@@ -4317,6 +4456,8 @@ export const listApplicationServiceResourceActions: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationServiceResourceActions",
 }));
 
 export type ListApplicationServiceResourceEventsError = ArgocdOpError;
@@ -4332,6 +4473,8 @@ export const listApplicationServiceResourceEvents: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationServiceResourceEvents",
 }));
 
 export type ListApplicationServiceResourceLinksError = ArgocdOpError;
@@ -4347,6 +4490,8 @@ export const listApplicationServiceResourceLinks: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationServiceResourceLinks",
 }));
 
 export type ListApplicationSetServiceError = ArgocdOpError;
@@ -4362,6 +4507,8 @@ export const listApplicationSetService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationSetService",
 }));
 
 export type ListApplicationSetServiceResourceEventsError = ArgocdOpError;
@@ -4377,6 +4524,8 @@ export const listApplicationSetServiceResourceEvents: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApplicationSetServiceResourceEvents",
 }));
 
 export type ListCertificateServiceCertificatesError = ArgocdOpError;
@@ -4392,6 +4541,8 @@ export const listCertificateServiceCertificates: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificateServiceCertificates",
 }));
 
 export type ListClusterServiceError = ArgocdOpError;
@@ -4407,6 +4558,8 @@ export const listClusterService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterService",
 }));
 
 export type ListGPGKeyServiceError = ArgocdOpError;
@@ -4422,6 +4575,8 @@ export const listGPGKeyService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGPGKeyService",
 }));
 
 export type ListNotificationServiceServicesError = ArgocdOpError;
@@ -4437,6 +4592,8 @@ export const listNotificationServiceServices: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotificationServiceServices",
 }));
 
 export type ListNotificationServiceTemplatesError = ArgocdOpError;
@@ -4452,6 +4609,8 @@ export const listNotificationServiceTemplates: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotificationServiceTemplates",
 }));
 
 export type ListNotificationServiceTriggersError = ArgocdOpError;
@@ -4467,6 +4626,8 @@ export const listNotificationServiceTriggers: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNotificationServiceTriggers",
 }));
 
 export type ListProjectServiceError = ArgocdOpError;
@@ -4482,6 +4643,8 @@ export const listProjectService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectService",
 }));
 
 export type ListProjectServiceEventsError = ArgocdOpError;
@@ -4497,6 +4660,8 @@ export const listProjectServiceEvents: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectServiceEvents",
 }));
 
 export type ListProjectServiceLinksError = ArgocdOpError;
@@ -4512,6 +4677,8 @@ export const listProjectServiceLinks: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectServiceLinks",
 }));
 
 export type ListRepoCredsServiceRepositoryCredentialsError = ArgocdOpError;
@@ -4527,6 +4694,8 @@ export const listRepoCredsServiceRepositoryCredentials: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoCredsServiceRepositoryCredentials",
 }));
 
 export type ListRepoCredsServiceWriteRepositoryCredentialsError = ArgocdOpError;
@@ -4546,6 +4715,8 @@ export const listRepoCredsServiceWriteRepositoryCredentials: API.OperationMethod
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepoCredsServiceWriteRepositoryCredentials",
 }));
 
 export type ListRepositoryServiceAppsError = ArgocdOpError;
@@ -4561,6 +4732,8 @@ export const listRepositoryServiceApps: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepositoryServiceApps",
 }));
 
 export type ListRepositoryServiceOCITagsError = ArgocdOpError;
@@ -4575,6 +4748,8 @@ export const listRepositoryServiceOCITags: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepositoryServiceOCITags",
 }));
 
 export type ListRepositoryServiceRefsError = ArgocdOpError;
@@ -4589,6 +4764,8 @@ export const listRepositoryServiceRefs: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepositoryServiceRefs",
 }));
 
 export type ListRepositoryServiceRepositoriesError = ArgocdOpError;
@@ -4604,6 +4781,8 @@ export const listRepositoryServiceRepositories: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepositoryServiceRepositories",
 }));
 
 export type ListRepositoryServiceWriteRepositoriesError = ArgocdOpError;
@@ -4619,6 +4798,8 @@ export const listRepositoryServiceWriteRepositories: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRepositoryServiceWriteRepositories",
 }));
 
 export type PatchApplicationServiceError = ArgocdOpError;
@@ -4634,6 +4815,8 @@ export const patchApplicationService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchApplicationService",
 }));
 
 export type PatchApplicationServiceResourceError = ArgocdOpError;
@@ -4649,6 +4832,8 @@ export const patchApplicationServiceResource: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchApplicationServiceResource",
 }));
 
 export type RotateClusterServiceAuthError = ArgocdOpError;
@@ -4664,6 +4849,8 @@ export const rotateClusterServiceAuth: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateClusterServiceAuth",
 }));
 
 export type RunApplicationServiceResourceActionError = ArgocdOpError;
@@ -4679,6 +4866,8 @@ export const runApplicationServiceResourceAction: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunApplicationServiceResourceAction",
 }));
 
 export type RunApplicationServiceResourceActionV2Error = ArgocdOpError;
@@ -4694,6 +4883,8 @@ export const runApplicationServiceResourceActionV2: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunApplicationServiceResourceActionV2",
 }));
 
 export type SyncApplicationServiceError = ArgocdOpError;
@@ -4709,6 +4900,8 @@ export const syncApplicationService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncApplicationService",
 }));
 
 export type TerminateApplicationServiceOperationError = ArgocdOpError;
@@ -4724,6 +4917,8 @@ export const terminateApplicationServiceOperation: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateApplicationServiceOperation",
 }));
 
 export type UpdateAccountServicePasswordError = ArgocdOpError;
@@ -4739,6 +4934,8 @@ export const updateAccountServicePassword: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccountServicePassword",
 }));
 
 export type UpdateApplicationServiceError = ArgocdOpError;
@@ -4754,6 +4951,8 @@ export const updateApplicationService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationService",
 }));
 
 export type UpdateApplicationServiceSpecError = ArgocdOpError;
@@ -4769,6 +4968,8 @@ export const updateApplicationServiceSpec: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApplicationServiceSpec",
 }));
 
 export type UpdateClusterServiceError = ArgocdOpError;
@@ -4784,6 +4985,8 @@ export const updateClusterService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateClusterService",
 }));
 
 export type UpdateProjectServiceError = ArgocdOpError;
@@ -4799,6 +5002,8 @@ export const updateProjectService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProjectService",
 }));
 
 export type UpdateRepoCredsServiceRepositoryCredentialsError = ArgocdOpError;
@@ -4818,6 +5023,8 @@ export const updateRepoCredsServiceRepositoryCredentials: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRepoCredsServiceRepositoryCredentials",
 }));
 
 export type UpdateRepoCredsServiceWriteRepositoryCredentialsError = ArgocdOpError;
@@ -4837,6 +5044,8 @@ export const updateRepoCredsServiceWriteRepositoryCredentials: API.OperationMeth
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRepoCredsServiceWriteRepositoryCredentials",
 }));
 
 export type UpdateRepositoryServiceRepositoryError = ArgocdOpError;
@@ -4852,6 +5061,8 @@ export const updateRepositoryServiceRepository: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRepositoryServiceRepository",
 }));
 
 export type UpdateRepositoryServiceWriteRepositoryError = ArgocdOpError;
@@ -4867,6 +5078,8 @@ export const updateRepositoryServiceWriteRepository: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRepositoryServiceWriteRepository",
 }));
 
 export type ValidateRepositoryServiceAccessError = ArgocdOpError;
@@ -4882,6 +5095,8 @@ export const validateRepositoryServiceAccess: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateRepositoryServiceAccess",
 }));
 
 export type ValidateRepositoryServiceWriteAccessError = ArgocdOpError;
@@ -4897,6 +5112,8 @@ export const validateRepositoryServiceWriteAccess: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateRepositoryServiceWriteAccess",
 }));
 
 export type VersionServiceVersionError = ArgocdOpError;
@@ -4912,6 +5129,8 @@ export const versionServiceVersion: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VersionServiceVersion",
 }));
 
 export type WatchApplicationServiceError = ArgocdOpError;
@@ -4927,6 +5146,8 @@ export const watchApplicationService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchApplicationService",
 }));
 
 export type WatchApplicationServiceResourceTreeError = ArgocdOpError;
@@ -4942,6 +5163,8 @@ export const watchApplicationServiceResourceTree: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchApplicationServiceResourceTree",
 }));
 
 export type WatchApplicationSetServiceError = ArgocdOpError;
@@ -4956,6 +5179,8 @@ export const watchApplicationSetService: API.OperationMethod<
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchApplicationSetService",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Conversations",
+  propagate: "w3c",
+} as const;
+
 export interface AcceptSharedInviteRequest {
   /** Name of the channel. If the channel does not exist already in your workspace, this name is the one that the channel will take. */
   channel_name: string;
@@ -495,6 +508,8 @@ export const acceptSharedInvite: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptSharedInvite",
 }));
 
 export type ApproveRequestSharedInviteError = SlackOpError;
@@ -510,6 +525,8 @@ export const approveRequestSharedInvite: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveRequestSharedInvite",
 }));
 
 export type ApproveSharedInviteError = SlackOpError;
@@ -525,6 +542,8 @@ export const approveSharedInvite: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveSharedInvite",
 }));
 
 export type ArchiveConversationError = SlackOpError;
@@ -540,6 +559,8 @@ export const archiveConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveConversation",
 }));
 
 export type ConversationsCloseError = SlackOpError;
@@ -555,6 +576,8 @@ export const conversationsClose: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationsClose",
 }));
 
 export type ConversationsHistoryError = SlackOpError;
@@ -572,6 +595,8 @@ export const conversationsHistory: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ConversationsHistory",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -596,6 +621,8 @@ export const conversationsInfo: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationsInfo",
 }));
 
 export type ConversationsKickError = SlackOpError;
@@ -611,6 +638,8 @@ export const conversationsKick: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationsKick",
 }));
 
 export type ConversationsMarkError = SlackOpError;
@@ -626,6 +655,8 @@ export const conversationsMark: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationsMark",
 }));
 
 export type ConversationsMembersError = SlackOpError;
@@ -643,6 +674,8 @@ export const conversationsMembers: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ConversationsMembers",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -667,6 +700,8 @@ export const conversationsOpen: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationsOpen",
 }));
 
 export type ConversationsRepliesError = SlackOpError;
@@ -684,6 +719,8 @@ export const conversationsReplies: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ConversationsReplies",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -708,6 +745,8 @@ export const createCanvase: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCanvase",
 }));
 
 export type CreateConversationError = SlackOpError;
@@ -723,6 +762,8 @@ export const createConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversation",
 }));
 
 export type InviteConversationError = SlackOpError;
@@ -738,6 +779,8 @@ export const inviteConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteConversation",
 }));
 
 export type InviteDeclineSharedError = SlackOpError;
@@ -753,6 +796,8 @@ export const inviteDeclineShared: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteDeclineShared",
 }));
 
 export type InviteSharedError = SlackOpError;
@@ -768,6 +813,8 @@ export const inviteShared: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteShared",
 }));
 
 export type JoinConversationError = SlackOpError;
@@ -783,6 +830,8 @@ export const joinConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "JoinConversation",
 }));
 
 export type LeaveConversationError = SlackOpError;
@@ -798,6 +847,8 @@ export const leaveConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LeaveConversation",
 }));
 
 export type ListConnectInvitesError = SlackOpError;
@@ -815,6 +866,8 @@ export const listConnectInvites: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListConnectInvites",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -840,6 +893,8 @@ export const listConversations: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListConversations",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -866,6 +921,8 @@ export const listRequestSharedInvite: API.PaginatedOperationMethod<
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRequestSharedInvite",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -890,6 +947,8 @@ export const renameConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenameConversation",
 }));
 
 export type RequestSharedInviteDenyError = SlackOpError;
@@ -905,6 +964,8 @@ export const requestSharedInviteDeny: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestSharedInviteDeny",
 }));
 
 export type SetExternalInvitePermissionsError = SlackOpError;
@@ -920,6 +981,8 @@ export const setExternalInvitePermissions: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetExternalInvitePermissions",
 }));
 
 export type SetPurposeError = SlackOpError;
@@ -935,6 +998,8 @@ export const setPurpose: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPurpose",
 }));
 
 export type SetTopicError = SlackOpError;
@@ -950,6 +1015,8 @@ export const setTopic: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetTopic",
 }));
 
 export type UnarchiveConversationError = SlackOpError;
@@ -965,6 +1032,8 @@ export const unarchiveConversation: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnarchiveConversation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

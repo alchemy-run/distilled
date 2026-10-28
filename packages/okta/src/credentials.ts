@@ -28,7 +28,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("OktaCredentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "OktaCredentials",
+  ) {}
 
 const stripTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
 
@@ -82,7 +84,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       apiBaseUrl: stripTrailingSlash(apiBaseUrl),
       authScheme,
     };
-  }).pipe(Effect.orDie),
+  }),
 );
 
 /** Auth headers for a resolved credentials config. */

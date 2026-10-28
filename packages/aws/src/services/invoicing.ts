@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -76,6 +77,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Invoicing",
+  service: "Invoicing",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -754,6 +770,8 @@ export const batchGetInvoiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetInvoiceProfile",
+  telemetry: TELEMETRY,
+  span: "BatchGetInvoiceProfile",
 }));
 
 export type CreateInvoiceUnitError =
@@ -782,6 +800,8 @@ export const createInvoiceUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvoiceUnit",
+  telemetry: TELEMETRY,
+  span: "CreateInvoiceUnit",
 }));
 
 export type CreateProcurementPortalPreferenceError =
@@ -816,6 +836,8 @@ export const createProcurementPortalPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProcurementPortalPreference",
+  telemetry: TELEMETRY,
+  span: "CreateProcurementPortalPreference",
 }));
 
 export type DeleteInvoiceUnitError =
@@ -846,6 +868,8 @@ export const deleteInvoiceUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvoiceUnit",
+  telemetry: TELEMETRY,
+  span: "DeleteInvoiceUnit",
 }));
 
 export type DeleteProcurementPortalPreferenceError =
@@ -882,6 +906,8 @@ export const deleteProcurementPortalPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProcurementPortalPreference",
+  telemetry: TELEMETRY,
+  span: "DeleteProcurementPortalPreference",
 }));
 
 export type GetInvoicePDFError =
@@ -912,6 +938,8 @@ export const getInvoicePDF: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvoicePDF",
+  telemetry: TELEMETRY,
+  span: "GetInvoicePDF",
 }));
 
 export type GetInvoiceUnitError =
@@ -942,6 +970,8 @@ export const getInvoiceUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvoiceUnit",
+  telemetry: TELEMETRY,
+  span: "GetInvoiceUnit",
 }));
 
 export type GetProcurementPortalPreferenceError =
@@ -978,6 +1008,8 @@ export const getProcurementPortalPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProcurementPortalPreference",
+  telemetry: TELEMETRY,
+  span: "GetProcurementPortalPreference",
 }));
 
 export type ListInvoiceSummariesError =
@@ -1015,6 +1047,8 @@ export const listInvoiceSummaries: API.PaginatedOperationMethod<
     items: "InvoiceSummaries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvoiceSummaries",
 })) as any;
 
 export type ListInvoiceUnitsError =
@@ -1050,6 +1084,8 @@ export const listInvoiceUnits: API.PaginatedOperationMethod<
     items: "InvoiceUnits",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvoiceUnits",
 })) as any;
 
 export type ListProcurementPortalPreferencesError =
@@ -1091,6 +1127,8 @@ export const listProcurementPortalPreferences: API.PaginatedOperationMethod<
     items: "ProcurementPortalPreferences",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProcurementPortalPreferences",
 })) as any;
 
 export type ListProcurementPortalsError =
@@ -1126,6 +1164,8 @@ export const listProcurementPortals: API.PaginatedOperationMethod<
     items: "ProcurementPortals",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProcurementPortals",
 })) as any;
 
 export type ListProcurementPortalSuppliersError =
@@ -1163,6 +1203,8 @@ export const listProcurementPortalSuppliers: API.PaginatedOperationMethod<
     items: "ProcurementPortalSuppliers",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListProcurementPortalSuppliers",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1193,6 +1235,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutProcurementPortalPreferenceError =
@@ -1229,6 +1273,8 @@ export const putProcurementPortalPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProcurementPortalPreference",
+  telemetry: TELEMETRY,
+  span: "PutProcurementPortalPreference",
 }));
 
 export type SendProcurementPortalValidationError =
@@ -1261,6 +1307,8 @@ export const sendProcurementPortalValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendProcurementPortalValidation",
+  telemetry: TELEMETRY,
+  span: "SendProcurementPortalValidation",
 }));
 
 export type TagResourceError =
@@ -1293,6 +1341,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1323,6 +1373,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateInvoiceUnitError =
@@ -1353,6 +1405,8 @@ export const updateInvoiceUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInvoiceUnit",
+  telemetry: TELEMETRY,
+  span: "UpdateInvoiceUnit",
 }));
 
 export type UpdateProcurementPortalPreferenceStatusError =
@@ -1389,6 +1443,8 @@ export const updateProcurementPortalPreferenceStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProcurementPortalPreferenceStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateProcurementPortalPreferenceStatus",
 }));
 
 export type VerifyProcurementPortalValidationError =
@@ -1421,6 +1477,8 @@ export const verifyProcurementPortalValidation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyProcurementPortalValidation",
+  telemetry: TELEMETRY,
+  span: "VerifyProcurementPortalValidation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

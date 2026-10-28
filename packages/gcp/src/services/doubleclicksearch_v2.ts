@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "doubleclicksearch" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Doubleclicksearch",
+  service: "doubleclicksearch",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -446,6 +465,8 @@ export const generateReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateReports",
 }));
 
 export type GetByCustomerIdConversionError = NotFound | Forbidden | GcpOpError;
@@ -461,6 +482,8 @@ export const getByCustomerIdConversion: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetByCustomerIdConversion",
 }));
 
 export type GetConversionError = NotFound | Forbidden | GcpOpError;
@@ -476,6 +499,8 @@ export const getConversion: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConversion",
 }));
 
 export type GetFileReportsError = NotFound | Forbidden | GcpOpError;
@@ -491,6 +516,8 @@ export const getFileReports: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileReports",
 }));
 
 export type GetIdMappingFileReportsError = NotFound | Forbidden | GcpOpError;
@@ -506,6 +533,8 @@ export const getIdMappingFileReports: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdMappingFileReports",
 }));
 
 export type GetReportsError = NotFound | Forbidden | GcpOpError;
@@ -521,6 +550,8 @@ export const getReports: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetReports",
 }));
 
 export type InsertConversionError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -536,6 +567,8 @@ export const insertConversion: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertConversion",
 }));
 
 export type ListSavedColumnsError = NotFound | Forbidden | GcpOpError;
@@ -551,6 +584,8 @@ export const listSavedColumns: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSavedColumns",
 }));
 
 export type RequestReportsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -566,6 +601,8 @@ export const requestReports: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestReports",
 }));
 
 export type UpdateAvailabilityConversionError =
@@ -586,6 +623,8 @@ export const updateAvailabilityConversion: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAvailabilityConversion",
 }));
 
 export type UpdateConversionError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -601,6 +640,8 @@ export const updateConversion: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateConversion",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

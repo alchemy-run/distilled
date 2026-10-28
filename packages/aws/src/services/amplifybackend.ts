@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://amplifybackend.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "AmplifyBackend",
+  service: "AmplifyBackend",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -785,6 +800,8 @@ export const cloneBackend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloneBackend",
+  telemetry: TELEMETRY,
+  span: "CloneBackend",
 }));
 
 export type CreateBackendError =
@@ -813,6 +830,8 @@ export const createBackend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackend",
+  telemetry: TELEMETRY,
+  span: "CreateBackend",
 }));
 
 export type CreateBackendAPIError =
@@ -841,6 +860,8 @@ export const createBackendAPI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendAPI",
+  telemetry: TELEMETRY,
+  span: "CreateBackendAPI",
 }));
 
 export type CreateBackendAuthError =
@@ -869,6 +890,8 @@ export const createBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendAuth",
+  telemetry: TELEMETRY,
+  span: "CreateBackendAuth",
 }));
 
 export type CreateBackendConfigError =
@@ -897,6 +920,8 @@ export const createBackendConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendConfig",
+  telemetry: TELEMETRY,
+  span: "CreateBackendConfig",
 }));
 
 export type CreateBackendStorageError =
@@ -925,6 +950,8 @@ export const createBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendStorage",
+  telemetry: TELEMETRY,
+  span: "CreateBackendStorage",
 }));
 
 export type CreateTokenError =
@@ -953,6 +980,8 @@ export const createToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateToken",
+  telemetry: TELEMETRY,
+  span: "CreateToken",
 }));
 
 export type DeleteBackendError =
@@ -981,6 +1010,8 @@ export const deleteBackend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackend",
+  telemetry: TELEMETRY,
+  span: "DeleteBackend",
 }));
 
 export type DeleteBackendAPIError =
@@ -1009,6 +1040,8 @@ export const deleteBackendAPI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackendAPI",
+  telemetry: TELEMETRY,
+  span: "DeleteBackendAPI",
 }));
 
 export type DeleteBackendAuthError =
@@ -1037,6 +1070,8 @@ export const deleteBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackendAuth",
+  telemetry: TELEMETRY,
+  span: "DeleteBackendAuth",
 }));
 
 export type DeleteBackendStorageError =
@@ -1065,6 +1100,8 @@ export const deleteBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackendStorage",
+  telemetry: TELEMETRY,
+  span: "DeleteBackendStorage",
 }));
 
 export type DeleteTokenError =
@@ -1093,6 +1130,8 @@ export const deleteToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteToken",
+  telemetry: TELEMETRY,
+  span: "DeleteToken",
 }));
 
 export type GenerateBackendAPIModelsError =
@@ -1121,6 +1160,8 @@ export const generateBackendAPIModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateBackendAPIModels",
+  telemetry: TELEMETRY,
+  span: "GenerateBackendAPIModels",
 }));
 
 export type GetBackendError =
@@ -1149,6 +1190,8 @@ export const getBackend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackend",
+  telemetry: TELEMETRY,
+  span: "GetBackend",
 }));
 
 export type GetBackendAPIError =
@@ -1177,6 +1220,8 @@ export const getBackendAPI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendAPI",
+  telemetry: TELEMETRY,
+  span: "GetBackendAPI",
 }));
 
 export type GetBackendAPIModelsError =
@@ -1205,6 +1250,8 @@ export const getBackendAPIModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendAPIModels",
+  telemetry: TELEMETRY,
+  span: "GetBackendAPIModels",
 }));
 
 export type GetBackendAuthError =
@@ -1233,6 +1280,8 @@ export const getBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendAuth",
+  telemetry: TELEMETRY,
+  span: "GetBackendAuth",
 }));
 
 export type GetBackendJobError =
@@ -1261,6 +1310,8 @@ export const getBackendJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendJob",
+  telemetry: TELEMETRY,
+  span: "GetBackendJob",
 }));
 
 export type GetBackendStorageError =
@@ -1289,6 +1340,8 @@ export const getBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendStorage",
+  telemetry: TELEMETRY,
+  span: "GetBackendStorage",
 }));
 
 export type GetTokenError =
@@ -1317,6 +1370,8 @@ export const getToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetToken",
+  telemetry: TELEMETRY,
+  span: "GetToken",
 }));
 
 export type ImportBackendAuthError =
@@ -1345,6 +1400,8 @@ export const importBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportBackendAuth",
+  telemetry: TELEMETRY,
+  span: "ImportBackendAuth",
 }));
 
 export type ImportBackendStorageError =
@@ -1373,6 +1430,8 @@ export const importBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportBackendStorage",
+  telemetry: TELEMETRY,
+  span: "ImportBackendStorage",
 }));
 
 export type ListBackendJobsError =
@@ -1401,6 +1460,8 @@ export const listBackendJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBackendJobs",
+  telemetry: TELEMETRY,
+  span: "ListBackendJobs",
 }));
 
 export type ListS3BucketsError =
@@ -1429,6 +1490,8 @@ export const listS3Buckets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListS3Buckets",
+  telemetry: TELEMETRY,
+  span: "ListS3Buckets",
 }));
 
 export type RemoveAllBackendsError =
@@ -1457,6 +1520,8 @@ export const removeAllBackends: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAllBackends",
+  telemetry: TELEMETRY,
+  span: "RemoveAllBackends",
 }));
 
 export type RemoveBackendConfigError =
@@ -1485,6 +1550,8 @@ export const removeBackendConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveBackendConfig",
+  telemetry: TELEMETRY,
+  span: "RemoveBackendConfig",
 }));
 
 export type UpdateBackendAPIError =
@@ -1513,6 +1580,8 @@ export const updateBackendAPI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendAPI",
+  telemetry: TELEMETRY,
+  span: "UpdateBackendAPI",
 }));
 
 export type UpdateBackendAuthError =
@@ -1541,6 +1610,8 @@ export const updateBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendAuth",
+  telemetry: TELEMETRY,
+  span: "UpdateBackendAuth",
 }));
 
 export type UpdateBackendConfigError =
@@ -1569,6 +1640,8 @@ export const updateBackendConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateBackendConfig",
 }));
 
 export type UpdateBackendJobError =
@@ -1597,6 +1670,8 @@ export const updateBackendJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendJob",
+  telemetry: TELEMETRY,
+  span: "UpdateBackendJob",
 }));
 
 export type UpdateBackendStorageError =
@@ -1625,6 +1700,8 @@ export const updateBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendStorage",
+  telemetry: TELEMETRY,
+  span: "UpdateBackendStorage",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

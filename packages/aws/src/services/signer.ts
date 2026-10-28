@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -70,6 +71,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://signer.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "signer",
+  service: "signer",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -566,6 +581,8 @@ export const addProfilePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddProfilePermission",
+  telemetry: TELEMETRY,
+  span: "AddProfilePermission",
 }));
 
 export type CancelSigningProfileError =
@@ -596,6 +613,8 @@ export const cancelSigningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSigningProfile",
+  telemetry: TELEMETRY,
+  span: "CancelSigningProfile",
 }));
 
 export type DescribeSigningJobError =
@@ -626,6 +645,8 @@ export const describeSigningJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSigningJob",
+  telemetry: TELEMETRY,
+  span: "DescribeSigningJob",
 }));
 
 export type GetRevocationStatusError =
@@ -656,6 +677,8 @@ export const getRevocationStatus: API.OperationMethod<
   retry: Retry,
   operationName: "GetRevocationStatus",
   endpointHostPrefix: "data-",
+  telemetry: TELEMETRY,
+  span: "GetRevocationStatus",
 }));
 
 export type GetSigningPlatformError =
@@ -684,6 +707,8 @@ export const getSigningPlatform: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSigningPlatform",
+  telemetry: TELEMETRY,
+  span: "GetSigningPlatform",
 }));
 
 export type GetSigningProfileError =
@@ -712,6 +737,8 @@ export const getSigningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSigningProfile",
+  telemetry: TELEMETRY,
+  span: "GetSigningProfile",
 }));
 
 export type ListProfilePermissionsError =
@@ -742,6 +769,8 @@ export const listProfilePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfilePermissions",
+  telemetry: TELEMETRY,
+  span: "ListProfilePermissions",
 }));
 
 export type ListSigningJobsError =
@@ -782,6 +811,8 @@ export const listSigningJobs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSigningJobs",
 })) as any;
 
 export type ListSigningPlatformsError =
@@ -822,6 +853,8 @@ export const listSigningPlatforms: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSigningPlatforms",
 })) as any;
 
 export type ListSigningProfilesError =
@@ -857,6 +890,8 @@ export const listSigningProfiles: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSigningProfiles",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -885,6 +920,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutSigningProfileError =
@@ -918,6 +955,8 @@ export const putSigningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSigningProfile",
+  telemetry: TELEMETRY,
+  span: "PutSigningProfile",
 }));
 
 export type RemoveProfilePermissionError =
@@ -950,6 +989,8 @@ export const removeProfilePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveProfilePermission",
+  telemetry: TELEMETRY,
+  span: "RemoveProfilePermission",
 }));
 
 export type RevokeSignatureError =
@@ -981,6 +1022,8 @@ export const revokeSignature: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSignature",
+  telemetry: TELEMETRY,
+  span: "RevokeSignature",
 }));
 
 export type RevokeSigningProfileError =
@@ -1015,6 +1058,8 @@ export const revokeSigningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSigningProfile",
+  telemetry: TELEMETRY,
+  span: "RevokeSigningProfile",
 }));
 
 export type SignPayloadError =
@@ -1045,6 +1090,8 @@ export const signPayload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SignPayload",
+  telemetry: TELEMETRY,
+  span: "SignPayload",
 }));
 
 export type StartSigningJobError =
@@ -1098,6 +1145,8 @@ export const startSigningJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSigningJob",
+  telemetry: TELEMETRY,
+  span: "StartSigningJob",
 }));
 
 export type TagResourceError =
@@ -1129,6 +1178,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1158,6 +1209,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

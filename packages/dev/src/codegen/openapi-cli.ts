@@ -3,7 +3,8 @@
  *
  * Owns the spec-side pipeline every OpenAPI-sourced provider shares: read the
  * spec file, convert it with {@link convertOpenApiToSmithy} (upstream names,
- * the verbNoun names deferred), and write `.generated-specs/<name>.json`;
+ * the verbNoun names deferred), and write the model `.generated-specs/<name>.json`
+ * through `./models.ts` (in memory under generate);
  * then {@link finalizeConvert} applies the package's RFC-6902 patches (Smithy
  * ops only: `/shapes`, `/metadata`) and the deferred names, so patches target
  * the names the spec gives. Stale targets fail unless `onStalePatch: "warn"`.
@@ -14,6 +15,7 @@
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
+import { writeModel } from "./models.ts";
 import { convertOpenApiToSmithy, type OpenApiConvertOptions } from "./openapi.ts";
 import { finalizeConvert } from "./patches.ts";
 import { resolveSpecPath } from "./spec-path.ts";
@@ -85,8 +87,6 @@ export const runOpenApiConvert = async (o: RunOpenApiConvertOptions): Promise<vo
   const parse = o.parse ?? ((text: string) => JSON.parse(text));
   const onStalePatch = o.onStalePatch ?? "fail";
 
-  await fs.mkdir(outDir, { recursive: true });
-
   console.log("🛠️  openapi → smithy");
   console.log(`   Output: ${outDir}`);
 
@@ -119,7 +119,7 @@ export const runOpenApiConvert = async (o: RunOpenApiConvertOptions): Promise<vo
     });
     const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
     const outPath = path.join(outDir, `${entry.name}.json`);
-    await fs.writeFile(outPath, JSON.stringify(model, null, 2) + "\n");
+    writeModel(outPath, model);
     console.log(
       `   ✅ ${entry.name}: ${opCount} operations, ${Object.keys(model.shapes).length} shapes`,
     );

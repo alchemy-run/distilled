@@ -105,6 +105,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   usernameExpression: "username_expression",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Rulesets",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -30347,6 +30361,8 @@ export const createRuleForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRuleForAccount",
 }));
 
 export type CreateRuleForZoneError = CloudflareOpError;
@@ -30362,6 +30378,8 @@ export const createRuleForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRuleForZone",
 }));
 
 export type CreateRulesetForAccountError = PhaseNotEntitled | Forbidden | CloudflareOpError;
@@ -30377,6 +30395,8 @@ export const createRulesetForAccount: API.OperationMethod<
   errors: [PhaseNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRulesetForAccount",
 }));
 
 export type CreateRulesetForZoneError = PhaseNotEntitled | Forbidden | CloudflareOpError;
@@ -30392,6 +30412,8 @@ export const createRulesetForZone: API.OperationMethod<
   errors: [PhaseNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRulesetForZone",
 }));
 
 export type DeleteRuleForAccountError = CloudflareOpError;
@@ -30407,6 +30429,8 @@ export const deleteRuleForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRuleForAccount",
 }));
 
 export type DeleteRuleForZoneError = CloudflareOpError;
@@ -30422,6 +30446,8 @@ export const deleteRuleForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRuleForZone",
 }));
 
 export type DeleteRulesetForAccountError = RulesetNotFound | Forbidden | CloudflareOpError;
@@ -30437,6 +30463,8 @@ export const deleteRulesetForAccount: API.OperationMethod<
   errors: [RulesetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRulesetForAccount",
 }));
 
 export type DeleteRulesetForZoneError = RulesetNotFound | Forbidden | CloudflareOpError;
@@ -30452,6 +30480,8 @@ export const deleteRulesetForZone: API.OperationMethod<
   errors: [RulesetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRulesetForZone",
 }));
 
 export type DeleteVersionForAccountError = CloudflareOpError;
@@ -30467,6 +30497,8 @@ export const deleteVersionForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVersionForAccount",
 }));
 
 export type DeleteVersionForZoneError = CloudflareOpError;
@@ -30482,6 +30514,8 @@ export const deleteVersionForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteVersionForZone",
 }));
 
 export type GetPhasForAccountError = RulesetNotFound | Forbidden | CloudflareOpError;
@@ -30497,6 +30531,8 @@ export const getPhasForAccount: API.OperationMethod<
   errors: [RulesetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPhasForAccount",
 }));
 
 export type GetPhasForZoneError = RulesetNotFound | Forbidden | CloudflareOpError;
@@ -30512,6 +30548,8 @@ export const getPhasForZone: API.OperationMethod<
   errors: [RulesetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPhasForZone",
 }));
 
 export type GetPhasVersionForAccountError = CloudflareOpError;
@@ -30527,6 +30565,8 @@ export const getPhasVersionForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPhasVersionForAccount",
 }));
 
 export type GetPhasVersionForZoneError = CloudflareOpError;
@@ -30542,6 +30582,8 @@ export const getPhasVersionForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPhasVersionForZone",
 }));
 
 export type GetRulesetForAccountError = RulesetNotFound | Forbidden | CloudflareOpError;
@@ -30557,6 +30599,8 @@ export const getRulesetForAccount: API.OperationMethod<
   errors: [RulesetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRulesetForAccount",
 }));
 
 export type GetRulesetForZoneError = RulesetNotFound | Forbidden | CloudflareOpError;
@@ -30572,6 +30616,8 @@ export const getRulesetForZone: API.OperationMethod<
   errors: [RulesetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRulesetForZone",
 }));
 
 export type GetVersionForAccountError = CloudflareOpError;
@@ -30587,6 +30633,8 @@ export const getVersionForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersionForAccount",
 }));
 
 export type GetVersionForZoneError = CloudflareOpError;
@@ -30602,6 +30650,8 @@ export const getVersionForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVersionForZone",
 }));
 
 export type ListPhasVersionsForAccountError = CloudflareOpError;
@@ -30619,6 +30669,8 @@ export const listPhasVersionsForAccount: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPhasVersionsForAccount",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -30639,6 +30691,8 @@ export const listPhasVersionsForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPhasVersionsForZone",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -30659,6 +30713,8 @@ export const listRulesetsForAccount: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRulesetsForAccount",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -30685,6 +30741,8 @@ export const listRulesetsForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListRulesetsForZone",
     pagination: {
       mode: "cursor",
       inputToken: "cursor",
@@ -30711,6 +30769,8 @@ export const listVersionsForAccount: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListVersionsForAccount",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -30731,6 +30791,8 @@ export const listVersionsForZone: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListVersionsForZone",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -30749,6 +30811,8 @@ export const patchRuleForAccount: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRuleForAccount",
 }));
 
 export type PatchRuleForZoneError = CloudflareOpError;
@@ -30764,6 +30828,8 @@ export const patchRuleForZone: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchRuleForZone",
 }));
 
 export type PutPhasForAccountError =
@@ -30783,6 +30849,8 @@ export const putPhasForAccount: API.OperationMethod<
   errors: [RulesetNotFound, PhaseNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPhasForAccount",
 }));
 
 export type PutPhasForZoneError =
@@ -30802,6 +30870,8 @@ export const putPhasForZone: API.OperationMethod<
   errors: [RulesetNotFound, PhaseNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutPhasForZone",
 }));
 
 export type UpdateRulesetForAccountError = RulesetNotFound | Forbidden | CloudflareOpError;
@@ -30817,6 +30887,8 @@ export const updateRulesetForAccount: API.OperationMethod<
   errors: [RulesetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRulesetForAccount",
 }));
 
 export type UpdateRulesetForZoneError = RulesetNotFound | Forbidden | CloudflareOpError;
@@ -30832,6 +30904,8 @@ export const updateRulesetForZone: API.OperationMethod<
   errors: [RulesetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRulesetForZone",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

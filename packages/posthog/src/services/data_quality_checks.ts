@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "DataQualityChecks",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `table` - table * `view` - view * `metric` - metric * `posthog_table` - posthog_table */
 export type SubjectTypeEnum = "table" | "view" | "metric" | "posthog_table";
 /** * `not_null` - not_null * `unique` - unique * `accepted_values` - accepted_values * `relationships` - relationships * `row_count` - row_count * `freshness` - freshness * `custom_sql` - custom_sql */
@@ -643,6 +656,8 @@ export const createDataQualityCheck: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataQualityCheck",
 }));
 
 export type CreateDataQualityChecksRunError = PosthogOpError;
@@ -658,6 +673,8 @@ export const createDataQualityChecksRun: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDataQualityChecksRun",
 }));
 
 export type DataQualityChecksDestroyError = PosthogOpError;
@@ -673,6 +690,8 @@ export const dataQualityChecksDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataQualityChecksDestroy",
 }));
 
 export type GetDataQualityCheckError = PosthogOpError;
@@ -688,6 +707,8 @@ export const getDataQualityCheck: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataQualityCheck",
 }));
 
 export type GetDataQualityChecksOutputSchemaError = PosthogOpError;
@@ -703,6 +724,8 @@ export const getDataQualityChecksOutputSchema: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataQualityChecksOutputSchema",
 }));
 
 export type GetDataQualityChecksScheduleError = PosthogOpError;
@@ -718,6 +741,8 @@ export const getDataQualityChecksSchedule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataQualityChecksSchedule",
 }));
 
 export type ListDataQualityChecksError = PosthogOpError;
@@ -733,6 +758,8 @@ export const listDataQualityChecks: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataQualityChecks",
 }));
 
 export type ListDataQualityChecksCheckTypesError = PosthogOpError;
@@ -748,6 +775,8 @@ export const listDataQualityChecksCheckTypes: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataQualityChecksCheckTypes",
 }));
 
 export type ListDataQualityChecksHealthError = PosthogOpError;
@@ -763,6 +792,8 @@ export const listDataQualityChecksHealth: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataQualityChecksHealth",
 }));
 
 export type ListDataQualityChecksMetricSubjectsError = PosthogOpError;
@@ -778,6 +809,8 @@ export const listDataQualityChecksMetricSubjects: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataQualityChecksMetricSubjects",
 }));
 
 export type ListDataQualityChecksRunsError = PosthogOpError;
@@ -793,6 +826,8 @@ export const listDataQualityChecksRuns: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataQualityChecksRuns",
 }));
 
 export type ListDataQualityChecksSchedulesError = PosthogOpError;
@@ -808,6 +843,8 @@ export const listDataQualityChecksSchedules: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataQualityChecksSchedules",
 }));
 
 export type ListDataQualityChecksSubjectsError = PosthogOpError;
@@ -823,6 +860,8 @@ export const listDataQualityChecksSubjects: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataQualityChecksSubjects",
 }));
 
 export type UpdateDataQualityCheckError = PosthogOpError;
@@ -838,6 +877,8 @@ export const updateDataQualityCheck: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataQualityCheck",
 }));
 
 export type UpdateDataQualityChecksPartialError = PosthogOpError;
@@ -853,6 +894,8 @@ export const updateDataQualityChecksPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataQualityChecksPartial",
 }));
 
 export type UpdateDataQualityChecksSchedulePartialError = PosthogOpError;
@@ -868,6 +911,8 @@ export const updateDataQualityChecksSchedulePartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataQualityChecksSchedulePartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

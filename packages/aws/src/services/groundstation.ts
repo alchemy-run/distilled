@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://groundstation.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "GroundStation",
+  service: "GroundStation",
+  propagate: TxXray.propagate,
+} as const;
 
 export class DependencyException
   extends /*@__PURE__*/ S.TaggedError<DependencyException>()(
@@ -1245,6 +1260,8 @@ export const cancelContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelContact",
+  telemetry: TELEMETRY,
+  span: "CancelContact",
 }));
 
 export type CreateConfigError =
@@ -1275,6 +1292,8 @@ export const createConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfig",
+  telemetry: TELEMETRY,
+  span: "CreateConfig",
 }));
 
 export type CreateDataflowEndpointGroupError =
@@ -1301,6 +1320,8 @@ export const createDataflowEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataflowEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "CreateDataflowEndpointGroup",
 }));
 
 export type CreateDataflowEndpointGroupV2Error =
@@ -1333,6 +1354,8 @@ export const createDataflowEndpointGroupV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataflowEndpointGroupV2",
+  telemetry: TELEMETRY,
+  span: "CreateDataflowEndpointGroupV2",
 }));
 
 export type CreateEphemerisError =
@@ -1355,6 +1378,8 @@ export const createEphemeris: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEphemeris",
+  telemetry: TELEMETRY,
+  span: "CreateEphemeris",
 }));
 
 export type CreateMissionProfileError =
@@ -1379,6 +1404,8 @@ export const createMissionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMissionProfile",
+  telemetry: TELEMETRY,
+  span: "CreateMissionProfile",
 }));
 
 export type DeleteConfigError =
@@ -1401,6 +1428,8 @@ export const deleteConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteConfig",
 }));
 
 export type DeleteDataflowEndpointGroupError =
@@ -1423,6 +1452,8 @@ export const deleteDataflowEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataflowEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteDataflowEndpointGroup",
 }));
 
 export type DeleteEphemerisError =
@@ -1451,6 +1482,8 @@ export const deleteEphemeris: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEphemeris",
+  telemetry: TELEMETRY,
+  span: "DeleteEphemeris",
 }));
 
 export type DeleteMissionProfileError =
@@ -1473,6 +1506,8 @@ export const deleteMissionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMissionProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteMissionProfile",
 }));
 
 export type DescribeContactError =
@@ -1495,6 +1530,8 @@ export const describeContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContact",
+  telemetry: TELEMETRY,
+  span: "DescribeContact",
 }));
 
 export type DescribeContactVersionError =
@@ -1517,6 +1554,8 @@ export const describeContactVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContactVersion",
+  telemetry: TELEMETRY,
+  span: "DescribeContactVersion",
 }));
 
 export type DescribeEphemerisError =
@@ -1539,6 +1578,8 @@ export const describeEphemeris: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEphemeris",
+  telemetry: TELEMETRY,
+  span: "DescribeEphemeris",
 }));
 
 export type GetAgentConfigurationError =
@@ -1563,6 +1604,8 @@ export const getAgentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetAgentConfiguration",
 }));
 
 export type GetAgentTaskResponseUrlError =
@@ -1587,6 +1630,8 @@ export const getAgentTaskResponseUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentTaskResponseUrl",
+  telemetry: TELEMETRY,
+  span: "GetAgentTaskResponseUrl",
 }));
 
 export type GetConfigError =
@@ -1611,6 +1656,8 @@ export const getConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfig",
+  telemetry: TELEMETRY,
+  span: "GetConfig",
 }));
 
 export type GetDataflowEndpointGroupError =
@@ -1633,6 +1680,8 @@ export const getDataflowEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataflowEndpointGroup",
+  telemetry: TELEMETRY,
+  span: "GetDataflowEndpointGroup",
 }));
 
 export type GetMinuteUsageError =
@@ -1655,6 +1704,8 @@ export const getMinuteUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMinuteUsage",
+  telemetry: TELEMETRY,
+  span: "GetMinuteUsage",
 }));
 
 export type GetMissionProfileError =
@@ -1677,6 +1728,8 @@ export const getMissionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMissionProfile",
+  telemetry: TELEMETRY,
+  span: "GetMissionProfile",
 }));
 
 export type GetSatelliteError =
@@ -1699,6 +1752,8 @@ export const getSatellite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSatellite",
+  telemetry: TELEMETRY,
+  span: "GetSatellite",
 }));
 
 export type ListAntennasError = DependencyException | InvalidParameterException | CommonErrors;
@@ -1724,6 +1779,8 @@ export const listAntennas: API.PaginatedOperationMethod<
     items: "antennaList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAntennas",
 })) as any;
 
 export type ListConfigsError =
@@ -1753,6 +1810,8 @@ export const listConfigs: API.PaginatedOperationMethod<
     items: "configList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfigs",
 })) as any;
 
 export type ListContactsError =
@@ -1784,6 +1843,8 @@ export const listContacts: API.PaginatedOperationMethod<
     items: "contactList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContacts",
 })) as any;
 
 export type ListContactVersionsError =
@@ -1813,6 +1874,8 @@ export const listContactVersions: API.PaginatedOperationMethod<
     items: "contactVersionsList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContactVersions",
 })) as any;
 
 export type ListDataflowEndpointGroupsError =
@@ -1842,6 +1905,8 @@ export const listDataflowEndpointGroups: API.PaginatedOperationMethod<
     items: "dataflowEndpointGroupList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataflowEndpointGroups",
 })) as any;
 
 export type ListEphemeridesError =
@@ -1871,6 +1936,8 @@ export const listEphemerides: API.PaginatedOperationMethod<
     items: "ephemerides",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEphemerides",
 })) as any;
 
 export type ListGroundStationReservationsError =
@@ -1899,6 +1966,8 @@ export const listGroundStationReservations: API.PaginatedOperationMethod<
     items: "reservationList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroundStationReservations",
 })) as any;
 
 export type ListGroundStationsError =
@@ -1928,6 +1997,8 @@ export const listGroundStations: API.PaginatedOperationMethod<
     items: "groundStationList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGroundStations",
 })) as any;
 
 export type ListMissionProfilesError =
@@ -1957,6 +2028,8 @@ export const listMissionProfiles: API.PaginatedOperationMethod<
     items: "missionProfileList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMissionProfiles",
 })) as any;
 
 export type ListSatellitesError =
@@ -1986,6 +2059,8 @@ export const listSatellites: API.PaginatedOperationMethod<
     items: "satellites",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSatellites",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2008,6 +2083,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterAgentError =
@@ -2032,6 +2109,8 @@ export const registerAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAgent",
+  telemetry: TELEMETRY,
+  span: "RegisterAgent",
 }));
 
 export type ReserveContactError =
@@ -2060,6 +2139,8 @@ export const reserveContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReserveContact",
+  telemetry: TELEMETRY,
+  span: "ReserveContact",
 }));
 
 export type TagResourceError =
@@ -2082,6 +2163,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2104,6 +2187,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAgentStatusError =
@@ -2128,6 +2213,8 @@ export const updateAgentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentStatus",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentStatus",
 }));
 
 export type UpdateConfigError =
@@ -2152,6 +2239,8 @@ export const updateConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateConfig",
 }));
 
 export type UpdateContactError =
@@ -2180,6 +2269,8 @@ export const updateContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContact",
+  telemetry: TELEMETRY,
+  span: "UpdateContact",
 }));
 
 export type UpdateEphemerisError =
@@ -2202,6 +2293,8 @@ export const updateEphemeris: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEphemeris",
+  telemetry: TELEMETRY,
+  span: "UpdateEphemeris",
 }));
 
 export type UpdateMissionProfileError =
@@ -2226,6 +2319,8 @@ export const updateMissionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMissionProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateMissionProfile",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

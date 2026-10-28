@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { ResendOpError, ResendOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "resend-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Resend",
+  service: "Resend",
+  labels: "resend",
+  propagate: "w3c",
+} as const;
+
 export interface CancelEmailRequest {
   /** The ID of the email. */
   email_id: string;
@@ -2114,6 +2127,8 @@ export const cancelEmail: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelEmail",
 }));
 
 export type CreateApiKeyError = ResendOpError;
@@ -2129,6 +2144,8 @@ export const createApiKey: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateApiKey",
 }));
 
 export type CreateAutomationError = ResendOpError;
@@ -2144,6 +2161,8 @@ export const createAutomation: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAutomation",
 }));
 
 export type CreateBroadcastError = ResendOpError;
@@ -2159,6 +2178,8 @@ export const createBroadcast: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBroadcast",
 }));
 
 export type CreateContactError = ResendOpError;
@@ -2174,6 +2195,8 @@ export const createContact: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContact",
 }));
 
 export type CreateContactPropertyError = ResendOpError;
@@ -2189,6 +2212,8 @@ export const createContactProperty: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateContactProperty",
 }));
 
 export type CreateDomainError = ResendOpError;
@@ -2204,6 +2229,8 @@ export const createDomain: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateEmailError = ResendOpError;
@@ -2219,6 +2246,8 @@ export const createEmail: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmail",
 }));
 
 export type CreateEmailBatchError = ResendOpError;
@@ -2234,6 +2263,8 @@ export const createEmailBatch: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEmailBatch",
 }));
 
 export type CreateEventError = ResendOpError;
@@ -2249,6 +2280,8 @@ export const createEvent: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateEvent",
 }));
 
 export type CreateSegmentError = ResendOpError;
@@ -2264,6 +2297,8 @@ export const createSegment: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSegment",
 }));
 
 export type CreateTemplateError = ResendOpError;
@@ -2279,6 +2314,8 @@ export const createTemplate: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTemplate",
 }));
 
 export type CreateTopicError = ResendOpError;
@@ -2294,6 +2331,8 @@ export const createTopic: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTopic",
 }));
 
 export type CreateWebhookError = ResendOpError;
@@ -2309,6 +2348,8 @@ export const createWebhook: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWebhook",
 }));
 
 export type DeleteApiKeyError = ResendOpError;
@@ -2324,6 +2365,8 @@ export const deleteApiKey: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteApiKey",
 }));
 
 export type DeleteAutomationError = ResendOpError;
@@ -2339,6 +2382,8 @@ export const deleteAutomation: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAutomation",
 }));
 
 export type DeleteBroadcastError = ResendOpError;
@@ -2354,6 +2399,8 @@ export const deleteBroadcast: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteBroadcast",
 }));
 
 export type DeleteContactError = ResendOpError;
@@ -2369,6 +2416,8 @@ export const deleteContact: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContact",
 }));
 
 export type DeleteContactPropertyError = ResendOpError;
@@ -2384,6 +2433,8 @@ export const deleteContactProperty: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContactProperty",
 }));
 
 export type DeleteContactSegmentError = ResendOpError;
@@ -2399,6 +2450,8 @@ export const deleteContactSegment: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteContactSegment",
 }));
 
 export type DeleteDomainError = ResendOpError;
@@ -2414,6 +2467,8 @@ export const deleteDomain: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteEventError = ResendOpError;
@@ -2429,6 +2484,8 @@ export const deleteEvent: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEvent",
 }));
 
 export type DeleteSegmentError = ResendOpError;
@@ -2444,6 +2501,8 @@ export const deleteSegment: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSegment",
 }));
 
 export type DeleteTemplateError = ResendOpError;
@@ -2459,6 +2518,8 @@ export const deleteTemplate: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTemplate",
 }));
 
 export type DeleteTopicError = ResendOpError;
@@ -2474,6 +2535,8 @@ export const deleteTopic: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTopic",
 }));
 
 export type DeleteWebhookError = ResendOpError;
@@ -2489,6 +2552,8 @@ export const deleteWebhook: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWebhook",
 }));
 
 export type DuplicateTemplateError = ResendOpError;
@@ -2504,6 +2569,8 @@ export const duplicateTemplate: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DuplicateTemplate",
 }));
 
 export type GetAutomationError = ResendOpError;
@@ -2519,6 +2586,8 @@ export const getAutomation: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomation",
 }));
 
 export type GetAutomationRunError = ResendOpError;
@@ -2534,6 +2603,8 @@ export const getAutomationRun: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAutomationRun",
 }));
 
 export type GetBroadcastError = ResendOpError;
@@ -2549,6 +2620,8 @@ export const getBroadcast: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBroadcast",
 }));
 
 export type GetContactError = ResendOpError;
@@ -2564,6 +2637,8 @@ export const getContact: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContact",
 }));
 
 export type GetContactPropertyError = ResendOpError;
@@ -2579,6 +2654,8 @@ export const getContactProperty: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContactProperty",
 }));
 
 export type GetDomainError = ResendOpError;
@@ -2594,6 +2671,8 @@ export const getDomain: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetEmailError = ResendOpError;
@@ -2605,6 +2684,8 @@ export const getEmail: API.OperationMethod<GetEmailRequest, Email, GetEmailError
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetEmail",
   }));
 
 export type GetEmailAttachmentError = ResendOpError;
@@ -2620,6 +2701,8 @@ export const getEmailAttachment: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailAttachment",
 }));
 
 export type GetEmailReceivingError = ResendOpError;
@@ -2635,6 +2718,8 @@ export const getEmailReceiving: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailReceiving",
 }));
 
 export type GetEmailReceivingAttachmentError = ResendOpError;
@@ -2650,6 +2735,8 @@ export const getEmailReceivingAttachment: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailReceivingAttachment",
 }));
 
 export type GetEventError = ResendOpError;
@@ -2661,6 +2748,8 @@ export const getEvent: API.OperationMethod<GetEventRequest, Event, GetEventError
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetEvent",
   }));
 
 export type GetLogError = ResendOpError;
@@ -2672,6 +2761,8 @@ export const getLog: API.OperationMethod<GetLogRequest, Log, GetLogError, Resend
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetLog",
   }));
 
 export type GetSegmentError = ResendOpError;
@@ -2687,6 +2778,8 @@ export const getSegment: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSegment",
 }));
 
 export type GetTemplateError = ResendOpError;
@@ -2702,6 +2795,8 @@ export const getTemplate: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTemplate",
 }));
 
 export type GetTopicError = ResendOpError;
@@ -2717,6 +2812,8 @@ export const getTopic: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTopic",
 }));
 
 export type GetWebhookError = ResendOpError;
@@ -2732,6 +2829,8 @@ export const getWebhook: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhook",
 }));
 
 export type ListApiKeysError = ResendOpError;
@@ -2749,6 +2848,8 @@ export const listApiKeys: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListApiKeys",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -2775,6 +2876,8 @@ export const listAutomationRuns: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAutomationRuns",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -2801,6 +2904,8 @@ export const listAutomations: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListAutomations",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -2827,6 +2932,8 @@ export const listBroadcasts: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListBroadcasts",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -2853,6 +2960,8 @@ export const listContactProperties: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListContactProperties",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -2877,6 +2986,8 @@ export const listContacts: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListContacts",
 }));
 
 export type ListContactSegmentsError = ResendOpError;
@@ -2894,6 +3005,8 @@ export const listContactSegments: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListContactSegments",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -2920,6 +3033,8 @@ export const listContactTopics: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListContactTopics",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -2946,6 +3061,8 @@ export const listDomains: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListDomains",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -2972,6 +3089,8 @@ export const listEmailAttachments: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListEmailAttachments",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -2998,6 +3117,8 @@ export const listEmailReceiving: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListEmailReceiving",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -3024,6 +3145,8 @@ export const listEmailReceivingAttachments: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListEmailReceivingAttachments",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -3050,6 +3173,8 @@ export const listEmails: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListEmails",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -3076,6 +3201,8 @@ export const listEvents: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListEvents",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -3102,6 +3229,8 @@ export const listLogs: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListLogs",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -3128,6 +3257,8 @@ export const listSegments: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSegments",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -3154,6 +3285,8 @@ export const listTemplates: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTemplates",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -3180,6 +3313,8 @@ export const listTopics: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTopics",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -3206,6 +3341,8 @@ export const listWebhooks: API.PaginatedOperationMethod<
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListWebhooks",
     pagination: {
       mode: "cursor",
       inputToken: "after",
@@ -3230,6 +3367,8 @@ export const publishTemplate: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishTemplate",
 }));
 
 export type SendBroadcastError = ResendOpError;
@@ -3245,6 +3384,8 @@ export const sendBroadcast: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendBroadcast",
 }));
 
 export type SendEventError = ResendOpError;
@@ -3260,6 +3401,8 @@ export const sendEvent: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendEvent",
 }));
 
 export type StopAutomationError = ResendOpError;
@@ -3275,6 +3418,8 @@ export const stopAutomation: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopAutomation",
 }));
 
 export type UpdateAutomationError = ResendOpError;
@@ -3290,6 +3435,8 @@ export const updateAutomation: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAutomation",
 }));
 
 export type UpdateBroadcastError = ResendOpError;
@@ -3305,6 +3452,8 @@ export const updateBroadcast: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBroadcast",
 }));
 
 export type UpdateContactError = ResendOpError;
@@ -3320,6 +3469,8 @@ export const updateContact: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContact",
 }));
 
 export type UpdateContactPropertyError = ResendOpError;
@@ -3335,6 +3486,8 @@ export const updateContactProperty: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContactProperty",
 }));
 
 export type UpdateContactSegmentError = ResendOpError;
@@ -3350,6 +3503,8 @@ export const updateContactSegment: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContactSegment",
 }));
 
 export type UpdateContactTopicsError = ResendOpError;
@@ -3365,6 +3520,8 @@ export const updateContactTopics: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContactTopics",
 }));
 
 export type UpdateDomainError = ResendOpError;
@@ -3380,6 +3537,8 @@ export const updateDomain: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDomain",
 }));
 
 export type UpdateEmailError = ResendOpError;
@@ -3395,6 +3554,8 @@ export const updateEmail: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEmail",
 }));
 
 export type UpdateEventError = ResendOpError;
@@ -3410,6 +3571,8 @@ export const updateEvent: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEvent",
 }));
 
 export type UpdateTemplateError = ResendOpError;
@@ -3425,6 +3588,8 @@ export const updateTemplate: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTemplate",
 }));
 
 export type UpdateTopicError = ResendOpError;
@@ -3440,6 +3605,8 @@ export const updateTopic: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTopic",
 }));
 
 export type UpdateWebhookError = ResendOpError;
@@ -3455,6 +3622,8 @@ export const updateWebhook: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebhook",
 }));
 
 export type VerifyDomainError = ResendOpError;
@@ -3470,6 +3639,8 @@ export const verifyDomain: API.OperationMethod<
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyDomain",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://aco-automation.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ComputeOptimizerAutomation",
+  service: "ComputeOptimizerAutomation",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -747,6 +763,8 @@ export const associateAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAccounts",
+  telemetry: TELEMETRY,
+  span: "AssociateAccounts",
 }));
 
 export type CreateAutomationRuleError =
@@ -789,6 +807,8 @@ export const createAutomationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomationRule",
+  telemetry: TELEMETRY,
+  span: "CreateAutomationRule",
 }));
 
 export type DeleteAutomationRuleError =
@@ -829,6 +849,8 @@ export const deleteAutomationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomationRule",
+  telemetry: TELEMETRY,
+  span: "DeleteAutomationRule",
 }));
 
 export type DisassociateAccountsError =
@@ -871,6 +893,8 @@ export const disassociateAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAccounts",
+  telemetry: TELEMETRY,
+  span: "DisassociateAccounts",
 }));
 
 export type GetAutomationEventError =
@@ -907,6 +931,8 @@ export const getAutomationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationEvent",
+  telemetry: TELEMETRY,
+  span: "GetAutomationEvent",
 }));
 
 export type GetAutomationRuleError =
@@ -943,6 +969,8 @@ export const getAutomationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationRule",
+  telemetry: TELEMETRY,
+  span: "GetAutomationRule",
 }));
 
 export type GetEnrollmentConfigurationError =
@@ -979,6 +1007,8 @@ export const getEnrollmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnrollmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetEnrollmentConfiguration",
 }));
 
 export type ListAccountsError =
@@ -1024,6 +1054,8 @@ export const listAccounts: API.PaginatedOperationMethod<
     items: "accounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
 })) as any;
 
 export type ListAutomationEventsError =
@@ -1065,6 +1097,8 @@ export const listAutomationEvents: API.PaginatedOperationMethod<
     items: "automationEvents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomationEvents",
 })) as any;
 
 export type ListAutomationEventStepsError =
@@ -1108,6 +1142,8 @@ export const listAutomationEventSteps: API.PaginatedOperationMethod<
     items: "automationEventSteps",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomationEventSteps",
 })) as any;
 
 export type ListAutomationEventSummariesError =
@@ -1149,6 +1185,8 @@ export const listAutomationEventSummaries: API.PaginatedOperationMethod<
     items: "automationEventSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomationEventSummaries",
 })) as any;
 
 export type ListAutomationRulePreviewError =
@@ -1190,6 +1228,8 @@ export const listAutomationRulePreview: API.PaginatedOperationMethod<
     items: "previewResults",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomationRulePreview",
 })) as any;
 
 export type ListAutomationRulePreviewSummariesError =
@@ -1231,6 +1271,8 @@ export const listAutomationRulePreviewSummaries: API.PaginatedOperationMethod<
     items: "previewResultSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomationRulePreviewSummaries",
 })) as any;
 
 export type ListAutomationRulesError =
@@ -1272,6 +1314,8 @@ export const listAutomationRules: API.PaginatedOperationMethod<
     items: "automationRules",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutomationRules",
 })) as any;
 
 export type ListRecommendedActionsError =
@@ -1315,6 +1359,8 @@ export const listRecommendedActions: API.PaginatedOperationMethod<
     items: "recommendedActions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendedActions",
 })) as any;
 
 export type ListRecommendedActionSummariesError =
@@ -1358,6 +1404,8 @@ export const listRecommendedActionSummaries: API.PaginatedOperationMethod<
     items: "recommendedActionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendedActionSummaries",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1394,6 +1442,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RollbackAutomationEventError =
@@ -1436,6 +1486,8 @@ export const rollbackAutomationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackAutomationEvent",
+  telemetry: TELEMETRY,
+  span: "RollbackAutomationEvent",
 }));
 
 export type StartAutomationEventError =
@@ -1480,6 +1532,8 @@ export const startAutomationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutomationEvent",
+  telemetry: TELEMETRY,
+  span: "StartAutomationEvent",
 }));
 
 export type TagResourceError =
@@ -1520,6 +1574,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1560,6 +1616,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAutomationRuleError =
@@ -1600,6 +1658,8 @@ export const updateAutomationRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomationRule",
+  telemetry: TELEMETRY,
+  span: "UpdateAutomationRule",
 }));
 
 export type UpdateEnrollmentConfigurationError =
@@ -1642,6 +1702,8 @@ export const updateEnrollmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnrollmentConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateEnrollmentConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

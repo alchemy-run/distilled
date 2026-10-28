@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "securitycenter" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Securitycenter",
+  service: "securitycenter",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -460,6 +479,8 @@ export const calculateFoldersContainerThreatDetectionSettings: API.OperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateFoldersContainerThreatDetectionSettings",
 }));
 
 export type CalculateFoldersEventThreatDetectionSettingsError = NotFound | Forbidden | GcpOpError;
@@ -474,6 +495,8 @@ export const calculateFoldersEventThreatDetectionSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateFoldersEventThreatDetectionSettings",
 }));
 
 export type CalculateFoldersRapidVulnerabilityDetectionSettingsError =
@@ -495,6 +518,8 @@ export const calculateFoldersRapidVulnerabilityDetectionSettings: API.OperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateFoldersRapidVulnerabilityDetectionSettings",
 }));
 
 export type CalculateFoldersSecurityHealthAnalyticsSettingsError =
@@ -516,6 +541,8 @@ export const calculateFoldersSecurityHealthAnalyticsSettings: API.OperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateFoldersSecurityHealthAnalyticsSettings",
 }));
 
 export type CalculateFoldersVirtualMachineThreatDetectionSettingsError =
@@ -537,6 +564,8 @@ export const calculateFoldersVirtualMachineThreatDetectionSettings: API.Operatio
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateFoldersVirtualMachineThreatDetectionSettings",
 }));
 
 export type CalculateFoldersWebSecurityScannerSettingsError = NotFound | Forbidden | GcpOpError;
@@ -551,6 +580,8 @@ export const calculateFoldersWebSecurityScannerSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateFoldersWebSecurityScannerSettings",
 }));
 
 export type CalculateOrganizationsContainerThreatDetectionSettingsError =
@@ -572,6 +603,8 @@ export const calculateOrganizationsContainerThreatDetectionSettings: API.Operati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateOrganizationsContainerThreatDetectionSettings",
 }));
 
 export type CalculateOrganizationsEventThreatDetectionSettingsError =
@@ -593,6 +626,8 @@ export const calculateOrganizationsEventThreatDetectionSettings: API.OperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateOrganizationsEventThreatDetectionSettings",
 }));
 
 export type CalculateOrganizationsRapidVulnerabilityDetectionSettingsError =
@@ -614,6 +649,8 @@ export const calculateOrganizationsRapidVulnerabilityDetectionSettings: API.Oper
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateOrganizationsRapidVulnerabilityDetectionSettings",
 }));
 
 export type CalculateOrganizationsSecurityHealthAnalyticsSettingsError =
@@ -635,6 +672,8 @@ export const calculateOrganizationsSecurityHealthAnalyticsSettings: API.Operatio
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateOrganizationsSecurityHealthAnalyticsSettings",
 }));
 
 export type CalculateOrganizationsVirtualMachineThreatDetectionSettingsError =
@@ -656,6 +695,8 @@ export const calculateOrganizationsVirtualMachineThreatDetectionSettings: API.Op
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateOrganizationsVirtualMachineThreatDetectionSettings",
 }));
 
 export type CalculateOrganizationsWebSecurityScannerSettingsError =
@@ -677,6 +718,8 @@ export const calculateOrganizationsWebSecurityScannerSettings: API.OperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateOrganizationsWebSecurityScannerSettings",
 }));
 
 export type CalculateProjectsContainerThreatDetectionSettingsError =
@@ -698,6 +741,8 @@ export const calculateProjectsContainerThreatDetectionSettings: API.OperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateProjectsContainerThreatDetectionSettings",
 }));
 
 export type CalculateProjectsEventThreatDetectionSettingsError = NotFound | Forbidden | GcpOpError;
@@ -712,6 +757,8 @@ export const calculateProjectsEventThreatDetectionSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateProjectsEventThreatDetectionSettings",
 }));
 
 export type CalculateProjectsLocationsClustersContainerThreatDetectionSettingsError =
@@ -733,6 +780,8 @@ export const calculateProjectsLocationsClustersContainerThreatDetectionSettings:
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateProjectsLocationsClustersContainerThreatDetectionSettings",
 }));
 
 export type CalculateProjectsRapidVulnerabilityDetectionSettingsError =
@@ -754,6 +803,8 @@ export const calculateProjectsRapidVulnerabilityDetectionSettings: API.Operation
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateProjectsRapidVulnerabilityDetectionSettings",
 }));
 
 export type CalculateProjectsSecurityHealthAnalyticsSettingsError =
@@ -775,6 +826,8 @@ export const calculateProjectsSecurityHealthAnalyticsSettings: API.OperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateProjectsSecurityHealthAnalyticsSettings",
 }));
 
 export type CalculateProjectsVirtualMachineThreatDetectionSettingsError =
@@ -796,6 +849,8 @@ export const calculateProjectsVirtualMachineThreatDetectionSettings: API.Operati
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateProjectsVirtualMachineThreatDetectionSettings",
 }));
 
 export type CalculateProjectsWebSecurityScannerSettingsError = NotFound | Forbidden | GcpOpError;
@@ -810,6 +865,8 @@ export const calculateProjectsWebSecurityScannerSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CalculateProjectsWebSecurityScannerSettings",
 }));
 
 export type GetContainerThreatDetectionSettingsFoldersError = NotFound | Forbidden | GcpOpError;
@@ -824,6 +881,8 @@ export const getContainerThreatDetectionSettingsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContainerThreatDetectionSettingsFolders",
 }));
 
 export type GetContainerThreatDetectionSettingsOrganizationsError =
@@ -845,6 +904,8 @@ export const getContainerThreatDetectionSettingsOrganizations: API.OperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContainerThreatDetectionSettingsOrganizations",
 }));
 
 export type GetContainerThreatDetectionSettingsProjectsError = NotFound | Forbidden | GcpOpError;
@@ -859,6 +920,8 @@ export const getContainerThreatDetectionSettingsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContainerThreatDetectionSettingsProjects",
 }));
 
 export type GetContainerThreatDetectionSettingsProjectsLocationsClustersError =
@@ -880,6 +943,8 @@ export const getContainerThreatDetectionSettingsProjectsLocationsClusters: API.O
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetContainerThreatDetectionSettingsProjectsLocationsClusters",
 }));
 
 export type GetEventThreatDetectionSettingsFoldersError = NotFound | Forbidden | GcpOpError;
@@ -894,6 +959,8 @@ export const getEventThreatDetectionSettingsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventThreatDetectionSettingsFolders",
 }));
 
 export type GetEventThreatDetectionSettingsOrganizationsError = NotFound | Forbidden | GcpOpError;
@@ -908,6 +975,8 @@ export const getEventThreatDetectionSettingsOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventThreatDetectionSettingsOrganizations",
 }));
 
 export type GetEventThreatDetectionSettingsProjectsError = NotFound | Forbidden | GcpOpError;
@@ -922,6 +991,8 @@ export const getEventThreatDetectionSettingsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEventThreatDetectionSettingsProjects",
 }));
 
 export type GetRapidVulnerabilityDetectionSettingsFoldersError = NotFound | Forbidden | GcpOpError;
@@ -936,6 +1007,8 @@ export const getRapidVulnerabilityDetectionSettingsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRapidVulnerabilityDetectionSettingsFolders",
 }));
 
 export type GetRapidVulnerabilityDetectionSettingsOrganizationsError =
@@ -957,6 +1030,8 @@ export const getRapidVulnerabilityDetectionSettingsOrganizations: API.OperationM
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRapidVulnerabilityDetectionSettingsOrganizations",
 }));
 
 export type GetRapidVulnerabilityDetectionSettingsProjectsError = NotFound | Forbidden | GcpOpError;
@@ -975,6 +1050,8 @@ export const getRapidVulnerabilityDetectionSettingsProjects: API.OperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRapidVulnerabilityDetectionSettingsProjects",
 }));
 
 export type GetSecurityCenterSettingsFoldersError = NotFound | Forbidden | GcpOpError;
@@ -989,6 +1066,8 @@ export const getSecurityCenterSettingsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityCenterSettingsFolders",
 }));
 
 export type GetSecurityCenterSettingsOrganizationsError = NotFound | Forbidden | GcpOpError;
@@ -1003,6 +1082,8 @@ export const getSecurityCenterSettingsOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityCenterSettingsOrganizations",
 }));
 
 export type GetSecurityCenterSettingsProjectsError = NotFound | Forbidden | GcpOpError;
@@ -1017,6 +1098,8 @@ export const getSecurityCenterSettingsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityCenterSettingsProjects",
 }));
 
 export type GetSecurityHealthAnalyticsSettingsFoldersError = NotFound | Forbidden | GcpOpError;
@@ -1031,6 +1114,8 @@ export const getSecurityHealthAnalyticsSettingsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityHealthAnalyticsSettingsFolders",
 }));
 
 export type GetSecurityHealthAnalyticsSettingsOrganizationsError =
@@ -1052,6 +1137,8 @@ export const getSecurityHealthAnalyticsSettingsOrganizations: API.OperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityHealthAnalyticsSettingsOrganizations",
 }));
 
 export type GetSecurityHealthAnalyticsSettingsProjectsError = NotFound | Forbidden | GcpOpError;
@@ -1066,6 +1153,8 @@ export const getSecurityHealthAnalyticsSettingsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityHealthAnalyticsSettingsProjects",
 }));
 
 export type GetSubscriptionOrganizationsError = NotFound | Forbidden | GcpOpError;
@@ -1080,6 +1169,8 @@ export const getSubscriptionOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSubscriptionOrganizations",
 }));
 
 export type GetVirtualMachineThreatDetectionSettingsFoldersError =
@@ -1101,6 +1192,8 @@ export const getVirtualMachineThreatDetectionSettingsFolders: API.OperationMetho
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineThreatDetectionSettingsFolders",
 }));
 
 export type GetVirtualMachineThreatDetectionSettingsOrganizationsError =
@@ -1122,6 +1215,8 @@ export const getVirtualMachineThreatDetectionSettingsOrganizations: API.Operatio
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineThreatDetectionSettingsOrganizations",
 }));
 
 export type GetVirtualMachineThreatDetectionSettingsProjectsError =
@@ -1143,6 +1238,8 @@ export const getVirtualMachineThreatDetectionSettingsProjects: API.OperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVirtualMachineThreatDetectionSettingsProjects",
 }));
 
 export type GetWebSecurityScannerSettingsFoldersError = NotFound | Forbidden | GcpOpError;
@@ -1157,6 +1254,8 @@ export const getWebSecurityScannerSettingsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebSecurityScannerSettingsFolders",
 }));
 
 export type GetWebSecurityScannerSettingsOrganizationsError = NotFound | Forbidden | GcpOpError;
@@ -1171,6 +1270,8 @@ export const getWebSecurityScannerSettingsOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebSecurityScannerSettingsOrganizations",
 }));
 
 export type GetWebSecurityScannerSettingsProjectsError = NotFound | Forbidden | GcpOpError;
@@ -1185,6 +1286,8 @@ export const getWebSecurityScannerSettingsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebSecurityScannerSettingsProjects",
 }));
 
 export type UpdateContainerThreatDetectionSettingsFoldersError =
@@ -1208,6 +1311,8 @@ export const updateContainerThreatDetectionSettingsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContainerThreatDetectionSettingsFolders",
 }));
 
 export type UpdateContainerThreatDetectionSettingsOrganizationsError =
@@ -1231,6 +1336,8 @@ export const updateContainerThreatDetectionSettingsOrganizations: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContainerThreatDetectionSettingsOrganizations",
 }));
 
 export type UpdateContainerThreatDetectionSettingsProjectsError =
@@ -1254,6 +1361,8 @@ export const updateContainerThreatDetectionSettingsProjects: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContainerThreatDetectionSettingsProjects",
 }));
 
 export type UpdateContainerThreatDetectionSettingsProjectsLocationsClustersError =
@@ -1277,6 +1386,8 @@ export const updateContainerThreatDetectionSettingsProjectsLocationsClusters: AP
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateContainerThreatDetectionSettingsProjectsLocationsClusters",
 }));
 
 export type UpdateEventThreatDetectionSettingsFoldersError =
@@ -1296,6 +1407,8 @@ export const updateEventThreatDetectionSettingsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventThreatDetectionSettingsFolders",
 }));
 
 export type UpdateEventThreatDetectionSettingsOrganizationsError =
@@ -1319,6 +1432,8 @@ export const updateEventThreatDetectionSettingsOrganizations: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventThreatDetectionSettingsOrganizations",
 }));
 
 export type UpdateEventThreatDetectionSettingsProjectsError =
@@ -1338,6 +1453,8 @@ export const updateEventThreatDetectionSettingsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEventThreatDetectionSettingsProjects",
 }));
 
 export type UpdateRapidVulnerabilityDetectionSettingsFoldersError =
@@ -1361,6 +1478,8 @@ export const updateRapidVulnerabilityDetectionSettingsFolders: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRapidVulnerabilityDetectionSettingsFolders",
 }));
 
 export type UpdateRapidVulnerabilityDetectionSettingsOrganizationsError =
@@ -1384,6 +1503,8 @@ export const updateRapidVulnerabilityDetectionSettingsOrganizations: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRapidVulnerabilityDetectionSettingsOrganizations",
 }));
 
 export type UpdateRapidVulnerabilityDetectionSettingsProjectsError =
@@ -1407,6 +1528,8 @@ export const updateRapidVulnerabilityDetectionSettingsProjects: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateRapidVulnerabilityDetectionSettingsProjects",
 }));
 
 export type UpdateSecurityHealthAnalyticsSettingsFoldersError =
@@ -1426,6 +1549,8 @@ export const updateSecurityHealthAnalyticsSettingsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityHealthAnalyticsSettingsFolders",
 }));
 
 export type UpdateSecurityHealthAnalyticsSettingsOrganizationsError =
@@ -1449,6 +1574,8 @@ export const updateSecurityHealthAnalyticsSettingsOrganizations: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityHealthAnalyticsSettingsOrganizations",
 }));
 
 export type UpdateSecurityHealthAnalyticsSettingsProjectsError =
@@ -1472,6 +1599,8 @@ export const updateSecurityHealthAnalyticsSettingsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityHealthAnalyticsSettingsProjects",
 }));
 
 export type UpdateVirtualMachineThreatDetectionSettingsFoldersError =
@@ -1495,6 +1624,8 @@ export const updateVirtualMachineThreatDetectionSettingsFolders: API.OperationMe
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineThreatDetectionSettingsFolders",
 }));
 
 export type UpdateVirtualMachineThreatDetectionSettingsOrganizationsError =
@@ -1518,6 +1649,8 @@ export const updateVirtualMachineThreatDetectionSettingsOrganizations: API.Opera
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineThreatDetectionSettingsOrganizations",
 }));
 
 export type UpdateVirtualMachineThreatDetectionSettingsProjectsError =
@@ -1541,6 +1674,8 @@ export const updateVirtualMachineThreatDetectionSettingsProjects: API.OperationM
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVirtualMachineThreatDetectionSettingsProjects",
 }));
 
 export type UpdateWebSecurityScannerSettingsFoldersError =
@@ -1560,6 +1695,8 @@ export const updateWebSecurityScannerSettingsFolders: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebSecurityScannerSettingsFolders",
 }));
 
 export type UpdateWebSecurityScannerSettingsOrganizationsError =
@@ -1583,6 +1720,8 @@ export const updateWebSecurityScannerSettingsOrganizations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebSecurityScannerSettingsOrganizations",
 }));
 
 export type UpdateWebSecurityScannerSettingsProjectsError =
@@ -1602,6 +1741,8 @@ export const updateWebSecurityScannerSettingsProjects: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebSecurityScannerSettingsProjects",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

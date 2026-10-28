@@ -105,6 +105,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Hugging Face Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain in patches/ applies to the OpenAPI document in
   // scripts/convert.ts — never to the Smithy models.

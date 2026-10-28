@@ -17,6 +17,19 @@ const __s: any[] = [];
 
 export type { FlyIoOpError, FlyIoOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "fly-io-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "fly-request-id", name: "http.response.header.fly-request-id", transform: "list" },
+  ],
+  prefix: "Fly",
+  service: "FlyAddons",
+  propagate: "w3c",
+} as const;
+
 export interface AddOnRequest {
   id?: string | null;
   name?: string | null;
@@ -456,6 +469,11 @@ export const addOn: API.OperationMethod<AddOnRequest, AddOnResponse, AddOnError,
     errors: [UnknownFlyIoError, FlyIoParseError],
     protocol: FlyGraphqlProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: {
+      op: "AddOn",
+      attributes: { "graphql.operation.name": "addOn", "graphql.operation.type": "query" },
+    },
   }));
 
 export type AddOnPlansError = FlyIoOpError;
@@ -473,6 +491,11 @@ export const addOnPlans: API.PaginatedOperationMethod<
     errors: [UnknownFlyIoError, FlyIoParseError],
     protocol: FlyGraphqlProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: {
+      op: "AddOnPlans",
+      attributes: { "graphql.operation.name": "addOnPlans", "graphql.operation.type": "query" },
+    },
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -497,6 +520,11 @@ export const addOnProvider: API.OperationMethod<
   errors: [UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "AddOnProvider",
+    attributes: { "graphql.operation.name": "addOnProvider", "graphql.operation.type": "query" },
+  },
 }));
 
 export type AddOnsError = FlyIoOpError;
@@ -514,6 +542,11 @@ export const addOns: API.PaginatedOperationMethod<
     errors: [UnknownFlyIoError, FlyIoParseError],
     protocol: FlyGraphqlProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: {
+      op: "AddOns",
+      attributes: { "graphql.operation.name": "addOns", "graphql.operation.type": "query" },
+    },
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -539,6 +572,8 @@ export const agreedToProviderTos: API.OperationMethod<
   errors: [UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AgreedToProviderTos",
 }));
 
 export type CreateAddOnError = FlyIoOpError;
@@ -553,6 +588,11 @@ export const createAddOn: API.OperationMethod<
   errors: [UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateAddOn",
+    attributes: { "graphql.operation.name": "createAddOn", "graphql.operation.type": "mutation" },
+  },
 }));
 
 export type CreateExtensionTosAgreementError =
@@ -569,6 +609,14 @@ export const createExtensionTosAgreement: API.OperationMethod<
   errors: [CreateExtensionTosAgreementNotAuthorized, UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateExtensionTosAgreement",
+    attributes: {
+      "graphql.operation.name": "createExtensionTosAgreement",
+      "graphql.operation.type": "mutation",
+    },
+  },
 }));
 
 export type DeleteAddOnError = FlyIoOpError;
@@ -583,6 +631,11 @@ export const deleteAddOn: API.OperationMethod<
   errors: [UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteAddOn",
+    attributes: { "graphql.operation.name": "deleteAddOn", "graphql.operation.type": "mutation" },
+  },
 }));
 
 export type OrganizationError = FlyIoOpError;
@@ -598,6 +651,11 @@ export const organization: API.OperationMethod<
   errors: [UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "Organization",
+    attributes: { "graphql.operation.name": "organization", "graphql.operation.type": "query" },
+  },
 }));
 
 export type ResetAddOnPasswordError = FlyIoOpError;
@@ -612,6 +670,14 @@ export const resetAddOnPassword: API.OperationMethod<
   errors: [UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ResetAddOnPassword",
+    attributes: {
+      "graphql.operation.name": "resetAddOnPassword",
+      "graphql.operation.type": "mutation",
+    },
+  },
 }));
 
 export type UpdateAddOnError = FlyIoOpError;
@@ -626,6 +692,11 @@ export const updateAddOn: API.OperationMethod<
   errors: [UnknownFlyIoError, FlyIoParseError],
   protocol: FlyGraphqlProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateAddOn",
+    attributes: { "graphql.operation.name": "updateAddOn", "graphql.operation.type": "mutation" },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

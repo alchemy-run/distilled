@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://apigateway.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ApiGatewayV2",
+  service: "ApiGatewayV2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2175,6 +2190,8 @@ export const createApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApi",
+  telemetry: TELEMETRY,
+  span: "CreateApi",
 }));
 
 export type CreateApiMappingError =
@@ -2198,6 +2215,8 @@ export const createApiMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiMapping",
+  telemetry: TELEMETRY,
+  span: "CreateApiMapping",
 }));
 
 export type CreateAuthorizerError =
@@ -2221,6 +2240,8 @@ export const createAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAuthorizer",
+  telemetry: TELEMETRY,
+  span: "CreateAuthorizer",
 }));
 
 export type CreateDeploymentError =
@@ -2244,6 +2265,8 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateDeployment",
 }));
 
 export type CreateDomainNameError =
@@ -2274,6 +2297,8 @@ export const createDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainName",
+  telemetry: TELEMETRY,
+  span: "CreateDomainName",
 }));
 
 export type CreateIntegrationError =
@@ -2297,6 +2322,8 @@ export const createIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegration",
+  telemetry: TELEMETRY,
+  span: "CreateIntegration",
 }));
 
 export type CreateIntegrationResponseError =
@@ -2320,6 +2347,8 @@ export const createIntegrationResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegrationResponse",
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationResponse",
 }));
 
 export type CreateModelError =
@@ -2343,6 +2372,8 @@ export const createModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModel",
+  telemetry: TELEMETRY,
+  span: "CreateModel",
 }));
 
 export type CreatePortalError =
@@ -2365,6 +2396,8 @@ export const createPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortal",
+  telemetry: TELEMETRY,
+  span: "CreatePortal",
 }));
 
 export type CreatePortalProductError =
@@ -2387,6 +2420,8 @@ export const createPortalProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortalProduct",
+  telemetry: TELEMETRY,
+  span: "CreatePortalProduct",
 }));
 
 export type CreateProductPageError =
@@ -2410,6 +2445,8 @@ export const createProductPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProductPage",
+  telemetry: TELEMETRY,
+  span: "CreateProductPage",
 }));
 
 export type CreateProductRestEndpointPageError =
@@ -2433,6 +2470,8 @@ export const createProductRestEndpointPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProductRestEndpointPage",
+  telemetry: TELEMETRY,
+  span: "CreateProductRestEndpointPage",
 }));
 
 export type CreateRouteError =
@@ -2456,6 +2495,8 @@ export const createRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoute",
+  telemetry: TELEMETRY,
+  span: "CreateRoute",
 }));
 
 export type CreateRouteResponseError =
@@ -2479,6 +2520,8 @@ export const createRouteResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouteResponse",
+  telemetry: TELEMETRY,
+  span: "CreateRouteResponse",
 }));
 
 export type CreateRoutingRuleError =
@@ -2502,6 +2545,8 @@ export const createRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoutingRule",
+  telemetry: TELEMETRY,
+  span: "CreateRoutingRule",
 }));
 
 export type CreateStageError =
@@ -2525,6 +2570,8 @@ export const createStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStage",
+  telemetry: TELEMETRY,
+  span: "CreateStage",
 }));
 
 export type CreateVpcLinkError = BadRequestException | TooManyRequestsException | CommonErrors;
@@ -2543,6 +2590,8 @@ export const createVpcLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcLink",
+  telemetry: TELEMETRY,
+  span: "CreateVpcLink",
 }));
 
 export type DeleteAccessLogSettingsError =
@@ -2564,6 +2613,8 @@ export const deleteAccessLogSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessLogSettings",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessLogSettings",
 }));
 
 export type DeleteApiError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -2582,6 +2633,8 @@ export const deleteApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApi",
+  telemetry: TELEMETRY,
+  span: "DeleteApi",
 }));
 
 export type DeleteApiMappingError =
@@ -2604,6 +2657,8 @@ export const deleteApiMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiMapping",
+  telemetry: TELEMETRY,
+  span: "DeleteApiMapping",
 }));
 
 export type DeleteAuthorizerError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -2622,6 +2677,8 @@ export const deleteAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAuthorizer",
+  telemetry: TELEMETRY,
+  span: "DeleteAuthorizer",
 }));
 
 export type DeleteCorsConfigurationError =
@@ -2643,6 +2700,8 @@ export const deleteCorsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCorsConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteCorsConfiguration",
 }));
 
 export type DeleteDeploymentError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -2661,6 +2720,8 @@ export const deleteDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
+  telemetry: TELEMETRY,
+  span: "DeleteDeployment",
 }));
 
 export type DeleteDomainNameError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -2679,6 +2740,8 @@ export const deleteDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainName",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainName",
 }));
 
 export type DeleteIntegrationError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -2697,6 +2760,8 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteIntegration",
 }));
 
 export type DeleteIntegrationResponseError =
@@ -2718,6 +2783,8 @@ export const deleteIntegrationResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegrationResponse",
+  telemetry: TELEMETRY,
+  span: "DeleteIntegrationResponse",
 }));
 
 export type DeleteModelError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -2736,6 +2803,8 @@ export const deleteModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModel",
+  telemetry: TELEMETRY,
+  span: "DeleteModel",
 }));
 
 export type DeletePortalError =
@@ -2758,6 +2827,8 @@ export const deletePortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortal",
+  telemetry: TELEMETRY,
+  span: "DeletePortal",
 }));
 
 export type DeletePortalProductError =
@@ -2781,6 +2852,8 @@ export const deletePortalProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortalProduct",
+  telemetry: TELEMETRY,
+  span: "DeletePortalProduct",
 }));
 
 export type DeletePortalProductSharingPolicyError =
@@ -2804,6 +2877,8 @@ export const deletePortalProductSharingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortalProductSharingPolicy",
+  telemetry: TELEMETRY,
+  span: "DeletePortalProductSharingPolicy",
 }));
 
 export type DeleteProductPageError =
@@ -2827,6 +2902,8 @@ export const deleteProductPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProductPage",
+  telemetry: TELEMETRY,
+  span: "DeleteProductPage",
 }));
 
 export type DeleteProductRestEndpointPageError =
@@ -2850,6 +2927,8 @@ export const deleteProductRestEndpointPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProductRestEndpointPage",
+  telemetry: TELEMETRY,
+  span: "DeleteProductRestEndpointPage",
 }));
 
 export type DeleteRouteError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -2868,6 +2947,8 @@ export const deleteRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoute",
+  telemetry: TELEMETRY,
+  span: "DeleteRoute",
 }));
 
 export type DeleteRouteRequestParameterError =
@@ -2889,6 +2970,8 @@ export const deleteRouteRequestParameter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouteRequestParameter",
+  telemetry: TELEMETRY,
+  span: "DeleteRouteRequestParameter",
 }));
 
 export type DeleteRouteResponseError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -2907,6 +2990,8 @@ export const deleteRouteResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouteResponse",
+  telemetry: TELEMETRY,
+  span: "DeleteRouteResponse",
 }));
 
 export type DeleteRouteSettingsError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -2925,6 +3010,8 @@ export const deleteRouteSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRouteSettings",
+  telemetry: TELEMETRY,
+  span: "DeleteRouteSettings",
 }));
 
 export type DeleteRoutingRuleError =
@@ -2947,6 +3034,8 @@ export const deleteRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoutingRule",
+  telemetry: TELEMETRY,
+  span: "DeleteRoutingRule",
 }));
 
 export type DeleteStageError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -2965,6 +3054,8 @@ export const deleteStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStage",
+  telemetry: TELEMETRY,
+  span: "DeleteStage",
 }));
 
 export type DeleteVpcLinkError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -2983,6 +3074,8 @@ export const deleteVpcLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcLink",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcLink",
 }));
 
 export type DisablePortalError =
@@ -3013,6 +3106,8 @@ export const disablePortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisablePortal",
+  telemetry: TELEMETRY,
+  span: "DisablePortal",
 }));
 
 export type ExportApiError =
@@ -3035,6 +3130,8 @@ export const exportApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportApi",
+  telemetry: TELEMETRY,
+  span: "ExportApi",
 }));
 
 export type GetApiError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -3053,6 +3150,8 @@ export const getApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApi",
+  telemetry: TELEMETRY,
+  span: "GetApi",
 }));
 
 export type GetApiMappingError =
@@ -3075,6 +3174,8 @@ export const getApiMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiMapping",
+  telemetry: TELEMETRY,
+  span: "GetApiMapping",
 }));
 
 export type GetApiMappingsError =
@@ -3097,6 +3198,8 @@ export const getApiMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiMappings",
+  telemetry: TELEMETRY,
+  span: "GetApiMappings",
 }));
 
 export type GetApisError =
@@ -3119,6 +3222,8 @@ export const getApis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApis",
+  telemetry: TELEMETRY,
+  span: "GetApis",
 }));
 
 export type GetAuthorizerError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -3137,6 +3242,8 @@ export const getAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizer",
+  telemetry: TELEMETRY,
+  span: "GetAuthorizer",
 }));
 
 export type GetAuthorizersError =
@@ -3159,6 +3266,8 @@ export const getAuthorizers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizers",
+  telemetry: TELEMETRY,
+  span: "GetAuthorizers",
 }));
 
 export type GetDeploymentError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -3177,6 +3286,8 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  telemetry: TELEMETRY,
+  span: "GetDeployment",
 }));
 
 export type GetDeploymentsError =
@@ -3199,6 +3310,8 @@ export const getDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployments",
+  telemetry: TELEMETRY,
+  span: "GetDeployments",
 }));
 
 export type GetDomainNameError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -3217,6 +3330,8 @@ export const getDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainName",
+  telemetry: TELEMETRY,
+  span: "GetDomainName",
 }));
 
 export type GetDomainNamesError =
@@ -3239,6 +3354,8 @@ export const getDomainNames: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainNames",
+  telemetry: TELEMETRY,
+  span: "GetDomainNames",
 }));
 
 export type GetIntegrationError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -3257,6 +3374,8 @@ export const getIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegration",
+  telemetry: TELEMETRY,
+  span: "GetIntegration",
 }));
 
 export type GetIntegrationResponseError =
@@ -3278,6 +3397,8 @@ export const getIntegrationResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegrationResponse",
+  telemetry: TELEMETRY,
+  span: "GetIntegrationResponse",
 }));
 
 export type GetIntegrationResponsesError =
@@ -3300,6 +3421,8 @@ export const getIntegrationResponses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegrationResponses",
+  telemetry: TELEMETRY,
+  span: "GetIntegrationResponses",
 }));
 
 export type GetIntegrationsError =
@@ -3322,6 +3445,8 @@ export const getIntegrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegrations",
+  telemetry: TELEMETRY,
+  span: "GetIntegrations",
 }));
 
 export type GetModelError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -3340,6 +3465,8 @@ export const getModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModel",
+  telemetry: TELEMETRY,
+  span: "GetModel",
 }));
 
 export type GetModelsError =
@@ -3362,6 +3489,8 @@ export const getModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModels",
+  telemetry: TELEMETRY,
+  span: "GetModels",
 }));
 
 export type GetModelTemplateError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -3380,6 +3509,8 @@ export const getModelTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelTemplate",
+  telemetry: TELEMETRY,
+  span: "GetModelTemplate",
 }));
 
 export type GetPortalError =
@@ -3403,6 +3534,8 @@ export const getPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortal",
+  telemetry: TELEMETRY,
+  span: "GetPortal",
 }));
 
 export type GetPortalProductError =
@@ -3426,6 +3559,8 @@ export const getPortalProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortalProduct",
+  telemetry: TELEMETRY,
+  span: "GetPortalProduct",
 }));
 
 export type GetPortalProductSharingPolicyError =
@@ -3449,6 +3584,8 @@ export const getPortalProductSharingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortalProductSharingPolicy",
+  telemetry: TELEMETRY,
+  span: "GetPortalProductSharingPolicy",
 }));
 
 export type GetProductPageError =
@@ -3472,6 +3609,8 @@ export const getProductPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProductPage",
+  telemetry: TELEMETRY,
+  span: "GetProductPage",
 }));
 
 export type GetProductRestEndpointPageError =
@@ -3495,6 +3634,8 @@ export const getProductRestEndpointPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProductRestEndpointPage",
+  telemetry: TELEMETRY,
+  span: "GetProductRestEndpointPage",
 }));
 
 export type GetRouteError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -3513,6 +3654,8 @@ export const getRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoute",
+  telemetry: TELEMETRY,
+  span: "GetRoute",
 }));
 
 export type GetRouteResponseError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -3531,6 +3674,8 @@ export const getRouteResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouteResponse",
+  telemetry: TELEMETRY,
+  span: "GetRouteResponse",
 }));
 
 export type GetRouteResponsesError =
@@ -3553,6 +3698,8 @@ export const getRouteResponses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRouteResponses",
+  telemetry: TELEMETRY,
+  span: "GetRouteResponses",
 }));
 
 export type GetRoutesError =
@@ -3575,6 +3722,8 @@ export const getRoutes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoutes",
+  telemetry: TELEMETRY,
+  span: "GetRoutes",
 }));
 
 export type GetRoutingRuleError =
@@ -3597,6 +3746,8 @@ export const getRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoutingRule",
+  telemetry: TELEMETRY,
+  span: "GetRoutingRule",
 }));
 
 export type GetStageError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -3615,6 +3766,8 @@ export const getStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStage",
+  telemetry: TELEMETRY,
+  span: "GetStage",
 }));
 
 export type GetStagesError =
@@ -3637,6 +3790,8 @@ export const getStages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStages",
+  telemetry: TELEMETRY,
+  span: "GetStages",
 }));
 
 export type GetTagsError =
@@ -3660,6 +3815,8 @@ export const getTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTags",
+  telemetry: TELEMETRY,
+  span: "GetTags",
 }));
 
 export type GetVpcLinkError = NotFoundException | TooManyRequestsException | CommonErrors;
@@ -3678,6 +3835,8 @@ export const getVpcLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcLink",
+  telemetry: TELEMETRY,
+  span: "GetVpcLink",
 }));
 
 export type GetVpcLinksError = BadRequestException | TooManyRequestsException | CommonErrors;
@@ -3696,6 +3855,8 @@ export const getVpcLinks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcLinks",
+  telemetry: TELEMETRY,
+  span: "GetVpcLinks",
 }));
 
 export type ImportApiError =
@@ -3719,6 +3880,8 @@ export const importApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportApi",
+  telemetry: TELEMETRY,
+  span: "ImportApi",
 }));
 
 export type ListPortalProductsError =
@@ -3741,6 +3904,8 @@ export const listPortalProducts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPortalProducts",
+  telemetry: TELEMETRY,
+  span: "ListPortalProducts",
 }));
 
 export type ListPortalsError =
@@ -3763,6 +3928,8 @@ export const listPortals: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPortals",
+  telemetry: TELEMETRY,
+  span: "ListPortals",
 }));
 
 export type ListProductPagesError =
@@ -3786,6 +3953,8 @@ export const listProductPages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProductPages",
+  telemetry: TELEMETRY,
+  span: "ListProductPages",
 }));
 
 export type ListProductRestEndpointPagesError =
@@ -3809,6 +3978,8 @@ export const listProductRestEndpointPages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProductRestEndpointPages",
+  telemetry: TELEMETRY,
+  span: "ListProductRestEndpointPages",
 }));
 
 export type ListRoutingRulesError =
@@ -3838,6 +4009,8 @@ export const listRoutingRules: API.PaginatedOperationMethod<
     items: "RoutingRules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoutingRules",
 })) as any;
 
 export type PreviewPortalError =
@@ -3868,6 +4041,8 @@ export const previewPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PreviewPortal",
+  telemetry: TELEMETRY,
+  span: "PreviewPortal",
 }));
 
 export type PublishPortalError =
@@ -3898,6 +4073,8 @@ export const publishPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishPortal",
+  telemetry: TELEMETRY,
+  span: "PublishPortal",
 }));
 
 export type PutPortalProductSharingPolicyError =
@@ -3921,6 +4098,8 @@ export const putPortalProductSharingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPortalProductSharingPolicy",
+  telemetry: TELEMETRY,
+  span: "PutPortalProductSharingPolicy",
 }));
 
 export type PutRoutingRuleError =
@@ -3944,6 +4123,8 @@ export const putRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRoutingRule",
+  telemetry: TELEMETRY,
+  span: "PutRoutingRule",
 }));
 
 export type ReimportApiError =
@@ -3967,6 +4148,8 @@ export const reimportApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReimportApi",
+  telemetry: TELEMETRY,
+  span: "ReimportApi",
 }));
 
 export type ResetAuthorizersCacheError =
@@ -3988,6 +4171,8 @@ export const resetAuthorizersCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetAuthorizersCache",
+  telemetry: TELEMETRY,
+  span: "ResetAuthorizersCache",
 }));
 
 export type TagResourceError =
@@ -4011,6 +4196,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4034,6 +4221,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApiError =
@@ -4057,6 +4246,8 @@ export const updateApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApi",
+  telemetry: TELEMETRY,
+  span: "UpdateApi",
 }));
 
 export type UpdateApiMappingError =
@@ -4080,6 +4271,8 @@ export const updateApiMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiMapping",
+  telemetry: TELEMETRY,
+  span: "UpdateApiMapping",
 }));
 
 export type UpdateAuthorizerError =
@@ -4103,6 +4296,8 @@ export const updateAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAuthorizer",
+  telemetry: TELEMETRY,
+  span: "UpdateAuthorizer",
 }));
 
 export type UpdateDeploymentError =
@@ -4126,6 +4321,8 @@ export const updateDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeployment",
+  telemetry: TELEMETRY,
+  span: "UpdateDeployment",
 }));
 
 export type UpdateDomainNameError =
@@ -4149,6 +4346,8 @@ export const updateDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainName",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainName",
 }));
 
 export type UpdateIntegrationError =
@@ -4172,6 +4371,8 @@ export const updateIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegration",
+  telemetry: TELEMETRY,
+  span: "UpdateIntegration",
 }));
 
 export type UpdateIntegrationResponseError =
@@ -4195,6 +4396,8 @@ export const updateIntegrationResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegrationResponse",
+  telemetry: TELEMETRY,
+  span: "UpdateIntegrationResponse",
 }));
 
 export type UpdateModelError =
@@ -4218,6 +4421,8 @@ export const updateModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModel",
+  telemetry: TELEMETRY,
+  span: "UpdateModel",
 }));
 
 export type UpdatePortalError =
@@ -4248,6 +4453,8 @@ export const updatePortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortal",
+  telemetry: TELEMETRY,
+  span: "UpdatePortal",
 }));
 
 export type UpdatePortalProductError =
@@ -4271,6 +4478,8 @@ export const updatePortalProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortalProduct",
+  telemetry: TELEMETRY,
+  span: "UpdatePortalProduct",
 }));
 
 export type UpdateProductPageError =
@@ -4294,6 +4503,8 @@ export const updateProductPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProductPage",
+  telemetry: TELEMETRY,
+  span: "UpdateProductPage",
 }));
 
 export type UpdateProductRestEndpointPageError =
@@ -4317,6 +4528,8 @@ export const updateProductRestEndpointPage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProductRestEndpointPage",
+  telemetry: TELEMETRY,
+  span: "UpdateProductRestEndpointPage",
 }));
 
 export type UpdateRouteError =
@@ -4340,6 +4553,8 @@ export const updateRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoute",
+  telemetry: TELEMETRY,
+  span: "UpdateRoute",
 }));
 
 export type UpdateRouteResponseError =
@@ -4363,6 +4578,8 @@ export const updateRouteResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRouteResponse",
+  telemetry: TELEMETRY,
+  span: "UpdateRouteResponse",
 }));
 
 export type UpdateStageError =
@@ -4386,6 +4603,8 @@ export const updateStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStage",
+  telemetry: TELEMETRY,
+  span: "UpdateStage",
 }));
 
 export type UpdateVpcLinkError =
@@ -4408,6 +4627,8 @@ export const updateVpcLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcLink",
+  telemetry: TELEMETRY,
+  span: "UpdateVpcLink",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

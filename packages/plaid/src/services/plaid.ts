@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { PlaidOpError, PlaidOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "plaid-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Plaid",
+  service: "Plaid",
+  labels: "plaid",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -18210,6 +18223,8 @@ export const assetReportAuditCopyCreate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssetReportAuditCopyCreate",
 }));
 
 export type AssetReportAuditCopyGetError = PlaidOpError;
@@ -18225,6 +18240,8 @@ export const assetReportAuditCopyGet: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssetReportAuditCopyGet",
 }));
 
 export type AssetReportAuditCopyPdfGetError = PlaidOpError;
@@ -18240,6 +18257,8 @@ export const assetReportAuditCopyPdfGet: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssetReportAuditCopyPdfGet",
 }));
 
 export type AssetReportAuditCopyRemoveError = PlaidOpError;
@@ -18255,6 +18274,8 @@ export const assetReportAuditCopyRemove: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssetReportAuditCopyRemove",
 }));
 
 export type AssetReportFilterError = PlaidOpError;
@@ -18270,6 +18291,8 @@ export const assetReportFilter: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssetReportFilter",
 }));
 
 export type BetaIssuesV1MatchError = PlaidOpError;
@@ -18285,6 +18308,8 @@ export const betaIssuesV1Match: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BetaIssuesV1Match",
 }));
 
 export type CancelTransferError = PlaidOpError;
@@ -18300,6 +18325,8 @@ export const cancelTransfer: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTransfer",
 }));
 
 export type CancelTransferAuthorizationError = PlaidOpError;
@@ -18315,6 +18342,8 @@ export const cancelTransferAuthorization: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTransferAuthorization",
 }));
 
 export type CancelTransferRecurringError = PlaidOpError;
@@ -18330,6 +18359,8 @@ export const cancelTransferRecurring: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTransferRecurring",
 }));
 
 export type CancelTransferRefundError = PlaidOpError;
@@ -18345,6 +18376,8 @@ export const cancelTransferRefund: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelTransferRefund",
 }));
 
 export type CreateAssetReportError = PlaidOpError;
@@ -18360,6 +18393,8 @@ export const createAssetReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAssetReport",
 }));
 
 export type CreateBetaPartnerCustomerV1Error = PlaidOpError;
@@ -18375,6 +18410,8 @@ export const createBetaPartnerCustomerV1: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBetaPartnerCustomerV1",
 }));
 
 export type CreateBusinessVerificationError = PlaidOpError;
@@ -18390,6 +18427,8 @@ export const createBusinessVerification: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateBusinessVerification",
 }));
 
 export type CreateCraCheckReportError = PlaidOpError;
@@ -18405,6 +18444,8 @@ export const createCraCheckReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCraCheckReport",
 }));
 
 export type CreateCraReportError = PlaidOpError;
@@ -18420,6 +18461,8 @@ export const createCraReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCraReport",
 }));
 
 export type CreateCraServicingSubscriptionError = PlaidOpError;
@@ -18435,6 +18478,8 @@ export const createCraServicingSubscription: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCraServicingSubscription",
 }));
 
 export type CreateCreditRelayError = PlaidOpError;
@@ -18450,6 +18495,8 @@ export const createCreditRelay: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCreditRelay",
 }));
 
 export type CreateIdentityVerificationError = PlaidOpError;
@@ -18465,6 +18512,8 @@ export const createIdentityVerification: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityVerification",
 }));
 
 export type CreateIdentityVerificationAutofillError = PlaidOpError;
@@ -18480,6 +18529,8 @@ export const createIdentityVerificationAutofill: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIdentityVerificationAutofill",
 }));
 
 export type CreateLinkTokenError = PlaidOpError;
@@ -18495,6 +18546,8 @@ export const createLinkToken: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLinkToken",
 }));
 
 export type CreatePartnerCustomerError = PlaidOpError;
@@ -18510,6 +18563,8 @@ export const createPartnerCustomer: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePartnerCustomer",
 }));
 
 export type CreatePaymentInitiationConsentError = PlaidOpError;
@@ -18525,6 +18580,8 @@ export const createPaymentInitiationConsent: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentInitiationConsent",
 }));
 
 export type CreatePaymentInitiationPaymentError = PlaidOpError;
@@ -18540,6 +18597,8 @@ export const createPaymentInitiationPayment: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentInitiationPayment",
 }));
 
 export type CreatePaymentInitiationRecipientError = PlaidOpError;
@@ -18555,6 +18614,8 @@ export const createPaymentInitiationRecipient: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePaymentInitiationRecipient",
 }));
 
 export type CreateProcessorApexProcessorTokenError = PlaidOpError;
@@ -18570,6 +18631,8 @@ export const createProcessorApexProcessorToken: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProcessorApexProcessorToken",
 }));
 
 export type CreateProcessorStripeBankAccountTokenError = PlaidOpError;
@@ -18585,6 +18648,8 @@ export const createProcessorStripeBankAccountToken: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProcessorStripeBankAccountToken",
 }));
 
 export type CreateProcessorTokenError = PlaidOpError;
@@ -18600,6 +18665,8 @@ export const createProcessorToken: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProcessorToken",
 }));
 
 export type CreateProtectCashAdvanceDecisionError = PlaidOpError;
@@ -18615,6 +18682,8 @@ export const createProtectCashAdvanceDecision: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProtectCashAdvanceDecision",
 }));
 
 export type CreateProtectCashAdvanceRepaymentError = PlaidOpError;
@@ -18630,6 +18699,8 @@ export const createProtectCashAdvanceRepayment: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProtectCashAdvanceRepayment",
 }));
 
 export type CreateProtectReportError = PlaidOpError;
@@ -18645,6 +18716,8 @@ export const createProtectReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProtectReport",
 }));
 
 export type CreateSandboxProcessorTokenError = PlaidOpError;
@@ -18660,6 +18733,8 @@ export const createSandboxProcessorToken: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxProcessorToken",
 }));
 
 export type CreateSandboxPublicTokenError = PlaidOpError;
@@ -18675,6 +18750,8 @@ export const createSandboxPublicToken: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxPublicToken",
 }));
 
 export type CreateSandboxTransactionError = BadRequest | PlaidOpError;
@@ -18690,6 +18767,8 @@ export const createSandboxTransaction: API.OperationMethod<
   errors: [BadRequest, UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxTransaction",
 }));
 
 export type CreateSandboxTransferTestClockError = PlaidOpError;
@@ -18705,6 +18784,8 @@ export const createSandboxTransferTestClock: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSandboxTransferTestClock",
 }));
 
 export type CreateSessionTokenError = PlaidOpError;
@@ -18720,6 +18801,8 @@ export const createSessionToken: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSessionToken",
 }));
 
 export type CreateTransactionsRuleError = PlaidOpError;
@@ -18735,6 +18818,8 @@ export const createTransactionsRule: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransactionsRule",
 }));
 
 export type CreateTransferError = PlaidOpError;
@@ -18750,6 +18835,8 @@ export const createTransfer: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransfer",
 }));
 
 export type CreateTransferAuthorizationError = PlaidOpError;
@@ -18765,6 +18852,8 @@ export const createTransferAuthorization: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransferAuthorization",
 }));
 
 export type CreateTransferIntentError = PlaidOpError;
@@ -18780,6 +18869,8 @@ export const createTransferIntent: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransferIntent",
 }));
 
 export type CreateTransferOriginatorError = PlaidOpError;
@@ -18795,6 +18886,8 @@ export const createTransferOriginator: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransferOriginator",
 }));
 
 export type CreateTransferOriginatorFundingAccountError = PlaidOpError;
@@ -18810,6 +18903,8 @@ export const createTransferOriginatorFundingAccount: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransferOriginatorFundingAccount",
 }));
 
 export type CreateTransferPlatformOriginatorError = PlaidOpError;
@@ -18825,6 +18920,8 @@ export const createTransferPlatformOriginator: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransferPlatformOriginator",
 }));
 
 export type CreateTransferPlatformPersonError = PlaidOpError;
@@ -18840,6 +18937,8 @@ export const createTransferPlatformPerson: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransferPlatformPerson",
 }));
 
 export type CreateTransferQuestionnaireError = PlaidOpError;
@@ -18855,6 +18954,8 @@ export const createTransferQuestionnaire: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransferQuestionnaire",
 }));
 
 export type CreateTransferRecurringError = PlaidOpError;
@@ -18870,6 +18971,8 @@ export const createTransferRecurring: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransferRecurring",
 }));
 
 export type CreateTransferRefundError = PlaidOpError;
@@ -18885,6 +18988,8 @@ export const createTransferRefund: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTransferRefund",
 }));
 
 export type CreateUserError = PlaidOpError;
@@ -18900,6 +19005,8 @@ export const createUser: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type CreateUserThirdPartyTokenError = PlaidOpError;
@@ -18915,6 +19022,8 @@ export const createUserThirdPartyToken: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserThirdPartyToken",
 }));
 
 export type CreateWalletError = PlaidOpError;
@@ -18930,6 +19039,8 @@ export const createWallet: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWallet",
 }));
 
 export type CreateWatchlistScreeningEntityError = PlaidOpError;
@@ -18945,6 +19056,8 @@ export const createWatchlistScreeningEntity: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWatchlistScreeningEntity",
 }));
 
 export type CreateWatchlistScreeningEntityReviewError = PlaidOpError;
@@ -18960,6 +19073,8 @@ export const createWatchlistScreeningEntityReview: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWatchlistScreeningEntityReview",
 }));
 
 export type CreateWatchlistScreeningIndividualError = PlaidOpError;
@@ -18975,6 +19090,8 @@ export const createWatchlistScreeningIndividual: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWatchlistScreeningIndividual",
 }));
 
 export type CreateWatchlistScreeningIndividualReviewError = PlaidOpError;
@@ -18994,6 +19111,8 @@ export const createWatchlistScreeningIndividualReview: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWatchlistScreeningIndividualReview",
 }));
 
 export type CreditAuditCopyTokenCreateError = PlaidOpError;
@@ -19009,6 +19128,8 @@ export const creditAuditCopyTokenCreate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreditAuditCopyTokenCreate",
 }));
 
 export type CreditAuditCopyTokenUpdateError = PlaidOpError;
@@ -19024,6 +19145,8 @@ export const creditAuditCopyTokenUpdate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreditAuditCopyTokenUpdate",
 }));
 
 export type CreditReportAuditCopyRemoveError = PlaidOpError;
@@ -19039,6 +19162,8 @@ export const creditReportAuditCopyRemove: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreditReportAuditCopyRemove",
 }));
 
 export type DeleteCraServicingSubscriptionError = PlaidOpError;
@@ -19054,6 +19179,8 @@ export const deleteCraServicingSubscription: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCraServicingSubscription",
 }));
 
 export type DownloadStatementError = PlaidOpError;
@@ -19069,6 +19196,8 @@ export const downloadStatement: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DownloadStatement",
 }));
 
 export type EnableBetaPartnerCustomerV1Error = PlaidOpError;
@@ -19084,6 +19213,8 @@ export const enableBetaPartnerCustomerV1: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableBetaPartnerCustomerV1",
 }));
 
 export type EnablePartnerCustomerError = PlaidOpError;
@@ -19099,6 +19230,8 @@ export const enablePartnerCustomer: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnablePartnerCustomer",
 }));
 
 export type ExecutePaymentInitiationConsentPaymentError = PlaidOpError;
@@ -19114,6 +19247,8 @@ export const executePaymentInitiationConsentPayment: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecutePaymentInitiationConsentPayment",
 }));
 
 export type ExecuteWalletTransactionError = PlaidOpError;
@@ -19129,6 +19264,8 @@ export const executeWalletTransaction: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExecuteWalletTransaction",
 }));
 
 export type FdxNotificationsError = PlaidOpError;
@@ -19144,6 +19281,8 @@ export const fdxNotifications: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FdxNotifications",
 }));
 
 export type GetAccountError = PlaidOpError;
@@ -19159,6 +19298,8 @@ export const getAccount: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type GetAccountsBalanceError = PlaidOpError;
@@ -19174,6 +19315,8 @@ export const getAccountsBalance: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccountsBalance",
 }));
 
 export type GetApplicationError = PlaidOpError;
@@ -19189,6 +19332,8 @@ export const getApplication: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetAssetReportError = PlaidOpError;
@@ -19204,6 +19349,8 @@ export const getAssetReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAssetReport",
 }));
 
 export type GetAssetReportPdfError = PlaidOpError;
@@ -19219,6 +19366,8 @@ export const getAssetReportPdf: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAssetReportPdf",
 }));
 
 export type GetAuthError = PlaidOpError;
@@ -19234,6 +19383,8 @@ export const getAuth: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuth",
 }));
 
 export type GetBetaEwaReportV1Error = PlaidOpError;
@@ -19249,6 +19400,8 @@ export const getBetaEwaReportV1: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBetaEwaReportV1",
 }));
 
 export type GetBetaIssuesV1Error = PlaidOpError;
@@ -19264,6 +19417,8 @@ export const getBetaIssuesV1: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBetaIssuesV1",
 }));
 
 export type GetBetaPartnerCustomerV1Error = PlaidOpError;
@@ -19279,6 +19434,8 @@ export const getBetaPartnerCustomerV1: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBetaPartnerCustomerV1",
 }));
 
 export type GetBusinessVerificationError = PlaidOpError;
@@ -19294,6 +19451,8 @@ export const getBusinessVerification: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetBusinessVerification",
 }));
 
 export type GetCashflowReportError = PlaidOpError;
@@ -19309,6 +19468,8 @@ export const getCashflowReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCashflowReport",
 }));
 
 export type GetCashflowReportInsightError = PlaidOpError;
@@ -19324,6 +19485,8 @@ export const getCashflowReportInsight: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCashflowReportInsight",
 }));
 
 export type GetCashflowReportTransactionError = PlaidOpError;
@@ -19339,6 +19502,8 @@ export const getCashflowReportTransaction: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCashflowReportTransaction",
 }));
 
 export type GetConsentEventError = PlaidOpError;
@@ -19354,6 +19519,8 @@ export const getConsentEvent: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConsentEvent",
 }));
 
 export type GetConsumerReportPdfError = PlaidOpError;
@@ -19369,6 +19536,8 @@ export const getConsumerReportPdf: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetConsumerReportPdf",
 }));
 
 export type GetCraCheckReportBaseReportError = PlaidOpError;
@@ -19384,6 +19553,8 @@ export const getCraCheckReportBaseReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCraCheckReportBaseReport",
 }));
 
 export type GetCraCheckReportCashflowInsightError = PlaidOpError;
@@ -19399,6 +19570,8 @@ export const getCraCheckReportCashflowInsight: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCraCheckReportCashflowInsight",
 }));
 
 export type GetCraCheckReportIncomeInsightError = PlaidOpError;
@@ -19414,6 +19587,8 @@ export const getCraCheckReportIncomeInsight: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCraCheckReportIncomeInsight",
 }));
 
 export type GetCraCheckReportLendScoreError = PlaidOpError;
@@ -19429,6 +19604,8 @@ export const getCraCheckReportLendScore: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCraCheckReportLendScore",
 }));
 
 export type GetCraCheckReportNetworkInsightError = PlaidOpError;
@@ -19444,6 +19621,8 @@ export const getCraCheckReportNetworkInsight: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCraCheckReportNetworkInsight",
 }));
 
 export type GetCraCheckReportPartnerInsightError = PlaidOpError;
@@ -19459,6 +19638,8 @@ export const getCraCheckReportPartnerInsight: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCraCheckReportPartnerInsight",
 }));
 
 export type GetCraCheckReportPdfError = PlaidOpError;
@@ -19474,6 +19655,8 @@ export const getCraCheckReportPdf: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCraCheckReportPdf",
 }));
 
 export type GetCraCheckReportVerificationError = PlaidOpError;
@@ -19489,6 +19672,8 @@ export const getCraCheckReportVerification: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCraCheckReportVerification",
 }));
 
 export type GetCraCheckReportVerificationPdfError = PlaidOpError;
@@ -19504,6 +19689,8 @@ export const getCraCheckReportVerificationPdf: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCraCheckReportVerificationPdf",
 }));
 
 export type GetCraCreditProfileReportError = PlaidOpError;
@@ -19519,6 +19706,8 @@ export const getCraCreditProfileReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCraCreditProfileReport",
 }));
 
 export type GetCraPartnerInsightError = PlaidOpError;
@@ -19534,6 +19723,8 @@ export const getCraPartnerInsight: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCraPartnerInsight",
 }));
 
 export type GetCraReportError = PlaidOpError;
@@ -19549,6 +19740,8 @@ export const getCraReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCraReport",
 }));
 
 export type GetCraServicingSubscriptionError = PlaidOpError;
@@ -19564,6 +19757,8 @@ export const getCraServicingSubscription: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCraServicingSubscription",
 }));
 
 export type GetCreditAssetReportFreddieMacError = PlaidOpError;
@@ -19579,6 +19774,8 @@ export const getCreditAssetReportFreddieMac: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditAssetReportFreddieMac",
 }));
 
 export type GetCreditBankEmploymentError = PlaidOpError;
@@ -19594,6 +19791,8 @@ export const getCreditBankEmployment: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditBankEmployment",
 }));
 
 export type GetCreditBankIncomeError = PlaidOpError;
@@ -19609,6 +19808,8 @@ export const getCreditBankIncome: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditBankIncome",
 }));
 
 export type GetCreditBankIncomePdfError = PlaidOpError;
@@ -19624,6 +19825,8 @@ export const getCreditBankIncomePdf: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditBankIncomePdf",
 }));
 
 export type GetCreditBankStatementsUploadError = PlaidOpError;
@@ -19639,6 +19842,8 @@ export const getCreditBankStatementsUpload: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditBankStatementsUpload",
 }));
 
 export type GetCreditEmploymentError = PlaidOpError;
@@ -19654,6 +19859,8 @@ export const getCreditEmployment: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditEmployment",
 }));
 
 export type GetCreditFreddieMacReportError = PlaidOpError;
@@ -19669,6 +19876,8 @@ export const getCreditFreddieMacReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditFreddieMacReport",
 }));
 
 export type GetCreditPayrollIncomeError = PlaidOpError;
@@ -19684,6 +19893,8 @@ export const getCreditPayrollIncome: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditPayrollIncome",
 }));
 
 export type GetCreditPayrollIncomeRiskSignalError = PlaidOpError;
@@ -19699,6 +19910,8 @@ export const getCreditPayrollIncomeRiskSignal: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditPayrollIncomeRiskSignal",
 }));
 
 export type GetCreditRelayError = PlaidOpError;
@@ -19714,6 +19927,8 @@ export const getCreditRelay: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditRelay",
 }));
 
 export type GetCreditRelayPdfError = PlaidOpError;
@@ -19729,6 +19944,8 @@ export const getCreditRelayPdf: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditRelayPdf",
 }));
 
 export type GetCreditSessionError = PlaidOpError;
@@ -19744,6 +19961,8 @@ export const getCreditSession: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCreditSession",
 }));
 
 export type GetDashboardUserError = PlaidOpError;
@@ -19759,6 +19978,8 @@ export const getDashboardUser: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDashboardUser",
 }));
 
 export type GetFdxConsentError = PlaidOpError;
@@ -19774,6 +19995,8 @@ export const getFdxConsent: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFdxConsent",
 }));
 
 export type GetFdxConsentsRevocationError = PlaidOpError;
@@ -19789,6 +20012,8 @@ export const getFdxConsentsRevocation: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFdxConsentsRevocation",
 }));
 
 export type GetIdentityError = PlaidOpError;
@@ -19804,6 +20029,8 @@ export const getIdentity: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentity",
 }));
 
 export type GetIdentityDocumentsUploadError = PlaidOpError;
@@ -19819,6 +20046,8 @@ export const getIdentityDocumentsUpload: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityDocumentsUpload",
 }));
 
 export type GetIdentityVerificationError = PlaidOpError;
@@ -19834,6 +20063,8 @@ export const getIdentityVerification: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIdentityVerification",
 }));
 
 export type GetInstitutionError = PlaidOpError;
@@ -19849,6 +20080,8 @@ export const getInstitution: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInstitution",
 }));
 
 export type GetInvestmentsAuthError = PlaidOpError;
@@ -19864,6 +20097,8 @@ export const getInvestmentsAuth: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvestmentsAuth",
 }));
 
 export type GetInvestmentsHoldingError = PlaidOpError;
@@ -19879,6 +20114,8 @@ export const getInvestmentsHolding: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvestmentsHolding",
 }));
 
 export type GetInvestmentsTransactionError = PlaidOpError;
@@ -19894,6 +20131,8 @@ export const getInvestmentsTransaction: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInvestmentsTransaction",
 }));
 
 export type GetIssueError = PlaidOpError;
@@ -19909,6 +20148,8 @@ export const getIssue: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssue",
 }));
 
 export type GetItemError = PlaidOpError;
@@ -19924,6 +20165,8 @@ export const getItem: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetItem",
 }));
 
 export type GetLiabilityError = PlaidOpError;
@@ -19939,6 +20182,8 @@ export const getLiability: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLiability",
 }));
 
 export type GetLinkTokenError = PlaidOpError;
@@ -19954,6 +20199,8 @@ export const getLinkToken: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLinkToken",
 }));
 
 export type GetNetworkStatusError = PlaidOpError;
@@ -19969,6 +20216,8 @@ export const getNetworkStatus: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNetworkStatus",
 }));
 
 export type GetPartnerCustomerError = PlaidOpError;
@@ -19984,6 +20233,8 @@ export const getPartnerCustomer: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartnerCustomer",
 }));
 
 export type GetPartnerCustomerOauthInstitutionError = PlaidOpError;
@@ -19999,6 +20250,8 @@ export const getPartnerCustomerOauthInstitution: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPartnerCustomerOauthInstitution",
 }));
 
 export type GetPaymentInitiationConsentError = PlaidOpError;
@@ -20014,6 +20267,8 @@ export const getPaymentInitiationConsent: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentInitiationConsent",
 }));
 
 export type GetPaymentInitiationPaymentError = PlaidOpError;
@@ -20029,6 +20284,8 @@ export const getPaymentInitiationPayment: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentInitiationPayment",
 }));
 
 export type GetPaymentInitiationRecipientError = PlaidOpError;
@@ -20044,6 +20301,8 @@ export const getPaymentInitiationRecipient: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPaymentInitiationRecipient",
 }));
 
 export type GetProcessorAccountError = PlaidOpError;
@@ -20059,6 +20318,8 @@ export const getProcessorAccount: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProcessorAccount",
 }));
 
 export type GetProcessorAuthError = PlaidOpError;
@@ -20074,6 +20335,8 @@ export const getProcessorAuth: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProcessorAuth",
 }));
 
 export type GetProcessorBalanceError = PlaidOpError;
@@ -20089,6 +20352,8 @@ export const getProcessorBalance: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProcessorBalance",
 }));
 
 export type GetProcessorIdentityError = PlaidOpError;
@@ -20104,6 +20369,8 @@ export const getProcessorIdentity: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProcessorIdentity",
 }));
 
 export type GetProcessorInvestmentsAuthError = PlaidOpError;
@@ -20119,6 +20386,8 @@ export const getProcessorInvestmentsAuth: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProcessorInvestmentsAuth",
 }));
 
 export type GetProcessorInvestmentsHoldingError = PlaidOpError;
@@ -20134,6 +20403,8 @@ export const getProcessorInvestmentsHolding: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProcessorInvestmentsHolding",
 }));
 
 export type GetProcessorInvestmentsTransactionError = PlaidOpError;
@@ -20149,6 +20420,8 @@ export const getProcessorInvestmentsTransaction: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProcessorInvestmentsTransaction",
 }));
 
 export type GetProcessorLiabilityError = PlaidOpError;
@@ -20164,6 +20437,8 @@ export const getProcessorLiability: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProcessorLiability",
 }));
 
 export type GetProcessorTokenPermissionsError = PlaidOpError;
@@ -20179,6 +20454,8 @@ export const getProcessorTokenPermissions: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProcessorTokenPermissions",
 }));
 
 export type GetProcessorTransactionError = PlaidOpError;
@@ -20194,6 +20471,8 @@ export const getProcessorTransaction: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProcessorTransaction",
 }));
 
 export type GetProcessorTransactionsRecurringError = PlaidOpError;
@@ -20209,6 +20488,8 @@ export const getProcessorTransactionsRecurring: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProcessorTransactionsRecurring",
 }));
 
 export type GetProfileNetworkStatusError = PlaidOpError;
@@ -20224,6 +20505,8 @@ export const getProfileNetworkStatus: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProfileNetworkStatus",
 }));
 
 export type GetProtectUserInsightError = PlaidOpError;
@@ -20239,6 +20522,8 @@ export const getProtectUserInsight: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProtectUserInsight",
 }));
 
 export type GetRecipientError = PlaidOpError;
@@ -20254,6 +20539,8 @@ export const getRecipient: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecipient",
 }));
 
 export type GetRecipientsError = PlaidOpError;
@@ -20269,6 +20556,8 @@ export const getRecipients: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetRecipients",
 }));
 
 export type GetSandboxTransferTestClockError = PlaidOpError;
@@ -20284,6 +20573,8 @@ export const getSandboxTransferTestClock: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxTransferTestClock",
 }));
 
 export type GetTransactionError = PlaidOpError;
@@ -20299,6 +20590,8 @@ export const getTransaction: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransaction",
 }));
 
 export type GetTransactionsRecurringError = PlaidOpError;
@@ -20314,6 +20607,8 @@ export const getTransactionsRecurring: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransactionsRecurring",
 }));
 
 export type GetTransactionsUserInsightError = PlaidOpError;
@@ -20329,6 +20624,8 @@ export const getTransactionsUserInsight: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransactionsUserInsight",
 }));
 
 export type GetTransferError = PlaidOpError;
@@ -20344,6 +20641,8 @@ export const getTransfer: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransfer",
 }));
 
 export type GetTransferCapabilityError = PlaidOpError;
@@ -20359,6 +20658,8 @@ export const getTransferCapability: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferCapability",
 }));
 
 export type GetTransferConfigurationError = PlaidOpError;
@@ -20374,6 +20675,8 @@ export const getTransferConfiguration: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferConfiguration",
 }));
 
 export type GetTransferIntentError = PlaidOpError;
@@ -20389,6 +20692,8 @@ export const getTransferIntent: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferIntent",
 }));
 
 export type GetTransferLedgerError = PlaidOpError;
@@ -20404,6 +20709,8 @@ export const getTransferLedger: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferLedger",
 }));
 
 export type GetTransferMetricsError = PlaidOpError;
@@ -20419,6 +20726,8 @@ export const getTransferMetrics: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferMetrics",
 }));
 
 export type GetTransferOriginatorError = PlaidOpError;
@@ -20434,6 +20743,8 @@ export const getTransferOriginator: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferOriginator",
 }));
 
 export type GetTransferRecurringError = PlaidOpError;
@@ -20449,6 +20760,8 @@ export const getTransferRecurring: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferRecurring",
 }));
 
 export type GetTransferRefundError = PlaidOpError;
@@ -20464,6 +20777,8 @@ export const getTransferRefund: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferRefund",
 }));
 
 export type GetTransferSweepError = PlaidOpError;
@@ -20479,6 +20794,8 @@ export const getTransferSweep: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTransferSweep",
 }));
 
 export type GetUserError = PlaidOpError;
@@ -20494,6 +20811,8 @@ export const getUser: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUser",
 }));
 
 export type GetUserAccountSessionError = PlaidOpError;
@@ -20509,6 +20828,8 @@ export const getUserAccountSession: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserAccountSession",
 }));
 
 export type GetUserItemError = PlaidOpError;
@@ -20524,6 +20845,8 @@ export const getUserItem: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserItem",
 }));
 
 export type GetWalletError = PlaidOpError;
@@ -20539,6 +20862,8 @@ export const getWallet: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWallet",
 }));
 
 export type GetWalletTransactionError = PlaidOpError;
@@ -20554,6 +20879,8 @@ export const getWalletTransaction: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWalletTransaction",
 }));
 
 export type GetWatchlistScreeningEntityError = PlaidOpError;
@@ -20569,6 +20896,8 @@ export const getWatchlistScreeningEntity: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWatchlistScreeningEntity",
 }));
 
 export type GetWatchlistScreeningEntityProgramError = PlaidOpError;
@@ -20584,6 +20913,8 @@ export const getWatchlistScreeningEntityProgram: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWatchlistScreeningEntityProgram",
 }));
 
 export type GetWatchlistScreeningIndividualError = PlaidOpError;
@@ -20599,6 +20930,8 @@ export const getWatchlistScreeningIndividual: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWatchlistScreeningIndividual",
 }));
 
 export type GetWatchlistScreeningIndividualProgramError = PlaidOpError;
@@ -20614,6 +20947,8 @@ export const getWatchlistScreeningIndividualProgram: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWatchlistScreeningIndividualProgram",
 }));
 
 export type GetWebhookVerificationKeyError = PlaidOpError;
@@ -20629,6 +20964,8 @@ export const getWebhookVerificationKey: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWebhookVerificationKey",
 }));
 
 export type IdentityMatchError = PlaidOpError;
@@ -20644,6 +20981,8 @@ export const identityMatch: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IdentityMatch",
 }));
 
 export type ImportItemError = PlaidOpError;
@@ -20659,6 +20998,8 @@ export const importItem: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportItem",
 }));
 
 export type InstitutionsGetByIdError = PlaidOpError;
@@ -20674,6 +21015,8 @@ export const institutionsGetById: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstitutionsGetById",
 }));
 
 export type InvalidateItemAccessTokenError = PlaidOpError;
@@ -20689,6 +21032,8 @@ export const invalidateItemAccessToken: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvalidateItemAccessToken",
 }));
 
 export type ItemPublicTokenExchangeError = PlaidOpError;
@@ -20704,6 +21049,8 @@ export const itemPublicTokenExchange: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ItemPublicTokenExchange",
 }));
 
 export type LinkOauthCorrelationIdExchangeError = PlaidOpError;
@@ -20719,6 +21066,8 @@ export const linkOauthCorrelationIdExchange: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkOauthCorrelationIdExchange",
 }));
 
 export type ListBankTransferEventError = PlaidOpError;
@@ -20734,6 +21083,8 @@ export const listBankTransferEvent: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBankTransferEvent",
 }));
 
 export type ListBetaIssuesV1Error = PlaidOpError;
@@ -20749,6 +21100,8 @@ export const listBetaIssuesV1: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBetaIssuesV1",
 }));
 
 export type ListBetaWebhookEventsError = PlaidOpError;
@@ -20764,6 +21117,8 @@ export const listBetaWebhookEvents: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBetaWebhookEvents",
 }));
 
 export type ListCraServicingSubscriptionError = PlaidOpError;
@@ -20779,6 +21134,8 @@ export const listCraServicingSubscription: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCraServicingSubscription",
 }));
 
 export type ListDashboardUserError = PlaidOpError;
@@ -20794,6 +21151,8 @@ export const listDashboardUser: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDashboardUser",
 }));
 
 export type ListFdxConsentsError = PlaidOpError;
@@ -20809,6 +21168,8 @@ export const listFdxConsents: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFdxConsents",
 }));
 
 export type ListIdentityMatchError = PlaidOpError;
@@ -20824,6 +21185,8 @@ export const listIdentityMatch: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentityMatch",
 }));
 
 export type ListIdentityVerificationError = PlaidOpError;
@@ -20839,6 +21202,8 @@ export const listIdentityVerification: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListIdentityVerification",
 }));
 
 export type ListItemActivityError = PlaidOpError;
@@ -20854,6 +21219,8 @@ export const listItemActivity: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListItemActivity",
 }));
 
 export type ListItemApplicationError = PlaidOpError;
@@ -20869,6 +21236,8 @@ export const listItemApplication: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListItemApplication",
 }));
 
 export type ListPaymentInitiationPaymentError = PlaidOpError;
@@ -20884,6 +21253,8 @@ export const listPaymentInitiationPayment: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPaymentInitiationPayment",
 }));
 
 export type ListPaymentInitiationRecipientError = PlaidOpError;
@@ -20899,6 +21270,8 @@ export const listPaymentInitiationRecipient: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPaymentInitiationRecipient",
 }));
 
 export type ListSandboxTransferTestClockError = PlaidOpError;
@@ -20914,6 +21287,8 @@ export const listSandboxTransferTestClock: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxTransferTestClock",
 }));
 
 export type ListStatementsError = PlaidOpError;
@@ -20929,6 +21304,8 @@ export const listStatements: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListStatements",
 }));
 
 export type ListTransactionsRulesError = PlaidOpError;
@@ -20944,6 +21321,8 @@ export const listTransactionsRules: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransactionsRules",
 }));
 
 export type ListTransferError = PlaidOpError;
@@ -20959,6 +21338,8 @@ export const listTransfer: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransfer",
 }));
 
 export type ListTransferEventError = PlaidOpError;
@@ -20974,6 +21355,8 @@ export const listTransferEvent: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransferEvent",
 }));
 
 export type ListTransferLedgerEventError = PlaidOpError;
@@ -20989,6 +21372,8 @@ export const listTransferLedgerEvent: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransferLedgerEvent",
 }));
 
 export type ListTransferOriginatorError = PlaidOpError;
@@ -21004,6 +21389,8 @@ export const listTransferOriginator: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransferOriginator",
 }));
 
 export type ListTransferRecurringError = PlaidOpError;
@@ -21019,6 +21406,8 @@ export const listTransferRecurring: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransferRecurring",
 }));
 
 export type ListTransferRepaymentError = PlaidOpError;
@@ -21034,6 +21423,8 @@ export const listTransferRepayment: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransferRepayment",
 }));
 
 export type ListTransferRepaymentReturnError = PlaidOpError;
@@ -21049,6 +21440,8 @@ export const listTransferRepaymentReturn: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransferRepaymentReturn",
 }));
 
 export type ListTransferSweepError = PlaidOpError;
@@ -21064,6 +21457,8 @@ export const listTransferSweep: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTransferSweep",
 }));
 
 export type ListWalletError = PlaidOpError;
@@ -21079,6 +21474,8 @@ export const listWallet: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWallet",
 }));
 
 export type ListWalletTransactionError = PlaidOpError;
@@ -21094,6 +21491,8 @@ export const listWalletTransaction: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWalletTransaction",
 }));
 
 export type ListWatchlistScreeningEntityError = PlaidOpError;
@@ -21109,6 +21508,8 @@ export const listWatchlistScreeningEntity: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatchlistScreeningEntity",
 }));
 
 export type ListWatchlistScreeningEntityHistoryError = PlaidOpError;
@@ -21124,6 +21525,8 @@ export const listWatchlistScreeningEntityHistory: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatchlistScreeningEntityHistory",
 }));
 
 export type ListWatchlistScreeningEntityHitError = PlaidOpError;
@@ -21139,6 +21542,8 @@ export const listWatchlistScreeningEntityHit: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatchlistScreeningEntityHit",
 }));
 
 export type ListWatchlistScreeningEntityProgramError = PlaidOpError;
@@ -21154,6 +21559,8 @@ export const listWatchlistScreeningEntityProgram: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatchlistScreeningEntityProgram",
 }));
 
 export type ListWatchlistScreeningEntityReviewError = PlaidOpError;
@@ -21169,6 +21576,8 @@ export const listWatchlistScreeningEntityReview: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatchlistScreeningEntityReview",
 }));
 
 export type ListWatchlistScreeningIndividualError = PlaidOpError;
@@ -21184,6 +21593,8 @@ export const listWatchlistScreeningIndividual: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatchlistScreeningIndividual",
 }));
 
 export type ListWatchlistScreeningIndividualHistoryError = PlaidOpError;
@@ -21199,6 +21610,8 @@ export const listWatchlistScreeningIndividualHistory: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatchlistScreeningIndividualHistory",
 }));
 
 export type ListWatchlistScreeningIndividualHitError = PlaidOpError;
@@ -21214,6 +21627,8 @@ export const listWatchlistScreeningIndividualHit: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatchlistScreeningIndividualHit",
 }));
 
 export type ListWatchlistScreeningIndividualProgramError = PlaidOpError;
@@ -21229,6 +21644,8 @@ export const listWatchlistScreeningIndividualProgram: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatchlistScreeningIndividualProgram",
 }));
 
 export type ListWatchlistScreeningIndividualReviewError = PlaidOpError;
@@ -21244,6 +21661,8 @@ export const listWatchlistScreeningIndividualReview: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWatchlistScreeningIndividualReview",
 }));
 
 export type OauthIntrospectError = PlaidOpError;
@@ -21259,6 +21678,8 @@ export const oauthIntrospect: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OauthIntrospect",
 }));
 
 export type OauthTokenError = PlaidOpError;
@@ -21274,6 +21695,8 @@ export const oauthToken: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "OauthToken",
 }));
 
 export type PaymentInitiationPaymentReverseError = PlaidOpError;
@@ -21289,6 +21712,8 @@ export const paymentInitiationPaymentReverse: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PaymentInitiationPaymentReverse",
 }));
 
 export type ProcessorIdentityMatchError = PlaidOpError;
@@ -21304,6 +21729,8 @@ export const processorIdentityMatch: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProcessorIdentityMatch",
 }));
 
 export type ProcessorSignalDecisionReportError = PlaidOpError;
@@ -21319,6 +21746,8 @@ export const processorSignalDecisionReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProcessorSignalDecisionReport",
 }));
 
 export type ProcessorSignalEvaluateError = PlaidOpError;
@@ -21334,6 +21763,8 @@ export const processorSignalEvaluate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProcessorSignalEvaluate",
 }));
 
 export type ProcessorSignalPrepareError = PlaidOpError;
@@ -21349,6 +21780,8 @@ export const processorSignalPrepare: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProcessorSignalPrepare",
 }));
 
 export type ProcessorSignalReturnReportError = PlaidOpError;
@@ -21364,6 +21797,8 @@ export const processorSignalReturnReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProcessorSignalReturnReport",
 }));
 
 export type ProtectComputeError = PlaidOpError;
@@ -21379,6 +21814,8 @@ export const protectCompute: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProtectCompute",
 }));
 
 export type RefreshAssetReportError = PlaidOpError;
@@ -21394,6 +21831,8 @@ export const refreshAssetReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshAssetReport",
 }));
 
 export type RefreshCashflowReportError = PlaidOpError;
@@ -21409,6 +21848,8 @@ export const refreshCashflowReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshCashflowReport",
 }));
 
 export type RefreshCreditPayrollIncomeError = PlaidOpError;
@@ -21424,6 +21865,8 @@ export const refreshCreditPayrollIncome: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshCreditPayrollIncome",
 }));
 
 export type RefreshCreditRelayError = PlaidOpError;
@@ -21439,6 +21882,8 @@ export const refreshCreditRelay: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshCreditRelay",
 }));
 
 export type RefreshIdentityError = PlaidOpError;
@@ -21454,6 +21899,8 @@ export const refreshIdentity: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshIdentity",
 }));
 
 export type RefreshInvestmentError = PlaidOpError;
@@ -21469,6 +21916,8 @@ export const refreshInvestment: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshInvestment",
 }));
 
 export type RefreshProcessorTransactionError = PlaidOpError;
@@ -21484,6 +21933,8 @@ export const refreshProcessorTransaction: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshProcessorTransaction",
 }));
 
 export type RefreshStatementError = PlaidOpError;
@@ -21499,6 +21950,8 @@ export const refreshStatement: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshStatement",
 }));
 
 export type RefreshTransactionError = PlaidOpError;
@@ -21514,6 +21967,8 @@ export const refreshTransaction: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshTransaction",
 }));
 
 export type RefreshUserFinancialDataError = PlaidOpError;
@@ -21529,6 +21984,8 @@ export const refreshUserFinancialData: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshUserFinancialData",
 }));
 
 export type RefreshUserTransactionError = PlaidOpError;
@@ -21544,6 +22001,8 @@ export const refreshUserTransaction: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshUserTransaction",
 }));
 
 export type RegisterCraLoanError = PlaidOpError;
@@ -21559,6 +22018,8 @@ export const registerCraLoan: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterCraLoan",
 }));
 
 export type RegisterCraLoansApplicationError = PlaidOpError;
@@ -21574,6 +22035,8 @@ export const registerCraLoansApplication: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterCraLoansApplication",
 }));
 
 export type RemoveAssetReportError = PlaidOpError;
@@ -21589,6 +22052,8 @@ export const removeAssetReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveAssetReport",
 }));
 
 export type RemoveCreditRelayError = PlaidOpError;
@@ -21604,6 +22069,8 @@ export const removeCreditRelay: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveCreditRelay",
 }));
 
 export type RemoveItemError = PlaidOpError;
@@ -21619,6 +22086,8 @@ export const removeItem: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveItem",
 }));
 
 export type RemovePartnerCustomerError = PlaidOpError;
@@ -21634,6 +22103,8 @@ export const removePartnerCustomer: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemovePartnerCustomer",
 }));
 
 export type RemoveTransactionsRuleError = PlaidOpError;
@@ -21649,6 +22120,8 @@ export const removeTransactionsRule: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveTransactionsRule",
 }));
 
 export type RemoveUserError = PlaidOpError;
@@ -21664,6 +22137,8 @@ export const removeUser: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveUser",
 }));
 
 export type RemoveUserIdentityError = PlaidOpError;
@@ -21679,6 +22154,8 @@ export const removeUserIdentity: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveUserIdentity",
 }));
 
 export type RemoveUserItemError = PlaidOpError;
@@ -21694,6 +22171,8 @@ export const removeUserItem: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveUserItem",
 }));
 
 export type RemoveUserThirdPartyTokenError = PlaidOpError;
@@ -21709,6 +22188,8 @@ export const removeUserThirdPartyToken: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveUserThirdPartyToken",
 }));
 
 export type RetryIdentityVerificationError = PlaidOpError;
@@ -21724,6 +22205,8 @@ export const retryIdentityVerification: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryIdentityVerification",
 }));
 
 export type RevokeFdxConsentError = PlaidOpError;
@@ -21739,6 +22222,8 @@ export const revokeFdxConsent: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeFdxConsent",
 }));
 
 export type RevokeOauthError = PlaidOpError;
@@ -21754,6 +22239,8 @@ export const revokeOauth: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeOauth",
 }));
 
 export type RevokePaymentInitiationConsentError = PlaidOpError;
@@ -21769,6 +22256,8 @@ export const revokePaymentInitiationConsent: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokePaymentInitiationConsent",
 }));
 
 export type SandboxCraServicingSimulateError = PlaidOpError;
@@ -21784,6 +22273,8 @@ export const sandboxCraServicingSimulate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxCraServicingSimulate",
 }));
 
 export type SandboxFdxConsentSeedError = PlaidOpError;
@@ -21799,6 +22290,8 @@ export const sandboxFdxConsentSeed: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxFdxConsentSeed",
 }));
 
 export type SandboxIncomeFireWebhookError = PlaidOpError;
@@ -21814,6 +22307,8 @@ export const sandboxIncomeFireWebhook: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxIncomeFireWebhook",
 }));
 
 export type SandboxItemApplicationSeedError = PlaidOpError;
@@ -21829,6 +22324,8 @@ export const sandboxItemApplicationSeed: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxItemApplicationSeed",
 }));
 
 export type SandboxItemFireWebhookError = PlaidOpError;
@@ -21844,6 +22341,8 @@ export const sandboxItemFireWebhook: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxItemFireWebhook",
 }));
 
 export type SandboxItemResetLoginError = PlaidOpError;
@@ -21859,6 +22358,8 @@ export const sandboxItemResetLogin: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxItemResetLogin",
 }));
 
 export type SandboxItemSetVerificationStatusError = PlaidOpError;
@@ -21874,6 +22375,8 @@ export const sandboxItemSetVerificationStatus: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxItemSetVerificationStatus",
 }));
 
 export type SandboxOauthSelectAccountsError = PlaidOpError;
@@ -21889,6 +22392,8 @@ export const sandboxOauthSelectAccounts: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxOauthSelectAccounts",
 }));
 
 export type SandboxPaymentSimulateError = PlaidOpError;
@@ -21904,6 +22409,8 @@ export const sandboxPaymentSimulate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxPaymentSimulate",
 }));
 
 export type SandboxTransferFireWebhookError = PlaidOpError;
@@ -21919,6 +22426,8 @@ export const sandboxTransferFireWebhook: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxTransferFireWebhook",
 }));
 
 export type SandboxTransferLedgerDepositSimulateError = PlaidOpError;
@@ -21934,6 +22443,8 @@ export const sandboxTransferLedgerDepositSimulate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxTransferLedgerDepositSimulate",
 }));
 
 export type SandboxTransferLedgerSimulateAvailableError = PlaidOpError;
@@ -21949,6 +22460,8 @@ export const sandboxTransferLedgerSimulateAvailable: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxTransferLedgerSimulateAvailable",
 }));
 
 export type SandboxTransferLedgerWithdrawSimulateError = PlaidOpError;
@@ -21964,6 +22477,8 @@ export const sandboxTransferLedgerWithdrawSimulate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxTransferLedgerWithdrawSimulate",
 }));
 
 export type SandboxTransferRefundSimulateError = PlaidOpError;
@@ -21979,6 +22494,8 @@ export const sandboxTransferRefundSimulate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxTransferRefundSimulate",
 }));
 
 export type SandboxTransferRepaymentSimulateError = PlaidOpError;
@@ -21994,6 +22511,8 @@ export const sandboxTransferRepaymentSimulate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxTransferRepaymentSimulate",
 }));
 
 export type SandboxTransferSimulateError = PlaidOpError;
@@ -22009,6 +22528,8 @@ export const sandboxTransferSimulate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxTransferSimulate",
 }));
 
 export type SandboxTransferSweepSimulateError = PlaidOpError;
@@ -22024,6 +22545,8 @@ export const sandboxTransferSweepSimulate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxTransferSweepSimulate",
 }));
 
 export type SandboxTransferTestClockAdvanceError = PlaidOpError;
@@ -22039,6 +22562,8 @@ export const sandboxTransferTestClockAdvance: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxTransferTestClockAdvance",
 }));
 
 export type SandboxUserFireWebhookError = PlaidOpError;
@@ -22054,6 +22579,8 @@ export const sandboxUserFireWebhook: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxUserFireWebhook",
 }));
 
 export type SandboxUserResetLoginError = PlaidOpError;
@@ -22069,6 +22596,8 @@ export const sandboxUserResetLogin: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxUserResetLogin",
 }));
 
 export type SearchInstitutionError = PlaidOpError;
@@ -22084,6 +22613,8 @@ export const searchInstitution: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchInstitution",
 }));
 
 export type SearchIssueError = PlaidOpError;
@@ -22099,6 +22630,8 @@ export const searchIssue: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchIssue",
 }));
 
 export type SendUserAccountSessionEventError = PlaidOpError;
@@ -22114,6 +22647,8 @@ export const sendUserAccountSessionEvent: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendUserAccountSessionEvent",
 }));
 
 export type SetProcessorTokenPermissionsError = PlaidOpError;
@@ -22129,6 +22664,8 @@ export const setProcessorTokenPermissions: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetProcessorTokenPermissions",
 }));
 
 export type SignalDecisionReportError = PlaidOpError;
@@ -22144,6 +22681,8 @@ export const signalDecisionReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalDecisionReport",
 }));
 
 export type SignalEvaluateError = PlaidOpError;
@@ -22159,6 +22698,8 @@ export const signalEvaluate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalEvaluate",
 }));
 
 export type SignalPrepareError = PlaidOpError;
@@ -22174,6 +22715,8 @@ export const signalPrepare: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalPrepare",
 }));
 
 export type SignalReturnReportError = PlaidOpError;
@@ -22189,6 +22732,8 @@ export const signalReturnReport: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalReturnReport",
 }));
 
 export type SignalScheduleError = PlaidOpError;
@@ -22204,6 +22749,8 @@ export const signalSchedule: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalSchedule",
 }));
 
 export type SubmitTransferDiligenceError = PlaidOpError;
@@ -22219,6 +22766,8 @@ export const submitTransferDiligence: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitTransferDiligence",
 }));
 
 export type SubmitTransferPlatformRequirementError = PlaidOpError;
@@ -22234,6 +22783,8 @@ export const submitTransferPlatformRequirement: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitTransferPlatformRequirement",
 }));
 
 export type SubscribeBetaIssuesV1Error = PlaidOpError;
@@ -22249,6 +22800,8 @@ export const subscribeBetaIssuesV1: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeBetaIssuesV1",
 }));
 
 export type SubscribeIssueError = PlaidOpError;
@@ -22264,6 +22817,8 @@ export const subscribeIssue: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubscribeIssue",
 }));
 
 export type SyncBankTransferEventError = PlaidOpError;
@@ -22279,6 +22834,8 @@ export const syncBankTransferEvent: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncBankTransferEvent",
 }));
 
 export type SyncProcessorTransactionError = PlaidOpError;
@@ -22294,6 +22851,8 @@ export const syncProcessorTransaction: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncProcessorTransaction",
 }));
 
 export type SyncTransactionError = PlaidOpError;
@@ -22309,6 +22868,8 @@ export const syncTransaction: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SyncTransaction",
 }));
 
 export type TerminateItemProductError = PlaidOpError;
@@ -22324,6 +22885,8 @@ export const terminateItemProduct: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateItemProduct",
 }));
 
 export type TerminateUserProductError = PlaidOpError;
@@ -22339,6 +22902,8 @@ export const terminateUserProduct: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateUserProduct",
 }));
 
 export type TransactionsEnhanceError = PlaidOpError;
@@ -22354,6 +22919,8 @@ export const transactionsEnhance: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransactionsEnhance",
 }));
 
 export type TransactionsEnrichError = PlaidOpError;
@@ -22369,6 +22936,8 @@ export const transactionsEnrich: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransactionsEnrich",
 }));
 
 export type TransferEventSyncError = PlaidOpError;
@@ -22384,6 +22953,8 @@ export const transferEventSync: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferEventSync",
 }));
 
 export type TransferLedgerDepositError = PlaidOpError;
@@ -22399,6 +22970,8 @@ export const transferLedgerDeposit: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferLedgerDeposit",
 }));
 
 export type TransferLedgerDistributeError = PlaidOpError;
@@ -22414,6 +22987,8 @@ export const transferLedgerDistribute: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferLedgerDistribute",
 }));
 
 export type TransferLedgerWithdrawError = PlaidOpError;
@@ -22429,6 +23004,8 @@ export const transferLedgerWithdraw: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferLedgerWithdraw",
 }));
 
 export type TransferMigrateAccountError = PlaidOpError;
@@ -22444,6 +23021,8 @@ export const transferMigrateAccount: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferMigrateAccount",
 }));
 
 export type TransferReturnRecoverError = PlaidOpError;
@@ -22459,6 +23038,8 @@ export const transferReturnRecover: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferReturnRecover",
 }));
 
 export type UnlinkItemApplicationError = PlaidOpError;
@@ -22474,6 +23055,8 @@ export const unlinkItemApplication: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkItemApplication",
 }));
 
 export type UnregisterCraLoanError = PlaidOpError;
@@ -22489,6 +23072,8 @@ export const unregisterCraLoan: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnregisterCraLoan",
 }));
 
 export type UnsubscribeBetaIssuesV1Error = PlaidOpError;
@@ -22504,6 +23089,8 @@ export const unsubscribeBetaIssuesV1: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnsubscribeBetaIssuesV1",
 }));
 
 export type UpdateBetaPartnerCustomerV1Error = PlaidOpError;
@@ -22519,6 +23106,8 @@ export const updateBetaPartnerCustomerV1: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateBetaPartnerCustomerV1",
 }));
 
 export type UpdateCraLoanError = PlaidOpError;
@@ -22534,6 +23123,8 @@ export const updateCraLoan: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCraLoan",
 }));
 
 export type UpdateCraServicingSubscriptionError = PlaidOpError;
@@ -22549,6 +23140,8 @@ export const updateCraServicingSubscription: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCraServicingSubscription",
 }));
 
 export type UpdateCreditBankIncomeWebhookError = PlaidOpError;
@@ -22564,6 +23157,8 @@ export const updateCreditBankIncomeWebhook: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCreditBankIncomeWebhook",
 }));
 
 export type UpdateCreditPayrollIncomeParsingConfigError = PlaidOpError;
@@ -22579,6 +23174,8 @@ export const updateCreditPayrollIncomeParsingConfig: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCreditPayrollIncomeParsingConfig",
 }));
 
 export type UpdateItemApplicationScopeError = PlaidOpError;
@@ -22594,6 +23191,8 @@ export const updateItemApplicationScope: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateItemApplicationScope",
 }));
 
 export type UpdateItemWebhookError = PlaidOpError;
@@ -22609,6 +23208,8 @@ export const updateItemWebhook: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateItemWebhook",
 }));
 
 export type UpdateProcessorTokenWebhookError = PlaidOpError;
@@ -22624,6 +23225,8 @@ export const updateProcessorTokenWebhook: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateProcessorTokenWebhook",
 }));
 
 export type UpdateSandboxCraCashflowUpdateError = PlaidOpError;
@@ -22639,6 +23242,8 @@ export const updateSandboxCraCashflowUpdate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSandboxCraCashflowUpdate",
 }));
 
 export type UpdateTransferOriginatorFundingAccountError = PlaidOpError;
@@ -22654,6 +23259,8 @@ export const updateTransferOriginatorFundingAccount: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTransferOriginatorFundingAccount",
 }));
 
 export type UpdateUserError = PlaidOpError;
@@ -22669,6 +23276,8 @@ export const updateUser: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
 
 export type UpdateWatchlistScreeningEntityError = PlaidOpError;
@@ -22684,6 +23293,8 @@ export const updateWatchlistScreeningEntity: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWatchlistScreeningEntity",
 }));
 
 export type UpdateWatchlistScreeningIndividualError = PlaidOpError;
@@ -22699,6 +23310,8 @@ export const updateWatchlistScreeningIndividual: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWatchlistScreeningIndividual",
 }));
 
 export type UploadProtectCashAdvanceFeedbackError = PlaidOpError;
@@ -22714,6 +23327,8 @@ export const uploadProtectCashAdvanceFeedback: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadProtectCashAdvanceFeedback",
 }));
 
 export type UploadTransferDiligenceDocumentError = PlaidOpError;
@@ -22729,6 +23344,8 @@ export const uploadTransferDiligenceDocument: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UploadTransferDiligenceDocument",
 }));
 
 export type UserItemsAssociateError = PlaidOpError;
@@ -22744,6 +23361,8 @@ export const userItemsAssociate: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UserItemsAssociate",
 }));
 
 export type VerifyAuthError = PlaidOpError;
@@ -22759,6 +23378,8 @@ export const verifyAuth: API.OperationMethod<
   errors: [UnknownPlaidError],
   protocol: PlaidProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyAuth",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

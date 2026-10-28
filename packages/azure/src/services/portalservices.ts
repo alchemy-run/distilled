@@ -11,6 +11,25 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.PortalServices" },
+  prefix: "Portalservices",
+  service: "Portalservices",
+  propagate: "w3c",
+} as const;
+
 /** The Copilot Settings properties. */
 export interface CopilotSettingsPropertiesInput {
   /** Boolean indicating if role-based access control is enabled for copilot in this tenant. */
@@ -163,6 +182,8 @@ export const CopilotSettingsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopilotSettingsCreateOrUpdate",
 }));
 
 export type DeleteCopilotSettingsError = AzureOpError;
@@ -178,6 +199,8 @@ export const DeleteCopilotSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCopilotSettings",
 }));
 
 export type GetCopilotSettingsError = AzureOpError;
@@ -193,6 +216,8 @@ export const GetCopilotSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCopilotSettings",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -208,6 +233,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type PortalTenantCompilefileError = AzureOpError;
@@ -223,6 +250,8 @@ export const PortalTenantCompilefile: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PortalTenantCompilefile",
 }));
 
 export type UpdateCopilotSettingsError = AzureOpError;
@@ -238,6 +267,8 @@ export const UpdateCopilotSettings: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCopilotSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

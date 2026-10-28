@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -81,6 +82,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://api.ecr-public.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ECRPUBLIC",
+  service: "ECRPUBLIC",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class EmptyUploadException
   extends /*@__PURE__*/ S.TaggedError<EmptyUploadException>()("EmptyUploadException", {
@@ -588,6 +604,8 @@ export const batchCheckLayerAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCheckLayerAvailability",
+  telemetry: TELEMETRY,
+  span: "BatchCheckLayerAvailability",
 }));
 
 export type BatchDeleteImageError =
@@ -624,6 +642,8 @@ export const batchDeleteImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteImage",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteImage",
 }));
 
 export type CompleteLayerUploadError =
@@ -671,6 +691,8 @@ export const completeLayerUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteLayerUpload",
+  telemetry: TELEMETRY,
+  span: "CompleteLayerUpload",
 }));
 
 export type CreateRepositoryError =
@@ -706,6 +728,8 @@ export const createRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepository",
+  telemetry: TELEMETRY,
+  span: "CreateRepository",
 }));
 
 export type DeleteRepositoryError =
@@ -738,6 +762,8 @@ export const deleteRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepository",
+  telemetry: TELEMETRY,
+  span: "DeleteRepository",
 }));
 
 export type DeleteRepositoryPolicyError =
@@ -768,6 +794,8 @@ export const deleteRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteRepositoryPolicy",
 }));
 
 export type DescribeImagesError =
@@ -811,6 +839,8 @@ export const describeImages: API.PaginatedOperationMethod<
     items: "imageDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeImages",
 })) as any;
 
 export type DescribeImageTagsError =
@@ -846,6 +876,8 @@ export const describeImageTags: API.PaginatedOperationMethod<
     items: "imageTagDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeImageTags",
 })) as any;
 
 export type DescribeRegistriesError =
@@ -875,6 +907,8 @@ export const describeRegistries: API.PaginatedOperationMethod<
     items: "registries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRegistries",
 })) as any;
 
 export type DescribeRepositoriesError =
@@ -910,6 +944,8 @@ export const describeRepositories: API.PaginatedOperationMethod<
     items: "repositories",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeRepositories",
 })) as any;
 
 export type GetAuthorizationTokenError =
@@ -936,6 +972,8 @@ export const getAuthorizationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizationToken",
+  telemetry: TELEMETRY,
+  span: "GetAuthorizationToken",
 }));
 
 export type GetRegistryCatalogDataError =
@@ -957,6 +995,8 @@ export const getRegistryCatalogData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistryCatalogData",
+  telemetry: TELEMETRY,
+  span: "GetRegistryCatalogData",
 }));
 
 export type GetRepositoryCatalogDataError =
@@ -988,6 +1028,8 @@ export const getRepositoryCatalogData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryCatalogData",
+  telemetry: TELEMETRY,
+  span: "GetRepositoryCatalogData",
 }));
 
 export type GetRepositoryPolicyError =
@@ -1018,6 +1060,8 @@ export const getRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryPolicy",
+  telemetry: TELEMETRY,
+  span: "GetRepositoryPolicy",
 }));
 
 export type InitiateLayerUploadError =
@@ -1054,6 +1098,8 @@ export const initiateLayerUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateLayerUpload",
+  telemetry: TELEMETRY,
+  span: "InitiateLayerUpload",
 }));
 
 export type ListTagsForResourceError =
@@ -1082,6 +1128,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutImageError =
@@ -1130,6 +1178,8 @@ export const putImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImage",
+  telemetry: TELEMETRY,
+  span: "PutImage",
 }));
 
 export type PutRegistryCatalogDataError =
@@ -1152,6 +1202,8 @@ export const putRegistryCatalogData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRegistryCatalogData",
+  telemetry: TELEMETRY,
+  span: "PutRegistryCatalogData",
 }));
 
 export type PutRepositoryCatalogDataError =
@@ -1180,6 +1232,8 @@ export const putRepositoryCatalogData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRepositoryCatalogData",
+  telemetry: TELEMETRY,
+  span: "PutRepositoryCatalogData",
 }));
 
 export type SetRepositoryPolicyError =
@@ -1210,6 +1264,8 @@ export const setRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetRepositoryPolicy",
+  telemetry: TELEMETRY,
+  span: "SetRepositoryPolicy",
 }));
 
 export type TagResourceError =
@@ -1245,6 +1301,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1277,6 +1335,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UploadLayerPartError =
@@ -1319,6 +1379,8 @@ export const uploadLayerPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadLayerPart",
+  telemetry: TELEMETRY,
+  span: "UploadLayerPart",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

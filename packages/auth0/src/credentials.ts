@@ -25,7 +25,9 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("Auth0Credentials") {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "Auth0Credentials",
+  ) {}
 
 /** Layer from a Management API token + tenant domain. */
 export const fromToken = (config: {
@@ -63,5 +65,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       domain,
       apiBaseUrl: process.env.AUTH0_API_BASE_URL ?? apiBaseUrlForDomain(domain),
     };
-  }).pipe(Effect.orDie),
+  }),
 );

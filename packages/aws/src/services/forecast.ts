@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -75,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://forecast.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "forecast",
+  service: "forecast",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InvalidInputException
   extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
@@ -1293,6 +1309,8 @@ export const createAutoPredictor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutoPredictor",
+  telemetry: TELEMETRY,
+  span: "CreateAutoPredictor",
 }));
 
 export type CreateDatasetError =
@@ -1350,6 +1368,8 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDatasetGroupError =
@@ -1390,6 +1410,8 @@ export const createDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateDatasetGroup",
 }));
 
 export type CreateDatasetImportJobError =
@@ -1441,6 +1463,8 @@ export const createDatasetImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetImportJob",
+  telemetry: TELEMETRY,
+  span: "CreateDatasetImportJob",
 }));
 
 export type CreateExplainabilityError =
@@ -1550,6 +1574,8 @@ export const createExplainability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExplainability",
+  telemetry: TELEMETRY,
+  span: "CreateExplainability",
 }));
 
 export type CreateExplainabilityExportError =
@@ -1588,6 +1614,8 @@ export const createExplainabilityExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExplainabilityExport",
+  telemetry: TELEMETRY,
+  span: "CreateExplainabilityExport",
 }));
 
 export type CreateForecastError =
@@ -1640,6 +1668,8 @@ export const createForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateForecast",
+  telemetry: TELEMETRY,
+  span: "CreateForecast",
 }));
 
 export type CreateForecastExportJobError =
@@ -1687,6 +1717,8 @@ export const createForecastExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateForecastExportJob",
+  telemetry: TELEMETRY,
+  span: "CreateForecastExportJob",
 }));
 
 export type CreateMonitorError =
@@ -1718,6 +1750,8 @@ export const createMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitor",
+  telemetry: TELEMETRY,
+  span: "CreateMonitor",
 }));
 
 export type CreatePredictorError =
@@ -1799,6 +1833,8 @@ export const createPredictor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePredictor",
+  telemetry: TELEMETRY,
+  span: "CreatePredictor",
 }));
 
 export type CreatePredictorBacktestExportJobError =
@@ -1844,6 +1880,8 @@ export const createPredictorBacktestExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePredictorBacktestExportJob",
+  telemetry: TELEMETRY,
+  span: "CreatePredictorBacktestExportJob",
 }));
 
 export type CreateWhatIfAnalysisError =
@@ -1890,6 +1928,8 @@ export const createWhatIfAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatIfAnalysis",
+  telemetry: TELEMETRY,
+  span: "CreateWhatIfAnalysis",
 }));
 
 export type CreateWhatIfForecastError =
@@ -1921,6 +1961,8 @@ export const createWhatIfForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatIfForecast",
+  telemetry: TELEMETRY,
+  span: "CreateWhatIfForecast",
 }));
 
 export type CreateWhatIfForecastExportError =
@@ -1969,6 +2011,8 @@ export const createWhatIfForecastExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatIfForecastExport",
+  telemetry: TELEMETRY,
+  span: "CreateWhatIfForecastExport",
 }));
 
 export type DeleteDatasetError =
@@ -1997,6 +2041,8 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteDataset",
 }));
 
 export type DeleteDatasetGroupError =
@@ -2023,6 +2069,8 @@ export const deleteDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatasetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteDatasetGroup",
 }));
 
 export type DeleteDatasetImportJobError =
@@ -2048,6 +2096,8 @@ export const deleteDatasetImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatasetImportJob",
+  telemetry: TELEMETRY,
+  span: "DeleteDatasetImportJob",
 }));
 
 export type DeleteExplainabilityError =
@@ -2073,6 +2123,8 @@ export const deleteExplainability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExplainability",
+  telemetry: TELEMETRY,
+  span: "DeleteExplainability",
 }));
 
 export type DeleteExplainabilityExportError =
@@ -2095,6 +2147,8 @@ export const deleteExplainabilityExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExplainabilityExport",
+  telemetry: TELEMETRY,
+  span: "DeleteExplainabilityExport",
 }));
 
 export type DeleteForecastError =
@@ -2122,6 +2176,8 @@ export const deleteForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteForecast",
+  telemetry: TELEMETRY,
+  span: "DeleteForecast",
 }));
 
 export type DeleteForecastExportJobError =
@@ -2146,6 +2202,8 @@ export const deleteForecastExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteForecastExportJob",
+  telemetry: TELEMETRY,
+  span: "DeleteForecastExportJob",
 }));
 
 export type DeleteMonitorError =
@@ -2168,6 +2226,8 @@ export const deleteMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitor",
+  telemetry: TELEMETRY,
+  span: "DeleteMonitor",
 }));
 
 export type DeletePredictorError =
@@ -2191,6 +2251,8 @@ export const deletePredictor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePredictor",
+  telemetry: TELEMETRY,
+  span: "DeletePredictor",
 }));
 
 export type DeletePredictorBacktestExportJobError =
@@ -2213,6 +2275,8 @@ export const deletePredictorBacktestExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePredictorBacktestExportJob",
+  telemetry: TELEMETRY,
+  span: "DeletePredictorBacktestExportJob",
 }));
 
 export type DeleteResourceTreeError =
@@ -2255,6 +2319,8 @@ export const deleteResourceTree: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceTree",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceTree",
 }));
 
 export type DeleteWhatIfAnalysisError =
@@ -2280,6 +2346,8 @@ export const deleteWhatIfAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatIfAnalysis",
+  telemetry: TELEMETRY,
+  span: "DeleteWhatIfAnalysis",
 }));
 
 export type DeleteWhatIfForecastError =
@@ -2305,6 +2373,8 @@ export const deleteWhatIfForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatIfForecast",
+  telemetry: TELEMETRY,
+  span: "DeleteWhatIfForecast",
 }));
 
 export type DeleteWhatIfForecastExportError =
@@ -2328,6 +2398,8 @@ export const deleteWhatIfForecastExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatIfForecastExport",
+  telemetry: TELEMETRY,
+  span: "DeleteWhatIfForecastExport",
 }));
 
 export type DescribeAutoPredictorError =
@@ -2349,6 +2421,8 @@ export const describeAutoPredictor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutoPredictor",
+  telemetry: TELEMETRY,
+  span: "DescribeAutoPredictor",
 }));
 
 export type DescribeDatasetError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2376,6 +2450,8 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeDatasetGroupError =
@@ -2409,6 +2485,8 @@ export const describeDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatasetGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeDatasetGroup",
 }));
 
 export type DescribeDatasetImportJobError =
@@ -2446,6 +2524,8 @@ export const describeDatasetImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatasetImportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeDatasetImportJob",
 }));
 
 export type DescribeExplainabilityError =
@@ -2467,6 +2547,8 @@ export const describeExplainability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExplainability",
+  telemetry: TELEMETRY,
+  span: "DescribeExplainability",
 }));
 
 export type DescribeExplainabilityExportError =
@@ -2488,6 +2570,8 @@ export const describeExplainabilityExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExplainabilityExport",
+  telemetry: TELEMETRY,
+  span: "DescribeExplainabilityExport",
 }));
 
 export type DescribeForecastError =
@@ -2523,6 +2607,8 @@ export const describeForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeForecast",
+  telemetry: TELEMETRY,
+  span: "DescribeForecast",
 }));
 
 export type DescribeForecastExportJobError =
@@ -2556,6 +2642,8 @@ export const describeForecastExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeForecastExportJob",
+  telemetry: TELEMETRY,
+  span: "DescribeForecastExportJob",
 }));
 
 export type DescribeMonitorError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -2588,6 +2676,8 @@ export const describeMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMonitor",
+  telemetry: TELEMETRY,
+  span: "DescribeMonitor",
 }));
 
 export type DescribePredictorError =
@@ -2630,6 +2720,8 @@ export const describePredictor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePredictor",
+  telemetry: TELEMETRY,
+  span: "DescribePredictor",
 }));
 
 export type DescribePredictorBacktestExportJobError =
@@ -2663,6 +2755,8 @@ export const describePredictorBacktestExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePredictorBacktestExportJob",
+  telemetry: TELEMETRY,
+  span: "DescribePredictorBacktestExportJob",
 }));
 
 export type DescribeWhatIfAnalysisError =
@@ -2694,6 +2788,8 @@ export const describeWhatIfAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWhatIfAnalysis",
+  telemetry: TELEMETRY,
+  span: "DescribeWhatIfAnalysis",
 }));
 
 export type DescribeWhatIfForecastError =
@@ -2725,6 +2821,8 @@ export const describeWhatIfForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWhatIfForecast",
+  telemetry: TELEMETRY,
+  span: "DescribeWhatIfForecast",
 }));
 
 export type DescribeWhatIfForecastExportError =
@@ -2756,6 +2854,8 @@ export const describeWhatIfForecastExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWhatIfForecastExport",
+  telemetry: TELEMETRY,
+  span: "DescribeWhatIfForecastExport",
 }));
 
 export type GetAccuracyMetricsError =
@@ -2795,6 +2895,8 @@ export const getAccuracyMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccuracyMetrics",
+  telemetry: TELEMETRY,
+  span: "GetAccuracyMetrics",
 }));
 
 export type ListDatasetGroupsError = InvalidNextTokenException | CommonErrors;
@@ -2824,6 +2926,8 @@ export const listDatasetGroups: API.PaginatedOperationMethod<
     items: "DatasetGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetGroups",
 })) as any;
 
 export type ListDatasetImportJobsError =
@@ -2856,6 +2960,8 @@ export const listDatasetImportJobs: API.PaginatedOperationMethod<
     items: "DatasetImportJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasetImportJobs",
 })) as any;
 
 export type ListDatasetsError = InvalidNextTokenException | CommonErrors;
@@ -2883,6 +2989,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "Datasets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 })) as any;
 
 export type ListExplainabilitiesError =
@@ -2916,6 +3024,8 @@ export const listExplainabilities: API.PaginatedOperationMethod<
     items: "Explainabilities",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExplainabilities",
 })) as any;
 
 export type ListExplainabilityExportsError =
@@ -2948,6 +3058,8 @@ export const listExplainabilityExports: API.PaginatedOperationMethod<
     items: "ExplainabilityExports",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExplainabilityExports",
 })) as any;
 
 export type ListForecastExportJobsError =
@@ -2979,6 +3091,8 @@ export const listForecastExportJobs: API.PaginatedOperationMethod<
     items: "ForecastExportJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListForecastExportJobs",
 })) as any;
 
 export type ListForecastsError = InvalidInputException | InvalidNextTokenException | CommonErrors;
@@ -3008,6 +3122,8 @@ export const listForecasts: API.PaginatedOperationMethod<
     items: "Forecasts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListForecasts",
 })) as any;
 
 export type ListMonitorEvaluationsError =
@@ -3041,6 +3157,8 @@ export const listMonitorEvaluations: API.PaginatedOperationMethod<
     items: "PredictorMonitorEvaluations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMonitorEvaluations",
 })) as any;
 
 export type ListMonitorsError = InvalidInputException | InvalidNextTokenException | CommonErrors;
@@ -3067,6 +3185,8 @@ export const listMonitors: API.PaginatedOperationMethod<
     items: "Monitors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMonitors",
 })) as any;
 
 export type ListPredictorBacktestExportJobsError =
@@ -3099,6 +3219,8 @@ export const listPredictorBacktestExportJobs: API.PaginatedOperationMethod<
     items: "PredictorBacktestExportJobs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPredictorBacktestExportJobs",
 })) as any;
 
 export type ListPredictorsError = InvalidInputException | InvalidNextTokenException | CommonErrors;
@@ -3129,6 +3251,8 @@ export const listPredictors: API.PaginatedOperationMethod<
     items: "Predictors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPredictors",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3150,6 +3274,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWhatIfAnalysesError =
@@ -3178,6 +3304,8 @@ export const listWhatIfAnalyses: API.PaginatedOperationMethod<
     items: "WhatIfAnalyses",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWhatIfAnalyses",
 })) as any;
 
 export type ListWhatIfForecastExportsError =
@@ -3206,6 +3334,8 @@ export const listWhatIfForecastExports: API.PaginatedOperationMethod<
     items: "WhatIfForecastExports",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWhatIfForecastExports",
 })) as any;
 
 export type ListWhatIfForecastsError =
@@ -3234,6 +3364,8 @@ export const listWhatIfForecasts: API.PaginatedOperationMethod<
     items: "WhatIfForecasts",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWhatIfForecasts",
 })) as any;
 
 export type ResumeResourceError =
@@ -3262,6 +3394,8 @@ export const resumeResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeResource",
+  telemetry: TELEMETRY,
+  span: "ResumeResource",
 }));
 
 export type StopResourceError =
@@ -3305,6 +3439,8 @@ export const stopResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopResource",
+  telemetry: TELEMETRY,
+  span: "StopResource",
 }));
 
 export type TagResourceError =
@@ -3330,6 +3466,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = InvalidInputException | ResourceNotFoundException | CommonErrors;
@@ -3348,6 +3486,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDatasetGroupError =
@@ -3374,6 +3514,8 @@ export const updateDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatasetGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateDatasetGroup",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -71,6 +72,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://aoss.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "OpenSearchServerless",
+  service: "OpenSearchServerless",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -928,6 +944,8 @@ export const batchGetCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCollection",
+  telemetry: TELEMETRY,
+  span: "BatchGetCollection",
 }));
 
 export type BatchGetCollectionGroupError =
@@ -949,6 +967,8 @@ export const batchGetCollectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCollectionGroup",
+  telemetry: TELEMETRY,
+  span: "BatchGetCollectionGroup",
 }));
 
 export type BatchGetEffectiveLifecyclePolicyError =
@@ -970,6 +990,8 @@ export const batchGetEffectiveLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetEffectiveLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "BatchGetEffectiveLifecyclePolicy",
 }));
 
 export type BatchGetLifecyclePolicyError =
@@ -991,6 +1013,8 @@ export const batchGetLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "BatchGetLifecyclePolicy",
 }));
 
 export type BatchGetVpcEndpointError = InternalServerException | ValidationException | CommonErrors;
@@ -1009,6 +1033,8 @@ export const batchGetVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "BatchGetVpcEndpoint",
 }));
 
 export type CreateAccessPolicyError =
@@ -1037,6 +1063,8 @@ export const createAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateAccessPolicy",
 }));
 
 export type CreateCollectionError =
@@ -1067,6 +1095,8 @@ export const createCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollection",
+  telemetry: TELEMETRY,
+  span: "CreateCollection",
 }));
 
 export type CreateCollectionGroupError =
@@ -1097,6 +1127,8 @@ export const createCollectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollectionGroup",
+  telemetry: TELEMETRY,
+  span: "CreateCollectionGroup",
 }));
 
 export type CreateIndexError =
@@ -1125,6 +1157,8 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
 }));
 
 export type CreateLifecyclePolicyError =
@@ -1153,6 +1187,8 @@ export const createLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "CreateLifecyclePolicy",
 }));
 
 export type CreateSecurityConfigError =
@@ -1181,6 +1217,8 @@ export const createSecurityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityConfig",
+  telemetry: TELEMETRY,
+  span: "CreateSecurityConfig",
 }));
 
 export type CreateSecurityPolicyError =
@@ -1209,6 +1247,8 @@ export const createSecurityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateSecurityPolicy",
 }));
 
 export type CreateVpcEndpointError =
@@ -1237,6 +1277,8 @@ export const createVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateVpcEndpoint",
 }));
 
 export type DeleteAccessPolicyError =
@@ -1265,6 +1307,8 @@ export const deleteAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPolicy",
 }));
 
 export type DeleteCollectionError =
@@ -1293,6 +1337,8 @@ export const deleteCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCollection",
+  telemetry: TELEMETRY,
+  span: "DeleteCollection",
 }));
 
 export type DeleteCollectionGroupError =
@@ -1321,6 +1367,8 @@ export const deleteCollectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCollectionGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteCollectionGroup",
 }));
 
 export type DeleteIndexError =
@@ -1343,6 +1391,8 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
+  telemetry: TELEMETRY,
+  span: "DeleteIndex",
 }));
 
 export type DeleteLifecyclePolicyError =
@@ -1371,6 +1421,8 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteLifecyclePolicy",
 }));
 
 export type DeleteSecurityConfigError =
@@ -1399,6 +1451,8 @@ export const deleteSecurityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityConfig",
 }));
 
 export type DeleteSecurityPolicyError =
@@ -1427,6 +1481,8 @@ export const deleteSecurityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityPolicy",
 }));
 
 export type DeleteVpcEndpointError =
@@ -1455,6 +1511,8 @@ export const deleteVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcEndpoint",
 }));
 
 export type GetAccessPolicyError =
@@ -1477,6 +1535,8 @@ export const getAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "GetAccessPolicy",
 }));
 
 export type GetAccountSettingsError = InternalServerException | ValidationException | CommonErrors;
@@ -1495,6 +1555,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetIndexError =
@@ -1517,6 +1579,8 @@ export const getIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
+  telemetry: TELEMETRY,
+  span: "GetIndex",
 }));
 
 export type GetPoliciesStatsError = InternalServerException | CommonErrors;
@@ -1535,6 +1599,8 @@ export const getPoliciesStats: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPoliciesStats",
+  telemetry: TELEMETRY,
+  span: "GetPoliciesStats",
 }));
 
 export type GetSecurityConfigError =
@@ -1557,6 +1623,8 @@ export const getSecurityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityConfig",
+  telemetry: TELEMETRY,
+  span: "GetSecurityConfig",
 }));
 
 export type GetSecurityPolicyError =
@@ -1579,6 +1647,8 @@ export const getSecurityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityPolicy",
+  telemetry: TELEMETRY,
+  span: "GetSecurityPolicy",
 }));
 
 export type ListAccessPoliciesError = InternalServerException | ValidationException | CommonErrors;
@@ -1599,6 +1669,8 @@ export const listAccessPolicies: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListAccessPolicies",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessPolicies",
 })) as any;
 
 export type ListCollectionGroupsError =
@@ -1622,6 +1694,8 @@ export const listCollectionGroups: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListCollectionGroups",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollectionGroups",
 })) as any;
 
 export type ListCollectionsError = InternalServerException | ValidationException | CommonErrors;
@@ -1644,6 +1718,8 @@ export const listCollections: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListCollections",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollections",
 })) as any;
 
 export type ListLifecyclePoliciesError =
@@ -1667,6 +1743,8 @@ export const listLifecyclePolicies: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListLifecyclePolicies",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListLifecyclePolicies",
 })) as any;
 
 export type ListSecurityConfigsError = InternalServerException | ValidationException | CommonErrors;
@@ -1687,6 +1765,8 @@ export const listSecurityConfigs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSecurityConfigs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityConfigs",
 })) as any;
 
 export type ListSecurityPoliciesError =
@@ -1710,6 +1790,8 @@ export const listSecurityPolicies: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSecurityPolicies",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityPolicies",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1732,6 +1814,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVpcEndpointsError = InternalServerException | ValidationException | CommonErrors;
@@ -1752,6 +1836,8 @@ export const listVpcEndpoints: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListVpcEndpoints",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpoints",
 })) as any;
 
 export type TagResourceError =
@@ -1782,6 +1868,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1810,6 +1898,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccessPolicyError =
@@ -1838,6 +1928,8 @@ export const updateAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateAccessPolicy",
 }));
 
 export type UpdateAccountSettingsError =
@@ -1860,6 +1952,8 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateCollectionError =
@@ -1882,6 +1976,8 @@ export const updateCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCollection",
+  telemetry: TELEMETRY,
+  span: "UpdateCollection",
 }));
 
 export type UpdateCollectionGroupError =
@@ -1910,6 +2006,8 @@ export const updateCollectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCollectionGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateCollectionGroup",
 }));
 
 export type UpdateIndexError =
@@ -1932,6 +2030,8 @@ export const updateIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndex",
+  telemetry: TELEMETRY,
+  span: "UpdateIndex",
 }));
 
 export type UpdateLifecyclePolicyError =
@@ -1962,6 +2062,8 @@ export const updateLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateLifecyclePolicy",
 }));
 
 export type UpdateSecurityConfigError =
@@ -1990,6 +2092,8 @@ export const updateSecurityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityConfig",
 }));
 
 export type UpdateSecurityPolicyError =
@@ -2020,6 +2124,8 @@ export const updateSecurityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityPolicy",
 }));
 
 export type UpdateVpcEndpointError =
@@ -2042,6 +2148,8 @@ export const updateVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateVpcEndpoint",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

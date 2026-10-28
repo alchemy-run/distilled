@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://profile.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CustomerProfiles",
+  service: "CustomerProfiles",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2953,6 +2968,8 @@ export const addProfileKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddProfileKey",
+  telemetry: TELEMETRY,
+  span: "AddProfileKey",
 }));
 
 export type AssociateStreamForSegmentsError =
@@ -2985,6 +3002,8 @@ export const associateStreamForSegments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateStreamForSegments",
+  telemetry: TELEMETRY,
+  span: "AssociateStreamForSegments",
 }));
 
 export type BatchGetCalculatedAttributeForProfileError =
@@ -3015,6 +3034,8 @@ export const batchGetCalculatedAttributeForProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCalculatedAttributeForProfile",
+  telemetry: TELEMETRY,
+  span: "BatchGetCalculatedAttributeForProfile",
 }));
 
 export type BatchGetProfileError =
@@ -3045,6 +3066,8 @@ export const batchGetProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetProfile",
+  telemetry: TELEMETRY,
+  span: "BatchGetProfile",
 }));
 
 export type BatchPutProfileObjectError =
@@ -3087,6 +3110,8 @@ export const batchPutProfileObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutProfileObject",
+  telemetry: TELEMETRY,
+  span: "BatchPutProfileObject",
 }));
 
 export type CreateCalculatedAttributeDefinitionError =
@@ -3122,6 +3147,8 @@ export const createCalculatedAttributeDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCalculatedAttributeDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateCalculatedAttributeDefinition",
 }));
 
 export type CreateDomainError =
@@ -3171,6 +3198,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateDomainLayoutError =
@@ -3202,6 +3231,8 @@ export const createDomainLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainLayout",
+  telemetry: TELEMETRY,
+  span: "CreateDomainLayout",
 }));
 
 export type CreateEventStreamError =
@@ -3236,6 +3267,8 @@ export const createEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventStream",
+  telemetry: TELEMETRY,
+  span: "CreateEventStream",
 }));
 
 export type CreateEventTriggerError =
@@ -3270,6 +3303,8 @@ export const createEventTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventTrigger",
+  telemetry: TELEMETRY,
+  span: "CreateEventTrigger",
 }));
 
 export type CreateIntegrationWorkflowError =
@@ -3301,6 +3336,8 @@ export const createIntegrationWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegrationWorkflow",
+  telemetry: TELEMETRY,
+  span: "CreateIntegrationWorkflow",
 }));
 
 export type CreateProfileError =
@@ -3334,6 +3371,8 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  telemetry: TELEMETRY,
+  span: "CreateProfile",
 }));
 
 export type CreateRecommenderError =
@@ -3364,6 +3403,8 @@ export const createRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommender",
+  telemetry: TELEMETRY,
+  span: "CreateRecommender",
 }));
 
 export type CreateRecommenderFilterError =
@@ -3394,6 +3435,8 @@ export const createRecommenderFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommenderFilter",
+  telemetry: TELEMETRY,
+  span: "CreateRecommenderFilter",
 }));
 
 export type CreateRecommenderSchemaError =
@@ -3424,6 +3467,8 @@ export const createRecommenderSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommenderSchema",
+  telemetry: TELEMETRY,
+  span: "CreateRecommenderSchema",
 }));
 
 export type CreateSegmentDefinitionError =
@@ -3454,6 +3499,8 @@ export const createSegmentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSegmentDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateSegmentDefinition",
 }));
 
 export type CreateSegmentEstimateError =
@@ -3484,6 +3531,8 @@ export const createSegmentEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSegmentEstimate",
+  telemetry: TELEMETRY,
+  span: "CreateSegmentEstimate",
 }));
 
 export type CreateSegmentSnapshotError =
@@ -3514,6 +3563,8 @@ export const createSegmentSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSegmentSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateSegmentSnapshot",
 }));
 
 export type CreateUploadJobError =
@@ -3545,6 +3596,8 @@ export const createUploadJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUploadJob",
+  telemetry: TELEMETRY,
+  span: "CreateUploadJob",
 }));
 
 export type DeleteCalculatedAttributeDefinitionError =
@@ -3578,6 +3631,8 @@ export const deleteCalculatedAttributeDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCalculatedAttributeDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteCalculatedAttributeDefinition",
 }));
 
 export type DeleteDomainError =
@@ -3609,6 +3664,8 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteDomainLayoutError =
@@ -3640,6 +3697,8 @@ export const deleteDomainLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainLayout",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainLayout",
 }));
 
 export type DeleteDomainObjectTypeError =
@@ -3670,6 +3729,8 @@ export const deleteDomainObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainObjectType",
+  telemetry: TELEMETRY,
+  span: "DeleteDomainObjectType",
 }));
 
 export type DeleteEventStreamError =
@@ -3700,6 +3761,8 @@ export const deleteEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventStream",
+  telemetry: TELEMETRY,
+  span: "DeleteEventStream",
 }));
 
 export type DeleteEventTriggerError =
@@ -3732,6 +3795,8 @@ export const deleteEventTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventTrigger",
+  telemetry: TELEMETRY,
+  span: "DeleteEventTrigger",
 }));
 
 export type DeleteIntegrationError =
@@ -3762,6 +3827,8 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteIntegration",
 }));
 
 export type DeleteProfileError =
@@ -3792,6 +3859,8 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteProfile",
 }));
 
 export type DeleteProfileKeyError =
@@ -3822,6 +3891,8 @@ export const deleteProfileKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfileKey",
+  telemetry: TELEMETRY,
+  span: "DeleteProfileKey",
 }));
 
 export type DeleteProfileObjectError =
@@ -3852,6 +3923,8 @@ export const deleteProfileObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfileObject",
+  telemetry: TELEMETRY,
+  span: "DeleteProfileObject",
 }));
 
 export type DeleteProfileObjectTypeError =
@@ -3885,6 +3958,8 @@ export const deleteProfileObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfileObjectType",
+  telemetry: TELEMETRY,
+  span: "DeleteProfileObjectType",
 }));
 
 export type DeleteRecommenderError =
@@ -3915,6 +3990,8 @@ export const deleteRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommender",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommender",
 }));
 
 export type DeleteRecommenderFilterError =
@@ -3945,6 +4022,8 @@ export const deleteRecommenderFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommenderFilter",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommenderFilter",
 }));
 
 export type DeleteRecommenderSchemaError =
@@ -3975,6 +4054,8 @@ export const deleteRecommenderSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommenderSchema",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommenderSchema",
 }));
 
 export type DeleteSegmentDefinitionError =
@@ -4005,6 +4086,8 @@ export const deleteSegmentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSegmentDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteSegmentDefinition",
 }));
 
 export type DeleteSegmentSubscriptionError =
@@ -4036,6 +4119,8 @@ export const deleteSegmentSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSegmentSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteSegmentSubscription",
 }));
 
 export type DeleteWorkflowError =
@@ -4067,6 +4152,8 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflow",
 }));
 
 export type DetectProfileObjectTypeError =
@@ -4097,6 +4184,8 @@ export const detectProfileObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectProfileObjectType",
+  telemetry: TELEMETRY,
+  span: "DetectProfileObjectType",
 }));
 
 export type DisassociateStreamForSegmentsError =
@@ -4128,6 +4217,8 @@ export const disassociateStreamForSegments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateStreamForSegments",
+  telemetry: TELEMETRY,
+  span: "DisassociateStreamForSegments",
 }));
 
 export type GetAutoMergingPreviewError =
@@ -4170,6 +4261,8 @@ export const getAutoMergingPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoMergingPreview",
+  telemetry: TELEMETRY,
+  span: "GetAutoMergingPreview",
 }));
 
 export type GetCalculatedAttributeDefinitionError =
@@ -4201,6 +4294,8 @@ export const getCalculatedAttributeDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculatedAttributeDefinition",
+  telemetry: TELEMETRY,
+  span: "GetCalculatedAttributeDefinition",
 }));
 
 export type GetCalculatedAttributeForProfileError =
@@ -4231,6 +4326,8 @@ export const getCalculatedAttributeForProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculatedAttributeForProfile",
+  telemetry: TELEMETRY,
+  span: "GetCalculatedAttributeForProfile",
 }));
 
 export type GetDomainError =
@@ -4261,6 +4358,8 @@ export const getDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
+  telemetry: TELEMETRY,
+  span: "GetDomain",
 }));
 
 export type GetDomainLayoutError =
@@ -4292,6 +4391,8 @@ export const getDomainLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainLayout",
+  telemetry: TELEMETRY,
+  span: "GetDomainLayout",
 }));
 
 export type GetDomainObjectTypeError =
@@ -4322,6 +4423,8 @@ export const getDomainObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainObjectType",
+  telemetry: TELEMETRY,
+  span: "GetDomainObjectType",
 }));
 
 export type GetEventStreamError =
@@ -4352,6 +4455,8 @@ export const getEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventStream",
+  telemetry: TELEMETRY,
+  span: "GetEventStream",
 }));
 
 export type GetEventTriggerError =
@@ -4382,6 +4487,8 @@ export const getEventTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventTrigger",
+  telemetry: TELEMETRY,
+  span: "GetEventTrigger",
 }));
 
 export type GetIdentityResolutionJobError =
@@ -4415,6 +4522,8 @@ export const getIdentityResolutionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityResolutionJob",
+  telemetry: TELEMETRY,
+  span: "GetIdentityResolutionJob",
 }));
 
 export type GetIntegrationError =
@@ -4445,6 +4554,8 @@ export const getIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegration",
+  telemetry: TELEMETRY,
+  span: "GetIntegration",
 }));
 
 export type GetMatchesError =
@@ -4512,6 +4623,8 @@ export const getMatches: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMatches",
+  telemetry: TELEMETRY,
+  span: "GetMatches",
 }));
 
 export type GetObjectTypeAttributeStatisticsError =
@@ -4548,6 +4661,8 @@ export const getObjectTypeAttributeStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectTypeAttributeStatistics",
+  telemetry: TELEMETRY,
+  span: "GetObjectTypeAttributeStatistics",
 }));
 
 export type GetProfileHistoryRecordError =
@@ -4578,6 +4693,8 @@ export const getProfileHistoryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileHistoryRecord",
+  telemetry: TELEMETRY,
+  span: "GetProfileHistoryRecord",
 }));
 
 export type GetProfileObjectTypeError =
@@ -4608,6 +4725,8 @@ export const getProfileObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileObjectType",
+  telemetry: TELEMETRY,
+  span: "GetProfileObjectType",
 }));
 
 export type GetProfileObjectTypeTemplateError =
@@ -4643,6 +4762,8 @@ export const getProfileObjectTypeTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileObjectTypeTemplate",
+  telemetry: TELEMETRY,
+  span: "GetProfileObjectTypeTemplate",
 }));
 
 export type GetProfileRecommendationsError =
@@ -4673,6 +4794,8 @@ export const getProfileRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetProfileRecommendations",
 }));
 
 export type GetRecommenderError =
@@ -4703,6 +4826,8 @@ export const getRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommender",
+  telemetry: TELEMETRY,
+  span: "GetRecommender",
 }));
 
 export type GetRecommenderFilterError =
@@ -4733,6 +4858,8 @@ export const getRecommenderFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommenderFilter",
+  telemetry: TELEMETRY,
+  span: "GetRecommenderFilter",
 }));
 
 export type GetRecommenderSchemaError =
@@ -4763,6 +4890,8 @@ export const getRecommenderSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommenderSchema",
+  telemetry: TELEMETRY,
+  span: "GetRecommenderSchema",
 }));
 
 export type GetSegmentDefinitionError =
@@ -4793,6 +4922,8 @@ export const getSegmentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentDefinition",
+  telemetry: TELEMETRY,
+  span: "GetSegmentDefinition",
 }));
 
 export type GetSegmentEstimateError =
@@ -4823,6 +4954,8 @@ export const getSegmentEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentEstimate",
+  telemetry: TELEMETRY,
+  span: "GetSegmentEstimate",
 }));
 
 export type GetSegmentMembershipError =
@@ -4853,6 +4986,8 @@ export const getSegmentMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentMembership",
+  telemetry: TELEMETRY,
+  span: "GetSegmentMembership",
 }));
 
 export type GetSegmentSnapshotError =
@@ -4883,6 +5018,8 @@ export const getSegmentSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentSnapshot",
+  telemetry: TELEMETRY,
+  span: "GetSegmentSnapshot",
 }));
 
 export type GetSegmentSubscriptionError =
@@ -4914,6 +5051,8 @@ export const getSegmentSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentSubscription",
+  telemetry: TELEMETRY,
+  span: "GetSegmentSubscription",
 }));
 
 export type GetSimilarProfilesError =
@@ -4954,6 +5093,8 @@ export const getSimilarProfiles: API.PaginatedOperationMethod<
     items: "ProfileIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetSimilarProfiles",
 })) as any;
 
 export type GetStreamForSegmentsError =
@@ -4985,6 +5126,8 @@ export const getStreamForSegments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamForSegments",
+  telemetry: TELEMETRY,
+  span: "GetStreamForSegments",
 }));
 
 export type GetUploadJobError =
@@ -5015,6 +5158,8 @@ export const getUploadJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUploadJob",
+  telemetry: TELEMETRY,
+  span: "GetUploadJob",
 }));
 
 export type GetUploadJobPathError =
@@ -5046,6 +5191,8 @@ export const getUploadJobPath: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUploadJobPath",
+  telemetry: TELEMETRY,
+  span: "GetUploadJobPath",
 }));
 
 export type GetWorkflowError =
@@ -5076,6 +5223,8 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
+  telemetry: TELEMETRY,
+  span: "GetWorkflow",
 }));
 
 export type GetWorkflowStepsError =
@@ -5106,6 +5255,8 @@ export const getWorkflowSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowSteps",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowSteps",
 }));
 
 export type ListAccountIntegrationsError =
@@ -5136,6 +5287,8 @@ export const listAccountIntegrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccountIntegrations",
+  telemetry: TELEMETRY,
+  span: "ListAccountIntegrations",
 }));
 
 export type ListCalculatedAttributeDefinitionsError =
@@ -5166,6 +5319,8 @@ export const listCalculatedAttributeDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCalculatedAttributeDefinitions",
+  telemetry: TELEMETRY,
+  span: "ListCalculatedAttributeDefinitions",
 }));
 
 export type ListCalculatedAttributesForProfileError =
@@ -5196,6 +5351,8 @@ export const listCalculatedAttributesForProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCalculatedAttributesForProfile",
+  telemetry: TELEMETRY,
+  span: "ListCalculatedAttributesForProfile",
 }));
 
 export type ListDomainLayoutsError =
@@ -5234,6 +5391,8 @@ export const listDomainLayouts: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainLayouts",
 })) as any;
 
 export type ListDomainObjectTypesError =
@@ -5271,6 +5430,8 @@ export const listDomainObjectTypes: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainObjectTypes",
 })) as any;
 
 export type ListDomainsError =
@@ -5301,6 +5462,8 @@ export const listDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomains",
+  telemetry: TELEMETRY,
+  span: "ListDomains",
 }));
 
 export type ListEventStreamsError =
@@ -5338,6 +5501,8 @@ export const listEventStreams: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventStreams",
 })) as any;
 
 export type ListEventTriggersError =
@@ -5375,6 +5540,8 @@ export const listEventTriggers: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventTriggers",
 })) as any;
 
 export type ListIdentityResolutionJobsError =
@@ -5406,6 +5573,8 @@ export const listIdentityResolutionJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentityResolutionJobs",
+  telemetry: TELEMETRY,
+  span: "ListIdentityResolutionJobs",
 }));
 
 export type ListIntegrationsError =
@@ -5436,6 +5605,8 @@ export const listIntegrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIntegrations",
+  telemetry: TELEMETRY,
+  span: "ListIntegrations",
 }));
 
 export type ListObjectTypeAttributesError =
@@ -5473,6 +5644,8 @@ export const listObjectTypeAttributes: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListObjectTypeAttributes",
 })) as any;
 
 export type ListObjectTypeAttributeValuesError =
@@ -5503,6 +5676,8 @@ export const listObjectTypeAttributeValues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListObjectTypeAttributeValues",
+  telemetry: TELEMETRY,
+  span: "ListObjectTypeAttributeValues",
 }));
 
 export type ListProfileAttributeValuesError =
@@ -5533,6 +5708,8 @@ export const listProfileAttributeValues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileAttributeValues",
+  telemetry: TELEMETRY,
+  span: "ListProfileAttributeValues",
 }));
 
 export type ListProfileHistoryRecordsError =
@@ -5563,6 +5740,8 @@ export const listProfileHistoryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileHistoryRecords",
+  telemetry: TELEMETRY,
+  span: "ListProfileHistoryRecords",
 }));
 
 export type ListProfileObjectsError =
@@ -5593,6 +5772,8 @@ export const listProfileObjects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileObjects",
+  telemetry: TELEMETRY,
+  span: "ListProfileObjects",
 }));
 
 export type ListProfileObjectTypesError =
@@ -5623,6 +5804,8 @@ export const listProfileObjectTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileObjectTypes",
+  telemetry: TELEMETRY,
+  span: "ListProfileObjectTypes",
 }));
 
 export type ListProfileObjectTypeTemplatesError =
@@ -5653,6 +5836,8 @@ export const listProfileObjectTypeTemplates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileObjectTypeTemplates",
+  telemetry: TELEMETRY,
+  span: "ListProfileObjectTypeTemplates",
 }));
 
 export type ListRecommenderFiltersError =
@@ -5690,6 +5875,8 @@ export const listRecommenderFilters: API.PaginatedOperationMethod<
     items: "RecommenderFilters",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommenderFilters",
 })) as any;
 
 export type ListRecommenderRecipesError =
@@ -5725,6 +5912,8 @@ export const listRecommenderRecipes: API.PaginatedOperationMethod<
     items: "RecommenderRecipes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommenderRecipes",
 })) as any;
 
 export type ListRecommendersError =
@@ -5762,6 +5951,8 @@ export const listRecommenders: API.PaginatedOperationMethod<
     items: "Recommenders",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommenders",
 })) as any;
 
 export type ListRecommenderSchemasError =
@@ -5799,6 +5990,8 @@ export const listRecommenderSchemas: API.PaginatedOperationMethod<
     items: "RecommenderSchemas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommenderSchemas",
 })) as any;
 
 export type ListRuleBasedMatchesError =
@@ -5836,6 +6029,8 @@ export const listRuleBasedMatches: API.PaginatedOperationMethod<
     items: "MatchIds",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRuleBasedMatches",
 })) as any;
 
 export type ListSegmentDefinitionsError =
@@ -5873,6 +6068,8 @@ export const listSegmentDefinitions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSegmentDefinitions",
 })) as any;
 
 export type ListSegmentSubscriptionEventsError =
@@ -5913,6 +6110,8 @@ export const listSegmentSubscriptionEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSegmentSubscriptionEvents",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -5936,6 +6135,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListUploadJobsError =
@@ -5973,6 +6174,8 @@ export const listUploadJobs: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListUploadJobs",
 })) as any;
 
 export type ListWorkflowsError =
@@ -6003,6 +6206,8 @@ export const listWorkflows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkflows",
+  telemetry: TELEMETRY,
+  span: "ListWorkflows",
 }));
 
 export type MergeProfilesError =
@@ -6059,6 +6264,8 @@ export const mergeProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeProfiles",
+  telemetry: TELEMETRY,
+  span: "MergeProfiles",
 }));
 
 export type PutDomainObjectTypeError =
@@ -6089,6 +6296,8 @@ export const putDomainObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDomainObjectType",
+  telemetry: TELEMETRY,
+  span: "PutDomainObjectType",
 }));
 
 export type PutIntegrationError =
@@ -6126,6 +6335,8 @@ export const putIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntegration",
+  telemetry: TELEMETRY,
+  span: "PutIntegration",
 }));
 
 export type PutProfileObjectError =
@@ -6168,6 +6379,8 @@ export const putProfileObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProfileObject",
+  telemetry: TELEMETRY,
+  span: "PutProfileObject",
 }));
 
 export type PutProfileObjectTypeError =
@@ -6201,6 +6414,8 @@ export const putProfileObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProfileObjectType",
+  telemetry: TELEMETRY,
+  span: "PutProfileObjectType",
 }));
 
 export type PutSegmentSubscriptionError =
@@ -6244,6 +6459,8 @@ export const putSegmentSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSegmentSubscription",
+  telemetry: TELEMETRY,
+  span: "PutSegmentSubscription",
 }));
 
 export type SearchProfilesError =
@@ -6280,6 +6497,8 @@ export const searchProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchProfiles",
+  telemetry: TELEMETRY,
+  span: "SearchProfiles",
 }));
 
 export type SearchRecommendationsError =
@@ -6318,6 +6537,8 @@ export const searchRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchRecommendations",
+  telemetry: TELEMETRY,
+  span: "SearchRecommendations",
 }));
 
 export type StartRecommenderError =
@@ -6348,6 +6569,8 @@ export const startRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommender",
+  telemetry: TELEMETRY,
+  span: "StartRecommender",
 }));
 
 export type StartUploadJobError =
@@ -6378,6 +6601,8 @@ export const startUploadJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartUploadJob",
+  telemetry: TELEMETRY,
+  span: "StartUploadJob",
 }));
 
 export type StopRecommenderError =
@@ -6408,6 +6633,8 @@ export const stopRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRecommender",
+  telemetry: TELEMETRY,
+  span: "StopRecommender",
 }));
 
 export type StopUploadJobError =
@@ -6438,6 +6665,8 @@ export const stopUploadJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopUploadJob",
+  telemetry: TELEMETRY,
+  span: "StopUploadJob",
 }));
 
 export type TagResourceError =
@@ -6474,6 +6703,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -6497,6 +6728,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCalculatedAttributeDefinitionError =
@@ -6529,6 +6762,8 @@ export const updateCalculatedAttributeDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCalculatedAttributeDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateCalculatedAttributeDefinition",
 }));
 
 export type UpdateDomainError =
@@ -6571,6 +6806,8 @@ export const updateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomain",
+  telemetry: TELEMETRY,
+  span: "UpdateDomain",
 }));
 
 export type UpdateDomainLayoutError =
@@ -6602,6 +6839,8 @@ export const updateDomainLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainLayout",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainLayout",
 }));
 
 export type UpdateEventTriggerError =
@@ -6632,6 +6871,8 @@ export const updateEventTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventTrigger",
+  telemetry: TELEMETRY,
+  span: "UpdateEventTrigger",
 }));
 
 export type UpdateProfileError =
@@ -6667,6 +6908,8 @@ export const updateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateProfile",
 }));
 
 export type UpdateRecommenderError =
@@ -6697,6 +6940,8 @@ export const updateRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecommender",
+  telemetry: TELEMETRY,
+  span: "UpdateRecommender",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

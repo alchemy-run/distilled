@@ -16,6 +16,18 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Authentication",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -318,6 +330,8 @@ export const createAuthenticationV1SelfSubjectReview: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthenticationV1SelfSubjectReview",
 }));
 
 export type CreateAuthenticationV1TokenReviewError =
@@ -336,6 +350,8 @@ export const createAuthenticationV1TokenReview: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAuthenticationV1TokenReview",
 }));
 
 export type GetAuthenticationAPIGroupError = KubernetesOpError;
@@ -351,6 +367,8 @@ export const getAuthenticationAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthenticationAPIGroup",
 }));
 
 export type GetAuthenticationV1APIResourcesError = KubernetesOpError;
@@ -366,6 +384,8 @@ export const getAuthenticationV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAuthenticationV1APIResources",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

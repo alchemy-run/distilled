@@ -1,3 +1,4 @@
+import type { TreeSize } from "../../repo-size/tree.ts";
 /**
  * Markdown for the `Benchmarks` CI job: a PR run against the main run it is
  * compared with. GitHub renders the Mermaid `xychart-beta` blocks as charts in
@@ -25,6 +26,8 @@ export interface CiProgram {
     readonly firstCallMs: number;
     readonly firstCallHeap: number;
     readonly addedP50Us: number;
+    /** Bare mock roundtrip timed alongside the call; absent in older runs. */
+    readonly roundtripP50Us?: number;
     readonly p50Us: number;
     readonly gcPer1k: number;
     readonly maxRss: number;
@@ -68,6 +71,11 @@ export interface CiRun {
       reused?: boolean;
     }
   >;
+  /**
+   * Tracked bytes of the checkout by kind of file (benches/repo-size/tree.ts):
+   * `head` is the tree measured, `base` the `--changed-since` tree.
+   */
+  readonly repoSize?: { head: TreeSize; base?: TreeSize };
   readonly errors: string[];
 }
 
@@ -171,6 +179,67 @@ const cell = (m: Metric, head: CiProgram | undefined, base: CiProgram | undefine
 
 const short = (sha: string) => sha.slice(0, 9);
 
+/** Smaller moves are ordinary edits; a regenerated SDK or a new spec dump is bigger. */
+const REPO_NOISE = 256 * 1024;
+const REPO_PARTS: Array<[string, string]> = [
+  ["generated-specs", ".generated-specs/"],
+  ["services", "src/services/"],
+];
+const signedBytes = (d: number) => `${d > 0 ? "+" : d < 0 ? "−" : "±"}${fmtBytes(Math.abs(d))}`;
+
+/**
+ * Tracked bytes of the checkout, against the PR's base commit: one summary
+ * line, plus a table by kind of file for the details.
+ */
+export const repoSizeMarkdown = (run: CiRun): { line: string[]; table: string[] } => {
+  const size = run.repoSize;
+  if (!size) return { line: [], table: [] };
+  const { head, base } = size;
+  const rest = (t: TreeSize) =>
+    t.bytes - REPO_PARTS.reduce((s, [id]) => s + (t.categories[id]?.bytes ?? 0), 0);
+  const parts = [
+    ...REPO_PARTS.map(([id, label]) => {
+      const h = head.categories[id]?.bytes ?? 0;
+      const b = base?.categories[id]?.bytes;
+      const d = b === undefined ? 0 : h - b;
+      return `${label} ${fmtBytes(h)}${Math.abs(d) >= REPO_NOISE ? ` (${signedBytes(d)})` : ""}`;
+    }),
+    `everything else ${fmtBytes(rest(head))}`,
+  ];
+  const d = base ? head.bytes - base.bytes : 0;
+  const mark = !base || Math.abs(d) < REPO_NOISE ? "⚪" : d > 0 ? "🔴" : "🟢";
+  const change = base
+    ? Math.abs(d) < REPO_NOISE
+      ? `, same as main (${signedBytes(d)})`
+      : `: ${signedBytes(d)} (${signed(pct(head.bytes, base.bytes))}%) vs main`
+    : "";
+  const line = [
+    `- ${mark} **Repo size** ${fmtBytes(head.bytes)} tracked in ${count(head.files)} files${change}. ${parts.join(", ")}.`,
+  ];
+  const ids = Object.keys(head.categories).filter(
+    (id) => (head.categories[id]?.bytes ?? 0) > 0 || (base?.categories[id]?.bytes ?? 0) > 0,
+  );
+  const row = (label: string, h: number, b: number | undefined, files: number) =>
+    `| ${label} | ${fmtBytes(h)} | ${b === undefined ? "—" : signedBytes(h - b)} | ${count(files)} |`;
+  const table = [
+    "| Tracked files | Size | Change vs main | Files |",
+    "| --- | ---: | ---: | ---: |",
+    ...ids.map((id) =>
+      row(
+        `\`${id}\``,
+        head.categories[id]?.bytes ?? 0,
+        base ? (base.categories[id]?.bytes ?? 0) : undefined,
+        head.categories[id]?.files ?? 0,
+      ),
+    ),
+    row("**Total**", head.bytes, base?.bytes, head.files),
+    "",
+    "What a checkout or worktree writes to disk, from `git ls-tree` (`benches/repo-size/tree.ts`). The dashboard's Repo size page has the full picture.",
+    "",
+  ];
+  return { line, table };
+};
+
 export const report = (
   head: CiRun,
   base: CiRun | undefined,
@@ -178,6 +247,7 @@ export const report = (
 ) => {
   const names = Object.keys(head.programs).sort();
   const out: string[] = [MARKER];
+  const repo = repoSizeMarkdown(head);
   const verdictLines: string[] = [];
   // Per metric: the programs that moved past the noise threshold.
   const moves = METRICS.map((m) => {
@@ -225,6 +295,7 @@ export const report = (
       `### Benchmarks: PR \`${short(head.sha)}\` vs main \`${base ? short(base.sha) : "none yet"}\``,
       "",
       ...summaryMarkdown(head, base),
+      ...repo.line,
       "",
       ...(head.providers && Object.keys(head.providers).length ? [img("sdk-memory"), ""] : []),
       img("bundle-programs"),
@@ -235,7 +306,8 @@ export const report = (
       `${img("speed", "49%")} ${img("objects", "49%")}`,
       "",
     );
-  } else out.push("## Benchmarks", "", ...verdictLines);
+  } else
+    out.push("## Benchmarks", "", ...verdictLines, ...(repo.line.length ? [...repo.line, ""] : []));
 
   out.push("<details><summary>Numbers</summary>", "");
   if (noisyLine) out.push(`🟡 Timings moved, may be runner noise: ${noisyLine}`, "");
@@ -286,6 +358,7 @@ export const report = (
     "| --- | ---: | ---: | ---: |",
     ...sizeRows,
     "",
+    ...repo.table,
     `Effect alone: \`effect-minimal\` bundle ${fmtBytes(bl.bundle["effect-minimal"]?.gzip)} gzip, hand-written \`effect-http\` call ${fmtBytes(bl.bundle["effect-http"]?.gzip)} gzip; effect import ${fmtMs(bl.runtime?.effectImportMs)} and ${fmtBytes(bl.runtime?.effectHeap)} heap; bare mocked HTTP roundtrip ${us(bl.runtime?.mockRoundtripP50Us ?? NaN)} p50.`,
     "",
     `Bundled (from \`src/\`): ${head.scope.bundle.join(", ")}. Built and probed (from \`lib/\`): ${head.scope.runtime.join(", ")}.${head.scope.changed.length ? ` Changed in this PR: ${head.scope.changed.join(", ")}.` : ""}${head.scope.untargeted.length ? ` No target in targets.json: ${head.scope.untargeted.join(", ")}.` : ""}`,

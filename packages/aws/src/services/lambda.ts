@@ -1,6 +1,8 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxLambda from "@distilled.cloud/core/telemetry-lambda-context";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -76,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://lambda.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Lambda",
+  service: "Lambda",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AliasLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<AliasLimitExceededException>()(
@@ -2669,6 +2685,8 @@ export const addLayerVersionPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddLayerVersionPermission",
+  telemetry: TELEMETRY,
+  span: "AddLayerVersionPermission",
 }));
 
 export type AddPermissionError =
@@ -2713,6 +2731,8 @@ export const addPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPermission",
+  telemetry: TELEMETRY,
+  span: { op: "AddPermission", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type CheckpointDurableExecutionError =
@@ -2749,6 +2769,8 @@ export const checkpointDurableExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckpointDurableExecution",
+  telemetry: TELEMETRY,
+  span: "CheckpointDurableExecution",
 }));
 
 export type CreateAliasError =
@@ -2787,6 +2809,8 @@ export const createAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlias",
+  telemetry: TELEMETRY,
+  span: { op: "CreateAlias", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type CreateCapacityProviderError =
@@ -2817,6 +2841,8 @@ export const createCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityProvider",
+  telemetry: TELEMETRY,
+  span: "CreateCapacityProvider",
 }));
 
 export type CreateCodeSigningConfigError =
@@ -2838,6 +2864,8 @@ export const createCodeSigningConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeSigningConfig",
+  telemetry: TELEMETRY,
+  span: "CreateCodeSigningConfig",
 }));
 
 export type CreateEventSourceMappingError =
@@ -2922,6 +2950,11 @@ export const createEventSourceMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventSourceMapping",
+  telemetry: TELEMETRY,
+  span: {
+    op: "CreateEventSourceMapping",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type CreateFunctionError =
@@ -2988,6 +3021,8 @@ export const createFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunction",
+  telemetry: TELEMETRY,
+  span: { op: "CreateFunction", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type CreateFunctionUrlConfigError =
@@ -3022,6 +3057,8 @@ export const createFunctionUrlConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunctionUrlConfig",
+  telemetry: TELEMETRY,
+  span: { op: "CreateFunctionUrlConfig", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type DeleteAliasError =
@@ -3054,6 +3091,8 @@ export const deleteAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlias",
+  telemetry: TELEMETRY,
+  span: { op: "DeleteAlias", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type DeleteCapacityProviderError =
@@ -3084,6 +3123,8 @@ export const deleteCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityProvider",
+  telemetry: TELEMETRY,
+  span: "DeleteCapacityProvider",
 }));
 
 export type DeleteCodeSigningConfigError =
@@ -3116,6 +3157,8 @@ export const deleteCodeSigningConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeSigningConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteCodeSigningConfig",
 }));
 
 export type DeleteEventSourceMappingError =
@@ -3150,6 +3193,8 @@ export const deleteEventSourceMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventSourceMapping",
+  telemetry: TELEMETRY,
+  span: "DeleteEventSourceMapping",
 }));
 
 export type DeleteFunctionError =
@@ -3184,6 +3229,8 @@ export const deleteFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunction",
+  telemetry: TELEMETRY,
+  span: { op: "DeleteFunction", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type DeleteFunctionCodeSigningConfigError =
@@ -3216,6 +3263,11 @@ export const deleteFunctionCodeSigningConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionCodeSigningConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteFunctionCodeSigningConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type DeleteFunctionConcurrencyError =
@@ -3250,6 +3302,11 @@ export const deleteFunctionConcurrency: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionConcurrency",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteFunctionConcurrency",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type DeleteFunctionEventInvokeConfigError =
@@ -3286,6 +3343,11 @@ export const deleteFunctionEventInvokeConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionEventInvokeConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteFunctionEventInvokeConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type DeleteFunctionUrlConfigError =
@@ -3320,6 +3382,8 @@ export const deleteFunctionUrlConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionUrlConfig",
+  telemetry: TELEMETRY,
+  span: { op: "DeleteFunctionUrlConfig", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type DeleteLayerVersionError =
@@ -3352,6 +3416,8 @@ export const deleteLayerVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLayerVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteLayerVersion",
 }));
 
 export type DeleteProvisionedConcurrencyConfigError =
@@ -3386,6 +3452,11 @@ export const deleteProvisionedConcurrencyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisionedConcurrencyConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "DeleteProvisionedConcurrencyConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type DeleteResourcePolicyError =
@@ -3418,6 +3489,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type GetAccountSettingsError = ServiceException | TooManyRequestsException | CommonErrors;
@@ -3436,6 +3509,8 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetAliasError =
@@ -3464,6 +3539,8 @@ export const getAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAlias",
+  telemetry: TELEMETRY,
+  span: { op: "GetAlias", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type GetCapacityProviderError =
@@ -3492,6 +3569,8 @@ export const getCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityProvider",
+  telemetry: TELEMETRY,
+  span: "GetCapacityProvider",
 }));
 
 export type GetCodeSigningConfigError =
@@ -3522,6 +3601,8 @@ export const getCodeSigningConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeSigningConfig",
+  telemetry: TELEMETRY,
+  span: "GetCodeSigningConfig",
 }));
 
 export type GetDurableExecutionError =
@@ -3558,6 +3639,8 @@ export const getDurableExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDurableExecution",
+  telemetry: TELEMETRY,
+  span: "GetDurableExecution",
 }));
 
 export type GetDurableExecutionHistoryError =
@@ -3603,6 +3686,8 @@ export const getDurableExecutionHistory: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetDurableExecutionHistory",
 })) as any;
 
 export type GetDurableExecutionStateError =
@@ -3646,6 +3731,8 @@ export const getDurableExecutionState: API.PaginatedOperationMethod<
     items: "Operations",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetDurableExecutionState",
 })) as any;
 
 export type GetEventSourceMappingError =
@@ -3674,6 +3761,8 @@ export const getEventSourceMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventSourceMapping",
+  telemetry: TELEMETRY,
+  span: "GetEventSourceMapping",
 }));
 
 export type GetFunctionError =
@@ -3702,6 +3791,8 @@ export const getFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunction",
+  telemetry: TELEMETRY,
+  span: { op: "GetFunction", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type GetFunctionCodeSigningConfigError =
@@ -3732,6 +3823,11 @@ export const getFunctionCodeSigningConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionCodeSigningConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetFunctionCodeSigningConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type GetFunctionConcurrencyError =
@@ -3764,6 +3860,8 @@ export const getFunctionConcurrency: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionConcurrency",
+  telemetry: TELEMETRY,
+  span: { op: "GetFunctionConcurrency", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type GetFunctionConfigurationError =
@@ -3794,6 +3892,11 @@ export const getFunctionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionConfiguration",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetFunctionConfiguration",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type GetFunctionEventInvokeConfigError =
@@ -3828,6 +3931,11 @@ export const getFunctionEventInvokeConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionEventInvokeConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetFunctionEventInvokeConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type GetFunctionRecursionConfigError =
@@ -3860,6 +3968,11 @@ export const getFunctionRecursionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionRecursionConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetFunctionRecursionConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type GetFunctionScalingConfigError =
@@ -3888,6 +4001,11 @@ export const getFunctionScalingConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionScalingConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetFunctionScalingConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type GetFunctionUrlConfigError =
@@ -3916,6 +4034,8 @@ export const getFunctionUrlConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionUrlConfig",
+  telemetry: TELEMETRY,
+  span: { op: "GetFunctionUrlConfig", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type GetLayerVersionError =
@@ -3948,6 +4068,8 @@ export const getLayerVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLayerVersion",
+  telemetry: TELEMETRY,
+  span: "GetLayerVersion",
 }));
 
 export type GetLayerVersionByArnError =
@@ -3976,6 +4098,8 @@ export const getLayerVersionByArn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLayerVersionByArn",
+  telemetry: TELEMETRY,
+  span: "GetLayerVersionByArn",
 }));
 
 export type GetLayerVersionPolicyError =
@@ -4008,6 +4132,8 @@ export const getLayerVersionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLayerVersionPolicy",
+  telemetry: TELEMETRY,
+  span: "GetLayerVersionPolicy",
 }));
 
 export type GetPolicyError =
@@ -4036,6 +4162,8 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  telemetry: TELEMETRY,
+  span: { op: "GetPolicy", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type GetProvisionedConcurrencyConfigError =
@@ -4070,6 +4198,11 @@ export const getProvisionedConcurrencyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProvisionedConcurrencyConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetProvisionedConcurrencyConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type GetResourcePolicyError =
@@ -4098,6 +4231,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetRuntimeManagementConfigError =
@@ -4126,6 +4261,11 @@ export const getRuntimeManagementConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuntimeManagementConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetRuntimeManagementConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type InvokeError =
@@ -4250,6 +4390,14 @@ export const invoke: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Invoke",
+  telemetry: TELEMETRY,
+  span: {
+    op: "Invoke",
+    copy: { "cloud.region": "faas.invoked_region" },
+    attributes: { "faas.invoked_provider": "aws" },
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+    inject: TxLambda.injectLambdaClientContext({ member: "ClientContext" }),
+  },
 }));
 
 export type InvokeAsyncError =
@@ -4334,6 +4482,8 @@ export const invokeAsync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeAsync",
+  telemetry: TELEMETRY,
+  span: { op: "InvokeAsync", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type InvokeWithResponseStreamError =
@@ -4436,6 +4586,14 @@ export const invokeWithResponseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeWithResponseStream",
+  telemetry: TELEMETRY,
+  span: {
+    op: "InvokeWithResponseStream",
+    copy: { "cloud.region": "faas.invoked_region" },
+    attributes: { "faas.invoked_provider": "aws" },
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+    inject: TxLambda.injectLambdaClientContext({ member: "ClientContext" }),
+  },
 }));
 
 export type ListAliasesError =
@@ -4471,6 +4629,8 @@ export const listAliases: API.PaginatedOperationMethod<
     items: "Aliases",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: { op: "ListAliases", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 })) as any;
 
 export type ListCapacityProvidersError =
@@ -4500,6 +4660,8 @@ export const listCapacityProviders: API.PaginatedOperationMethod<
     items: "CapacityProviders",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCapacityProviders",
 })) as any;
 
 export type ListCodeSigningConfigsError =
@@ -4528,6 +4690,8 @@ export const listCodeSigningConfigs: API.PaginatedOperationMethod<
     items: "CodeSigningConfigs",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCodeSigningConfigs",
 })) as any;
 
 export type ListDurableExecutionsByFunctionError =
@@ -4563,6 +4727,11 @@ export const listDurableExecutionsByFunction: API.PaginatedOperationMethod<
     items: "DurableExecutions",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListDurableExecutionsByFunction",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 })) as any;
 
 export type ListEventSourceMappingsError =
@@ -4598,6 +4767,8 @@ export const listEventSourceMappings: API.PaginatedOperationMethod<
     items: "EventSourceMappings",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: { op: "ListEventSourceMappings", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 })) as any;
 
 export type ListFunctionEventInvokeConfigsError =
@@ -4639,6 +4810,11 @@ export const listFunctionEventInvokeConfigs: API.PaginatedOperationMethod<
     items: "FunctionEventInvokeConfigs",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListFunctionEventInvokeConfigs",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 })) as any;
 
 export type ListFunctionsError =
@@ -4672,6 +4848,8 @@ export const listFunctions: API.PaginatedOperationMethod<
     items: "Functions",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFunctions",
 })) as any;
 
 export type ListFunctionsByCodeSigningConfigError =
@@ -4701,6 +4879,8 @@ export const listFunctionsByCodeSigningConfig: API.PaginatedOperationMethod<
     items: "FunctionArns",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFunctionsByCodeSigningConfig",
 })) as any;
 
 export type ListFunctionUrlConfigsError =
@@ -4736,6 +4916,8 @@ export const listFunctionUrlConfigs: API.PaginatedOperationMethod<
     items: "FunctionUrlConfigs",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: { op: "ListFunctionUrlConfigs", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 })) as any;
 
 export type ListFunctionVersionsByCapacityProviderError =
@@ -4771,6 +4953,8 @@ export const listFunctionVersionsByCapacityProvider: API.PaginatedOperationMetho
     items: "FunctionVersions",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFunctionVersionsByCapacityProvider",
 })) as any;
 
 export type ListLayersError =
@@ -4800,6 +4984,8 @@ export const listLayers: API.PaginatedOperationMethod<
     items: "Layers",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLayers",
 })) as any;
 
 export type ListLayerVersionsError =
@@ -4839,6 +5025,8 @@ export const listLayerVersions: API.PaginatedOperationMethod<
     items: "LayerVersions",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLayerVersions",
 })) as any;
 
 export type ListProvisionedConcurrencyConfigsError =
@@ -4878,6 +5066,11 @@ export const listProvisionedConcurrencyConfigs: API.PaginatedOperationMethod<
     items: "ProvisionedConcurrencyConfigs",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListProvisionedConcurrencyConfigs",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 })) as any;
 
 export type ListTagsError =
@@ -4910,6 +5103,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ListVersionsByFunctionError =
@@ -4945,6 +5140,8 @@ export const listVersionsByFunction: API.PaginatedOperationMethod<
     items: "Versions",
     pageSize: "MaxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: { op: "ListVersionsByFunction", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 })) as any;
 
 export type PublishLayerVersionError =
@@ -4981,6 +5178,8 @@ export const publishLayerVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishLayerVersion",
+  telemetry: TELEMETRY,
+  span: "PublishLayerVersion",
 }));
 
 export type PublishVersionError =
@@ -5025,6 +5224,8 @@ export const publishVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishVersion",
+  telemetry: TELEMETRY,
+  span: { op: "PublishVersion", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type PutFunctionCodeSigningConfigError =
@@ -5061,6 +5262,11 @@ export const putFunctionCodeSigningConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionCodeSigningConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutFunctionCodeSigningConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type PutFunctionConcurrencyError =
@@ -5099,6 +5305,8 @@ export const putFunctionConcurrency: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionConcurrency",
+  telemetry: TELEMETRY,
+  span: { op: "PutFunctionConcurrency", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type PutFunctionEventInvokeConfigError =
@@ -5139,6 +5347,11 @@ export const putFunctionEventInvokeConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionEventInvokeConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutFunctionEventInvokeConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type PutFunctionRecursionConfigError =
@@ -5177,6 +5390,11 @@ export const putFunctionRecursionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionRecursionConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutFunctionRecursionConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type PutFunctionScalingConfigError =
@@ -5207,6 +5425,11 @@ export const putFunctionScalingConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunctionScalingConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutFunctionScalingConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type PutProvisionedConcurrencyConfigError =
@@ -5241,6 +5464,11 @@ export const putProvisionedConcurrencyConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProvisionedConcurrencyConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutProvisionedConcurrencyConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type PutResourcePolicyError =
@@ -5279,6 +5507,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type PutRuntimeManagementConfigError =
@@ -5309,6 +5539,11 @@ export const putRuntimeManagementConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRuntimeManagementConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutRuntimeManagementConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type RemoveLayerVersionPermissionError =
@@ -5343,6 +5578,8 @@ export const removeLayerVersionPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveLayerVersionPermission",
+  telemetry: TELEMETRY,
+  span: "RemoveLayerVersionPermission",
 }));
 
 export type RemovePermissionError =
@@ -5375,6 +5612,8 @@ export const removePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
+  telemetry: TELEMETRY,
+  span: { op: "RemovePermission", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type SendDurableExecutionCallbackFailureError =
@@ -5413,6 +5652,8 @@ export const sendDurableExecutionCallbackFailure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDurableExecutionCallbackFailure",
+  telemetry: TELEMETRY,
+  span: "SendDurableExecutionCallbackFailure",
 }));
 
 export type SendDurableExecutionCallbackHeartbeatError =
@@ -5443,6 +5684,8 @@ export const sendDurableExecutionCallbackHeartbeat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDurableExecutionCallbackHeartbeat",
+  telemetry: TELEMETRY,
+  span: "SendDurableExecutionCallbackHeartbeat",
 }));
 
 export type SendDurableExecutionCallbackSuccessError =
@@ -5481,6 +5724,8 @@ export const sendDurableExecutionCallbackSuccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDurableExecutionCallbackSuccess",
+  telemetry: TELEMETRY,
+  span: "SendDurableExecutionCallbackSuccess",
 }));
 
 export type StopDurableExecutionError =
@@ -5517,6 +5762,8 @@ export const stopDurableExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDurableExecution",
+  telemetry: TELEMETRY,
+  span: "StopDurableExecution",
 }));
 
 export type TagResourceError =
@@ -5551,6 +5798,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -5585,6 +5834,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAliasError =
@@ -5621,6 +5872,8 @@ export const updateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAlias",
+  telemetry: TELEMETRY,
+  span: { op: "UpdateAlias", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type UpdateCapacityProviderError =
@@ -5651,6 +5904,8 @@ export const updateCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapacityProvider",
+  telemetry: TELEMETRY,
+  span: "UpdateCapacityProvider",
 }));
 
 export type UpdateCodeSigningConfigError =
@@ -5673,6 +5928,8 @@ export const updateCodeSigningConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCodeSigningConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateCodeSigningConfig",
 }));
 
 export type UpdateEventSourceMappingError =
@@ -5759,6 +6016,11 @@ export const updateEventSourceMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventSourceMapping",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateEventSourceMapping",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type UpdateFunctionCodeError =
@@ -5819,6 +6081,8 @@ export const updateFunctionCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionCode",
+  telemetry: TELEMETRY,
+  span: { op: "UpdateFunctionCode", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 export type UpdateFunctionConfigurationError =
@@ -5875,6 +6139,11 @@ export const updateFunctionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionConfiguration",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateFunctionConfiguration",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type UpdateFunctionEventInvokeConfigError =
@@ -5907,6 +6176,11 @@ export const updateFunctionEventInvokeConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionEventInvokeConfig",
+  telemetry: TELEMETRY,
+  span: {
+    op: "UpdateFunctionEventInvokeConfig",
+    input: { FunctionName: [{ name: "faas.invoked_name" }] },
+  },
 }));
 
 export type UpdateFunctionUrlConfigError =
@@ -5941,6 +6215,8 @@ export const updateFunctionUrlConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionUrlConfig",
+  telemetry: TELEMETRY,
+  span: { op: "UpdateFunctionUrlConfig", input: { FunctionName: [{ name: "faas.invoked_name" }] } },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

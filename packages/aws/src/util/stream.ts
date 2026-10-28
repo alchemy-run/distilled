@@ -5,11 +5,18 @@
 
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
+import { ParseError } from "../errors.ts";
 import type { StreamingInputBody } from "../traits.ts";
 
 export const readEffectStreamAsText = <Err>(
   stream: Stream.Stream<Uint8Array, Err>,
-): Effect.Effect<string, Err> => readStreamAsText(effectStreamToReadable(stream));
+): Effect.Effect<string, Err> => Stream.mkString(Stream.decodeText(stream));
+
+/** A body stream that errored while it was read (e.g. a connection reset). */
+const unreadableBody = (cause: unknown) =>
+  new ParseError({
+    message: `Failed to read the response body: ${cause instanceof Error ? cause.message : String(cause)}`,
+  });
 
 /**
  * Read a ReadableStream as text (for non-streaming responses).
@@ -17,10 +24,13 @@ export const readEffectStreamAsText = <Err>(
  */
 export const readStreamAsText = (
   stream: string | ReadableStream<Uint8Array>,
-): Effect.Effect<string> =>
+): Effect.Effect<string, ParseError> =>
   typeof stream === "string"
     ? Effect.succeed(stream)
-    : Effect.promise(() => new globalThis.Response(stream).text());
+    : Effect.tryPromise({
+        try: () => new globalThis.Response(stream).text(),
+        catch: unreadableBody,
+      });
 
 /**
  * Read a ReadableStream fully as raw bytes (for non-streaming binary
@@ -29,12 +39,12 @@ export const readStreamAsText = (
  */
 export const readStreamAsBytes = (
   stream: string | ReadableStream<Uint8Array>,
-): Effect.Effect<Uint8Array> =>
+): Effect.Effect<Uint8Array, ParseError> =>
   typeof stream === "string"
     ? Effect.succeed(new TextEncoder().encode(stream))
-    : Effect.promise(async () => {
-        const buffer = await new globalThis.Response(stream).arrayBuffer();
-        return new Uint8Array(buffer);
+    : Effect.tryPromise({
+        try: async () => new Uint8Array(await new globalThis.Response(stream).arrayBuffer()),
+        catch: unreadableBody,
       });
 
 /**
@@ -81,7 +91,7 @@ export const readableToEffectStream = (
     ? Stream.fromIterable([new TextEncoder().encode(stream)])
     : Stream.fromReadableStream({
         evaluate: () => stream,
-        onError: (e) => new Error(String(e)),
+        onError: (e) => (e instanceof Error ? e : new Error(String(e), { cause: e })),
       });
 
 /**
@@ -157,8 +167,10 @@ export function createBufferedReadableStream(
 
   return new ReadableStream({
     pull,
+    // An upstream that already errored rejects `cancel()`; releasing it is
+    // best effort, as in Effect's `Stream.fromReadableStream`.
     cancel(reason) {
-      reader.cancel(reason);
+      return reader.cancel(reason).catch(() => {});
     },
   });
 }

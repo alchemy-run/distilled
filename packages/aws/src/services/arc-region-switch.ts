@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -138,6 +139,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ARCRegionswitch",
+  service: "ARCRegionswitch",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1336,6 +1352,8 @@ export const approvePlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApprovePlanExecutionStep",
+  telemetry: TELEMETRY,
+  span: "ApprovePlanExecutionStep",
 }));
 
 export type CancelPlanExecutionError =
@@ -1359,6 +1377,8 @@ export const cancelPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelPlanExecution",
+  telemetry: TELEMETRY,
+  span: "CancelPlanExecution",
 }));
 
 export type CreatePlanError = CommonErrors;
@@ -1379,6 +1399,8 @@ export const createPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlan",
+  telemetry: TELEMETRY,
+  span: "CreatePlan",
 }));
 
 export type DeletePlanError = IllegalStateException | ResourceNotFoundException | CommonErrors;
@@ -1399,6 +1421,8 @@ export const deletePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlan",
+  telemetry: TELEMETRY,
+  span: "DeletePlan",
 }));
 
 export type GetPlanError = ResourceNotFoundException | CommonErrors;
@@ -1417,6 +1441,8 @@ export const getPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlan",
+  telemetry: TELEMETRY,
+  span: "GetPlan",
 }));
 
 export type GetPlanEvaluationStatusError =
@@ -1445,6 +1471,8 @@ export const getPlanEvaluationStatus: API.PaginatedOperationMethod<
     items: "warnings",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetPlanEvaluationStatus",
 })) as any;
 
 export type GetPlanExecutionError =
@@ -1473,6 +1501,8 @@ export const getPlanExecution: API.PaginatedOperationMethod<
     items: "stepStates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetPlanExecution",
 })) as any;
 
 export type GetPlanInRegionError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
@@ -1491,6 +1521,8 @@ export const getPlanInRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlanInRegion",
+  telemetry: TELEMETRY,
+  span: "GetPlanInRegion",
 }));
 
 export type ListPlanExecutionEventsError =
@@ -1519,6 +1551,8 @@ export const listPlanExecutionEvents: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlanExecutionEvents",
 })) as any;
 
 export type ListPlanExecutionsError =
@@ -1547,6 +1581,8 @@ export const listPlanExecutions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlanExecutions",
 })) as any;
 
 export type ListPlansError = CommonErrors;
@@ -1572,6 +1608,8 @@ export const listPlans: API.PaginatedOperationMethod<
     items: "plans",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlans",
 })) as any;
 
 export type ListPlansInRegionError = AccessDeniedException | CommonErrors;
@@ -1597,6 +1635,8 @@ export const listPlansInRegion: API.PaginatedOperationMethod<
     items: "plans",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPlansInRegion",
 })) as any;
 
 export type ListRoute53HealthChecksError =
@@ -1632,6 +1672,8 @@ export const listRoute53HealthChecks: API.PaginatedOperationMethod<
     items: "healthChecks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoute53HealthChecks",
 })) as any;
 
 export type ListRoute53HealthChecksInRegionError =
@@ -1667,6 +1709,8 @@ export const listRoute53HealthChecksInRegion: API.PaginatedOperationMethod<
     items: "healthChecks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRoute53HealthChecksInRegion",
 })) as any;
 
 export type ListServiceQuotaWarningsError =
@@ -1697,6 +1741,8 @@ export const listServiceQuotaWarnings: API.PaginatedOperationMethod<
     items: "serviceQuotaWarningSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceQuotaWarnings",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1718,6 +1764,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartPlanExecutionError =
@@ -1750,6 +1798,8 @@ export const startPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPlanExecution",
+  telemetry: TELEMETRY,
+  span: "StartPlanExecution",
 }));
 
 export type TagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -1768,6 +1818,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
@@ -1786,6 +1838,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdatePlanError = ResourceNotFoundException | CommonErrors;
@@ -1804,6 +1858,8 @@ export const updatePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlan",
+  telemetry: TELEMETRY,
+  span: "UpdatePlan",
 }));
 
 export type UpdatePlanExecutionError =
@@ -1826,6 +1882,8 @@ export const updatePlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlanExecution",
+  telemetry: TELEMETRY,
+  span: "UpdatePlanExecution",
 }));
 
 export type UpdatePlanExecutionStepError =
@@ -1847,6 +1905,8 @@ export const updatePlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlanExecutionStep",
+  telemetry: TELEMETRY,
+  span: "UpdatePlanExecutionStep",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

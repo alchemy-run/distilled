@@ -113,6 +113,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the S2 Effect SDK from the Smithy models",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // The RFC-6902 chain in patches/<service>/<op>.json applies to the Smithy
   // models via finalizeConvert in scripts/convert.ts — never here.

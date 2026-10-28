@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -72,6 +73,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://rtbfabric.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "RTBFabric",
+  service: "RTBFabric",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -842,6 +857,8 @@ export const acceptLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptLink",
+  telemetry: TELEMETRY,
+  span: "AcceptLink",
 }));
 
 export type AssociateCertificateError =
@@ -876,6 +893,8 @@ export const associateCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCertificate",
+  telemetry: TELEMETRY,
+  span: "AssociateCertificate",
 }));
 
 export type CreateInboundExternalLinkError =
@@ -910,6 +929,8 @@ export const createInboundExternalLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInboundExternalLink",
+  telemetry: TELEMETRY,
+  span: "CreateInboundExternalLink",
 }));
 
 export type CreateLinkError =
@@ -946,6 +967,8 @@ export const createLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLink",
+  telemetry: TELEMETRY,
+  span: "CreateLink",
 }));
 
 export type CreateLinkRoutingRuleError =
@@ -982,6 +1005,8 @@ export const createLinkRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLinkRoutingRule",
+  telemetry: TELEMETRY,
+  span: "CreateLinkRoutingRule",
 }));
 
 export type CreateOutboundExternalLinkError =
@@ -1016,6 +1041,8 @@ export const createOutboundExternalLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutboundExternalLink",
+  telemetry: TELEMETRY,
+  span: "CreateOutboundExternalLink",
 }));
 
 export type CreateRequesterGatewayError =
@@ -1048,6 +1075,8 @@ export const createRequesterGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRequesterGateway",
+  telemetry: TELEMETRY,
+  span: "CreateRequesterGateway",
 }));
 
 export type CreateResponderGatewayError =
@@ -1082,6 +1111,8 @@ export const createResponderGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResponderGateway",
+  telemetry: TELEMETRY,
+  span: "CreateResponderGateway",
 }));
 
 export type DeleteInboundExternalLinkError =
@@ -1114,6 +1145,8 @@ export const deleteInboundExternalLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInboundExternalLink",
+  telemetry: TELEMETRY,
+  span: "DeleteInboundExternalLink",
 }));
 
 export type DeleteLinkError =
@@ -1148,6 +1181,8 @@ export const deleteLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLink",
+  telemetry: TELEMETRY,
+  span: "DeleteLink",
 }));
 
 export type DeleteLinkRoutingRuleError =
@@ -1180,6 +1215,8 @@ export const deleteLinkRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLinkRoutingRule",
+  telemetry: TELEMETRY,
+  span: "DeleteLinkRoutingRule",
 }));
 
 export type DeleteOutboundExternalLinkError =
@@ -1212,6 +1249,8 @@ export const deleteOutboundExternalLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutboundExternalLink",
+  telemetry: TELEMETRY,
+  span: "DeleteOutboundExternalLink",
 }));
 
 export type DeleteRequesterGatewayError =
@@ -1244,6 +1283,8 @@ export const deleteRequesterGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRequesterGateway",
+  telemetry: TELEMETRY,
+  span: "DeleteRequesterGateway",
 }));
 
 export type DeleteResponderGatewayError =
@@ -1276,6 +1317,8 @@ export const deleteResponderGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResponderGateway",
+  telemetry: TELEMETRY,
+  span: "DeleteResponderGateway",
 }));
 
 export type DisassociateCertificateError =
@@ -1310,6 +1353,8 @@ export const disassociateCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCertificate",
+  telemetry: TELEMETRY,
+  span: "DisassociateCertificate",
 }));
 
 export type GetCertificateAssociationError =
@@ -1340,6 +1385,8 @@ export const getCertificateAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificateAssociation",
+  telemetry: TELEMETRY,
+  span: "GetCertificateAssociation",
 }));
 
 export type GetInboundExternalLinkError =
@@ -1370,6 +1417,8 @@ export const getInboundExternalLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInboundExternalLink",
+  telemetry: TELEMETRY,
+  span: "GetInboundExternalLink",
 }));
 
 export type GetLinkError =
@@ -1404,6 +1453,8 @@ export const getLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLink",
+  telemetry: TELEMETRY,
+  span: "GetLink",
 }));
 
 export type GetLinkRoutingRuleError =
@@ -1434,6 +1485,8 @@ export const getLinkRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLinkRoutingRule",
+  telemetry: TELEMETRY,
+  span: "GetLinkRoutingRule",
 }));
 
 export type GetOutboundExternalLinkError =
@@ -1464,6 +1517,8 @@ export const getOutboundExternalLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutboundExternalLink",
+  telemetry: TELEMETRY,
+  span: "GetOutboundExternalLink",
 }));
 
 export type GetRequesterGatewayError =
@@ -1494,6 +1549,8 @@ export const getRequesterGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRequesterGateway",
+  telemetry: TELEMETRY,
+  span: "GetRequesterGateway",
 }));
 
 export type GetResponderGatewayError =
@@ -1524,6 +1581,8 @@ export const getResponderGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponderGateway",
+  telemetry: TELEMETRY,
+  span: "GetResponderGateway",
 }));
 
 export type ListCertificateAssociationsError =
@@ -1561,6 +1620,8 @@ export const listCertificateAssociations: API.PaginatedOperationMethod<
     items: "certificateAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCertificateAssociations",
 })) as any;
 
 export type ListLinkRoutingRulesError =
@@ -1598,6 +1659,8 @@ export const listLinkRoutingRules: API.PaginatedOperationMethod<
     items: "rules",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLinkRoutingRules",
 })) as any;
 
 export type ListLinksError =
@@ -1637,6 +1700,8 @@ export const listLinks: API.PaginatedOperationMethod<
     items: "links",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLinks",
 })) as any;
 
 export type ListRequesterGatewaysError =
@@ -1665,6 +1730,8 @@ export const listRequesterGateways: API.PaginatedOperationMethod<
     items: "gatewayIds",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRequesterGateways",
 })) as any;
 
 export type ListResponderGatewaysError =
@@ -1693,6 +1760,8 @@ export const listResponderGateways: API.PaginatedOperationMethod<
     items: "gatewayIds",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResponderGateways",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1723,6 +1792,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RejectLinkError =
@@ -1757,6 +1828,8 @@ export const rejectLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectLink",
+  telemetry: TELEMETRY,
+  span: "RejectLink",
 }));
 
 export type TagResourceError =
@@ -1787,6 +1860,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1817,6 +1892,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateLinkError =
@@ -1851,6 +1928,8 @@ export const updateLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLink",
+  telemetry: TELEMETRY,
+  span: "UpdateLink",
 }));
 
 export type UpdateLinkModuleFlowError =
@@ -1885,6 +1964,8 @@ export const updateLinkModuleFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLinkModuleFlow",
+  telemetry: TELEMETRY,
+  span: "UpdateLinkModuleFlow",
 }));
 
 export type UpdateLinkRoutingRuleError =
@@ -1917,6 +1998,8 @@ export const updateLinkRoutingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLinkRoutingRule",
+  telemetry: TELEMETRY,
+  span: "UpdateLinkRoutingRule",
 }));
 
 export type UpdateRequesterGatewayError =
@@ -1949,6 +2032,8 @@ export const updateRequesterGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRequesterGateway",
+  telemetry: TELEMETRY,
+  span: "UpdateRequesterGateway",
 }));
 
 export type UpdateResponderGatewayError =
@@ -1983,6 +2068,8 @@ export const updateResponderGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResponderGateway",
+  telemetry: TELEMETRY,
+  span: "UpdateResponderGateway",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as stream from "effect/Stream";
 import * as C from "../category.ts";
@@ -78,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://transcribestreaming.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "TranscribeStreaming",
+  service: "TranscribeStreaming",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
@@ -957,6 +972,8 @@ export const getMedicalScribeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMedicalScribeStream",
+  telemetry: TELEMETRY,
+  span: "GetMedicalScribeStream",
 }));
 
 export type StartCallAnalyticsStreamTranscriptionError =
@@ -999,6 +1016,8 @@ export const startCallAnalyticsStreamTranscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCallAnalyticsStreamTranscription",
+  telemetry: TELEMETRY,
+  span: "StartCallAnalyticsStreamTranscription",
 }));
 
 export type StartMedicalScribeStreamError =
@@ -1057,6 +1076,8 @@ export const startMedicalScribeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMedicalScribeStream",
+  telemetry: TELEMETRY,
+  span: "StartMedicalScribeStream",
 }));
 
 export type StartMedicalStreamTranscriptionError =
@@ -1101,6 +1122,8 @@ export const startMedicalStreamTranscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMedicalStreamTranscription",
+  telemetry: TELEMETRY,
+  span: "StartMedicalStreamTranscription",
 }));
 
 export type StartStreamTranscriptionError =
@@ -1142,6 +1165,8 @@ export const startStreamTranscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartStreamTranscription",
+  telemetry: TELEMETRY,
+  span: "StartStreamTranscription",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

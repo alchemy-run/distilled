@@ -1,0 +1,9 @@
+{
+  "description": "repos.updateBranchProtection: required_status_checks takes `contexts` OR `checks`, and GitHub rejects a body that sends both. The spec marks `contexts` required, which forces both whenever `checks` is used.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.github.repos#UpdateBranchProtectionRequestRequiredStatusChecks/members/contexts/traits/smithy.api#required"
+    }
+  ]
+}

@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Dnd",
+  propagate: "w3c",
+} as const;
+
 export interface DndInfoRequest {
   /** User to fetch status for (defaults to current user) */
   user?: string;
@@ -83,6 +96,8 @@ export const dndInfo: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DndInfo",
 }));
 
 export type EndDndError = SlackOpError;
@@ -98,6 +113,8 @@ export const endDnd: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EndDnd",
 }));
 
 export type EndSnoozeError = SlackOpError;
@@ -113,6 +130,8 @@ export const endSnooze: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EndSnooze",
 }));
 
 export type SetSnoozeError = SlackOpError;
@@ -128,6 +147,8 @@ export const setSnooze: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetSnooze",
 }));
 
 export type TeamInfoError = SlackOpError;
@@ -143,6 +164,8 @@ export const teamInfo: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TeamInfo",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

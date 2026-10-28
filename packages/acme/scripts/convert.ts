@@ -25,6 +25,7 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { writeModel } from "@distilled.cloud/dev/codegen/models";
 import { ERROR_MATCHERS_TRAIT } from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
@@ -595,8 +596,7 @@ const model = {
   },
   shapes,
 };
-fs.mkdirSync(outDir, { recursive: true });
-fs.writeFileSync(path.join(outDir, "acme.json"), `${JSON.stringify(model, null, 2)}\n`);
+writeModel(path.join(outDir, "acme.json"), model);
 console.log(
   `✅ acme: ${OPERATIONS.length} operations, ${errorTypes.length} error types from RFC 8555`,
 );

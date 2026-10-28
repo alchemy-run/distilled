@@ -98,6 +98,7 @@ const itemsMember = (shapes: Record<string, any>, output: any): string | undefin
 
 runGeneratorCli({
   description: "Generate the Squarespace Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.

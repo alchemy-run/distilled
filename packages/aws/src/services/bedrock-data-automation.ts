@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -79,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://bedrock-data-automation.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BedrockDataAutomation",
+  service: "BedrockDataAutomation",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -914,6 +929,8 @@ export const copyBlueprintStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyBlueprintStage",
+  telemetry: TELEMETRY,
+  span: "CopyBlueprintStage",
 }));
 
 export type CreateBlueprintError =
@@ -946,6 +963,8 @@ export const createBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBlueprint",
+  telemetry: TELEMETRY,
+  span: "CreateBlueprint",
 }));
 
 export type CreateBlueprintVersionError =
@@ -978,6 +997,8 @@ export const createBlueprintVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBlueprintVersion",
+  telemetry: TELEMETRY,
+  span: "CreateBlueprintVersion",
 }));
 
 export type CreateDataAutomationLibraryError =
@@ -1010,6 +1031,8 @@ export const createDataAutomationLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataAutomationLibrary",
+  telemetry: TELEMETRY,
+  span: "CreateDataAutomationLibrary",
 }));
 
 export type CreateDataAutomationProjectError =
@@ -1042,6 +1065,8 @@ export const createDataAutomationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataAutomationProject",
+  telemetry: TELEMETRY,
+  span: "CreateDataAutomationProject",
 }));
 
 export type DeleteBlueprintError =
@@ -1072,6 +1097,8 @@ export const deleteBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBlueprint",
+  telemetry: TELEMETRY,
+  span: "DeleteBlueprint",
 }));
 
 export type DeleteDataAutomationLibraryError =
@@ -1104,6 +1131,8 @@ export const deleteDataAutomationLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataAutomationLibrary",
+  telemetry: TELEMETRY,
+  span: "DeleteDataAutomationLibrary",
 }));
 
 export type DeleteDataAutomationProjectError =
@@ -1134,6 +1163,8 @@ export const deleteDataAutomationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataAutomationProject",
+  telemetry: TELEMETRY,
+  span: "DeleteDataAutomationProject",
 }));
 
 export type GetBlueprintError =
@@ -1164,6 +1195,8 @@ export const getBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlueprint",
+  telemetry: TELEMETRY,
+  span: "GetBlueprint",
 }));
 
 export type GetBlueprintOptimizationStatusError =
@@ -1194,6 +1227,8 @@ export const getBlueprintOptimizationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlueprintOptimizationStatus",
+  telemetry: TELEMETRY,
+  span: "GetBlueprintOptimizationStatus",
 }));
 
 export type GetDataAutomationLibraryError =
@@ -1224,6 +1259,8 @@ export const getDataAutomationLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAutomationLibrary",
+  telemetry: TELEMETRY,
+  span: "GetDataAutomationLibrary",
 }));
 
 export type GetDataAutomationLibraryEntityError =
@@ -1254,6 +1291,8 @@ export const getDataAutomationLibraryEntity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAutomationLibraryEntity",
+  telemetry: TELEMETRY,
+  span: "GetDataAutomationLibraryEntity",
 }));
 
 export type GetDataAutomationLibraryIngestionJobError =
@@ -1284,6 +1323,8 @@ export const getDataAutomationLibraryIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAutomationLibraryIngestionJob",
+  telemetry: TELEMETRY,
+  span: "GetDataAutomationLibraryIngestionJob",
 }));
 
 export type GetDataAutomationProjectError =
@@ -1314,6 +1355,8 @@ export const getDataAutomationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAutomationProject",
+  telemetry: TELEMETRY,
+  span: "GetDataAutomationProject",
 }));
 
 export type InvokeBlueprintOptimizationAsyncError =
@@ -1346,6 +1389,8 @@ export const invokeBlueprintOptimizationAsync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeBlueprintOptimizationAsync",
+  telemetry: TELEMETRY,
+  span: "InvokeBlueprintOptimizationAsync",
 }));
 
 export type InvokeDataAutomationLibraryIngestionJobError =
@@ -1380,6 +1425,8 @@ export const invokeDataAutomationLibraryIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeDataAutomationLibraryIngestionJob",
+  telemetry: TELEMETRY,
+  span: "InvokeDataAutomationLibraryIngestionJob",
 }));
 
 export type ListBlueprintsError =
@@ -1417,6 +1464,8 @@ export const listBlueprints: API.PaginatedOperationMethod<
     items: "blueprints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBlueprints",
 })) as any;
 
 export type ListDataAutomationLibrariesError =
@@ -1452,6 +1501,8 @@ export const listDataAutomationLibraries: API.PaginatedOperationMethod<
     items: "libraries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataAutomationLibraries",
 })) as any;
 
 export type ListDataAutomationLibraryEntitiesError =
@@ -1489,6 +1540,8 @@ export const listDataAutomationLibraryEntities: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataAutomationLibraryEntities",
 })) as any;
 
 export type ListDataAutomationLibraryIngestionJobsError =
@@ -1526,6 +1579,8 @@ export const listDataAutomationLibraryIngestionJobs: API.PaginatedOperationMetho
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataAutomationLibraryIngestionJobs",
 })) as any;
 
 export type ListDataAutomationProjectsError =
@@ -1563,6 +1618,8 @@ export const listDataAutomationProjects: API.PaginatedOperationMethod<
     items: "projects",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataAutomationProjects",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1593,6 +1650,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError =
@@ -1625,6 +1684,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1655,6 +1716,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBlueprintError =
@@ -1687,6 +1750,8 @@ export const updateBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBlueprint",
+  telemetry: TELEMETRY,
+  span: "UpdateBlueprint",
 }));
 
 export type UpdateDataAutomationLibraryError =
@@ -1719,6 +1784,8 @@ export const updateDataAutomationLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataAutomationLibrary",
+  telemetry: TELEMETRY,
+  span: "UpdateDataAutomationLibrary",
 }));
 
 export type UpdateDataAutomationProjectError =
@@ -1753,6 +1820,8 @@ export const updateDataAutomationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataAutomationProject",
+  telemetry: TELEMETRY,
+  span: "UpdateDataAutomationProject",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

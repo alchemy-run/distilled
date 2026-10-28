@@ -11,6 +11,27 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.Kusto" },
+  prefix: "AzureKusto",
+  service: "AzureKusto",
+  labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
+  propagate: "w3c",
+} as const;
+
 /** Type of the callout service, specifying the kind of external resource or service being accessed. */
 export type CalloutType =
   | "kusto"
@@ -2963,6 +2984,8 @@ export const AddClusterCalloutPolicies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddClusterCalloutPolicies",
 }));
 
 export type AddClusterLanguageExtensionsError = AzureOpError;
@@ -2978,6 +3001,8 @@ export const AddClusterLanguageExtensions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddClusterLanguageExtensions",
 }));
 
 export type AddDatabasePrincipalsError = AzureOpError;
@@ -2993,6 +3018,8 @@ export const AddDatabasePrincipals: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddDatabasePrincipals",
 }));
 
 export type AttachedDatabaseConfigurationsCreateOrUpdateError = AzureOpError;
@@ -3012,6 +3039,8 @@ export const AttachedDatabaseConfigurationsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachedDatabaseConfigurationsCreateOrUpdate",
 }));
 
 export type CheckAttachedDatabaseConfigurationNameAvailabilityError = AzureOpError;
@@ -3031,6 +3060,8 @@ export const CheckAttachedDatabaseConfigurationNameAvailability: API.OperationMe
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckAttachedDatabaseConfigurationNameAvailability",
 }));
 
 export type CheckClusterNameAvailabilityError = AzureOpError;
@@ -3046,6 +3077,8 @@ export const CheckClusterNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckClusterNameAvailability",
 }));
 
 export type CheckClusterPrincipalAssignmentNameAvailabilityError = AzureOpError;
@@ -3065,6 +3098,8 @@ export const CheckClusterPrincipalAssignmentNameAvailability: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckClusterPrincipalAssignmentNameAvailability",
 }));
 
 export type CheckDatabaseNameAvailabilityError = AzureOpError;
@@ -3080,6 +3115,8 @@ export const CheckDatabaseNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckDatabaseNameAvailability",
 }));
 
 export type CheckDatabasePrincipalAssignmentNameAvailabilityError = AzureOpError;
@@ -3099,6 +3136,8 @@ export const CheckDatabasePrincipalAssignmentNameAvailability: API.OperationMeth
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckDatabasePrincipalAssignmentNameAvailability",
 }));
 
 export type CheckDataConnectionNameAvailabilityError = AzureOpError;
@@ -3114,6 +3153,8 @@ export const CheckDataConnectionNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckDataConnectionNameAvailability",
 }));
 
 export type CheckManagedPrivateEndpointNameAvailabilityError = AzureOpError;
@@ -3129,6 +3170,8 @@ export const CheckManagedPrivateEndpointNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckManagedPrivateEndpointNameAvailability",
 }));
 
 export type CheckSandboxCustomImageNameAvailabilityError = AzureOpError;
@@ -3144,6 +3187,8 @@ export const CheckSandboxCustomImageNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckSandboxCustomImageNameAvailability",
 }));
 
 export type CheckScriptNameAvailabilityError = AzureOpError;
@@ -3159,6 +3204,8 @@ export const CheckScriptNameAvailability: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckScriptNameAvailability",
 }));
 
 export type ClusterPrincipalAssignmentsCreateOrUpdateError = AzureOpError;
@@ -3174,6 +3221,8 @@ export const ClusterPrincipalAssignmentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClusterPrincipalAssignmentsCreateOrUpdate",
 }));
 
 export type ClustersCreateOrUpdateError = AzureOpError;
@@ -3189,6 +3238,8 @@ export const ClustersCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClustersCreateOrUpdate",
 }));
 
 export type ClustersDiagnoseVirtualNetworkError = AzureOpError;
@@ -3204,6 +3255,8 @@ export const ClustersDiagnoseVirtualNetwork: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClustersDiagnoseVirtualNetwork",
 }));
 
 export type ClustersListFollowerDatabasesGetError = AzureOpError;
@@ -3219,6 +3272,8 @@ export const ClustersListFollowerDatabasesGet: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClustersListFollowerDatabasesGet",
 }));
 
 export type DatabasePrincipalAssignmentsCreateOrUpdateError = AzureOpError;
@@ -3234,6 +3289,8 @@ export const DatabasePrincipalAssignmentsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabasePrincipalAssignmentsCreateOrUpdate",
 }));
 
 export type DatabasesCreateOrUpdateError = AzureOpError;
@@ -3249,6 +3306,8 @@ export const DatabasesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DatabasesCreateOrUpdate",
 }));
 
 export type DataConnectionsCreateOrUpdateError = AzureOpError;
@@ -3264,6 +3323,8 @@ export const DataConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataConnectionsCreateOrUpdate",
 }));
 
 export type DataConnectionsDataConnectionValidationError = AzureOpError;
@@ -3279,6 +3340,8 @@ export const DataConnectionsDataConnectionValidation: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DataConnectionsDataConnectionValidation",
 }));
 
 export type DeleteAttachedDatabaseConfigurationError = AzureOpError;
@@ -3294,6 +3357,8 @@ export const DeleteAttachedDatabaseConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAttachedDatabaseConfiguration",
 }));
 
 export type DeleteClusterError = AzureOpError;
@@ -3309,6 +3374,8 @@ export const DeleteCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteClusterPrincipalAssignmentError = AzureOpError;
@@ -3324,6 +3391,8 @@ export const DeleteClusterPrincipalAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteClusterPrincipalAssignment",
 }));
 
 export type DeleteDatabaseError = AzureOpError;
@@ -3339,6 +3408,8 @@ export const DeleteDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabase",
 }));
 
 export type DeleteDatabasePrincipalAssignmentError = AzureOpError;
@@ -3354,6 +3425,8 @@ export const DeleteDatabasePrincipalAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDatabasePrincipalAssignment",
 }));
 
 export type DeleteDataConnectionError = AzureOpError;
@@ -3369,6 +3442,8 @@ export const DeleteDataConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDataConnection",
 }));
 
 export type DeleteManagedPrivateEndpointError = AzureOpError;
@@ -3384,6 +3459,8 @@ export const DeleteManagedPrivateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteManagedPrivateEndpoint",
 }));
 
 export type DeletePrivateEndpointConnectionError = AzureOpError;
@@ -3399,6 +3476,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePrivateEndpointConnection",
 }));
 
 export type DeleteSandboxCustomImageError = AzureOpError;
@@ -3414,6 +3493,8 @@ export const DeleteSandboxCustomImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSandboxCustomImage",
 }));
 
 export type DeleteScriptError = AzureOpError;
@@ -3429,6 +3510,8 @@ export const DeleteScript: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScript",
 }));
 
 export type DetachClusterFollowerDatabasesError = AzureOpError;
@@ -3444,6 +3527,8 @@ export const DetachClusterFollowerDatabases: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachClusterFollowerDatabases",
 }));
 
 export type GetAttachedDatabaseConfigurationError = AzureOpError;
@@ -3459,6 +3544,8 @@ export const GetAttachedDatabaseConfiguration: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAttachedDatabaseConfiguration",
 }));
 
 export type GetClusterError = AzureOpError;
@@ -3474,6 +3561,8 @@ export const GetCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCluster",
 }));
 
 export type GetClusterPrincipalAssignmentError = AzureOpError;
@@ -3489,6 +3578,8 @@ export const GetClusterPrincipalAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClusterPrincipalAssignment",
 }));
 
 export type GetDatabaseError = AzureOpError;
@@ -3504,6 +3595,8 @@ export const GetDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabase",
 }));
 
 export type GetDatabasePrincipalAssignmentError = AzureOpError;
@@ -3519,6 +3612,8 @@ export const GetDatabasePrincipalAssignment: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDatabasePrincipalAssignment",
 }));
 
 export type GetDataConnectionError = AzureOpError;
@@ -3534,6 +3629,8 @@ export const GetDataConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataConnection",
 }));
 
 export type GetManagedPrivateEndpointError = AzureOpError;
@@ -3549,6 +3646,8 @@ export const GetManagedPrivateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetManagedPrivateEndpoint",
 }));
 
 export type GetOperationsResultError = AzureOpError;
@@ -3564,6 +3663,8 @@ export const GetOperationsResult: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperationsResult",
 }));
 
 export type GetPrivateEndpointConnectionError = AzureOpError;
@@ -3579,6 +3680,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateEndpointConnection",
 }));
 
 export type GetPrivateLinkResourceError = AzureOpError;
@@ -3594,6 +3697,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrivateLinkResource",
 }));
 
 export type GetSandboxCustomImageError = AzureOpError;
@@ -3609,6 +3714,8 @@ export const GetSandboxCustomImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSandboxCustomImage",
 }));
 
 export type GetScriptError = AzureOpError;
@@ -3624,6 +3731,8 @@ export const GetScript: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScript",
 }));
 
 export type InviteDatabaseFollowerError = AzureOpError;
@@ -3639,6 +3748,8 @@ export const InviteDatabaseFollower: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteDatabaseFollower",
 }));
 
 export type ListAttachedDatabaseConfigurationByClusterError = AzureOpError;
@@ -3654,6 +3765,8 @@ export const ListAttachedDatabaseConfigurationByCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAttachedDatabaseConfigurationByCluster",
 }));
 
 export type ListClusterByResourceGroupError = AzureOpError;
@@ -3669,6 +3782,8 @@ export const ListClusterByResourceGroup: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterByResourceGroup",
 }));
 
 export type ListClusterCalloutPoliciesError = AzureOpError;
@@ -3684,6 +3799,8 @@ export const ListClusterCalloutPolicies: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterCalloutPolicies",
 }));
 
 export type ListClusterFollowerDatabasesError = AzureOpError;
@@ -3699,6 +3816,8 @@ export const ListClusterFollowerDatabases: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterFollowerDatabases",
 }));
 
 export type ListClusterLanguageExtensionsError = AzureOpError;
@@ -3714,6 +3833,8 @@ export const ListClusterLanguageExtensions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterLanguageExtensions",
 }));
 
 export type ListClusterOutboundNetworkDependenciesEndpointsError = AzureOpError;
@@ -3733,6 +3854,8 @@ export const ListClusterOutboundNetworkDependenciesEndpoints: API.OperationMetho
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterOutboundNetworkDependenciesEndpoints",
 }));
 
 export type ListClusterPrincipalAssignmentsError = AzureOpError;
@@ -3748,6 +3871,8 @@ export const ListClusterPrincipalAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterPrincipalAssignments",
 }));
 
 export type ListClustersError = AzureOpError;
@@ -3763,6 +3888,8 @@ export const ListClusters: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 }));
 
 export type ListClusterSkusError = AzureOpError;
@@ -3778,6 +3905,8 @@ export const ListClusterSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterSkus",
 }));
 
 export type ListClusterSkusByResourceError = AzureOpError;
@@ -3793,6 +3922,8 @@ export const ListClusterSkusByResource: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterSkusByResource",
 }));
 
 export type ListDatabaseByClusterError = AzureOpError;
@@ -3808,6 +3939,8 @@ export const ListDatabaseByCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabaseByCluster",
 }));
 
 export type ListDatabasePrincipalAssignmentsError = AzureOpError;
@@ -3823,6 +3956,8 @@ export const ListDatabasePrincipalAssignments: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabasePrincipalAssignments",
 }));
 
 export type ListDatabasePrincipalsError = AzureOpError;
@@ -3838,6 +3973,8 @@ export const ListDatabasePrincipals: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDatabasePrincipals",
 }));
 
 export type ListDataConnectionByDatabaseError = AzureOpError;
@@ -3853,6 +3990,8 @@ export const ListDataConnectionByDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDataConnectionByDatabase",
 }));
 
 export type ListManagedPrivateEndpointsError = AzureOpError;
@@ -3868,6 +4007,8 @@ export const ListManagedPrivateEndpoints: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListManagedPrivateEndpoints",
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -3883,6 +4024,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPrivateEndpointConnectionsError = AzureOpError;
@@ -3898,6 +4041,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateEndpointConnections",
 }));
 
 export type ListPrivateLinkResourcesError = AzureOpError;
@@ -3913,6 +4058,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPrivateLinkResources",
 }));
 
 export type ListSandboxCustomImageByClusterError = AzureOpError;
@@ -3928,6 +4075,8 @@ export const ListSandboxCustomImageByCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSandboxCustomImageByCluster",
 }));
 
 export type ListScriptByDatabaseError = AzureOpError;
@@ -3943,6 +4092,8 @@ export const ListScriptByDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScriptByDatabase",
 }));
 
 export type ListSkusError = AzureOpError;
@@ -3958,6 +4109,8 @@ export const ListSkus: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSkus",
 }));
 
 export type ManagedPrivateEndpointsCreateOrUpdateError = AzureOpError;
@@ -3973,6 +4126,8 @@ export const ManagedPrivateEndpointsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ManagedPrivateEndpointsCreateOrUpdate",
 }));
 
 export type MigrateClusterError = AzureOpError;
@@ -3988,6 +4143,8 @@ export const MigrateCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MigrateCluster",
 }));
 
 export type PrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
@@ -4003,6 +4160,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PrivateEndpointConnectionsCreateOrUpdate",
 }));
 
 export type RemoveClusterCalloutPolicyError = AzureOpError;
@@ -4018,6 +4177,8 @@ export const RemoveClusterCalloutPolicy: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveClusterCalloutPolicy",
 }));
 
 export type RemoveClusterLanguageExtensionsError = AzureOpError;
@@ -4033,6 +4194,8 @@ export const RemoveClusterLanguageExtensions: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveClusterLanguageExtensions",
 }));
 
 export type RemoveDatabasePrincipalsError = AzureOpError;
@@ -4048,6 +4211,8 @@ export const RemoveDatabasePrincipals: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveDatabasePrincipals",
 }));
 
 export type SandboxCustomImagesCreateOrUpdateError = AzureOpError;
@@ -4063,6 +4228,8 @@ export const SandboxCustomImagesCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxCustomImagesCreateOrUpdate",
 }));
 
 export type ScriptsCreateOrUpdateError = AzureOpError;
@@ -4078,6 +4245,8 @@ export const ScriptsCreateOrUpdate: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ScriptsCreateOrUpdate",
 }));
 
 export type StartClusterError = AzureOpError;
@@ -4093,6 +4262,8 @@ export const StartCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartCluster",
 }));
 
 export type StopClusterError = AzureOpError;
@@ -4108,6 +4279,8 @@ export const StopCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopCluster",
 }));
 
 export type UpdateClusterError = AzureOpError;
@@ -4123,6 +4296,8 @@ export const UpdateCluster: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateDatabaseError = AzureOpError;
@@ -4138,6 +4313,8 @@ export const UpdateDatabase: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDatabase",
 }));
 
 export type UpdateDataConnectionError = AzureOpError;
@@ -4153,6 +4330,8 @@ export const UpdateDataConnection: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataConnection",
 }));
 
 export type UpdateManagedPrivateEndpointError = AzureOpError;
@@ -4168,6 +4347,8 @@ export const UpdateManagedPrivateEndpoint: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateManagedPrivateEndpoint",
 }));
 
 export type UpdateSandboxCustomImageError = AzureOpError;
@@ -4183,6 +4364,8 @@ export const UpdateSandboxCustomImage: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSandboxCustomImage",
 }));
 
 export type UpdateScriptError = AzureOpError;
@@ -4198,6 +4381,8 @@ export const UpdateScript: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScript",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * DockerProtocol -- hand-written.
@@ -35,7 +35,8 @@ export type DockerOpError =
   | UnknownDockerError
   | ConfigError
   | HttpClientError.HttpClientError
-  | DockerParseError;
+  | DockerParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Docker operation. */
 export type DockerOpContext = Credentials | HttpClient.HttpClient;

@@ -12,6 +12,26 @@ const __s: any[] = [];
 
 export type { AzureOpError, AzureOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "azure-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-ms-correlation-request-id",
+      name: "http.response.header.x-ms-correlation-request-id",
+      transform: "list",
+    },
+    { header: "x-ms-request-id", name: "azure.service.request.id" },
+  ],
+  attributes: { "azure.resource_provider.namespace": "Microsoft.EdgeMarketplace" },
+  prefix: "Edgemarketplace",
+  service: "Edgemarketplace",
+  labels: "azure",
+  propagate: "w3c",
+} as const;
+
 export interface GenerateOfferAccessTokenRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
@@ -390,6 +410,14 @@ export const GenerateOfferAccessToken: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GenerateOfferAccessToken",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.EdgeMarketplace/offers/{offerId}/generateAccessToken",
+    },
+  },
 }));
 
 export type GetOfferError = AzureOpError;
@@ -405,6 +433,13 @@ export const GetOffer: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetOffer",
+    attributes: {
+      "url.template": "/{resourceUri}/providers/Microsoft.EdgeMarketplace/offers/{offerId}",
+    },
+  },
 }));
 
 export type GetOfferAccessTokenError = AzureOpError;
@@ -420,6 +455,14 @@ export const GetOfferAccessToken: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetOfferAccessToken",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.EdgeMarketplace/offers/{offerId}/getAccessToken",
+    },
+  },
 }));
 
 export type GetPublisherError = AzureOpError;
@@ -435,6 +478,14 @@ export const GetPublisher: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "GetPublisher",
+    attributes: {
+      "url.template":
+        "/{resourceUri}/providers/Microsoft.EdgeMarketplace/publishers/{publisherName}",
+    },
+  },
 }));
 
 export type ListOfferBySubscriptionError = AzureOpError;
@@ -450,6 +501,8 @@ export const ListOfferBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOfferBySubscription",
 }));
 
 export type ListOffersError = AzureOpError;
@@ -465,6 +518,11 @@ export const ListOffers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListOffers",
+    attributes: { "url.template": "/{resourceUri}/providers/Microsoft.EdgeMarketplace/offers" },
+  },
 }));
 
 export type ListOperationsError = AzureOpError;
@@ -480,6 +538,8 @@ export const ListOperations: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListOperations",
 }));
 
 export type ListPublisherBySubscriptionError = AzureOpError;
@@ -495,6 +555,8 @@ export const ListPublisherBySubscription: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPublisherBySubscription",
 }));
 
 export type ListPublishersError = AzureOpError;
@@ -510,6 +572,11 @@ export const ListPublishers: API.OperationMethod<
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: {
+    op: "ListPublishers",
+    attributes: { "url.template": "/{resourceUri}/providers/Microsoft.EdgeMarketplace/publishers" },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

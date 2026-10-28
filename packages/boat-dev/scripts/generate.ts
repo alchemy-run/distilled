@@ -89,6 +89,7 @@ const boatSpec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Boat Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
   spec: (model) => {

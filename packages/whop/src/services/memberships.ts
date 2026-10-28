@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Memberships",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -518,6 +531,8 @@ export const addFreeDaysMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddFreeDaysMembership",
 }));
 
 export type CancelMembershipError = Forbidden | NotFound | Conflict | WhopOpError;
@@ -533,6 +548,8 @@ export const cancelMembership: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelMembership",
 }));
 
 export type ExtendMembershipError = BadRequest | Forbidden | Conflict | WhopOpError;
@@ -548,6 +565,8 @@ export const extendMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExtendMembership",
 }));
 
 export type GetMembershipError = Forbidden | NotFound | WhopOpError;
@@ -563,6 +582,8 @@ export const getMembership: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMembership",
 }));
 
 export type InviteMembershipError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
@@ -578,6 +599,8 @@ export const inviteMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteMembership",
 }));
 
 export type ListMembershipsError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -595,6 +618,8 @@ export const listMemberships: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListMemberships",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -620,6 +645,8 @@ export const pauseMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseMembership",
 }));
 
 export type ReactivateMembershipError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
@@ -635,6 +662,8 @@ export const reactivateMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReactivateMembership",
 }));
 
 export type ResumeMembershipError = BadRequest | Forbidden | Conflict | WhopOpError;
@@ -650,6 +679,8 @@ export const resumeMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeMembership",
 }));
 
 export type ResyncAccessMembershipError = BadRequest | Forbidden | Conflict | WhopOpError;
@@ -665,6 +696,8 @@ export const resyncAccessMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResyncAccessMembership",
 }));
 
 export type TransferMembershipError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
@@ -680,6 +713,8 @@ export const transferMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferMembership",
 }));
 
 export type UncancelMembershipError =
@@ -700,6 +735,8 @@ export const uncancelMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UncancelMembership",
 }));
 
 export type UpdateMembershipError = BadRequest | Forbidden | WhopOpError;
@@ -715,6 +752,8 @@ export const updateMembership: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMembership",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

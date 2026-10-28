@@ -13,6 +13,18 @@ const __s: any[] = [];
 
 export type { OnepasswordOpError, OAuthOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "onepassword-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "OnePassword",
+  service: "OnepasswordOAuth",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -96,6 +108,8 @@ export const introspectAccessToken: API.OperationMethod<
   errors: [BadRequest, UnknownOnepasswordError],
   protocol: OAuthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IntrospectAccessToken",
 }));
 
 export type RequestAccessTokenError = BadRequest | OnepasswordOpError;
@@ -111,6 +125,8 @@ export const requestAccessToken: API.OperationMethod<
   errors: [BadRequest, UnknownOnepasswordError],
   protocol: OAuthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestAccessToken",
 }));
 
 export type RevokeAccessTokenError = BadRequest | OnepasswordOpError;
@@ -126,6 +142,8 @@ export const revokeAccessToken: API.OperationMethod<
   errors: [BadRequest, UnknownOnepasswordError],
   protocol: OAuthProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeAccessToken",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

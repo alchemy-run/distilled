@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -71,6 +72,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://pipes.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Pipes",
+  service: "Pipes",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
@@ -859,6 +874,8 @@ export const createPipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipe",
+  telemetry: TELEMETRY,
+  span: "CreatePipe",
 }));
 
 export type DeletePipeError =
@@ -889,6 +906,8 @@ export const deletePipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipe",
+  telemetry: TELEMETRY,
+  span: "DeletePipe",
 }));
 
 export type DescribePipeError =
@@ -912,6 +931,8 @@ export const describePipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePipe",
+  telemetry: TELEMETRY,
+  span: "DescribePipe",
 }));
 
 export type ListPipesError =
@@ -941,6 +962,8 @@ export const listPipes: API.PaginatedOperationMethod<
     items: "Pipes",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipes",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -963,6 +986,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type StartPipeError =
@@ -993,6 +1018,8 @@ export const startPipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPipe",
+  telemetry: TELEMETRY,
+  span: "StartPipe",
 }));
 
 export type StopPipeError =
@@ -1023,6 +1050,8 @@ export const stopPipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPipe",
+  telemetry: TELEMETRY,
+  span: "StopPipe",
 }));
 
 export type TagResourceError =
@@ -1058,6 +1087,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1080,6 +1111,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdatePipeError =
@@ -1122,6 +1155,8 @@ export const updatePipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipe",
+  telemetry: TELEMETRY,
+  span: "UpdatePipe",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

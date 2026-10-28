@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "TeamMembers",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -217,6 +230,8 @@ export const createTeamMember: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTeamMember",
 }));
 
 export type DeleteTeamMemberError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -232,6 +247,8 @@ export const deleteTeamMember: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteTeamMember",
 }));
 
 export type GetTeamMemberError = NotFound | WhopOpError;
@@ -247,6 +264,8 @@ export const getTeamMember: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTeamMember",
 }));
 
 export type ListTeamMembersError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -264,6 +283,8 @@ export const listTeamMembers: API.PaginatedOperationMethod<
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTeamMembers",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -289,6 +310,8 @@ export const updateTeamMember: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTeamMember",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

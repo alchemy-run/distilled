@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -80,6 +81,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://bedrock-agent-runtime.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BedrockAgentRuntime",
+  service: "BedrockAgentRuntime",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -3741,6 +3756,8 @@ export const agenticRetrieveStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AgenticRetrieveStream",
+  telemetry: TELEMETRY,
+  span: "AgenticRetrieveStream",
 }));
 
 export type CheckIngestedDocumentAclError =
@@ -3771,6 +3788,8 @@ export const checkIngestedDocumentAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckIngestedDocumentAcl",
+  telemetry: TELEMETRY,
+  span: "CheckIngestedDocumentAcl",
 }));
 
 export type CreateInvocationError =
@@ -3813,6 +3832,8 @@ export const createInvocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvocation",
+  telemetry: TELEMETRY,
+  span: "CreateInvocation",
 }));
 
 export type CreateSessionError =
@@ -3859,6 +3880,8 @@ export const createSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
+  telemetry: TELEMETRY,
+  span: "CreateSession",
 }));
 
 export type DeleteAgentMemoryError =
@@ -3897,6 +3920,8 @@ export const deleteAgentMemory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentMemory",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentMemory",
 }));
 
 export type DeleteSessionError =
@@ -3929,6 +3954,8 @@ export const deleteSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSession",
+  telemetry: TELEMETRY,
+  span: "DeleteSession",
 }));
 
 export type EndSessionError =
@@ -3961,6 +3988,8 @@ export const endSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EndSession",
+  telemetry: TELEMETRY,
+  span: "EndSession",
 }));
 
 export type GenerateQueryError =
@@ -3999,6 +4028,8 @@ export const generateQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateQuery",
+  telemetry: TELEMETRY,
+  span: "GenerateQuery",
 }));
 
 export type GetAgentMemoryError =
@@ -4044,6 +4075,8 @@ export const getAgentMemory: API.PaginatedOperationMethod<
     items: "memoryContents",
     pageSize: "maxItems",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetAgentMemory",
 })) as any;
 
 export type GetDocumentContentError =
@@ -4074,6 +4107,8 @@ export const getDocumentContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentContent",
+  telemetry: TELEMETRY,
+  span: "GetDocumentContent",
 }));
 
 export type GetExecutionFlowSnapshotError =
@@ -4106,6 +4141,8 @@ export const getExecutionFlowSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExecutionFlowSnapshot",
+  telemetry: TELEMETRY,
+  span: "GetExecutionFlowSnapshot",
 }));
 
 export type GetFlowExecutionError =
@@ -4136,6 +4173,8 @@ export const getFlowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlowExecution",
+  telemetry: TELEMETRY,
+  span: "GetFlowExecution",
 }));
 
 export type GetIngestedDocumentAclError =
@@ -4166,6 +4205,8 @@ export const getIngestedDocumentAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngestedDocumentAcl",
+  telemetry: TELEMETRY,
+  span: "GetIngestedDocumentAcl",
 }));
 
 export type GetInvocationStepError =
@@ -4196,6 +4237,8 @@ export const getInvocationStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvocationStep",
+  telemetry: TELEMETRY,
+  span: "GetInvocationStep",
 }));
 
 export type GetSessionError =
@@ -4226,6 +4269,8 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type InvokeAgentError =
@@ -4288,6 +4333,8 @@ export const invokeAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeAgent",
+  telemetry: TELEMETRY,
+  span: "InvokeAgent",
 }));
 
 export type InvokeFlowError =
@@ -4328,6 +4375,8 @@ export const invokeFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeFlow",
+  telemetry: TELEMETRY,
+  span: "InvokeFlow",
 }));
 
 export type InvokeInlineAgentError =
@@ -4376,6 +4425,8 @@ export const invokeInlineAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeInlineAgent",
+  telemetry: TELEMETRY,
+  span: "InvokeInlineAgent",
 }));
 
 export type ListFlowExecutionEventsError =
@@ -4415,6 +4466,8 @@ export const listFlowExecutionEvents: API.PaginatedOperationMethod<
     items: "flowExecutionEvents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlowExecutionEvents",
 })) as any;
 
 export type ListFlowExecutionsError =
@@ -4454,6 +4507,8 @@ export const listFlowExecutions: API.PaginatedOperationMethod<
     items: "flowExecutionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlowExecutions",
 })) as any;
 
 export type ListInvocationsError =
@@ -4491,6 +4546,8 @@ export const listInvocations: API.PaginatedOperationMethod<
     items: "invocationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvocations",
 })) as any;
 
 export type ListInvocationStepsError =
@@ -4528,6 +4585,8 @@ export const listInvocationSteps: API.PaginatedOperationMethod<
     items: "invocationStepSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInvocationSteps",
 })) as any;
 
 export type ListSessionsError =
@@ -4563,6 +4622,8 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -4593,6 +4654,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type OptimizePromptError =
@@ -4625,6 +4688,8 @@ export const optimizePrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OptimizePrompt",
+  telemetry: TELEMETRY,
+  span: "OptimizePrompt",
 }));
 
 export type PutInvocationStepError =
@@ -4669,6 +4734,8 @@ export const putInvocationStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInvocationStep",
+  telemetry: TELEMETRY,
+  span: "PutInvocationStep",
 }));
 
 export type RerankError =
@@ -4709,6 +4776,8 @@ export const rerank: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "Rerank",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "results" } as const,
+  telemetry: TELEMETRY,
+  span: "Rerank",
 })) as any;
 
 export type RetrieveError =
@@ -4753,6 +4822,8 @@ export const retrieve: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "retrievalResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "Retrieve",
 })) as any;
 
 export type RetrieveAndGenerateError =
@@ -4793,6 +4864,8 @@ export const retrieveAndGenerate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveAndGenerate",
+  telemetry: TELEMETRY,
+  span: "RetrieveAndGenerate",
 }));
 
 export type RetrieveAndGenerateStreamError =
@@ -4837,6 +4910,8 @@ export const retrieveAndGenerateStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveAndGenerateStream",
+  telemetry: TELEMETRY,
+  span: "RetrieveAndGenerateStream",
 }));
 
 export type StartFlowExecutionError =
@@ -4879,6 +4954,8 @@ export const startFlowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlowExecution",
+  telemetry: TELEMETRY,
+  span: "StartFlowExecution",
 }));
 
 export type StopFlowExecutionError =
@@ -4915,6 +4992,8 @@ export const stopFlowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFlowExecution",
+  telemetry: TELEMETRY,
+  span: "StopFlowExecution",
 }));
 
 export type TagResourceError =
@@ -4947,6 +5026,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4977,6 +5058,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateSessionError =
@@ -5009,6 +5092,8 @@ export const updateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSession",
+  telemetry: TELEMETRY,
+  span: "UpdateSession",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://cleanrooms-ml.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CleanRoomsML",
+  service: "CleanRoomsML",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1667,6 +1682,8 @@ export const cancelTrainedModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTrainedModel",
+  telemetry: TELEMETRY,
+  span: "CancelTrainedModel",
 }));
 
 export type CancelTrainedModelInferenceJobError =
@@ -1697,6 +1714,8 @@ export const cancelTrainedModelInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTrainedModelInferenceJob",
+  telemetry: TELEMETRY,
+  span: "CancelTrainedModelInferenceJob",
 }));
 
 export type CreateAudienceModelError =
@@ -1729,6 +1748,8 @@ export const createAudienceModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAudienceModel",
+  telemetry: TELEMETRY,
+  span: "CreateAudienceModel",
 }));
 
 export type CreateConfiguredAudienceModelError =
@@ -1761,6 +1782,8 @@ export const createConfiguredAudienceModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredAudienceModel",
+  telemetry: TELEMETRY,
+  span: "CreateConfiguredAudienceModel",
 }));
 
 export type CreateConfiguredModelAlgorithmError =
@@ -1791,6 +1814,8 @@ export const createConfiguredModelAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredModelAlgorithm",
+  telemetry: TELEMETRY,
+  span: "CreateConfiguredModelAlgorithm",
 }));
 
 export type CreateConfiguredModelAlgorithmAssociationError =
@@ -1823,6 +1848,8 @@ export const createConfiguredModelAlgorithmAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredModelAlgorithmAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateConfiguredModelAlgorithmAssociation",
 }));
 
 export type CreateMLInputChannelError =
@@ -1855,6 +1882,8 @@ export const createMLInputChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMLInputChannel",
+  telemetry: TELEMETRY,
+  span: "CreateMLInputChannel",
 }));
 
 export type CreateTrainedModelError =
@@ -1889,6 +1918,8 @@ export const createTrainedModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrainedModel",
+  telemetry: TELEMETRY,
+  span: "CreateTrainedModel",
 }));
 
 export type CreateTrainingDatasetError =
@@ -1912,6 +1943,8 @@ export const createTrainingDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrainingDataset",
+  telemetry: TELEMETRY,
+  span: "CreateTrainingDataset",
 }));
 
 export type DeleteAudienceGenerationJobError =
@@ -1942,6 +1975,8 @@ export const deleteAudienceGenerationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAudienceGenerationJob",
+  telemetry: TELEMETRY,
+  span: "DeleteAudienceGenerationJob",
 }));
 
 export type DeleteAudienceModelError =
@@ -1972,6 +2007,8 @@ export const deleteAudienceModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAudienceModel",
+  telemetry: TELEMETRY,
+  span: "DeleteAudienceModel",
 }));
 
 export type DeleteConfiguredAudienceModelError =
@@ -2002,6 +2039,8 @@ export const deleteConfiguredAudienceModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredAudienceModel",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguredAudienceModel",
 }));
 
 export type DeleteConfiguredAudienceModelPolicyError =
@@ -2030,6 +2069,8 @@ export const deleteConfiguredAudienceModelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredAudienceModelPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguredAudienceModelPolicy",
 }));
 
 export type DeleteConfiguredModelAlgorithmError =
@@ -2060,6 +2101,8 @@ export const deleteConfiguredModelAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredModelAlgorithm",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguredModelAlgorithm",
 }));
 
 export type DeleteConfiguredModelAlgorithmAssociationError =
@@ -2090,6 +2133,8 @@ export const deleteConfiguredModelAlgorithmAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredModelAlgorithmAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteConfiguredModelAlgorithmAssociation",
 }));
 
 export type DeleteMLConfigurationError =
@@ -2118,6 +2163,8 @@ export const deleteMLConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMLConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteMLConfiguration",
 }));
 
 export type DeleteMLInputChannelDataError =
@@ -2148,6 +2195,8 @@ export const deleteMLInputChannelData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMLInputChannelData",
+  telemetry: TELEMETRY,
+  span: "DeleteMLInputChannelData",
 }));
 
 export type DeleteTrainedModelOutputError =
@@ -2178,6 +2227,8 @@ export const deleteTrainedModelOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrainedModelOutput",
+  telemetry: TELEMETRY,
+  span: "DeleteTrainedModelOutput",
 }));
 
 export type DeleteTrainingDatasetError =
@@ -2208,6 +2259,8 @@ export const deleteTrainingDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrainingDataset",
+  telemetry: TELEMETRY,
+  span: "DeleteTrainingDataset",
 }));
 
 export type GetAudienceGenerationJobError =
@@ -2236,6 +2289,8 @@ export const getAudienceGenerationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAudienceGenerationJob",
+  telemetry: TELEMETRY,
+  span: "GetAudienceGenerationJob",
 }));
 
 export type GetAudienceModelError =
@@ -2264,6 +2319,8 @@ export const getAudienceModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAudienceModel",
+  telemetry: TELEMETRY,
+  span: "GetAudienceModel",
 }));
 
 export type GetCollaborationConfiguredModelAlgorithmAssociationError =
@@ -2300,6 +2357,8 @@ export const getCollaborationConfiguredModelAlgorithmAssociation: API.OperationM
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationConfiguredModelAlgorithmAssociation",
+  telemetry: TELEMETRY,
+  span: "GetCollaborationConfiguredModelAlgorithmAssociation",
 }));
 
 export type GetCollaborationMLInputChannelError =
@@ -2328,6 +2387,8 @@ export const getCollaborationMLInputChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationMLInputChannel",
+  telemetry: TELEMETRY,
+  span: "GetCollaborationMLInputChannel",
 }));
 
 export type GetCollaborationTrainedModelError =
@@ -2356,6 +2417,8 @@ export const getCollaborationTrainedModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationTrainedModel",
+  telemetry: TELEMETRY,
+  span: "GetCollaborationTrainedModel",
 }));
 
 export type GetConfiguredAudienceModelError =
@@ -2384,6 +2447,8 @@ export const getConfiguredAudienceModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredAudienceModel",
+  telemetry: TELEMETRY,
+  span: "GetConfiguredAudienceModel",
 }));
 
 export type GetConfiguredAudienceModelPolicyError =
@@ -2412,6 +2477,8 @@ export const getConfiguredAudienceModelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredAudienceModelPolicy",
+  telemetry: TELEMETRY,
+  span: "GetConfiguredAudienceModelPolicy",
 }));
 
 export type GetConfiguredModelAlgorithmError =
@@ -2440,6 +2507,8 @@ export const getConfiguredModelAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredModelAlgorithm",
+  telemetry: TELEMETRY,
+  span: "GetConfiguredModelAlgorithm",
 }));
 
 export type GetConfiguredModelAlgorithmAssociationError =
@@ -2468,6 +2537,8 @@ export const getConfiguredModelAlgorithmAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredModelAlgorithmAssociation",
+  telemetry: TELEMETRY,
+  span: "GetConfiguredModelAlgorithmAssociation",
 }));
 
 export type GetMLConfigurationError =
@@ -2496,6 +2567,8 @@ export const getMLConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetMLConfiguration",
 }));
 
 export type GetMLInputChannelError =
@@ -2524,6 +2597,8 @@ export const getMLInputChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLInputChannel",
+  telemetry: TELEMETRY,
+  span: "GetMLInputChannel",
 }));
 
 export type GetTrainedModelError =
@@ -2552,6 +2627,8 @@ export const getTrainedModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrainedModel",
+  telemetry: TELEMETRY,
+  span: "GetTrainedModel",
 }));
 
 export type GetTrainedModelInferenceJobError =
@@ -2580,6 +2657,8 @@ export const getTrainedModelInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrainedModelInferenceJob",
+  telemetry: TELEMETRY,
+  span: "GetTrainedModelInferenceJob",
 }));
 
 export type GetTrainingDatasetError =
@@ -2608,6 +2687,8 @@ export const getTrainingDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrainingDataset",
+  telemetry: TELEMETRY,
+  span: "GetTrainingDataset",
 }));
 
 export type ListAudienceExportJobsError =
@@ -2637,6 +2718,8 @@ export const listAudienceExportJobs: API.PaginatedOperationMethod<
     items: "audienceExportJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAudienceExportJobs",
 })) as any;
 
 export type ListAudienceGenerationJobsError =
@@ -2666,6 +2749,8 @@ export const listAudienceGenerationJobs: API.PaginatedOperationMethod<
     items: "audienceGenerationJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAudienceGenerationJobs",
 })) as any;
 
 export type ListAudienceModelsError =
@@ -2695,6 +2780,8 @@ export const listAudienceModels: API.PaginatedOperationMethod<
     items: "audienceModels",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAudienceModels",
 })) as any;
 
 export type ListCollaborationConfiguredModelAlgorithmAssociationsError =
@@ -2732,6 +2819,8 @@ export const listCollaborationConfiguredModelAlgorithmAssociations: API.Paginate
     items: "collaborationConfiguredModelAlgorithmAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollaborationConfiguredModelAlgorithmAssociations",
 })) as any;
 
 export type ListCollaborationMLInputChannelsError =
@@ -2761,6 +2850,8 @@ export const listCollaborationMLInputChannels: API.PaginatedOperationMethod<
     items: "collaborationMLInputChannelsList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollaborationMLInputChannels",
 })) as any;
 
 export type ListCollaborationTrainedModelExportJobsError =
@@ -2790,6 +2881,8 @@ export const listCollaborationTrainedModelExportJobs: API.PaginatedOperationMeth
     items: "collaborationTrainedModelExportJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollaborationTrainedModelExportJobs",
 })) as any;
 
 export type ListCollaborationTrainedModelInferenceJobsError =
@@ -2819,6 +2912,8 @@ export const listCollaborationTrainedModelInferenceJobs: API.PaginatedOperationM
     items: "collaborationTrainedModelInferenceJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollaborationTrainedModelInferenceJobs",
 })) as any;
 
 export type ListCollaborationTrainedModelsError =
@@ -2848,6 +2943,8 @@ export const listCollaborationTrainedModels: API.PaginatedOperationMethod<
     items: "collaborationTrainedModels",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollaborationTrainedModels",
 })) as any;
 
 export type ListConfiguredAudienceModelsError =
@@ -2877,6 +2974,8 @@ export const listConfiguredAudienceModels: API.PaginatedOperationMethod<
     items: "configuredAudienceModels",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfiguredAudienceModels",
 })) as any;
 
 export type ListConfiguredModelAlgorithmAssociationsError =
@@ -2906,6 +3005,8 @@ export const listConfiguredModelAlgorithmAssociations: API.PaginatedOperationMet
     items: "configuredModelAlgorithmAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfiguredModelAlgorithmAssociations",
 })) as any;
 
 export type ListConfiguredModelAlgorithmsError =
@@ -2935,6 +3036,8 @@ export const listConfiguredModelAlgorithms: API.PaginatedOperationMethod<
     items: "configuredModelAlgorithms",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConfiguredModelAlgorithms",
 })) as any;
 
 export type ListMLInputChannelsError =
@@ -2964,6 +3067,8 @@ export const listMLInputChannels: API.PaginatedOperationMethod<
     items: "mlInputChannelsList",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMLInputChannels",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2986,6 +3091,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTrainedModelInferenceJobsError =
@@ -3015,6 +3122,8 @@ export const listTrainedModelInferenceJobs: API.PaginatedOperationMethod<
     items: "trainedModelInferenceJobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrainedModelInferenceJobs",
 })) as any;
 
 export type ListTrainedModelsError =
@@ -3044,6 +3153,8 @@ export const listTrainedModels: API.PaginatedOperationMethod<
     items: "trainedModels",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrainedModels",
 })) as any;
 
 export type ListTrainedModelVersionsError =
@@ -3079,6 +3190,8 @@ export const listTrainedModelVersions: API.PaginatedOperationMethod<
     items: "trainedModels",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrainedModelVersions",
 })) as any;
 
 export type ListTrainingDatasetsError =
@@ -3108,6 +3221,8 @@ export const listTrainingDatasets: API.PaginatedOperationMethod<
     items: "trainingDatasets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrainingDatasets",
 })) as any;
 
 export type PutConfiguredAudienceModelPolicyError =
@@ -3136,6 +3251,8 @@ export const putConfiguredAudienceModelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfiguredAudienceModelPolicy",
+  telemetry: TELEMETRY,
+  span: "PutConfiguredAudienceModelPolicy",
 }));
 
 export type PutMLConfigurationError =
@@ -3158,6 +3275,8 @@ export const putMLConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMLConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutMLConfiguration",
 }));
 
 export type StartAudienceExportJobError =
@@ -3190,6 +3309,8 @@ export const startAudienceExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAudienceExportJob",
+  telemetry: TELEMETRY,
+  span: "StartAudienceExportJob",
 }));
 
 export type StartAudienceGenerationJobError =
@@ -3222,6 +3343,8 @@ export const startAudienceGenerationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAudienceGenerationJob",
+  telemetry: TELEMETRY,
+  span: "StartAudienceGenerationJob",
 }));
 
 export type StartTrainedModelExportJobError =
@@ -3252,6 +3375,8 @@ export const startTrainedModelExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTrainedModelExportJob",
+  telemetry: TELEMETRY,
+  span: "StartTrainedModelExportJob",
 }));
 
 export type StartTrainedModelInferenceJobError =
@@ -3284,6 +3409,8 @@ export const startTrainedModelInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTrainedModelInferenceJob",
+  telemetry: TELEMETRY,
+  span: "StartTrainedModelInferenceJob",
 }));
 
 export type TagResourceError =
@@ -3306,6 +3433,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3328,6 +3457,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConfiguredAudienceModelError =
@@ -3358,6 +3489,8 @@ export const updateConfiguredAudienceModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredAudienceModel",
+  telemetry: TELEMETRY,
+  span: "UpdateConfiguredAudienceModel",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

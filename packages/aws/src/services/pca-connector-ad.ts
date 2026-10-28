@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://pca-connector-ad.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PcaConnectorAd",
+  service: "PcaConnectorAd",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -816,6 +831,8 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  telemetry: TELEMETRY,
+  span: "CreateConnector",
 }));
 
 export type CreateDirectoryRegistrationError =
@@ -849,6 +866,8 @@ export const createDirectoryRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectoryRegistration",
+  telemetry: TELEMETRY,
+  span: "CreateDirectoryRegistration",
 }));
 
 export type CreateServicePrincipalNameError =
@@ -883,6 +902,8 @@ export const createServicePrincipalName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServicePrincipalName",
+  telemetry: TELEMETRY,
+  span: "CreateServicePrincipalName",
 }));
 
 export type CreateTemplateError =
@@ -918,6 +939,8 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateTemplate",
 }));
 
 export type CreateTemplateGroupAccessControlEntryError =
@@ -953,6 +976,8 @@ export const createTemplateGroupAccessControlEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplateGroupAccessControlEntry",
+  telemetry: TELEMETRY,
+  span: "CreateTemplateGroupAccessControlEntry",
 }));
 
 export type DeleteConnectorError =
@@ -989,6 +1014,8 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  telemetry: TELEMETRY,
+  span: "DeleteConnector",
 }));
 
 export type DeleteDirectoryRegistrationError =
@@ -1020,6 +1047,8 @@ export const deleteDirectoryRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectoryRegistration",
+  telemetry: TELEMETRY,
+  span: "DeleteDirectoryRegistration",
 }));
 
 export type DeleteServicePrincipalNameError =
@@ -1051,6 +1080,8 @@ export const deleteServicePrincipalName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServicePrincipalName",
+  telemetry: TELEMETRY,
+  span: "DeleteServicePrincipalName",
 }));
 
 export type DeleteTemplateError =
@@ -1084,6 +1115,8 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplate",
 }));
 
 export type DeleteTemplateGroupAccessControlEntryError =
@@ -1116,6 +1149,8 @@ export const deleteTemplateGroupAccessControlEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplateGroupAccessControlEntry",
+  telemetry: TELEMETRY,
+  span: "DeleteTemplateGroupAccessControlEntry",
 }));
 
 export type GetConnectorError =
@@ -1147,6 +1182,8 @@ export const getConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnector",
+  telemetry: TELEMETRY,
+  span: "GetConnector",
 }));
 
 export type GetDirectoryRegistrationError =
@@ -1177,6 +1214,8 @@ export const getDirectoryRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDirectoryRegistration",
+  telemetry: TELEMETRY,
+  span: "GetDirectoryRegistration",
 }));
 
 export type GetServicePrincipalNameError =
@@ -1208,6 +1247,8 @@ export const getServicePrincipalName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServicePrincipalName",
+  telemetry: TELEMETRY,
+  span: "GetServicePrincipalName",
 }));
 
 export type GetTemplateError =
@@ -1239,6 +1280,8 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
+  telemetry: TELEMETRY,
+  span: "GetTemplate",
 }));
 
 export type GetTemplateGroupAccessControlEntryError =
@@ -1269,6 +1312,8 @@ export const getTemplateGroupAccessControlEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateGroupAccessControlEntry",
+  telemetry: TELEMETRY,
+  span: "GetTemplateGroupAccessControlEntry",
 }));
 
 export type ListConnectorsError =
@@ -1304,6 +1349,8 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "Connectors",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnectors",
 })) as any;
 
 export type ListDirectoryRegistrationsError =
@@ -1340,6 +1387,8 @@ export const listDirectoryRegistrations: API.PaginatedOperationMethod<
     items: "DirectoryRegistrations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDirectoryRegistrations",
 })) as any;
 
 export type ListServicePrincipalNamesError =
@@ -1378,6 +1427,8 @@ export const listServicePrincipalNames: API.PaginatedOperationMethod<
     items: "ServicePrincipalNames",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServicePrincipalNames",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1408,6 +1459,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTemplateGroupAccessControlEntriesError =
@@ -1445,6 +1498,8 @@ export const listTemplateGroupAccessControlEntries: API.PaginatedOperationMethod
     items: "AccessControlEntries",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplateGroupAccessControlEntries",
 })) as any;
 
 export type ListTemplatesError =
@@ -1482,6 +1537,8 @@ export const listTemplates: API.PaginatedOperationMethod<
     items: "Templates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTemplates",
 })) as any;
 
 export type TagResourceError =
@@ -1512,6 +1569,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1542,6 +1601,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateTemplateError =
@@ -1574,6 +1635,8 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplate",
 }));
 
 export type UpdateTemplateGroupAccessControlEntryError =
@@ -1606,6 +1669,8 @@ export const updateTemplateGroupAccessControlEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplateGroupAccessControlEntry",
+  telemetry: TELEMETRY,
+  span: "UpdateTemplateGroupAccessControlEntry",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

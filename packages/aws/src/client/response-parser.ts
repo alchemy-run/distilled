@@ -11,6 +11,7 @@
  */
 
 import { checkResponse, ResponseValidation } from "@distilled.cloud/core/response-validation";
+import { restoreStack, suppressStack } from "@distilled.cloud/core/telemetry";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import type * as SchemaIssue from "effect/SchemaIssue";
@@ -356,7 +357,12 @@ export const makeResponseParser = <A>(
       const schemaTag = getIdentifier(errorSchema.ast) ?? errorCode;
       let decoded: unknown;
       try {
-        decoded = new errorSchema(decode(errorSchema.ast, data, true) as Record<string, unknown>);
+        const saved = suppressStack();
+        try {
+          decoded = new errorSchema(decode(errorSchema.ast, data, true) as Record<string, unknown>);
+        } finally {
+          restoreStack(saved);
+        }
       } catch {
         decoded = { _tag: schemaTag, ...data };
       }

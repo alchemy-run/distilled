@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "ResolutionCenterCases",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -505,6 +518,8 @@ export const acceptResolutionCenterCase: API.OperationMethod<
   errors: [Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcceptResolutionCenterCase",
 }));
 
 export type AppealResolutionCenterCaseError = Conflict | WhopOpError;
@@ -520,6 +535,8 @@ export const appealResolutionCenterCase: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AppealResolutionCenterCase",
 }));
 
 export type CreateResolutionCenterCaseError = Conflict | WhopOpError;
@@ -535,6 +552,8 @@ export const createResolutionCenterCase: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResolutionCenterCase",
 }));
 
 export type DenyResolutionCenterCaseError = Conflict | WhopOpError;
@@ -550,6 +569,8 @@ export const denyResolutionCenterCase: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DenyResolutionCenterCase",
 }));
 
 export type GetResolutionCenterCaseError = NotFound | WhopOpError;
@@ -565,6 +586,8 @@ export const getResolutionCenterCase: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResolutionCenterCase",
 }));
 
 export type GetResolutionCenterCaseSummaryError = BadRequest | WhopOpError;
@@ -580,6 +603,8 @@ export const getResolutionCenterCaseSummary: API.OperationMethod<
   errors: [BadRequest],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResolutionCenterCaseSummary",
 }));
 
 export type ListResolutionCenterCaseEventsError = NotFound | WhopOpError;
@@ -597,6 +622,8 @@ export const listResolutionCenterCaseEvents: API.PaginatedOperationMethod<
     errors: [NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListResolutionCenterCaseEvents",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -624,6 +651,8 @@ export const listResolutionCenterCases: API.PaginatedOperationMethod<
     errors: [Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListResolutionCenterCases",
     pagination: {
       mode: "relay",
       inputToken: "after",
@@ -649,6 +678,8 @@ export const replyToResolutionCenterCase: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplyToResolutionCenterCase",
 }));
 
 export type RequestResolutionCenterCaseInfoError = Conflict | WhopOpError;
@@ -664,6 +695,8 @@ export const requestResolutionCenterCaseInfo: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestResolutionCenterCaseInfo",
 }));
 
 export type WithdrawResolutionCenterCaseError = Conflict | WhopOpError;
@@ -679,6 +712,8 @@ export const withdrawResolutionCenterCase: API.OperationMethod<
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WithdrawResolutionCenterCase",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
