@@ -1183,6 +1183,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     const prefixes: string[] = [];
     const services: string[] = [];
     const namespaces: string[] = [];
+    // Path-label property -> single-rule attribute name -> count, to hoist
+    // a label most operations name the same non-default way.
+    const labelUses = new Map<string, Map<string, number>>();
     for (const op of selected) {
       const trait = op.def.traits?.[TELEMETRY_OPERATION_TRAIT];
       if (trait === undefined) continue;
@@ -1207,6 +1210,10 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         if (rules?.length === 1 && !rules[0].transform && rules[0].name.endsWith(tail)) {
           namespaces.push(rules[0].name.slice(0, -tail.length));
         }
+        const uses = labelUses.get(m.tsName) ?? new Map<string, number>();
+        const key = rules?.length === 1 && !rules[0].transform ? rules[0].name : "";
+        uses.set(key, (uses.get(key) ?? 0) + 1);
+        labelUses.set(m.tsName, uses);
       }
     }
     const hoisted: Record<string, unknown> = {};
@@ -1214,10 +1221,21 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const [key, value] = JSON.parse(pair) as [string, unknown];
       if (count * 2 > traced && !(key in hoisted)) hoisted[key] = value;
     }
+    const labels = mostCommon(namespaces);
+    const labelNames: Record<string, string> = {};
+    // Only modules that derive labels (a `labels` rule) can rename them.
+    for (const [property, uses] of labels === undefined ? [] : labelUses) {
+      const total = [...uses.values()].reduce((a, b) => a + b, 0);
+      const [name, count] = [...uses].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]!;
+      const fallback =
+        labels === undefined ? undefined : `${labels}.${telemetrySnakeCase(property)}`;
+      if (name !== "" && name !== fallback && count * 2 > total) labelNames[property] = name;
+    }
     return {
       prefix: mostCommon(prefixes),
       service: mostCommon(services),
-      labels: mostCommon(namespaces),
+      labels,
+      labelNames,
       hoisted,
       // Most operations of RPC protocols have no url.template.
       templates: withTemplate * 2 >= traced,
@@ -1301,7 +1319,13 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         for (const m of members) {
           if (!("smithy.api#httpLabel" in m.traits)) continue;
           derived.add(m.tsName);
-          const want = [{ name: `${telemetryRules.labels}.${telemetrySnakeCase(m.tsName)}` }];
+          const want = [
+            {
+              name:
+                telemetryRules.labelNames[m.tsName] ??
+                `${telemetryRules.labels}.${telemetrySnakeCase(m.tsName)}`,
+            },
+          ];
           if (!sameRules(input[m.tsName], want)) overrides[m.tsName] = input[m.tsName] ?? [];
         }
       }
@@ -1464,6 +1488,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       ...(telemetryRules.prefix !== undefined ? { prefix: telemetryRules.prefix } : {}),
       ...(telemetryRules.service !== undefined ? { service: telemetryRules.service } : {}),
       ...(telemetryRules.labels !== undefined ? { labels: telemetryRules.labels } : {}),
+      ...(Object.keys(telemetryRules.labelNames).length > 0
+        ? { labelNames: telemetryRules.labelNames }
+        : {}),
       ...(telemetryRules.templates ? {} : { templates: false }),
     };
     const extra: string[] = [];

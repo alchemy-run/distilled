@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Dashboard",
   service: "Dashboard",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 

@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Baremetalinfrastructure",
   service: "Baremetalinfrastructure",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 

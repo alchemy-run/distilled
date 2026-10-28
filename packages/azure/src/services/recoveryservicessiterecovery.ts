@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Recoveryservicessiterecovery",
   service: "Recoveryservicessiterecovery",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 

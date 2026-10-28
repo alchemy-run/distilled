@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Managednetworkfabric",
   service: "Managednetworkfabric",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 

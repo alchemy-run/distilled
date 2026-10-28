@@ -2,7 +2,7 @@
  * AWS telemetry traits (see `packages/dev/src/codegen/telemetry.ts`): span names
  * `<sdkId>.<Operation>`, `rpc.system.name` `aws-api`, the request id
  * headers, X-Ray propagation, and the per-service attributes of the OTel
- * AWS SDK, messaging and GenAI conventions (semconv v1.39+), read from
+ * AWS SDK, messaging and GenAI conventions (semconv v1.44), read from
  * input and output members by their Smithy names.
  *
  * Values come from the caller's input (bucket names, object keys, table
@@ -85,6 +85,18 @@ const MEMBERS: Readonly<Record<string, ReadonlyArray<Row>>> = {
       { field: "temperature", ops: CHAT },
     ],
     ["inferenceConfig", "gen_ai.request.top_p", undefined, { field: "topP", ops: CHAT }],
+    [
+      "inferenceConfig",
+      "gen_ai.request.stop_sequences",
+      undefined,
+      { field: "stopSequences", ops: CHAT },
+    ],
+    [
+      "guardrailConfig",
+      "aws.bedrock.guardrail.id",
+      undefined,
+      { field: "guardrailIdentifier", ops: CHAT },
+    ],
   ],
   EventBridge: [["Entries", "messaging.batch.message_count", "count", { ops: ["PutEvents"] }]],
   CloudWatchEvents: [["Entries", "messaging.batch.message_count", "count", { ops: ["PutEvents"] }]],
@@ -107,6 +119,18 @@ const OUTPUT_MEMBERS: Readonly<Record<string, ReadonlyArray<Row>>> = {
   BedrockRuntime: [
     ["usage", "gen_ai.usage.input_tokens", undefined, { field: "inputTokens", ops: CHAT }],
     ["usage", "gen_ai.usage.output_tokens", undefined, { field: "outputTokens", ops: CHAT }],
+    [
+      "usage",
+      "gen_ai.usage.cache_read.input_tokens",
+      "nonZero",
+      { field: "cacheReadInputTokens", ops: CHAT },
+    ],
+    [
+      "usage",
+      "gen_ai.usage.cache_write.input_tokens",
+      "nonZero",
+      { field: "cacheWriteInputTokens", ops: CHAT },
+    ],
     ["stopReason", "gen_ai.response.finish_reasons", "list", { ops: CHAT }],
   ],
 };
@@ -223,7 +247,11 @@ export const awsTelemetry = (sdkId: string): TelemetryOptions => {
         // GenAI client spans: `{operation} {model}`.
         return {
           nameTemplate: "chat {gen_ai.request.model}",
-          attributes: { "gen_ai.provider.name": "aws.bedrock", "gen_ai.operation.name": "chat" },
+          attributes: {
+            "gen_ai.provider.name": "aws.bedrock",
+            "gen_ai.operation.name": "chat",
+            ...(name === "ConverseStream" ? { "gen_ai.request.stream": true } : {}),
+          },
         };
       }
       if ((service === "EventBridge" || service === "CloudWatchEvents") && name === "PutEvents") {

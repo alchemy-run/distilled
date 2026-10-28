@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Databasewatcher",
   service: "Databasewatcher",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 

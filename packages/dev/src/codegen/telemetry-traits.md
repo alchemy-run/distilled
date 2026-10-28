@@ -60,7 +60,7 @@ On each operation shape.
 | --- | --- |
 | `name` | Span name. |
 | `nameTemplate` | Span name with `{attribute}` placeholders, filled from the call's input attributes when the span starts; `name` when any is missing. Messaging operations use `{operation} {destination}` (`send orders`). |
-| `method` | `rpc.method`, `{service}/{operation}` (semantic conventions v1.39+). |
+| `method` | `rpc.method`, `{service}/{operation}` (semantic conventions v1.44). |
 | `kind` | `client` (default), `producer` or `consumer`. |
 | `attributes` | Fixed attributes, applied after the service's. Operations with `smithy.api#http` carry `url.template`, the path of its `uri`. |
 | `copy` | `{ from: to }`: attributes recorded under a second name once the request is built (Lambda `Invoke`: `cloud.region` -> `faas.invoked_region`). |
@@ -124,7 +124,7 @@ transform does not apply to records nothing.
 
 | `transform` | Value → attribute |
 | --- | --- |
-| (none) | a string, number or boolean, as is |
+| (none) | a string, number or boolean, or a non-empty array of them, as is |
 | `list` | a string `s` → `[s]` |
 | `keys` | an object → its keys |
 | `count` | an array → its length |
@@ -132,6 +132,7 @@ transform does not apply to records nothing.
 | `arnResource` | a string → the text after its last `:` |
 | `arn` | a string that starts with `arn:`, as is |
 | `jsonList` | an object → `[JSON]`; an array → each element as JSON |
+| `nonZero` | a number other than 0 |
 
 ## Attributes every span gets
 
@@ -162,7 +163,8 @@ Besides the traits, the operation span always carries:
   request id header (`cf-ray`, `x-github-request-id`, ...), as
   `http.response.header.<name>`;
 - GCP: `gcp.client.service` (the first label of the model's
-  `*.googleapis.com` host); Azure: `azure.resource_provider.namespace` (the
+  `*.googleapis.com` host); Azure: `azure.resource_group.name` for the
+  `resourceGroupName` label, `azure.resource_provider.namespace` (the
   last `/providers/<Namespace>/` of the operation's path) and
   `azure.service.request.id` (`x-ms-request-id`).
 
@@ -171,7 +173,10 @@ conventions instead: `<sdkId>.<Operation>`, `aws-api`, `aws.request_id`,
 X-Ray propagation, and per-service attributes such as `aws.s3.bucket`,
 `aws.dynamodb.table_names` (and, from the response, `aws.dynamodb.count`
 and `consumed_capacity`), `aws.secretsmanager.secret.arn`; SQS and SNS
-messaging spans; Bedrock `Converse` as a GenAI `chat {model}` span with
+messaging spans; Bedrock `Converse` / `ConverseStream` as a GenAI
+`chat {model}` span (GenAI conventions, now in
+`open-telemetry/semantic-conventions-genai`) with `gen_ai.request.stream`,
+stop sequences, `aws.bedrock.guardrail.id`, cache token usage, and
 `gen_ai.*` request and usage attributes; Lambda `Invoke` and EventBridge
 `PutEvents` with trace context in the request. GraphQL operations add `graphql.operation.name`
 and `graphql.operation.type`.
@@ -204,7 +209,8 @@ operation, only what the runtime cannot derive (`Telemetry.operationInfo`):
 - the module's `TELEMETRY` const adds the rules most of its operations
   follow, inferred from the traits: `prefix` (span name `<prefix>.<op>`),
   `service` (`rpc.method` `<service>/<op>`), `labels` (each `T.Label`
-  property as `<labels>.<snake_case>`), `templates: false` when most
+  property as `<labels>.<snake_case>`, or as `labelNames[property]` when most
+  operations name it another way), `templates: false` when most
   operations have no `url.template`, and in its `attributes` every
   operation attribute more than half of its operations share;
 - an operation that follows them is `span: "GetProject"`, its model name;

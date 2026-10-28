@@ -98,7 +98,8 @@ export type Transform =
   | "lastPathSegment"
   | "arnResource"
   | "arn"
-  | "jsonList";
+  | "jsonList"
+  | "nonZero";
 
 export interface AttributeRule {
   readonly name: string;
@@ -133,6 +134,8 @@ export interface ServiceTelemetry {
   readonly prefix?: string;
   readonly service?: string;
   readonly labels?: string;
+  /** Path labels named another way than `<labels>.<snake_case>`, by property. */
+  readonly labelNames?: Readonly<Record<string, string>>;
   /** `false`: operations do not derive `url.template` (RPC protocols). */
   readonly templates?: false;
   /**
@@ -207,6 +210,9 @@ export interface OperationInfo {
   readonly extract: MessageExtract | undefined;
 }
 
+const isScalar = (value: unknown): value is string | number | boolean =>
+  typeof value === "string" || typeof value === "number" || typeof value === "boolean";
+
 const fieldOf = (value: unknown, path: string): unknown => {
   let at = value;
   for (const key of path.split(".")) {
@@ -221,9 +227,11 @@ const transform = (rule: AttributeRule, raw: unknown): unknown => {
   if (value === undefined || value === null || Redacted.isRedacted(value)) return undefined;
   switch (rule.transform) {
     case undefined:
-      return typeof value === "string" || typeof value === "number" || typeof value === "boolean"
+      return isScalar(value) || (Array.isArray(value) && value.length > 0 && value.every(isScalar))
         ? value
         : undefined;
+    case "nonZero":
+      return typeof value === "number" && value !== 0 ? value : undefined;
     case "list":
       return typeof value === "string" ? [value] : undefined;
     case "keys":
@@ -294,7 +302,9 @@ export const operationInfo = (
       for (const prop of getProps(inputAst)) {
         if (getAnn(prop.type, LABEL) === undefined) continue;
         const property = String(prop.name);
-        derived[property] = [{ name: `${service.labels}.${snakeCase(property)}` }];
+        derived[property] = [
+          { name: service.labelNames?.[property] ?? `${service.labels}.${snakeCase(property)}` },
+        ];
       }
       rules = { ...derived, ...rules };
     }
