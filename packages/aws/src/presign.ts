@@ -169,9 +169,9 @@ export interface PresignS3UrlOptions {
  * {@link Credentials.Credentials} service.
  *
  * An empty bucket or key, a `.` or `..` bucket or key segment, or (without a
- * custom endpoint) a bucket that cannot sit in a hostname would move the URL
- * to another resource, so it fails with `InvalidInput` before anything is
- * signed.
+ * custom endpoint) a bucket that needs percent-encoding would move the URL
+ * to another resource or host, so it fails with `InvalidInput` before
+ * anything is signed.
  */
 export const presignS3Url: (
   options: PresignS3UrlOptions,

@@ -26,7 +26,8 @@ export interface DeserializedError {
 export interface ProtocolHandler {
   /**
    * Serialize an input object into a request, without effects. Throws the
-   * `ParseError` an input that does not match the schema fails with.
+   * `ParseError` an input that does not match the schema fails with, or the
+   * `InvalidInput` of a label that would address another resource.
    */
   readonly serialize: (input: unknown) => Request;
 

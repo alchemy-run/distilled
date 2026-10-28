@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import { InvalidInput } from "@distilled.cloud/core/errors";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as S from "@distilled.cloud/core/schema-lite";
-import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
@@ -549,10 +548,10 @@ describe("AwsProtocol REST-XML labels that would leave their target", () => {
     member: string,
     endpoint: Layer.Layer<never> = pathStyle,
   ) => {
-    const { exit, requests } = await Effect.runPromise(sent(operation, endpoint));
+    const { exit, requests } = await Effect.runPromise(sent(Effect.flip(operation), endpoint));
     assert.equal(requests.length, 0);
-    assert.ok(Exit.isFailure(exit));
-    const error = Cause.squash(exit.cause);
+    assert.ok(Exit.isSuccess(exit));
+    const error = exit.value;
     assert.ok(error instanceof InvalidInput);
     assert.equal(error.member, member);
   };
@@ -570,9 +569,16 @@ describe("AwsProtocol REST-XML labels that would leave their target", () => {
   it("DeleteObject refuses an empty key on a dotted bucket via AWS and sends nothing", () =>
     refused(S3.deleteObject({ Bucket: "my.bucket", Key: "" }), "Key", region));
 
+  it('PutObject with a streaming body refuses the key ".." and sends nothing', () =>
+    refused(
+      S3.putObject({ ...bucket, Key: "..", Body: Stream.make(new TextEncoder().encode("x")) }),
+      "Key",
+    ));
+
   for (const [Key, path] of [
     ["...", "/..."],
     ["%2E%2E", "/%252E%252E"],
+    ["a//b", "/a//b"],
   ] as const) {
     it(`DeleteObject sends the key ${JSON.stringify(Key)} as written`, async () => {
       const { exit, requests } = await Effect.runPromise(
