@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { CelldOpError, CelldOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "celld-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Celld",
+  service: "Celld",
+  labels: "celld",
+  propagate: "w3c",
+} as const;
+
 /** An accepted eviction was interrupted by activity, an alarm, or node fencing. The message preserves cancelled: <reason>. */
 export class EvictionCancelled
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -305,6 +318,8 @@ export const evictCell: API.OperationMethod<
   output: __S(80, __c5, 0) as any as S.Schema<OkResponse>,
   errors: [MalformedScope, EvictionRefused, EvictionCancelled, EvictionFailed],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "EvictCell",
 }));
 
 export type GetNodeStateError = CelldOpError;
@@ -319,6 +334,8 @@ export const getNodeState: API.OperationMethod<
   output: __S(108, __c6, 12) as any as S.Schema<NodeState>,
   errors: [],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "GetNodeState",
 }));
 
 export type PauseRebalancingError = NodeHasNoLease | CelldOpError;
@@ -332,6 +349,8 @@ export const pauseRebalancing: API.OperationMethod<
   output: __S(128, __c8, 0) as any as S.Schema<RebalanceResponse>,
   errors: [NodeHasNoLease],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "PauseRebalancing",
 }));
 
 export type ReloadDeploymentError = ReloadFailed | NodeUnavailable | CelldOpError;
@@ -346,6 +365,8 @@ export const reloadDeployment: API.OperationMethod<
   output: __S(1, __c0, 1) as any as S.Schema<ReloadResponse>,
   errors: [ReloadFailed, NodeUnavailable],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "ReloadDeployment",
 }));
 
 export type ResumeRebalancingError = NodeHasNoLease | CelldOpError;
@@ -359,6 +380,8 @@ export const resumeRebalancing: API.OperationMethod<
   output: __S(128, __c8, 0) as any as S.Schema<RebalanceResponse>,
   errors: [NodeHasNoLease],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "ResumeRebalancing",
 }));
 
 export type RouteCellError = MalformedScope | NodeUnavailable | CelldOpError;
@@ -373,6 +396,8 @@ export const routeCell: API.OperationMethod<
   output: __S(33, __c2, 1) as any as S.Schema<RouteCellResponse>,
   errors: [MalformedScope, NodeUnavailable],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "RouteCell",
 }));
 
 export type ShutdownNodeError = CelldOpError;
@@ -387,6 +412,8 @@ export const shutdownNode: API.OperationMethod<
   output: __S(80, __c5, 0) as any as S.Schema<OkResponse>,
   errors: [],
   protocol: CelldProtocol,
+  telemetry: TELEMETRY,
+  span: "ShutdownNode",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

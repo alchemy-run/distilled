@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "www" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Calendar",
+  service: "calendar",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1146,6 +1165,8 @@ export const clearCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClearCalendars",
 }));
 
 export type DeleteAclError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1161,6 +1182,8 @@ export const deleteAcl: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAcl",
 }));
 
 export type DeleteCalendarListError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1176,6 +1199,8 @@ export const deleteCalendarList: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCalendarList",
 }));
 
 export type DeleteCalendarsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1191,6 +1216,8 @@ export const deleteCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCalendars",
 }));
 
 export type DeleteEventsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1206,6 +1233,8 @@ export const deleteEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteEvents",
 }));
 
 export type GetAclError = NotFound | Forbidden | GcpOpError;
@@ -1217,6 +1246,8 @@ export const getAcl: API.OperationMethod<GetAclRequest, AclRule, GetAclError, Gc
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetAcl",
   }));
 
 export type GetCalendarListError = NotFound | Forbidden | GcpOpError;
@@ -1232,6 +1263,8 @@ export const getCalendarList: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCalendarList",
 }));
 
 export type GetCalendarsError = NotFound | Forbidden | GcpOpError;
@@ -1247,6 +1280,8 @@ export const getCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCalendars",
 }));
 
 export type GetColorsError = NotFound | Forbidden | GcpOpError;
@@ -1262,6 +1297,8 @@ export const getColors: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetColors",
 }));
 
 export type GetEventsError = NotFound | Forbidden | GcpOpError;
@@ -1273,6 +1310,8 @@ export const getEvents: API.OperationMethod<GetEventsRequest, Event, GetEventsEr
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetEvents",
   }));
 
 export type GetSettingsError = NotFound | Forbidden | GcpOpError;
@@ -1288,6 +1327,8 @@ export const getSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSettings",
 }));
 
 export type ImportEventsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1303,6 +1344,8 @@ export const importEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportEvents",
 }));
 
 export type InsertAclError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1318,6 +1361,8 @@ export const insertAcl: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertAcl",
 }));
 
 export type InsertCalendarListError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1333,6 +1378,8 @@ export const insertCalendarList: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCalendarList",
 }));
 
 export type InsertCalendarsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1348,6 +1395,8 @@ export const insertCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertCalendars",
 }));
 
 export type InsertEventsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1363,6 +1412,8 @@ export const insertEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InsertEvents",
 }));
 
 export type InstancesEventsError = NotFound | Forbidden | GcpOpError;
@@ -1379,6 +1430,8 @@ export const instancesEvents: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InstancesEvents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1396,6 +1449,8 @@ export const listAcl: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAcl",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1413,6 +1468,8 @@ export const listCalendarList: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCalendarList",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1430,6 +1487,8 @@ export const listEvents: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEvents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1447,6 +1506,8 @@ export const listSettings: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSettings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1463,6 +1524,8 @@ export const moveEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveEvents",
 }));
 
 export type PatchAclError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1474,6 +1537,8 @@ export const patchAcl: API.OperationMethod<PatchAclRequest, AclRule, PatchAclErr
     errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "PatchAcl",
   }));
 
 export type PatchCalendarListError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1489,6 +1554,8 @@ export const patchCalendarList: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCalendarList",
 }));
 
 export type PatchCalendarsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1504,6 +1571,8 @@ export const patchCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCalendars",
 }));
 
 export type PatchEventsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1519,6 +1588,8 @@ export const patchEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchEvents",
 }));
 
 export type QueryFreebusyError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1534,6 +1605,8 @@ export const queryFreebusy: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryFreebusy",
 }));
 
 export type QuickAddEventsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1549,6 +1622,8 @@ export const quickAddEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QuickAddEvents",
 }));
 
 export type StopChannelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1564,6 +1639,8 @@ export const stopChannels: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopChannels",
 }));
 
 export type TransferOwnershipCalendarsError =
@@ -1584,6 +1661,8 @@ export const transferOwnershipCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TransferOwnershipCalendars",
 }));
 
 export type UpdateAclError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1599,6 +1678,8 @@ export const updateAcl: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAcl",
 }));
 
 export type UpdateCalendarListError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1614,6 +1695,8 @@ export const updateCalendarList: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCalendarList",
 }));
 
 export type UpdateCalendarsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1629,6 +1712,8 @@ export const updateCalendars: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCalendars",
 }));
 
 export type UpdateEventsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1644,6 +1729,8 @@ export const updateEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEvents",
 }));
 
 export type WatchAclError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1655,6 +1742,8 @@ export const watchAcl: API.OperationMethod<WatchAclRequest, Channel, WatchAclErr
     errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "WatchAcl",
   }));
 
 export type WatchCalendarListError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1670,6 +1759,8 @@ export const watchCalendarList: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCalendarList",
 }));
 
 export type WatchEventsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1685,6 +1776,8 @@ export const watchEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchEvents",
 }));
 
 export type WatchSettingsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1700,6 +1793,8 @@ export const watchSettings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

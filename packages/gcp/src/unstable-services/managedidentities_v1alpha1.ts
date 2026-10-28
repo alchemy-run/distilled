@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "managedidentities" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Managedidentities",
+  service: "managedidentities",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -783,6 +802,8 @@ export const attachTrustProjectsLocationsGlobalDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachTrustProjectsLocationsGlobalDomains",
 }));
 
 export type CancelProjectsLocationsGlobalOperationsError =
@@ -803,6 +824,8 @@ export const cancelProjectsLocationsGlobalOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelProjectsLocationsGlobalOperations",
 }));
 
 export type CheckMigrationPermissionProjectsLocationsGlobalDomainsError =
@@ -827,6 +850,8 @@ export const checkMigrationPermissionProjectsLocationsGlobalDomains: API.Operati
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckMigrationPermissionProjectsLocationsGlobalDomains",
 }));
 
 export type CreateProjectsLocationsGlobalDomainsError =
@@ -847,6 +872,8 @@ export const createProjectsLocationsGlobalDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsGlobalDomains",
 }));
 
 export type CreateProjectsLocationsGlobalDomainsBackupsError =
@@ -867,6 +894,8 @@ export const createProjectsLocationsGlobalDomainsBackups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsGlobalDomainsBackups",
 }));
 
 export type CreateProjectsLocationsGlobalPeeringsError =
@@ -887,6 +916,8 @@ export const createProjectsLocationsGlobalPeerings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProjectsLocationsGlobalPeerings",
 }));
 
 export type DeleteProjectsLocationsGlobalDomainsError =
@@ -907,6 +938,8 @@ export const deleteProjectsLocationsGlobalDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsGlobalDomains",
 }));
 
 export type DeleteProjectsLocationsGlobalDomainsBackupsError =
@@ -927,6 +960,8 @@ export const deleteProjectsLocationsGlobalDomainsBackups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsGlobalDomainsBackups",
 }));
 
 export type DeleteProjectsLocationsGlobalOperationsError =
@@ -947,6 +982,8 @@ export const deleteProjectsLocationsGlobalOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsGlobalOperations",
 }));
 
 export type DeleteProjectsLocationsGlobalPeeringsError =
@@ -967,6 +1004,8 @@ export const deleteProjectsLocationsGlobalPeerings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProjectsLocationsGlobalPeerings",
 }));
 
 export type DetachTrustProjectsLocationsGlobalDomainsError =
@@ -987,6 +1026,8 @@ export const detachTrustProjectsLocationsGlobalDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachTrustProjectsLocationsGlobalDomains",
 }));
 
 export type DisableMigrationProjectsLocationsGlobalDomainsError =
@@ -1007,6 +1048,8 @@ export const disableMigrationProjectsLocationsGlobalDomains: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableMigrationProjectsLocationsGlobalDomains",
 }));
 
 export type DomainJoinMachineProjectsLocationsGlobalDomainsError =
@@ -1031,6 +1074,8 @@ export const domainJoinMachineProjectsLocationsGlobalDomains: API.OperationMetho
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DomainJoinMachineProjectsLocationsGlobalDomains",
 }));
 
 export type EnableMigrationProjectsLocationsGlobalDomainsError =
@@ -1051,6 +1096,8 @@ export const enableMigrationProjectsLocationsGlobalDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableMigrationProjectsLocationsGlobalDomains",
 }));
 
 export type ExtendSchemaProjectsLocationsGlobalDomainsError =
@@ -1071,6 +1118,8 @@ export const extendSchemaProjectsLocationsGlobalDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExtendSchemaProjectsLocationsGlobalDomains",
 }));
 
 export type GetIamPolicyProjectsLocationsGlobalDomainsError = NotFound | Forbidden | GcpOpError;
@@ -1086,6 +1135,8 @@ export const getIamPolicyProjectsLocationsGlobalDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsGlobalDomains",
 }));
 
 export type GetIamPolicyProjectsLocationsGlobalDomainsBackupsError =
@@ -1108,6 +1159,8 @@ export const getIamPolicyProjectsLocationsGlobalDomainsBackups: API.OperationMet
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsGlobalDomainsBackups",
 }));
 
 export type GetIamPolicyProjectsLocationsGlobalPeeringsError = NotFound | Forbidden | GcpOpError;
@@ -1123,6 +1176,8 @@ export const getIamPolicyProjectsLocationsGlobalPeerings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIamPolicyProjectsLocationsGlobalPeerings",
 }));
 
 export type GetLdapssettingsProjectsLocationsGlobalDomainsError = NotFound | Forbidden | GcpOpError;
@@ -1142,6 +1197,8 @@ export const getLdapssettingsProjectsLocationsGlobalDomains: API.OperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLdapssettingsProjectsLocationsGlobalDomains",
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1157,6 +1214,8 @@ export const getProjectsLocations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocations",
 }));
 
 export type GetProjectsLocationsGlobalDomainsError = NotFound | Forbidden | GcpOpError;
@@ -1172,6 +1231,8 @@ export const getProjectsLocationsGlobalDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsGlobalDomains",
 }));
 
 export type GetProjectsLocationsGlobalDomainsBackupsError = NotFound | Forbidden | GcpOpError;
@@ -1187,6 +1248,8 @@ export const getProjectsLocationsGlobalDomainsBackups: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsGlobalDomainsBackups",
 }));
 
 export type GetProjectsLocationsGlobalDomainsSqlIntegrationsError =
@@ -1209,6 +1272,8 @@ export const getProjectsLocationsGlobalDomainsSqlIntegrations: API.OperationMeth
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsGlobalDomainsSqlIntegrations",
 }));
 
 export type GetProjectsLocationsGlobalOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1224,6 +1289,8 @@ export const getProjectsLocationsGlobalOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsGlobalOperations",
 }));
 
 export type GetProjectsLocationsGlobalPeeringsError = NotFound | Forbidden | GcpOpError;
@@ -1239,6 +1306,8 @@ export const getProjectsLocationsGlobalPeerings: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProjectsLocationsGlobalPeerings",
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1255,6 +1324,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1272,6 +1343,8 @@ export const listProjectsLocationsGlobalDomains: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsGlobalDomains",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1289,6 +1362,8 @@ export const listProjectsLocationsGlobalDomainsBackups: API.PaginatedOperationMe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsGlobalDomainsBackups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1313,6 +1388,8 @@ export const listProjectsLocationsGlobalDomainsSqlIntegrations: API.PaginatedOpe
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsGlobalDomainsSqlIntegrations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1330,6 +1407,8 @@ export const listProjectsLocationsGlobalOperations: API.PaginatedOperationMethod
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsGlobalOperations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1347,6 +1426,8 @@ export const listProjectsLocationsGlobalPeerings: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProjectsLocationsGlobalPeerings",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1368,6 +1449,8 @@ export const patchProjectsLocationsGlobalDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsGlobalDomains",
 }));
 
 export type PatchProjectsLocationsGlobalDomainsBackupsError =
@@ -1388,6 +1471,8 @@ export const patchProjectsLocationsGlobalDomainsBackups: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsGlobalDomainsBackups",
 }));
 
 export type PatchProjectsLocationsGlobalPeeringsError =
@@ -1408,6 +1493,8 @@ export const patchProjectsLocationsGlobalPeerings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProjectsLocationsGlobalPeerings",
 }));
 
 export type ReconfigureTrustProjectsLocationsGlobalDomainsError =
@@ -1432,6 +1519,8 @@ export const reconfigureTrustProjectsLocationsGlobalDomains: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReconfigureTrustProjectsLocationsGlobalDomains",
 }));
 
 export type ResetAdminPasswordProjectsLocationsGlobalDomainsError =
@@ -1456,6 +1545,8 @@ export const resetAdminPasswordProjectsLocationsGlobalDomains: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetAdminPasswordProjectsLocationsGlobalDomains",
 }));
 
 export type RestoreProjectsLocationsGlobalDomainsError =
@@ -1476,6 +1567,8 @@ export const restoreProjectsLocationsGlobalDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreProjectsLocationsGlobalDomains",
 }));
 
 export type SetIamPolicyProjectsLocationsGlobalDomainsError =
@@ -1496,6 +1589,8 @@ export const setIamPolicyProjectsLocationsGlobalDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsGlobalDomains",
 }));
 
 export type SetIamPolicyProjectsLocationsGlobalDomainsBackupsError =
@@ -1520,6 +1615,8 @@ export const setIamPolicyProjectsLocationsGlobalDomainsBackups: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsGlobalDomainsBackups",
 }));
 
 export type SetIamPolicyProjectsLocationsGlobalPeeringsError =
@@ -1540,6 +1637,8 @@ export const setIamPolicyProjectsLocationsGlobalPeerings: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetIamPolicyProjectsLocationsGlobalPeerings",
 }));
 
 export type TestIamPermissionsProjectsLocationsGlobalDomainsError =
@@ -1564,6 +1663,8 @@ export const testIamPermissionsProjectsLocationsGlobalDomains: API.OperationMeth
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsGlobalDomains",
 }));
 
 export type TestIamPermissionsProjectsLocationsGlobalDomainsBackupsError =
@@ -1588,6 +1689,8 @@ export const testIamPermissionsProjectsLocationsGlobalDomainsBackups: API.Operat
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsGlobalDomainsBackups",
 }));
 
 export type TestIamPermissionsProjectsLocationsGlobalPeeringsError =
@@ -1612,6 +1715,8 @@ export const testIamPermissionsProjectsLocationsGlobalPeerings: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TestIamPermissionsProjectsLocationsGlobalPeerings",
 }));
 
 export type UpdateLdapssettingsProjectsLocationsGlobalDomainsError =
@@ -1636,6 +1741,8 @@ export const updateLdapssettingsProjectsLocationsGlobalDomains: API.OperationMet
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateLdapssettingsProjectsLocationsGlobalDomains",
 }));
 
 export type ValidateTrustProjectsLocationsGlobalDomainsError =
@@ -1656,6 +1763,8 @@ export const validateTrustProjectsLocationsGlobalDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateTrustProjectsLocationsGlobalDomains",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

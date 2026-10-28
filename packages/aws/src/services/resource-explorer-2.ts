@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -79,6 +80,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://resource-explorer-2.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ResourceExplorer2",
+  service: "ResourceExplorer2",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -550,6 +565,8 @@ export const associateDefaultView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDefaultView",
+  telemetry: TELEMETRY,
+  span: "AssociateDefaultView",
 }));
 
 export type BatchGetViewError =
@@ -580,6 +597,8 @@ export const batchGetView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetView",
+  telemetry: TELEMETRY,
+  span: "BatchGetView",
 }));
 
 export type CreateIndexError =
@@ -630,6 +649,8 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
 }));
 
 export type CreateResourceExplorerSetupError =
@@ -660,6 +681,8 @@ export const createResourceExplorerSetup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceExplorerSetup",
+  telemetry: TELEMETRY,
+  span: "CreateResourceExplorerSetup",
 }));
 
 export type CreateViewError =
@@ -696,6 +719,8 @@ export const createView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateView",
+  telemetry: TELEMETRY,
+  span: "CreateView",
 }));
 
 export type DeleteIndexError =
@@ -728,6 +753,8 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
+  telemetry: TELEMETRY,
+  span: "DeleteIndex",
 }));
 
 export type DeleteResourceExplorerSetupError =
@@ -758,6 +785,8 @@ export const deleteResourceExplorerSetup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceExplorerSetup",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceExplorerSetup",
 }));
 
 export type DeleteViewError =
@@ -792,6 +821,8 @@ export const deleteView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteView",
+  telemetry: TELEMETRY,
+  span: "DeleteView",
 }));
 
 export type DisassociateDefaultViewError =
@@ -824,6 +855,8 @@ export const disassociateDefaultView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDefaultView",
+  telemetry: TELEMETRY,
+  span: "DisassociateDefaultView",
 }));
 
 export type GetAccountLevelServiceConfigurationError =
@@ -852,6 +885,8 @@ export const getAccountLevelServiceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountLevelServiceConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetAccountLevelServiceConfiguration",
 }));
 
 export type GetDefaultViewError =
@@ -882,6 +917,8 @@ export const getDefaultView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultView",
+  telemetry: TELEMETRY,
+  span: "GetDefaultView",
 }));
 
 export type GetIndexError =
@@ -912,6 +949,8 @@ export const getIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
+  telemetry: TELEMETRY,
+  span: "GetIndex",
 }));
 
 export type GetManagedViewError =
@@ -944,6 +983,8 @@ export const getManagedView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedView",
+  telemetry: TELEMETRY,
+  span: "GetManagedView",
 }));
 
 export type GetResourceExplorerSetupError =
@@ -981,6 +1022,8 @@ export const getResourceExplorerSetup: API.PaginatedOperationMethod<
     items: "Regions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetResourceExplorerSetup",
 })) as any;
 
 export type GetServiceIndexError =
@@ -1011,6 +1054,8 @@ export const getServiceIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceIndex",
+  telemetry: TELEMETRY,
+  span: "GetServiceIndex",
 }));
 
 export type GetServiceViewError =
@@ -1041,6 +1086,8 @@ export const getServiceView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceView",
+  telemetry: TELEMETRY,
+  span: "GetServiceView",
 }));
 
 export type GetViewError =
@@ -1073,6 +1120,8 @@ export const getView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetView",
+  telemetry: TELEMETRY,
+  span: "GetView",
 }));
 
 export type ListIndexesError =
@@ -1108,6 +1157,8 @@ export const listIndexes: API.PaginatedOperationMethod<
     items: "Indexes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIndexes",
 })) as any;
 
 export type ListIndexesForMembersError =
@@ -1143,6 +1194,8 @@ export const listIndexesForMembers: API.PaginatedOperationMethod<
     items: "Indexes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIndexesForMembers",
 })) as any;
 
 export type ListManagedViewsError =
@@ -1180,6 +1233,8 @@ export const listManagedViews: API.PaginatedOperationMethod<
     items: "ManagedViews",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedViews",
 })) as any;
 
 export type ListResourcesError =
@@ -1219,6 +1274,8 @@ export const listResources: API.PaginatedOperationMethod<
     items: "Resources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResources",
 })) as any;
 
 export type ListServiceIndexesError =
@@ -1254,6 +1311,8 @@ export const listServiceIndexes: API.PaginatedOperationMethod<
     items: "Indexes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceIndexes",
 })) as any;
 
 export type ListServiceViewsError =
@@ -1289,6 +1348,8 @@ export const listServiceViews: API.PaginatedOperationMethod<
     items: "ServiceViews",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceViews",
 })) as any;
 
 export type ListStreamingAccessForServicesError =
@@ -1318,6 +1379,8 @@ export const listStreamingAccessForServices: API.PaginatedOperationMethod<
     items: "StreamingAccessForServices",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStreamingAccessForServices",
 })) as any;
 
 export type ListSupportedResourceTypesError =
@@ -1353,6 +1416,8 @@ export const listSupportedResourceTypes: API.PaginatedOperationMethod<
     items: "ResourceTypes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSupportedResourceTypes",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1385,6 +1450,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListViewsError =
@@ -1422,6 +1489,8 @@ export const listViews: API.PaginatedOperationMethod<
     items: "Views",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListViews",
 })) as any;
 
 export type SearchError =
@@ -1467,6 +1536,8 @@ export const search: API.PaginatedOperationMethod<
     items: "Resources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "Search",
 })) as any;
 
 export type TagResourceError =
@@ -1499,6 +1570,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1531,6 +1604,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateIndexTypeError =
@@ -1581,6 +1656,8 @@ export const updateIndexType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndexType",
+  telemetry: TELEMETRY,
+  span: "UpdateIndexType",
 }));
 
 export type UpdateViewError =
@@ -1613,6 +1690,8 @@ export const updateView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateView",
+  telemetry: TELEMETRY,
+  span: "UpdateView",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

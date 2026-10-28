@@ -1,5 +1,5 @@
 import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * ChronosphereProtocol -- hand-written.
@@ -37,7 +37,8 @@ export type ChronosphereOpError =
   | UnknownChronosphereError
   | ConfigError
   | HttpClientError.HttpClientError
-  | ChronosphereParseError;
+  | ChronosphereParseError
+  | InvalidInput;
 
 /** Context (requirements) shared by every generated Chronosphere operation. */
 export type ChronosphereOpContext = Credentials | HttpClient.HttpClient;

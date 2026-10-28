@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -74,6 +75,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://rds.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "RDS",
+  service: "RDS",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AuthorizationAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<AuthorizationAlreadyExistsFault>()(
@@ -5285,6 +5301,8 @@ export const addRoleToDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddRoleToDBCluster",
+  telemetry: TELEMETRY,
+  span: "AddRoleToDBCluster",
 }));
 
 export type AddRoleToDBInstanceError =
@@ -5317,6 +5335,8 @@ export const addRoleToDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddRoleToDBInstance",
+  telemetry: TELEMETRY,
+  span: "AddRoleToDBInstance",
 }));
 
 export type AddSourceIdentifierToSubscriptionError =
@@ -5338,6 +5358,8 @@ export const addSourceIdentifierToSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddSourceIdentifierToSubscription",
+  telemetry: TELEMETRY,
+  span: "AddSourceIdentifierToSubscription",
 }));
 
 export type AddTagsToResourceError =
@@ -5388,6 +5410,8 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
+  telemetry: TELEMETRY,
+  span: "AddTagsToResource",
 }));
 
 export type ApplyPendingMaintenanceActionError =
@@ -5410,6 +5434,8 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyPendingMaintenanceAction",
+  telemetry: TELEMETRY,
+  span: "ApplyPendingMaintenanceAction",
 }));
 
 export type AuthorizeDBSecurityGroupIngressError =
@@ -5444,6 +5470,8 @@ export const authorizeDBSecurityGroupIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeDBSecurityGroupIngress",
+  telemetry: TELEMETRY,
+  span: "AuthorizeDBSecurityGroupIngress",
 }));
 
 export type BacktrackDBClusterError =
@@ -5469,6 +5497,8 @@ export const backtrackDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BacktrackDBCluster",
+  telemetry: TELEMETRY,
+  span: "BacktrackDBCluster",
 }));
 
 export type CancelExportTaskError =
@@ -5490,6 +5520,8 @@ export const cancelExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelExportTask",
+  telemetry: TELEMETRY,
+  span: "CancelExportTask",
 }));
 
 export type CopyDBClusterParameterGroupError =
@@ -5518,6 +5550,8 @@ export const copyDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDBClusterParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CopyDBClusterParameterGroup",
 }));
 
 export type CopyDBClusterSnapshotError =
@@ -5568,6 +5602,8 @@ export const copyDBClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDBClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "CopyDBClusterSnapshot",
 }));
 
 export type CopyDBParameterGroupError =
@@ -5596,6 +5632,8 @@ export const copyDBParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDBParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CopyDBParameterGroup",
 }));
 
 export type CopyDBSnapshotError =
@@ -5634,6 +5672,8 @@ export const copyDBSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyDBSnapshot",
+  telemetry: TELEMETRY,
+  span: "CopyDBSnapshot",
 }));
 
 export type CopyOptionGroupError =
@@ -5656,6 +5696,8 @@ export const copyOptionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyOptionGroup",
+  telemetry: TELEMETRY,
+  span: "CopyOptionGroup",
 }));
 
 export type CreateBlueGreenDeploymentError =
@@ -5706,6 +5748,8 @@ export const createBlueGreenDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBlueGreenDeployment",
+  telemetry: TELEMETRY,
+  span: "CreateBlueGreenDeployment",
 }));
 
 export type CreateCustomDBEngineVersionError =
@@ -5740,6 +5784,8 @@ export const createCustomDBEngineVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomDBEngineVersion",
+  telemetry: TELEMETRY,
+  span: "CreateCustomDBEngineVersion",
 }));
 
 export type CreateDBClusterError =
@@ -5824,6 +5870,8 @@ export const createDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBCluster",
+  telemetry: TELEMETRY,
+  span: "CreateDBCluster",
 }));
 
 export type CreateDBClusterEndpointError =
@@ -5858,6 +5906,8 @@ export const createDBClusterEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBClusterEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateDBClusterEndpoint",
 }));
 
 export type CreateDBClusterParameterGroupError =
@@ -5893,6 +5943,8 @@ export const createDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBClusterParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CreateDBClusterParameterGroup",
 }));
 
 export type CreateDBClusterSnapshotError =
@@ -5927,6 +5979,8 @@ export const createDBClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateDBClusterSnapshot",
 }));
 
 export type CreateDBInstanceError =
@@ -6003,6 +6057,8 @@ export const createDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBInstance",
+  telemetry: TELEMETRY,
+  span: "CreateDBInstance",
 }));
 
 export type CreateDBInstanceReadReplicaError =
@@ -6079,6 +6135,8 @@ export const createDBInstanceReadReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBInstanceReadReplica",
+  telemetry: TELEMETRY,
+  span: "CreateDBInstanceReadReplica",
 }));
 
 export type CreateDBParameterGroupError =
@@ -6104,6 +6162,8 @@ export const createDBParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CreateDBParameterGroup",
 }));
 
 export type CreateDBProxyError =
@@ -6126,6 +6186,8 @@ export const createDBProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBProxy",
+  telemetry: TELEMETRY,
+  span: "CreateDBProxy",
 }));
 
 export type CreateDBProxyEndpointError =
@@ -6156,6 +6218,8 @@ export const createDBProxyEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBProxyEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateDBProxyEndpoint",
 }));
 
 export type CreateDBSecurityGroupError =
@@ -6186,6 +6250,8 @@ export const createDBSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "CreateDBSecurityGroup",
 }));
 
 export type CreateDBShardGroupError =
@@ -6222,6 +6288,8 @@ export const createDBShardGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBShardGroup",
+  telemetry: TELEMETRY,
+  span: "CreateDBShardGroup",
 }));
 
 export type CreateDBSnapshotError =
@@ -6250,6 +6318,8 @@ export const createDBSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateDBSnapshot",
 }));
 
 export type CreateDBSubnetGroupError =
@@ -6280,6 +6350,8 @@ export const createDBSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDBSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateDBSubnetGroup",
 }));
 
 export type CreateEventSubscriptionError =
@@ -6322,6 +6394,8 @@ export const createEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventSubscription",
+  telemetry: TELEMETRY,
+  span: "CreateEventSubscription",
 }));
 
 export type CreateGlobalClusterError =
@@ -6358,6 +6432,8 @@ export const createGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalCluster",
+  telemetry: TELEMETRY,
+  span: "CreateGlobalCluster",
 }));
 
 export type CreateIntegrationError =
@@ -6390,6 +6466,8 @@ export const createIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegration",
+  telemetry: TELEMETRY,
+  span: "CreateIntegration",
 }));
 
 export type CreateOptionGroupError =
@@ -6413,6 +6491,8 @@ export const createOptionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOptionGroup",
+  telemetry: TELEMETRY,
+  span: "CreateOptionGroup",
 }));
 
 export type CreateTenantDatabaseError =
@@ -6443,6 +6523,8 @@ export const createTenantDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTenantDatabase",
+  telemetry: TELEMETRY,
+  span: "CreateTenantDatabase",
 }));
 
 export type DeleteBlueGreenDeploymentError =
@@ -6466,6 +6548,8 @@ export const deleteBlueGreenDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBlueGreenDeployment",
+  telemetry: TELEMETRY,
+  span: "DeleteBlueGreenDeployment",
 }));
 
 export type DeleteCustomDBEngineVersionError =
@@ -6497,6 +6581,8 @@ export const deleteCustomDBEngineVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomDBEngineVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteCustomDBEngineVersion",
 }));
 
 export type DeleteDBClusterError =
@@ -6539,6 +6625,8 @@ export const deleteDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteDBCluster",
 }));
 
 export type DeleteDBClusterAutomatedBackupError =
@@ -6560,6 +6648,8 @@ export const deleteDBClusterAutomatedBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBClusterAutomatedBackup",
+  telemetry: TELEMETRY,
+  span: "DeleteDBClusterAutomatedBackup",
 }));
 
 export type DeleteDBClusterEndpointError =
@@ -6588,6 +6678,8 @@ export const deleteDBClusterEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBClusterEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteDBClusterEndpoint",
 }));
 
 export type DeleteDBClusterParameterGroupError =
@@ -6613,6 +6705,8 @@ export const deleteDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBClusterParameterGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteDBClusterParameterGroup",
 }));
 
 export type DeleteDBClusterSnapshotError =
@@ -6640,6 +6734,8 @@ export const deleteDBClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBClusterSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteDBClusterSnapshot",
 }));
 
 export type DeleteDBInstanceError =
@@ -6688,6 +6784,8 @@ export const deleteDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBInstance",
+  telemetry: TELEMETRY,
+  span: "DeleteDBInstance",
 }));
 
 export type DeleteDBInstanceAutomatedBackupError =
@@ -6709,6 +6807,8 @@ export const deleteDBInstanceAutomatedBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBInstanceAutomatedBackup",
+  telemetry: TELEMETRY,
+  span: "DeleteDBInstanceAutomatedBackup",
 }));
 
 export type DeleteDBParameterGroupError =
@@ -6730,6 +6830,8 @@ export const deleteDBParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBParameterGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteDBParameterGroup",
 }));
 
 export type DeleteDBProxyError = DBProxyNotFoundFault | InvalidDBProxyStateFault | CommonErrors;
@@ -6748,6 +6850,8 @@ export const deleteDBProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBProxy",
+  telemetry: TELEMETRY,
+  span: "DeleteDBProxy",
 }));
 
 export type DeleteDBProxyEndpointError =
@@ -6769,6 +6873,8 @@ export const deleteDBProxyEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBProxyEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteDBProxyEndpoint",
 }));
 
 export type DeleteDBSecurityGroupError =
@@ -6794,6 +6900,8 @@ export const deleteDBSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBSecurityGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteDBSecurityGroup",
 }));
 
 export type DeleteDBShardGroupError =
@@ -6816,6 +6924,8 @@ export const deleteDBShardGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBShardGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteDBShardGroup",
 }));
 
 export type DeleteDBSnapshotError =
@@ -6839,6 +6949,8 @@ export const deleteDBSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteDBSnapshot",
 }));
 
 export type DeleteDBSubnetGroupError =
@@ -6863,6 +6975,8 @@ export const deleteDBSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDBSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteDBSubnetGroup",
 }));
 
 export type DeleteEventSubscriptionError =
@@ -6884,6 +6998,8 @@ export const deleteEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventSubscription",
+  telemetry: TELEMETRY,
+  span: "DeleteEventSubscription",
 }));
 
 export type DeleteGlobalClusterError =
@@ -6907,6 +7023,8 @@ export const deleteGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlobalCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteGlobalCluster",
 }));
 
 export type DeleteIntegrationError =
@@ -6933,6 +7051,8 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
+  telemetry: TELEMETRY,
+  span: "DeleteIntegration",
 }));
 
 export type DeleteOptionGroupError =
@@ -6954,6 +7074,8 @@ export const deleteOptionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOptionGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteOptionGroup",
 }));
 
 export type DeleteTenantDatabaseError =
@@ -6984,6 +7106,8 @@ export const deleteTenantDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTenantDatabase",
+  telemetry: TELEMETRY,
+  span: "DeleteTenantDatabase",
 }));
 
 export type DeregisterDBProxyTargetsError =
@@ -7012,6 +7136,8 @@ export const deregisterDBProxyTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterDBProxyTargets",
+  telemetry: TELEMETRY,
+  span: "DeregisterDBProxyTargets",
 }));
 
 export type DescribeAccountAttributesError = CommonErrors;
@@ -7032,6 +7158,8 @@ export const describeAccountAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeAccountAttributes",
 }));
 
 export type DescribeBlueGreenDeploymentsError = BlueGreenDeploymentNotFoundFault | CommonErrors;
@@ -7059,6 +7187,8 @@ export const describeBlueGreenDeployments: API.PaginatedOperationMethod<
     items: "BlueGreenDeployments",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBlueGreenDeployments",
 })) as any;
 
 export type DescribeCertificatesError = CertificateNotFoundFault | CommonErrors;
@@ -7086,6 +7216,8 @@ export const describeCertificates: API.PaginatedOperationMethod<
     items: "Certificates",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeCertificates",
 })) as any;
 
 export type DescribeDBClusterAutomatedBackupsError =
@@ -7115,6 +7247,8 @@ export const describeDBClusterAutomatedBackups: API.PaginatedOperationMethod<
     items: "DBClusterAutomatedBackups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBClusterAutomatedBackups",
 })) as any;
 
 export type DescribeDBClusterBacktracksError =
@@ -7147,6 +7281,8 @@ export const describeDBClusterBacktracks: API.PaginatedOperationMethod<
     items: "DBClusterBacktracks",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBClusterBacktracks",
 })) as any;
 
 export type DescribeDBClusterEndpointsError = DBClusterNotFoundFault | CommonErrors;
@@ -7174,6 +7310,8 @@ export const describeDBClusterEndpoints: API.PaginatedOperationMethod<
     items: "DBClusterEndpoints",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBClusterEndpoints",
 })) as any;
 
 export type DescribeDBClusterParameterGroupsError = DBParameterGroupNotFoundFault | CommonErrors;
@@ -7203,6 +7341,8 @@ export const describeDBClusterParameterGroups: API.PaginatedOperationMethod<
     items: "DBClusterParameterGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBClusterParameterGroups",
 })) as any;
 
 export type DescribeDBClusterParametersError = DBParameterGroupNotFoundFault | CommonErrors;
@@ -7232,6 +7372,8 @@ export const describeDBClusterParameters: API.PaginatedOperationMethod<
     items: "Parameters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBClusterParameters",
 })) as any;
 
 export type DescribeDBClustersError = DBClusterNotFoundFault | CommonErrors;
@@ -7263,6 +7405,8 @@ export const describeDBClusters: API.PaginatedOperationMethod<
     items: "DBClusters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBClusters",
 })) as any;
 
 export type DescribeDBClusterSnapshotAttributesError =
@@ -7287,6 +7431,8 @@ export const describeDBClusterSnapshotAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBClusterSnapshotAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeDBClusterSnapshotAttributes",
 }));
 
 export type DescribeDBClusterSnapshotsError = DBClusterSnapshotNotFoundFault | CommonErrors;
@@ -7316,6 +7462,8 @@ export const describeDBClusterSnapshots: API.PaginatedOperationMethod<
     items: "DBClusterSnapshots",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBClusterSnapshots",
 })) as any;
 
 export type DescribeDBEngineVersionsError = InvalidParameterCombination | CommonErrors;
@@ -7341,6 +7489,8 @@ export const describeDBEngineVersions: API.PaginatedOperationMethod<
     items: "DBEngineVersions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBEngineVersions",
 })) as any;
 
 export type DescribeDBInstanceAutomatedBackupsError =
@@ -7370,6 +7520,8 @@ export const describeDBInstanceAutomatedBackups: API.PaginatedOperationMethod<
     items: "DBInstanceAutomatedBackups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBInstanceAutomatedBackups",
 })) as any;
 
 export type DescribeDBInstancesError = DBInstanceNotFoundFault | CommonErrors;
@@ -7397,6 +7549,8 @@ export const describeDBInstances: API.PaginatedOperationMethod<
     items: "DBInstances",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBInstances",
 })) as any;
 
 export type DescribeDBLogFilesError =
@@ -7427,6 +7581,8 @@ export const describeDBLogFiles: API.PaginatedOperationMethod<
     items: "DescribeDBLogFiles",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBLogFiles",
 })) as any;
 
 export type DescribeDBMajorEngineVersionsError = CommonErrors;
@@ -7452,6 +7608,8 @@ export const describeDBMajorEngineVersions: API.PaginatedOperationMethod<
     items: "DBMajorEngineVersions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBMajorEngineVersions",
 })) as any;
 
 export type DescribeDBParameterGroupsError = DBParameterGroupNotFoundFault | CommonErrors;
@@ -7477,6 +7635,8 @@ export const describeDBParameterGroups: API.PaginatedOperationMethod<
     items: "DBParameterGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBParameterGroups",
 })) as any;
 
 export type DescribeDBParametersError = DBParameterGroupNotFoundFault | CommonErrors;
@@ -7502,6 +7662,8 @@ export const describeDBParameters: API.PaginatedOperationMethod<
     items: "Parameters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBParameters",
 })) as any;
 
 export type DescribeDBProxiesError = DBProxyNotFoundFault | CommonErrors;
@@ -7527,6 +7689,8 @@ export const describeDBProxies: API.PaginatedOperationMethod<
     items: "DBProxies",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBProxies",
 })) as any;
 
 export type DescribeDBProxyEndpointsError =
@@ -7555,6 +7719,8 @@ export const describeDBProxyEndpoints: API.PaginatedOperationMethod<
     items: "DBProxyEndpoints",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBProxyEndpoints",
 })) as any;
 
 export type DescribeDBProxyTargetGroupsError =
@@ -7584,6 +7750,8 @@ export const describeDBProxyTargetGroups: API.PaginatedOperationMethod<
     items: "TargetGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBProxyTargetGroups",
 })) as any;
 
 export type DescribeDBProxyTargetsError =
@@ -7619,6 +7787,8 @@ export const describeDBProxyTargets: API.PaginatedOperationMethod<
     items: "Targets",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBProxyTargets",
 })) as any;
 
 export type DescribeDBRecommendationsError = CommonErrors;
@@ -7644,6 +7814,8 @@ export const describeDBRecommendations: API.PaginatedOperationMethod<
     items: "DBRecommendations",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBRecommendations",
 })) as any;
 
 export type DescribeDBSecurityGroupsError = DBSecurityGroupNotFoundFault | CommonErrors;
@@ -7671,6 +7843,8 @@ export const describeDBSecurityGroups: API.PaginatedOperationMethod<
     items: "DBSecurityGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBSecurityGroups",
 })) as any;
 
 export type DescribeDBShardGroupsError =
@@ -7692,6 +7866,8 @@ export const describeDBShardGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBShardGroups",
+  telemetry: TELEMETRY,
+  span: "DescribeDBShardGroups",
 }));
 
 export type DescribeDBSnapshotAttributesError = DBSnapshotNotFoundFault | CommonErrors;
@@ -7714,6 +7890,8 @@ export const describeDBSnapshotAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDBSnapshotAttributes",
+  telemetry: TELEMETRY,
+  span: "DescribeDBSnapshotAttributes",
 }));
 
 export type DescribeDBSnapshotsError = DBSnapshotNotFoundFault | CommonErrors;
@@ -7739,6 +7917,8 @@ export const describeDBSnapshots: API.PaginatedOperationMethod<
     items: "DBSnapshots",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBSnapshots",
 })) as any;
 
 export type DescribeDBSnapshotTenantDatabasesError = DBSnapshotNotFoundFault | CommonErrors;
@@ -7766,6 +7946,8 @@ export const describeDBSnapshotTenantDatabases: API.PaginatedOperationMethod<
     items: "DBSnapshotTenantDatabases",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBSnapshotTenantDatabases",
 })) as any;
 
 export type DescribeDBSubnetGroupsError = DBSubnetGroupNotFoundFault | CommonErrors;
@@ -7793,6 +7975,8 @@ export const describeDBSubnetGroups: API.PaginatedOperationMethod<
     items: "DBSubnetGroups",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDBSubnetGroups",
 })) as any;
 
 export type DescribeEngineDefaultClusterParametersError = CommonErrors;
@@ -7820,6 +8004,8 @@ export const describeEngineDefaultClusterParameters: API.PaginatedOperationMetho
     items: "EngineDefaults.Parameters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEngineDefaultClusterParameters",
 })) as any;
 
 export type DescribeEngineDefaultParametersError = CommonErrors;
@@ -7845,6 +8031,8 @@ export const describeEngineDefaultParameters: API.PaginatedOperationMethod<
     items: "EngineDefaults.Parameters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEngineDefaultParameters",
 })) as any;
 
 export type DescribeEventCategoriesError = CommonErrors;
@@ -7863,6 +8051,8 @@ export const describeEventCategories: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventCategories",
+  telemetry: TELEMETRY,
+  span: "DescribeEventCategories",
 }));
 
 export type DescribeEventsError = CommonErrors;
@@ -7892,6 +8082,8 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 })) as any;
 
 export type DescribeEventSubscriptionsError = SubscriptionNotFoundFault | CommonErrors;
@@ -7919,6 +8111,8 @@ export const describeEventSubscriptions: API.PaginatedOperationMethod<
     items: "EventSubscriptionsList",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEventSubscriptions",
 })) as any;
 
 export type DescribeExportTasksError = ExportTaskNotFoundFault | CommonErrors;
@@ -7944,6 +8138,8 @@ export const describeExportTasks: API.PaginatedOperationMethod<
     items: "ExportTasks",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeExportTasks",
 })) as any;
 
 export type DescribeGlobalClustersError = GlobalClusterNotFoundFault | CommonErrors;
@@ -7973,6 +8169,8 @@ export const describeGlobalClusters: API.PaginatedOperationMethod<
     items: "GlobalClusters",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGlobalClusters",
 })) as any;
 
 export type DescribeIntegrationsError = IntegrationNotFoundFault | CommonErrors;
@@ -7998,6 +8196,8 @@ export const describeIntegrations: API.PaginatedOperationMethod<
     items: "Integrations",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeIntegrations",
 })) as any;
 
 export type DescribeOptionGroupOptionsError = CommonErrors;
@@ -8023,6 +8223,8 @@ export const describeOptionGroupOptions: API.PaginatedOperationMethod<
     items: "OptionGroupOptions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOptionGroupOptions",
 })) as any;
 
 export type DescribeOptionGroupsError = OptionGroupNotFoundFault | CommonErrors;
@@ -8048,6 +8250,8 @@ export const describeOptionGroups: API.PaginatedOperationMethod<
     items: "OptionGroupsList",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOptionGroups",
 })) as any;
 
 export type DescribeOrderableDBInstanceOptionsError = CommonErrors;
@@ -8073,6 +8277,8 @@ export const describeOrderableDBInstanceOptions: API.PaginatedOperationMethod<
     items: "OrderableDBInstanceOptions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOrderableDBInstanceOptions",
 })) as any;
 
 export type DescribePendingMaintenanceActionsError = ResourceNotFoundFault | CommonErrors;
@@ -8100,6 +8306,8 @@ export const describePendingMaintenanceActions: API.PaginatedOperationMethod<
     items: "PendingMaintenanceActions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePendingMaintenanceActions",
 })) as any;
 
 export type DescribeReservedDBInstancesError = ReservedDBInstanceNotFoundFault | CommonErrors;
@@ -8125,6 +8333,8 @@ export const describeReservedDBInstances: API.PaginatedOperationMethod<
     items: "ReservedDBInstances",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedDBInstances",
 })) as any;
 
 export type DescribeReservedDBInstancesOfferingsError =
@@ -8152,6 +8362,8 @@ export const describeReservedDBInstancesOfferings: API.PaginatedOperationMethod<
     items: "ReservedDBInstancesOfferings",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedDBInstancesOfferings",
 })) as any;
 
 export type DescribeServerlessV2PlatformVersionsError = CommonErrors;
@@ -8177,6 +8389,8 @@ export const describeServerlessV2PlatformVersions: API.PaginatedOperationMethod<
     items: "ServerlessV2PlatformVersions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeServerlessV2PlatformVersions",
 })) as any;
 
 export type DescribeSourceRegionsError = CommonErrors;
@@ -8206,6 +8420,8 @@ export const describeSourceRegions: API.PaginatedOperationMethod<
     items: "SourceRegions",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSourceRegions",
 })) as any;
 
 export type DescribeTenantDatabasesError = DBInstanceNotFoundFault | CommonErrors;
@@ -8231,6 +8447,8 @@ export const describeTenantDatabases: API.PaginatedOperationMethod<
     items: "TenantDatabases",
     pageSize: "MaxRecords",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeTenantDatabases",
 })) as any;
 
 export type DescribeValidDBInstanceModificationsError =
@@ -8254,6 +8472,8 @@ export const describeValidDBInstanceModifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeValidDBInstanceModifications",
+  telemetry: TELEMETRY,
+  span: "DescribeValidDBInstanceModifications",
 }));
 
 export type DisableHttpEndpointError =
@@ -8279,6 +8499,8 @@ export const disableHttpEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableHttpEndpoint",
+  telemetry: TELEMETRY,
+  span: "DisableHttpEndpoint",
 }));
 
 export type DownloadDBLogFilePortionError =
@@ -8307,6 +8529,8 @@ export const downloadDBLogFilePortion: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DownloadDBLogFilePortion",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "NumberOfLines" } as const,
+  telemetry: TELEMETRY,
+  span: "DownloadDBLogFilePortion",
 })) as any;
 
 export type EnableHttpEndpointError =
@@ -8334,6 +8558,8 @@ export const enableHttpEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableHttpEndpoint",
+  telemetry: TELEMETRY,
+  span: "EnableHttpEndpoint",
 }));
 
 export type FailoverDBClusterError =
@@ -8368,6 +8594,8 @@ export const failoverDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverDBCluster",
+  telemetry: TELEMETRY,
+  span: "FailoverDBCluster",
 }));
 
 export type FailoverGlobalClusterError =
@@ -8416,6 +8644,8 @@ export const failoverGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverGlobalCluster",
+  telemetry: TELEMETRY,
+  span: "FailoverGlobalCluster",
 }));
 
 export type ListTagsForResourceError =
@@ -8460,6 +8690,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ModifyActivityStreamError =
@@ -8484,6 +8716,8 @@ export const modifyActivityStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyActivityStream",
+  telemetry: TELEMETRY,
+  span: "ModifyActivityStream",
 }));
 
 export type ModifyCertificatesError = CertificateNotFoundFault | CommonErrors;
@@ -8514,6 +8748,8 @@ export const modifyCertificates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCertificates",
+  telemetry: TELEMETRY,
+  span: "ModifyCertificates",
 }));
 
 export type ModifyCurrentDBClusterCapacityError =
@@ -8546,6 +8782,8 @@ export const modifyCurrentDBClusterCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCurrentDBClusterCapacity",
+  telemetry: TELEMETRY,
+  span: "ModifyCurrentDBClusterCapacity",
 }));
 
 export type ModifyCustomDBEngineVersionError =
@@ -8571,6 +8809,8 @@ export const modifyCustomDBEngineVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCustomDBEngineVersion",
+  telemetry: TELEMETRY,
+  span: "ModifyCustomDBEngineVersion",
 }));
 
 export type ModifyDBClusterError =
@@ -8641,6 +8881,8 @@ export const modifyDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBCluster",
+  telemetry: TELEMETRY,
+  span: "ModifyDBCluster",
 }));
 
 export type ModifyDBClusterEndpointError =
@@ -8673,6 +8915,8 @@ export const modifyDBClusterEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBClusterEndpoint",
+  telemetry: TELEMETRY,
+  span: "ModifyDBClusterEndpoint",
 }));
 
 export type ModifyDBClusterParameterGroupError =
@@ -8700,6 +8944,8 @@ export const modifyDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBClusterParameterGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyDBClusterParameterGroup",
 }));
 
 export type ModifyDBClusterSnapshotAttributeError =
@@ -8734,6 +8980,8 @@ export const modifyDBClusterSnapshotAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBClusterSnapshotAttribute",
+  telemetry: TELEMETRY,
+  span: "ModifyDBClusterSnapshotAttribute",
 }));
 
 export type ModifyDBInstanceError =
@@ -8802,6 +9050,8 @@ export const modifyDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBInstance",
+  telemetry: TELEMETRY,
+  span: "ModifyDBInstance",
 }));
 
 export type ModifyDBParameterGroupError =
@@ -8825,6 +9075,8 @@ export const modifyDBParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBParameterGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyDBParameterGroup",
 }));
 
 export type ModifyDBProxyError =
@@ -8847,6 +9099,8 @@ export const modifyDBProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBProxy",
+  telemetry: TELEMETRY,
+  span: "ModifyDBProxy",
 }));
 
 export type ModifyDBProxyEndpointError =
@@ -8875,6 +9129,8 @@ export const modifyDBProxyEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBProxyEndpoint",
+  telemetry: TELEMETRY,
+  span: "ModifyDBProxyEndpoint",
 }));
 
 export type ModifyDBProxyTargetGroupError =
@@ -8897,6 +9153,8 @@ export const modifyDBProxyTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBProxyTargetGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyDBProxyTargetGroup",
 }));
 
 export type ModifyDBRecommendationError = CommonErrors;
@@ -8915,6 +9173,8 @@ export const modifyDBRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBRecommendation",
+  telemetry: TELEMETRY,
+  span: "ModifyDBRecommendation",
 }));
 
 export type ModifyDBShardGroupError =
@@ -8937,6 +9197,8 @@ export const modifyDBShardGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBShardGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyDBShardGroup",
 }));
 
 export type ModifyDBSnapshotError =
@@ -8961,6 +9223,8 @@ export const modifyDBSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBSnapshot",
+  telemetry: TELEMETRY,
+  span: "ModifyDBSnapshot",
 }));
 
 export type ModifyDBSnapshotAttributeError =
@@ -8991,6 +9255,8 @@ export const modifyDBSnapshotAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBSnapshotAttribute",
+  telemetry: TELEMETRY,
+  span: "ModifyDBSnapshotAttribute",
 }));
 
 export type ModifyDBSubnetGroupError =
@@ -9023,6 +9289,8 @@ export const modifyDBSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDBSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyDBSubnetGroup",
 }));
 
 export type ModifyEventSubscriptionError =
@@ -9057,6 +9325,8 @@ export const modifyEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyEventSubscription",
+  telemetry: TELEMETRY,
+  span: "ModifyEventSubscription",
 }));
 
 export type ModifyGlobalClusterError =
@@ -9089,6 +9359,8 @@ export const modifyGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyGlobalCluster",
+  telemetry: TELEMETRY,
+  span: "ModifyGlobalCluster",
 }));
 
 export type ModifyIntegrationError =
@@ -9115,6 +9387,8 @@ export const modifyIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIntegration",
+  telemetry: TELEMETRY,
+  span: "ModifyIntegration",
 }));
 
 export type ModifyOptionGroupError =
@@ -9136,6 +9410,8 @@ export const modifyOptionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyOptionGroup",
+  telemetry: TELEMETRY,
+  span: "ModifyOptionGroup",
 }));
 
 export type ModifyTenantDatabaseError =
@@ -9166,6 +9442,8 @@ export const modifyTenantDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTenantDatabase",
+  telemetry: TELEMETRY,
+  span: "ModifyTenantDatabase",
 }));
 
 export type PromoteReadReplicaError =
@@ -9191,6 +9469,8 @@ export const promoteReadReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PromoteReadReplica",
+  telemetry: TELEMETRY,
+  span: "PromoteReadReplica",
 }));
 
 export type PromoteReadReplicaDBClusterError =
@@ -9212,6 +9492,8 @@ export const promoteReadReplicaDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PromoteReadReplicaDBCluster",
+  telemetry: TELEMETRY,
+  span: "PromoteReadReplicaDBCluster",
 }));
 
 export type PurchaseReservedDBInstancesOfferingError =
@@ -9238,6 +9520,8 @@ export const purchaseReservedDBInstancesOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedDBInstancesOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseReservedDBInstancesOffering",
 }));
 
 export type RebootDBClusterError =
@@ -9266,6 +9550,8 @@ export const rebootDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDBCluster",
+  telemetry: TELEMETRY,
+  span: "RebootDBCluster",
 }));
 
 export type RebootDBInstanceError =
@@ -9296,6 +9582,8 @@ export const rebootDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDBInstance",
+  telemetry: TELEMETRY,
+  span: "RebootDBInstance",
 }));
 
 export type RebootDBShardGroupError =
@@ -9319,6 +9607,8 @@ export const rebootDBShardGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDBShardGroup",
+  telemetry: TELEMETRY,
+  span: "RebootDBShardGroup",
 }));
 
 export type RegisterDBProxyTargetsError =
@@ -9357,6 +9647,8 @@ export const registerDBProxyTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDBProxyTargets",
+  telemetry: TELEMETRY,
+  span: "RegisterDBProxyTargets",
 }));
 
 export type RemoveFromGlobalClusterError =
@@ -9387,6 +9679,8 @@ export const removeFromGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveFromGlobalCluster",
+  telemetry: TELEMETRY,
+  span: "RemoveFromGlobalCluster",
 }));
 
 export type RemoveRoleFromDBClusterError =
@@ -9413,6 +9707,8 @@ export const removeRoleFromDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRoleFromDBCluster",
+  telemetry: TELEMETRY,
+  span: "RemoveRoleFromDBCluster",
 }));
 
 export type RemoveRoleFromDBInstanceError =
@@ -9435,6 +9731,8 @@ export const removeRoleFromDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRoleFromDBInstance",
+  telemetry: TELEMETRY,
+  span: "RemoveRoleFromDBInstance",
 }));
 
 export type RemoveSourceIdentifierFromSubscriptionError =
@@ -9456,6 +9754,8 @@ export const removeSourceIdentifierFromSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveSourceIdentifierFromSubscription",
+  telemetry: TELEMETRY,
+  span: "RemoveSourceIdentifierFromSubscription",
 }));
 
 export type RemoveTagsFromResourceError =
@@ -9506,6 +9806,8 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
+  telemetry: TELEMETRY,
+  span: "RemoveTagsFromResource",
 }));
 
 export type ResetDBClusterParameterGroupError =
@@ -9533,6 +9835,8 @@ export const resetDBClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetDBClusterParameterGroup",
+  telemetry: TELEMETRY,
+  span: "ResetDBClusterParameterGroup",
 }));
 
 export type ResetDBParameterGroupError =
@@ -9554,6 +9858,8 @@ export const resetDBParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetDBParameterGroup",
+  telemetry: TELEMETRY,
+  span: "ResetDBParameterGroup",
 }));
 
 export type RestoreDBClusterFromS3Error =
@@ -9616,6 +9922,8 @@ export const restoreDBClusterFromS3: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBClusterFromS3",
+  telemetry: TELEMETRY,
+  span: "RestoreDBClusterFromS3",
 }));
 
 export type RestoreDBClusterFromSnapshotError =
@@ -9696,6 +10004,8 @@ export const restoreDBClusterFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBClusterFromSnapshot",
+  telemetry: TELEMETRY,
+  span: "RestoreDBClusterFromSnapshot",
 }));
 
 export type RestoreDBClusterToPointInTimeError =
@@ -9774,6 +10084,8 @@ export const restoreDBClusterToPointInTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBClusterToPointInTime",
+  telemetry: TELEMETRY,
+  span: "RestoreDBClusterToPointInTime",
 }));
 
 export type RestoreDBInstanceFromDBSnapshotError =
@@ -9852,6 +10164,8 @@ export const restoreDBInstanceFromDBSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBInstanceFromDBSnapshot",
+  telemetry: TELEMETRY,
+  span: "RestoreDBInstanceFromDBSnapshot",
 }));
 
 export type RestoreDBInstanceFromS3Error =
@@ -9914,6 +10228,8 @@ export const restoreDBInstanceFromS3: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBInstanceFromS3",
+  telemetry: TELEMETRY,
+  span: "RestoreDBInstanceFromS3",
 }));
 
 export type RestoreDBInstanceToPointInTimeError =
@@ -9990,6 +10306,8 @@ export const restoreDBInstanceToPointInTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDBInstanceToPointInTime",
+  telemetry: TELEMETRY,
+  span: "RestoreDBInstanceToPointInTime",
 }));
 
 export type RevokeDBSecurityGroupIngressError =
@@ -10018,6 +10336,8 @@ export const revokeDBSecurityGroupIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeDBSecurityGroupIngress",
+  telemetry: TELEMETRY,
+  span: "RevokeDBSecurityGroupIngress",
 }));
 
 export type StartActivityStreamError =
@@ -10050,6 +10370,8 @@ export const startActivityStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartActivityStream",
+  telemetry: TELEMETRY,
+  span: "StartActivityStream",
 }));
 
 export type StartDBClusterError =
@@ -10086,6 +10408,8 @@ export const startDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDBCluster",
+  telemetry: TELEMETRY,
+  span: "StartDBCluster",
 }));
 
 export type StartDBInstanceError =
@@ -10134,6 +10458,8 @@ export const startDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDBInstance",
+  telemetry: TELEMETRY,
+  span: "StartDBInstance",
 }));
 
 export type StartDBInstanceAutomatedBackupsReplicationError =
@@ -10170,6 +10496,8 @@ export const startDBInstanceAutomatedBackupsReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDBInstanceAutomatedBackupsReplication",
+  telemetry: TELEMETRY,
+  span: "StartDBInstanceAutomatedBackupsReplication",
 }));
 
 export type StartExportTaskError =
@@ -10216,6 +10544,8 @@ export const startExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExportTask",
+  telemetry: TELEMETRY,
+  span: "StartExportTask",
 }));
 
 export type StopActivityStreamError =
@@ -10248,6 +10578,8 @@ export const stopActivityStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopActivityStream",
+  telemetry: TELEMETRY,
+  span: "StopActivityStream",
 }));
 
 export type StopDBClusterError =
@@ -10280,6 +10612,8 @@ export const stopDBCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDBCluster",
+  telemetry: TELEMETRY,
+  span: "StopDBCluster",
 }));
 
 export type StopDBInstanceError =
@@ -10314,6 +10648,8 @@ export const stopDBInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDBInstance",
+  telemetry: TELEMETRY,
+  span: "StopDBInstance",
 }));
 
 export type StopDBInstanceAutomatedBackupsReplicationError =
@@ -10339,6 +10675,8 @@ export const stopDBInstanceAutomatedBackupsReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDBInstanceAutomatedBackupsReplication",
+  telemetry: TELEMETRY,
+  span: "StopDBInstanceAutomatedBackupsReplication",
 }));
 
 export type SwitchoverBlueGreenDeploymentError =
@@ -10364,6 +10702,8 @@ export const switchoverBlueGreenDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwitchoverBlueGreenDeployment",
+  telemetry: TELEMETRY,
+  span: "SwitchoverBlueGreenDeployment",
 }));
 
 export type SwitchoverGlobalClusterError =
@@ -10396,6 +10736,8 @@ export const switchoverGlobalCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwitchoverGlobalCluster",
+  telemetry: TELEMETRY,
+  span: "SwitchoverGlobalCluster",
 }));
 
 export type SwitchoverReadReplicaError =
@@ -10417,6 +10759,8 @@ export const switchoverReadReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwitchoverReadReplica",
+  telemetry: TELEMETRY,
+  span: "SwitchoverReadReplica",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

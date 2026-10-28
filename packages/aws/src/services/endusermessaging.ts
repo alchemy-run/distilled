@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://end-user-messaging.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "EndUserMessaging",
+  service: "EndUserMessaging",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -646,6 +661,8 @@ export const createBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrandProfile",
+  telemetry: TELEMETRY,
+  span: "CreateBrandProfile",
 }));
 
 export type CreateBrandProfileAttributesError =
@@ -680,6 +697,8 @@ export const createBrandProfileAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrandProfileAttributes",
+  telemetry: TELEMETRY,
+  span: "CreateBrandProfileAttributes",
 }));
 
 export type CreateBrandProfileFromRegistrationError =
@@ -714,6 +733,8 @@ export const createBrandProfileFromRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrandProfileFromRegistration",
+  telemetry: TELEMETRY,
+  span: "CreateBrandProfileFromRegistration",
 }));
 
 export type CreateNotifyCodeConfigurationError =
@@ -746,6 +767,8 @@ export const createNotifyCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotifyCodeConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateNotifyCodeConfiguration",
 }));
 
 export type CreateRegistrationsFromBrandProfileError =
@@ -778,6 +801,8 @@ export const createRegistrationsFromBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistrationsFromBrandProfile",
+  telemetry: TELEMETRY,
+  span: "CreateRegistrationsFromBrandProfile",
 }));
 
 export type DeleteBrandProfileError =
@@ -810,6 +835,8 @@ export const deleteBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrandProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteBrandProfile",
 }));
 
 export type DeleteBrandProfileAttributeError =
@@ -842,6 +869,8 @@ export const deleteBrandProfileAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrandProfileAttribute",
+  telemetry: TELEMETRY,
+  span: "DeleteBrandProfileAttribute",
 }));
 
 export type DeleteNotifyCodeConfigurationError =
@@ -874,6 +903,8 @@ export const deleteNotifyCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotifyCodeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteNotifyCodeConfiguration",
 }));
 
 export type GetBrandProfileError =
@@ -904,6 +935,8 @@ export const getBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrandProfile",
+  telemetry: TELEMETRY,
+  span: "GetBrandProfile",
 }));
 
 export type GetBrandProfileAttributeError =
@@ -934,6 +967,8 @@ export const getBrandProfileAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrandProfileAttribute",
+  telemetry: TELEMETRY,
+  span: "GetBrandProfileAttribute",
 }));
 
 export type GetJobError =
@@ -964,6 +999,8 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  telemetry: TELEMETRY,
+  span: "GetJob",
 }));
 
 export type GetNotifyCodeConfigurationError =
@@ -994,6 +1031,8 @@ export const getNotifyCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotifyCodeConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetNotifyCodeConfiguration",
 }));
 
 export type ListBrandProfileAttributesError =
@@ -1031,6 +1070,8 @@ export const listBrandProfileAttributes: API.PaginatedOperationMethod<
     items: "brandProfileAttributes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBrandProfileAttributes",
 })) as any;
 
 export type ListBrandProfilesError =
@@ -1066,6 +1107,8 @@ export const listBrandProfiles: API.PaginatedOperationMethod<
     items: "brandProfiles",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBrandProfiles",
 })) as any;
 
 export type ListJobsError =
@@ -1101,6 +1144,8 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListJobs",
 })) as any;
 
 export type ListNotifyCodeConfigurationsError =
@@ -1136,6 +1181,8 @@ export const listNotifyCodeConfigurations: API.PaginatedOperationMethod<
     items: "notifyCodeConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotifyCodeConfigurations",
 })) as any;
 
 export type ListRegistrationsFromBrandProfileError =
@@ -1173,6 +1220,8 @@ export const listRegistrationsFromBrandProfile: API.PaginatedOperationMethod<
     items: "registrationAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRegistrationsFromBrandProfile",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1203,6 +1252,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type SendNotifyCodeVerificationError =
@@ -1237,6 +1288,8 @@ export const sendNotifyCodeVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendNotifyCodeVerification",
+  telemetry: TELEMETRY,
+  span: "SendNotifyCodeVerification",
 }));
 
 export type TagResourceError =
@@ -1269,6 +1322,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1299,6 +1354,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateBrandProfileError =
@@ -1331,6 +1388,8 @@ export const updateBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrandProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateBrandProfile",
 }));
 
 export type UpdateBrandProfileAttributeError =
@@ -1363,6 +1422,8 @@ export const updateBrandProfileAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrandProfileAttribute",
+  telemetry: TELEMETRY,
+  span: "UpdateBrandProfileAttribute",
 }));
 
 export type UpdateBrandProfileFromRegistrationError =
@@ -1395,6 +1456,8 @@ export const updateBrandProfileFromRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrandProfileFromRegistration",
+  telemetry: TELEMETRY,
+  span: "UpdateBrandProfileFromRegistration",
 }));
 
 export type UpdateNotifyCodeConfigurationError =
@@ -1427,6 +1490,8 @@ export const updateNotifyCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotifyCodeConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateNotifyCodeConfiguration",
 }));
 
 export type UpdateRegistrationsFromBrandProfileError =
@@ -1459,6 +1524,8 @@ export const updateRegistrationsFromBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistrationsFromBrandProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateRegistrationsFromBrandProfile",
 }));
 
 export type ValidateNotifyCodeVerificationError =
@@ -1487,6 +1554,8 @@ export const validateNotifyCodeVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateNotifyCodeVerification",
+  telemetry: TELEMETRY,
+  span: "ValidateNotifyCodeVerification",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

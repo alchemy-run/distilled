@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -78,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://servicequotas.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ServiceQuotas",
+  service: "ServiceQuotas",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -581,6 +597,8 @@ export const associateServiceQuotaTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateServiceQuotaTemplate",
+  telemetry: TELEMETRY,
+  span: "AssociateServiceQuotaTemplate",
 }));
 
 export type CreateSupportCaseError =
@@ -618,6 +636,8 @@ export const createSupportCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSupportCase",
+  telemetry: TELEMETRY,
+  span: "CreateSupportCase",
 }));
 
 export type DeleteServiceQuotaIncreaseRequestFromTemplateError =
@@ -657,6 +677,8 @@ export const deleteServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceQuotaIncreaseRequestFromTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteServiceQuotaIncreaseRequestFromTemplate",
 }));
 
 export type DisassociateServiceQuotaTemplateError =
@@ -695,6 +717,8 @@ export const disassociateServiceQuotaTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateServiceQuotaTemplate",
+  telemetry: TELEMETRY,
+  span: "DisassociateServiceQuotaTemplate",
 }));
 
 export type GetAssociationForServiceQuotaTemplateError =
@@ -731,6 +755,8 @@ export const getAssociationForServiceQuotaTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociationForServiceQuotaTemplate",
+  telemetry: TELEMETRY,
+  span: "GetAssociationForServiceQuotaTemplate",
 }));
 
 export type GetAutoManagementConfigurationError =
@@ -762,6 +788,8 @@ export const getAutoManagementConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoManagementConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetAutoManagementConfiguration",
 }));
 
 export type GetAWSDefaultServiceQuotaError =
@@ -793,6 +821,8 @@ export const getAWSDefaultServiceQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAWSDefaultServiceQuota",
+  telemetry: TELEMETRY,
+  span: "GetAWSDefaultServiceQuota",
 }));
 
 export type GetQuotaUtilizationReportError =
@@ -836,6 +866,8 @@ export const getQuotaUtilizationReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuotaUtilizationReport",
+  telemetry: TELEMETRY,
+  span: "GetQuotaUtilizationReport",
 }));
 
 export type GetRequestedServiceQuotaChangeError =
@@ -866,6 +898,8 @@ export const getRequestedServiceQuotaChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRequestedServiceQuotaChange",
+  telemetry: TELEMETRY,
+  span: "GetRequestedServiceQuotaChange",
 }));
 
 export type GetServiceQuotaError =
@@ -898,6 +932,8 @@ export const getServiceQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceQuota",
+  telemetry: TELEMETRY,
+  span: "GetServiceQuota",
 }));
 
 export type GetServiceQuotaIncreaseRequestFromTemplateError =
@@ -937,6 +973,8 @@ export const getServiceQuotaIncreaseRequestFromTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceQuotaIncreaseRequestFromTemplate",
+  telemetry: TELEMETRY,
+  span: "GetServiceQuotaIncreaseRequestFromTemplate",
 }));
 
 export type ListAWSDefaultServiceQuotasError =
@@ -977,6 +1015,8 @@ export const listAWSDefaultServiceQuotas: API.PaginatedOperationMethod<
     items: "Quotas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAWSDefaultServiceQuotas",
 })) as any;
 
 export type ListRequestedServiceQuotaChangeHistoryError =
@@ -1018,6 +1058,8 @@ export const listRequestedServiceQuotaChangeHistory: API.PaginatedOperationMetho
     items: "RequestedQuotas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRequestedServiceQuotaChangeHistory",
 })) as any;
 
 export type ListRequestedServiceQuotaChangeHistoryByQuotaError =
@@ -1066,6 +1108,8 @@ export const listRequestedServiceQuotaChangeHistoryByQuota: API.PaginatedOperati
     items: "RequestedQuotas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRequestedServiceQuotaChangeHistoryByQuota",
 })) as any;
 
 export type ListServiceQuotaIncreaseRequestsInTemplateError =
@@ -1109,6 +1153,8 @@ export const listServiceQuotaIncreaseRequestsInTemplate: API.PaginatedOperationM
     items: "ServiceQuotaIncreaseRequestInTemplateList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceQuotaIncreaseRequestsInTemplate",
 })) as any;
 
 export type ListServiceQuotasError =
@@ -1151,6 +1197,8 @@ export const listServiceQuotas: API.PaginatedOperationMethod<
     items: "Quotas",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServiceQuotas",
 })) as any;
 
 export type ListServicesError =
@@ -1188,6 +1236,8 @@ export const listServices: API.PaginatedOperationMethod<
     items: "Services",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListServices",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1218,6 +1268,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutServiceQuotaIncreaseRequestIntoTemplateError =
@@ -1258,6 +1310,8 @@ export const putServiceQuotaIncreaseRequestIntoTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutServiceQuotaIncreaseRequestIntoTemplate",
+  telemetry: TELEMETRY,
+  span: "PutServiceQuotaIncreaseRequestIntoTemplate",
 }));
 
 export type RequestServiceQuotaIncreaseError =
@@ -1297,6 +1351,8 @@ export const requestServiceQuotaIncrease: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestServiceQuotaIncrease",
+  telemetry: TELEMETRY,
+  span: "RequestServiceQuotaIncrease",
 }));
 
 export type StartAutoManagementError =
@@ -1329,6 +1385,8 @@ export const startAutoManagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutoManagement",
+  telemetry: TELEMETRY,
+  span: "StartAutoManagement",
 }));
 
 export type StartQuotaUtilizationReportError =
@@ -1367,6 +1425,8 @@ export const startQuotaUtilizationReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQuotaUtilizationReport",
+  telemetry: TELEMETRY,
+  span: "StartQuotaUtilizationReport",
 }));
 
 export type StopAutoManagementError =
@@ -1399,6 +1459,8 @@ export const stopAutoManagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAutoManagement",
+  telemetry: TELEMETRY,
+  span: "StopAutoManagement",
 }));
 
 export type TagResourceError =
@@ -1434,6 +1496,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1465,6 +1529,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAutoManagementError =
@@ -1497,6 +1563,8 @@ export const updateAutoManagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutoManagement",
+  telemetry: TELEMETRY,
+  span: "UpdateAutoManagement",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

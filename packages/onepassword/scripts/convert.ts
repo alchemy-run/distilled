@@ -16,11 +16,11 @@
  *
  * Patches: patches/<name>/*.patch.json (Smithy ops on upstream names),
  * applied by finalizeConvert. The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; `scripts/generate.ts` compiles
+ * `@distilled.cloud/dev/codegen/openapi`; `scripts/generate.ts` compiles
  * the models into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 await runOpenApiConvert({
   root: path.resolve(import.meta.dirname, ".."),

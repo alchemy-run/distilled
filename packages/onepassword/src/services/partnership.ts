@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { OnepasswordOpError, PartnershipOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "onepassword-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "OnePassword",
+  service: "OnepasswordPartnership",
+  labels: "onepassword",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -110,6 +123,8 @@ export const createPartnerAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOnepasswordError],
   protocol: PartnershipProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePartnerAccount",
 }));
 
 export type DeleteAccountError = Forbidden | NotFound | OnepasswordOpError;
@@ -125,6 +140,8 @@ export const deleteAccount: API.OperationMethod<
   errors: [Forbidden, NotFound, UnknownOnepasswordError],
   protocol: PartnershipProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccount",
 }));
 
 export type GetAccountError = Forbidden | NotFound | Gone | OnepasswordOpError;
@@ -140,6 +157,8 @@ export const getAccount: API.OperationMethod<
   errors: [Forbidden, NotFound, Gone, UnknownOnepasswordError],
   protocol: PartnershipProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccount",
 }));
 
 export type UpdateAccountError = BadRequest | Forbidden | NotFound | OnepasswordOpError;
@@ -155,6 +174,8 @@ export const updateAccount: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, UnknownOnepasswordError],
   protocol: PartnershipProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAccount",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

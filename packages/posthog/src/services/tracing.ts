@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Tracing",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface CreateTracingRetentionRuleRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -1078,6 +1091,8 @@ export const createTracingRetentionRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingRetentionRule",
 }));
 
 export type CreateTracingRetentionRulesReorderError = PosthogOpError;
@@ -1093,6 +1108,8 @@ export const createTracingRetentionRulesReorder: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingRetentionRulesReorder",
 }));
 
 export type CreateTracingRetentionRulesSuggestNameError = PosthogOpError;
@@ -1108,6 +1125,8 @@ export const createTracingRetentionRulesSuggestName: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingRetentionRulesSuggestName",
 }));
 
 export type CreateTracingSpansAggregateError = PosthogOpError;
@@ -1122,6 +1141,8 @@ export const createTracingSpansAggregate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingSpansAggregate",
 }));
 
 export type CreateTracingSpansAttributeBreakdownError = PosthogOpError;
@@ -1136,6 +1157,8 @@ export const createTracingSpansAttributeBreakdown: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingSpansAttributeBreakdown",
 }));
 
 export type CreateTracingSpansCountError = PosthogOpError;
@@ -1150,6 +1173,8 @@ export const createTracingSpansCount: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingSpansCount",
 }));
 
 export type CreateTracingSpansDurationHistogramError = PosthogOpError;
@@ -1164,6 +1189,8 @@ export const createTracingSpansDurationHistogram: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingSpansDurationHistogram",
 }));
 
 export type CreateTracingSpansErrorCountError = PosthogOpError;
@@ -1179,6 +1206,8 @@ export const createTracingSpansErrorCount: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingSpansErrorCount",
 }));
 
 export type CreateTracingSpansImpactError = PosthogOpError;
@@ -1193,6 +1222,8 @@ export const createTracingSpansImpact: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingSpansImpact",
 }));
 
 export type CreateTracingSpansLatencyHeatmapError = PosthogOpError;
@@ -1207,6 +1238,8 @@ export const createTracingSpansLatencyHeatmap: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingSpansLatencyHeatmap",
 }));
 
 export type CreateTracingSpansQueryError = PosthogOpError;
@@ -1221,6 +1254,8 @@ export const createTracingSpansQuery: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingSpansQuery",
 }));
 
 export type CreateTracingSpansSparklineError = PosthogOpError;
@@ -1235,6 +1270,8 @@ export const createTracingSpansSparkline: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingSpansSparkline",
 }));
 
 export type CreateTracingSpansSymbolStatError = PosthogOpError;
@@ -1249,6 +1286,8 @@ export const createTracingSpansSymbolStat: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingSpansSymbolStat",
 }));
 
 export type CreateTracingSpansTraceError = PosthogOpError;
@@ -1263,6 +1302,8 @@ export const createTracingSpansTrace: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingSpansTrace",
 }));
 
 export type CreateTracingSpansTreeError = PosthogOpError;
@@ -1277,6 +1318,8 @@ export const createTracingSpansTree: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingSpansTree",
 }));
 
 export type CreateTracingViewError = PosthogOpError;
@@ -1291,6 +1334,8 @@ export const createTracingView: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTracingView",
 }));
 
 export type GetTracingRetentionRuleError = PosthogOpError;
@@ -1306,6 +1351,8 @@ export const getTracingRetentionRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTracingRetentionRule",
 }));
 
 export type GetTracingSpansAttributeError = PosthogOpError;
@@ -1320,6 +1367,8 @@ export const getTracingSpansAttribute: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTracingSpansAttribute",
 }));
 
 export type GetTracingSpansHasSpanError = PosthogOpError;
@@ -1334,6 +1383,8 @@ export const getTracingSpansHasSpan: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTracingSpansHasSpan",
 }));
 
 export type GetTracingSpansServiceNameError = PosthogOpError;
@@ -1348,6 +1399,8 @@ export const getTracingSpansServiceName: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTracingSpansServiceName",
 }));
 
 export type GetTracingSpansTraceAiEventError = PosthogOpError;
@@ -1363,6 +1416,8 @@ export const getTracingSpansTraceAiEvent: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTracingSpansTraceAiEvent",
 }));
 
 export type GetTracingSpansValueError = PosthogOpError;
@@ -1377,6 +1432,8 @@ export const getTracingSpansValue: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTracingSpansValue",
 }));
 
 export type GetTracingViewError = PosthogOpError;
@@ -1391,6 +1448,8 @@ export const getTracingView: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTracingView",
 }));
 
 export type ListTracingRetentionRulesError = PosthogOpError;
@@ -1406,6 +1465,8 @@ export const listTracingRetentionRules: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTracingRetentionRules",
 }));
 
 export type ListTracingViewsError = PosthogOpError;
@@ -1420,6 +1481,8 @@ export const listTracingViews: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListTracingViews",
 }));
 
 export type TracingRetentionRulesDestroyError = PosthogOpError;
@@ -1435,6 +1498,8 @@ export const tracingRetentionRulesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TracingRetentionRulesDestroy",
 }));
 
 export type TracingViewsDestroyError = PosthogOpError;
@@ -1449,6 +1514,8 @@ export const tracingViewsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TracingViewsDestroy",
 }));
 
 export type UpdateTracingRetentionRuleError = PosthogOpError;
@@ -1464,6 +1531,8 @@ export const updateTracingRetentionRule: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTracingRetentionRule",
 }));
 
 export type UpdateTracingRetentionRulesPartialError = PosthogOpError;
@@ -1479,6 +1548,8 @@ export const updateTracingRetentionRulesPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTracingRetentionRulesPartial",
 }));
 
 export type UpdateTracingViewError = PosthogOpError;
@@ -1493,6 +1564,8 @@ export const updateTracingView: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTracingView",
 }));
 
 export type UpdateTracingViewsPartialError = PosthogOpError;
@@ -1507,6 +1580,8 @@ export const updateTracingViewsPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTracingViewsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

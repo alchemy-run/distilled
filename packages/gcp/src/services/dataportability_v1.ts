@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "dataportability" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Dataportability",
+  service: "dataportability",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -174,6 +193,8 @@ export const archiveInitiatePortability: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchiveInitiatePortability",
 }));
 
 export type CancelArchiveJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -189,6 +210,8 @@ export const cancelArchiveJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelArchiveJobs",
 }));
 
 export type CheckAccessTypeError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -204,6 +227,8 @@ export const checkAccessType: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckAccessType",
 }));
 
 export type GetPortabilityArchiveStateArchiveJobsError = NotFound | Forbidden | GcpOpError;
@@ -219,6 +244,8 @@ export const getPortabilityArchiveStateArchiveJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPortabilityArchiveStateArchiveJobs",
 }));
 
 export type ResetAuthorizationError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -234,6 +261,8 @@ export const resetAuthorization: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetAuthorization",
 }));
 
 export type RetryArchiveJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -249,6 +278,8 @@ export const retryArchiveJobs: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetryArchiveJobs",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -53,6 +53,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   useFedrampLanguage: "use_fedramp_language",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "Iam",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -1398,6 +1412,8 @@ export const beginVerificationSso: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BeginVerificationSso",
 }));
 
 export type CreateOauthClientError = CloudflareOpError;
@@ -1413,6 +1429,8 @@ export const createOauthClient: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOauthClient",
 }));
 
 export type CreateResourceGroupError = CloudflareOpError;
@@ -1428,6 +1446,8 @@ export const createResourceGroup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateResourceGroup",
 }));
 
 export type CreateSsoError = CloudflareOpError;
@@ -1443,6 +1463,8 @@ export const createSso: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSso",
 }));
 
 export type CreateUserGroupError = UserGroupNameInUse | CloudflareOpError;
@@ -1458,6 +1480,8 @@ export const createUserGroup: API.OperationMethod<
   errors: [UserGroupNameInUse, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateUserGroup",
 }));
 
 export type CreateUserGroupMemberError = InvalidMember | UserGroupNotFound | CloudflareOpError;
@@ -1475,6 +1499,8 @@ export const createUserGroupMember: API.PaginatedOperationMethod<
     errors: [InvalidMember, UserGroupNotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "CreateUserGroupMember",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1493,6 +1519,8 @@ export const deleteOauthClient: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOauthClient",
 }));
 
 export type DeleteResourceGroupError = ResourceGroupNotFound | CloudflareOpError;
@@ -1508,6 +1536,8 @@ export const deleteResourceGroup: API.OperationMethod<
   errors: [ResourceGroupNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteResourceGroup",
 }));
 
 export type DeleteRotatedSecretOauthClientError = CloudflareOpError;
@@ -1523,6 +1553,8 @@ export const deleteRotatedSecretOauthClient: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteRotatedSecretOauthClient",
 }));
 
 export type DeleteSsoError = CloudflareOpError;
@@ -1538,6 +1570,8 @@ export const deleteSso: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSso",
 }));
 
 export type DeleteUserGroupError = UserGroupNotFound | CloudflareOpError;
@@ -1553,6 +1587,8 @@ export const deleteUserGroup: API.OperationMethod<
   errors: [UserGroupNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserGroup",
 }));
 
 export type DeleteUserGroupMemberError =
@@ -1578,6 +1614,8 @@ export const deleteUserGroupMember: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteUserGroupMember",
 }));
 
 export type GetOauthClientError = CloudflareOpError;
@@ -1593,6 +1631,8 @@ export const getOauthClient: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOauthClient",
 }));
 
 export type GetPermissionGroupError = CloudflareOpError;
@@ -1608,6 +1648,8 @@ export const getPermissionGroup: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPermissionGroup",
 }));
 
 export type GetResourceGroupError = ResourceGroupNotFound | Forbidden | CloudflareOpError;
@@ -1623,6 +1665,8 @@ export const getResourceGroup: API.OperationMethod<
   errors: [ResourceGroupNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceGroup",
 }));
 
 export type GetSsoError = CloudflareOpError;
@@ -1638,6 +1682,8 @@ export const getSso: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSso",
 }));
 
 export type GetUserGroupError = UserGroupNotFound | Forbidden | CloudflareOpError;
@@ -1653,6 +1699,8 @@ export const getUserGroup: API.OperationMethod<
   errors: [UserGroupNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserGroup",
 }));
 
 export type GetUserGroupMemberError =
@@ -1678,6 +1726,8 @@ export const getUserGroupMember: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUserGroupMember",
 }));
 
 export type ListOauthClientsError = CloudflareOpError;
@@ -1695,6 +1745,8 @@ export const listOauthClients: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOauthClients",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1715,6 +1767,8 @@ export const listOauthScopes: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOauthScopes",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1735,6 +1789,8 @@ export const listPermissionGroups: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPermissionGroups",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1761,6 +1817,8 @@ export const listResourceGroups: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListResourceGroups",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1781,6 +1839,8 @@ export const listSsos: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSsos",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,
@@ -1804,6 +1864,8 @@ export const listUserGroupMembers: API.PaginatedOperationMethod<
     errors: [UserGroupNotFound, PolicyValidationFailed, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListUserGroupMembers",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1830,6 +1892,8 @@ export const listUserGroups: API.PaginatedOperationMethod<
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListUserGroups",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1854,6 +1918,8 @@ export const patchOauthClient: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchOauthClient",
 }));
 
 export type PatchSsoError = CloudflareOpError;
@@ -1869,6 +1935,8 @@ export const patchSso: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSso",
 }));
 
 export type RotateSecretOauthClientError = CloudflareOpError;
@@ -1884,6 +1952,8 @@ export const rotateSecretOauthClient: API.OperationMethod<
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RotateSecretOauthClient",
 }));
 
 export type UpdateResourceGroupError = ResourceGroupNotFound | CloudflareOpError;
@@ -1899,6 +1969,8 @@ export const updateResourceGroup: API.OperationMethod<
   errors: [ResourceGroupNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourceGroup",
 }));
 
 export type UpdateUserGroupError = UserGroupNotFound | UserGroupNameInUse | CloudflareOpError;
@@ -1914,6 +1986,8 @@ export const updateUserGroup: API.OperationMethod<
   errors: [UserGroupNotFound, UserGroupNameInUse, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUserGroup",
 }));
 
 export type UpdateUserGroupMemberError = InvalidMember | UserGroupNotFound | CloudflareOpError;
@@ -1931,6 +2005,8 @@ export const updateUserGroupMember: API.PaginatedOperationMethod<
     errors: [InvalidMember, UserGroupNotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "UpdateUserGroupMember",
     pagination: { mode: "single", items: "result" } as const,
   }),
   cloudflarePaginate,

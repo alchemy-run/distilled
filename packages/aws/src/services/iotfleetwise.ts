@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://iotfleetwise.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "IoTFleetWise",
+  service: "IoTFleetWise",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1529,6 +1544,8 @@ export const associateVehicleFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateVehicleFleet",
+  telemetry: TELEMETRY,
+  span: "AssociateVehicleFleet",
 }));
 
 export type BatchCreateVehicleError =
@@ -1565,6 +1582,8 @@ export const batchCreateVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateVehicle",
+  telemetry: TELEMETRY,
+  span: "BatchCreateVehicle",
 }));
 
 export type BatchUpdateVehicleError =
@@ -1601,6 +1620,8 @@ export const batchUpdateVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateVehicle",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateVehicle",
 }));
 
 export type CreateCampaignError =
@@ -1641,6 +1662,8 @@ export const createCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCampaign",
+  telemetry: TELEMETRY,
+  span: "CreateCampaign",
 }));
 
 export type CreateDecoderManifestError =
@@ -1684,6 +1707,8 @@ export const createDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDecoderManifest",
+  telemetry: TELEMETRY,
+  span: "CreateDecoderManifest",
 }));
 
 export type CreateFleetError =
@@ -1723,6 +1748,8 @@ export const createFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleet",
+  telemetry: TELEMETRY,
+  span: "CreateFleet",
 }));
 
 export type CreateModelManifestError =
@@ -1761,6 +1788,8 @@ export const createModelManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelManifest",
+  telemetry: TELEMETRY,
+  span: "CreateModelManifest",
 }));
 
 export type CreateSignalCatalogError =
@@ -1796,6 +1825,8 @@ export const createSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSignalCatalog",
+  telemetry: TELEMETRY,
+  span: "CreateSignalCatalog",
 }));
 
 export type CreateStateTemplateError =
@@ -1834,6 +1865,8 @@ export const createStateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStateTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateStateTemplate",
 }));
 
 export type CreateVehicleError =
@@ -1876,6 +1909,8 @@ export const createVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVehicle",
+  telemetry: TELEMETRY,
+  span: "CreateVehicle",
 }));
 
 export type DeleteCampaignError =
@@ -1905,6 +1940,8 @@ export const deleteCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
+  telemetry: TELEMETRY,
+  span: "DeleteCampaign",
 }));
 
 export type DeleteDecoderManifestError =
@@ -1936,6 +1973,8 @@ export const deleteDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDecoderManifest",
+  telemetry: TELEMETRY,
+  span: "DeleteDecoderManifest",
 }));
 
 export type DeleteFleetError =
@@ -1966,6 +2005,8 @@ export const deleteFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleet",
+  telemetry: TELEMETRY,
+  span: "DeleteFleet",
 }));
 
 export type DeleteModelManifestError =
@@ -1996,6 +2037,8 @@ export const deleteModelManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelManifest",
+  telemetry: TELEMETRY,
+  span: "DeleteModelManifest",
 }));
 
 export type DeleteSignalCatalogError =
@@ -2026,6 +2069,8 @@ export const deleteSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSignalCatalog",
+  telemetry: TELEMETRY,
+  span: "DeleteSignalCatalog",
 }));
 
 export type DeleteStateTemplateError =
@@ -2054,6 +2099,8 @@ export const deleteStateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStateTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteStateTemplate",
 }));
 
 export type DeleteVehicleError =
@@ -2082,6 +2129,8 @@ export const deleteVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVehicle",
+  telemetry: TELEMETRY,
+  span: "DeleteVehicle",
 }));
 
 export type DisassociateVehicleFleetError =
@@ -2113,6 +2162,8 @@ export const disassociateVehicleFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateVehicleFleet",
+  telemetry: TELEMETRY,
+  span: "DisassociateVehicleFleet",
 }));
 
 export type GetCampaignError =
@@ -2143,6 +2194,8 @@ export const getCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaign",
+  telemetry: TELEMETRY,
+  span: "GetCampaign",
 }));
 
 export type GetDecoderManifestError =
@@ -2171,6 +2224,8 @@ export const getDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDecoderManifest",
+  telemetry: TELEMETRY,
+  span: "GetDecoderManifest",
 }));
 
 export type GetEncryptionConfigurationError =
@@ -2201,6 +2256,8 @@ export const getEncryptionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEncryptionConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetEncryptionConfiguration",
 }));
 
 export type GetFleetError =
@@ -2231,6 +2288,8 @@ export const getFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFleet",
+  telemetry: TELEMETRY,
+  span: "GetFleet",
 }));
 
 export type GetLoggingOptionsError = AccessDeniedException | ThrottlingException | CommonErrors;
@@ -2249,6 +2308,8 @@ export const getLoggingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggingOptions",
+  telemetry: TELEMETRY,
+  span: "GetLoggingOptions",
 }));
 
 export type GetModelManifestError =
@@ -2277,6 +2338,8 @@ export const getModelManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelManifest",
+  telemetry: TELEMETRY,
+  span: "GetModelManifest",
 }));
 
 export type GetRegisterAccountStatusError =
@@ -2313,6 +2376,8 @@ export const getRegisterAccountStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegisterAccountStatus",
+  telemetry: TELEMETRY,
+  span: "GetRegisterAccountStatus",
 }));
 
 export type GetSignalCatalogError =
@@ -2341,6 +2406,8 @@ export const getSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSignalCatalog",
+  telemetry: TELEMETRY,
+  span: "GetSignalCatalog",
 }));
 
 export type GetStateTemplateError =
@@ -2373,6 +2440,8 @@ export const getStateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStateTemplate",
+  telemetry: TELEMETRY,
+  span: "GetStateTemplate",
 }));
 
 export type GetVehicleError =
@@ -2403,6 +2472,8 @@ export const getVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVehicle",
+  telemetry: TELEMETRY,
+  span: "GetVehicle",
 }));
 
 export type GetVehicleStatusError =
@@ -2439,6 +2510,8 @@ export const getVehicleStatus: API.PaginatedOperationMethod<
     items: "campaigns",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetVehicleStatus",
 })) as any;
 
 export type ImportDecoderManifestError =
@@ -2475,6 +2548,8 @@ export const importDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDecoderManifest",
+  telemetry: TELEMETRY,
+  span: "ImportDecoderManifest",
 }));
 
 export type ImportSignalCatalogError =
@@ -2512,6 +2587,8 @@ export const importSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportSignalCatalog",
+  telemetry: TELEMETRY,
+  span: "ImportSignalCatalog",
 }));
 
 export type ListCampaignsError =
@@ -2543,6 +2620,8 @@ export const listCampaigns: API.PaginatedOperationMethod<
     items: "campaignSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCampaigns",
 })) as any;
 
 export type ListDecoderManifestNetworkInterfacesError =
@@ -2582,6 +2661,8 @@ export const listDecoderManifestNetworkInterfaces: API.PaginatedOperationMethod<
     items: "networkInterfaces",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDecoderManifestNetworkInterfaces",
 })) as any;
 
 export type ListDecoderManifestsError =
@@ -2619,6 +2700,8 @@ export const listDecoderManifests: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDecoderManifests",
 })) as any;
 
 export type ListDecoderManifestSignalsError =
@@ -2658,6 +2741,8 @@ export const listDecoderManifestSignals: API.PaginatedOperationMethod<
     items: "signalDecoders",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDecoderManifestSignals",
 })) as any;
 
 export type ListFleetsError =
@@ -2697,6 +2782,8 @@ export const listFleets: API.PaginatedOperationMethod<
     items: "fleetSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFleets",
 })) as any;
 
 export type ListFleetsForVehicleError =
@@ -2736,6 +2823,8 @@ export const listFleetsForVehicle: API.PaginatedOperationMethod<
     items: "fleets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFleetsForVehicle",
 })) as any;
 
 export type ListModelManifestNodesError =
@@ -2777,6 +2866,8 @@ export const listModelManifestNodes: API.PaginatedOperationMethod<
     items: "nodes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelManifestNodes",
 })) as any;
 
 export type ListModelManifestsError =
@@ -2814,6 +2905,8 @@ export const listModelManifests: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListModelManifests",
 })) as any;
 
 export type ListSignalCatalogNodesError =
@@ -2855,6 +2948,8 @@ export const listSignalCatalogNodes: API.PaginatedOperationMethod<
     items: "nodes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSignalCatalogNodes",
 })) as any;
 
 export type ListSignalCatalogsError =
@@ -2895,6 +2990,8 @@ export const listSignalCatalogs: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSignalCatalogs",
 })) as any;
 
 export type ListStateTemplatesError =
@@ -2932,6 +3029,8 @@ export const listStateTemplates: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListStateTemplates",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2962,6 +3061,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVehiclesError =
@@ -2999,6 +3100,8 @@ export const listVehicles: API.PaginatedOperationMethod<
     items: "vehicleSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVehicles",
 })) as any;
 
 export type ListVehiclesInFleetError =
@@ -3038,6 +3141,8 @@ export const listVehiclesInFleet: API.PaginatedOperationMethod<
     items: "vehicles",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVehiclesInFleet",
 })) as any;
 
 export type PutEncryptionConfigurationError =
@@ -3073,6 +3178,8 @@ export const putEncryptionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEncryptionConfiguration",
+  telemetry: TELEMETRY,
+  span: "PutEncryptionConfiguration",
 }));
 
 export type PutLoggingOptionsError =
@@ -3103,6 +3210,8 @@ export const putLoggingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLoggingOptions",
+  telemetry: TELEMETRY,
+  span: "PutLoggingOptions",
 }));
 
 export type RegisterAccountError =
@@ -3157,6 +3266,8 @@ export const registerAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAccount",
+  telemetry: TELEMETRY,
+  span: "RegisterAccount",
 }));
 
 export type TagResourceError =
@@ -3188,6 +3299,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3218,6 +3331,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCampaignError =
@@ -3248,6 +3363,8 @@ export const updateCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaign",
+  telemetry: TELEMETRY,
+  span: "UpdateCampaign",
 }));
 
 export type UpdateDecoderManifestError =
@@ -3285,6 +3402,8 @@ export const updateDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDecoderManifest",
+  telemetry: TELEMETRY,
+  span: "UpdateDecoderManifest",
 }));
 
 export type UpdateFleetError =
@@ -3317,6 +3436,8 @@ export const updateFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleet",
+  telemetry: TELEMETRY,
+  span: "UpdateFleet",
 }));
 
 export type UpdateModelManifestError =
@@ -3352,6 +3473,8 @@ export const updateModelManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModelManifest",
+  telemetry: TELEMETRY,
+  span: "UpdateModelManifest",
 }));
 
 export type UpdateSignalCatalogError =
@@ -3390,6 +3513,8 @@ export const updateSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSignalCatalog",
+  telemetry: TELEMETRY,
+  span: "UpdateSignalCatalog",
 }));
 
 export type UpdateStateTemplateError =
@@ -3426,6 +3551,8 @@ export const updateStateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStateTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateStateTemplate",
 }));
 
 export type UpdateVehicleError =
@@ -3462,6 +3589,8 @@ export const updateVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVehicle",
+  telemetry: TELEMETRY,
+  span: "UpdateVehicle",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

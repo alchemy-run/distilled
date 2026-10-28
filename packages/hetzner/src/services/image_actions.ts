@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "ImageActions",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 export interface ChangeImageProtectionRequest {
   /** ID of the Image. */
   id: number;
@@ -263,6 +276,8 @@ export const changeImageProtection: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeImageProtection",
 }));
 
 export type GetImagesActionError = HetznerOpError;
@@ -278,6 +293,8 @@ export const getImagesAction: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetImagesAction",
 }));
 
 export type ListImageActionsError = HetznerOpError;
@@ -295,6 +312,8 @@ export const listImageActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListImageActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -321,6 +340,8 @@ export const listImagesActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListImagesActions",
     pagination: {
       mode: "page",
       inputToken: "page",

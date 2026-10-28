@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -69,6 +70,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Notifications",
+  service: "Notifications",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -822,6 +837,8 @@ export const associateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateChannel",
+  telemetry: TELEMETRY,
+  span: "AssociateChannel",
 }));
 
 export type AssociateManagedNotificationAccountContactError =
@@ -856,6 +873,8 @@ export const associateManagedNotificationAccountContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateManagedNotificationAccountContact",
+  telemetry: TELEMETRY,
+  span: "AssociateManagedNotificationAccountContact",
 }));
 
 export type AssociateManagedNotificationAdditionalChannelError =
@@ -900,6 +919,8 @@ export const associateManagedNotificationAdditionalChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateManagedNotificationAdditionalChannel",
+  telemetry: TELEMETRY,
+  span: "AssociateManagedNotificationAdditionalChannel",
 }));
 
 export type AssociateOrganizationalUnitError =
@@ -934,6 +955,8 @@ export const associateOrganizationalUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateOrganizationalUnit",
+  telemetry: TELEMETRY,
+  span: "AssociateOrganizationalUnit",
 }));
 
 export type CreateEventRuleError =
@@ -968,6 +991,8 @@ export const createEventRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventRule",
+  telemetry: TELEMETRY,
+  span: "CreateEventRule",
 }));
 
 export type CreateNotificationConfigurationError =
@@ -1000,6 +1025,8 @@ export const createNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateNotificationConfiguration",
 }));
 
 export type DeleteEventRuleError =
@@ -1032,6 +1059,8 @@ export const deleteEventRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventRule",
+  telemetry: TELEMETRY,
+  span: "DeleteEventRule",
 }));
 
 export type DeleteNotificationConfigurationError =
@@ -1064,6 +1093,8 @@ export const deleteNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteNotificationConfiguration",
 }));
 
 export type DeregisterNotificationHubError =
@@ -1098,6 +1129,8 @@ export const deregisterNotificationHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterNotificationHub",
+  telemetry: TELEMETRY,
+  span: "DeregisterNotificationHub",
 }));
 
 export type DisableNotificationsAccessForOrganizationError =
@@ -1132,6 +1165,8 @@ export const disableNotificationsAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableNotificationsAccessForOrganization",
+  telemetry: TELEMETRY,
+  span: "DisableNotificationsAccessForOrganization",
 }));
 
 export type DisassociateChannelError =
@@ -1162,6 +1197,8 @@ export const disassociateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateChannel",
+  telemetry: TELEMETRY,
+  span: "DisassociateChannel",
 }));
 
 export type DisassociateManagedNotificationAccountContactError =
@@ -1202,6 +1239,8 @@ export const disassociateManagedNotificationAccountContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateManagedNotificationAccountContact",
+  telemetry: TELEMETRY,
+  span: "DisassociateManagedNotificationAccountContact",
 }));
 
 export type DisassociateManagedNotificationAdditionalChannelError =
@@ -1242,6 +1281,8 @@ export const disassociateManagedNotificationAdditionalChannel: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateManagedNotificationAdditionalChannel",
+  telemetry: TELEMETRY,
+  span: "DisassociateManagedNotificationAdditionalChannel",
 }));
 
 export type DisassociateOrganizationalUnitError =
@@ -1272,6 +1313,8 @@ export const disassociateOrganizationalUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateOrganizationalUnit",
+  telemetry: TELEMETRY,
+  span: "DisassociateOrganizationalUnit",
 }));
 
 export type EnableNotificationsAccessForOrganizationError =
@@ -1306,6 +1349,8 @@ export const enableNotificationsAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableNotificationsAccessForOrganization",
+  telemetry: TELEMETRY,
+  span: "EnableNotificationsAccessForOrganization",
 }));
 
 export type GetEventRuleError =
@@ -1336,6 +1381,8 @@ export const getEventRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventRule",
+  telemetry: TELEMETRY,
+  span: "GetEventRule",
 }));
 
 export type GetManagedNotificationChildEventError =
@@ -1366,6 +1413,8 @@ export const getManagedNotificationChildEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedNotificationChildEvent",
+  telemetry: TELEMETRY,
+  span: "GetManagedNotificationChildEvent",
 }));
 
 export type GetManagedNotificationConfigurationError =
@@ -1396,6 +1445,8 @@ export const getManagedNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetManagedNotificationConfiguration",
 }));
 
 export type GetManagedNotificationEventError =
@@ -1426,6 +1477,8 @@ export const getManagedNotificationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedNotificationEvent",
+  telemetry: TELEMETRY,
+  span: "GetManagedNotificationEvent",
 }));
 
 export type GetNotificationConfigurationError =
@@ -1456,6 +1509,8 @@ export const getNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetNotificationConfiguration",
 }));
 
 export type GetNotificationEventError =
@@ -1488,6 +1543,8 @@ export const getNotificationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationEvent",
+  telemetry: TELEMETRY,
+  span: "GetNotificationEvent",
 }));
 
 export type GetNotificationsAccessForOrganizationError =
@@ -1516,6 +1573,8 @@ export const getNotificationsAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationsAccessForOrganization",
+  telemetry: TELEMETRY,
+  span: "GetNotificationsAccessForOrganization",
 }));
 
 export type ListChannelsError =
@@ -1553,6 +1612,8 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "channels",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListChannels",
 })) as any;
 
 export type ListEventRulesError =
@@ -1590,6 +1651,8 @@ export const listEventRules: API.PaginatedOperationMethod<
     items: "eventRules",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventRules",
 })) as any;
 
 export type ListManagedNotificationChannelAssociationsError =
@@ -1627,6 +1690,8 @@ export const listManagedNotificationChannelAssociations: API.PaginatedOperationM
     items: "channelAssociations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedNotificationChannelAssociations",
 })) as any;
 
 export type ListManagedNotificationChildEventsError =
@@ -1664,6 +1729,8 @@ export const listManagedNotificationChildEvents: API.PaginatedOperationMethod<
     items: "managedNotificationChildEvents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedNotificationChildEvents",
 })) as any;
 
 export type ListManagedNotificationConfigurationsError =
@@ -1699,6 +1766,8 @@ export const listManagedNotificationConfigurations: API.PaginatedOperationMethod
     items: "managedNotificationConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedNotificationConfigurations",
 })) as any;
 
 export type ListManagedNotificationEventsError =
@@ -1734,6 +1803,8 @@ export const listManagedNotificationEvents: API.PaginatedOperationMethod<
     items: "managedNotificationEvents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListManagedNotificationEvents",
 })) as any;
 
 export type ListMemberAccountsError =
@@ -1771,6 +1842,8 @@ export const listMemberAccounts: API.PaginatedOperationMethod<
     items: "memberAccounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMemberAccounts",
 })) as any;
 
 export type ListNotificationConfigurationsError =
@@ -1806,6 +1879,8 @@ export const listNotificationConfigurations: API.PaginatedOperationMethod<
     items: "notificationConfigurations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotificationConfigurations",
 })) as any;
 
 export type ListNotificationEventsError =
@@ -1843,6 +1918,8 @@ export const listNotificationEvents: API.PaginatedOperationMethod<
     items: "notificationEvents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotificationEvents",
 })) as any;
 
 export type ListNotificationHubsError =
@@ -1878,6 +1955,8 @@ export const listNotificationHubs: API.PaginatedOperationMethod<
     items: "notificationHubs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListNotificationHubs",
 })) as any;
 
 export type ListOrganizationalUnitsError =
@@ -1915,6 +1994,8 @@ export const listOrganizationalUnits: API.PaginatedOperationMethod<
     items: "organizationalUnits",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOrganizationalUnits",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1949,6 +2030,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterNotificationHubError =
@@ -1983,6 +2066,8 @@ export const registerNotificationHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterNotificationHub",
+  telemetry: TELEMETRY,
+  span: "RegisterNotificationHub",
 }));
 
 export type TagResourceError =
@@ -2017,6 +2102,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -2049,6 +2136,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateEventRuleError =
@@ -2081,6 +2170,8 @@ export const updateEventRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventRule",
+  telemetry: TELEMETRY,
+  span: "UpdateEventRule",
 }));
 
 export type UpdateManagedNotificationChannelAssociationError =
@@ -2117,6 +2208,8 @@ export const updateManagedNotificationChannelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedNotificationChannelAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateManagedNotificationChannelAssociation",
 }));
 
 export type UpdateNotificationConfigurationError =
@@ -2149,6 +2242,8 @@ export const updateNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateNotificationConfiguration",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

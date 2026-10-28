@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "JsSnippet",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -71,6 +84,8 @@ export const getJsSnippetResolve: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJsSnippetResolve",
 }));
 
 export type GetJsSnippetVersionError = Forbidden | NotFound | PosthogOpError;
@@ -86,6 +101,8 @@ export const getJsSnippetVersion: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJsSnippetVersion",
 }));
 
 export type UpdateJsSnippetVersionPartialError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -101,6 +118,8 @@ export const updateJsSnippetVersionPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateJsSnippetVersionPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

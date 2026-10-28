@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "games" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Games",
+  service: "games",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1352,6 +1371,8 @@ export const batchRecordEventsGameStats: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchRecordEventsGameStats",
 }));
 
 export type CheckRevisionsError = NotFound | Forbidden | GcpOpError;
@@ -1367,6 +1388,8 @@ export const checkRevisions: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckRevisions",
 }));
 
 export type GamesPlayerTokensRecallError = NotFound | Forbidden | GcpOpError;
@@ -1382,6 +1405,8 @@ export const gamesPlayerTokensRecall: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GamesPlayerTokensRecall",
 }));
 
 export type GeneratePlayGroupingApiTokenAccesstokensError =
@@ -1402,6 +1427,8 @@ export const generatePlayGroupingApiTokenAccesstokens: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GeneratePlayGroupingApiTokenAccesstokens",
 }));
 
 export type GenerateRecallPlayGroupingApiTokenAccesstokensError =
@@ -1426,6 +1453,8 @@ export const generateRecallPlayGroupingApiTokenAccesstokens: API.OperationMethod
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateRecallPlayGroupingApiTokenAccesstokens",
 }));
 
 export type GetApplicationsError = NotFound | Forbidden | GcpOpError;
@@ -1441,6 +1470,8 @@ export const getApplications: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApplications",
 }));
 
 export type GetEndPointApplicationsError =
@@ -1461,6 +1492,8 @@ export const getEndPointApplications: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEndPointApplications",
 }));
 
 export type GetLeaderboardsError = NotFound | Forbidden | GcpOpError;
@@ -1476,6 +1509,8 @@ export const getLeaderboards: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLeaderboards",
 }));
 
 export type GetMetagameConfigMetagameError = NotFound | Forbidden | GcpOpError;
@@ -1491,6 +1526,8 @@ export const getMetagameConfigMetagame: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMetagameConfigMetagame",
 }));
 
 export type GetMultipleApplicationPlayerIdsPlayersError = NotFound | Forbidden | GcpOpError;
@@ -1506,6 +1543,8 @@ export const getMultipleApplicationPlayerIdsPlayers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMultipleApplicationPlayerIdsPlayers",
 }));
 
 export type GetPlayersError = NotFound | Forbidden | GcpOpError;
@@ -1521,6 +1560,8 @@ export const getPlayers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPlayers",
 }));
 
 export type GetScopedPlayerIdsPlayersError = NotFound | Forbidden | GcpOpError;
@@ -1536,6 +1577,8 @@ export const getScopedPlayerIdsPlayers: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScopedPlayerIdsPlayers",
 }));
 
 export type GetScoresError = NotFound | Forbidden | GcpOpError;
@@ -1552,6 +1595,8 @@ export const getScores: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScores",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1568,6 +1613,8 @@ export const getSnapshots: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSnapshots",
 }));
 
 export type GetStatsError = NotFound | Forbidden | GcpOpError;
@@ -1583,6 +1630,8 @@ export const getStats: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetStats",
 }));
 
 export type GetTokensRecallError = NotFound | Forbidden | GcpOpError;
@@ -1598,6 +1647,8 @@ export const getTokensRecall: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTokensRecall",
 }));
 
 export type IncrementAchievementsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1613,6 +1664,8 @@ export const incrementAchievements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IncrementAchievements",
 }));
 
 export type LastTokenFromAllDeveloperGamesRecallError = NotFound | Forbidden | GcpOpError;
@@ -1628,6 +1681,8 @@ export const lastTokenFromAllDeveloperGamesRecall: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LastTokenFromAllDeveloperGamesRecall",
 }));
 
 export type LinkPersonaRecallError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1643,6 +1698,8 @@ export const linkPersonaRecall: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkPersonaRecall",
 }));
 
 export type ListAchievementDefinitionsError = NotFound | Forbidden | GcpOpError;
@@ -1659,6 +1716,8 @@ export const listAchievementDefinitions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAchievementDefinitions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1676,6 +1735,8 @@ export const listAchievements: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAchievements",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1693,6 +1754,8 @@ export const listByPlayerEvents: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListByPlayerEvents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1710,6 +1773,8 @@ export const listCategoriesByPlayerMetagame: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCategoriesByPlayerMetagame",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1727,6 +1792,8 @@ export const listDefinitionsEvents: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDefinitionsEvents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1744,6 +1811,8 @@ export const listLeaderboards: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListLeaderboards",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1761,6 +1830,8 @@ export const listPlayers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPlayers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1778,6 +1849,8 @@ export const listScores: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScores",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1795,6 +1868,8 @@ export const listSnapshots: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSnapshots",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1812,6 +1887,8 @@ export const listWindowScores: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWindowScores",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -1828,6 +1905,8 @@ export const playedApplications: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PlayedApplications",
 }));
 
 export type RecordEventsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1843,6 +1922,8 @@ export const recordEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecordEvents",
 }));
 
 export type ResetPersonaRecallError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1858,6 +1939,8 @@ export const resetPersonaRecall: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetPersonaRecall",
 }));
 
 export type RevealAchievementsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1873,6 +1956,8 @@ export const revealAchievements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevealAchievements",
 }));
 
 export type SetStepsAtLeastAchievementsError =
@@ -1893,6 +1978,8 @@ export const setStepsAtLeastAchievements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetStepsAtLeastAchievements",
 }));
 
 export type SubmitMultipleScoresError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1908,6 +1995,8 @@ export const submitMultipleScores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitMultipleScores",
 }));
 
 export type SubmitScoresError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1923,6 +2012,8 @@ export const submitScores: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SubmitScores",
 }));
 
 export type UnlinkPersonaRecallError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1938,6 +2029,8 @@ export const unlinkPersonaRecall: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlinkPersonaRecall",
 }));
 
 export type UnlockAchievementsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1953,6 +2046,8 @@ export const unlockAchievements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnlockAchievements",
 }));
 
 export type UpdateMultipleAchievementsError =
@@ -1973,6 +2068,8 @@ export const updateMultipleAchievements: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMultipleAchievements",
 }));
 
 export type VerifyApplicationsError = NotFound | Forbidden | GcpOpError;
@@ -1988,6 +2085,8 @@ export const verifyApplications: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "VerifyApplications",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

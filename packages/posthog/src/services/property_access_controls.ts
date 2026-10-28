@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "PropertyAccessControls",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 /** * `$ai_trace_id` - $ai_trace_id * `$ai_session_id` - $ai_session_id * `$ai_parent_id` - $ai_parent_id * `$ai_span_id` - $ai_span_id * `$ai_span_type` - $ai_span_type * `$ai_generation_id` - $ai_generation_id * `$ai_experiment_id` - $ai_experiment_id * `$ai_span_name` - $ai_span_name * `$ai_trace_name` - $ai_trace_name * `$ai_prompt_name` - $ai_prompt_name * `$ai_model` - $ai_model * `$ai_provider` - $ai_provider * `$ai_framework` - $ai_framework * `$ai_total_tokens` - $ai_total_tokens * `$ai_input_tokens` - $ai_input_tokens * `$ai_output_tokens` - $ai_output_tokens * `$ai_text_input_tokens` - $ai_text_input_tokens * `$ai_text_output_tokens` - $ai_text_output_tokens * `$ai_image_input_tokens` - $ai_image_input_tokens * `$ai_image_output_tokens` - $ai_image_output_tokens * `$ai_audio_input_tokens` - $ai_audio_input_tokens * `$ai_audio_output_tokens` - $ai_audio_output_tokens * `$ai_video_input_tokens` - $ai_video_input_tokens * `$ai_video_output_tokens` - $ai_video_output_tokens * `$ai_reasoning_tokens` - $ai_reasoning_tokens * `$ai_cache_read_input_tokens` - $ai_cache_read_input_tokens * `$ai_cache_creation_input_tokens` - $ai_cache_creation_input_tokens * `$ai_web_search_count` - $ai_web_search_count * `$ai_input_cost_usd` - $ai_input_cost_usd * `$ai_output_cost_usd` - $ai_output_cost_usd * `$ai_total_cost_usd` - $ai_total_cost_usd * `$ai_request_cost_usd` - $ai_request_cost_usd * `$ai_web_search_cost_usd` - $ai_web_search_cost_usd * `$ai_audio_cost_usd` - $ai_audio_cost_usd * `$ai_image_cost_usd` - $ai_image_cost_usd * `$ai_video_cost_usd` - $ai_video_cost_usd * `$ai_latency` - $ai_latency * `$ai_time_to_first_token` - $ai_time_to_first_token * `$ai_is_error` - $ai_is_error * `$ai_error` - $ai_error * `$ai_error_type` - $ai_error_type * `$ai_error_normalized` - $ai_error_normalized * `$ai_input` - $ai_input * `$ai_output` - $ai_output * `$ai_output_choices` - $ai_output_choices * `$ai_input_state` - $ai_input_state * `$ai_output_state` - $ai_output_state * `$ai_tools` - $ai_tools */
 export type AIEventPropertyEnum =
   | "$ai_trace_id"
@@ -132,6 +145,8 @@ export const createPropertyAccessControl: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertyAccessControl",
 }));
 
 export type GetPropertyAccessControlError = PosthogOpError;
@@ -147,6 +162,8 @@ export const getPropertyAccessControl: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertyAccessControl",
 }));
 
 export type PropertyAccessControlsDestroyError = PosthogOpError;
@@ -162,6 +179,8 @@ export const propertyAccessControlsDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PropertyAccessControlsDestroy",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { OvhOpError, OvhOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "ovh-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-ovh-queryid", name: "http.response.header.x-ovh-queryid", transform: "list" },
+  ],
+  prefix: "OVH",
+  service: "Webhosting",
+  labels: "ovh",
+  propagate: "w3c",
+} as const;
+
 /** All future uses you can provide for a service termination */
 export type ServiceTerminationFutureUseEnum =
   | "NOT_REPLACING_SERVICE"
@@ -3608,6 +3622,8 @@ export const confirmHostingWebTermination: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConfirmHostingWebTermination",
 }));
 
 export type CopyHostingWebDatabaseError = OvhOpError;
@@ -3623,6 +3639,8 @@ export const copyHostingWebDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopyHostingWebDatabase",
 }));
 
 export type CopyHostingWebDatabaseRestoreError = OvhOpError;
@@ -3638,6 +3656,8 @@ export const copyHostingWebDatabaseRestore: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CopyHostingWebDatabaseRestore",
 }));
 
 export type CreateHostingWebAttachedDomainError = OvhOpError;
@@ -3653,6 +3673,8 @@ export const createHostingWebAttachedDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebAttachedDomain",
 }));
 
 export type CreateHostingWebAttachedDomainSslError = OvhOpError;
@@ -3668,6 +3690,8 @@ export const createHostingWebAttachedDomainSsl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebAttachedDomainSsl",
 }));
 
 export type CreateHostingWebCdnDomainOptionError = OvhOpError;
@@ -3683,6 +3707,8 @@ export const createHostingWebCdnDomainOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebCdnDomainOption",
 }));
 
 export type CreateHostingWebCdnServiceInfosUpdateError = OvhOpError;
@@ -3698,6 +3724,8 @@ export const createHostingWebCdnServiceInfosUpdate: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebCdnServiceInfosUpdate",
 }));
 
 export type CreateHostingWebChangeContactError = OvhOpError;
@@ -3713,6 +3741,8 @@ export const createHostingWebChangeContact: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebChangeContact",
 }));
 
 export type CreateHostingWebCronError = OvhOpError;
@@ -3728,6 +3758,8 @@ export const createHostingWebCron: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebCron",
 }));
 
 export type CreateHostingWebDatabaseError = OvhOpError;
@@ -3743,6 +3775,8 @@ export const createHostingWebDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebDatabase",
 }));
 
 export type CreateHostingWebDatabaseChangePasswordError = OvhOpError;
@@ -3758,6 +3792,8 @@ export const createHostingWebDatabaseChangePassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebDatabaseChangePassword",
 }));
 
 export type CreateHostingWebDatabaseDumpError = OvhOpError;
@@ -3773,6 +3809,8 @@ export const createHostingWebDatabaseDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebDatabaseDump",
 }));
 
 export type CreateHostingWebDatabaseRequest2Error = OvhOpError;
@@ -3788,6 +3826,8 @@ export const createHostingWebDatabaseRequest2: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebDatabaseRequest2",
 }));
 
 export type CreateHostingWebEmailRequestError = OvhOpError;
@@ -3803,6 +3843,8 @@ export const createHostingWebEmailRequest: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebEmailRequest",
 }));
 
 export type CreateHostingWebEnvVarError = OvhOpError;
@@ -3817,6 +3859,8 @@ export const createHostingWebEnvVar: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebEnvVar",
 }));
 
 export type CreateHostingWebExtraSqlPersoServiceInfosUpdateError = OvhOpError;
@@ -3840,6 +3884,8 @@ export const createHostingWebExtraSqlPersoServiceInfosUpdate: API.OperationMetho
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebExtraSqlPersoServiceInfosUpdate",
 }));
 
 export type CreateHostingWebKeySshError = OvhOpError;
@@ -3855,6 +3901,8 @@ export const createHostingWebKeySsh: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebKeySsh",
 }));
 
 export type CreateHostingWebLocalSeoLocationServiceInfosUpdateError = OvhOpError;
@@ -3878,6 +3926,8 @@ export const createHostingWebLocalSeoLocationServiceInfosUpdate: API.OperationMe
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebLocalSeoLocationServiceInfosUpdate",
 }));
 
 export type CreateHostingWebLocalSeoVisibilityCheckError = OvhOpError;
@@ -3893,6 +3943,8 @@ export const createHostingWebLocalSeoVisibilityCheck: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebLocalSeoVisibilityCheck",
 }));
 
 export type CreateHostingWebModuleError = OvhOpError;
@@ -3908,6 +3960,8 @@ export const createHostingWebModule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebModule",
 }));
 
 export type CreateHostingWebModuleUpgradeError = OvhOpError;
@@ -3923,6 +3977,8 @@ export const createHostingWebModuleUpgrade: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebModuleUpgrade",
 }));
 
 export type CreateHostingWebOvhConfigChangeConfigurationError = OvhOpError;
@@ -3942,6 +3998,8 @@ export const createHostingWebOvhConfigChangeConfiguration: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebOvhConfigChangeConfiguration",
 }));
 
 export type CreateHostingWebOvhConfigRefreshError = OvhOpError;
@@ -3957,6 +4015,8 @@ export const createHostingWebOvhConfigRefresh: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebOvhConfigRefresh",
 }));
 
 export type CreateHostingWebOvhConfigRollbackError = OvhOpError;
@@ -3972,6 +4032,8 @@ export const createHostingWebOvhConfigRollback: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebOvhConfigRollback",
 }));
 
 export type CreateHostingWebOwnLogUserLogError = OvhOpError;
@@ -3987,6 +4049,8 @@ export const createHostingWebOwnLogUserLog: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebOwnLogUserLog",
 }));
 
 export type CreateHostingWebOwnLogUserLogChangePasswordError = OvhOpError;
@@ -4002,6 +4066,8 @@ export const createHostingWebOwnLogUserLogChangePassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebOwnLogUserLogChangePassword",
 }));
 
 export type CreateHostingWebRequestError = OvhOpError;
@@ -4017,6 +4083,8 @@ export const createHostingWebRequest: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebRequest",
 }));
 
 export type CreateHostingWebRequestBoostError = OvhOpError;
@@ -4032,6 +4100,8 @@ export const createHostingWebRequestBoost: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebRequestBoost",
 }));
 
 export type CreateHostingWebRuntimeError = OvhOpError;
@@ -4047,6 +4117,8 @@ export const createHostingWebRuntime: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebRuntime",
 }));
 
 export type CreateHostingWebUserError = OvhOpError;
@@ -4062,6 +4134,8 @@ export const createHostingWebUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebUser",
 }));
 
 export type CreateHostingWebUserChangePasswordError = OvhOpError;
@@ -4077,6 +4151,8 @@ export const createHostingWebUserChangePassword: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebUserChangePassword",
 }));
 
 export type CreateHostingWebWebsiteError = OvhOpError;
@@ -4092,6 +4168,8 @@ export const createHostingWebWebsite: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateHostingWebWebsite",
 }));
 
 export type DeleteHostingWebAttachedDomainError = OvhOpError;
@@ -4107,6 +4185,8 @@ export const deleteHostingWebAttachedDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebAttachedDomain",
 }));
 
 export type DeleteHostingWebAttachedDomainSslError = OvhOpError;
@@ -4122,6 +4202,8 @@ export const deleteHostingWebAttachedDomainSsl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebAttachedDomainSsl",
 }));
 
 export type DeleteHostingWebCdnDomainOptionError = OvhOpError;
@@ -4137,6 +4219,8 @@ export const deleteHostingWebCdnDomainOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebCdnDomainOption",
 }));
 
 export type DeleteHostingWebCronError = OvhOpError;
@@ -4152,6 +4236,8 @@ export const deleteHostingWebCron: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebCron",
 }));
 
 export type DeleteHostingWebDatabaseError = OvhOpError;
@@ -4167,6 +4253,8 @@ export const deleteHostingWebDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebDatabase",
 }));
 
 export type DeleteHostingWebDatabaseCopyError = OvhOpError;
@@ -4182,6 +4270,8 @@ export const deleteHostingWebDatabaseCopy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebDatabaseCopy",
 }));
 
 export type DeleteHostingWebDatabaseDumpError = OvhOpError;
@@ -4197,6 +4287,8 @@ export const deleteHostingWebDatabaseDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebDatabaseDump",
 }));
 
 export type DeleteHostingWebDumpError = OvhOpError;
@@ -4212,6 +4304,8 @@ export const deleteHostingWebDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebDump",
 }));
 
 export type DeleteHostingWebEnvVarError = OvhOpError;
@@ -4226,6 +4320,8 @@ export const deleteHostingWebEnvVar: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebEnvVar",
 }));
 
 export type DeleteHostingWebModuleError = OvhOpError;
@@ -4241,6 +4337,8 @@ export const deleteHostingWebModule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebModule",
 }));
 
 export type DeleteHostingWebOwnLogUserLogError = OvhOpError;
@@ -4256,6 +4354,8 @@ export const deleteHostingWebOwnLogUserLog: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebOwnLogUserLog",
 }));
 
 export type DeleteHostingWebRuntimeError = OvhOpError;
@@ -4271,6 +4371,8 @@ export const deleteHostingWebRuntime: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebRuntime",
 }));
 
 export type DeleteHostingWebUserError = OvhOpError;
@@ -4286,6 +4388,8 @@ export const deleteHostingWebUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebUser",
 }));
 
 export type DeleteHostingWebWebsiteError = OvhOpError;
@@ -4301,6 +4405,8 @@ export const deleteHostingWebWebsite: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteHostingWebWebsite",
 }));
 
 export type DeployHostingWebWebsiteError = OvhOpError;
@@ -4316,6 +4422,8 @@ export const deployHostingWebWebsite: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeployHostingWebWebsite",
 }));
 
 export type GetHostingWebError = OvhOpError;
@@ -4331,6 +4439,8 @@ export const getHostingWeb: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWeb",
 }));
 
 export type GetHostingWebAttachedDomainError = OvhOpError;
@@ -4346,6 +4456,8 @@ export const getHostingWebAttachedDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebAttachedDomain",
 }));
 
 export type GetHostingWebAttachedDomainDigStatusError = OvhOpError;
@@ -4361,6 +4473,8 @@ export const getHostingWebAttachedDomainDigStatus: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebAttachedDomainDigStatus",
 }));
 
 export type GetHostingWebAttachedDomainSslError = OvhOpError;
@@ -4376,6 +4490,8 @@ export const getHostingWebAttachedDomainSsl: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebAttachedDomainSsl",
 }));
 
 export type GetHostingWebBoostHistoryError = OvhOpError;
@@ -4391,6 +4507,8 @@ export const getHostingWebBoostHistory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebBoostHistory",
 }));
 
 export type GetHostingWebCdnError = OvhOpError;
@@ -4406,6 +4524,8 @@ export const getHostingWebCdn: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebCdn",
 }));
 
 export type GetHostingWebCdnDomainError = OvhOpError;
@@ -4421,6 +4541,8 @@ export const getHostingWebCdnDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebCdnDomain",
 }));
 
 export type GetHostingWebCdnDomainLogsError = OvhOpError;
@@ -4436,6 +4558,8 @@ export const getHostingWebCdnDomainLogs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebCdnDomainLogs",
 }));
 
 export type GetHostingWebCdnDomainOptionError = OvhOpError;
@@ -4451,6 +4575,8 @@ export const getHostingWebCdnDomainOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebCdnDomainOption",
 }));
 
 export type GetHostingWebCdnOperationError = OvhOpError;
@@ -4466,6 +4592,8 @@ export const getHostingWebCdnOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebCdnOperation",
 }));
 
 export type GetHostingWebCdnServiceInfosError = OvhOpError;
@@ -4481,6 +4609,8 @@ export const getHostingWebCdnServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebCdnServiceInfos",
 }));
 
 export type GetHostingWebConfigurationError = OvhOpError;
@@ -4496,6 +4626,8 @@ export const getHostingWebConfiguration: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebConfiguration",
 }));
 
 export type GetHostingWebCronError = OvhOpError;
@@ -4511,6 +4643,8 @@ export const getHostingWebCron: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebCron",
 }));
 
 export type GetHostingWebDatabaseError = OvhOpError;
@@ -4526,6 +4660,8 @@ export const getHostingWebDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebDatabase",
 }));
 
 export type GetHostingWebDatabaseCapabilitiesError = OvhOpError;
@@ -4541,6 +4677,8 @@ export const getHostingWebDatabaseCapabilities: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebDatabaseCapabilities",
 }));
 
 export type GetHostingWebDatabaseCopyError = OvhOpError;
@@ -4556,6 +4694,8 @@ export const getHostingWebDatabaseCopy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebDatabaseCopy",
 }));
 
 export type GetHostingWebDatabaseDumpError = OvhOpError;
@@ -4571,6 +4711,8 @@ export const getHostingWebDatabaseDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebDatabaseDump",
 }));
 
 export type GetHostingWebDumpError = OvhOpError;
@@ -4586,6 +4728,8 @@ export const getHostingWebDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebDump",
 }));
 
 export type GetHostingWebEmailError = OvhOpError;
@@ -4601,6 +4745,8 @@ export const getHostingWebEmail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebEmail",
 }));
 
 export type GetHostingWebEmailOptionError = OvhOpError;
@@ -4616,6 +4762,8 @@ export const getHostingWebEmailOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebEmailOption",
 }));
 
 export type GetHostingWebEmailOptionServiceInfosError = OvhOpError;
@@ -4631,6 +4779,8 @@ export const getHostingWebEmailOptionServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebEmailOptionServiceInfos",
 }));
 
 export type GetHostingWebEnvVarError = OvhOpError;
@@ -4645,6 +4795,8 @@ export const getHostingWebEnvVar: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebEnvVar",
 }));
 
 export type GetHostingWebExtraSqlPersoError = OvhOpError;
@@ -4660,6 +4812,8 @@ export const getHostingWebExtraSqlPerso: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebExtraSqlPerso",
 }));
 
 export type GetHostingWebExtraSqlPersoServiceInfosError = OvhOpError;
@@ -4675,6 +4829,8 @@ export const getHostingWebExtraSqlPersoServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebExtraSqlPersoServiceInfos",
 }));
 
 export type GetHostingWebIndyError = OvhOpError;
@@ -4690,6 +4846,8 @@ export const getHostingWebIndy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebIndy",
 }));
 
 export type GetHostingWebKeySshError = OvhOpError;
@@ -4705,6 +4863,8 @@ export const getHostingWebKeySsh: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebKeySsh",
 }));
 
 export type GetHostingWebLocalSeoAccountError = OvhOpError;
@@ -4720,6 +4880,8 @@ export const getHostingWebLocalSeoAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebLocalSeoAccount",
 }));
 
 export type GetHostingWebLocalSeoEmailAvailabilityError = OvhOpError;
@@ -4735,6 +4897,8 @@ export const getHostingWebLocalSeoEmailAvailability: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebLocalSeoEmailAvailability",
 }));
 
 export type GetHostingWebLocalSeoEmailAvailability2Error = OvhOpError;
@@ -4750,6 +4914,8 @@ export const getHostingWebLocalSeoEmailAvailability2: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebLocalSeoEmailAvailability2",
 }));
 
 export type GetHostingWebLocalSeoLocationError = OvhOpError;
@@ -4765,6 +4931,8 @@ export const getHostingWebLocalSeoLocation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebLocalSeoLocation",
 }));
 
 export type GetHostingWebLocalSeoLocationServiceInfosError = OvhOpError;
@@ -4780,6 +4948,8 @@ export const getHostingWebLocalSeoLocationServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebLocalSeoLocationServiceInfos",
 }));
 
 export type GetHostingWebMetricsTokenError = OvhOpError;
@@ -4795,6 +4965,8 @@ export const getHostingWebMetricsToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebMetricsToken",
 }));
 
 export type GetHostingWebModuleError = OvhOpError;
@@ -4810,6 +4982,8 @@ export const getHostingWebModule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebModule",
 }));
 
 export type GetHostingWebModuleListError = OvhOpError;
@@ -4825,6 +4999,8 @@ export const getHostingWebModuleList: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebModuleList",
 }));
 
 export type GetHostingWebOfferCapabilitiesError = OvhOpError;
@@ -4840,6 +5016,8 @@ export const getHostingWebOfferCapabilities: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebOfferCapabilities",
 }));
 
 export type GetHostingWebOvhConfigError = OvhOpError;
@@ -4855,6 +5033,8 @@ export const getHostingWebOvhConfig: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebOvhConfig",
 }));
 
 export type GetHostingWebOvhConfigRecommendedValuesError = OvhOpError;
@@ -4870,6 +5050,8 @@ export const getHostingWebOvhConfigRecommendedValues: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebOvhConfigRecommendedValues",
 }));
 
 export type GetHostingWebOwnLogError = OvhOpError;
@@ -4885,6 +5067,8 @@ export const getHostingWebOwnLog: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebOwnLog",
 }));
 
 export type GetHostingWebOwnLogUserLogError = OvhOpError;
@@ -4900,6 +5084,8 @@ export const getHostingWebOwnLogUserLog: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebOwnLogUserLog",
 }));
 
 export type GetHostingWebRuntimeError = OvhOpError;
@@ -4915,6 +5101,8 @@ export const getHostingWebRuntime: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebRuntime",
 }));
 
 export type GetHostingWebServiceInfosError = OvhOpError;
@@ -4930,6 +5118,8 @@ export const getHostingWebServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebServiceInfos",
 }));
 
 export type GetHostingWebTaskError = OvhOpError;
@@ -4945,6 +5135,8 @@ export const getHostingWebTask: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebTask",
 }));
 
 export type GetHostingWebTokenError = OvhOpError;
@@ -4960,6 +5152,8 @@ export const getHostingWebToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebToken",
 }));
 
 export type GetHostingWebUserError = OvhOpError;
@@ -4975,6 +5169,8 @@ export const getHostingWebUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebUser",
 }));
 
 export type GetHostingWebUserLogsTokenError = OvhOpError;
@@ -4990,6 +5186,8 @@ export const getHostingWebUserLogsToken: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebUserLogsToken",
 }));
 
 export type GetHostingWebVcsWebhooksError = OvhOpError;
@@ -5005,6 +5203,8 @@ export const getHostingWebVcsWebhooks: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebVcsWebhooks",
 }));
 
 export type GetHostingWebWebsiteError = OvhOpError;
@@ -5020,6 +5220,8 @@ export const getHostingWebWebsite: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebWebsite",
 }));
 
 export type GetHostingWebWebsiteCreationCapabilitiesError = OvhOpError;
@@ -5035,6 +5237,8 @@ export const getHostingWebWebsiteCreationCapabilities: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebWebsiteCreationCapabilities",
 }));
 
 export type GetHostingWebWebsiteDeploymentError = OvhOpError;
@@ -5050,6 +5254,8 @@ export const getHostingWebWebsiteDeployment: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingWebWebsiteDeployment",
 }));
 
 export type ImportHostingWebDatabaseError = OvhOpError;
@@ -5065,6 +5271,8 @@ export const importHostingWebDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImportHostingWebDatabase",
 }));
 
 export type ListHostingWebError = OvhOpError;
@@ -5080,6 +5288,8 @@ export const listHostingWeb: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWeb",
 }));
 
 export type ListHostingWebAttachedDomainError = OvhOpError;
@@ -5095,6 +5305,8 @@ export const listHostingWebAttachedDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebAttachedDomain",
 }));
 
 export type ListHostingWebAttachedDomain2Error = OvhOpError;
@@ -5110,6 +5322,8 @@ export const listHostingWebAttachedDomain2: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebAttachedDomain2",
 }));
 
 export type ListHostingWebAvailableConfigurationsError = OvhOpError;
@@ -5125,6 +5339,8 @@ export const listHostingWebAvailableConfigurations: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebAvailableConfigurations",
 }));
 
 export type ListHostingWebAvailableOfferError = OvhOpError;
@@ -5140,6 +5356,8 @@ export const listHostingWebAvailableOffer: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebAvailableOffer",
 }));
 
 export type ListHostingWebBoostHistoryError = OvhOpError;
@@ -5155,6 +5373,8 @@ export const listHostingWebBoostHistory: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebBoostHistory",
 }));
 
 export type ListHostingWebCdnAvailableOptionsError = OvhOpError;
@@ -5170,6 +5390,8 @@ export const listHostingWebCdnAvailableOptions: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebCdnAvailableOptions",
 }));
 
 export type ListHostingWebCdnDomainError = OvhOpError;
@@ -5185,6 +5407,8 @@ export const listHostingWebCdnDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebCdnDomain",
 }));
 
 export type ListHostingWebCdnDomainOptionError = OvhOpError;
@@ -5200,6 +5424,8 @@ export const listHostingWebCdnDomainOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebCdnDomainOption",
 }));
 
 export type ListHostingWebCdnOperationError = OvhOpError;
@@ -5215,6 +5441,8 @@ export const listHostingWebCdnOperation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebCdnOperation",
 }));
 
 export type ListHostingWebCronError = OvhOpError;
@@ -5230,6 +5458,8 @@ export const listHostingWebCron: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebCron",
 }));
 
 export type ListHostingWebCronAvailableLanguageError = OvhOpError;
@@ -5245,6 +5475,8 @@ export const listHostingWebCronAvailableLanguage: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebCronAvailableLanguage",
 }));
 
 export type ListHostingWebDatabaseError = OvhOpError;
@@ -5260,6 +5492,8 @@ export const listHostingWebDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebDatabase",
 }));
 
 export type ListHostingWebDatabaseAvailableTypeError = OvhOpError;
@@ -5275,6 +5509,8 @@ export const listHostingWebDatabaseAvailableType: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebDatabaseAvailableType",
 }));
 
 export type ListHostingWebDatabaseAvailableVersionError = OvhOpError;
@@ -5290,6 +5526,8 @@ export const listHostingWebDatabaseAvailableVersion: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebDatabaseAvailableVersion",
 }));
 
 export type ListHostingWebDatabaseCopyError = OvhOpError;
@@ -5305,6 +5543,8 @@ export const listHostingWebDatabaseCopy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebDatabaseCopy",
 }));
 
 export type ListHostingWebDatabaseCreationCapabilitiesError = OvhOpError;
@@ -5320,6 +5560,8 @@ export const listHostingWebDatabaseCreationCapabilities: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebDatabaseCreationCapabilities",
 }));
 
 export type ListHostingWebDatabaseDumpError = OvhOpError;
@@ -5335,6 +5577,8 @@ export const listHostingWebDatabaseDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebDatabaseDump",
 }));
 
 export type ListHostingWebDatabaseStatisticsError = OvhOpError;
@@ -5350,6 +5594,8 @@ export const listHostingWebDatabaseStatistics: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebDatabaseStatistics",
 }));
 
 export type ListHostingWebDumpError = OvhOpError;
@@ -5365,6 +5611,8 @@ export const listHostingWebDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebDump",
 }));
 
 export type ListHostingWebEmailBouncesError = OvhOpError;
@@ -5380,6 +5628,8 @@ export const listHostingWebEmailBounces: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebEmailBounces",
 }));
 
 export type ListHostingWebEmailOptionError = OvhOpError;
@@ -5395,6 +5645,8 @@ export const listHostingWebEmailOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebEmailOption",
 }));
 
 export type ListHostingWebEmailVolumesError = OvhOpError;
@@ -5410,6 +5662,8 @@ export const listHostingWebEmailVolumes: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebEmailVolumes",
 }));
 
 export type ListHostingWebEnvVarError = OvhOpError;
@@ -5424,6 +5678,8 @@ export const listHostingWebEnvVar: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebEnvVar",
 }));
 
 export type ListHostingWebExtraSqlPersoError = OvhOpError;
@@ -5439,6 +5695,8 @@ export const listHostingWebExtraSqlPerso: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebExtraSqlPerso",
 }));
 
 export type ListHostingWebExtraSqlPersoDatabasesError = OvhOpError;
@@ -5454,6 +5712,8 @@ export const listHostingWebExtraSqlPersoDatabases: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebExtraSqlPersoDatabases",
 }));
 
 export type ListHostingWebFreedomError = OvhOpError;
@@ -5469,6 +5729,8 @@ export const listHostingWebFreedom: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebFreedom",
 }));
 
 export type ListHostingWebIncidentError = OvhOpError;
@@ -5484,6 +5746,8 @@ export const listHostingWebIncident: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebIncident",
 }));
 
 export type ListHostingWebIndyError = OvhOpError;
@@ -5499,6 +5763,8 @@ export const listHostingWebIndy: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebIndy",
 }));
 
 export type ListHostingWebLocalSeoAccountError = OvhOpError;
@@ -5514,6 +5780,8 @@ export const listHostingWebLocalSeoAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebLocalSeoAccount",
 }));
 
 export type ListHostingWebLocalSeoDirectoriesListError = OvhOpError;
@@ -5529,6 +5797,8 @@ export const listHostingWebLocalSeoDirectoriesList: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebLocalSeoDirectoriesList",
 }));
 
 export type ListHostingWebLocalSeoLocationError = OvhOpError;
@@ -5544,6 +5814,8 @@ export const listHostingWebLocalSeoLocation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebLocalSeoLocation",
 }));
 
 export type ListHostingWebLocalSeoVisibilityCheckResultError = OvhOpError;
@@ -5563,6 +5835,8 @@ export const listHostingWebLocalSeoVisibilityCheckResult: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebLocalSeoVisibilityCheckResult",
 }));
 
 export type ListHostingWebModuleError = OvhOpError;
@@ -5578,6 +5852,8 @@ export const listHostingWebModule: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebModule",
 }));
 
 export type ListHostingWebModuleListError = OvhOpError;
@@ -5593,6 +5869,8 @@ export const listHostingWebModuleList: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebModuleList",
 }));
 
 export type ListHostingWebOvhConfigError = OvhOpError;
@@ -5608,6 +5886,8 @@ export const listHostingWebOvhConfig: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebOvhConfig",
 }));
 
 export type ListHostingWebOvhConfigCapabilitiesError = OvhOpError;
@@ -5623,6 +5903,8 @@ export const listHostingWebOvhConfigCapabilities: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebOvhConfigCapabilities",
 }));
 
 export type ListHostingWebOwnLogsError = OvhOpError;
@@ -5638,6 +5920,8 @@ export const listHostingWebOwnLogs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebOwnLogs",
 }));
 
 export type ListHostingWebOwnLogUserLogsError = OvhOpError;
@@ -5653,6 +5937,8 @@ export const listHostingWebOwnLogUserLogs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebOwnLogUserLogs",
 }));
 
 export type ListHostingWebPrivateDatabaseCreationCapabilitiesError = OvhOpError;
@@ -5676,6 +5962,8 @@ export const listHostingWebPrivateDatabaseCreationCapabilities: API.OperationMet
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebPrivateDatabaseCreationCapabilities",
 }));
 
 export type ListHostingWebPrivateDatabasesError = OvhOpError;
@@ -5691,6 +5979,8 @@ export const listHostingWebPrivateDatabases: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebPrivateDatabases",
 }));
 
 export type ListHostingWebRuntimeError = OvhOpError;
@@ -5706,6 +5996,8 @@ export const listHostingWebRuntime: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebRuntime",
 }));
 
 export type ListHostingWebRuntimeAttachedDomainsError = OvhOpError;
@@ -5721,6 +6013,8 @@ export const listHostingWebRuntimeAttachedDomains: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebRuntimeAttachedDomains",
 }));
 
 export type ListHostingWebRuntimeAvailableTypesError = OvhOpError;
@@ -5736,6 +6030,8 @@ export const listHostingWebRuntimeAvailableTypes: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebRuntimeAvailableTypes",
 }));
 
 export type ListHostingWebStatisticsError = OvhOpError;
@@ -5751,6 +6047,8 @@ export const listHostingWebStatistics: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebStatistics",
 }));
 
 export type ListHostingWebTasksError = OvhOpError;
@@ -5766,6 +6064,8 @@ export const listHostingWebTasks: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebTasks",
 }));
 
 export type ListHostingWebUserError = OvhOpError;
@@ -5781,6 +6081,8 @@ export const listHostingWebUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebUser",
 }));
 
 export type ListHostingWebVcsSupportedError = OvhOpError;
@@ -5796,6 +6098,8 @@ export const listHostingWebVcsSupported: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebVcsSupported",
 }));
 
 export type ListHostingWebWebsiteError = OvhOpError;
@@ -5811,6 +6115,8 @@ export const listHostingWebWebsite: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebWebsite",
 }));
 
 export type ListHostingWebWebsiteDeploymentError = OvhOpError;
@@ -5826,6 +6132,8 @@ export const listHostingWebWebsiteDeployment: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebWebsiteDeployment",
 }));
 
 export type ListHostingWebWebsiteDeploymentLogsError = OvhOpError;
@@ -5841,6 +6149,8 @@ export const listHostingWebWebsiteDeploymentLogs: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListHostingWebWebsiteDeploymentLogs",
 }));
 
 export type LoginHostingWebLocalSeoAccountError = OvhOpError;
@@ -5856,6 +6166,8 @@ export const loginHostingWebLocalSeoAccount: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LoginHostingWebLocalSeoAccount",
 }));
 
 export type PurgeHostingWebAttachedDomainCacheError = OvhOpError;
@@ -5871,6 +6183,8 @@ export const purgeHostingWebAttachedDomainCache: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeHostingWebAttachedDomainCache",
 }));
 
 export type PurgeHostingWebCdnDomainError = OvhOpError;
@@ -5886,6 +6200,8 @@ export const purgeHostingWebCdnDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PurgeHostingWebCdnDomain",
 }));
 
 export type PutHostingWebError = OvhOpError;
@@ -5901,6 +6217,8 @@ export const putHostingWeb: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingWeb",
 }));
 
 export type PutHostingWebAttachedDomainError = OvhOpError;
@@ -5916,6 +6234,8 @@ export const putHostingWebAttachedDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingWebAttachedDomain",
 }));
 
 export type PutHostingWebCdnDomainOptionError = OvhOpError;
@@ -5931,6 +6251,8 @@ export const putHostingWebCdnDomainOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingWebCdnDomainOption",
 }));
 
 export type PutHostingWebConfigurationError = OvhOpError;
@@ -5946,6 +6268,8 @@ export const putHostingWebConfiguration: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingWebConfiguration",
 }));
 
 export type PutHostingWebCronError = OvhOpError;
@@ -5961,6 +6285,8 @@ export const putHostingWebCron: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingWebCron",
 }));
 
 export type PutHostingWebEmailError = OvhOpError;
@@ -5976,6 +6302,8 @@ export const putHostingWebEmail: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingWebEmail",
 }));
 
 export type PutHostingWebEnvVarError = OvhOpError;
@@ -5990,6 +6318,8 @@ export const putHostingWebEnvVar: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingWebEnvVar",
 }));
 
 export type PutHostingWebOwnLogUserLogError = OvhOpError;
@@ -6005,6 +6335,8 @@ export const putHostingWebOwnLogUserLog: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingWebOwnLogUserLog",
 }));
 
 export type PutHostingWebRuntimeError = OvhOpError;
@@ -6020,6 +6352,8 @@ export const putHostingWebRuntime: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingWebRuntime",
 }));
 
 export type PutHostingWebServiceInfosError = OvhOpError;
@@ -6035,6 +6369,8 @@ export const putHostingWebServiceInfos: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingWebServiceInfos",
 }));
 
 export type PutHostingWebUserError = OvhOpError;
@@ -6050,6 +6386,8 @@ export const putHostingWebUser: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingWebUser",
 }));
 
 export type PutHostingWebWebsiteError = OvhOpError;
@@ -6065,6 +6403,8 @@ export const putHostingWebWebsite: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutHostingWebWebsite",
 }));
 
 export type RefreshHostingWebCdnDomainError = OvhOpError;
@@ -6080,6 +6420,8 @@ export const refreshHostingWebCdnDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RefreshHostingWebCdnDomain",
 }));
 
 export type RestartHostingWebAttachedDomainError = OvhOpError;
@@ -6095,6 +6437,8 @@ export const restartHostingWebAttachedDomain: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestartHostingWebAttachedDomain",
 }));
 
 export type RestoreHostingWebDatabaseError = OvhOpError;
@@ -6110,6 +6454,8 @@ export const restoreHostingWebDatabase: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreHostingWebDatabase",
 }));
 
 export type RestoreHostingWebDatabaseDumpError = OvhOpError;
@@ -6125,6 +6471,8 @@ export const restoreHostingWebDatabaseDump: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreHostingWebDatabaseDump",
 }));
 
 export type RestoreHostingWebSnapshotError = OvhOpError;
@@ -6140,6 +6488,8 @@ export const restoreHostingWebSnapshot: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RestoreHostingWebSnapshot",
 }));
 
 export type TerminateHostingWebError = OvhOpError;
@@ -6155,6 +6505,8 @@ export const terminateHostingWeb: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateHostingWeb",
 }));
 
 export type TerminateHostingWebCdnError = OvhOpError;
@@ -6170,6 +6522,8 @@ export const terminateHostingWebCdn: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateHostingWebCdn",
 }));
 
 export type TerminateHostingWebEmailOptionError = OvhOpError;
@@ -6185,6 +6539,8 @@ export const terminateHostingWebEmailOption: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateHostingWebEmailOption",
 }));
 
 export type TerminateHostingWebExtraSqlPersoError = OvhOpError;
@@ -6200,6 +6556,8 @@ export const terminateHostingWebExtraSqlPerso: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateHostingWebExtraSqlPerso",
 }));
 
 export type TerminateHostingWebLocalSeoLocationError = OvhOpError;
@@ -6215,6 +6573,8 @@ export const terminateHostingWebLocalSeoLocation: API.OperationMethod<
   errors: [UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateHostingWebLocalSeoLocation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

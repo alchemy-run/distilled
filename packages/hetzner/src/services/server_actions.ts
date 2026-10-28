@@ -13,6 +13,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "ServerActions",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 export interface AddServerToPlacementGroupRequest {
   /** ID of the Server. */
   id: number;
@@ -1159,6 +1172,8 @@ export const addServerToPlacementGroup: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddServerToPlacementGroup",
 }));
 
 export type AttachServerIsoError = HetznerOpError;
@@ -1174,6 +1189,8 @@ export const attachServerIso: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachServerIso",
 }));
 
 export type AttachServerToNetworkError = HetznerOpError;
@@ -1189,6 +1206,8 @@ export const attachServerToNetwork: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AttachServerToNetwork",
 }));
 
 export type ChangeServerAliasIpsError = HetznerOpError;
@@ -1204,6 +1223,8 @@ export const changeServerAliasIps: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeServerAliasIps",
 }));
 
 export type ChangeServerDnsPtrError = HetznerOpError;
@@ -1219,6 +1240,8 @@ export const changeServerDnsPtr: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeServerDnsPtr",
 }));
 
 export type ChangeServerProtectionError = HetznerOpError;
@@ -1234,6 +1257,8 @@ export const changeServerProtection: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeServerProtection",
 }));
 
 export type ChangeServerTypeError = HetznerOpError;
@@ -1249,6 +1274,8 @@ export const changeServerType: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangeServerType",
 }));
 
 export type CreateServerImageError = HetznerOpError;
@@ -1264,6 +1291,8 @@ export const createServerImage: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateServerImage",
 }));
 
 export type DetachServerFromNetworkError = HetznerOpError;
@@ -1279,6 +1308,8 @@ export const detachServerFromNetwork: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachServerFromNetwork",
 }));
 
 export type DetachServerIsoError = HetznerOpError;
@@ -1294,6 +1325,8 @@ export const detachServerIso: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DetachServerIso",
 }));
 
 export type DisableServerBackupError = HetznerOpError;
@@ -1309,6 +1342,8 @@ export const disableServerBackup: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableServerBackup",
 }));
 
 export type DisableServerRescueError = HetznerOpError;
@@ -1324,6 +1359,8 @@ export const disableServerRescue: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisableServerRescue",
 }));
 
 export type EnableServerBackupError = HetznerOpError;
@@ -1339,6 +1376,8 @@ export const enableServerBackup: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableServerBackup",
 }));
 
 export type EnableServerRescueError = HetznerOpError;
@@ -1354,6 +1393,8 @@ export const enableServerRescue: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EnableServerRescue",
 }));
 
 export type GetServersActionError = HetznerOpError;
@@ -1369,6 +1410,8 @@ export const getServersAction: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetServersAction",
 }));
 
 export type ListServerActionsError = HetznerOpError;
@@ -1386,6 +1429,8 @@ export const listServerActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListServerActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1412,6 +1457,8 @@ export const listServersActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListServersActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -1436,6 +1483,8 @@ export const poweroffServer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PoweroffServer",
 }));
 
 export type PoweronServerError = HetznerOpError;
@@ -1451,6 +1500,8 @@ export const poweronServer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PoweronServer",
 }));
 
 export type RebootServerError = HetznerOpError;
@@ -1466,6 +1517,8 @@ export const rebootServer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RebootServer",
 }));
 
 export type RebuildServerError = HetznerOpError;
@@ -1481,6 +1534,8 @@ export const rebuildServer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RebuildServer",
 }));
 
 export type RemoveServerFromPlacementGroupError = HetznerOpError;
@@ -1496,6 +1551,8 @@ export const removeServerFromPlacementGroup: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RemoveServerFromPlacementGroup",
 }));
 
 export type RequestServerConsoleError = HetznerOpError;
@@ -1511,6 +1568,8 @@ export const requestServerConsole: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestServerConsole",
 }));
 
 export type ResetServerError = HetznerOpError;
@@ -1526,6 +1585,8 @@ export const resetServer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetServer",
 }));
 
 export type ResetServerPasswordError = HetznerOpError;
@@ -1541,6 +1602,8 @@ export const resetServerPassword: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetServerPassword",
 }));
 
 export type ShutdownServerError = HetznerOpError;
@@ -1556,6 +1619,8 @@ export const shutdownServer: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ShutdownServer",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

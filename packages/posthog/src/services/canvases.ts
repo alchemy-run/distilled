@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "Canvases",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1221,6 +1234,8 @@ export const canvasesConnectorsCall: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CanvasesConnectorsCall",
 }));
 
 export type CanvasesDestroyError = PosthogOpError;
@@ -1236,6 +1251,8 @@ export const canvasesDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CanvasesDestroy",
 }));
 
 export type CanvasesEditCreateError = BadRequest | Forbidden | Conflict | PosthogOpError;
@@ -1251,6 +1268,8 @@ export const canvasesEditCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CanvasesEditCreate",
 }));
 
 export type CanvasesLayoutPatchCreateError = BadRequest | Conflict | PosthogOpError;
@@ -1266,6 +1285,8 @@ export const canvasesLayoutPatchCreate: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CanvasesLayoutPatchCreate",
 }));
 
 export type CanvasesLayoutPublishCreateError = BadRequest | Conflict | PosthogOpError;
@@ -1281,6 +1302,8 @@ export const canvasesLayoutPublishCreate: API.OperationMethod<
   errors: [BadRequest, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CanvasesLayoutPublishCreate",
 }));
 
 export type CanvasesPublishCreateError = BadRequest | Forbidden | Conflict | PosthogOpError;
@@ -1296,6 +1319,8 @@ export const canvasesPublishCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CanvasesPublishCreate",
 }));
 
 export type CanvasesPublishCurrentVersionCreateError = Conflict | PosthogOpError;
@@ -1311,6 +1336,8 @@ export const canvasesPublishCurrentVersionCreate: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CanvasesPublishCurrentVersionCreate",
 }));
 
 export type CanvasesValidateCreateError = PosthogOpError;
@@ -1326,6 +1353,8 @@ export const canvasesValidateCreate: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CanvasesValidateCreate",
 }));
 
 export type CreateCanvaseError = Forbidden | PosthogOpError;
@@ -1341,6 +1370,8 @@ export const createCanvase: API.OperationMethod<
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCanvase",
 }));
 
 export type CreateCanvasesBuildActionError = PosthogOpError;
@@ -1356,6 +1387,8 @@ export const createCanvasesBuildAction: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCanvasesBuildAction",
 }));
 
 export type CreateCanvasesDraftError = BadRequest | PosthogOpError;
@@ -1371,6 +1404,8 @@ export const createCanvasesDraft: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCanvasesDraft",
 }));
 
 export type CreateCanvasesHomeError = Forbidden | PosthogOpError;
@@ -1386,6 +1421,8 @@ export const createCanvasesHome: API.OperationMethod<
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCanvasesHome",
 }));
 
 export type CreateCanvasesPromoteError = Conflict | PosthogOpError;
@@ -1401,6 +1438,8 @@ export const createCanvasesPromote: API.OperationMethod<
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCanvasesPromote",
 }));
 
 export type CreateCanvasesReportErrorError = NotFound | PosthogOpError;
@@ -1416,6 +1455,8 @@ export const createCanvasesReportError: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCanvasesReportError",
 }));
 
 export type CreateCanvasesRequestAgentError = Forbidden | Conflict | PosthogOpError;
@@ -1431,6 +1472,8 @@ export const createCanvasesRequestAgent: API.OperationMethod<
   errors: [Forbidden, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCanvasesRequestAgent",
 }));
 
 export type CreateCanvasesRequestFixError = Forbidden | NotFound | Conflict | PosthogOpError;
@@ -1446,6 +1489,8 @@ export const createCanvasesRequestFix: API.OperationMethod<
   errors: [Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCanvasesRequestFix",
 }));
 
 export type CreateCanvasesRevertError = PosthogOpError;
@@ -1461,6 +1506,8 @@ export const createCanvasesRevert: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCanvasesRevert",
 }));
 
 export type GetCanvaseError = PosthogOpError;
@@ -1476,6 +1523,8 @@ export const getCanvase: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCanvase",
 }));
 
 export type GetCanvasesActionError = PosthogOpError;
@@ -1491,6 +1540,8 @@ export const getCanvasesAction: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCanvasesAction",
 }));
 
 export type GetCanvasesBuildError = PosthogOpError;
@@ -1506,6 +1557,8 @@ export const getCanvasesBuild: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCanvasesBuild",
 }));
 
 export type GetCanvasesCommentError = PosthogOpError;
@@ -1521,6 +1574,8 @@ export const getCanvasesComment: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCanvasesComment",
 }));
 
 export type GetCanvasesConnectorError = Forbidden | PosthogOpError;
@@ -1536,6 +1591,8 @@ export const getCanvasesConnector: API.OperationMethod<
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCanvasesConnector",
 }));
 
 export type GetCanvasesDraftError = PosthogOpError;
@@ -1551,6 +1608,8 @@ export const getCanvasesDraft: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCanvasesDraft",
 }));
 
 export type GetCanvasesLayoutError = BadRequest | PosthogOpError;
@@ -1566,6 +1625,8 @@ export const getCanvasesLayout: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCanvasesLayout",
 }));
 
 export type GetCanvasesSourceError = PosthogOpError;
@@ -1581,6 +1642,8 @@ export const getCanvasesSource: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCanvasesSource",
 }));
 
 export type GetCanvasesStateError = Forbidden | PosthogOpError;
@@ -1596,6 +1659,8 @@ export const getCanvasesState: API.OperationMethod<
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCanvasesState",
 }));
 
 export type GetCanvasesStateValueError = BadRequest | NotFound | Conflict | PosthogOpError;
@@ -1611,6 +1676,8 @@ export const getCanvasesStateValue: API.OperationMethod<
   errors: [BadRequest, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCanvasesStateValue",
 }));
 
 export type GetCanvasesVersionError = PosthogOpError;
@@ -1626,6 +1693,8 @@ export const getCanvasesVersion: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCanvasesVersion",
 }));
 
 export type GetCanvasesViewError = PosthogOpError;
@@ -1641,6 +1710,8 @@ export const getCanvasesView: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCanvasesView",
 }));
 
 export type InvokeCanvasesActionError = BadRequest | Forbidden | PosthogOpError;
@@ -1656,6 +1727,8 @@ export const invokeCanvasesAction: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InvokeCanvasesAction",
 }));
 
 export type ListCanvasesError = PosthogOpError;
@@ -1671,6 +1744,8 @@ export const listCanvases: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCanvases",
 }));
 
 export type ListCanvasesCommentsError = PosthogOpError;
@@ -1686,6 +1761,8 @@ export const listCanvasesComments: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCanvasesComments",
 }));
 
 export type SetCanvasesStateError = BadRequest | Forbidden | PosthogOpError;
@@ -1701,6 +1778,8 @@ export const setCanvasesState: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCanvasesState",
 }));
 
 export type UpdateCanvasesPartialError = Forbidden | PosthogOpError;
@@ -1716,6 +1795,8 @@ export const updateCanvasesPartial: API.OperationMethod<
   errors: [Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateCanvasesPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

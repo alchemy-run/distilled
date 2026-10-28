@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "MarketingAnalytics",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2437,6 +2450,8 @@ export const createMarketingAnalyticsTestMapping: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMarketingAnalyticsTestMapping",
 }));
 
 export type DeleteMarketingAnalyticsConversionGoalDestroyError =
@@ -2459,6 +2474,8 @@ export const deleteMarketingAnalyticsConversionGoalDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteMarketingAnalyticsConversionGoalDestroy",
 }));
 
 export type GetMarketingAnalyticsConversionGoalError = PosthogOpError;
@@ -2474,6 +2491,8 @@ export const getMarketingAnalyticsConversionGoal: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMarketingAnalyticsConversionGoal",
 }));
 
 export type GetMarketingAnalyticsDataSourceError = PosthogOpError;
@@ -2489,6 +2508,8 @@ export const getMarketingAnalyticsDataSource: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMarketingAnalyticsDataSource",
 }));
 
 export type GetMarketingAnalyticsDiagnoseError = PosthogOpError;
@@ -2504,6 +2525,8 @@ export const getMarketingAnalyticsDiagnose: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMarketingAnalyticsDiagnose",
 }));
 
 export type GetMarketingAnalyticsExplainConversionGoalError = PosthogOpError;
@@ -2519,6 +2542,8 @@ export const getMarketingAnalyticsExplainConversionGoal: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMarketingAnalyticsExplainConversionGoal",
 }));
 
 export type GetMarketingAnalyticsSetupPlanError = NotFound | PosthogOpError;
@@ -2534,6 +2559,8 @@ export const getMarketingAnalyticsSetupPlan: API.OperationMethod<
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMarketingAnalyticsSetupPlan",
 }));
 
 export type GetMarketingAnalyticsSourceValidationError = PosthogOpError;
@@ -2549,6 +2576,8 @@ export const getMarketingAnalyticsSourceValidation: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMarketingAnalyticsSourceValidation",
 }));
 
 export type GetMarketingAnalyticsSuggestConversionGoalError = PosthogOpError;
@@ -2564,6 +2593,8 @@ export const getMarketingAnalyticsSuggestConversionGoal: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMarketingAnalyticsSuggestConversionGoal",
 }));
 
 export type GetMarketingAnalyticsSuggestUtmMappingError = PosthogOpError;
@@ -2579,6 +2610,8 @@ export const getMarketingAnalyticsSuggestUtmMapping: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMarketingAnalyticsSuggestUtmMapping",
 }));
 
 export type GetMarketingAnalyticsUtmAuditError = PosthogOpError;
@@ -2594,6 +2627,8 @@ export const getMarketingAnalyticsUtmAudit: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMarketingAnalyticsUtmAudit",
 }));
 
 export type ListMarketingAnalyticsConversionRecordingsError = PosthogOpError;
@@ -2608,6 +2643,8 @@ export const listMarketingAnalyticsConversionRecordings: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMarketingAnalyticsConversionRecordings",
 }));
 
 export type MarketingAnalyticsApplySetupOpsCreateError = BadRequest | NotFound | PosthogOpError;
@@ -2623,6 +2660,8 @@ export const marketingAnalyticsApplySetupOpsCreate: API.OperationMethod<
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarketingAnalyticsApplySetupOpsCreate",
 }));
 
 export type MarketingAnalyticsConversionGoalsCreateCreateError =
@@ -2641,6 +2680,8 @@ export const marketingAnalyticsConversionGoalsCreateCreate: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarketingAnalyticsConversionGoalsCreateCreate",
 }));
 
 export type MarketingAnalyticsConversionGoalsUpdatePartialUpdateError =
@@ -2664,6 +2705,8 @@ export const marketingAnalyticsConversionGoalsUpdatePartialUpdate: API.Operation
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MarketingAnalyticsConversionGoalsUpdatePartialUpdate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

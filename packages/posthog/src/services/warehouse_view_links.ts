@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "WarehouseViewLinks",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -201,6 +214,8 @@ export const createWarehouseViewLink: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWarehouseViewLink",
 }));
 
 export type GetWarehouseViewLinkError = PosthogOpError;
@@ -216,6 +231,8 @@ export const getWarehouseViewLink: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWarehouseViewLink",
 }));
 
 export type ListWarehouseViewLinksError = PosthogOpError;
@@ -231,6 +248,8 @@ export const listWarehouseViewLinks: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWarehouseViewLinks",
 }));
 
 export type UpdateWarehouseViewLinkError = PosthogOpError;
@@ -246,6 +265,8 @@ export const updateWarehouseViewLink: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWarehouseViewLink",
 }));
 
 export type UpdateWarehouseViewLinksPartialError = PosthogOpError;
@@ -261,6 +282,8 @@ export const updateWarehouseViewLinksPartial: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWarehouseViewLinksPartial",
 }));
 
 export type WarehouseViewLinksDestroyError = PosthogOpError;
@@ -276,6 +299,8 @@ export const warehouseViewLinksDestroy: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseViewLinksDestroy",
 }));
 
 export type WarehouseViewLinksValidateCreateError = BadRequest | PosthogOpError;
@@ -291,6 +316,8 @@ export const warehouseViewLinksValidateCreate: API.OperationMethod<
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WarehouseViewLinksValidateCreate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

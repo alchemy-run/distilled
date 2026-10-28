@@ -10,6 +10,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "WebAnalyticsAchievements",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export interface AcknowledgeWebAnalyticsAchievementCelebrationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -139,6 +152,8 @@ export const acknowledgeWebAnalyticsAchievementCelebration: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcknowledgeWebAnalyticsAchievementCelebration",
 }));
 
 export type UpdateWebAnalyticsAchievementPreferencesError = PosthogOpError;
@@ -154,6 +169,8 @@ export const updateWebAnalyticsAchievementPreferences: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWebAnalyticsAchievementPreferences",
 }));
 
 export type WebAnalyticsAchievementsOverviewError = PosthogOpError;
@@ -169,6 +186,8 @@ export const webAnalyticsAchievementsOverview: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebAnalyticsAchievementsOverview",
 }));
 
 export type WebAnalyticsAchievementsPreferencesError = PosthogOpError;
@@ -184,6 +203,8 @@ export const webAnalyticsAchievementsPreferences: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebAnalyticsAchievementsPreferences",
 }));
 
 export type WebAnalyticsAchievementsRecordInteractionError = PosthogOpError;
@@ -199,6 +220,8 @@ export const webAnalyticsAchievementsRecordInteraction: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebAnalyticsAchievementsRecordInteraction",
 }));
 
 export type WebAnalyticsAchievementsRecordVisitError = PosthogOpError;
@@ -214,6 +237,8 @@ export const webAnalyticsAchievementsRecordVisit: API.OperationMethod<
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebAnalyticsAchievementsRecordVisit",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

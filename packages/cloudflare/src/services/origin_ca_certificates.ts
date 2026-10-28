@@ -28,6 +28,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   totalCount: "total_count",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "OriginCaCertificates",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class CertificateAlreadyRevoked
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CertificateAlreadyRevoked>()("CertificateAlreadyRevoked", {
@@ -198,6 +212,8 @@ export const createOriginCaCertificate: API.OperationMethod<
   errors: [HostnameNotAuthorized, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOriginCaCertificate",
 }));
 
 export type DeleteOriginCaCertificateError =
@@ -225,6 +241,8 @@ export const deleteOriginCaCertificate: API.OperationMethod<
   ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOriginCaCertificate",
 }));
 
 export type GetOriginCaCertificateError = CertificateNotFound | Forbidden | CloudflareOpError;
@@ -240,6 +258,8 @@ export const getOriginCaCertificate: API.OperationMethod<
   errors: [CertificateNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOriginCaCertificate",
 }));
 
 export type ListOriginCaCertificatesError = Forbidden | CloudflareOpError;
@@ -257,6 +277,8 @@ export const listOriginCaCertificates: API.PaginatedOperationMethod<
     errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListOriginCaCertificates",
     pagination: {
       mode: "page",
       inputToken: "page",

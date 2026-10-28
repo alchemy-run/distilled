@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -70,6 +71,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://odb.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "odb",
+  service: "odb",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2625,6 +2641,8 @@ export const acceptMarketplaceRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptMarketplaceRegistration",
+  telemetry: TELEMETRY,
+  span: "AcceptMarketplaceRegistration",
 }));
 
 export type AssociateIamRoleToResourceError =
@@ -2657,6 +2675,8 @@ export const associateIamRoleToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateIamRoleToResource",
+  telemetry: TELEMETRY,
+  span: "AssociateIamRoleToResource",
 }));
 
 export type AssociateVirtualMachinesToExadbVmClusterError =
@@ -2691,6 +2711,8 @@ export const associateVirtualMachinesToExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateVirtualMachinesToExadbVmCluster",
+  telemetry: TELEMETRY,
+  span: "AssociateVirtualMachinesToExadbVmCluster",
 }));
 
 export type CreateAutonomousDatabaseError =
@@ -2725,6 +2747,8 @@ export const createAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "CreateAutonomousDatabase",
 }));
 
 export type CreateAutonomousDatabaseBackupError =
@@ -2759,6 +2783,8 @@ export const createAutonomousDatabaseBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutonomousDatabaseBackup",
+  telemetry: TELEMETRY,
+  span: "CreateAutonomousDatabaseBackup",
 }));
 
 export type CreateAutonomousDatabaseWalletError =
@@ -2789,6 +2815,8 @@ export const createAutonomousDatabaseWallet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutonomousDatabaseWallet",
+  telemetry: TELEMETRY,
+  span: "CreateAutonomousDatabaseWallet",
 }));
 
 export type CreateCloudAutonomousVmClusterError =
@@ -2823,6 +2851,8 @@ export const createCloudAutonomousVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudAutonomousVmCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCloudAutonomousVmCluster",
 }));
 
 export type CreateCloudExadataInfrastructureError =
@@ -2855,6 +2885,8 @@ export const createCloudExadataInfrastructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudExadataInfrastructure",
+  telemetry: TELEMETRY,
+  span: "CreateCloudExadataInfrastructure",
 }));
 
 export type CreateCloudVmClusterError =
@@ -2889,6 +2921,8 @@ export const createCloudVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudVmCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCloudVmCluster",
 }));
 
 export type CreateExadbVmClusterError =
@@ -2923,6 +2957,8 @@ export const createExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExadbVmCluster",
+  telemetry: TELEMETRY,
+  span: "CreateExadbVmCluster",
 }));
 
 export type CreateExascaleDbStorageVaultError =
@@ -2955,6 +2991,8 @@ export const createExascaleDbStorageVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExascaleDbStorageVault",
+  telemetry: TELEMETRY,
+  span: "CreateExascaleDbStorageVault",
 }));
 
 export type CreateOdbNetworkError =
@@ -2987,6 +3025,8 @@ export const createOdbNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOdbNetwork",
+  telemetry: TELEMETRY,
+  span: "CreateOdbNetwork",
 }));
 
 export type CreateOdbPeeringConnectionError =
@@ -3021,6 +3061,8 @@ export const createOdbPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOdbPeeringConnection",
+  telemetry: TELEMETRY,
+  span: "CreateOdbPeeringConnection",
 }));
 
 export type DeleteAutonomousDatabaseError =
@@ -3053,6 +3095,8 @@ export const deleteAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "DeleteAutonomousDatabase",
 }));
 
 export type DeleteAutonomousDatabaseBackupError =
@@ -3085,6 +3129,8 @@ export const deleteAutonomousDatabaseBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutonomousDatabaseBackup",
+  telemetry: TELEMETRY,
+  span: "DeleteAutonomousDatabaseBackup",
 }));
 
 export type DeleteCloudAutonomousVmClusterError =
@@ -3115,6 +3161,8 @@ export const deleteCloudAutonomousVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudAutonomousVmCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCloudAutonomousVmCluster",
 }));
 
 export type DeleteCloudExadataInfrastructureError =
@@ -3147,6 +3195,8 @@ export const deleteCloudExadataInfrastructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudExadataInfrastructure",
+  telemetry: TELEMETRY,
+  span: "DeleteCloudExadataInfrastructure",
 }));
 
 export type DeleteCloudVmClusterError =
@@ -3177,6 +3227,8 @@ export const deleteCloudVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudVmCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCloudVmCluster",
 }));
 
 export type DeleteExadbVmClusterError =
@@ -3209,6 +3261,8 @@ export const deleteExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExadbVmCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteExadbVmCluster",
 }));
 
 export type DeleteExascaleDbStorageVaultError =
@@ -3241,6 +3295,8 @@ export const deleteExascaleDbStorageVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExascaleDbStorageVault",
+  telemetry: TELEMETRY,
+  span: "DeleteExascaleDbStorageVault",
 }));
 
 export type DeleteOdbNetworkError =
@@ -3271,6 +3327,8 @@ export const deleteOdbNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOdbNetwork",
+  telemetry: TELEMETRY,
+  span: "DeleteOdbNetwork",
 }));
 
 export type DeleteOdbPeeringConnectionError =
@@ -3303,6 +3361,8 @@ export const deleteOdbPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOdbPeeringConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteOdbPeeringConnection",
 }));
 
 export type DisassociateIamRoleFromResourceError =
@@ -3335,6 +3395,8 @@ export const disassociateIamRoleFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateIamRoleFromResource",
+  telemetry: TELEMETRY,
+  span: "DisassociateIamRoleFromResource",
 }));
 
 export type DisassociateVirtualMachinesFromExadbVmClusterError =
@@ -3371,6 +3433,8 @@ export const disassociateVirtualMachinesFromExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateVirtualMachinesFromExadbVmCluster",
+  telemetry: TELEMETRY,
+  span: "DisassociateVirtualMachinesFromExadbVmCluster",
 }));
 
 export type FailoverAutonomousDatabaseError =
@@ -3403,6 +3467,8 @@ export const failoverAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "FailoverAutonomousDatabase",
 }));
 
 export type GetAutonomousDatabaseError =
@@ -3433,6 +3499,8 @@ export const getAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "GetAutonomousDatabase",
 }));
 
 export type GetAutonomousDatabaseBackupError =
@@ -3463,6 +3531,8 @@ export const getAutonomousDatabaseBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutonomousDatabaseBackup",
+  telemetry: TELEMETRY,
+  span: "GetAutonomousDatabaseBackup",
 }));
 
 export type GetAutonomousDatabaseWalletDetailsError =
@@ -3493,6 +3563,8 @@ export const getAutonomousDatabaseWalletDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutonomousDatabaseWalletDetails",
+  telemetry: TELEMETRY,
+  span: "GetAutonomousDatabaseWalletDetails",
 }));
 
 export type GetCloudAutonomousVmClusterError =
@@ -3523,6 +3595,8 @@ export const getCloudAutonomousVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudAutonomousVmCluster",
+  telemetry: TELEMETRY,
+  span: "GetCloudAutonomousVmCluster",
 }));
 
 export type GetCloudExadataInfrastructureError =
@@ -3553,6 +3627,8 @@ export const getCloudExadataInfrastructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudExadataInfrastructure",
+  telemetry: TELEMETRY,
+  span: "GetCloudExadataInfrastructure",
 }));
 
 export type GetCloudExadataInfrastructureUnallocatedResourcesError =
@@ -3591,6 +3667,8 @@ export const getCloudExadataInfrastructureUnallocatedResources: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudExadataInfrastructureUnallocatedResources",
+  telemetry: TELEMETRY,
+  span: "GetCloudExadataInfrastructureUnallocatedResources",
 }));
 
 export type GetCloudVmClusterError =
@@ -3621,6 +3699,8 @@ export const getCloudVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudVmCluster",
+  telemetry: TELEMETRY,
+  span: "GetCloudVmCluster",
 }));
 
 export type GetDbNodeError =
@@ -3651,6 +3731,8 @@ export const getDbNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbNode",
+  telemetry: TELEMETRY,
+  span: "GetDbNode",
 }));
 
 export type GetDbServerError =
@@ -3681,6 +3763,8 @@ export const getDbServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbServer",
+  telemetry: TELEMETRY,
+  span: "GetDbServer",
 }));
 
 export type GetExadbVmClusterError =
@@ -3711,6 +3795,8 @@ export const getExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExadbVmCluster",
+  telemetry: TELEMETRY,
+  span: "GetExadbVmCluster",
 }));
 
 export type GetExascaleDbStorageVaultError =
@@ -3741,6 +3827,8 @@ export const getExascaleDbStorageVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExascaleDbStorageVault",
+  telemetry: TELEMETRY,
+  span: "GetExascaleDbStorageVault",
 }));
 
 export type GetOciOnboardingStatusError =
@@ -3769,6 +3857,8 @@ export const getOciOnboardingStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOciOnboardingStatus",
+  telemetry: TELEMETRY,
+  span: "GetOciOnboardingStatus",
 }));
 
 export type GetOdbNetworkError =
@@ -3799,6 +3889,8 @@ export const getOdbNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOdbNetwork",
+  telemetry: TELEMETRY,
+  span: "GetOdbNetwork",
 }));
 
 export type GetOdbPeeringConnectionError =
@@ -3829,6 +3921,8 @@ export const getOdbPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOdbPeeringConnection",
+  telemetry: TELEMETRY,
+  span: "GetOdbPeeringConnection",
 }));
 
 export type InitializeServiceError =
@@ -3857,6 +3951,8 @@ export const initializeService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitializeService",
+  telemetry: TELEMETRY,
+  span: "InitializeService",
 }));
 
 export type ListAutonomousDatabaseBackupsError =
@@ -3894,6 +3990,8 @@ export const listAutonomousDatabaseBackups: API.PaginatedOperationMethod<
     items: "autonomousDatabaseBackups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousDatabaseBackups",
 })) as any;
 
 export type ListAutonomousDatabaseCharacterSetsError =
@@ -3929,6 +4027,8 @@ export const listAutonomousDatabaseCharacterSets: API.PaginatedOperationMethod<
     items: "autonomousDatabaseCharacterSets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousDatabaseCharacterSets",
 })) as any;
 
 export type ListAutonomousDatabaseClonesError =
@@ -3966,6 +4066,8 @@ export const listAutonomousDatabaseClones: API.PaginatedOperationMethod<
     items: "autonomousDatabaseClones",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousDatabaseClones",
 })) as any;
 
 export type ListAutonomousDatabasePeersError =
@@ -4003,6 +4105,8 @@ export const listAutonomousDatabasePeers: API.PaginatedOperationMethod<
     items: "autonomousDatabasePeers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousDatabasePeers",
 })) as any;
 
 export type ListAutonomousDatabasesError =
@@ -4038,6 +4142,8 @@ export const listAutonomousDatabases: API.PaginatedOperationMethod<
     items: "autonomousDatabases",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousDatabases",
 })) as any;
 
 export type ListAutonomousDatabaseVersionsError =
@@ -4073,6 +4179,8 @@ export const listAutonomousDatabaseVersions: API.PaginatedOperationMethod<
     items: "autonomousDatabaseVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousDatabaseVersions",
 })) as any;
 
 export type ListAutonomousVirtualMachinesError =
@@ -4110,6 +4218,8 @@ export const listAutonomousVirtualMachines: API.PaginatedOperationMethod<
     items: "autonomousVirtualMachines",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAutonomousVirtualMachines",
 })) as any;
 
 export type ListCloudAutonomousVmClustersError =
@@ -4147,6 +4257,8 @@ export const listCloudAutonomousVmClusters: API.PaginatedOperationMethod<
     items: "cloudAutonomousVmClusters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCloudAutonomousVmClusters",
 })) as any;
 
 export type ListCloudExadataInfrastructuresError =
@@ -4182,6 +4294,8 @@ export const listCloudExadataInfrastructures: API.PaginatedOperationMethod<
     items: "cloudExadataInfrastructures",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCloudExadataInfrastructures",
 })) as any;
 
 export type ListCloudVmClustersError =
@@ -4219,6 +4333,8 @@ export const listCloudVmClusters: API.PaginatedOperationMethod<
     items: "cloudVmClusters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCloudVmClusters",
 })) as any;
 
 export type ListDbNodesError =
@@ -4256,6 +4372,8 @@ export const listDbNodes: API.PaginatedOperationMethod<
     items: "dbNodes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbNodes",
 })) as any;
 
 export type ListDbServersError =
@@ -4293,6 +4411,8 @@ export const listDbServers: API.PaginatedOperationMethod<
     items: "dbServers",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbServers",
 })) as any;
 
 export type ListDbSystemShapesError =
@@ -4328,6 +4448,8 @@ export const listDbSystemShapes: API.PaginatedOperationMethod<
     items: "dbSystemShapes",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDbSystemShapes",
 })) as any;
 
 export type ListExadbVmClustersError =
@@ -4365,6 +4487,8 @@ export const listExadbVmClusters: API.PaginatedOperationMethod<
     items: "exadbVmClusters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExadbVmClusters",
 })) as any;
 
 export type ListExascaleDbStorageVaultsError =
@@ -4400,6 +4524,8 @@ export const listExascaleDbStorageVaults: API.PaginatedOperationMethod<
     items: "exascaleDbStorageVaults",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListExascaleDbStorageVaults",
 })) as any;
 
 export type ListFlexComponentsError =
@@ -4435,6 +4561,8 @@ export const listFlexComponents: API.PaginatedOperationMethod<
     items: "flexComponents",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlexComponents",
 })) as any;
 
 export type ListGiMinorVersionsError =
@@ -4470,6 +4598,8 @@ export const listGiMinorVersions: API.PaginatedOperationMethod<
     items: "giMinorVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGiMinorVersions",
 })) as any;
 
 export type ListGiVersionsError =
@@ -4505,6 +4635,8 @@ export const listGiVersions: API.PaginatedOperationMethod<
     items: "giVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGiVersions",
 })) as any;
 
 export type ListOdbNetworksError =
@@ -4540,6 +4672,8 @@ export const listOdbNetworks: API.PaginatedOperationMethod<
     items: "odbNetworks",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOdbNetworks",
 })) as any;
 
 export type ListOdbPeeringConnectionsError =
@@ -4577,6 +4711,8 @@ export const listOdbPeeringConnections: API.PaginatedOperationMethod<
     items: "odbPeeringConnections",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListOdbPeeringConnections",
 })) as any;
 
 export type ListSystemVersionsError =
@@ -4614,6 +4750,8 @@ export const listSystemVersions: API.PaginatedOperationMethod<
     items: "systemVersions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSystemVersions",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -4632,6 +4770,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RebootAutonomousDatabaseError =
@@ -4664,6 +4804,8 @@ export const rebootAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "RebootAutonomousDatabase",
 }));
 
 export type RebootDbNodeError =
@@ -4694,6 +4836,8 @@ export const rebootDbNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDbNode",
+  telemetry: TELEMETRY,
+  span: "RebootDbNode",
 }));
 
 export type RestoreAutonomousDatabaseError =
@@ -4726,6 +4870,8 @@ export const restoreAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "RestoreAutonomousDatabase",
 }));
 
 export type ShrinkAutonomousDatabaseError =
@@ -4758,6 +4904,8 @@ export const shrinkAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ShrinkAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "ShrinkAutonomousDatabase",
 }));
 
 export type StartAutonomousDatabaseError =
@@ -4790,6 +4938,8 @@ export const startAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "StartAutonomousDatabase",
 }));
 
 export type StartDbNodeError =
@@ -4820,6 +4970,8 @@ export const startDbNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDbNode",
+  telemetry: TELEMETRY,
+  span: "StartDbNode",
 }));
 
 export type StopAutonomousDatabaseError =
@@ -4852,6 +5004,8 @@ export const stopAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "StopAutonomousDatabase",
 }));
 
 export type StopDbNodeError =
@@ -4882,6 +5036,8 @@ export const stopDbNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDbNode",
+  telemetry: TELEMETRY,
+  span: "StopDbNode",
 }));
 
 export type SwitchoverAutonomousDatabaseError =
@@ -4914,6 +5070,8 @@ export const switchoverAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwitchoverAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "SwitchoverAutonomousDatabase",
 }));
 
 export type TagResourceError =
@@ -4935,6 +5093,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -4953,6 +5113,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAutonomousDatabaseError =
@@ -4985,6 +5147,8 @@ export const updateAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutonomousDatabase",
+  telemetry: TELEMETRY,
+  span: "UpdateAutonomousDatabase",
 }));
 
 export type UpdateAutonomousDatabaseBackupError =
@@ -5017,6 +5181,8 @@ export const updateAutonomousDatabaseBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutonomousDatabaseBackup",
+  telemetry: TELEMETRY,
+  span: "UpdateAutonomousDatabaseBackup",
 }));
 
 export type UpdateCloudExadataInfrastructureError =
@@ -5049,6 +5215,8 @@ export const updateCloudExadataInfrastructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudExadataInfrastructure",
+  telemetry: TELEMETRY,
+  span: "UpdateCloudExadataInfrastructure",
 }));
 
 export type UpdateExadbVmClusterError =
@@ -5081,6 +5249,8 @@ export const updateExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExadbVmCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateExadbVmCluster",
 }));
 
 export type UpdateExascaleDbStorageVaultError =
@@ -5113,6 +5283,8 @@ export const updateExascaleDbStorageVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExascaleDbStorageVault",
+  telemetry: TELEMETRY,
+  span: "UpdateExascaleDbStorageVault",
 }));
 
 export type UpdateOdbNetworkError =
@@ -5145,6 +5317,8 @@ export const updateOdbNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOdbNetwork",
+  telemetry: TELEMETRY,
+  span: "UpdateOdbNetwork",
 }));
 
 export type UpdateOdbPeeringConnectionError =
@@ -5177,6 +5351,8 @@ export const updateOdbPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOdbPeeringConnection",
+  telemetry: TELEMETRY,
+  span: "UpdateOdbPeeringConnection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

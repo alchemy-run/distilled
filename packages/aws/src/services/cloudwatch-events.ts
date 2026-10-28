@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -82,6 +83,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://events.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudWatchEvents",
+  service: "CloudWatchEvents",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
@@ -1129,6 +1145,8 @@ export const activateEventSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateEventSource",
+  telemetry: TELEMETRY,
+  span: "ActivateEventSource",
 }));
 
 export type CancelReplayError =
@@ -1157,6 +1175,8 @@ export const cancelReplay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelReplay",
+  telemetry: TELEMETRY,
+  span: "CancelReplay",
 }));
 
 export type CreateApiDestinationError =
@@ -1186,6 +1206,8 @@ export const createApiDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiDestination",
+  telemetry: TELEMETRY,
+  span: "CreateApiDestination",
 }));
 
 export type CreateArchiveError =
@@ -1222,6 +1244,8 @@ export const createArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateArchive",
+  telemetry: TELEMETRY,
+  span: "CreateArchive",
 }));
 
 export type CreateConnectionError =
@@ -1245,6 +1269,8 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  telemetry: TELEMETRY,
+  span: "CreateConnection",
 }));
 
 export type CreateEventBusError =
@@ -1281,6 +1307,8 @@ export const createEventBus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventBus",
+  telemetry: TELEMETRY,
+  span: "CreateEventBus",
 }));
 
 export type CreatePartnerEventSourceError =
@@ -1335,6 +1363,8 @@ export const createPartnerEventSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartnerEventSource",
+  telemetry: TELEMETRY,
+  span: "CreatePartnerEventSource",
 }));
 
 export type DeactivateEventSourceError =
@@ -1371,6 +1401,8 @@ export const deactivateEventSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateEventSource",
+  telemetry: TELEMETRY,
+  span: "DeactivateEventSource",
 }));
 
 export type DeauthorizeConnectionError =
@@ -1394,6 +1426,8 @@ export const deauthorizeConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeauthorizeConnection",
+  telemetry: TELEMETRY,
+  span: "DeauthorizeConnection",
 }));
 
 export type DeleteApiDestinationError =
@@ -1416,6 +1450,8 @@ export const deleteApiDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiDestination",
+  telemetry: TELEMETRY,
+  span: "DeleteApiDestination",
 }));
 
 export type DeleteArchiveError =
@@ -1438,6 +1474,8 @@ export const deleteArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArchive",
+  telemetry: TELEMETRY,
+  span: "DeleteArchive",
 }));
 
 export type DeleteConnectionError =
@@ -1460,6 +1498,8 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DeleteEventBusError =
@@ -1482,6 +1522,8 @@ export const deleteEventBus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventBus",
+  telemetry: TELEMETRY,
+  span: "DeleteEventBus",
 }));
 
 export type DeletePartnerEventSourceError =
@@ -1508,6 +1550,8 @@ export const deletePartnerEventSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePartnerEventSource",
+  telemetry: TELEMETRY,
+  span: "DeletePartnerEventSource",
 }));
 
 export type DeleteRuleError =
@@ -1550,6 +1594,8 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
+  telemetry: TELEMETRY,
+  span: "DeleteRule",
 }));
 
 export type DescribeApiDestinationError =
@@ -1571,6 +1617,8 @@ export const describeApiDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApiDestination",
+  telemetry: TELEMETRY,
+  span: "DescribeApiDestination",
 }));
 
 export type DescribeArchiveError =
@@ -1593,6 +1641,8 @@ export const describeArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeArchive",
+  telemetry: TELEMETRY,
+  span: "DescribeArchive",
 }));
 
 export type DescribeConnectionError = InternalException | ResourceNotFoundException | CommonErrors;
@@ -1611,6 +1661,8 @@ export const describeConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnection",
+  telemetry: TELEMETRY,
+  span: "DescribeConnection",
 }));
 
 export type DescribeEventBusError = InternalException | ResourceNotFoundException | CommonErrors;
@@ -1637,6 +1689,8 @@ export const describeEventBus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventBus",
+  telemetry: TELEMETRY,
+  span: "DescribeEventBus",
 }));
 
 export type DescribeEventSourceError =
@@ -1660,6 +1714,8 @@ export const describeEventSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventSource",
+  telemetry: TELEMETRY,
+  span: "DescribeEventSource",
 }));
 
 export type DescribePartnerEventSourceError =
@@ -1685,6 +1741,8 @@ export const describePartnerEventSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePartnerEventSource",
+  telemetry: TELEMETRY,
+  span: "DescribePartnerEventSource",
 }));
 
 export type DescribeReplayError = InternalException | ResourceNotFoundException | CommonErrors;
@@ -1711,6 +1769,8 @@ export const describeReplay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReplay",
+  telemetry: TELEMETRY,
+  span: "DescribeReplay",
 }));
 
 export type DescribeRuleError = InternalException | ResourceNotFoundException | CommonErrors;
@@ -1732,6 +1792,8 @@ export const describeRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRule",
+  telemetry: TELEMETRY,
+  span: "DescribeRule",
 }));
 
 export type DisableRuleError =
@@ -1764,6 +1826,8 @@ export const disableRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableRule",
+  telemetry: TELEMETRY,
+  span: "DisableRule",
 }));
 
 export type EnableRuleError =
@@ -1795,6 +1859,8 @@ export const enableRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableRule",
+  telemetry: TELEMETRY,
+  span: "EnableRule",
 }));
 
 export type ListApiDestinationsError = InternalException | CommonErrors;
@@ -1813,6 +1879,8 @@ export const listApiDestinations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListApiDestinations",
+  telemetry: TELEMETRY,
+  span: "ListApiDestinations",
 }));
 
 export type ListArchivesError = InternalException | ResourceNotFoundException | CommonErrors;
@@ -1832,6 +1900,8 @@ export const listArchives: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListArchives",
+  telemetry: TELEMETRY,
+  span: "ListArchives",
 }));
 
 export type ListConnectionsError = InternalException | CommonErrors;
@@ -1850,6 +1920,8 @@ export const listConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnections",
+  telemetry: TELEMETRY,
+  span: "ListConnections",
 }));
 
 export type ListEventBusesError = InternalException | CommonErrors;
@@ -1869,6 +1941,8 @@ export const listEventBuses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEventBuses",
+  telemetry: TELEMETRY,
+  span: "ListEventBuses",
 }));
 
 export type ListEventSourcesError = InternalException | OperationDisabledException | CommonErrors;
@@ -1888,6 +1962,8 @@ export const listEventSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEventSources",
+  telemetry: TELEMETRY,
+  span: "ListEventSources",
 }));
 
 export type ListPartnerEventSourceAccountsError =
@@ -1912,6 +1988,8 @@ export const listPartnerEventSourceAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPartnerEventSourceAccounts",
+  telemetry: TELEMETRY,
+  span: "ListPartnerEventSourceAccounts",
 }));
 
 export type ListPartnerEventSourcesError =
@@ -1934,6 +2012,8 @@ export const listPartnerEventSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPartnerEventSources",
+  telemetry: TELEMETRY,
+  span: "ListPartnerEventSources",
 }));
 
 export type ListReplaysError = InternalException | CommonErrors;
@@ -1953,6 +2033,8 @@ export const listReplays: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReplays",
+  telemetry: TELEMETRY,
+  span: "ListReplays",
 }));
 
 export type ListRuleNamesByTargetError =
@@ -1975,6 +2057,8 @@ export const listRuleNamesByTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRuleNamesByTarget",
+  telemetry: TELEMETRY,
+  span: "ListRuleNamesByTarget",
 }));
 
 export type ListRulesError = InternalException | ResourceNotFoundException | CommonErrors;
@@ -1997,6 +2081,8 @@ export const listRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRules",
+  telemetry: TELEMETRY,
+  span: "ListRules",
 }));
 
 export type ListTagsForResourceError = InternalException | ResourceNotFoundException | CommonErrors;
@@ -2016,6 +2102,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTargetsByRuleError = InternalException | ResourceNotFoundException | CommonErrors;
@@ -2034,6 +2122,8 @@ export const listTargetsByRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTargetsByRule",
+  telemetry: TELEMETRY,
+  span: "ListTargetsByRule",
 }));
 
 export type PutEventsError = InternalException | CommonErrors;
@@ -2052,6 +2142,14 @@ export const putEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvents",
+  telemetry: TELEMETRY,
+  span: {
+    op: "PutEvents",
+    kind: "producer",
+    attributes: { "messaging.operation.name": "send", "messaging.operation.type": "send" },
+    input: { Entries: [{ name: "messaging.batch.message_count", transform: "count" }] },
+    inject: TxXray.injectTraceHeader({ list: "Entries", member: "TraceHeader" }),
+  },
 }));
 
 export type PutPartnerEventsError = InternalException | OperationDisabledException | CommonErrors;
@@ -2071,6 +2169,8 @@ export const putPartnerEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPartnerEvents",
+  telemetry: TELEMETRY,
+  span: "PutPartnerEvents",
 }));
 
 export type PutPermissionError =
@@ -2121,6 +2221,8 @@ export const putPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPermission",
+  telemetry: TELEMETRY,
+  span: "PutPermission",
 }));
 
 export type PutRuleError =
@@ -2202,6 +2304,8 @@ export const putRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRule",
+  telemetry: TELEMETRY,
+  span: "PutRule",
 }));
 
 export type PutTargetsError =
@@ -2360,6 +2464,8 @@ export const putTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTargets",
+  telemetry: TELEMETRY,
+  span: "PutTargets",
 }));
 
 export type RemovePermissionError =
@@ -2391,6 +2497,8 @@ export const removePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
+  telemetry: TELEMETRY,
+  span: "RemovePermission",
 }));
 
 export type RemoveTargetsError =
@@ -2427,6 +2535,8 @@ export const removeTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTargets",
+  telemetry: TELEMETRY,
+  span: "RemoveTargets",
 }));
 
 export type StartReplayError =
@@ -2465,6 +2575,8 @@ export const startReplay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplay",
+  telemetry: TELEMETRY,
+  span: "StartReplay",
 }));
 
 export type TagResourceError =
@@ -2506,6 +2618,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TestEventPatternError = InternalException | InvalidEventPatternException | CommonErrors;
@@ -2529,6 +2643,8 @@ export const testEventPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestEventPattern",
+  telemetry: TELEMETRY,
+  span: "TestEventPattern",
 }));
 
 export type UntagResourceError =
@@ -2558,6 +2674,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateApiDestinationError =
@@ -2586,6 +2704,8 @@ export const updateApiDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiDestination",
+  telemetry: TELEMETRY,
+  span: "UpdateApiDestination",
 }));
 
 export type UpdateArchiveError =
@@ -2616,6 +2736,8 @@ export const updateArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateArchive",
+  telemetry: TELEMETRY,
+  span: "UpdateArchive",
 }));
 
 export type UpdateConnectionError =
@@ -2644,6 +2766,8 @@ export const updateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnection",
+  telemetry: TELEMETRY,
+  span: "UpdateConnection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://bedrock-agent.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BedrockAgent",
+  service: "BedrockAgent",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -4146,6 +4161,8 @@ export const associateAgentCollaborator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAgentCollaborator",
+  telemetry: TELEMETRY,
+  span: "AssociateAgentCollaborator",
 }));
 
 export type AssociateAgentKnowledgeBaseError =
@@ -4180,6 +4197,8 @@ export const associateAgentKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAgentKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "AssociateAgentKnowledgeBase",
 }));
 
 export type CreateAgentError =
@@ -4230,6 +4249,8 @@ export const createAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgent",
+  telemetry: TELEMETRY,
+  span: "CreateAgent",
 }));
 
 export type CreateAgentActionGroupError =
@@ -4270,6 +4291,8 @@ export const createAgentActionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentActionGroup",
+  telemetry: TELEMETRY,
+  span: "CreateAgentActionGroup",
 }));
 
 export type CreateAgentAliasError =
@@ -4304,6 +4327,8 @@ export const createAgentAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentAlias",
+  telemetry: TELEMETRY,
+  span: "CreateAgentAlias",
 }));
 
 export type CreateDataSourceError =
@@ -4340,6 +4365,8 @@ export const createDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
+  telemetry: TELEMETRY,
+  span: "CreateDataSource",
 }));
 
 export type CreateFlowError =
@@ -4372,6 +4399,8 @@ export const createFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlow",
+  telemetry: TELEMETRY,
+  span: "CreateFlow",
 }));
 
 export type CreateFlowAliasError =
@@ -4406,6 +4435,8 @@ export const createFlowAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlowAlias",
+  telemetry: TELEMETRY,
+  span: "CreateFlowAlias",
 }));
 
 export type CreateFlowVersionError =
@@ -4440,6 +4471,8 @@ export const createFlowVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlowVersion",
+  telemetry: TELEMETRY,
+  span: "CreateFlowVersion",
 }));
 
 export type CreateKnowledgeBaseError =
@@ -4492,6 +4525,8 @@ export const createKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "CreateKnowledgeBase",
 }));
 
 export type CreatePromptError =
@@ -4524,6 +4559,8 @@ export const createPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrompt",
+  telemetry: TELEMETRY,
+  span: "CreatePrompt",
 }));
 
 export type CreatePromptVersionError =
@@ -4558,6 +4595,8 @@ export const createPromptVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePromptVersion",
+  telemetry: TELEMETRY,
+  span: "CreatePromptVersion",
 }));
 
 export type CreateVpcConfigurationError =
@@ -4592,6 +4631,8 @@ export const createVpcConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateVpcConfiguration",
 }));
 
 export type DeleteAgentError =
@@ -4624,6 +4665,8 @@ export const deleteAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgent",
+  telemetry: TELEMETRY,
+  span: "DeleteAgent",
 }));
 
 export type DeleteAgentActionGroupError =
@@ -4656,6 +4699,8 @@ export const deleteAgentActionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentActionGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentActionGroup",
 }));
 
 export type DeleteAgentAliasError =
@@ -4686,6 +4731,8 @@ export const deleteAgentAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentAlias",
 }));
 
 export type DeleteAgentVersionError =
@@ -4718,6 +4765,8 @@ export const deleteAgentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteAgentVersion",
 }));
 
 export type DeleteDataSourceError =
@@ -4750,6 +4799,8 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteDataSource",
 }));
 
 export type DeleteFlowError =
@@ -4782,6 +4833,8 @@ export const deleteFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlow",
+  telemetry: TELEMETRY,
+  span: "DeleteFlow",
 }));
 
 export type DeleteFlowAliasError =
@@ -4814,6 +4867,8 @@ export const deleteFlowAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlowAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteFlowAlias",
 }));
 
 export type DeleteFlowVersionError =
@@ -4846,6 +4901,8 @@ export const deleteFlowVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlowVersion",
+  telemetry: TELEMETRY,
+  span: "DeleteFlowVersion",
 }));
 
 export type DeleteKnowledgeBaseError =
@@ -4878,6 +4935,8 @@ export const deleteKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "DeleteKnowledgeBase",
 }));
 
 export type DeleteKnowledgeBaseDocumentsError =
@@ -4910,6 +4969,8 @@ export const deleteKnowledgeBaseDocuments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKnowledgeBaseDocuments",
+  telemetry: TELEMETRY,
+  span: "DeleteKnowledgeBaseDocuments",
 }));
 
 export type DeletePromptError =
@@ -4942,6 +5003,8 @@ export const deletePrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrompt",
+  telemetry: TELEMETRY,
+  span: "DeletePrompt",
 }));
 
 export type DeleteResourcePolicyError =
@@ -4974,6 +5037,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DeleteVpcConfigurationError =
@@ -5006,6 +5071,8 @@ export const deleteVpcConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcConfiguration",
 }));
 
 export type DisassociateAgentCollaboratorError =
@@ -5038,6 +5105,8 @@ export const disassociateAgentCollaborator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAgentCollaborator",
+  telemetry: TELEMETRY,
+  span: "DisassociateAgentCollaborator",
 }));
 
 export type DisassociateAgentKnowledgeBaseError =
@@ -5070,6 +5139,8 @@ export const disassociateAgentKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAgentKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "DisassociateAgentKnowledgeBase",
 }));
 
 export type GetAgentError =
@@ -5100,6 +5171,8 @@ export const getAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgent",
+  telemetry: TELEMETRY,
+  span: "GetAgent",
 }));
 
 export type GetAgentActionGroupError =
@@ -5130,6 +5203,8 @@ export const getAgentActionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentActionGroup",
+  telemetry: TELEMETRY,
+  span: "GetAgentActionGroup",
 }));
 
 export type GetAgentAliasError =
@@ -5160,6 +5235,8 @@ export const getAgentAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentAlias",
+  telemetry: TELEMETRY,
+  span: "GetAgentAlias",
 }));
 
 export type GetAgentCollaboratorError =
@@ -5190,6 +5267,8 @@ export const getAgentCollaborator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentCollaborator",
+  telemetry: TELEMETRY,
+  span: "GetAgentCollaborator",
 }));
 
 export type GetAgentKnowledgeBaseError =
@@ -5220,6 +5299,8 @@ export const getAgentKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "GetAgentKnowledgeBase",
 }));
 
 export type GetAgentVersionError =
@@ -5250,6 +5331,8 @@ export const getAgentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentVersion",
+  telemetry: TELEMETRY,
+  span: "GetAgentVersion",
 }));
 
 export type GetDataSourceError =
@@ -5280,6 +5363,8 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
+  telemetry: TELEMETRY,
+  span: "GetDataSource",
 }));
 
 export type GetFlowError =
@@ -5310,6 +5395,8 @@ export const getFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlow",
+  telemetry: TELEMETRY,
+  span: "GetFlow",
 }));
 
 export type GetFlowAliasError =
@@ -5340,6 +5427,8 @@ export const getFlowAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlowAlias",
+  telemetry: TELEMETRY,
+  span: "GetFlowAlias",
 }));
 
 export type GetFlowVersionError =
@@ -5370,6 +5459,8 @@ export const getFlowVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlowVersion",
+  telemetry: TELEMETRY,
+  span: "GetFlowVersion",
 }));
 
 export type GetIngestionJobError =
@@ -5400,6 +5491,8 @@ export const getIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngestionJob",
+  telemetry: TELEMETRY,
+  span: "GetIngestionJob",
 }));
 
 export type GetKnowledgeBaseError =
@@ -5430,6 +5523,8 @@ export const getKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "GetKnowledgeBase",
 }));
 
 export type GetKnowledgeBaseDocumentsError =
@@ -5462,6 +5557,8 @@ export const getKnowledgeBaseDocuments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKnowledgeBaseDocuments",
+  telemetry: TELEMETRY,
+  span: "GetKnowledgeBaseDocuments",
 }));
 
 export type GetPromptError =
@@ -5492,6 +5589,8 @@ export const getPrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrompt",
+  telemetry: TELEMETRY,
+  span: "GetPrompt",
 }));
 
 export type GetResourcePolicyError =
@@ -5522,6 +5621,8 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "GetResourcePolicy",
 }));
 
 export type GetVpcConfigurationError =
@@ -5552,6 +5653,8 @@ export const getVpcConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetVpcConfiguration",
 }));
 
 export type IngestKnowledgeBaseDocumentsError =
@@ -5584,6 +5687,8 @@ export const ingestKnowledgeBaseDocuments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IngestKnowledgeBaseDocuments",
+  telemetry: TELEMETRY,
+  span: "IngestKnowledgeBaseDocuments",
 }));
 
 export type ListAgentActionGroupsError =
@@ -5621,6 +5726,8 @@ export const listAgentActionGroups: API.PaginatedOperationMethod<
     items: "actionGroupSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentActionGroups",
 })) as any;
 
 export type ListAgentAliasesError =
@@ -5658,6 +5765,8 @@ export const listAgentAliases: API.PaginatedOperationMethod<
     items: "agentAliasSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentAliases",
 })) as any;
 
 export type ListAgentCollaboratorsError =
@@ -5695,6 +5804,8 @@ export const listAgentCollaborators: API.PaginatedOperationMethod<
     items: "agentCollaboratorSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentCollaborators",
 })) as any;
 
 export type ListAgentKnowledgeBasesError =
@@ -5732,6 +5843,8 @@ export const listAgentKnowledgeBases: API.PaginatedOperationMethod<
     items: "agentKnowledgeBaseSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentKnowledgeBases",
 })) as any;
 
 export type ListAgentsError =
@@ -5767,6 +5880,8 @@ export const listAgents: API.PaginatedOperationMethod<
     items: "agentSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgents",
 })) as any;
 
 export type ListAgentVersionsError =
@@ -5804,6 +5919,8 @@ export const listAgentVersions: API.PaginatedOperationMethod<
     items: "agentVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAgentVersions",
 })) as any;
 
 export type ListDataSourcesError =
@@ -5841,6 +5958,8 @@ export const listDataSources: API.PaginatedOperationMethod<
     items: "dataSourceSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataSources",
 })) as any;
 
 export type ListFlowAliasesError =
@@ -5878,6 +5997,8 @@ export const listFlowAliases: API.PaginatedOperationMethod<
     items: "flowAliasSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlowAliases",
 })) as any;
 
 export type ListFlowsError =
@@ -5913,6 +6034,8 @@ export const listFlows: API.PaginatedOperationMethod<
     items: "flowSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlows",
 })) as any;
 
 export type ListFlowVersionsError =
@@ -5950,6 +6073,8 @@ export const listFlowVersions: API.PaginatedOperationMethod<
     items: "flowVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlowVersions",
 })) as any;
 
 export type ListIngestionJobsError =
@@ -5987,6 +6112,8 @@ export const listIngestionJobs: API.PaginatedOperationMethod<
     items: "ingestionJobSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListIngestionJobs",
 })) as any;
 
 export type ListKnowledgeBaseDocumentsError =
@@ -6026,6 +6153,8 @@ export const listKnowledgeBaseDocuments: API.PaginatedOperationMethod<
     items: "documentDetails",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKnowledgeBaseDocuments",
 })) as any;
 
 export type ListKnowledgeBasesError =
@@ -6061,6 +6190,8 @@ export const listKnowledgeBases: API.PaginatedOperationMethod<
     items: "knowledgeBaseSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKnowledgeBases",
 })) as any;
 
 export type ListPromptsError =
@@ -6098,6 +6229,8 @@ export const listPrompts: API.PaginatedOperationMethod<
     items: "promptSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPrompts",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -6128,6 +6261,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListVpcConfigurationsError =
@@ -6165,6 +6300,8 @@ export const listVpcConfigurations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVpcConfigurations",
 })) as any;
 
 export type PrepareAgentError =
@@ -6199,6 +6336,8 @@ export const prepareAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PrepareAgent",
+  telemetry: TELEMETRY,
+  span: "PrepareAgent",
 }));
 
 export type PrepareFlowError =
@@ -6233,6 +6372,8 @@ export const prepareFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PrepareFlow",
+  telemetry: TELEMETRY,
+  span: "PrepareFlow",
 }));
 
 export type PutResourcePolicyError =
@@ -6265,6 +6406,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type StartIngestionJobError =
@@ -6299,6 +6442,8 @@ export const startIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartIngestionJob",
+  telemetry: TELEMETRY,
+  span: "StartIngestionJob",
 }));
 
 export type StopIngestionJobError =
@@ -6331,6 +6476,8 @@ export const stopIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopIngestionJob",
+  telemetry: TELEMETRY,
+  span: "StopIngestionJob",
 }));
 
 export type TagResourceError =
@@ -6363,6 +6510,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -6393,6 +6542,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAgentError =
@@ -6427,6 +6578,8 @@ export const updateAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgent",
+  telemetry: TELEMETRY,
+  span: "UpdateAgent",
 }));
 
 export type UpdateAgentActionGroupError =
@@ -6461,6 +6614,8 @@ export const updateAgentActionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentActionGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentActionGroup",
 }));
 
 export type UpdateAgentAliasError =
@@ -6495,6 +6650,8 @@ export const updateAgentAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentAlias",
 }));
 
 export type UpdateAgentCollaboratorError =
@@ -6529,6 +6686,8 @@ export const updateAgentCollaborator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentCollaborator",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentCollaborator",
 }));
 
 export type UpdateAgentKnowledgeBaseError =
@@ -6561,6 +6720,8 @@ export const updateAgentKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "UpdateAgentKnowledgeBase",
 }));
 
 export type UpdateDataSourceError =
@@ -6595,6 +6756,8 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSource",
 }));
 
 export type UpdateFlowError =
@@ -6629,6 +6792,8 @@ export const updateFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlow",
+  telemetry: TELEMETRY,
+  span: "UpdateFlow",
 }));
 
 export type UpdateFlowAliasError =
@@ -6663,6 +6828,8 @@ export const updateFlowAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateFlowAlias",
 }));
 
 export type UpdateKnowledgeBaseError =
@@ -6705,6 +6872,8 @@ export const updateKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKnowledgeBase",
+  telemetry: TELEMETRY,
+  span: "UpdateKnowledgeBase",
 }));
 
 export type UpdatePromptError =
@@ -6739,6 +6908,8 @@ export const updatePrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrompt",
+  telemetry: TELEMETRY,
+  span: "UpdatePrompt",
 }));
 
 export type ValidateFlowDefinitionError =
@@ -6767,6 +6938,8 @@ export const validateFlowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateFlowDefinition",
+  telemetry: TELEMETRY,
+  span: "ValidateFlowDefinition",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

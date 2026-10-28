@@ -1,0 +1,348 @@
+import { stripTypeScriptTypes } from "node:module";
+import { describe, expect, test } from "vitest";
+import {
+  convertGraphQLClient,
+  generateGraphQLClient,
+  graphqlTypeString,
+  validateGraphQLModel,
+} from "../../src/codegen/graphql-client.ts";
+import { applyOperation } from "../../src/json-patch.ts";
+
+const named = (name: string, kind = "OBJECT") => ({ kind, name });
+const required = (ofType: object) => ({ kind: "NON_NULL", ofType });
+const field = (name: string, type: object, args: object[] = []) => ({
+  name,
+  type,
+  args,
+});
+
+const fixture = {
+  queryType: { name: "Query" },
+  mutationType: { name: "Mutation" },
+  types: [
+    { kind: "SCALAR", name: "String" },
+    { kind: "SCALAR", name: "Int" },
+    {
+      kind: "OBJECT",
+      name: "Query",
+      fields: [
+        field("project", required(named("Project")), [
+          { name: "id", type: required(named("String", "SCALAR")) },
+        ]),
+        field("me", required(named("User"))),
+        field("projects", required(named("ProjectConnection")), [
+          {
+            name: "first",
+            type: named("Int", "SCALAR"),
+          },
+        ]),
+      ],
+    },
+    {
+      kind: "OBJECT",
+      name: "Mutation",
+      fields: [
+        field("projectCreate", named("Project"), [
+          { name: "name", type: required(named("String", "SCALAR")) },
+        ]),
+      ],
+    },
+    {
+      kind: "OBJECT",
+      name: "Project",
+      fields: [
+        field("id", required(named("String", "SCALAR"))),
+        field("name", required(named("String", "SCALAR"))),
+      ],
+    },
+    {
+      kind: "OBJECT",
+      name: "User",
+      fields: [
+        field("email", required(named("String", "SCALAR"))),
+        field("name", named("String", "SCALAR")),
+        field("projects", required(named("ProjectConnection")), [
+          { name: "first", type: named("Int", "SCALAR") },
+        ]),
+      ],
+    },
+    {
+      kind: "OBJECT",
+      name: "ProjectConnection",
+      fields: [
+        field("edges", required({ kind: "LIST", ofType: named("ProjectEdge") })),
+        field("pageInfo", required(named("PageInfo"))),
+      ],
+    },
+    {
+      kind: "OBJECT",
+      name: "ProjectEdge",
+      fields: [
+        field("cursor", required(named("String", "SCALAR"))),
+        field("node", required(named("Project"))),
+      ],
+    },
+    {
+      kind: "OBJECT",
+      name: "PageInfo",
+      fields: [
+        field("endCursor", named("String", "SCALAR")),
+        field("hasNextPage", required(named("Boolean", "SCALAR"))),
+      ],
+    },
+    { kind: "SCALAR", name: "Boolean" },
+    { kind: "UNION", name: "SearchResult", possibleTypes: [named("Project"), named("User")] },
+  ],
+};
+
+const options = {
+  transportImport: "./transport.ts",
+  requirementsImport: "./transport.ts",
+  requirementsType: "Requirements",
+  sdkName: "Railway",
+};
+
+describe("GraphQL Query SDK generator", () => {
+  test("emits TypeMeta, interfaces, and named roots on the SDK object", () => {
+    const model = convertGraphQLClient(fixture);
+    const output = generateGraphQLClient(model, options);
+    expect(output).toContain("export interface Project");
+    expect(output).toContain("export interface User");
+    expect(output).toContain(
+      'export const Project: TypeMeta = { name: "Project", get fields() { return ProjectFields; } };',
+    );
+    expect(output).toContain("export const Railway = {");
+    expect(output).toContain('root("query", "me", User, undefined, undefined, globalErrors)');
+    expect(output).toContain('root("query", "project", Project');
+    expect(output).toContain('rootConnection("query", "projects", Project');
+    expect(output).toContain("Query<ReadonlyArray<Project>, RailwayGlobalError>");
+    expect(output).toContain('connectionField("projects", Project, { first: "Int" })');
+    expect(output).toContain('root("mutation", "projectCreate", Project');
+    // Nullable GraphQL types include null; non-null ones do not.
+    expect(output).toContain("readonly name: string | null;");
+    expect(output).toContain("readonly email: string;");
+    expect(output).toContain("Query<Project | null, RailwayGlobalError>");
+    expect(output).toContain("args?: { readonly first?: number | null }");
+    expect(output).toContain('from "@distilled.cloud/core/graphql"');
+    expect(() => stripTypeScriptTypes(output)).not.toThrow();
+  });
+
+  test("leaves out fields that return a root operation type", () => {
+    // GitHub's Relay-compat `Query.relay: Query!`: root types are not
+    // emitted, so the field has nothing to select.
+    const withRelay = {
+      ...fixture,
+      types: fixture.types.map((type) =>
+        type.name === "Query"
+          ? { ...type, fields: [...type.fields!, field("relay", required(named("Query")))] }
+          : type.name === "Project"
+            ? { ...type, fields: [...type.fields!, field("query", required(named("Query")))] }
+            : type,
+      ),
+    };
+    const output = generateGraphQLClient(convertGraphQLClient(withRelay), options);
+    expect(output).not.toContain('"relay"');
+    expect(output).not.toContain("readonly query: Query");
+    expect(output).not.toMatch(/\bquery: \w+Field\("query"/);
+    expect(output).toContain('root("query", "me", User');
+  });
+
+  test("declares every field table without top-level statements", () => {
+    const output = generateGraphQLClient(convertGraphQLClient(fixture), options);
+    const statements = output.split("\n").filter((line) => /^[\w$.]+\(/.test(line));
+    expect(statements).toEqual([]);
+    expect(output).toContain('const ProjectFields: TypeMeta["fields"] = {');
+    expect(output).toContain(
+      'export const SearchResult: TypeMeta = { name: "SearchResult", fields: { __typename: scalarField("__typename") } };',
+    );
+  });
+
+  test("names field tables apart from types and imports", () => {
+    const output = generateGraphQLClient(
+      convertGraphQLClient({
+        ...fixture,
+        types: [
+          ...fixture.types,
+          {
+            kind: "OBJECT",
+            name: "ProjectFields",
+            fields: [field("id", required(named("String", "SCALAR")))],
+          },
+          {
+            kind: "OBJECT",
+            name: "error",
+            fields: [field("message", required(named("String", "SCALAR")))],
+          },
+        ],
+      }),
+      options,
+    );
+    const declared = [...output.matchAll(/^(?:export )?(?:const|class) (\w+)/gm)].map(
+      ([, name]) => name,
+    );
+    expect(declared.filter((name, index) => declared.indexOf(name) !== index)).toEqual([]);
+    expect(declared).not.toContain("errorFields");
+    expect(output).toContain("get fields() { return ProjectFields_; }");
+    expect(output).toContain("get fields() { return ProjectFieldsFields; }");
+    expect(output).toContain("get fields() { return errorFields_; }");
+    expect(() => stripTypeScriptTypes(output)).not.toThrow();
+  });
+
+  test("keeps schema types named FieldMeta or Record apart from imports and generics", () => {
+    const output = generateGraphQLClient(
+      convertGraphQLClient({
+        ...fixture,
+        types: [
+          ...fixture.types,
+          ...["FieldMeta", "Record"].map((name) => ({
+            kind: "OBJECT",
+            name,
+            fields: [field("id", required(named("String", "SCALAR")))],
+          })),
+        ],
+      }),
+      options,
+    );
+    const imported = output
+      .match(/^import \{([^}]*)\} from "@distilled.cloud\/core\/graphql";/m)![1]!
+      .split(",")
+      .map((name) => name.replace("type ", "").trim());
+    const declared = [...output.matchAll(/^(?:export )?(?:const|class|interface) (\w+)/gm)].map(
+      ([, name]) => name!,
+    );
+    expect(declared).toContain("FieldMeta");
+    expect(declared).toContain("Record");
+    expect(declared.filter((name) => imported.includes(name))).toEqual([]);
+    expect(declared.filter((name) => new RegExp(`(?<![\\w.])${name}<`).test(output))).toEqual([]);
+  });
+
+  test("emits error classes and scopes them to roots", () => {
+    const model = convertGraphQLClient(fixture);
+    for (const operation of [
+      {
+        op: "add" as const,
+        path: "/errors/RailwayNotFound",
+        value: {
+          description: "Missing.",
+          category: "notFound",
+          matchers: [{ code: "NOT_FOUND" }],
+        },
+      },
+      {
+        op: "add" as const,
+        path: "/errors/RailwayRateLimited",
+        value: {
+          category: "throttling",
+          retryable: true,
+          matchers: [{ code: "RATE_LIMITED" }],
+        },
+      },
+      {
+        op: "add" as const,
+        path: "/globalErrors/-",
+        value: "RailwayRateLimited",
+      },
+      {
+        op: "add" as const,
+        path: "/types/Query/fields/project/errors/-",
+        value: "RailwayNotFound",
+      },
+    ])
+      applyOperation(model, operation);
+    const output = generateGraphQLClient(model, options);
+    expect(output).toContain(
+      'export class RailwayNotFound extends S.TaggedError<RailwayNotFound>()("RailwayNotFound", errorFields).pipe(Category.withNotFoundError) {}',
+    );
+    expect(output).toContain(
+      "Category.withThrottlingError, Category.withRetryable({ throttling: true })",
+    );
+    expect(output).toContain(
+      'errorSpec(RailwayRateLimited, "RailwayRateLimited", [{"code":"RATE_LIMITED"}], { retryable: true, global: true })',
+    );
+    expect(output).toContain("export type RailwayGlobalError = RailwayRateLimited;");
+    expect(output).toContain("Query<Project, RailwayNotFound | RailwayGlobalError>");
+    expect(output).toContain("[RailwayNotFoundSpec, ...globalErrors]");
+    expect(output).toContain("Query<User, RailwayGlobalError>");
+    expect(() => stripTypeScriptTypes(output)).not.toThrow();
+  });
+
+  test("rejects an error tag that collides with an import", () => {
+    const model = convertGraphQLClient(fixture);
+    applyOperation(model, { op: "add", path: "/errors/Category", value: { matchers: [] } });
+    expect(() => generateGraphQLClient(model, options)).toThrow(
+      "GraphQL error Category collides with Category",
+    );
+  });
+
+  test("types a field marked sensitive as Redacted", () => {
+    const model = convertGraphQLClient(fixture);
+    for (const operation of [
+      { op: "add" as const, path: "/types/User/fields/email/sensitive", value: true },
+      {
+        op: "add" as const,
+        path: "/types/Mutation/fields/tokenCreate",
+        value: { type: "String!", args: {}, errors: [], sensitive: true },
+      },
+    ])
+      applyOperation(model, operation);
+    const output = generateGraphQLClient(model, options);
+    expect(output).toContain('import type * as Redacted from "effect/Redacted";');
+    expect(output).toContain("readonly email: Redacted.Redacted<string>;");
+    expect(output).toContain('email: scalarField("email", { sensitive: true }),');
+    expect(output).toContain("readonly name: string | null;");
+    expect(output).toContain(
+      'tokenCreate: (): Query<Redacted.Redacted<string>, RailwayGlobalError> =>\n    rootLeaf("mutation", "tokenCreate", false, undefined, undefined, globalErrors, { sensitive: true }),',
+    );
+    expect(() => stripTypeScriptTypes(output)).not.toThrow();
+  });
+
+  test("leaves the Redacted import out when no field is sensitive", () => {
+    const output = generateGraphQLClient(convertGraphQLClient(fixture), options);
+    expect(output).not.toContain("Redacted");
+  });
+
+  test("rejects a sensitive mark on a field that is not a string", () => {
+    const model = convertGraphQLClient(fixture);
+    applyOperation(model, { op: "add", path: "/types/Query/fields/me/sensitive", value: true });
+    expect(() => validateGraphQLModel(model)).toThrow(
+      "Query.me: only string scalar fields can be sensitive",
+    );
+  });
+
+  test("rejects a sensitive mark on an argument or an input field", () => {
+    const argument = convertGraphQLClient(fixture);
+    applyOperation(argument, {
+      op: "add",
+      path: "/types/Query/fields/project/args/id/sensitive",
+      value: true,
+    });
+    expect(() => validateGraphQLModel(argument)).toThrow(
+      "Query.project(id): only output fields can be sensitive",
+    );
+    const input = convertGraphQLClient(fixture);
+    applyOperation(input, {
+      op: "add",
+      path: "/types/ProjectInput",
+      value: {
+        kind: "INPUT_OBJECT",
+        inputFields: { password: { type: "String!", sensitive: true } },
+      },
+    });
+    expect(() => validateGraphQLModel(input)).toThrow(
+      "ProjectInput.password: only output fields can be sensitive",
+    );
+  });
+
+  test("unknown coordinates fail validateGraphQLModel", () => {
+    const model = convertGraphQLClient(fixture);
+    applyOperation(model, {
+      op: "add",
+      path: "/types/Project/fields/id/errors/-",
+      value: "MissingError",
+    });
+    expect(() => validateGraphQLModel(model)).toThrow(
+      "Project.id: unknown GraphQL error MissingError",
+    );
+    expect(() => graphqlTypeString({ kind: "NON_NULL" })).toThrow("Incomplete GraphQL NON_NULL");
+  });
+});

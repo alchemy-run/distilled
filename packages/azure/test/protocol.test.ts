@@ -176,11 +176,12 @@ describe("request encoding", () => {
   });
 
   // `DELETE /{resourceId+}`: each value would delete something other than the account.
-  test("a greedy label with an empty or dot segment sends nothing", async () => {
+  test("a greedy label with an empty or dot segment fails with InvalidInput and sends nothing", async () => {
     const account = `/subscriptions/${subscriptionId}/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/acct`;
     for (const resourceId of [`${account}/../../../..`, `${account}/`, "/", ""]) {
       const { calls, layer } = fakeArm();
-      await expect(run(DeleteResourceById({ resourceId }), layer)).rejects.toThrow(/: resourceId$/);
+      const error = await runFlip(DeleteResourceById({ resourceId }), layer);
+      expect(error._tag).toBe("InvalidInput");
       expect(calls).toEqual([]);
     }
   });

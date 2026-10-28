@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { SlackOpError, SlackOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "slack-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "x-slack-req-id", name: "http.response.header.x-slack-req-id", transform: "list" },
+  ],
+  prefix: "Slack",
+  service: "Emoji",
+  propagate: "w3c",
+} as const;
+
 export interface ListEmojiRequest {
   /** Include a list of categories for Unicode emoji and the emoji in each category */
   include_categories?: boolean;
@@ -43,6 +56,8 @@ export const listEmoji: API.OperationMethod<
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEmoji",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

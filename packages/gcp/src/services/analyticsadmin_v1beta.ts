@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "analyticsadmin" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Analyticsadmin",
+  service: "analyticsadmin",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1251,6 +1270,8 @@ export const acknowledgeUserDataCollectionProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AcknowledgeUserDataCollectionProperties",
 }));
 
 export type ArchivePropertiesCustomDimensionsError =
@@ -1272,6 +1293,8 @@ export const archivePropertiesCustomDimensions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchivePropertiesCustomDimensions",
 }));
 
 export type ArchivePropertiesCustomMetricsError =
@@ -1293,6 +1316,8 @@ export const archivePropertiesCustomMetrics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ArchivePropertiesCustomMetrics",
 }));
 
 export type CreatePropertiesError =
@@ -1314,6 +1339,8 @@ export const createProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProperties",
 }));
 
 export type CreatePropertiesConversionEventsError =
@@ -1335,6 +1362,8 @@ export const createPropertiesConversionEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesConversionEvents",
 }));
 
 export type CreatePropertiesCustomDimensionsError =
@@ -1356,6 +1385,8 @@ export const createPropertiesCustomDimensions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesCustomDimensions",
 }));
 
 export type CreatePropertiesCustomMetricsError =
@@ -1377,6 +1408,8 @@ export const createPropertiesCustomMetrics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesCustomMetrics",
 }));
 
 export type CreatePropertiesDataStreamsError =
@@ -1398,6 +1431,8 @@ export const createPropertiesDataStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesDataStreams",
 }));
 
 export type CreatePropertiesDataStreamsMeasurementProtocolSecretsError =
@@ -1423,6 +1458,8 @@ export const createPropertiesDataStreamsMeasurementProtocolSecrets: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesDataStreamsMeasurementProtocolSecrets",
 }));
 
 export type CreatePropertiesFirebaseLinksError =
@@ -1444,6 +1481,8 @@ export const createPropertiesFirebaseLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesFirebaseLinks",
 }));
 
 export type CreatePropertiesGoogleAdsLinksError =
@@ -1465,6 +1504,8 @@ export const createPropertiesGoogleAdsLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesGoogleAdsLinks",
 }));
 
 export type CreatePropertiesKeyEventsError =
@@ -1486,6 +1527,8 @@ export const createPropertiesKeyEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePropertiesKeyEvents",
 }));
 
 export type DeleteAccountsError =
@@ -1507,6 +1550,8 @@ export const deleteAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAccounts",
 }));
 
 export type DeletePropertiesError =
@@ -1528,6 +1573,8 @@ export const deleteProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProperties",
 }));
 
 export type DeletePropertiesConversionEventsError =
@@ -1549,6 +1596,8 @@ export const deletePropertiesConversionEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesConversionEvents",
 }));
 
 export type DeletePropertiesDataStreamsError =
@@ -1570,6 +1619,8 @@ export const deletePropertiesDataStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesDataStreams",
 }));
 
 export type DeletePropertiesDataStreamsMeasurementProtocolSecretsError =
@@ -1595,6 +1646,8 @@ export const deletePropertiesDataStreamsMeasurementProtocolSecrets: API.Operatio
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesDataStreamsMeasurementProtocolSecrets",
 }));
 
 export type DeletePropertiesFirebaseLinksError =
@@ -1616,6 +1669,8 @@ export const deletePropertiesFirebaseLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesFirebaseLinks",
 }));
 
 export type DeletePropertiesGoogleAdsLinksError =
@@ -1637,6 +1692,8 @@ export const deletePropertiesGoogleAdsLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesGoogleAdsLinks",
 }));
 
 export type DeletePropertiesKeyEventsError =
@@ -1658,6 +1715,8 @@ export const deletePropertiesKeyEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePropertiesKeyEvents",
 }));
 
 export type GetAccountsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -1673,6 +1732,8 @@ export const getAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAccounts",
 }));
 
 export type GetDataRetentionSettingsPropertiesError =
@@ -1692,6 +1753,8 @@ export const getDataRetentionSettingsProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataRetentionSettingsProperties",
 }));
 
 export type GetDataSharingSettingsAccountsError =
@@ -1711,6 +1774,8 @@ export const getDataSharingSettingsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDataSharingSettingsAccounts",
 }));
 
 export type GetPropertiesError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -1726,6 +1791,8 @@ export const getProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProperties",
 }));
 
 export type GetPropertiesConversionEventsError =
@@ -1745,6 +1812,8 @@ export const getPropertiesConversionEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesConversionEvents",
 }));
 
 export type GetPropertiesCustomDimensionsError =
@@ -1764,6 +1833,8 @@ export const getPropertiesCustomDimensions: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesCustomDimensions",
 }));
 
 export type GetPropertiesCustomMetricsError =
@@ -1783,6 +1854,8 @@ export const getPropertiesCustomMetrics: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesCustomMetrics",
 }));
 
 export type GetPropertiesDataStreamsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -1798,6 +1871,8 @@ export const getPropertiesDataStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesDataStreams",
 }));
 
 export type GetPropertiesDataStreamsMeasurementProtocolSecretsError =
@@ -1821,6 +1896,8 @@ export const getPropertiesDataStreamsMeasurementProtocolSecrets: API.OperationMe
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesDataStreamsMeasurementProtocolSecrets",
 }));
 
 export type GetPropertiesKeyEventsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -1836,6 +1913,8 @@ export const getPropertiesKeyEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPropertiesKeyEvents",
 }));
 
 export type ListAccountsError = NotFound | Forbidden | InsufficientScopes | GcpOpError;
@@ -1852,6 +1931,8 @@ export const listAccounts: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccounts",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1873,6 +1954,8 @@ export const listAccountSummaries: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAccountSummaries",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1890,6 +1973,8 @@ export const listProperties: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProperties",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1915,6 +2000,8 @@ export const listPropertiesConversionEvents: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesConversionEvents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1940,6 +2027,8 @@ export const listPropertiesCustomDimensions: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesCustomDimensions",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1965,6 +2054,8 @@ export const listPropertiesCustomMetrics: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesCustomMetrics",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1982,6 +2073,8 @@ export const listPropertiesDataStreams: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesDataStreams",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2011,6 +2104,8 @@ export const listPropertiesDataStreamsMeasurementProtocolSecrets: API.PaginatedO
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesDataStreamsMeasurementProtocolSecrets",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2036,6 +2131,8 @@ export const listPropertiesFirebaseLinks: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesFirebaseLinks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2061,6 +2158,8 @@ export const listPropertiesGoogleAdsLinks: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesGoogleAdsLinks",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2078,6 +2177,8 @@ export const listPropertiesKeyEvents: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPropertiesKeyEvents",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2100,6 +2201,8 @@ export const patchAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchAccounts",
 }));
 
 export type PatchPropertiesError =
@@ -2121,6 +2224,8 @@ export const patchProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchProperties",
 }));
 
 export type PatchPropertiesConversionEventsError =
@@ -2142,6 +2247,8 @@ export const patchPropertiesConversionEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesConversionEvents",
 }));
 
 export type PatchPropertiesCustomDimensionsError =
@@ -2163,6 +2270,8 @@ export const patchPropertiesCustomDimensions: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesCustomDimensions",
 }));
 
 export type PatchPropertiesCustomMetricsError =
@@ -2184,6 +2293,8 @@ export const patchPropertiesCustomMetrics: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesCustomMetrics",
 }));
 
 export type PatchPropertiesDataStreamsError =
@@ -2205,6 +2316,8 @@ export const patchPropertiesDataStreams: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesDataStreams",
 }));
 
 export type PatchPropertiesDataStreamsMeasurementProtocolSecretsError =
@@ -2230,6 +2343,8 @@ export const patchPropertiesDataStreamsMeasurementProtocolSecrets: API.Operation
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesDataStreamsMeasurementProtocolSecrets",
 }));
 
 export type PatchPropertiesGoogleAdsLinksError =
@@ -2251,6 +2366,8 @@ export const patchPropertiesGoogleAdsLinks: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesGoogleAdsLinks",
 }));
 
 export type PatchPropertiesKeyEventsError =
@@ -2272,6 +2389,8 @@ export const patchPropertiesKeyEvents: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPropertiesKeyEvents",
 }));
 
 export type ProvisionAccountTicketAccountsError =
@@ -2297,6 +2416,8 @@ export const provisionAccountTicketAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProvisionAccountTicketAccounts",
 }));
 
 export type RunAccessReportAccountsError =
@@ -2322,6 +2443,8 @@ export const runAccessReportAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunAccessReportAccounts",
 }));
 
 export type RunAccessReportPropertiesError =
@@ -2347,6 +2470,8 @@ export const runAccessReportProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RunAccessReportProperties",
 }));
 
 export type SearchChangeHistoryEventsAccountsError =
@@ -2372,6 +2497,8 @@ export const searchChangeHistoryEventsAccounts: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchChangeHistoryEventsAccounts",
 }));
 
 export type UpdateDataRetentionSettingsPropertiesError =
@@ -2393,6 +2520,8 @@ export const updateDataRetentionSettingsProperties: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, InsufficientScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateDataRetentionSettingsProperties",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

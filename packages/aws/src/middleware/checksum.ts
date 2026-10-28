@@ -1,10 +1,11 @@
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
+// `#crc32`, `#md5`, `#utf8`: Node builds and browser builds differ (package.json `imports`).
+import { getCrc32ChecksumAlgorithmFunction } from "#crc32";
+import { getMd5ChecksumAlgorithmFunction } from "#md5";
+import { toUint8Array } from "#utf8";
 import type { Request as ProtocolRequest } from "../client/request.ts";
 import type { Checksum } from "../hash/checksum.ts";
-import { getCrc32ChecksumAlgorithmFunction } from "../hash/crc32.ts";
-import { getMd5ChecksumAlgorithmFunction } from "../hash/md5.ts";
-import { toUint8Array } from "../hash/utf8.ts";
 import { getAwsProtocolsHttpChecksum } from "../traits.ts";
 import { toBase64 } from "../util/base64.ts";
 import { createBufferedReadableStream } from "../util/stream.ts";
@@ -176,8 +177,10 @@ export function createAwsChunkedStream(
 
       controller.enqueue(combined);
     },
-    cancel() {
-      reader.cancel();
+    // A source that already errored rejects `cancel()`; releasing it is best
+    // effort, as in Effect's `Stream.fromReadableStream`.
+    cancel(reason) {
+      return reader.cancel(reason).catch(() => {});
     },
   });
 }

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type * as stream from "effect/Stream";
@@ -78,6 +79,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://bedrock-agentcore.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "BedrockAgentCore",
+  service: "BedrockAgentCore",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -3279,6 +3294,8 @@ export const batchCreateMemoryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateMemoryRecords",
+  telemetry: TELEMETRY,
+  span: "BatchCreateMemoryRecords",
 }));
 
 export type BatchDeleteMemoryRecordsError =
@@ -3311,6 +3328,8 @@ export const batchDeleteMemoryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteMemoryRecords",
+  telemetry: TELEMETRY,
+  span: "BatchDeleteMemoryRecords",
 }));
 
 export type BatchUpdateMemoryRecordsError =
@@ -3343,6 +3362,8 @@ export const batchUpdateMemoryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateMemoryRecords",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateMemoryRecords",
 }));
 
 export type CompleteResourceTokenAuthError =
@@ -3375,6 +3396,8 @@ export const completeResourceTokenAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteResourceTokenAuth",
+  telemetry: TELEMETRY,
+  span: "CompleteResourceTokenAuth",
 }));
 
 export type CreateABTestError =
@@ -3409,6 +3432,8 @@ export const createABTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateABTest",
+  telemetry: TELEMETRY,
+  span: "CreateABTest",
 }));
 
 export type CreateEventError =
@@ -3449,6 +3474,8 @@ export const createEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEvent",
+  telemetry: TELEMETRY,
+  span: "CreateEvent",
 }));
 
 export type CreatePaymentInstrumentError =
@@ -3485,6 +3512,8 @@ export const createPaymentInstrument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentInstrument",
+  telemetry: TELEMETRY,
+  span: "CreatePaymentInstrument",
 }));
 
 export type CreatePaymentSessionError =
@@ -3519,6 +3548,8 @@ export const createPaymentSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentSession",
+  telemetry: TELEMETRY,
+  span: "CreatePaymentSession",
 }));
 
 export type DeleteABTestError =
@@ -3553,6 +3584,8 @@ export const deleteABTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteABTest",
+  telemetry: TELEMETRY,
+  span: "DeleteABTest",
 }));
 
 export type DeleteBatchEvaluationError =
@@ -3587,6 +3620,8 @@ export const deleteBatchEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBatchEvaluation",
+  telemetry: TELEMETRY,
+  span: "DeleteBatchEvaluation",
 }));
 
 export type DeleteCapacityProviderSessionError =
@@ -3617,6 +3652,8 @@ export const deleteCapacityProviderSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityProviderSession",
+  telemetry: TELEMETRY,
+  span: "DeleteCapacityProviderSession",
 }));
 
 export type DeleteEventError =
@@ -3653,6 +3690,8 @@ export const deleteEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvent",
+  telemetry: TELEMETRY,
+  span: "DeleteEvent",
 }));
 
 export type DeleteMemoryRecordError =
@@ -3689,6 +3728,8 @@ export const deleteMemoryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMemoryRecord",
+  telemetry: TELEMETRY,
+  span: "DeleteMemoryRecord",
 }));
 
 export type DeletePaymentInstrumentError =
@@ -3719,6 +3760,8 @@ export const deletePaymentInstrument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentInstrument",
+  telemetry: TELEMETRY,
+  span: "DeletePaymentInstrument",
 }));
 
 export type DeletePaymentSessionError =
@@ -3749,6 +3792,8 @@ export const deletePaymentSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentSession",
+  telemetry: TELEMETRY,
+  span: "DeletePaymentSession",
 }));
 
 export type DeleteRecommendationError =
@@ -3781,6 +3826,8 @@ export const deleteRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommendation",
+  telemetry: TELEMETRY,
+  span: "DeleteRecommendation",
 }));
 
 export type EvaluateError =
@@ -3819,6 +3866,8 @@ export const evaluate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Evaluate",
+  telemetry: TELEMETRY,
+  span: "Evaluate",
 }));
 
 export type GetABTestError =
@@ -3851,6 +3900,8 @@ export const getABTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetABTest",
+  telemetry: TELEMETRY,
+  span: "GetABTest",
 }));
 
 export type GetAgentCardError =
@@ -3887,6 +3938,8 @@ export const getAgentCard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentCard",
+  telemetry: TELEMETRY,
+  span: "GetAgentCard",
 }));
 
 export type GetBatchEvaluationError =
@@ -3919,6 +3972,8 @@ export const getBatchEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBatchEvaluation",
+  telemetry: TELEMETRY,
+  span: "GetBatchEvaluation",
 }));
 
 export type GetBrowserSessionError =
@@ -3959,6 +4014,8 @@ export const getBrowserSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrowserSession",
+  telemetry: TELEMETRY,
+  span: "GetBrowserSession",
 }));
 
 export type GetCodeInterpreterSessionError =
@@ -3999,6 +4056,8 @@ export const getCodeInterpreterSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeInterpreterSession",
+  telemetry: TELEMETRY,
+  span: "GetCodeInterpreterSession",
 }));
 
 export type GetEventError =
@@ -4035,6 +4094,8 @@ export const getEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvent",
+  telemetry: TELEMETRY,
+  span: "GetEvent",
 }));
 
 export type GetMemoryRecordError =
@@ -4071,6 +4132,8 @@ export const getMemoryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMemoryRecord",
+  telemetry: TELEMETRY,
+  span: "GetMemoryRecord",
 }));
 
 export type GetPaymentInstrumentError =
@@ -4101,6 +4164,8 @@ export const getPaymentInstrument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentInstrument",
+  telemetry: TELEMETRY,
+  span: "GetPaymentInstrument",
 }));
 
 export type GetPaymentInstrumentBalanceError =
@@ -4131,6 +4196,8 @@ export const getPaymentInstrumentBalance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentInstrumentBalance",
+  telemetry: TELEMETRY,
+  span: "GetPaymentInstrumentBalance",
 }));
 
 export type GetPaymentSessionError =
@@ -4161,6 +4228,8 @@ export const getPaymentSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentSession",
+  telemetry: TELEMETRY,
+  span: "GetPaymentSession",
 }));
 
 export type GetRecommendationError =
@@ -4191,6 +4260,8 @@ export const getRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendation",
+  telemetry: TELEMETRY,
+  span: "GetRecommendation",
 }));
 
 export type GetResourceApiKeyError =
@@ -4223,6 +4294,8 @@ export const getResourceApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceApiKey",
+  telemetry: TELEMETRY,
+  span: "GetResourceApiKey",
 }));
 
 export type GetResourceOauth2TokenError =
@@ -4255,6 +4328,8 @@ export const getResourceOauth2Token: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceOauth2Token",
+  telemetry: TELEMETRY,
+  span: "GetResourceOauth2Token",
 }));
 
 export type GetResourcePaymentTokenError =
@@ -4287,6 +4362,8 @@ export const getResourcePaymentToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePaymentToken",
+  telemetry: TELEMETRY,
+  span: "GetResourcePaymentToken",
 }));
 
 export type GetWorkloadAccessTokenError =
@@ -4319,6 +4396,8 @@ export const getWorkloadAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadAccessToken",
+  telemetry: TELEMETRY,
+  span: "GetWorkloadAccessToken",
 }));
 
 export type GetWorkloadAccessTokenForJWTError =
@@ -4351,6 +4430,8 @@ export const getWorkloadAccessTokenForJWT: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadAccessTokenForJWT",
+  telemetry: TELEMETRY,
+  span: "GetWorkloadAccessTokenForJWT",
 }));
 
 export type GetWorkloadAccessTokenForUserIdError =
@@ -4383,6 +4464,8 @@ export const getWorkloadAccessTokenForUserId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadAccessTokenForUserId",
+  telemetry: TELEMETRY,
+  span: "GetWorkloadAccessTokenForUserId",
 }));
 
 export type IngestDataError =
@@ -4417,6 +4500,8 @@ export const ingestData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IngestData",
+  telemetry: TELEMETRY,
+  span: "IngestData",
 }));
 
 export type InvokeAgentRuntimeError =
@@ -4463,6 +4548,8 @@ export const invokeAgentRuntime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeAgentRuntime",
+  telemetry: TELEMETRY,
+  span: "InvokeAgentRuntime",
 }));
 
 export type InvokeAgentRuntimeCommandError =
@@ -4503,6 +4590,8 @@ export const invokeAgentRuntimeCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeAgentRuntimeCommand",
+  telemetry: TELEMETRY,
+  span: "InvokeAgentRuntimeCommand",
 }));
 
 export type InvokeBrowserError =
@@ -4545,6 +4634,8 @@ export const invokeBrowser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeBrowser",
+  telemetry: TELEMETRY,
+  span: "InvokeBrowser",
 }));
 
 export type InvokeCodeInterpreterError =
@@ -4589,6 +4680,8 @@ export const invokeCodeInterpreter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeCodeInterpreter",
+  telemetry: TELEMETRY,
+  span: "InvokeCodeInterpreter",
 }));
 
 export type InvokeHarnessError =
@@ -4623,6 +4716,8 @@ export const invokeHarness: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeHarness",
+  telemetry: TELEMETRY,
+  span: "InvokeHarness",
 }));
 
 export type ListABTestsError =
@@ -4660,6 +4755,8 @@ export const listABTests: API.PaginatedOperationMethod<
     items: "abTests",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListABTests",
 })) as any;
 
 export type ListActorsError =
@@ -4703,6 +4800,8 @@ export const listActors: API.PaginatedOperationMethod<
     items: "actorSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActors",
 })) as any;
 
 export type ListBatchEvaluationsError =
@@ -4740,6 +4839,8 @@ export const listBatchEvaluations: API.PaginatedOperationMethod<
     items: "batchEvaluations",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBatchEvaluations",
 })) as any;
 
 export type ListBrowserSessionsError =
@@ -4780,6 +4881,8 @@ export const listBrowserSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBrowserSessions",
+  telemetry: TELEMETRY,
+  span: "ListBrowserSessions",
 }));
 
 export type ListCodeInterpreterSessionsError =
@@ -4820,6 +4923,8 @@ export const listCodeInterpreterSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeInterpreterSessions",
+  telemetry: TELEMETRY,
+  span: "ListCodeInterpreterSessions",
 }));
 
 export type ListEventsError =
@@ -4863,6 +4968,8 @@ export const listEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEvents",
 })) as any;
 
 export type ListMemoryExtractionJobsError =
@@ -4904,6 +5011,8 @@ export const listMemoryExtractionJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMemoryExtractionJobs",
 })) as any;
 
 export type ListMemoryRecordsError =
@@ -4947,6 +5056,8 @@ export const listMemoryRecords: API.PaginatedOperationMethod<
     items: "memoryRecordSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListMemoryRecords",
 })) as any;
 
 export type ListPaymentInstrumentsError =
@@ -4982,6 +5093,8 @@ export const listPaymentInstruments: API.PaginatedOperationMethod<
     items: "paymentInstruments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPaymentInstruments",
 })) as any;
 
 export type ListPaymentSessionsError =
@@ -5017,6 +5130,8 @@ export const listPaymentSessions: API.PaginatedOperationMethod<
     items: "paymentSessions",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPaymentSessions",
 })) as any;
 
 export type ListRecommendationsError =
@@ -5052,6 +5167,8 @@ export const listRecommendations: API.PaginatedOperationMethod<
     items: "recommendationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecommendations",
 })) as any;
 
 export type ListSessionsError =
@@ -5097,6 +5214,8 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ProcessPaymentError =
@@ -5133,6 +5252,8 @@ export const processPayment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProcessPayment",
+  telemetry: TELEMETRY,
+  span: "ProcessPayment",
 }));
 
 export type RetrieveMemoryRecordsError =
@@ -5176,6 +5297,8 @@ export const retrieveMemoryRecords: API.PaginatedOperationMethod<
     items: "memoryRecordSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "RetrieveMemoryRecords",
 })) as any;
 
 export type SaveBrowserSessionProfileError =
@@ -5218,6 +5341,8 @@ export const saveBrowserSessionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SaveBrowserSessionProfile",
+  telemetry: TELEMETRY,
+  span: "SaveBrowserSessionProfile",
 }));
 
 export type SearchRegistryRecordsError =
@@ -5250,6 +5375,8 @@ export const searchRegistryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchRegistryRecords",
+  telemetry: TELEMETRY,
+  span: "SearchRegistryRecords",
 }));
 
 export type StartBatchEvaluationError =
@@ -5284,6 +5411,8 @@ export const startBatchEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBatchEvaluation",
+  telemetry: TELEMETRY,
+  span: "StartBatchEvaluation",
 }));
 
 export type StartBrowserSessionError =
@@ -5332,6 +5461,8 @@ export const startBrowserSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBrowserSession",
+  telemetry: TELEMETRY,
+  span: "StartBrowserSession",
 }));
 
 export type StartCodeInterpreterSessionError =
@@ -5376,6 +5507,8 @@ export const startCodeInterpreterSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodeInterpreterSession",
+  telemetry: TELEMETRY,
+  span: "StartCodeInterpreterSession",
 }));
 
 export type StartMemoryExtractionJobError =
@@ -5410,6 +5543,8 @@ export const startMemoryExtractionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMemoryExtractionJob",
+  telemetry: TELEMETRY,
+  span: "StartMemoryExtractionJob",
 }));
 
 export type StartRecommendationError =
@@ -5442,6 +5577,8 @@ export const startRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommendation",
+  telemetry: TELEMETRY,
+  span: "StartRecommendation",
 }));
 
 export type StopBatchEvaluationError =
@@ -5476,6 +5613,8 @@ export const stopBatchEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBatchEvaluation",
+  telemetry: TELEMETRY,
+  span: "StopBatchEvaluation",
 }));
 
 export type StopBrowserSessionError =
@@ -5518,6 +5657,8 @@ export const stopBrowserSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBrowserSession",
+  telemetry: TELEMETRY,
+  span: "StopBrowserSession",
 }));
 
 export type StopCodeInterpreterSessionError =
@@ -5560,6 +5701,8 @@ export const stopCodeInterpreterSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCodeInterpreterSession",
+  telemetry: TELEMETRY,
+  span: "StopCodeInterpreterSession",
 }));
 
 export type StopRuntimeSessionError =
@@ -5600,6 +5743,8 @@ export const stopRuntimeSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRuntimeSession",
+  telemetry: TELEMETRY,
+  span: "StopRuntimeSession",
 }));
 
 export type UpdateABTestError =
@@ -5636,6 +5781,8 @@ export const updateABTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateABTest",
+  telemetry: TELEMETRY,
+  span: "UpdateABTest",
 }));
 
 export type UpdateBrowserStreamError =
@@ -5670,6 +5817,8 @@ export const updateBrowserStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrowserStream",
+  telemetry: TELEMETRY,
+  span: "UpdateBrowserStream",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

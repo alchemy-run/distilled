@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "cloudidentity" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Cloudidentity",
+  service: "cloudidentity",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1566,6 +1585,8 @@ export const addInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AddInboundSamlSsoProfilesIdpCredentials",
 }));
 
 export type ApproveDevicesDeviceUsersError =
@@ -1596,6 +1617,8 @@ export const approveDevicesDeviceUsers: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveDevicesDeviceUsers",
 }));
 
 export type BlockDevicesDeviceUsersError =
@@ -1626,6 +1649,8 @@ export const blockDevicesDeviceUsers: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BlockDevicesDeviceUsers",
 }));
 
 export type CancelCustomersUserinvitationsError =
@@ -1656,6 +1681,8 @@ export const cancelCustomersUserinvitations: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelCustomersUserinvitations",
 }));
 
 export type CancelWipeDevicesError =
@@ -1686,6 +1713,8 @@ export const cancelWipeDevices: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelWipeDevices",
 }));
 
 export type CancelWipeDevicesDeviceUsersError =
@@ -1716,6 +1745,8 @@ export const cancelWipeDevicesDeviceUsers: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelWipeDevicesDeviceUsers",
 }));
 
 export type CheckTransitiveMembershipGroupsMembershipsError =
@@ -1736,6 +1767,8 @@ export const checkTransitiveMembershipGroupsMemberships: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckTransitiveMembershipGroupsMemberships",
 }));
 
 export type CreateAllowlistedDomainsError =
@@ -1766,6 +1799,8 @@ export const createAllowlistedDomains: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAllowlistedDomains",
 }));
 
 export type CreateDevicesError =
@@ -1796,6 +1831,8 @@ export const createDevices: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateDevices",
 }));
 
 export type CreateGroupsError =
@@ -1826,6 +1863,8 @@ export const createGroups: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroups",
 }));
 
 export type CreateGroupsMembershipsError =
@@ -1856,6 +1895,8 @@ export const createGroupsMemberships: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateGroupsMemberships",
 }));
 
 export type CreateInboundOidcSsoProfilesError =
@@ -1886,6 +1927,8 @@ export const createInboundOidcSsoProfiles: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInboundOidcSsoProfiles",
 }));
 
 export type CreateInboundSamlSsoProfilesError =
@@ -1916,6 +1959,8 @@ export const createInboundSamlSsoProfiles: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInboundSamlSsoProfiles",
 }));
 
 export type CreateInboundSsoAssignmentsError =
@@ -1946,6 +1991,8 @@ export const createInboundSsoAssignments: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateInboundSsoAssignments",
 }));
 
 export type CreatePoliciesError =
@@ -1976,6 +2023,8 @@ export const createPolicies: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePolicies",
 }));
 
 export type DeleteAllowlistedDomainsError =
@@ -2006,6 +2055,8 @@ export const deleteAllowlistedDomains: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAllowlistedDomains",
 }));
 
 export type DeleteDevicesError =
@@ -2036,6 +2087,8 @@ export const deleteDevices: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDevices",
 }));
 
 export type DeleteDevicesDeviceUsersError =
@@ -2066,6 +2119,8 @@ export const deleteDevicesDeviceUsers: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteDevicesDeviceUsers",
 }));
 
 export type DeleteGroupsError =
@@ -2096,6 +2151,8 @@ export const deleteGroups: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroups",
 }));
 
 export type DeleteGroupsMembershipsError =
@@ -2126,6 +2183,8 @@ export const deleteGroupsMemberships: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteGroupsMemberships",
 }));
 
 export type DeleteInboundOidcSsoProfilesError =
@@ -2156,6 +2215,8 @@ export const deleteInboundOidcSsoProfiles: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInboundOidcSsoProfiles",
 }));
 
 export type DeleteInboundSamlSsoProfilesError =
@@ -2186,6 +2247,8 @@ export const deleteInboundSamlSsoProfiles: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInboundSamlSsoProfiles",
 }));
 
 export type DeleteInboundSamlSsoProfilesIdpCredentialsError =
@@ -2216,6 +2279,8 @@ export const deleteInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInboundSamlSsoProfilesIdpCredentials",
 }));
 
 export type DeleteInboundSsoAssignmentsError =
@@ -2246,6 +2311,8 @@ export const deleteInboundSsoAssignments: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteInboundSsoAssignments",
 }));
 
 export type DeletePoliciesError =
@@ -2276,6 +2343,8 @@ export const deletePolicies: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeletePolicies",
 }));
 
 export type GetAllowlistedDomainsError =
@@ -2296,6 +2365,8 @@ export const getAllowlistedDomains: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAllowlistedDomains",
 }));
 
 export type GetCustomersUserinvitationsError =
@@ -2316,6 +2387,8 @@ export const getCustomersUserinvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCustomersUserinvitations",
 }));
 
 export type GetDevicesError =
@@ -2336,6 +2409,8 @@ export const getDevices: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevices",
 }));
 
 export type GetDevicesDeviceUsersError =
@@ -2356,6 +2431,8 @@ export const getDevicesDeviceUsers: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevicesDeviceUsers",
 }));
 
 export type GetDevicesDeviceUsersClientStatesError =
@@ -2376,6 +2453,8 @@ export const getDevicesDeviceUsersClientStates: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDevicesDeviceUsersClientStates",
 }));
 
 export type GetGroupsError =
@@ -2392,6 +2471,8 @@ export const getGroups: API.OperationMethod<GetGroupsRequest, Group, GetGroupsEr
     errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetGroups",
   }));
 
 export type GetGroupsMembershipsError =
@@ -2412,6 +2493,8 @@ export const getGroupsMemberships: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGroupsMemberships",
 }));
 
 export type GetInboundOidcSsoProfilesError =
@@ -2432,6 +2515,8 @@ export const getInboundOidcSsoProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInboundOidcSsoProfiles",
 }));
 
 export type GetInboundSamlSsoProfilesError =
@@ -2452,6 +2537,8 @@ export const getInboundSamlSsoProfiles: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInboundSamlSsoProfiles",
 }));
 
 export type GetInboundSamlSsoProfilesIdpCredentialsError =
@@ -2472,6 +2559,8 @@ export const getInboundSamlSsoProfilesIdpCredentials: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInboundSamlSsoProfilesIdpCredentials",
 }));
 
 export type GetInboundSsoAssignmentsError =
@@ -2492,6 +2581,8 @@ export const getInboundSsoAssignments: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetInboundSsoAssignments",
 }));
 
 export type GetMembershipGraphGroupsMembershipsError =
@@ -2512,6 +2603,8 @@ export const getMembershipGraphGroupsMemberships: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMembershipGraphGroupsMemberships",
 }));
 
 export type GetPoliciesError =
@@ -2532,6 +2625,8 @@ export const getPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPolicies",
 }));
 
 export type GetSecuritySettingsGroupsError =
@@ -2552,6 +2647,8 @@ export const getSecuritySettingsGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecuritySettingsGroups",
 }));
 
 export type IsInvitableUserCustomersUserinvitationsError =
@@ -2572,6 +2669,8 @@ export const isInvitableUserCustomersUserinvitations: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "IsInvitableUserCustomersUserinvitations",
 }));
 
 export type ListAllowlistedDomainsError =
@@ -2593,6 +2692,8 @@ export const listAllowlistedDomains: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAllowlistedDomains",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2615,6 +2716,8 @@ export const listCustomersUserinvitations: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCustomersUserinvitations",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2641,6 +2744,8 @@ export const listDevices: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDevices",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2667,6 +2772,8 @@ export const listDevicesDeviceUsers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDevicesDeviceUsers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2693,6 +2800,8 @@ export const listDevicesDeviceUsersClientStates: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDevicesDeviceUsersClientStates",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2715,6 +2824,8 @@ export const listGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2737,6 +2848,8 @@ export const listGroupsMemberships: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListGroupsMemberships",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2759,6 +2872,8 @@ export const listInboundOidcSsoProfiles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInboundOidcSsoProfiles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2781,6 +2896,8 @@ export const listInboundSamlSsoProfiles: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInboundSamlSsoProfiles",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2803,6 +2920,8 @@ export const listInboundSamlSsoProfilesIdpCredentials: API.PaginatedOperationMet
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInboundSamlSsoProfilesIdpCredentials",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2825,6 +2944,8 @@ export const listInboundSsoAssignments: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListInboundSsoAssignments",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2847,6 +2968,8 @@ export const listPolicies: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPolicies",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2873,6 +2996,8 @@ export const lookupDevicesDeviceUsers: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupDevicesDeviceUsers",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2894,6 +3019,8 @@ export const lookupGroups: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupGroups",
 }));
 
 export type LookupGroupsMembershipsError =
@@ -2914,6 +3041,8 @@ export const lookupGroupsMemberships: API.OperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LookupGroupsMemberships",
 }));
 
 export type ModifyMembershipRolesGroupsMembershipsError =
@@ -2944,6 +3073,8 @@ export const modifyMembershipRolesGroupsMemberships: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ModifyMembershipRolesGroupsMemberships",
 }));
 
 export type PatchDevicesDeviceUsersClientStatesError =
@@ -2974,6 +3105,8 @@ export const patchDevicesDeviceUsersClientStates: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDevicesDeviceUsersClientStates",
 }));
 
 export type PatchGroupsError =
@@ -3004,6 +3137,8 @@ export const patchGroups: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchGroups",
 }));
 
 export type PatchInboundOidcSsoProfilesError =
@@ -3034,6 +3169,8 @@ export const patchInboundOidcSsoProfiles: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchInboundOidcSsoProfiles",
 }));
 
 export type PatchInboundSamlSsoProfilesError =
@@ -3064,6 +3201,8 @@ export const patchInboundSamlSsoProfiles: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchInboundSamlSsoProfiles",
 }));
 
 export type PatchInboundSsoAssignmentsError =
@@ -3094,6 +3233,8 @@ export const patchInboundSsoAssignments: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchInboundSsoAssignments",
 }));
 
 export type PatchPoliciesError =
@@ -3124,6 +3265,8 @@ export const patchPolicies: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchPolicies",
 }));
 
 export type SearchDirectGroupsGroupsMembershipsError =
@@ -3145,6 +3288,8 @@ export const searchDirectGroupsGroupsMemberships: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchDirectGroupsGroupsMemberships",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3167,6 +3312,8 @@ export const searchGroups: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchGroups",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3189,6 +3336,8 @@ export const searchTransitiveGroupsGroupsMemberships: API.PaginatedOperationMeth
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTransitiveGroupsGroupsMemberships",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3215,6 +3364,8 @@ export const searchTransitiveMembershipsGroupsMemberships: API.PaginatedOperatio
   errors: [NotFound, Forbidden, InsufficientScopes, ServiceDisabled, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchTransitiveMembershipsGroupsMemberships",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3246,6 +3397,8 @@ export const sendCustomersUserinvitations: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SendCustomersUserinvitations",
 }));
 
 export type UpdateSecuritySettingsGroupsError =
@@ -3276,6 +3429,8 @@ export const updateSecuritySettingsGroups: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSecuritySettingsGroups",
 }));
 
 export type WipeDevicesError =
@@ -3306,6 +3461,8 @@ export const wipeDevices: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WipeDevices",
 }));
 
 export type WipeDevicesDeviceUsersError =
@@ -3336,6 +3493,8 @@ export const wipeDevicesDeviceUsers: API.OperationMethod<
   ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WipeDevicesDeviceUsers",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -16,7 +16,7 @@
   // the stack, not part of its program, so they get their own project rather
   // than joining `tsconfig.json`. Checking them here matters because a break
   // would otherwise only surface a day later, in a mirror's nightly workflow.
-  // `yaml` is a devDependency of this stack purely so this project
-  // resolves; keep it in step with the mirror package.json files.
+  // `yaml` and `graphql` are devDependencies of this stack purely so this
+  // project resolves; keep them in step with the mirror package.json files.
   "include": ["spec-repos/*/fetch-specs.ts"]
 }

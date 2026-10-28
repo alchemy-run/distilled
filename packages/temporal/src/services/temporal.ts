@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { TemporalOpError, TemporalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "temporal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Temporal",
+  service: "Temporal",
+  labels: "temporal",
+  propagate: "w3c",
+} as const;
+
 export interface CountActivityExecutionsRequest {
   namespace: string;
   /** Visibility query, see https://docs.temporal.io/list-filter for the syntax. */
@@ -5918,6 +5931,8 @@ export const countActivityExecutions: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountActivityExecutions",
 }));
 
 export type CountNexusOperationExecutionsError = TemporalOpError;
@@ -5933,6 +5948,8 @@ export const countNexusOperationExecutions: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountNexusOperationExecutions",
 }));
 
 export type CountSchedulesError = TemporalOpError;
@@ -5948,6 +5965,8 @@ export const countSchedules: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountSchedules",
 }));
 
 export type CountWorkflowExecutionsError = TemporalOpError;
@@ -5963,6 +5982,8 @@ export const countWorkflowExecutions: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CountWorkflowExecutions",
 }));
 
 export type CreateNexusEndpointError = TemporalOpError;
@@ -5978,6 +5999,8 @@ export const createNexusEndpoint: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateNexusEndpoint",
 }));
 
 export type CreateScheduleError = TemporalOpError;
@@ -5993,6 +6016,8 @@ export const createSchedule: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSchedule",
 }));
 
 export type CreateWorkerDeploymentError = TemporalOpError;
@@ -6008,6 +6033,8 @@ export const createWorkerDeployment: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkerDeployment",
 }));
 
 export type CreateWorkerDeploymentVersionError = TemporalOpError;
@@ -6023,6 +6050,8 @@ export const createWorkerDeploymentVersion: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkerDeploymentVersion",
 }));
 
 export type CreateWorkflowRuleError = TemporalOpError;
@@ -6038,6 +6067,8 @@ export const createWorkflowRule: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateWorkflowRule",
 }));
 
 export type DeleteNexusEndpointError = TemporalOpError;
@@ -6053,6 +6084,8 @@ export const deleteNexusEndpoint: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteNexusEndpoint",
 }));
 
 export type DeleteScheduleError = TemporalOpError;
@@ -6068,6 +6101,8 @@ export const deleteSchedule: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSchedule",
 }));
 
 export type DeleteWorkerDeploymentError = TemporalOpError;
@@ -6083,6 +6118,8 @@ export const deleteWorkerDeployment: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkerDeployment",
 }));
 
 export type DeleteWorkerDeploymentVersionError = TemporalOpError;
@@ -6098,6 +6135,8 @@ export const deleteWorkerDeploymentVersion: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkerDeploymentVersion",
 }));
 
 export type DeleteWorkflowRuleError = TemporalOpError;
@@ -6113,6 +6152,8 @@ export const deleteWorkflowRule: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflowRule",
 }));
 
 export type DescribeActivityExecutionError = TemporalOpError;
@@ -6128,6 +6169,8 @@ export const describeActivityExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeActivityExecution",
 }));
 
 export type DescribeBatchOperationError = TemporalOpError;
@@ -6143,6 +6186,8 @@ export const describeBatchOperation: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeBatchOperation",
 }));
 
 export type DescribeDeploymentError = TemporalOpError;
@@ -6158,6 +6203,8 @@ export const describeDeployment: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeDeployment",
 }));
 
 export type DescribeNamespaceError = TemporalOpError;
@@ -6173,6 +6220,8 @@ export const describeNamespace: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeNamespace",
 }));
 
 export type DescribeNexusOperationExecutionError = TemporalOpError;
@@ -6188,6 +6237,8 @@ export const describeNexusOperationExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeNexusOperationExecution",
 }));
 
 export type DescribeScheduleError = TemporalOpError;
@@ -6203,6 +6254,8 @@ export const describeSchedule: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeSchedule",
 }));
 
 export type DescribeTaskQueueError = TemporalOpError;
@@ -6218,6 +6271,8 @@ export const describeTaskQueue: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeTaskQueue",
 }));
 
 export type DescribeWorkerError = TemporalOpError;
@@ -6233,6 +6288,8 @@ export const describeWorker: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeWorker",
 }));
 
 export type DescribeWorkerDeploymentError = TemporalOpError;
@@ -6248,6 +6305,8 @@ export const describeWorkerDeployment: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeWorkerDeployment",
 }));
 
 export type DescribeWorkerDeploymentVersionError = TemporalOpError;
@@ -6263,6 +6322,8 @@ export const describeWorkerDeploymentVersion: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeWorkerDeploymentVersion",
 }));
 
 export type DescribeWorkflowExecutionError = TemporalOpError;
@@ -6278,6 +6339,8 @@ export const describeWorkflowExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeWorkflowExecution",
 }));
 
 export type DescribeWorkflowRuleError = TemporalOpError;
@@ -6293,6 +6356,8 @@ export const describeWorkflowRule: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DescribeWorkflowRule",
 }));
 
 export type FetchWorkerConfigError = TemporalOpError;
@@ -6308,6 +6373,8 @@ export const fetchWorkerConfig: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchWorkerConfig",
 }));
 
 export type GetClusterInfoError = TemporalOpError;
@@ -6323,6 +6390,8 @@ export const getClusterInfo: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetClusterInfo",
 }));
 
 export type GetCurrentDeploymentError = TemporalOpError;
@@ -6338,6 +6407,8 @@ export const getCurrentDeployment: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCurrentDeployment",
 }));
 
 export type GetDeploymentReachabilityError = TemporalOpError;
@@ -6353,6 +6424,8 @@ export const getDeploymentReachability: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDeploymentReachability",
 }));
 
 export type GetNexusEndpointError = TemporalOpError;
@@ -6368,6 +6441,8 @@ export const getNexusEndpoint: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetNexusEndpoint",
 }));
 
 export type GetSystemInfoError = TemporalOpError;
@@ -6383,6 +6458,8 @@ export const getSystemInfo: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSystemInfo",
 }));
 
 export type GetWorkerBuildIdCompatibilityError = TemporalOpError;
@@ -6398,6 +6475,8 @@ export const getWorkerBuildIdCompatibility: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkerBuildIdCompatibility",
 }));
 
 export type GetWorkerTaskReachabilityError = TemporalOpError;
@@ -6413,6 +6492,8 @@ export const getWorkerTaskReachability: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkerTaskReachability",
 }));
 
 export type GetWorkerVersioningRulesError = TemporalOpError;
@@ -6428,6 +6509,8 @@ export const getWorkerVersioningRules: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkerVersioningRules",
 }));
 
 export type GetWorkflowExecutionHistoryError = TemporalOpError;
@@ -6443,6 +6526,8 @@ export const getWorkflowExecutionHistory: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowExecutionHistory",
 }));
 
 export type GetWorkflowExecutionHistoryReverseError = TemporalOpError;
@@ -6458,6 +6543,8 @@ export const getWorkflowExecutionHistoryReverse: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWorkflowExecutionHistoryReverse",
 }));
 
 export type ListActivityExecutionsError = TemporalOpError;
@@ -6473,6 +6560,8 @@ export const listActivityExecutions: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListActivityExecutions",
 }));
 
 export type ListArchivedWorkflowExecutionsError = TemporalOpError;
@@ -6488,6 +6577,8 @@ export const listArchivedWorkflowExecutions: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListArchivedWorkflowExecutions",
 }));
 
 export type ListBatchOperationsError = TemporalOpError;
@@ -6503,6 +6594,8 @@ export const listBatchOperations: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListBatchOperations",
 }));
 
 export type ListDeploymentsError = TemporalOpError;
@@ -6518,6 +6611,8 @@ export const listDeployments: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDeployments",
 }));
 
 export type ListNamespacesError = TemporalOpError;
@@ -6533,6 +6628,8 @@ export const listNamespaces: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNamespaces",
 }));
 
 export type ListNexusEndpointsError = TemporalOpError;
@@ -6548,6 +6645,8 @@ export const listNexusEndpoints: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNexusEndpoints",
 }));
 
 export type ListNexusOperationExecutionsError = TemporalOpError;
@@ -6563,6 +6662,8 @@ export const listNexusOperationExecutions: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListNexusOperationExecutions",
 }));
 
 export type ListScheduleMatchingTimesError = TemporalOpError;
@@ -6578,6 +6679,8 @@ export const listScheduleMatchingTimes: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScheduleMatchingTimes",
 }));
 
 export type ListSchedulesError = TemporalOpError;
@@ -6593,6 +6696,8 @@ export const listSchedules: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSchedules",
 }));
 
 export type ListSearchAttributesError = TemporalOpError;
@@ -6608,6 +6713,8 @@ export const listSearchAttributes: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSearchAttributes",
 }));
 
 export type ListWorkerDeploymentsError = TemporalOpError;
@@ -6623,6 +6730,8 @@ export const listWorkerDeployments: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkerDeployments",
 }));
 
 export type ListWorkersError = TemporalOpError;
@@ -6638,6 +6747,8 @@ export const listWorkers: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkers",
 }));
 
 export type ListWorkflowExecutionsError = TemporalOpError;
@@ -6653,6 +6764,8 @@ export const listWorkflowExecutions: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowExecutions",
 }));
 
 export type ListWorkflowRulesError = TemporalOpError;
@@ -6668,6 +6781,8 @@ export const listWorkflowRules: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRules",
 }));
 
 export type PatchScheduleError = TemporalOpError;
@@ -6683,6 +6798,8 @@ export const patchSchedule: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSchedule",
 }));
 
 export type PauseActivityError = TemporalOpError;
@@ -6698,6 +6815,8 @@ export const pauseActivity: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseActivity",
 }));
 
 export type PauseActivityExecutionError = TemporalOpError;
@@ -6713,6 +6832,8 @@ export const pauseActivityExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseActivityExecution",
 }));
 
 export type PauseWorkflowExecutionError = TemporalOpError;
@@ -6728,6 +6849,8 @@ export const pauseWorkflowExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseWorkflowExecution",
 }));
 
 export type PollActivityExecutionError = TemporalOpError;
@@ -6743,6 +6866,8 @@ export const pollActivityExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PollActivityExecution",
 }));
 
 export type PollNexusOperationExecutionError = TemporalOpError;
@@ -6758,6 +6883,8 @@ export const pollNexusOperationExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PollNexusOperationExecution",
 }));
 
 export type QueryWorkflowError = TemporalOpError;
@@ -6773,6 +6900,8 @@ export const queryWorkflow: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryWorkflow",
 }));
 
 export type RecordActivityTaskHeartbeatError = TemporalOpError;
@@ -6788,6 +6917,8 @@ export const recordActivityTaskHeartbeat: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecordActivityTaskHeartbeat",
 }));
 
 export type RecordActivityTaskHeartbeatByIdError = TemporalOpError;
@@ -6803,6 +6934,8 @@ export const recordActivityTaskHeartbeatById: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecordActivityTaskHeartbeatById",
 }));
 
 export type RecordWorkerHeartbeatError = TemporalOpError;
@@ -6818,6 +6951,8 @@ export const recordWorkerHeartbeat: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RecordWorkerHeartbeat",
 }));
 
 export type RegisterNamespaceError = TemporalOpError;
@@ -6833,6 +6968,8 @@ export const registerNamespace: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterNamespace",
 }));
 
 export type RequestCancelActivityExecutionError = TemporalOpError;
@@ -6848,6 +6985,8 @@ export const requestCancelActivityExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestCancelActivityExecution",
 }));
 
 export type RequestCancelNexusOperationExecutionError = TemporalOpError;
@@ -6863,6 +7002,8 @@ export const requestCancelNexusOperationExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestCancelNexusOperationExecution",
 }));
 
 export type RequestCancelWorkflowExecutionError = TemporalOpError;
@@ -6878,6 +7019,8 @@ export const requestCancelWorkflowExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RequestCancelWorkflowExecution",
 }));
 
 export type ResetActivityError = TemporalOpError;
@@ -6893,6 +7036,8 @@ export const resetActivity: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetActivity",
 }));
 
 export type ResetActivityExecutionError = TemporalOpError;
@@ -6908,6 +7053,8 @@ export const resetActivityExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetActivityExecution",
 }));
 
 export type ResetWorkflowExecutionError = TemporalOpError;
@@ -6923,6 +7070,8 @@ export const resetWorkflowExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResetWorkflowExecution",
 }));
 
 export type RespondActivityTaskCanceledError = TemporalOpError;
@@ -6938,6 +7087,8 @@ export const respondActivityTaskCanceled: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RespondActivityTaskCanceled",
 }));
 
 export type RespondActivityTaskCanceledByIdError = TemporalOpError;
@@ -6953,6 +7104,8 @@ export const respondActivityTaskCanceledById: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RespondActivityTaskCanceledById",
 }));
 
 export type RespondActivityTaskCompletedError = TemporalOpError;
@@ -6968,6 +7121,8 @@ export const respondActivityTaskCompleted: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RespondActivityTaskCompleted",
 }));
 
 export type RespondActivityTaskCompletedByIdError = TemporalOpError;
@@ -6983,6 +7138,8 @@ export const respondActivityTaskCompletedById: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RespondActivityTaskCompletedById",
 }));
 
 export type RespondActivityTaskFailedError = TemporalOpError;
@@ -6998,6 +7155,8 @@ export const respondActivityTaskFailed: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RespondActivityTaskFailed",
 }));
 
 export type RespondActivityTaskFailedByIdError = TemporalOpError;
@@ -7013,6 +7172,8 @@ export const respondActivityTaskFailedById: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RespondActivityTaskFailedById",
 }));
 
 export type SetCurrentDeploymentError = TemporalOpError;
@@ -7028,6 +7189,8 @@ export const setCurrentDeployment: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCurrentDeployment",
 }));
 
 export type SetWorkerDeploymentCurrentVersionError = TemporalOpError;
@@ -7043,6 +7206,8 @@ export const setWorkerDeploymentCurrentVersion: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetWorkerDeploymentCurrentVersion",
 }));
 
 export type SetWorkerDeploymentManagerError = TemporalOpError;
@@ -7058,6 +7223,8 @@ export const setWorkerDeploymentManager: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetWorkerDeploymentManager",
 }));
 
 export type SetWorkerDeploymentRampingVersionError = TemporalOpError;
@@ -7073,6 +7240,8 @@ export const setWorkerDeploymentRampingVersion: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetWorkerDeploymentRampingVersion",
 }));
 
 export type SignalWithStartWorkflowExecutionError = TemporalOpError;
@@ -7088,6 +7257,8 @@ export const signalWithStartWorkflowExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalWithStartWorkflowExecution",
 }));
 
 export type SignalWorkflowExecutionError = TemporalOpError;
@@ -7103,6 +7274,8 @@ export const signalWorkflowExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SignalWorkflowExecution",
 }));
 
 export type StartActivityExecutionError = TemporalOpError;
@@ -7118,6 +7291,8 @@ export const startActivityExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartActivityExecution",
 }));
 
 export type StartBatchOperationError = TemporalOpError;
@@ -7133,6 +7308,8 @@ export const startBatchOperation: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartBatchOperation",
 }));
 
 export type StartNexusOperationExecutionError = TemporalOpError;
@@ -7148,6 +7325,8 @@ export const startNexusOperationExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartNexusOperationExecution",
 }));
 
 export type StartWorkflowExecutionError = TemporalOpError;
@@ -7163,6 +7342,8 @@ export const startWorkflowExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StartWorkflowExecution",
 }));
 
 export type StopBatchOperationError = TemporalOpError;
@@ -7178,6 +7359,8 @@ export const stopBatchOperation: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "StopBatchOperation",
 }));
 
 export type TerminateActivityExecutionError = TemporalOpError;
@@ -7193,6 +7376,8 @@ export const terminateActivityExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateActivityExecution",
 }));
 
 export type TerminateNexusOperationExecutionError = TemporalOpError;
@@ -7208,6 +7393,8 @@ export const terminateNexusOperationExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateNexusOperationExecution",
 }));
 
 export type TerminateWorkflowExecutionError = TemporalOpError;
@@ -7223,6 +7410,8 @@ export const terminateWorkflowExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TerminateWorkflowExecution",
 }));
 
 export type TriggerWorkflowRuleError = TemporalOpError;
@@ -7238,6 +7427,8 @@ export const triggerWorkflowRule: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerWorkflowRule",
 }));
 
 export type UnpauseActivityError = TemporalOpError;
@@ -7253,6 +7444,8 @@ export const unpauseActivity: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpauseActivity",
 }));
 
 export type UnpauseActivityExecutionError = TemporalOpError;
@@ -7268,6 +7461,8 @@ export const unpauseActivityExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpauseActivityExecution",
 }));
 
 export type UnpauseWorkflowExecutionError = TemporalOpError;
@@ -7283,6 +7478,8 @@ export const unpauseWorkflowExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpauseWorkflowExecution",
 }));
 
 export type UpdateActivityExecutionOptionsError = TemporalOpError;
@@ -7298,6 +7495,8 @@ export const updateActivityExecutionOptions: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateActivityExecutionOptions",
 }));
 
 export type UpdateActivityOptionsError = TemporalOpError;
@@ -7313,6 +7512,8 @@ export const updateActivityOptions: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateActivityOptions",
 }));
 
 export type UpdateNamespaceError = TemporalOpError;
@@ -7328,6 +7529,8 @@ export const updateNamespace: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNamespace",
 }));
 
 export type UpdateNexusEndpointError = TemporalOpError;
@@ -7343,6 +7546,8 @@ export const updateNexusEndpoint: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateNexusEndpoint",
 }));
 
 export type UpdateScheduleError = TemporalOpError;
@@ -7358,6 +7563,8 @@ export const updateSchedule: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateSchedule",
 }));
 
 export type UpdateTaskQueueConfigError = TemporalOpError;
@@ -7373,6 +7580,8 @@ export const updateTaskQueueConfig: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateTaskQueueConfig",
 }));
 
 export type UpdateWorkerConfigError = TemporalOpError;
@@ -7388,6 +7597,8 @@ export const updateWorkerConfig: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkerConfig",
 }));
 
 export type UpdateWorkerDeploymentVersionComputeConfigError = TemporalOpError;
@@ -7407,6 +7618,8 @@ export const updateWorkerDeploymentVersionComputeConfig: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkerDeploymentVersionComputeConfig",
 }));
 
 export type UpdateWorkerDeploymentVersionMetadataError = TemporalOpError;
@@ -7422,6 +7635,8 @@ export const updateWorkerDeploymentVersionMetadata: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkerDeploymentVersionMetadata",
 }));
 
 export type UpdateWorkflowExecutionError = TemporalOpError;
@@ -7437,6 +7652,8 @@ export const updateWorkflowExecution: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflowExecution",
 }));
 
 export type UpdateWorkflowExecutionOptionsError = TemporalOpError;
@@ -7452,6 +7669,8 @@ export const updateWorkflowExecutionOptions: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflowExecutionOptions",
 }));
 
 export type ValidateWorkerDeploymentVersionComputeConfigError = TemporalOpError;
@@ -7471,6 +7690,8 @@ export const validateWorkerDeploymentVersionComputeConfig: API.OperationMethod<
   errors: [UnknownTemporalError],
   protocol: TemporalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ValidateWorkerDeploymentVersionComputeConfig",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

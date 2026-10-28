@@ -12,6 +12,20 @@ const __s: any[] = [];
 
 export type { PaypalOpError, PaypalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "paypal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "paypal-debug-id", name: "http.response.header.paypal-debug-id", transform: "list" },
+  ],
+  prefix: "PayPal",
+  service: "CustomerDisputesV1",
+  labels: "paypal",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2383,6 +2397,8 @@ export const disputesAcceptClaim: API.OperationMethod<
   errors: [BadRequest, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisputesAcceptClaim",
 }));
 
 export type DisputesAcceptOfferError = BadRequest | UnprocessableEntity | PaypalOpError;
@@ -2398,6 +2414,8 @@ export const disputesAcceptOffer: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisputesAcceptOffer",
 }));
 
 export type DisputesAcknowledgeReturnItemError = BadRequest | UnprocessableEntity | PaypalOpError;
@@ -2413,6 +2431,8 @@ export const disputesAcknowledgeReturnItem: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisputesAcknowledgeReturnItem",
 }));
 
 export type DisputesAdjudicateError = BadRequest | UnprocessableEntity | PaypalOpError;
@@ -2428,6 +2448,8 @@ export const disputesAdjudicate: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisputesAdjudicate",
 }));
 
 export type DisputesAppealError = BadRequest | PaypalOpError;
@@ -2443,6 +2465,8 @@ export const disputesAppeal: API.OperationMethod<
   errors: [BadRequest, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisputesAppeal",
 }));
 
 export type DisputesDenyOfferError = BadRequest | UnprocessableEntity | PaypalOpError;
@@ -2458,6 +2482,8 @@ export const disputesDenyOffer: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisputesDenyOffer",
 }));
 
 export type DisputesEscalateError = BadRequest | UnprocessableEntity | PaypalOpError;
@@ -2473,6 +2499,8 @@ export const disputesEscalate: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisputesEscalate",
 }));
 
 export type DisputesMakeOfferError = BadRequest | UnprocessableEntity | PaypalOpError;
@@ -2488,6 +2516,8 @@ export const disputesMakeOffer: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisputesMakeOffer",
 }));
 
 export type DisputesProvideEvidenceError = BadRequest | PaypalOpError;
@@ -2503,6 +2533,8 @@ export const disputesProvideEvidence: API.OperationMethod<
   errors: [BadRequest, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisputesProvideEvidence",
 }));
 
 export type DisputesProvideSupportingInfoError =
@@ -2522,6 +2554,8 @@ export const disputesProvideSupportingInfo: API.OperationMethod<
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisputesProvideSupportingInfo",
 }));
 
 export type DisputesRequireEvidenceError = BadRequest | UnprocessableEntity | PaypalOpError;
@@ -2537,6 +2571,8 @@ export const disputesRequireEvidence: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisputesRequireEvidence",
 }));
 
 export type DisputesSendMessageError = BadRequest | UnprocessableEntity | PaypalOpError;
@@ -2552,6 +2588,8 @@ export const disputesSendMessage: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DisputesSendMessage",
 }));
 
 export type GetDisputeError = PaypalOpError;
@@ -2567,6 +2605,8 @@ export const getDispute: API.OperationMethod<
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDispute",
 }));
 
 export type ListDisputesError = BadRequest | PaypalOpError;
@@ -2582,6 +2622,8 @@ export const listDisputes: API.OperationMethod<
   errors: [BadRequest, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListDisputes",
 }));
 
 export type PatchDisputeError = BadRequest | UnprocessableEntity | PaypalOpError;
@@ -2597,6 +2639,8 @@ export const patchDispute: API.OperationMethod<
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchDispute",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

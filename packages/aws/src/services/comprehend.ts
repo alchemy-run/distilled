@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://comprehend.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Comprehend",
+  service: "Comprehend",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class BatchSizeLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<BatchSizeLimitExceededException>()(
@@ -1971,6 +1987,8 @@ export const batchDetectDominantLanguage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectDominantLanguage",
+  telemetry: TELEMETRY,
+  span: "BatchDetectDominantLanguage",
 }));
 
 export type BatchDetectEntitiesError =
@@ -2003,6 +2021,8 @@ export const batchDetectEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectEntities",
+  telemetry: TELEMETRY,
+  span: "BatchDetectEntities",
 }));
 
 export type BatchDetectKeyPhrasesError =
@@ -2033,6 +2053,8 @@ export const batchDetectKeyPhrases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectKeyPhrases",
+  telemetry: TELEMETRY,
+  span: "BatchDetectKeyPhrases",
 }));
 
 export type BatchDetectSentimentError =
@@ -2065,6 +2087,8 @@ export const batchDetectSentiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectSentiment",
+  telemetry: TELEMETRY,
+  span: "BatchDetectSentiment",
 }));
 
 export type BatchDetectSyntaxError =
@@ -2097,6 +2121,8 @@ export const batchDetectSyntax: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectSyntax",
+  telemetry: TELEMETRY,
+  span: "BatchDetectSyntax",
 }));
 
 export type BatchDetectTargetedSentimentError =
@@ -2130,6 +2156,8 @@ export const batchDetectTargetedSentiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDetectTargetedSentiment",
+  telemetry: TELEMETRY,
+  span: "BatchDetectTargetedSentiment",
 }));
 
 export type ClassifyDocumentError =
@@ -2180,6 +2208,8 @@ export const classifyDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ClassifyDocument",
+  telemetry: TELEMETRY,
+  span: "ClassifyDocument",
 }));
 
 export type ContainsPiiEntitiesError =
@@ -2210,6 +2240,8 @@ export const containsPiiEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ContainsPiiEntities",
+  telemetry: TELEMETRY,
+  span: "ContainsPiiEntities",
 }));
 
 export type CreateDatasetError =
@@ -2246,6 +2278,8 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  telemetry: TELEMETRY,
+  span: "CreateDataset",
 }));
 
 export type CreateDocumentClassifierError =
@@ -2286,6 +2320,8 @@ export const createDocumentClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDocumentClassifier",
+  telemetry: TELEMETRY,
+  span: "CreateDocumentClassifier",
 }));
 
 export type CreateEndpointError =
@@ -2324,6 +2360,8 @@ export const createEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateEndpoint",
 }));
 
 export type CreateEntityRecognizerError =
@@ -2362,6 +2400,8 @@ export const createEntityRecognizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEntityRecognizer",
+  telemetry: TELEMETRY,
+  span: "CreateEntityRecognizer",
 }));
 
 export type CreateFlywheelError =
@@ -2416,6 +2456,8 @@ export const createFlywheel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlywheel",
+  telemetry: TELEMETRY,
+  span: "CreateFlywheel",
 }));
 
 export type DeleteDocumentClassifierError =
@@ -2456,6 +2498,8 @@ export const deleteDocumentClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocumentClassifier",
+  telemetry: TELEMETRY,
+  span: "DeleteDocumentClassifier",
 }));
 
 export type DeleteEndpointError =
@@ -2488,6 +2532,8 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteEndpoint",
 }));
 
 export type DeleteEntityRecognizerError =
@@ -2528,6 +2574,8 @@ export const deleteEntityRecognizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntityRecognizer",
+  telemetry: TELEMETRY,
+  span: "DeleteEntityRecognizer",
 }));
 
 export type DeleteFlywheelError =
@@ -2564,6 +2612,8 @@ export const deleteFlywheel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlywheel",
+  telemetry: TELEMETRY,
+  span: "DeleteFlywheel",
 }));
 
 export type DeleteResourcePolicyError =
@@ -2586,6 +2636,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteResourcePolicy",
 }));
 
 export type DescribeDatasetError =
@@ -2616,6 +2668,8 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  telemetry: TELEMETRY,
+  span: "DescribeDataset",
 }));
 
 export type DescribeDocumentClassificationJobError =
@@ -2645,6 +2699,8 @@ export const describeDocumentClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDocumentClassificationJob",
+  telemetry: TELEMETRY,
+  span: "DescribeDocumentClassificationJob",
 }));
 
 export type DescribeDocumentClassifierError =
@@ -2673,6 +2729,8 @@ export const describeDocumentClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDocumentClassifier",
+  telemetry: TELEMETRY,
+  span: "DescribeDocumentClassifier",
 }));
 
 export type DescribeDominantLanguageDetectionJobError =
@@ -2702,6 +2760,8 @@ export const describeDominantLanguageDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDominantLanguageDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeDominantLanguageDetectionJob",
 }));
 
 export type DescribeEndpointError =
@@ -2732,6 +2792,8 @@ export const describeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpoint",
+  telemetry: TELEMETRY,
+  span: "DescribeEndpoint",
 }));
 
 export type DescribeEntitiesDetectionJobError =
@@ -2761,6 +2823,8 @@ export const describeEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntitiesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeEntitiesDetectionJob",
 }));
 
 export type DescribeEntityRecognizerError =
@@ -2790,6 +2854,8 @@ export const describeEntityRecognizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntityRecognizer",
+  telemetry: TELEMETRY,
+  span: "DescribeEntityRecognizer",
 }));
 
 export type DescribeEventsDetectionJobError =
@@ -2820,6 +2886,8 @@ export const describeEventsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventsDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeEventsDetectionJob",
 }));
 
 export type DescribeFlywheelError =
@@ -2849,6 +2917,8 @@ export const describeFlywheel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlywheel",
+  telemetry: TELEMETRY,
+  span: "DescribeFlywheel",
 }));
 
 export type DescribeFlywheelIterationError =
@@ -2879,6 +2949,8 @@ export const describeFlywheelIteration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlywheelIteration",
+  telemetry: TELEMETRY,
+  span: "DescribeFlywheelIteration",
 }));
 
 export type DescribeKeyPhrasesDetectionJobError =
@@ -2908,6 +2980,8 @@ export const describeKeyPhrasesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKeyPhrasesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeKeyPhrasesDetectionJob",
 }));
 
 export type DescribePiiEntitiesDetectionJobError =
@@ -2937,6 +3011,8 @@ export const describePiiEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePiiEntitiesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribePiiEntitiesDetectionJob",
 }));
 
 export type DescribeResourcePolicyError =
@@ -2960,6 +3036,8 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "DescribeResourcePolicy",
 }));
 
 export type DescribeSentimentDetectionJobError =
@@ -2989,6 +3067,8 @@ export const describeSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSentimentDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeSentimentDetectionJob",
 }));
 
 export type DescribeTargetedSentimentDetectionJobError =
@@ -3018,6 +3098,8 @@ export const describeTargetedSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTargetedSentimentDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeTargetedSentimentDetectionJob",
 }));
 
 export type DescribeTopicsDetectionJobError =
@@ -3047,6 +3129,8 @@ export const describeTopicsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopicsDetectionJob",
+  telemetry: TELEMETRY,
+  span: "DescribeTopicsDetectionJob",
 }));
 
 export type DetectDominantLanguageError =
@@ -3070,6 +3154,8 @@ export const detectDominantLanguage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectDominantLanguage",
+  telemetry: TELEMETRY,
+  span: "DetectDominantLanguage",
 }));
 
 export type DetectEntitiesError =
@@ -3117,6 +3203,8 @@ export const detectEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectEntities",
+  telemetry: TELEMETRY,
+  span: "DetectEntities",
 }));
 
 export type DetectKeyPhrasesError =
@@ -3145,6 +3233,8 @@ export const detectKeyPhrases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectKeyPhrases",
+  telemetry: TELEMETRY,
+  span: "DetectKeyPhrases",
 }));
 
 export type DetectPiiEntitiesError =
@@ -3174,6 +3264,8 @@ export const detectPiiEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectPiiEntities",
+  telemetry: TELEMETRY,
+  span: "DetectPiiEntities",
 }));
 
 export type DetectSentimentError =
@@ -3203,6 +3295,8 @@ export const detectSentiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectSentiment",
+  telemetry: TELEMETRY,
+  span: "DetectSentiment",
 }));
 
 export type DetectSyntaxError =
@@ -3233,6 +3327,8 @@ export const detectSyntax: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectSyntax",
+  telemetry: TELEMETRY,
+  span: "DetectSyntax",
 }));
 
 export type DetectTargetedSentimentError =
@@ -3263,6 +3359,8 @@ export const detectTargetedSentiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectTargetedSentiment",
+  telemetry: TELEMETRY,
+  span: "DetectTargetedSentiment",
 }));
 
 export type DetectToxicContentError =
@@ -3293,6 +3391,8 @@ export const detectToxicContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectToxicContent",
+  telemetry: TELEMETRY,
+  span: "DetectToxicContent",
 }));
 
 export type ImportModelError =
@@ -3338,6 +3438,8 @@ export const importModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportModel",
+  telemetry: TELEMETRY,
+  span: "ImportModel",
 }));
 
 export type ListDatasetsError =
@@ -3375,6 +3477,8 @@ export const listDatasets: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDatasets",
 })) as any;
 
 export type ListDocumentClassificationJobsError =
@@ -3409,6 +3513,8 @@ export const listDocumentClassificationJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDocumentClassificationJobs",
 })) as any;
 
 export type ListDocumentClassifiersError =
@@ -3443,6 +3549,8 @@ export const listDocumentClassifiers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDocumentClassifiers",
 })) as any;
 
 export type ListDocumentClassifierSummariesError =
@@ -3471,6 +3579,8 @@ export const listDocumentClassifierSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDocumentClassifierSummaries",
 })) as any;
 
 export type ListDominantLanguageDetectionJobsError =
@@ -3505,6 +3615,8 @@ export const listDominantLanguageDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDominantLanguageDetectionJobs",
 })) as any;
 
 export type ListEndpointsError =
@@ -3535,6 +3647,8 @@ export const listEndpoints: API.PaginatedOperationMethod<
     items: "EndpointPropertiesList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEndpoints",
 })) as any;
 
 export type ListEntitiesDetectionJobsError =
@@ -3569,6 +3683,8 @@ export const listEntitiesDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntitiesDetectionJobs",
 })) as any;
 
 export type ListEntityRecognizersError =
@@ -3609,6 +3725,8 @@ export const listEntityRecognizers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntityRecognizers",
 })) as any;
 
 export type ListEntityRecognizerSummariesError =
@@ -3637,6 +3755,8 @@ export const listEntityRecognizerSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEntityRecognizerSummaries",
 })) as any;
 
 export type ListEventsDetectionJobsError =
@@ -3673,6 +3793,8 @@ export const listEventsDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEventsDetectionJobs",
 })) as any;
 
 export type ListFlywheelIterationHistoryError =
@@ -3711,6 +3833,8 @@ export const listFlywheelIterationHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlywheelIterationHistory",
 })) as any;
 
 export type ListFlywheelsError =
@@ -3745,6 +3869,8 @@ export const listFlywheels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFlywheels",
 })) as any;
 
 export type ListKeyPhrasesDetectionJobsError =
@@ -3779,6 +3905,8 @@ export const listKeyPhrasesDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListKeyPhrasesDetectionJobs",
 })) as any;
 
 export type ListPiiEntitiesDetectionJobsError =
@@ -3814,6 +3942,8 @@ export const listPiiEntitiesDetectionJobs: API.PaginatedOperationMethod<
     items: "PiiEntitiesDetectionJobPropertiesList",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPiiEntitiesDetectionJobs",
 })) as any;
 
 export type ListSentimentDetectionJobsError =
@@ -3848,6 +3978,8 @@ export const listSentimentDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSentimentDetectionJobs",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3870,6 +4002,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTargetedSentimentDetectionJobsError =
@@ -3904,6 +4038,8 @@ export const listTargetedSentimentDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTargetedSentimentDetectionJobs",
 })) as any;
 
 export type ListTopicsDetectionJobsError =
@@ -3938,6 +4074,8 @@ export const listTopicsDetectionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTopicsDetectionJobs",
 })) as any;
 
 export type PutResourcePolicyError =
@@ -3962,6 +4100,8 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  telemetry: TELEMETRY,
+  span: "PutResourcePolicy",
 }));
 
 export type StartDocumentClassificationJobError =
@@ -4000,6 +4140,8 @@ export const startDocumentClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDocumentClassificationJob",
+  telemetry: TELEMETRY,
+  span: "StartDocumentClassificationJob",
 }));
 
 export type StartDominantLanguageDetectionJobError =
@@ -4034,6 +4176,8 @@ export const startDominantLanguageDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDominantLanguageDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartDominantLanguageDetectionJob",
 }));
 
 export type StartEntitiesDetectionJobError =
@@ -4075,6 +4219,8 @@ export const startEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEntitiesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartEntitiesDetectionJob",
 }));
 
 export type StartEventsDetectionJobError =
@@ -4109,6 +4255,8 @@ export const startEventsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEventsDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartEventsDetectionJob",
 }));
 
 export type StartFlywheelIterationError =
@@ -4141,6 +4289,8 @@ export const startFlywheelIteration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlywheelIteration",
+  telemetry: TELEMETRY,
+  span: "StartFlywheelIteration",
 }));
 
 export type StartKeyPhrasesDetectionJobError =
@@ -4175,6 +4325,8 @@ export const startKeyPhrasesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartKeyPhrasesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartKeyPhrasesDetectionJob",
 }));
 
 export type StartPiiEntitiesDetectionJobError =
@@ -4207,6 +4359,8 @@ export const startPiiEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPiiEntitiesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartPiiEntitiesDetectionJob",
 }));
 
 export type StartSentimentDetectionJobError =
@@ -4241,6 +4395,8 @@ export const startSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSentimentDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartSentimentDetectionJob",
 }));
 
 export type StartTargetedSentimentDetectionJobError =
@@ -4275,6 +4431,8 @@ export const startTargetedSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTargetedSentimentDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartTargetedSentimentDetectionJob",
 }));
 
 export type StartTopicsDetectionJobError =
@@ -4308,6 +4466,8 @@ export const startTopicsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTopicsDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StartTopicsDetectionJob",
 }));
 
 export type StopDominantLanguageDetectionJobError =
@@ -4342,6 +4502,8 @@ export const stopDominantLanguageDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDominantLanguageDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopDominantLanguageDetectionJob",
 }));
 
 export type StopEntitiesDetectionJobError =
@@ -4376,6 +4538,8 @@ export const stopEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEntitiesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopEntitiesDetectionJob",
 }));
 
 export type StopEventsDetectionJobError =
@@ -4404,6 +4568,8 @@ export const stopEventsDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEventsDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopEventsDetectionJob",
 }));
 
 export type StopKeyPhrasesDetectionJobError =
@@ -4438,6 +4604,8 @@ export const stopKeyPhrasesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopKeyPhrasesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopKeyPhrasesDetectionJob",
 }));
 
 export type StopPiiEntitiesDetectionJobError =
@@ -4460,6 +4628,8 @@ export const stopPiiEntitiesDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPiiEntitiesDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopPiiEntitiesDetectionJob",
 }));
 
 export type StopSentimentDetectionJobError =
@@ -4494,6 +4664,8 @@ export const stopSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSentimentDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopSentimentDetectionJob",
 }));
 
 export type StopTargetedSentimentDetectionJobError =
@@ -4528,6 +4700,8 @@ export const stopTargetedSentimentDetectionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTargetedSentimentDetectionJob",
+  telemetry: TELEMETRY,
+  span: "StopTargetedSentimentDetectionJob",
 }));
 
 export type StopTrainingDocumentClassifierError =
@@ -4562,6 +4736,8 @@ export const stopTrainingDocumentClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTrainingDocumentClassifier",
+  telemetry: TELEMETRY,
+  span: "StopTrainingDocumentClassifier",
 }));
 
 export type StopTrainingEntityRecognizerError =
@@ -4596,6 +4772,8 @@ export const stopTrainingEntityRecognizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTrainingEntityRecognizer",
+  telemetry: TELEMETRY,
+  span: "StopTrainingEntityRecognizer",
 }));
 
 export type TagResourceError =
@@ -4628,6 +4806,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4658,6 +4838,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateEndpointError =
@@ -4693,6 +4875,8 @@ export const updateEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateEndpoint",
 }));
 
 export type UpdateFlywheelError =
@@ -4723,6 +4907,8 @@ export const updateFlywheel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlywheel",
+  telemetry: TELEMETRY,
+  span: "UpdateFlywheel",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

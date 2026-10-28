@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -73,6 +74,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://fsx.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "FSx",
+  service: "FSx",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessPointAlreadyOwnedByYou
   extends /*@__PURE__*/ S.TaggedError<AccessPointAlreadyOwnedByYou>()(
@@ -3159,6 +3175,8 @@ export const associateFileSystemAliases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFileSystemAliases",
+  telemetry: TELEMETRY,
+  span: "AssociateFileSystemAliases",
 }));
 
 export type CancelDataRepositoryTaskError =
@@ -3200,6 +3218,8 @@ export const cancelDataRepositoryTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDataRepositoryTask",
+  telemetry: TELEMETRY,
+  span: "CancelDataRepositoryTask",
 }));
 
 export type CopyBackupError =
@@ -3266,6 +3286,8 @@ export const copyBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyBackup",
+  telemetry: TELEMETRY,
+  span: "CopyBackup",
 }));
 
 export type CopySnapshotAndUpdateVolumeError =
@@ -3297,6 +3319,8 @@ export const copySnapshotAndUpdateVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopySnapshotAndUpdateVolume",
+  telemetry: TELEMETRY,
+  span: "CopySnapshotAndUpdateVolume",
 }));
 
 export type CreateAndAttachS3AccessPointError =
@@ -3356,6 +3380,8 @@ export const createAndAttachS3AccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAndAttachS3AccessPoint",
+  telemetry: TELEMETRY,
+  span: "CreateAndAttachS3AccessPoint",
 }));
 
 export type CreateBackupError =
@@ -3438,6 +3464,8 @@ export const createBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackup",
+  telemetry: TELEMETRY,
+  span: "CreateBackup",
 }));
 
 export type CreateDataRepositoryAssociationError =
@@ -3486,6 +3514,8 @@ export const createDataRepositoryAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataRepositoryAssociation",
+  telemetry: TELEMETRY,
+  span: "CreateDataRepositoryAssociation",
 }));
 
 export type CreateDataRepositoryTaskError =
@@ -3537,6 +3567,8 @@ export const createDataRepositoryTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataRepositoryTask",
+  telemetry: TELEMETRY,
+  span: "CreateDataRepositoryTask",
 }));
 
 export type CreateFileCacheError =
@@ -3590,6 +3622,8 @@ export const createFileCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFileCache",
+  telemetry: TELEMETRY,
+  span: "CreateFileCache",
 }));
 
 export type CreateFileSystemError =
@@ -3666,6 +3700,8 @@ export const createFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFileSystem",
+  telemetry: TELEMETRY,
+  span: "CreateFileSystem",
 }));
 
 export type CreateFileSystemFromBackupError =
@@ -3734,6 +3770,8 @@ export const createFileSystemFromBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFileSystemFromBackup",
+  telemetry: TELEMETRY,
+  span: "CreateFileSystemFromBackup",
 }));
 
 export type CreateSnapshotError =
@@ -3790,6 +3828,8 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type CreateStorageVirtualMachineError =
@@ -3824,6 +3864,8 @@ export const createStorageVirtualMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStorageVirtualMachine",
+  telemetry: TELEMETRY,
+  span: "CreateStorageVirtualMachine",
 }));
 
 export type CreateVolumeError =
@@ -3860,6 +3902,8 @@ export const createVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVolume",
+  telemetry: TELEMETRY,
+  span: "CreateVolume",
 }));
 
 export type CreateVolumeFromBackupError =
@@ -3897,6 +3941,8 @@ export const createVolumeFromBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVolumeFromBackup",
+  telemetry: TELEMETRY,
+  span: "CreateVolumeFromBackup",
 }));
 
 export type DeleteBackupError =
@@ -3938,6 +3984,8 @@ export const deleteBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackup",
+  telemetry: TELEMETRY,
+  span: "DeleteBackup",
 }));
 
 export type DeleteDataRepositoryAssociationError =
@@ -3974,6 +4022,8 @@ export const deleteDataRepositoryAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataRepositoryAssociation",
+  telemetry: TELEMETRY,
+  span: "DeleteDataRepositoryAssociation",
 }));
 
 export type DeleteFileCacheError =
@@ -4015,6 +4065,8 @@ export const deleteFileCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileCache",
+  telemetry: TELEMETRY,
+  span: "DeleteFileCache",
 }));
 
 export type DeleteFileSystemError =
@@ -4090,6 +4142,8 @@ export const deleteFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystem",
+  telemetry: TELEMETRY,
+  span: "DeleteFileSystem",
 }));
 
 export type DeleteSnapshotError =
@@ -4117,6 +4171,8 @@ export const deleteSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshot",
 }));
 
 export type DeleteStorageVirtualMachineError =
@@ -4146,6 +4202,8 @@ export const deleteStorageVirtualMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStorageVirtualMachine",
+  telemetry: TELEMETRY,
+  span: "DeleteStorageVirtualMachine",
 }));
 
 export type DeleteVolumeError =
@@ -4177,6 +4235,8 @@ export const deleteVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVolume",
+  telemetry: TELEMETRY,
+  span: "DeleteVolume",
 }));
 
 export type DescribeBackupsError =
@@ -4231,6 +4291,8 @@ export const describeBackups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeBackups",
 })) as any;
 
 export type DescribeDataRepositoryAssociationsError =
@@ -4287,6 +4349,8 @@ export const describeDataRepositoryAssociations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDataRepositoryAssociations",
 })) as any;
 
 export type DescribeDataRepositoryTasksError =
@@ -4326,6 +4390,8 @@ export const describeDataRepositoryTasks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDataRepositoryTasks",
 })) as any;
 
 export type DescribeFileCachesError =
@@ -4380,6 +4446,8 @@ export const describeFileCaches: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFileCaches",
 })) as any;
 
 export type DescribeFileSystemAliasesError =
@@ -4410,6 +4478,8 @@ export const describeFileSystemAliases: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFileSystemAliases",
 })) as any;
 
 export type DescribeFileSystemsError =
@@ -4464,6 +4534,8 @@ export const describeFileSystems: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFileSystems",
 })) as any;
 
 export type DescribeS3AccessPointAttachmentsError =
@@ -4498,6 +4570,8 @@ export const describeS3AccessPointAttachments: API.PaginatedOperationMethod<
     items: "S3AccessPointAttachments",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeS3AccessPointAttachments",
 })) as any;
 
 export type DescribeSharedVpcConfigurationError = BadRequest | InternalServerError | CommonErrors;
@@ -4517,6 +4591,8 @@ export const describeSharedVpcConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSharedVpcConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeSharedVpcConfiguration",
 }));
 
 export type DescribeSnapshotsError =
@@ -4571,6 +4647,8 @@ export const describeSnapshots: API.PaginatedOperationMethod<
     items: "Snapshots",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSnapshots",
 })) as any;
 
 export type DescribeStorageVirtualMachinesError =
@@ -4600,6 +4678,8 @@ export const describeStorageVirtualMachines: API.PaginatedOperationMethod<
     items: "StorageVirtualMachines",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeStorageVirtualMachines",
 })) as any;
 
 export type DescribeVolumesError = BadRequest | InternalServerError | VolumeNotFound | CommonErrors;
@@ -4626,6 +4706,8 @@ export const describeVolumes: API.PaginatedOperationMethod<
     items: "Volumes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeVolumes",
 })) as any;
 
 export type DetachAndDeleteS3AccessPointError =
@@ -4662,6 +4744,8 @@ export const detachAndDeleteS3AccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachAndDeleteS3AccessPoint",
+  telemetry: TELEMETRY,
+  span: "DetachAndDeleteS3AccessPoint",
 }));
 
 export type DisassociateFileSystemAliasesError =
@@ -4693,6 +4777,8 @@ export const disassociateFileSystemAliases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFileSystemAliases",
+  telemetry: TELEMETRY,
+  span: "DisassociateFileSystemAliases",
 }));
 
 export type ListTagsForResourceError =
@@ -4751,6 +4837,8 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 })) as any;
 
 export type ReleaseFileSystemNfsV3LocksError =
@@ -4782,6 +4870,8 @@ export const releaseFileSystemNfsV3Locks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReleaseFileSystemNfsV3Locks",
+  telemetry: TELEMETRY,
+  span: "ReleaseFileSystemNfsV3Locks",
 }));
 
 export type RestoreVolumeFromSnapshotError =
@@ -4806,6 +4896,8 @@ export const restoreVolumeFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreVolumeFromSnapshot",
+  telemetry: TELEMETRY,
+  span: "RestoreVolumeFromSnapshot",
 }));
 
 export type StartMisconfiguredStateRecoveryError =
@@ -4829,6 +4921,8 @@ export const startMisconfiguredStateRecovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMisconfiguredStateRecovery",
+  telemetry: TELEMETRY,
+  span: "StartMisconfiguredStateRecovery",
 }));
 
 export type TagResourceError =
@@ -4859,6 +4953,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4889,6 +4985,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateDataRepositoryAssociationError =
@@ -4922,6 +5020,8 @@ export const updateDataRepositoryAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataRepositoryAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateDataRepositoryAssociation",
 }));
 
 export type UpdateFileCacheError =
@@ -4957,6 +5057,8 @@ export const updateFileCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFileCache",
+  telemetry: TELEMETRY,
+  span: "UpdateFileCache",
 }));
 
 export type UpdateFileSystemError =
@@ -5098,6 +5200,8 @@ export const updateFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFileSystem",
+  telemetry: TELEMETRY,
+  span: "UpdateFileSystem",
 }));
 
 export type UpdateSharedVpcConfigurationError =
@@ -5128,6 +5232,8 @@ export const updateSharedVpcConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSharedVpcConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateSharedVpcConfiguration",
 }));
 
 export type UpdateSnapshotError =
@@ -5151,6 +5257,8 @@ export const updateSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSnapshot",
+  telemetry: TELEMETRY,
+  span: "UpdateSnapshot",
 }));
 
 export type UpdateStorageVirtualMachineError =
@@ -5181,6 +5289,8 @@ export const updateStorageVirtualMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStorageVirtualMachine",
+  telemetry: TELEMETRY,
+  span: "UpdateStorageVirtualMachine",
 }));
 
 export type UpdateVolumeError =
@@ -5211,6 +5321,8 @@ export const updateVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVolume",
+  telemetry: TELEMETRY,
+  span: "UpdateVolume",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,8 +1,8 @@
-import { operationConst, suspendConst, suspendRef, PURE } from "@distilled.cloud/core/codegen/emit";
-import { errorCategories, type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { operationConst, suspendConst, suspendRef, PURE } from "@distilled.cloud/dev/codegen/emit";
+import { errorCategories, type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 /**
  * AWS provider spec for the shared smithy→SDK compiler
- * (`@distilled.cloud/core/codegen/generator`).
+ * (`@distilled.cloud/dev/codegen/generator`).
  *
  * The driver owns the pipeline: operation discovery, Unit-I/O synthesis,
  * reachability (plus this spec's `extraRoots` for error-member deps),
@@ -30,8 +30,8 @@ import { errorCategories, type SdkSpec } from "@distilled.cloud/core/codegen/gen
  * - `header`/`postProcess` own the service consts (svc/auth/proto/ver/ns/
  *   rules via compile-rules) and conditional-import placeholder pruning.
  */
-import { cyclicShapeIds } from "@distilled.cloud/core/codegen/graph";
-import { mergePaginated } from "@distilled.cloud/core/codegen/pagination";
+import { cyclicShapeIds } from "@distilled.cloud/dev/codegen/graph";
+import { mergePaginated } from "@distilled.cloud/dev/codegen/pagination";
 import { endpointTemplate, generateRuleSetCode, type RuleSetObject } from "./compile-rules.ts";
 import type { SmithyModel, ServiceShape } from "./model-schema.ts";
 import type { ServiceSpec, SyntheticError } from "./spec-schema.ts";
@@ -2253,6 +2253,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
           ? [`endpointHostPrefix: ${JSON.stringify(endpointHostPrefix)}`]
           : []),
         ...(paginatedTrait ? [`pagination: ${JSON.stringify(paginatedTrait)} as const`] : []),
+        ...ctx.telemetry,
       ];
       const metaObject = `{ ${metaParts.join(", ")} }`;
 

@@ -11,6 +11,24 @@ const __s: any[] = [];
 
 export type { GithubOpError, GithubOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "github-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-github-request-id",
+      name: "http.response.header.x-github-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "GitHub",
+  service: "DependencyGraph",
+  labels: "github",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -190,6 +208,8 @@ export const createRepositorySnapshot: API.OperationMethod<
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateRepositorySnapshot",
 }));
 
 export type DiffRangeError = BadRequest | Forbidden | NotFound | GithubOpError;
@@ -205,6 +225,8 @@ export const diffRange: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DiffRange",
 }));
 
 export type FetchSbomReportError = Forbidden | NotFound | GithubOpError;
@@ -220,6 +242,8 @@ export const fetchSbomReport: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FetchSbomReport",
 }));
 
 export type GenerateSbomReportError = Forbidden | NotFound | GithubOpError;
@@ -235,6 +259,8 @@ export const generateSbomReport: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GenerateSbomReport",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

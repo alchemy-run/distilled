@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { KubernetesOpError, KubernetesOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "kubernetes-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Kubernetes",
+  service: "Certificates",
+  labels: "kubernetes",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -1918,6 +1931,8 @@ export const createCertificatesV1beta1ClusterTrustBundle: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificatesV1beta1ClusterTrustBundle",
 }));
 
 export type CreateCertificatesV1beta1NamespacedPodCertificateRequestError =
@@ -1940,6 +1955,8 @@ export const createCertificatesV1beta1NamespacedPodCertificateRequest: API.Opera
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificatesV1beta1NamespacedPodCertificateRequest",
 }));
 
 export type CreateCertificatesV1CertificateSigningRequestError =
@@ -1962,6 +1979,8 @@ export const createCertificatesV1CertificateSigningRequest: API.OperationMethod<
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificatesV1CertificateSigningRequest",
 }));
 
 export type CreateCertificatesV1ClusterTrustBundleError = KubernetesOpError;
@@ -1977,6 +1996,8 @@ export const createCertificatesV1ClusterTrustBundle: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificatesV1ClusterTrustBundle",
 }));
 
 export type CreateCertificatesV1NamespacedPodCertificateRequestError = KubernetesOpError;
@@ -1996,6 +2017,8 @@ export const createCertificatesV1NamespacedPodCertificateRequest: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateCertificatesV1NamespacedPodCertificateRequest",
 }));
 
 export type DeleteCertificatesV1beta1ClusterTrustBundleError =
@@ -2014,6 +2037,8 @@ export const deleteCertificatesV1beta1ClusterTrustBundle: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificatesV1beta1ClusterTrustBundle",
 }));
 
 export type DeleteCertificatesV1beta1CollectionClusterTrustBundleError = KubernetesOpError;
@@ -2033,6 +2058,8 @@ export const deleteCertificatesV1beta1CollectionClusterTrustBundle: API.Operatio
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificatesV1beta1CollectionClusterTrustBundle",
 }));
 
 export type DeleteCertificatesV1beta1CollectionNamespacedPodCertificateRequestError =
@@ -2053,6 +2080,8 @@ export const deleteCertificatesV1beta1CollectionNamespacedPodCertificateRequest:
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificatesV1beta1CollectionNamespacedPodCertificateRequest",
 }));
 
 export type DeleteCertificatesV1beta1NamespacedPodCertificateRequestError =
@@ -2075,6 +2104,8 @@ export const deleteCertificatesV1beta1NamespacedPodCertificateRequest: API.Opera
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificatesV1beta1NamespacedPodCertificateRequest",
 }));
 
 export type DeleteCertificatesV1CertificateSigningRequestError =
@@ -2093,6 +2124,8 @@ export const deleteCertificatesV1CertificateSigningRequest: API.OperationMethod<
   errors: [NotFound, Conflict, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificatesV1CertificateSigningRequest",
 }));
 
 export type DeleteCertificatesV1ClusterTrustBundleError = KubernetesOpError;
@@ -2108,6 +2141,8 @@ export const deleteCertificatesV1ClusterTrustBundle: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificatesV1ClusterTrustBundle",
 }));
 
 export type DeleteCertificatesV1CollectionCertificateSigningRequestError = KubernetesOpError;
@@ -2127,6 +2162,8 @@ export const deleteCertificatesV1CollectionCertificateSigningRequest: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificatesV1CollectionCertificateSigningRequest",
 }));
 
 export type DeleteCertificatesV1CollectionClusterTrustBundleError = KubernetesOpError;
@@ -2146,6 +2183,8 @@ export const deleteCertificatesV1CollectionClusterTrustBundle: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificatesV1CollectionClusterTrustBundle",
 }));
 
 export type DeleteCertificatesV1CollectionNamespacedPodCertificateRequestError = KubernetesOpError;
@@ -2165,6 +2204,8 @@ export const deleteCertificatesV1CollectionNamespacedPodCertificateRequest: API.
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificatesV1CollectionNamespacedPodCertificateRequest",
 }));
 
 export type DeleteCertificatesV1NamespacedPodCertificateRequestError = KubernetesOpError;
@@ -2184,6 +2225,8 @@ export const deleteCertificatesV1NamespacedPodCertificateRequest: API.OperationM
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteCertificatesV1NamespacedPodCertificateRequest",
 }));
 
 export type GetCertificatesAPIGroupError = KubernetesOpError;
@@ -2199,6 +2242,8 @@ export const getCertificatesAPIGroup: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificatesAPIGroup",
 }));
 
 export type GetCertificatesV1APIResourcesError = KubernetesOpError;
@@ -2214,6 +2259,8 @@ export const getCertificatesV1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificatesV1APIResources",
 }));
 
 export type GetCertificatesV1beta1APIResourcesError = KubernetesOpError;
@@ -2229,6 +2276,8 @@ export const getCertificatesV1beta1APIResources: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCertificatesV1beta1APIResources",
 }));
 
 export type ListCertificatesV1beta1ClusterTrustBundleError = KubernetesOpError;
@@ -2244,6 +2293,8 @@ export const listCertificatesV1beta1ClusterTrustBundle: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificatesV1beta1ClusterTrustBundle",
 }));
 
 export type ListCertificatesV1beta1NamespacedPodCertificateRequestError = KubernetesOpError;
@@ -2267,6 +2318,8 @@ export const listCertificatesV1beta1NamespacedPodCertificateRequest: API.Operati
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificatesV1beta1NamespacedPodCertificateRequest",
 }));
 
 export type ListCertificatesV1beta1PodCertificateRequestForAllNamespacesError = KubernetesOpError;
@@ -2290,6 +2343,8 @@ export const listCertificatesV1beta1PodCertificateRequestForAllNamespaces: API.O
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificatesV1beta1PodCertificateRequestForAllNamespaces",
 }));
 
 export type ListCertificatesV1CertificateSigningRequestError = KubernetesOpError;
@@ -2309,6 +2364,8 @@ export const listCertificatesV1CertificateSigningRequest: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificatesV1CertificateSigningRequest",
 }));
 
 export type ListCertificatesV1ClusterTrustBundleError = KubernetesOpError;
@@ -2324,6 +2381,8 @@ export const listCertificatesV1ClusterTrustBundle: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificatesV1ClusterTrustBundle",
 }));
 
 export type ListCertificatesV1NamespacedPodCertificateRequestError = KubernetesOpError;
@@ -2343,6 +2402,8 @@ export const listCertificatesV1NamespacedPodCertificateRequest: API.OperationMet
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificatesV1NamespacedPodCertificateRequest",
 }));
 
 export type ListCertificatesV1PodCertificateRequestForAllNamespacesError = KubernetesOpError;
@@ -2362,6 +2423,8 @@ export const listCertificatesV1PodCertificateRequestForAllNamespaces: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCertificatesV1PodCertificateRequestForAllNamespaces",
 }));
 
 export type PatchCertificatesV1beta1ClusterTrustBundleError =
@@ -2381,6 +2444,8 @@ export const patchCertificatesV1beta1ClusterTrustBundle: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCertificatesV1beta1ClusterTrustBundle",
 }));
 
 export type PatchCertificatesV1beta1NamespacedPodCertificateRequestError =
@@ -2404,6 +2469,8 @@ export const patchCertificatesV1beta1NamespacedPodCertificateRequest: API.Operat
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCertificatesV1beta1NamespacedPodCertificateRequest",
 }));
 
 export type PatchCertificatesV1beta1NamespacedPodCertificateRequestStatusError =
@@ -2427,6 +2494,8 @@ export const patchCertificatesV1beta1NamespacedPodCertificateRequestStatus: API.
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCertificatesV1beta1NamespacedPodCertificateRequestStatus",
 }));
 
 export type PatchCertificatesV1CertificateSigningRequestError =
@@ -2446,6 +2515,8 @@ export const patchCertificatesV1CertificateSigningRequest: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCertificatesV1CertificateSigningRequest",
 }));
 
 export type PatchCertificatesV1CertificateSigningRequestApprovalError =
@@ -2469,6 +2540,8 @@ export const patchCertificatesV1CertificateSigningRequestApproval: API.Operation
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCertificatesV1CertificateSigningRequestApproval",
 }));
 
 export type PatchCertificatesV1CertificateSigningRequestStatusError =
@@ -2492,6 +2565,8 @@ export const patchCertificatesV1CertificateSigningRequestStatus: API.OperationMe
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCertificatesV1CertificateSigningRequestStatus",
 }));
 
 export type PatchCertificatesV1ClusterTrustBundleError = KubernetesOpError;
@@ -2507,6 +2582,8 @@ export const patchCertificatesV1ClusterTrustBundle: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCertificatesV1ClusterTrustBundle",
 }));
 
 export type PatchCertificatesV1NamespacedPodCertificateRequestError = KubernetesOpError;
@@ -2526,6 +2603,8 @@ export const patchCertificatesV1NamespacedPodCertificateRequest: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCertificatesV1NamespacedPodCertificateRequest",
 }));
 
 export type PatchCertificatesV1NamespacedPodCertificateRequestStatusError = KubernetesOpError;
@@ -2545,6 +2624,8 @@ export const patchCertificatesV1NamespacedPodCertificateRequestStatus: API.Opera
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchCertificatesV1NamespacedPodCertificateRequestStatus",
 }));
 
 export type ReadCertificatesV1beta1ClusterTrustBundleError = NotFound | KubernetesOpError;
@@ -2560,6 +2641,8 @@ export const readCertificatesV1beta1ClusterTrustBundle: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCertificatesV1beta1ClusterTrustBundle",
 }));
 
 export type ReadCertificatesV1beta1NamespacedPodCertificateRequestError =
@@ -2581,6 +2664,8 @@ export const readCertificatesV1beta1NamespacedPodCertificateRequest: API.Operati
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCertificatesV1beta1NamespacedPodCertificateRequest",
 }));
 
 export type ReadCertificatesV1beta1NamespacedPodCertificateRequestStatusError =
@@ -2602,6 +2687,8 @@ export const readCertificatesV1beta1NamespacedPodCertificateRequestStatus: API.O
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCertificatesV1beta1NamespacedPodCertificateRequestStatus",
 }));
 
 export type ReadCertificatesV1CertificateSigningRequestError = NotFound | KubernetesOpError;
@@ -2617,6 +2704,8 @@ export const readCertificatesV1CertificateSigningRequest: API.OperationMethod<
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCertificatesV1CertificateSigningRequest",
 }));
 
 export type ReadCertificatesV1CertificateSigningRequestApprovalError = NotFound | KubernetesOpError;
@@ -2636,6 +2725,8 @@ export const readCertificatesV1CertificateSigningRequestApproval: API.OperationM
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCertificatesV1CertificateSigningRequestApproval",
 }));
 
 export type ReadCertificatesV1CertificateSigningRequestStatusError = NotFound | KubernetesOpError;
@@ -2655,6 +2746,8 @@ export const readCertificatesV1CertificateSigningRequestStatus: API.OperationMet
   errors: [NotFound, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCertificatesV1CertificateSigningRequestStatus",
 }));
 
 export type ReadCertificatesV1ClusterTrustBundleError = KubernetesOpError;
@@ -2670,6 +2763,8 @@ export const readCertificatesV1ClusterTrustBundle: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCertificatesV1ClusterTrustBundle",
 }));
 
 export type ReadCertificatesV1NamespacedPodCertificateRequestError = KubernetesOpError;
@@ -2689,6 +2784,8 @@ export const readCertificatesV1NamespacedPodCertificateRequest: API.OperationMet
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCertificatesV1NamespacedPodCertificateRequest",
 }));
 
 export type ReadCertificatesV1NamespacedPodCertificateRequestStatusError = KubernetesOpError;
@@ -2708,6 +2805,8 @@ export const readCertificatesV1NamespacedPodCertificateRequestStatus: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReadCertificatesV1NamespacedPodCertificateRequestStatus",
 }));
 
 export type ReplaceCertificatesV1beta1ClusterTrustBundleError =
@@ -2727,6 +2826,8 @@ export const replaceCertificatesV1beta1ClusterTrustBundle: API.OperationMethod<
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCertificatesV1beta1ClusterTrustBundle",
 }));
 
 export type ReplaceCertificatesV1beta1NamespacedPodCertificateRequestError =
@@ -2750,6 +2851,8 @@ export const replaceCertificatesV1beta1NamespacedPodCertificateRequest: API.Oper
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCertificatesV1beta1NamespacedPodCertificateRequest",
 }));
 
 export type ReplaceCertificatesV1beta1NamespacedPodCertificateRequestStatusError =
@@ -2773,6 +2876,8 @@ export const replaceCertificatesV1beta1NamespacedPodCertificateRequestStatus: AP
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCertificatesV1beta1NamespacedPodCertificateRequestStatus",
 }));
 
 export type ReplaceCertificatesV1CertificateSigningRequestError =
@@ -2796,6 +2901,8 @@ export const replaceCertificatesV1CertificateSigningRequest: API.OperationMethod
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCertificatesV1CertificateSigningRequest",
 }));
 
 export type ReplaceCertificatesV1CertificateSigningRequestApprovalError =
@@ -2819,6 +2926,8 @@ export const replaceCertificatesV1CertificateSigningRequestApproval: API.Operati
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCertificatesV1CertificateSigningRequestApproval",
 }));
 
 export type ReplaceCertificatesV1CertificateSigningRequestStatusError =
@@ -2842,6 +2951,8 @@ export const replaceCertificatesV1CertificateSigningRequestStatus: API.Operation
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCertificatesV1CertificateSigningRequestStatus",
 }));
 
 export type ReplaceCertificatesV1ClusterTrustBundleError = KubernetesOpError;
@@ -2857,6 +2968,8 @@ export const replaceCertificatesV1ClusterTrustBundle: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCertificatesV1ClusterTrustBundle",
 }));
 
 export type ReplaceCertificatesV1NamespacedPodCertificateRequestError = KubernetesOpError;
@@ -2876,6 +2989,8 @@ export const replaceCertificatesV1NamespacedPodCertificateRequest: API.Operation
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCertificatesV1NamespacedPodCertificateRequest",
 }));
 
 export type ReplaceCertificatesV1NamespacedPodCertificateRequestStatusError = KubernetesOpError;
@@ -2895,6 +3010,8 @@ export const replaceCertificatesV1NamespacedPodCertificateRequestStatus: API.Ope
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceCertificatesV1NamespacedPodCertificateRequestStatus",
 }));
 
 export type WatchCertificatesV1beta1ClusterTrustBundleError = KubernetesOpError;
@@ -2910,6 +3027,8 @@ export const watchCertificatesV1beta1ClusterTrustBundle: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCertificatesV1beta1ClusterTrustBundle",
 }));
 
 export type WatchCertificatesV1beta1ClusterTrustBundleListError = KubernetesOpError;
@@ -2929,6 +3048,8 @@ export const watchCertificatesV1beta1ClusterTrustBundleList: API.OperationMethod
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCertificatesV1beta1ClusterTrustBundleList",
 }));
 
 export type WatchCertificatesV1beta1NamespacedPodCertificateRequestError = KubernetesOpError;
@@ -2948,6 +3069,8 @@ export const watchCertificatesV1beta1NamespacedPodCertificateRequest: API.Operat
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCertificatesV1beta1NamespacedPodCertificateRequest",
 }));
 
 export type WatchCertificatesV1beta1NamespacedPodCertificateRequestListError = KubernetesOpError;
@@ -2967,6 +3090,8 @@ export const watchCertificatesV1beta1NamespacedPodCertificateRequestList: API.Op
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCertificatesV1beta1NamespacedPodCertificateRequestList",
 }));
 
 export type WatchCertificatesV1beta1PodCertificateRequestListForAllNamespacesError =
@@ -2987,6 +3112,8 @@ export const watchCertificatesV1beta1PodCertificateRequestListForAllNamespaces: 
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCertificatesV1beta1PodCertificateRequestListForAllNamespaces",
 }));
 
 export type WatchCertificatesV1CertificateSigningRequestError = KubernetesOpError;
@@ -3002,6 +3129,8 @@ export const watchCertificatesV1CertificateSigningRequest: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCertificatesV1CertificateSigningRequest",
 }));
 
 export type WatchCertificatesV1CertificateSigningRequestListError = KubernetesOpError;
@@ -3021,6 +3150,8 @@ export const watchCertificatesV1CertificateSigningRequestList: API.OperationMeth
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCertificatesV1CertificateSigningRequestList",
 }));
 
 export type WatchCertificatesV1ClusterTrustBundleError = KubernetesOpError;
@@ -3036,6 +3167,8 @@ export const watchCertificatesV1ClusterTrustBundle: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCertificatesV1ClusterTrustBundle",
 }));
 
 export type WatchCertificatesV1ClusterTrustBundleListError = KubernetesOpError;
@@ -3051,6 +3184,8 @@ export const watchCertificatesV1ClusterTrustBundleList: API.OperationMethod<
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCertificatesV1ClusterTrustBundleList",
 }));
 
 export type WatchCertificatesV1NamespacedPodCertificateRequestError = KubernetesOpError;
@@ -3070,6 +3205,8 @@ export const watchCertificatesV1NamespacedPodCertificateRequest: API.OperationMe
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCertificatesV1NamespacedPodCertificateRequest",
 }));
 
 export type WatchCertificatesV1NamespacedPodCertificateRequestListError = KubernetesOpError;
@@ -3089,6 +3226,8 @@ export const watchCertificatesV1NamespacedPodCertificateRequestList: API.Operati
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCertificatesV1NamespacedPodCertificateRequestList",
 }));
 
 export type WatchCertificatesV1PodCertificateRequestListForAllNamespacesError = KubernetesOpError;
@@ -3108,6 +3247,8 @@ export const watchCertificatesV1PodCertificateRequestListForAllNamespaces: API.O
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WatchCertificatesV1PodCertificateRequestListForAllNamespaces",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

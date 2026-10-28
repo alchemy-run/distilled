@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -167,6 +168,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "GeoRoutes",
+  service: "GeoRoutes",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -2467,6 +2482,8 @@ export const calculateIsolines: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CalculateIsolines",
+  telemetry: TELEMETRY,
+  span: "CalculateIsolines",
 }));
 
 export type CalculateRouteMatrixError =
@@ -2497,6 +2514,8 @@ export const calculateRouteMatrix: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CalculateRouteMatrix",
+  telemetry: TELEMETRY,
+  span: "CalculateRouteMatrix",
 }));
 
 export type CalculateRoutesError =
@@ -2527,6 +2546,8 @@ export const calculateRoutes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CalculateRoutes",
+  telemetry: TELEMETRY,
+  span: "CalculateRoutes",
 }));
 
 export type OptimizeWaypointsError =
@@ -2557,6 +2578,8 @@ export const optimizeWaypoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OptimizeWaypoints",
+  telemetry: TELEMETRY,
+  span: "OptimizeWaypoints",
 }));
 
 export type SnapToRoadsError =
@@ -2587,6 +2610,8 @@ export const snapToRoads: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SnapToRoads",
+  telemetry: TELEMETRY,
+  span: "SnapToRoads",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

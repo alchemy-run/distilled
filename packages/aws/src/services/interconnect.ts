@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import type { Credentials } from "../credentials.ts";
@@ -68,6 +69,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
     "eusc-de-east-1",
   ],
 );
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Interconnect",
+  service: "Interconnect",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export type DirectConnectGatewayAttachPoint = string;
 export type AmazonResourceName = string;
@@ -290,6 +306,8 @@ export const acceptConnectionProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptConnectionProposal",
+  telemetry: TELEMETRY,
+  span: "AcceptConnectionProposal",
 }));
 
 export type CreateConnectionError = CommonErrors;
@@ -314,6 +332,8 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  telemetry: TELEMETRY,
+  span: "CreateConnection",
 }));
 
 export type DeleteConnectionError = CommonErrors;
@@ -334,6 +354,8 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteConnection",
 }));
 
 export type DescribeConnectionProposalError = CommonErrors;
@@ -352,6 +374,8 @@ export const describeConnectionProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionProposal",
+  telemetry: TELEMETRY,
+  span: "DescribeConnectionProposal",
 }));
 
 export type GetConnectionError = CommonErrors;
@@ -370,6 +394,8 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
+  telemetry: TELEMETRY,
+  span: "GetConnection",
 }));
 
 export type GetEnvironmentError = CommonErrors;
@@ -388,6 +414,8 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  telemetry: TELEMETRY,
+  span: "GetEnvironment",
 }));
 
 export type ListAttachPointsError = CommonErrors;
@@ -413,6 +441,8 @@ export const listAttachPoints: API.PaginatedOperationMethod<
     items: "attachPoints",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAttachPoints",
 })) as any;
 
 export type ListConnectionsError = CommonErrors;
@@ -450,6 +480,8 @@ export const listConnections: API.PaginatedOperationMethod<
     items: "connections",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListConnections",
 })) as any;
 
 export type ListEnvironmentsError = CommonErrors;
@@ -475,6 +507,8 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListEnvironments",
 })) as any;
 
 export type ListTagsForResourceError = CommonErrors;
@@ -493,6 +527,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type TagResourceError = CommonErrors;
@@ -511,6 +547,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = CommonErrors;
@@ -529,6 +567,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateConnectionError = CommonErrors;
@@ -547,6 +587,8 @@ export const updateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnection",
+  telemetry: TELEMETRY,
+  span: "UpdateConnection",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

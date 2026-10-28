@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -75,6 +76,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://nova-act.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "NovaAct",
+  service: "NovaAct",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -488,6 +503,8 @@ export const createAct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAct",
+  telemetry: TELEMETRY,
+  span: "CreateAct",
 }));
 
 export type CreateSessionError =
@@ -522,6 +539,8 @@ export const createSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
+  telemetry: TELEMETRY,
+  span: "CreateSession",
 }));
 
 export type CreateWorkflowDefinitionError =
@@ -554,6 +573,8 @@ export const createWorkflowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflowDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateWorkflowDefinition",
 }));
 
 export type CreateWorkflowRunError =
@@ -586,6 +607,8 @@ export const createWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "CreateWorkflowRun",
 }));
 
 export type DeleteWorkflowDefinitionError =
@@ -618,6 +641,8 @@ export const deleteWorkflowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflowDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflowDefinition",
 }));
 
 export type DeleteWorkflowRunError =
@@ -650,6 +675,8 @@ export const deleteWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "DeleteWorkflowRun",
 }));
 
 export type GetWorkflowDefinitionError =
@@ -680,6 +707,8 @@ export const getWorkflowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowDefinition",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowDefinition",
 }));
 
 export type GetWorkflowRunError =
@@ -712,6 +741,8 @@ export const getWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "GetWorkflowRun",
 }));
 
 export type InvokeActStepError =
@@ -746,6 +777,8 @@ export const invokeActStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeActStep",
+  telemetry: TELEMETRY,
+  span: "InvokeActStep",
 }));
 
 export type ListActsError =
@@ -785,6 +818,8 @@ export const listActs: API.PaginatedOperationMethod<
     items: "actSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListActs",
 })) as any;
 
 export type ListModelsError =
@@ -807,6 +842,8 @@ export const listModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListModels",
+  telemetry: TELEMETRY,
+  span: "ListModels",
 }));
 
 export type ListSessionsError =
@@ -846,6 +883,8 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListSessions",
 })) as any;
 
 export type ListWorkflowDefinitionsError =
@@ -881,6 +920,8 @@ export const listWorkflowDefinitions: API.PaginatedOperationMethod<
     items: "workflowDefinitionSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowDefinitions",
 })) as any;
 
 export type ListWorkflowRunsError =
@@ -920,6 +961,8 @@ export const listWorkflowRuns: API.PaginatedOperationMethod<
     items: "workflowRunSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWorkflowRuns",
 })) as any;
 
 export type UpdateActError =
@@ -952,6 +995,8 @@ export const updateAct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAct",
+  telemetry: TELEMETRY,
+  span: "UpdateAct",
 }));
 
 export type UpdateWorkflowRunError =
@@ -984,6 +1029,8 @@ export const updateWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflowRun",
+  telemetry: TELEMETRY,
+  span: "UpdateWorkflowRun",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

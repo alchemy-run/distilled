@@ -16,6 +16,19 @@ const __s: any[] = [];
 
 export type { GoogleWorkspaceOpError, GoogleWorkspaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "google-workspace-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Slides",
+  service: "slides",
+  labels: "google_workspace",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -2280,6 +2293,8 @@ export const batchUpdatePresentations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdatePresentations",
 }));
 
 export type CreatePresentationsError =
@@ -2300,6 +2315,8 @@ export const createPresentations: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreatePresentations",
 }));
 
 export type GetPresentationsError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -2315,6 +2332,8 @@ export const getPresentations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPresentations",
 }));
 
 export type GetPresentationsPagesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -2330,6 +2349,8 @@ export const getPresentationsPages: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPresentationsPages",
 }));
 
 export type GetThumbnailPresentationsPagesError = NotFound | Forbidden | GoogleWorkspaceOpError;
@@ -2345,6 +2366,8 @@ export const getThumbnailPresentationsPages: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGoogleWorkspaceError],
   protocol: GoogleWorkspaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetThumbnailPresentationsPages",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

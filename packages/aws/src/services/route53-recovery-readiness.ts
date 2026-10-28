@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://route53-recovery-readiness.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "Route53RecoveryReadiness",
+  service: "Route53RecoveryReadiness",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -556,6 +571,8 @@ export const createCell: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCell",
+  telemetry: TELEMETRY,
+  span: "CreateCell",
 }));
 
 export type CreateCrossAccountAuthorizationError =
@@ -586,6 +603,8 @@ export const createCrossAccountAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCrossAccountAuthorization",
+  telemetry: TELEMETRY,
+  span: "CreateCrossAccountAuthorization",
 }));
 
 export type CreateReadinessCheckError =
@@ -616,6 +635,8 @@ export const createReadinessCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReadinessCheck",
+  telemetry: TELEMETRY,
+  span: "CreateReadinessCheck",
 }));
 
 export type CreateRecoveryGroupError =
@@ -646,6 +667,8 @@ export const createRecoveryGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecoveryGroup",
+  telemetry: TELEMETRY,
+  span: "CreateRecoveryGroup",
 }));
 
 export type CreateResourceSetError =
@@ -676,6 +699,8 @@ export const createResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceSet",
+  telemetry: TELEMETRY,
+  span: "CreateResourceSet",
 }));
 
 export type DeleteCellError =
@@ -706,6 +731,8 @@ export const deleteCell: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCell",
+  telemetry: TELEMETRY,
+  span: "DeleteCell",
 }));
 
 export type DeleteCrossAccountAuthorizationError =
@@ -734,6 +761,8 @@ export const deleteCrossAccountAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCrossAccountAuthorization",
+  telemetry: TELEMETRY,
+  span: "DeleteCrossAccountAuthorization",
 }));
 
 export type DeleteReadinessCheckError =
@@ -764,6 +793,8 @@ export const deleteReadinessCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReadinessCheck",
+  telemetry: TELEMETRY,
+  span: "DeleteReadinessCheck",
 }));
 
 export type DeleteRecoveryGroupError =
@@ -794,6 +825,8 @@ export const deleteRecoveryGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteRecoveryGroup",
 }));
 
 export type DeleteResourceSetError =
@@ -824,6 +857,8 @@ export const deleteResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceSet",
+  telemetry: TELEMETRY,
+  span: "DeleteResourceSet",
 }));
 
 export type GetArchitectureRecommendationsError =
@@ -854,6 +889,8 @@ export const getArchitectureRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchitectureRecommendations",
+  telemetry: TELEMETRY,
+  span: "GetArchitectureRecommendations",
 }));
 
 export type GetCellError =
@@ -884,6 +921,8 @@ export const getCell: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCell",
+  telemetry: TELEMETRY,
+  span: "GetCell",
 }));
 
 export type GetCellReadinessSummaryError =
@@ -921,6 +960,8 @@ export const getCellReadinessSummary: API.PaginatedOperationMethod<
     items: "ReadinessChecks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetCellReadinessSummary",
 })) as any;
 
 export type GetReadinessCheckError =
@@ -951,6 +992,8 @@ export const getReadinessCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReadinessCheck",
+  telemetry: TELEMETRY,
+  span: "GetReadinessCheck",
 }));
 
 export type GetReadinessCheckResourceStatusError =
@@ -988,6 +1031,8 @@ export const getReadinessCheckResourceStatus: API.PaginatedOperationMethod<
     items: "Rules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetReadinessCheckResourceStatus",
 })) as any;
 
 export type GetReadinessCheckStatusError =
@@ -1025,6 +1070,8 @@ export const getReadinessCheckStatus: API.PaginatedOperationMethod<
     items: "Resources",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetReadinessCheckStatus",
 })) as any;
 
 export type GetRecoveryGroupError =
@@ -1055,6 +1102,8 @@ export const getRecoveryGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryGroup",
+  telemetry: TELEMETRY,
+  span: "GetRecoveryGroup",
 }));
 
 export type GetRecoveryGroupReadinessSummaryError =
@@ -1092,6 +1141,8 @@ export const getRecoveryGroupReadinessSummary: API.PaginatedOperationMethod<
     items: "ReadinessChecks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetRecoveryGroupReadinessSummary",
 })) as any;
 
 export type GetResourceSetError =
@@ -1122,6 +1173,8 @@ export const getResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSet",
+  telemetry: TELEMETRY,
+  span: "GetResourceSet",
 }));
 
 export type ListCellsError =
@@ -1157,6 +1210,8 @@ export const listCells: API.PaginatedOperationMethod<
     items: "Cells",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCells",
 })) as any;
 
 export type ListCrossAccountAuthorizationsError =
@@ -1192,6 +1247,8 @@ export const listCrossAccountAuthorizations: API.PaginatedOperationMethod<
     items: "CrossAccountAuthorizations",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCrossAccountAuthorizations",
 })) as any;
 
 export type ListReadinessChecksError =
@@ -1227,6 +1284,8 @@ export const listReadinessChecks: API.PaginatedOperationMethod<
     items: "ReadinessChecks",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListReadinessChecks",
 })) as any;
 
 export type ListRecoveryGroupsError =
@@ -1262,6 +1321,8 @@ export const listRecoveryGroups: API.PaginatedOperationMethod<
     items: "RecoveryGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRecoveryGroups",
 })) as any;
 
 export type ListResourceSetsError =
@@ -1297,6 +1358,8 @@ export const listResourceSets: API.PaginatedOperationMethod<
     items: "ResourceSets",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListResourceSets",
 })) as any;
 
 export type ListRulesError =
@@ -1332,6 +1395,8 @@ export const listRules: API.PaginatedOperationMethod<
     items: "Rules",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRules",
 })) as any;
 
 export type ListTagsForResourcesError =
@@ -1354,6 +1419,8 @@ export const listTagsForResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResources",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResources",
 }));
 
 export type TagResourceError =
@@ -1376,6 +1443,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1398,6 +1467,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCellError =
@@ -1428,6 +1499,8 @@ export const updateCell: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCell",
+  telemetry: TELEMETRY,
+  span: "UpdateCell",
 }));
 
 export type UpdateReadinessCheckError =
@@ -1458,6 +1531,8 @@ export const updateReadinessCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReadinessCheck",
+  telemetry: TELEMETRY,
+  span: "UpdateReadinessCheck",
 }));
 
 export type UpdateRecoveryGroupError =
@@ -1488,6 +1563,8 @@ export const updateRecoveryGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateRecoveryGroup",
 }));
 
 export type UpdateResourceSetError =
@@ -1518,6 +1595,8 @@ export const updateResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceSet",
+  telemetry: TELEMETRY,
+  span: "UpdateResourceSet",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

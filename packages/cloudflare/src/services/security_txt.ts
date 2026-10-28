@@ -21,6 +21,20 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   preferredLanguages: "preferred_languages",
 };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "cloudflare-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    { header: "cf-ray", name: "http.response.header.cf-ray", transform: "list" },
+  ],
+  prefix: "Cloudflare",
+  service: "SecurityTxt",
+  labels: "cloudflare",
+  propagate: "w3c",
+} as const;
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -100,6 +114,8 @@ export const deleteSecurityTxt: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityTxt",
 }));
 
 export type GetSecurityTxtError = Forbidden | CloudflareOpError;
@@ -115,6 +131,8 @@ export const getSecurityTxt: API.OperationMethod<
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSecurityTxt",
 }));
 
 export type PutSecurityTxtError = Forbidden | SecurityTxtInvalid | CloudflareOpError;
@@ -130,6 +148,8 @@ export const putSecurityTxt: API.OperationMethod<
   errors: [Forbidden, SecurityTxtInvalid, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PutSecurityTxt",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

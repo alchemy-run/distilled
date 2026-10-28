@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
@@ -76,6 +77,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://data.mediastore.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MediaStoreData",
+  service: "MediaStoreData",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ContainerNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ContainerNotFoundException>()(
@@ -195,6 +210,8 @@ export const deleteObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObject",
+  telemetry: TELEMETRY,
+  span: "DeleteObject",
 }));
 
 export type DescribeObjectError =
@@ -217,6 +234,8 @@ export const describeObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeObject",
+  telemetry: TELEMETRY,
+  span: "DescribeObject",
 }));
 
 export type GetObjectError =
@@ -245,6 +264,8 @@ export const getObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObject",
+  telemetry: TELEMETRY,
+  span: "GetObject",
 }));
 
 export type ListItemsError = ContainerNotFoundException | InternalServerError | CommonErrors;
@@ -270,6 +291,8 @@ export const listItems: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListItems",
 })) as any;
 
 export type PutObjectError = ContainerNotFoundException | InternalServerError | CommonErrors;
@@ -288,6 +311,8 @@ export const putObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObject",
+  telemetry: TELEMETRY,
+  span: "PutObject",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -12,6 +12,19 @@ const __s: any[] = [];
 
 export type { HetznerOpError, HetznerOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "hetzner-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Hetzner",
+  service: "PrimaryIpActions",
+  labels: "hetzner",
+  propagate: "w3c",
+} as const;
+
 /** Type of resource assigning the Primary IP to. */
 export type AssignPrimaryIpRequestAssigneeType = "server";
 export interface AssignPrimaryIpRequest {
@@ -378,6 +391,8 @@ export const assignPrimaryIp: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AssignPrimaryIp",
 }));
 
 export type ChangePrimaryIpDnsPtrError = HetznerOpError;
@@ -393,6 +408,8 @@ export const changePrimaryIpDnsPtr: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangePrimaryIpDnsPtr",
 }));
 
 export type ChangePrimaryIpProtectionError = HetznerOpError;
@@ -408,6 +425,8 @@ export const changePrimaryIpProtection: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ChangePrimaryIpProtection",
 }));
 
 export type GetPrimaryIpsActionError = HetznerOpError;
@@ -423,6 +442,8 @@ export const getPrimaryIpsAction: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetPrimaryIpsAction",
 }));
 
 export type ListPrimaryIpActionsError = HetznerOpError;
@@ -440,6 +461,8 @@ export const listPrimaryIpActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPrimaryIpActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -466,6 +489,8 @@ export const listPrimaryIpsActions: API.PaginatedOperationMethod<
     errors: [UnknownHetznerError],
     protocol: HetznerProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListPrimaryIpsActions",
     pagination: {
       mode: "page",
       inputToken: "page",
@@ -490,6 +515,8 @@ export const unassignPrimaryIp: API.OperationMethod<
   errors: [UnknownHetznerError],
   protocol: HetznerProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnassignPrimaryIp",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

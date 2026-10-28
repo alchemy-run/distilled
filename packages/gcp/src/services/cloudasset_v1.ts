@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "cloudasset" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Cloudasset",
+  service: "cloudasset",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -1894,6 +1913,8 @@ export const analyzeIamPolicyLongrunningV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyzeIamPolicyLongrunningV1",
 }));
 
 export type AnalyzeIamPolicyV1Error = NotFound | Forbidden | GcpOpError;
@@ -1909,6 +1930,8 @@ export const analyzeIamPolicyV1: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyzeIamPolicyV1",
 }));
 
 export type AnalyzeMoveV1Error = NotFound | Forbidden | GcpOpError;
@@ -1924,6 +1947,8 @@ export const analyzeMoveV1: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyzeMoveV1",
 }));
 
 export type AnalyzeOrgPoliciesV1Error = NotFound | Forbidden | GcpOpError;
@@ -1940,6 +1965,8 @@ export const analyzeOrgPoliciesV1: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyzeOrgPoliciesV1",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1957,6 +1984,8 @@ export const analyzeOrgPolicyGovernedAssetsV1: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyzeOrgPolicyGovernedAssetsV1",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1974,6 +2003,8 @@ export const analyzeOrgPolicyGovernedContainersV1: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AnalyzeOrgPolicyGovernedContainersV1",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1990,6 +2021,8 @@ export const batchGetAssetsHistoryV1: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetAssetsHistoryV1",
 }));
 
 export type BatchGetEffectiveIamPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -2005,6 +2038,8 @@ export const batchGetEffectiveIamPolicies: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchGetEffectiveIamPolicies",
 }));
 
 export type CreateFeedsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2020,6 +2055,8 @@ export const createFeeds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFeeds",
 }));
 
 export type CreateSavedQueriesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2035,6 +2072,8 @@ export const createSavedQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateSavedQueries",
 }));
 
 export type DeleteFeedsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2050,6 +2089,8 @@ export const deleteFeeds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFeeds",
 }));
 
 export type DeleteSavedQueriesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2065,6 +2106,8 @@ export const deleteSavedQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSavedQueries",
 }));
 
 export type ExportAssetsV1Error = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2080,6 +2123,8 @@ export const exportAssetsV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExportAssetsV1",
 }));
 
 export type GetFeedsError = NotFound | Forbidden | GcpOpError;
@@ -2091,6 +2136,8 @@ export const getFeeds: API.OperationMethod<GetFeedsRequest, Feed, GetFeedsError,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetFeeds",
   }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2106,6 +2153,8 @@ export const getOperations: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOperations",
 }));
 
 export type GetSavedQueriesError = NotFound | Forbidden | GcpOpError;
@@ -2121,6 +2170,8 @@ export const getSavedQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedQueries",
 }));
 
 export type ListAssetsError = NotFound | Forbidden | GcpOpError;
@@ -2137,6 +2188,8 @@ export const listAssets: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAssets",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2153,6 +2206,8 @@ export const listFeeds: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFeeds",
 }));
 
 export type ListSavedQueriesError = NotFound | Forbidden | GcpOpError;
@@ -2169,6 +2224,8 @@ export const listSavedQueries: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSavedQueries",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2185,6 +2242,8 @@ export const patchFeeds: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchFeeds",
 }));
 
 export type PatchSavedQueriesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2200,6 +2259,8 @@ export const patchSavedQueries: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PatchSavedQueries",
 }));
 
 export type QueryAssetsV1Error = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2215,6 +2276,8 @@ export const queryAssetsV1: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "QueryAssetsV1",
 }));
 
 export type SearchAllIamPoliciesV1Error = NotFound | Forbidden | GcpOpError;
@@ -2231,6 +2294,8 @@ export const searchAllIamPoliciesV1: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchAllIamPoliciesV1",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2248,6 +2313,8 @@ export const searchAllResourcesV1: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchAllResourcesV1",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

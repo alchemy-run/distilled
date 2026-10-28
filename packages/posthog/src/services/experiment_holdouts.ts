@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { PosthogOpError, PosthogOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "posthog-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "PostHog",
+  service: "ExperimentHoldouts",
+  labels: "posthog",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -327,6 +340,8 @@ export const createExperimentHoldout: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExperimentHoldout",
 }));
 
 export type ExperimentHoldoutsDestroyError = Forbidden | NotFound | PosthogOpError;
@@ -342,6 +357,8 @@ export const experimentHoldoutsDestroy: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExperimentHoldoutsDestroy",
 }));
 
 export type GetExperimentHoldoutError = Forbidden | NotFound | PosthogOpError;
@@ -357,6 +374,8 @@ export const getExperimentHoldout: API.OperationMethod<
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetExperimentHoldout",
 }));
 
 export type ListExperimentHoldoutsError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -372,6 +391,8 @@ export const listExperimentHoldouts: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListExperimentHoldouts",
 }));
 
 export type UpdateExperimentHoldoutError = BadRequest | Forbidden | NotFound | PosthogOpError;
@@ -387,6 +408,8 @@ export const updateExperimentHoldout: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentHoldout",
 }));
 
 export type UpdateExperimentHoldoutsPartialError =
@@ -406,6 +429,8 @@ export const updateExperimentHoldoutsPartial: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateExperimentHoldoutsPartial",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

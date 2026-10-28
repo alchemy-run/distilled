@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -78,6 +79,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://license-manager.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LicenseManager",
+  service: "LicenseManager",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -1409,6 +1425,8 @@ export const acceptGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptGrant",
+  telemetry: TELEMETRY,
+  span: "AcceptGrant",
 }));
 
 export type CheckInLicenseError =
@@ -1445,6 +1463,8 @@ export const checkInLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckInLicense",
+  telemetry: TELEMETRY,
+  span: "CheckInLicense",
 }));
 
 export type CheckoutBorrowLicenseError =
@@ -1487,6 +1507,8 @@ export const checkoutBorrowLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckoutBorrowLicense",
+  telemetry: TELEMETRY,
+  span: "CheckoutBorrowLicense",
 }));
 
 export type CheckoutLicenseError =
@@ -1530,6 +1552,8 @@ export const checkoutLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckoutLicense",
+  telemetry: TELEMETRY,
+  span: "CheckoutLicense",
 }));
 
 export type CreateGrantError =
@@ -1566,6 +1590,8 @@ export const createGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGrant",
+  telemetry: TELEMETRY,
+  span: "CreateGrant",
 }));
 
 export type CreateGrantVersionError =
@@ -1601,6 +1627,8 @@ export const createGrantVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGrantVersion",
+  telemetry: TELEMETRY,
+  span: "CreateGrantVersion",
 }));
 
 export type CreateLicenseError =
@@ -1635,6 +1663,8 @@ export const createLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicense",
+  telemetry: TELEMETRY,
+  span: "CreateLicense",
 }));
 
 export type CreateLicenseAssetGroupError =
@@ -1667,6 +1697,8 @@ export const createLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseAssetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseAssetGroup",
 }));
 
 export type CreateLicenseAssetRulesetError =
@@ -1699,6 +1731,8 @@ export const createLicenseAssetRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseAssetRuleset",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseAssetRuleset",
 }));
 
 export type CreateLicenseConfigurationError =
@@ -1737,6 +1771,8 @@ export const createLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseConfiguration",
 }));
 
 export type CreateLicenseConversionTaskForResourceError =
@@ -1769,6 +1805,8 @@ export const createLicenseConversionTaskForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseConversionTaskForResource",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseConversionTaskForResource",
 }));
 
 export type CreateLicenseManagerReportGeneratorError =
@@ -1805,6 +1843,8 @@ export const createLicenseManagerReportGenerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseManagerReportGenerator",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseManagerReportGenerator",
 }));
 
 export type CreateLicenseVersionError =
@@ -1841,6 +1881,8 @@ export const createLicenseVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseVersion",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseVersion",
 }));
 
 export type CreateTokenError =
@@ -1881,6 +1923,8 @@ export const createToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateToken",
+  telemetry: TELEMETRY,
+  span: "CreateToken",
 }));
 
 export type DeleteGrantError =
@@ -1915,6 +1959,8 @@ export const deleteGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGrant",
+  telemetry: TELEMETRY,
+  span: "DeleteGrant",
 }));
 
 export type DeleteLicenseError =
@@ -1951,6 +1997,8 @@ export const deleteLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicense",
+  telemetry: TELEMETRY,
+  span: "DeleteLicense",
 }));
 
 export type DeleteLicenseAssetGroupError =
@@ -1983,6 +2031,8 @@ export const deleteLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseAssetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseAssetGroup",
 }));
 
 export type DeleteLicenseAssetRulesetError =
@@ -2015,6 +2065,8 @@ export const deleteLicenseAssetRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseAssetRuleset",
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseAssetRuleset",
 }));
 
 export type DeleteLicenseConfigurationError =
@@ -2049,6 +2101,8 @@ export const deleteLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseConfiguration",
 }));
 
 export type DeleteLicenseManagerReportGeneratorError =
@@ -2088,6 +2142,8 @@ export const deleteLicenseManagerReportGenerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseManagerReportGenerator",
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseManagerReportGenerator",
 }));
 
 export type DeleteTokenError =
@@ -2122,6 +2178,8 @@ export const deleteToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteToken",
+  telemetry: TELEMETRY,
+  span: "DeleteToken",
 }));
 
 export type ExtendLicenseConsumptionError =
@@ -2156,6 +2214,8 @@ export const extendLicenseConsumption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExtendLicenseConsumption",
+  telemetry: TELEMETRY,
+  span: "ExtendLicenseConsumption",
 }));
 
 export type GetAccessTokenError =
@@ -2189,6 +2249,8 @@ export const getAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessToken",
+  telemetry: TELEMETRY,
+  span: "GetAccessToken",
 }));
 
 export type GetGrantError =
@@ -2225,6 +2287,8 @@ export const getGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGrant",
+  telemetry: TELEMETRY,
+  span: "GetGrant",
 }));
 
 export type GetLicenseError =
@@ -2259,6 +2323,8 @@ export const getLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicense",
+  telemetry: TELEMETRY,
+  span: "GetLicense",
 }));
 
 export type GetLicenseAssetGroupError =
@@ -2291,6 +2357,8 @@ export const getLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseAssetGroup",
+  telemetry: TELEMETRY,
+  span: "GetLicenseAssetGroup",
 }));
 
 export type GetLicenseAssetRulesetError =
@@ -2323,6 +2391,8 @@ export const getLicenseAssetRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseAssetRuleset",
+  telemetry: TELEMETRY,
+  span: "GetLicenseAssetRuleset",
 }));
 
 export type GetLicenseConfigurationError =
@@ -2355,6 +2425,8 @@ export const getLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetLicenseConfiguration",
 }));
 
 export type GetLicenseConversionTaskError =
@@ -2385,6 +2457,8 @@ export const getLicenseConversionTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseConversionTask",
+  telemetry: TELEMETRY,
+  span: "GetLicenseConversionTask",
 }));
 
 export type GetLicenseManagerReportGeneratorError =
@@ -2421,6 +2495,8 @@ export const getLicenseManagerReportGenerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseManagerReportGenerator",
+  telemetry: TELEMETRY,
+  span: "GetLicenseManagerReportGenerator",
 }));
 
 export type GetLicenseUsageError =
@@ -2453,6 +2529,8 @@ export const getLicenseUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseUsage",
+  telemetry: TELEMETRY,
+  span: "GetLicenseUsage",
 }));
 
 export type GetServiceSettingsError =
@@ -2481,6 +2559,8 @@ export const getServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSettings",
+  telemetry: TELEMETRY,
+  span: "GetServiceSettings",
 }));
 
 export type ListAssetsForLicenseAssetGroupError =
@@ -2513,6 +2593,8 @@ export const listAssetsForLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssetsForLicenseAssetGroup",
+  telemetry: TELEMETRY,
+  span: "ListAssetsForLicenseAssetGroup",
 }));
 
 export type ListAssociationsForLicenseConfigurationError =
@@ -2549,6 +2631,8 @@ export const listAssociationsForLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociationsForLicenseConfiguration",
+  telemetry: TELEMETRY,
+  span: "ListAssociationsForLicenseConfiguration",
 }));
 
 export type ListDistributedGrantsError =
@@ -2583,6 +2667,8 @@ export const listDistributedGrants: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributedGrants",
+  telemetry: TELEMETRY,
+  span: "ListDistributedGrants",
 }));
 
 export type ListFailuresForLicenseConfigurationOperationsError =
@@ -2621,6 +2707,8 @@ export const listFailuresForLicenseConfigurationOperations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFailuresForLicenseConfigurationOperations",
+  telemetry: TELEMETRY,
+  span: "ListFailuresForLicenseConfigurationOperations",
 }));
 
 export type ListLicenseAssetGroupsError =
@@ -2653,6 +2741,8 @@ export const listLicenseAssetGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseAssetGroups",
+  telemetry: TELEMETRY,
+  span: "ListLicenseAssetGroups",
 }));
 
 export type ListLicenseAssetRulesetsError =
@@ -2685,6 +2775,8 @@ export const listLicenseAssetRulesets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseAssetRulesets",
+  telemetry: TELEMETRY,
+  span: "ListLicenseAssetRulesets",
 }));
 
 export type ListLicenseConfigurationsError =
@@ -2717,6 +2809,8 @@ export const listLicenseConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListLicenseConfigurations",
 }));
 
 export type ListLicenseConfigurationsForOrganizationError =
@@ -2749,6 +2843,8 @@ export const listLicenseConfigurationsForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseConfigurationsForOrganization",
+  telemetry: TELEMETRY,
+  span: "ListLicenseConfigurationsForOrganization",
 }));
 
 export type ListLicenseConversionTasksError =
@@ -2779,6 +2875,8 @@ export const listLicenseConversionTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseConversionTasks",
+  telemetry: TELEMETRY,
+  span: "ListLicenseConversionTasks",
 }));
 
 export type ListLicenseManagerReportGeneratorsError =
@@ -2815,6 +2913,8 @@ export const listLicenseManagerReportGenerators: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseManagerReportGenerators",
+  telemetry: TELEMETRY,
+  span: "ListLicenseManagerReportGenerators",
 }));
 
 export type ListLicensesError =
@@ -2847,6 +2947,8 @@ export const listLicenses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenses",
+  telemetry: TELEMETRY,
+  span: "ListLicenses",
 }));
 
 export type ListLicenseSpecificationsForResourceError =
@@ -2877,6 +2979,8 @@ export const listLicenseSpecificationsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseSpecificationsForResource",
+  telemetry: TELEMETRY,
+  span: "ListLicenseSpecificationsForResource",
 }));
 
 export type ListLicenseVersionsError =
@@ -2907,6 +3011,8 @@ export const listLicenseVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseVersions",
+  telemetry: TELEMETRY,
+  span: "ListLicenseVersions",
 }));
 
 export type ListReceivedGrantsError =
@@ -2943,6 +3049,8 @@ export const listReceivedGrants: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceivedGrants",
+  telemetry: TELEMETRY,
+  span: "ListReceivedGrants",
 }));
 
 export type ListReceivedGrantsForOrganizationError =
@@ -2977,6 +3085,8 @@ export const listReceivedGrantsForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceivedGrantsForOrganization",
+  telemetry: TELEMETRY,
+  span: "ListReceivedGrantsForOrganization",
 }));
 
 export type ListReceivedLicensesError =
@@ -3011,6 +3121,8 @@ export const listReceivedLicenses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceivedLicenses",
+  telemetry: TELEMETRY,
+  span: "ListReceivedLicenses",
 }));
 
 export type ListReceivedLicensesForOrganizationError =
@@ -3045,6 +3157,8 @@ export const listReceivedLicensesForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceivedLicensesForOrganization",
+  telemetry: TELEMETRY,
+  span: "ListReceivedLicensesForOrganization",
 }));
 
 export type ListResourceInventoryError =
@@ -3079,6 +3193,8 @@ export const listResourceInventory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceInventory",
+  telemetry: TELEMETRY,
+  span: "ListResourceInventory",
 }));
 
 export type ListTagsForResourceError =
@@ -3112,6 +3228,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTokensError =
@@ -3142,6 +3260,8 @@ export const listTokens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTokens",
+  telemetry: TELEMETRY,
+  span: "ListTokens",
 }));
 
 export type ListUsageForLicenseConfigurationError =
@@ -3176,6 +3296,8 @@ export const listUsageForLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUsageForLicenseConfiguration",
+  telemetry: TELEMETRY,
+  span: "ListUsageForLicenseConfiguration",
 }));
 
 export type RejectGrantError =
@@ -3210,6 +3332,8 @@ export const rejectGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectGrant",
+  telemetry: TELEMETRY,
+  span: "RejectGrant",
 }));
 
 export type TagResourceError =
@@ -3251,6 +3375,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3283,6 +3409,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateLicenseAssetGroupError =
@@ -3315,6 +3443,8 @@ export const updateLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseAssetGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateLicenseAssetGroup",
 }));
 
 export type UpdateLicenseAssetRulesetError =
@@ -3347,6 +3477,8 @@ export const updateLicenseAssetRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseAssetRuleset",
+  telemetry: TELEMETRY,
+  span: "UpdateLicenseAssetRuleset",
 }));
 
 export type UpdateLicenseConfigurationError =
@@ -3383,6 +3515,8 @@ export const updateLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateLicenseConfiguration",
 }));
 
 export type UpdateLicenseManagerReportGeneratorError =
@@ -3421,6 +3555,8 @@ export const updateLicenseManagerReportGenerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseManagerReportGenerator",
+  telemetry: TELEMETRY,
+  span: "UpdateLicenseManagerReportGenerator",
 }));
 
 export type UpdateLicenseSpecificationsForResourceError =
@@ -3461,6 +3597,8 @@ export const updateLicenseSpecificationsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseSpecificationsForResource",
+  telemetry: TELEMETRY,
+  span: "UpdateLicenseSpecificationsForResource",
 }));
 
 export type UpdateServiceSettingsError =
@@ -3495,6 +3633,8 @@ export const updateServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

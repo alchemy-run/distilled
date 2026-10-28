@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://social-messaging.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "SocialMessaging",
+  service: "SocialMessaging",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedByMetaException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedByMetaException>()(
@@ -827,6 +842,8 @@ export const associateWhatsAppBusinessAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWhatsAppBusinessAccount",
+  telemetry: TELEMETRY,
+  span: "AssociateWhatsAppBusinessAccount",
 }));
 
 export type CreateWhatsAppDatasetError =
@@ -859,6 +876,8 @@ export const createWhatsAppDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppDataset",
+  telemetry: TELEMETRY,
+  span: "CreateWhatsAppDataset",
 }));
 
 export type CreateWhatsAppFlowError =
@@ -893,6 +912,8 @@ export const createWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppFlow",
+  telemetry: TELEMETRY,
+  span: "CreateWhatsAppFlow",
 }));
 
 export type CreateWhatsAppMessageTemplateError =
@@ -927,6 +948,8 @@ export const createWhatsAppMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "CreateWhatsAppMessageTemplate",
 }));
 
 export type CreateWhatsAppMessageTemplateFromLibraryError =
@@ -959,6 +982,8 @@ export const createWhatsAppMessageTemplateFromLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppMessageTemplateFromLibrary",
+  telemetry: TELEMETRY,
+  span: "CreateWhatsAppMessageTemplateFromLibrary",
 }));
 
 export type CreateWhatsAppMessageTemplateMediaError =
@@ -991,6 +1016,8 @@ export const createWhatsAppMessageTemplateMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatsAppMessageTemplateMedia",
+  telemetry: TELEMETRY,
+  span: "CreateWhatsAppMessageTemplateMedia",
 }));
 
 export type DeleteWhatsAppFlowError =
@@ -1023,6 +1050,8 @@ export const deleteWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatsAppFlow",
+  telemetry: TELEMETRY,
+  span: "DeleteWhatsAppFlow",
 }));
 
 export type DeleteWhatsAppMessageMediaError =
@@ -1055,6 +1084,8 @@ export const deleteWhatsAppMessageMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatsAppMessageMedia",
+  telemetry: TELEMETRY,
+  span: "DeleteWhatsAppMessageMedia",
 }));
 
 export type DeleteWhatsAppMessageTemplateError =
@@ -1087,6 +1118,8 @@ export const deleteWhatsAppMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatsAppMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "DeleteWhatsAppMessageTemplate",
 }));
 
 export type DeprecateWhatsAppFlowError =
@@ -1119,6 +1152,8 @@ export const deprecateWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprecateWhatsAppFlow",
+  telemetry: TELEMETRY,
+  span: "DeprecateWhatsAppFlow",
 }));
 
 export type DisassociateWhatsAppBusinessAccountError =
@@ -1147,6 +1182,8 @@ export const disassociateWhatsAppBusinessAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWhatsAppBusinessAccount",
+  telemetry: TELEMETRY,
+  span: "DisassociateWhatsAppBusinessAccount",
 }));
 
 export type GetLinkedWhatsAppBusinessAccountError =
@@ -1177,6 +1214,8 @@ export const getLinkedWhatsAppBusinessAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLinkedWhatsAppBusinessAccount",
+  telemetry: TELEMETRY,
+  span: "GetLinkedWhatsAppBusinessAccount",
 }));
 
 export type GetLinkedWhatsAppBusinessAccountPhoneNumberError =
@@ -1207,6 +1246,8 @@ export const getLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLinkedWhatsAppBusinessAccountPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "GetLinkedWhatsAppBusinessAccountPhoneNumber",
 }));
 
 export type GetWhatsAppBusinessPublicKeyError =
@@ -1241,6 +1282,8 @@ export const getWhatsAppBusinessPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppBusinessPublicKey",
+  telemetry: TELEMETRY,
+  span: "GetWhatsAppBusinessPublicKey",
 }));
 
 export type GetWhatsAppCallPermissionError =
@@ -1273,6 +1316,8 @@ export const getWhatsAppCallPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppCallPermission",
+  telemetry: TELEMETRY,
+  span: "GetWhatsAppCallPermission",
 }));
 
 export type GetWhatsAppFlowError =
@@ -1305,6 +1350,8 @@ export const getWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppFlow",
+  telemetry: TELEMETRY,
+  span: "GetWhatsAppFlow",
 }));
 
 export type GetWhatsAppFlowPreviewError =
@@ -1337,6 +1384,8 @@ export const getWhatsAppFlowPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppFlowPreview",
+  telemetry: TELEMETRY,
+  span: "GetWhatsAppFlowPreview",
 }));
 
 export type GetWhatsAppMessageMediaError =
@@ -1373,6 +1422,8 @@ export const getWhatsAppMessageMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppMessageMedia",
+  telemetry: TELEMETRY,
+  span: "GetWhatsAppMessageMedia",
 }));
 
 export type GetWhatsAppMessageTemplateError =
@@ -1405,6 +1456,8 @@ export const getWhatsAppMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWhatsAppMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "GetWhatsAppMessageTemplate",
 }));
 
 export type ListLinkedWhatsAppBusinessAccountsError =
@@ -1440,6 +1493,8 @@ export const listLinkedWhatsAppBusinessAccounts: API.PaginatedOperationMethod<
     items: "linkedAccounts",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLinkedWhatsAppBusinessAccounts",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -1462,6 +1517,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListWhatsAppFlowAssetsError =
@@ -1501,6 +1558,8 @@ export const listWhatsAppFlowAssets: API.PaginatedOperationMethod<
     items: "flowAssets",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWhatsAppFlowAssets",
 })) as any;
 
 export type ListWhatsAppFlowsError =
@@ -1540,6 +1599,8 @@ export const listWhatsAppFlows: API.PaginatedOperationMethod<
     items: "flows",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWhatsAppFlows",
 })) as any;
 
 export type ListWhatsAppMessageTemplatesError =
@@ -1579,6 +1640,8 @@ export const listWhatsAppMessageTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWhatsAppMessageTemplates",
 })) as any;
 
 export type ListWhatsAppTemplateLibraryError =
@@ -1618,6 +1681,8 @@ export const listWhatsAppTemplateLibrary: API.PaginatedOperationMethod<
     items: "metaLibraryTemplates",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListWhatsAppTemplateLibrary",
 })) as any;
 
 export type PostWhatsAppMessageMediaError =
@@ -1654,6 +1719,8 @@ export const postWhatsAppMessageMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostWhatsAppMessageMedia",
+  telemetry: TELEMETRY,
+  span: "PostWhatsAppMessageMedia",
 }));
 
 export type PublishWhatsAppFlowError =
@@ -1686,6 +1753,8 @@ export const publishWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishWhatsAppFlow",
+  telemetry: TELEMETRY,
+  span: "PublishWhatsAppFlow",
 }));
 
 export type PutWhatsAppBusinessAccountEventDestinationsError =
@@ -1708,6 +1777,8 @@ export const putWhatsAppBusinessAccountEventDestinations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWhatsAppBusinessAccountEventDestinations",
+  telemetry: TELEMETRY,
+  span: "PutWhatsAppBusinessAccountEventDestinations",
 }));
 
 export type PutWhatsAppBusinessPublicKeyError =
@@ -1742,6 +1813,8 @@ export const putWhatsAppBusinessPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWhatsAppBusinessPublicKey",
+  telemetry: TELEMETRY,
+  span: "PutWhatsAppBusinessPublicKey",
 }));
 
 export type SendWhatsAppCallEventError =
@@ -1776,6 +1849,8 @@ export const sendWhatsAppCallEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendWhatsAppCallEvent",
+  telemetry: TELEMETRY,
+  span: "SendWhatsAppCallEvent",
 }));
 
 export type SendWhatsAppConversionEventError =
@@ -1808,6 +1883,8 @@ export const sendWhatsAppConversionEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendWhatsAppConversionEvent",
+  telemetry: TELEMETRY,
+  span: "SendWhatsAppConversionEvent",
 }));
 
 export type SendWhatsAppMessageError =
@@ -1844,6 +1921,8 @@ export const sendWhatsAppMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendWhatsAppMessage",
+  telemetry: TELEMETRY,
+  span: "SendWhatsAppMessage",
 }));
 
 export type TagResourceError =
@@ -1867,6 +1946,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1889,6 +1970,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateLinkedWhatsAppBusinessAccountPhoneNumberError =
@@ -1925,6 +2008,8 @@ export const updateLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLinkedWhatsAppBusinessAccountPhoneNumber",
+  telemetry: TELEMETRY,
+  span: "UpdateLinkedWhatsAppBusinessAccountPhoneNumber",
 }));
 
 export type UpdateWhatsAppFlowError =
@@ -1957,6 +2042,8 @@ export const updateWhatsAppFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWhatsAppFlow",
+  telemetry: TELEMETRY,
+  span: "UpdateWhatsAppFlow",
 }));
 
 export type UpdateWhatsAppFlowAssetsError =
@@ -1989,6 +2076,8 @@ export const updateWhatsAppFlowAssets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWhatsAppFlowAssets",
+  telemetry: TELEMETRY,
+  span: "UpdateWhatsAppFlowAssets",
 }));
 
 export type UpdateWhatsAppMessageTemplateError =
@@ -2021,6 +2110,8 @@ export const updateWhatsAppMessageTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWhatsAppMessageTemplate",
+  telemetry: TELEMETRY,
+  span: "UpdateWhatsAppMessageTemplate",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

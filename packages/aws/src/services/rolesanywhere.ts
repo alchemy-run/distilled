@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
@@ -77,6 +78,20 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://rolesanywhere.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "RolesAnywhere",
+  service: "RolesAnywhere",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
@@ -387,6 +402,8 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  telemetry: TELEMETRY,
+  span: "CreateProfile",
 }));
 
 export type CreateTrustAnchorError = AccessDeniedException | ValidationException | CommonErrors;
@@ -407,6 +424,8 @@ export const createTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustAnchor",
+  telemetry: TELEMETRY,
+  span: "CreateTrustAnchor",
 }));
 
 export type DeleteAttributeMappingError =
@@ -429,6 +448,8 @@ export const deleteAttributeMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributeMapping",
+  telemetry: TELEMETRY,
+  span: "DeleteAttributeMapping",
 }));
 
 export type DeleteCrlError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
@@ -449,6 +470,8 @@ export const deleteCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCrl",
+  telemetry: TELEMETRY,
+  span: "DeleteCrl",
 }));
 
 export type DeleteProfileError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
@@ -469,6 +492,8 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  telemetry: TELEMETRY,
+  span: "DeleteProfile",
 }));
 
 export type DeleteTrustAnchorError =
@@ -492,6 +517,8 @@ export const deleteTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustAnchor",
+  telemetry: TELEMETRY,
+  span: "DeleteTrustAnchor",
 }));
 
 export interface DisableCrlRequest extends ScalarCrlRequest {}
@@ -516,6 +543,8 @@ export const disableCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableCrl",
+  telemetry: TELEMETRY,
+  span: "DisableCrl",
 }));
 
 export interface DisableProfileRequest extends ScalarProfileRequest {}
@@ -540,6 +569,8 @@ export const disableProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableProfile",
+  telemetry: TELEMETRY,
+  span: "DisableProfile",
 }));
 
 export interface DisableTrustAnchorRequest extends ScalarTrustAnchorRequest {}
@@ -569,6 +600,8 @@ export const disableTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableTrustAnchor",
+  telemetry: TELEMETRY,
+  span: "DisableTrustAnchor",
 }));
 
 export interface EnableCrlRequest extends ScalarCrlRequest {}
@@ -593,6 +626,8 @@ export const enableCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableCrl",
+  telemetry: TELEMETRY,
+  span: "EnableCrl",
 }));
 
 export interface EnableProfileRequest extends ScalarProfileRequest {}
@@ -617,6 +652,8 @@ export const enableProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableProfile",
+  telemetry: TELEMETRY,
+  span: "EnableProfile",
 }));
 
 export interface EnableTrustAnchorRequest extends ScalarTrustAnchorRequest {}
@@ -646,6 +683,8 @@ export const enableTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableTrustAnchor",
+  telemetry: TELEMETRY,
+  span: "EnableTrustAnchor",
 }));
 
 export interface GetCrlRequest extends ScalarCrlRequest {}
@@ -670,6 +709,8 @@ export const getCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCrl",
+  telemetry: TELEMETRY,
+  span: "GetCrl",
 }));
 
 export interface GetProfileRequest extends ScalarProfileRequest {}
@@ -694,6 +735,8 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  telemetry: TELEMETRY,
+  span: "GetProfile",
 }));
 
 export type GetSubjectError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
@@ -714,6 +757,8 @@ export const getSubject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubject",
+  telemetry: TELEMETRY,
+  span: "GetSubject",
 }));
 
 export interface GetTrustAnchorRequest extends ScalarTrustAnchorRequest {}
@@ -742,6 +787,8 @@ export const getTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustAnchor",
+  telemetry: TELEMETRY,
+  span: "GetTrustAnchor",
 }));
 
 export type ImportCrlError = AccessDeniedException | ValidationException | CommonErrors;
@@ -762,6 +809,8 @@ export const importCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCrl",
+  telemetry: TELEMETRY,
+  span: "ImportCrl",
 }));
 
 export type ListCrlsError = AccessDeniedException | ValidationException | CommonErrors;
@@ -784,6 +833,8 @@ export const listCrls: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListCrls",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "crls" } as const,
+  telemetry: TELEMETRY,
+  span: "ListCrls",
 })) as any;
 
 export interface ListProfilesRequest extends ListRequest {}
@@ -810,6 +861,8 @@ export const listProfiles: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListProfiles",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "profiles" } as const,
+  telemetry: TELEMETRY,
+  span: "ListProfiles",
 })) as any;
 
 export interface ListSubjectsRequest extends ListRequest {}
@@ -836,6 +889,8 @@ export const listSubjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSubjects",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "subjects" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSubjects",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -860,6 +915,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export interface ListTrustAnchorsRequest extends ListRequest {}
@@ -886,6 +943,8 @@ export const listTrustAnchors: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTrustAnchors",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "trustAnchors" } as const,
+  telemetry: TELEMETRY,
+  span: "ListTrustAnchors",
 })) as any;
 
 export type PutAttributeMappingError =
@@ -908,6 +967,8 @@ export const putAttributeMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAttributeMapping",
+  telemetry: TELEMETRY,
+  span: "PutAttributeMapping",
 }));
 
 export type PutNotificationSettingsError =
@@ -934,6 +995,8 @@ export const putNotificationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutNotificationSettings",
+  telemetry: TELEMETRY,
+  span: "PutNotificationSettings",
 }));
 
 export type ResetNotificationSettingsError =
@@ -958,6 +1021,8 @@ export const resetNotificationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetNotificationSettings",
+  telemetry: TELEMETRY,
+  span: "ResetNotificationSettings",
 }));
 
 export type TagResourceError =
@@ -988,6 +1053,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -1012,6 +1079,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateCrlError =
@@ -1036,6 +1105,8 @@ export const updateCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCrl",
+  telemetry: TELEMETRY,
+  span: "UpdateCrl",
 }));
 
 export type UpdateProfileError =
@@ -1060,6 +1131,8 @@ export const updateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
+  telemetry: TELEMETRY,
+  span: "UpdateProfile",
 }));
 
 export type UpdateTrustAnchorError =
@@ -1084,6 +1157,8 @@ export const updateTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustAnchor",
+  telemetry: TELEMETRY,
+  span: "UpdateTrustAnchor",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

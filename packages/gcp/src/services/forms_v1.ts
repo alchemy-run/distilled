@@ -12,6 +12,25 @@ const __s: any[] = [];
 
 export type { GcpOpError, GcpOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "gcp-api",
+  attributes: { "gcp.client.service": "forms" },
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+    {
+      header: "x-goog-request-id",
+      name: "http.response.header.x-goog-request-id",
+      transform: "list",
+    },
+  ],
+  prefix: "Forms",
+  service: "forms",
+  labels: "gcp",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -700,6 +719,8 @@ export const batchUpdateForms: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "BatchUpdateForms",
 }));
 
 export type CreateFormsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -715,6 +736,8 @@ export const createForms: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateForms",
 }));
 
 export type CreateFormsWatchesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -730,6 +753,8 @@ export const createFormsWatches: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFormsWatches",
 }));
 
 export type DeleteFormsWatchesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -745,6 +770,8 @@ export const deleteFormsWatches: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteFormsWatches",
 }));
 
 export type GetFormsError = NotFound | Forbidden | GcpOpError;
@@ -756,6 +783,8 @@ export const getForms: API.OperationMethod<GetFormsRequest, Form, GetFormsError,
     errors: [NotFound, Forbidden, UnknownGCPError],
     protocol: GcpProtocol,
     retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetForms",
   }));
 
 export type GetFormsResponsesError = NotFound | Forbidden | GcpOpError;
@@ -771,6 +800,8 @@ export const getFormsResponses: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFormsResponses",
 }));
 
 export type ListFormsResponsesError = NotFound | Forbidden | GcpOpError;
@@ -787,6 +818,8 @@ export const listFormsResponses: API.PaginatedOperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFormsResponses",
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -803,6 +836,8 @@ export const listFormsWatches: API.OperationMethod<
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListFormsWatches",
 }));
 
 export type RenewFormsWatchesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -818,6 +853,8 @@ export const renewFormsWatches: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RenewFormsWatches",
 }));
 
 export type SetPublishSettingsFormsError =
@@ -838,6 +875,8 @@ export const setPublishSettingsForms: API.OperationMethod<
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetPublishSettingsForms",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

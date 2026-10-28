@@ -15,6 +15,19 @@ const __s: any[] = [];
 
 export type { HuggingFaceOpError, HuggingFaceOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "huggingface-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "HuggingFace",
+  service: "Scim",
+  labels: "huggingface",
+  propagate: "w3c",
+} as const;
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -920,6 +933,8 @@ export const createScimGroup: API.OperationMethod<
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScimGroup",
 }));
 
 export type CreateScimInvitationError = HuggingFaceOpError;
@@ -935,6 +950,8 @@ export const createScimInvitation: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScimInvitation",
 }));
 
 export type CreateScimProvisioningGroupError = Conflict | HuggingFaceOpError;
@@ -950,6 +967,8 @@ export const createScimProvisioningGroup: API.OperationMethod<
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScimProvisioningGroup",
 }));
 
 export type CreateScimUserError = Conflict | HuggingFaceOpError;
@@ -965,6 +984,8 @@ export const createScimUser: API.OperationMethod<
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateScimUser",
 }));
 
 export type DeleteScimGroupError = HuggingFaceOpError;
@@ -980,6 +1001,8 @@ export const deleteScimGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScimGroup",
 }));
 
 export type DeleteScimProvisioningGroupError = HuggingFaceOpError;
@@ -995,6 +1018,8 @@ export const deleteScimProvisioningGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScimProvisioningGroup",
 }));
 
 export type DeleteScimProvisioningUserError = NotFound | HuggingFaceOpError;
@@ -1010,6 +1035,8 @@ export const deleteScimProvisioningUser: API.OperationMethod<
   errors: [NotFound],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScimProvisioningUser",
 }));
 
 export type DeleteScimUserError = HuggingFaceOpError;
@@ -1025,6 +1052,8 @@ export const deleteScimUser: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteScimUser",
 }));
 
 export type GetScimConfigurationError = HuggingFaceOpError;
@@ -1040,6 +1069,8 @@ export const getScimConfiguration: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScimConfiguration",
 }));
 
 export type GetScimGroupError = HuggingFaceOpError;
@@ -1055,6 +1086,8 @@ export const getScimGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScimGroup",
 }));
 
 export type GetScimProvisioningGroupError = HuggingFaceOpError;
@@ -1070,6 +1103,8 @@ export const getScimProvisioningGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScimProvisioningGroup",
 }));
 
 export type GetScimProvisioningUserError = HuggingFaceOpError;
@@ -1085,6 +1120,8 @@ export const getScimProvisioningUser: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScimProvisioningUser",
 }));
 
 export type GetScimResourceTypesError = HuggingFaceOpError;
@@ -1100,6 +1137,8 @@ export const getScimResourceTypes: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScimResourceTypes",
 }));
 
 export type GetScimSchemaError = HuggingFaceOpError;
@@ -1115,6 +1154,8 @@ export const getScimSchema: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScimSchema",
 }));
 
 export type GetScimSchemasError = HuggingFaceOpError;
@@ -1130,6 +1171,8 @@ export const getScimSchemas: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScimSchemas",
 }));
 
 export type GetScimUserError = HuggingFaceOpError;
@@ -1145,6 +1188,8 @@ export const getScimUser: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetScimUser",
 }));
 
 export type ListScimGroupsError = HuggingFaceOpError;
@@ -1160,6 +1205,8 @@ export const listScimGroups: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScimGroups",
 }));
 
 export type ListScimManagedUsersError = HuggingFaceOpError;
@@ -1175,6 +1222,8 @@ export const listScimManagedUsers: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScimManagedUsers",
 }));
 
 export type ListScimProvisioningGroupsError = HuggingFaceOpError;
@@ -1190,6 +1239,8 @@ export const listScimProvisioningGroups: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScimProvisioningGroups",
 }));
 
 export type ListScimUsersError = HuggingFaceOpError;
@@ -1205,6 +1256,8 @@ export const listScimUsers: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListScimUsers",
 }));
 
 export type ReplaceScimGroupError = HuggingFaceOpError;
@@ -1220,6 +1273,8 @@ export const replaceScimGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceScimGroup",
 }));
 
 export type ReplaceScimProvisioningGroupError = HuggingFaceOpError;
@@ -1235,6 +1290,8 @@ export const replaceScimProvisioningGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceScimProvisioningGroup",
 }));
 
 export type ReplaceScimProvisioningUserError = Conflict | HuggingFaceOpError;
@@ -1250,6 +1307,8 @@ export const replaceScimProvisioningUser: API.OperationMethod<
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceScimProvisioningUser",
 }));
 
 export type ReplaceScimUserError = Conflict | HuggingFaceOpError;
@@ -1265,6 +1324,8 @@ export const replaceScimUser: API.OperationMethod<
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceScimUser",
 }));
 
 export type UpdateScimGroupError = HuggingFaceOpError;
@@ -1280,6 +1341,8 @@ export const updateScimGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScimGroup",
 }));
 
 export type UpdateScimProvisioningGroupError = HuggingFaceOpError;
@@ -1295,6 +1358,8 @@ export const updateScimProvisioningGroup: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScimProvisioningGroup",
 }));
 
 export type UpdateScimProvisioningUserError = HuggingFaceOpError;
@@ -1310,6 +1375,8 @@ export const updateScimProvisioningUser: API.OperationMethod<
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScimProvisioningUser",
 }));
 
 export type UpdateScimUserError = Conflict | HuggingFaceOpError;
@@ -1325,6 +1392,8 @@ export const updateScimUser: API.OperationMethod<
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateScimUser",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

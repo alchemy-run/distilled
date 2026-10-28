@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { DaytonaOpError, DaytonaOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "daytona-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Daytona",
+  service: "Regions",
+  propagate: "w3c",
+} as const;
+
 export interface ListSharedRegionsRequest {}
 /** The type of the region */
 export type RegionType = "shared" | "dedicated" | "custom";
@@ -51,6 +63,8 @@ export const listSharedRegions: API.OperationMethod<
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSharedRegions",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -1,6 +1,7 @@
 import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
@@ -75,6 +76,21 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   }
   return err("Invalid Configuration: Missing Region");
 }, '{"url":"https://datapipeline.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "DataPipeline",
+  service: "DataPipeline",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InternalServiceError
   extends /*@__PURE__*/ S.TaggedError<InternalServiceError>()("InternalServiceError", {
@@ -389,6 +405,8 @@ export const activatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivatePipeline",
+  telemetry: TELEMETRY,
+  span: "ActivatePipeline",
 }));
 
 export type AddTagsError =
@@ -417,6 +435,8 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  telemetry: TELEMETRY,
+  span: "AddTags",
 }));
 
 export type CreatePipelineError = InternalServiceError | InvalidRequestException | CommonErrors;
@@ -455,6 +475,8 @@ export const createPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipeline",
+  telemetry: TELEMETRY,
+  span: "CreatePipeline",
 }));
 
 export type DeactivatePipelineError =
@@ -487,6 +509,8 @@ export const deactivatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivatePipeline",
+  telemetry: TELEMETRY,
+  span: "DeactivatePipeline",
 }));
 
 export type DeletePipelineError =
@@ -531,6 +555,8 @@ export const deletePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipeline",
+  telemetry: TELEMETRY,
+  span: "DeletePipeline",
 }));
 
 export type DescribeObjectsError =
@@ -609,6 +635,8 @@ export const describeObjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeObjects",
   pagination: { inputToken: "marker", outputToken: "marker", items: "pipelineObjects" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeObjects",
 })) as any;
 
 export type DescribePipelinesError =
@@ -690,6 +718,8 @@ export const describePipelines: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePipelines",
+  telemetry: TELEMETRY,
+  span: "DescribePipelines",
 }));
 
 export type EvaluateExpressionError =
@@ -740,6 +770,8 @@ export const evaluateExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluateExpression",
+  telemetry: TELEMETRY,
+  span: "EvaluateExpression",
 }));
 
 export type GetPipelineDefinitionError =
@@ -822,6 +854,8 @@ export const getPipelineDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipelineDefinition",
+  telemetry: TELEMETRY,
+  span: "GetPipelineDefinition",
 }));
 
 export type ListPipelinesError = InternalServiceError | InvalidRequestException | CommonErrors;
@@ -867,6 +901,8 @@ export const listPipelines: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListPipelines",
   pagination: { inputToken: "marker", outputToken: "marker", items: "pipelineIdList" } as const,
+  telemetry: TELEMETRY,
+  span: "ListPipelines",
 })) as any;
 
 export type PollForTaskError =
@@ -957,6 +993,8 @@ export const pollForTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PollForTask",
+  telemetry: TELEMETRY,
+  span: "PollForTask",
 }));
 
 export type PutPipelineDefinitionError =
@@ -1124,6 +1162,8 @@ export const putPipelineDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPipelineDefinition",
+  telemetry: TELEMETRY,
+  span: "PutPipelineDefinition",
 }));
 
 export type QueryObjectsError =
@@ -1187,6 +1227,8 @@ export const queryObjects: API.PaginatedOperationMethod<
     items: "ids",
     pageSize: "limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "QueryObjects",
 })) as any;
 
 export type RemoveTagsError =
@@ -1215,6 +1257,8 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
+  telemetry: TELEMETRY,
+  span: "RemoveTags",
 }));
 
 export type ReportTaskProgressError =
@@ -1274,6 +1318,8 @@ export const reportTaskProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReportTaskProgress",
+  telemetry: TELEMETRY,
+  span: "ReportTaskProgress",
 }));
 
 export type ReportTaskRunnerHeartbeatError =
@@ -1317,6 +1363,8 @@ export const reportTaskRunnerHeartbeat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReportTaskRunnerHeartbeat",
+  telemetry: TELEMETRY,
+  span: "ReportTaskRunnerHeartbeat",
 }));
 
 export type SetStatusError =
@@ -1367,6 +1415,8 @@ export const setStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetStatus",
+  telemetry: TELEMETRY,
+  span: "SetStatus",
 }));
 
 export type SetTaskStatusError =
@@ -1417,6 +1467,8 @@ export const setTaskStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTaskStatus",
+  telemetry: TELEMETRY,
+  span: "SetTaskStatus",
 }));
 
 export type ValidatePipelineDefinitionError =
@@ -1576,6 +1628,8 @@ export const validatePipelineDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidatePipelineDefinition",
+  telemetry: TELEMETRY,
+  span: "ValidatePipelineDefinition",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

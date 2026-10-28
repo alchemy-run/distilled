@@ -14,12 +14,31 @@
  * who wants one call in another region can still say so.
  */
 import * as Config from "@distilled.cloud/core/config";
+import type { SourceError } from "effect/ConfigProvider";
 import * as Context from "effect/Context";
+import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 
+/**
+ * No region is configured: a credentials layer resolved a set of credentials
+ * without one, or `Region.fromEnv()` found neither variable set.
+ *
+ * A credential-resolution failure like any other, rather than a defect: the
+ * caller's fix is the same shape as for a missing key -- configure the
+ * environment, the profile, or pass it explicitly.
+ */
+export class MissingRegion
+  extends /*@__PURE__*/ Data.TaggedError("Alchemy::AWS::MissingRegion")<{
+    message: string;
+    hints?: ReadonlyArray<string>;
+  }> {}
+
 export class Region
-  extends /*@__PURE__*/ Context.Service<Region, Effect.Effect<RegionName>>()("AWS::Region") {}
+  extends /*@__PURE__*/ Context.Service<
+    Region,
+    Effect.Effect<RegionName, MissingRegion | SourceError>
+  >()("AWS::Region") {}
 
 /**
  * `AWS_REGION`, then `AWS_DEFAULT_REGION` -- the variables every AWS tool
@@ -32,8 +51,27 @@ export const fromEnvironment = /*@__PURE__*/ Config.String("AWS_REGION").pipe(
   /*@__PURE__*/ Effect.map((region) => region as RegionName),
 );
 
-/** Override the region with whatever the environment names. */
-export const fromEnv = () => Layer.succeed(Region, fromEnvironment.pipe(Effect.orDie));
+/**
+ * Override the region with whatever the environment names. Each operation
+ * fails with {@link MissingRegion} when neither variable is set.
+ */
+export const fromEnv = () =>
+  Layer.succeed(
+    Region,
+    fromEnvironment.pipe(
+      Effect.catchTag(
+        "ConfigError",
+        () =>
+          new MissingRegion({
+            message: "Region.fromEnv() found no region in the environment.",
+            hints: [
+              "Set AWS_REGION (or AWS_DEFAULT_REGION).",
+              'Or provide one explicitly with Region.of("us-east-1").',
+            ],
+          }),
+      ),
+    ),
+  );
 
 /** Override the region for a scope, e.g. `Region.of("us-west-2")`. */
 export const of = (region: RegionName) => Layer.succeed(Region, Effect.succeed(region));

@@ -11,6 +11,18 @@ const __s: any[] = [];
 
 export type { ModalOpError, ModalOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "modal-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Modal",
+  service: "ProxyService",
+  propagate: "w3c",
+} as const;
+
 export interface CreateProxyRequest {
   name?: string;
   environmentName?: string;
@@ -95,6 +107,8 @@ export const createProxy: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateProxy",
 }));
 
 export type DeleteProxyError = ModalOpError;
@@ -109,6 +123,8 @@ export const deleteProxy: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteProxy",
 }));
 
 export type GetProxyError = ModalOpError;
@@ -123,6 +139,8 @@ export const getProxy: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetProxy",
 }));
 
 export type ListProxyError = ModalOpError;
@@ -137,6 +155,8 @@ export const listProxy: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListProxy",
 }));
 
 export type ProxyAddIpError = ModalOpError;
@@ -152,6 +172,8 @@ export const proxyAddIp: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProxyAddIp",
 }));
 
 export type ProxyGetOrCreateError = ModalOpError;
@@ -166,6 +188,8 @@ export const proxyGetOrCreate: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProxyGetOrCreate",
 }));
 
 export type ProxyRemoveIpError = ModalOpError;
@@ -180,6 +204,8 @@ export const proxyRemoveIp: API.OperationMethod<
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ProxyRemoveIp",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

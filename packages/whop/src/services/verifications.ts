@@ -11,6 +11,19 @@ const __s: any[] = [];
 
 export type { WhopOpError, WhopOpContext };
 
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "whop-api",
+  responseHeaders: [
+    { header: "x-request-id", name: "http.response.header.x-request-id", transform: "list" },
+    { header: "request-id", name: "http.response.header.request-id", transform: "list" },
+  ],
+  prefix: "Whop",
+  service: "Verifications",
+  labels: "whop",
+  propagate: "w3c",
+} as const;
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -892,6 +905,8 @@ export const createVerification: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateVerification",
 }));
 
 export type GetVerificationError = NotFound | WhopOpError;
@@ -907,6 +922,8 @@ export const getVerification: API.OperationMethod<
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVerification",
 }));
 
 export type ListVerificationsError = BadRequest | Forbidden | WhopOpError;
@@ -922,6 +939,8 @@ export const listVerifications: API.OperationMethod<
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVerifications",
 }));
 
 export type UpdateVerificationError = BadRequest | Forbidden | NotFound | WhopOpError;
@@ -937,6 +956,8 @@ export const updateVerification: API.OperationMethod<
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateVerification",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
