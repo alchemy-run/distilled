@@ -438,6 +438,7 @@ export interface GetResponseSchedulesItem {
   nextInstance: string;
 }
 export type GetResponseSchedulesList = Array<GetResponseSchedulesItem>;
+export type WorkflowJurisdiction = "eu" | "fedramp" | "us";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetWorkflowResponse {
   id: string;
@@ -451,6 +452,8 @@ export interface GetWorkflowResponse {
   schedules?: GetResponseSchedulesList | null;
   /** Whether the bound Worker was deleted, leaving this Workflow inactive. */
   scriptDeleted?: boolean | null;
+  /** Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed. */
+  jurisdiction?: WorkflowJurisdiction | null;
 }
 export interface GraphVersionRequest {
   accountId: string;
@@ -857,6 +860,8 @@ export interface ListResultItem {
   schedules?: ListResultItemSchedulesList | null;
   /** Whether the bound Worker was deleted, leaving this Workflow inactive. */
   scriptDeleted?: boolean | null;
+  /** Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed. */
+  jurisdiction?: WorkflowJurisdiction | null;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListWorkflowsResponse {
@@ -928,6 +933,8 @@ export interface PutWorkflowRequest {
   defaultRetention?: UpdateRequestDefaultRetention;
   limits?: UpdateRequestLimits;
   schedules?: UpdateRequestSchedulesList;
+  /** Jurisdiction where instances of this workflow run and store data. Can only be set when the workflow is created and cannot be changed afterwards; omit it to keep the existing jurisdiction. */
+  jurisdiction?: WorkflowJurisdiction | (string & {});
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutWorkflowResponse {
@@ -941,6 +948,8 @@ export interface PutWorkflowResponse {
   terminatorRunning: number;
   triggeredOn: string;
   versionId: string;
+  /** Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed. */
+  jurisdiction?: WorkflowJurisdiction | null;
 }
 export type InstancesStepRequestType = "step" | "waitForEvent";
 export interface StepInstanceRequest {
@@ -1551,6 +1560,7 @@ function __c6(j: number): any {
           triggeredOn: S.String.pipe(T.Body("triggered_on")),
           schedules: S.optional(S.NullOr(__S(114, __c7, 2))),
           scriptDeleted: S.optional(S.NullOr(S.Boolean).pipe(T.Body("script_deleted"))),
+          jurisdiction: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetWorkflowResponse" });
   }
@@ -1800,6 +1810,7 @@ function __c11(j: number): any {
           triggeredOn: S.String.pipe(T.Body("triggered_on")),
           schedules: S.optional(S.NullOr(__S(114, __c7, 2))),
           scriptDeleted: S.optional(S.NullOr(S.Boolean).pipe(T.Body("script_deleted"))),
+          jurisdiction: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListResultItem" });
     case 2:
@@ -1895,6 +1906,7 @@ function __c13(j: number): any {
           defaultRetention: S.optional(__S(211, __c13, 3).pipe(T.Body("default_retention"))),
           limits: S.optional(__S(212, __c13, 4)),
           schedules: S.optional(__S(214, __c13, 6)),
+          jurisdiction: S.optional(S.String),
         })
           .pipe(
             T.Http({
@@ -1918,6 +1930,7 @@ function __c13(j: number): any {
           terminatorRunning: S.Number.pipe(T.Body("terminator_running")),
           triggeredOn: S.String.pipe(T.Body("triggered_on")),
           versionId: S.String.pipe(T.Body("version_id")),
+          jurisdiction: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutWorkflowResponse" });
   }

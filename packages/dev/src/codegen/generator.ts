@@ -754,7 +754,10 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       if (ok) {
         op.def.__pagination = pg;
         paginatedOutputs.add(op.def.__output);
-        if (outNames.size === 1 && outNames.has(pg.items)) rootItemsOutputs.add(op.def.__output);
+        // A profile that injects a page member (Cloudflare's `resultInfo`)
+        // needs the struct form to carry it, so its items stay addressable.
+        if (outNames.size === 1 && outNames.has(pg.items) && !profile.injectOutputMember)
+          rootItemsOutputs.add(op.def.__output);
         paginatedItemsRoot.set(op.def.__output, itemsRoot);
         paginatedItemsPath.set(op.id, String(pg.items ?? profile.itemsFallback ?? ""));
         outputProfile.set(op.def.__output, profile);

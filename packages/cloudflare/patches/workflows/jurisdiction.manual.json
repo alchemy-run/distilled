@@ -1,0 +1,72 @@
+{
+  "description": "Add Workflow jurisdiction (eu/us/fedramp) from the 2026-10-27 Workflows changelog; mirrors the 2026-10-28 upstream spec",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workflows#WorkflowJurisdiction",
+      "value": {
+        "type": "enum",
+        "members": {
+          "EU": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "eu"
+            }
+          },
+          "FEDRAMP": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "fedramp"
+            }
+          },
+          "US": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "us"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workflows#PutWorkflowRequest/members/jurisdiction",
+      "value": {
+        "target": "com.cloudflare.workflows#WorkflowJurisdiction",
+        "traits": {
+          "smithy.api#documentation": "Jurisdiction where instances of this workflow run and store data. Can only be set when the workflow is created and cannot be changed afterwards; omit it to keep the existing jurisdiction."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workflows#PutWorkflowResponse/members/jurisdiction",
+      "value": {
+        "target": "com.cloudflare.workflows#WorkflowJurisdiction",
+        "traits": {
+          "smithy.api#documentation": "Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workflows#GetWorkflowResponse/members/jurisdiction",
+      "value": {
+        "target": "com.cloudflare.workflows#WorkflowJurisdiction",
+        "traits": {
+          "smithy.api#documentation": "Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workflows#ListResultItem/members/jurisdiction",
+      "value": {
+        "target": "com.cloudflare.workflows#WorkflowJurisdiction",
+        "traits": {
+          "smithy.api#documentation": "Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed."
+        }
+      }
+    }
+  ]
+}
