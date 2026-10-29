@@ -1,0 +1,10 @@
+{
+  "description": "API keys. createApiKey returns the new key's secret once, in `token`, which is marked sensitive so it decodes as Redacted and never reaches logs or traces, as `signing_secret` does on webhooks.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CreateApiKeyResponse/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

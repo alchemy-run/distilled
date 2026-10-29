@@ -3,7 +3,8 @@
  * convert — turn the Resend OpenAPI spec into a Smithy 2.0 JSON model.
  *
  * Input:  specs/spec-mirror-resend/specs/openapi.json  (spec submodule)
- *         patches/*.patch.json  (RFC-6902 patches to the OpenAPI document)
+ *         patches/*.json  (RFC-6902 patches to the converted Smithy model,
+ *                          under the upstream shape ids: `pnpm patches:names resend`)
  * Output: .generated-specs/resend.json
  *
  * The OpenAPI→Smithy converter lives in
@@ -26,8 +27,8 @@ await runOpenApiConvert({
       specPath: "specs/spec-mirror-resend/specs/openapi.json",
     },
   ],
-  // OpenAPI-document patches (flat patches/*.patch.json). The smithy-model
-  // patch chain in generate.ts is disabled (`patchesDir: false`).
+  // Smithy-model patches (flat patches/*.json), applied after conversion.
+  // generate.ts compiles the patched model and applies none itself.
   patchesDir: "patches",
   options: {
     namespace: "com.resend.api",

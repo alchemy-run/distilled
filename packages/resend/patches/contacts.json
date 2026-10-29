@@ -1,0 +1,9 @@
+{
+  "description": "Contacts. Audiences became Segments, and the spec marks every `audience_id` field deprecated. skipDeprecated drops only the four /audiences operations, so the fields still generate. They are removed from the requests, where `segment_id` replaces them; responses keep them because older records still carry the field.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.resend.api#ContactsCreateRequest/members/audience_id"
+    }
+  ]
+}

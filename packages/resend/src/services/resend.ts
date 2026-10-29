@@ -182,7 +182,7 @@ export interface CreateApiKeyResponse {
   /** The ID of the API key. */
   id?: string;
   /** The token of the API key. */
-  token?: string;
+  token?: string | Redacted.Redacted<string>;
 }
 /** The initial status of the automation. Defaults to `disabled`. */
 export type CreateAutomationRequestStatus = "enabled" | "disabled";
@@ -248,8 +248,6 @@ export interface CreateBroadcastRequest {
   name?: string;
   /** Unique identifier of the segment this broadcast will be sent to. */
   segment_id: string;
-  /** Use `segment_id` instead. Unique identifier of the segment this broadcast will be sent to. */
-  audience_id?: string;
   /** The email address of the sender. */
   from: string;
   /** The subject line of the email. */
@@ -308,8 +306,6 @@ export interface CreateContactRequest {
   segments?: CreateContactRequestSegmentsList;
   /** Array of topic subscriptions for the contact. */
   topics?: CreateContactRequestTopicsList;
-  /** Unique identifier of the audience to which the contact belongs. */
-  audience_id?: string;
 }
 export interface CreateContactResponseSuccess {
   /** Type of the response object. */
@@ -747,8 +743,6 @@ export interface CreateInboxLabelResponseSuccess {
 export interface CreateSegmentRequest {
   /** The name of the segment. */
   name: string;
-  /** The ID of the audience this segment belongs to. */
-  audience_id?: string;
   /** Filter conditions for the segment. */
   filter?: unknown;
 }
@@ -3511,8 +3505,6 @@ export interface UpdateBroadcastRequest {
   id: string;
   /** Name of the broadcast. */
   name?: string;
-  /** Use `segment_id` instead. Unique identifier of the audience this broadcast will be sent to. */
-  audience_id?: string;
   /** Unique identifier of the segment this broadcast will be sent to. */
   segment_id?: string;
   /** The email address of the sender. */
@@ -7082,7 +7074,6 @@ function __c27(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          audience_id: S.optional(S.String),
           segment_id: S.optional(S.String),
           from: S.optional(S.String),
           subject: S.optional(S.String),
@@ -7673,7 +7664,6 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          audience_id: S.optional(S.String),
           filter: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/segments", code: 200 })),
       ).annotate({ identifier: "CreateSegmentRequest" });
@@ -8560,7 +8550,7 @@ function __c118(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateApiKeyResponse" });
   }
@@ -9291,7 +9281,6 @@ function __c145(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           segment_id: S.String,
-          audience_id: S.optional(S.String),
           from: S.String,
           subject: S.String,
           reply_to: S.optional(__S(16, __c1, 0)),
@@ -9630,7 +9619,6 @@ function __c158(j: number): any {
           properties: S.optional(__S(2544, __c159, 0)),
           segments: S.optional(__S(2592, __c162, 0)),
           topics: S.optional(__S(2561, __c160, 1)),
-          audience_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/contacts", code: 200 })),
       ).annotate({ identifier: "CreateContactRequest" });
   }
