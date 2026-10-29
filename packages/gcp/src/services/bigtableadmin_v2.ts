@@ -111,10 +111,10 @@ export class SourceTableNotReady
     [{ status: 400, message: { includes: "while it is being created or modified" } }],
   ) {}
 
-/** The table is still being created, modified, restored or deleted (HTTP 400: '... is still being created' / '... is either creating or deleting'). Retryable after a short wait. */
-export class TableStillCreating
+/** The table isn't ready: it is still being created, modified, restored or deleted (HTTP 400: '... is still being created' / '... is either creating or deleting'). The API doesn't say which. Retryable after a short wait. */
+export class TableNotReady
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<TableStillCreating>()("TableStillCreating", {
+    /*@__PURE__*/ S.TaggedError<TableNotReady>()("TableNotReady", {
       code: /*@__PURE__*/ S.optional(S.Number),
       message: S.String,
       status: /*@__PURE__*/ S.optional(S.String),
@@ -2110,7 +2110,7 @@ export type DeleteProjectsInstancesTablesError =
   | Forbidden
   | BadRequest
   | Conflict
-  | TableStillCreating
+  | TableNotReady
   | GcpOpError;
 /** Permanently deletes a specified table and all of its data. */
 export const deleteProjectsInstancesTables: API.OperationMethod<
@@ -2121,7 +2121,7 @@ export const deleteProjectsInstancesTables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<DeleteProjectsInstancesTablesRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, TableStillCreating, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, TableNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2321,7 +2321,7 @@ export type GetIamPolicyProjectsInstancesTablesError =
   | Forbidden
   | BadRequest
   | Conflict
-  | TableStillCreating
+  | TableNotReady
   | GcpOpError;
 /** Gets the access control policy for a Bigtable resource. Returns an empty policy if the resource exists but does not have a policy set. */
 export const getIamPolicyProjectsInstancesTables: API.OperationMethod<
@@ -2332,7 +2332,7 @@ export const getIamPolicyProjectsInstancesTables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetIamPolicyProjectsInstancesTablesRequest>,
   output: __S(999, __c31, 7) as any as S.Schema<Policy>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, TableStillCreating, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, TableNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2527,11 +2527,7 @@ export const getProjectsInstancesMaterializedViews: API.OperationMethod<
   span: "GetProjectsInstancesMaterializedViews",
 }));
 
-export type GetProjectsInstancesTablesError =
-  | NotFound
-  | Forbidden
-  | TableStillCreating
-  | GcpOpError;
+export type GetProjectsInstancesTablesError = NotFound | Forbidden | TableNotReady | GcpOpError;
 /** Gets metadata information about the specified table. */
 export const getProjectsInstancesTables: API.OperationMethod<
   GetProjectsInstancesTablesRequest,
@@ -2541,7 +2537,7 @@ export const getProjectsInstancesTables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetProjectsInstancesTablesRequest>,
   output: __S(425, __c13, 9) as any as S.Schema<Table>,
-  errors: [NotFound, Forbidden, TableStillCreating, UnknownGCPError],
+  errors: [NotFound, Forbidden, TableNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3424,7 +3420,7 @@ export type UndeleteProjectsInstancesTablesError =
   | Forbidden
   | BadRequest
   | Conflict
-  | TableStillCreating
+  | TableNotReady
   | GcpOpError;
 /** Restores a specified table which was accidentally deleted. */
 export const undeleteProjectsInstancesTables: API.OperationMethod<
@@ -3435,7 +3431,7 @@ export const undeleteProjectsInstancesTables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<UndeleteProjectsInstancesTablesRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, TableStillCreating, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, TableNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
