@@ -1023,6 +1023,7 @@ export type CreateInstanceError =
   | InstanceAlreadyExists
   | InvalidRoute
   | InvalidBody
+  | WorkflowInternalError
   | CloudflareOpError;
 /** Creates a new instance of a workflow, starting its execution. */
 export const createInstance: API.OperationMethod<
@@ -1038,6 +1039,7 @@ export const createInstance: API.OperationMethod<
     InstanceAlreadyExists,
     InvalidRoute,
     InvalidBody,
+    WorkflowInternalError,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -1097,6 +1099,7 @@ export type GetInstanceError =
   | WorkflowNotFound
   | InvalidRoute
   | InstanceNotFound
+  | WorkflowInternalError
   | CloudflareOpError;
 /** Retrieves logs and execution status for a specific workflow instance. */
 export const getInstance: API.OperationMethod<
@@ -1111,6 +1114,7 @@ export const getInstance: API.OperationMethod<
     WorkflowNotFound,
     InvalidRoute,
     InstanceNotFound,
+    WorkflowInternalError,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -1272,6 +1276,7 @@ export type PatchInstanceStatusError =
   | InvalidRoute
   | InstanceNotFound
   | InstanceCannotTerminate
+  | WorkflowInternalError
   | CloudflareOpError;
 /** Changes the execution status of a workflow instance (e.g., pause, resume, terminate). */
 export const patchInstanceStatus: API.OperationMethod<
@@ -1287,6 +1292,7 @@ export const patchInstanceStatus: API.OperationMethod<
     InvalidRoute,
     InstanceNotFound,
     InstanceCannotTerminate,
+    WorkflowInternalError,
     CloudflareRateLimited,
     CloudflareError,
   ],
