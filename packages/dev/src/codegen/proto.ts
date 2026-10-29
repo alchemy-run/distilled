@@ -275,6 +275,21 @@ class Parser {
     return d || undefined;
   }
 
+  trailingComment(): string | undefined {
+    let j = this.i;
+    while (this.src[j] === " " || this.src[j] === "\t") j++;
+    if (this.src[j] !== "/" || (this.src[j + 1] !== "/" && this.src[j + 1] !== "*")) {
+      return undefined;
+    }
+    const block = this.src[j + 1] === "*";
+    const end = block ? this.src.indexOf("*/", j + 2) : this.src.indexOf("\n", j + 2);
+    if (block && end === -1) return undefined;
+    const stop = end === -1 ? this.src.length : end;
+    const text = this.src.slice(j + 2, stop).trim();
+    while (this.i < (block ? stop + 2 : stop)) this.bump();
+    return text || undefined;
+  }
+
   peekIdent(): boolean {
     this.skipTrivia();
     const ch = this.peekChar();
@@ -428,6 +443,7 @@ class Parser {
     const number = this.number();
     const opts = this.parseOptions();
     this.expect(";");
+    const trailing = this.trailingComment();
     return {
       name,
       number,
@@ -438,7 +454,7 @@ class Parser {
       mapValue,
       jsonName: opts.jsonName,
       deprecated: opts.deprecated,
-      documentation,
+      documentation: documentation ?? trailing,
     };
   }
 
@@ -462,11 +478,12 @@ class Parser {
       const number = this.number();
       const opts = this.parseOptions();
       this.expect(";");
+      const trailing = this.trailingComment();
       values.push({
         name: vname,
         number,
         deprecated: opts.deprecated,
-        documentation: vdoc,
+        documentation: vdoc ?? trailing,
       });
     }
     this.expect("}");
