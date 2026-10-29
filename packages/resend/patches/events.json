@@ -1,0 +1,381 @@
+{
+  "description": "Events. Response members are narrowed to what Resend returns: required where resend-node, the maintained official SDK, declares them non-optional and every live response (2026-10-29) carried them, and nullable where resend-node allows null or a live response held null. Errors on these operations match Resend's error `name` and status; the classes shared with other areas are in shared.json.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventsList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventsCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventsSend/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventsGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#EventNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventsUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#EventNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventsRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#EventNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListEventsResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListEventsResponse/members/has_more/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListEventsResponse/members/data/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventSummary/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventSummary/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventSummary/members/schema/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventSummary/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventSummary/members/updated_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CreateEventResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CreateEventResponse/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SendEventResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SendEventResponse/members/event/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#Event/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#Event/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#Event/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#Event/members/schema/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#Event/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#Event/members/updated_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#UpdateEventResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#UpdateEventResponse/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RemoveEventResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RemoveEventResponse/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RemoveEventResponse/members/deleted/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

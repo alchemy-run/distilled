@@ -1,0 +1,1550 @@
+{
+  "description": "Inboxes, drafts, labels and threads. A draft sends once (InboxDraftAlreadySent), and an inbox address must be on a domain the team has added (DomainNotInTeam). Errors on these operations match Resend's error `name` and status; the classes shared with other areas are in shared.json.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxLimitReached",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The plan's included inboxes are used up and pay-as-you-go is off (403).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "reached the inboxes included in your plan"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The inbox does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxLabelNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The inbox label does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxThreadNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The inbox thread does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxDraftNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The inbox draft does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#AlreadyExists"
+        },
+        {
+          "target": "com.resend.api#InboxLimitReached"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesGetAgent/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesUpdateAgent/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesListLabels/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesCreateLabel/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxNotFound"
+        },
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesUpdateLabel/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxLabelNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesRemoveLabel/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxLabelNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesListThreads/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesSearchThreads/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesGetThread/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxThreadNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesUpdateThread/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxThreadNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesRemoveThread/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxThreadNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesAddThreadLabels/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxThreadNotFound"
+        },
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesSetThreadLabels/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxThreadNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesRemoveThreadLabel/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxLabelNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesListThreadEmails/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxThreadNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesGetThreadEmail/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#EmailNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesReplyThreadEmail/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#EmailNotFound"
+        },
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        },
+        {
+          "target": "com.resend.api#InvalidIdempotencyKey"
+        },
+        {
+          "target": "com.resend.api#IdempotencyKeyReused"
+        },
+        {
+          "target": "com.resend.api#IdempotentRequestInProgress"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesForwardThreadEmail/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#EmailNotFound"
+        },
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        },
+        {
+          "target": "com.resend.api#InvalidIdempotencyKey"
+        },
+        {
+          "target": "com.resend.api#IdempotencyKeyReused"
+        },
+        {
+          "target": "com.resend.api#IdempotentRequestInProgress"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesListDrafts/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesCreateDraft/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxNotFound"
+        },
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        },
+        {
+          "target": "com.resend.api#InvalidIdempotencyKey"
+        },
+        {
+          "target": "com.resend.api#IdempotencyKeyReused"
+        },
+        {
+          "target": "com.resend.api#IdempotentRequestInProgress"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesGetDraft/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxDraftNotFound"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesUpdateDraft/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxDraftNotFound"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesRemoveDraft/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxDraftNotFound"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesSendDraft/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#InboxDraftNotFound"
+        },
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        },
+        {
+          "target": "com.resend.api#InvalidIdempotencyKey"
+        },
+        {
+          "target": "com.resend.api#IdempotencyKeyReused"
+        },
+        {
+          "target": "com.resend.api#IdempotentRequestInProgress"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxDraftAlreadySent",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The draft was already sent (409 `invalid_parameter`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/name": "invalid_parameter"
+              },
+              "message": {
+                "includes": "already been sent"
+              }
+            }
+          ],
+          "smithy.api#httpError": 409
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesSendDraft/errors/-",
+      "value": {
+        "target": "com.resend.api#InboxDraftAlreadySent"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainNotInTeam",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The address is on a domain this team hasn't added (422 `validation_error`, \"domain is not added to this team\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "is not added to this team"
+              }
+            }
+          ],
+          "smithy.api#httpError": 422
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesCreate/errors/-",
+      "value": {
+        "target": "com.resend.api#DomainNotInTeam"
+      }
+    }
+  ]
+}

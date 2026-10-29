@@ -41,6 +41,10 @@ await runOpenApiConvert({
     namespace: "com.resend.api",
     serviceName: "Resend",
     skipDeprecated: true,
+    // Idempotency-Key, the spec's only header parameter, is a real per-call input.
+    headerParams: true,
+    // POST /events/send answers 202 Accepted with a body.
+    successStatuses: ["200", "201", "202", "204"],
     operationNames: {
       // Names shipped before the spec moved to resend-openapi.
       "POST /emails": "createEmail",

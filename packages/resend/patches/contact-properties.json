@@ -1,0 +1,325 @@
+{
+  "description": "Contact properties. Response members are narrowed to what Resend returns: required where resend-node, the maintained official SDK, declares them non-optional and every live response (2026-10-29) carried them, and nullable where resend-node allows null or a live response held null. Errors on these operations match Resend's error `name` and status; the classes shared with other areas are in shared.json.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertyNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The contact property does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertiesList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertiesCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertiesGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#ContactPropertyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertiesUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#ContactPropertyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertiesRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#ContactPropertyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListContactPropertiesResponseSuccess/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListContactPropertiesResponseSuccess/members/has_more/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListContactPropertiesResponseSuccess/members/data/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CreateContactPropertyResponseSuccess/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CreateContactPropertyResponseSuccess/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetContactPropertyResponseSuccess/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetContactPropertyResponseSuccess/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetContactPropertyResponseSuccess/members/key/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetContactPropertyResponseSuccess/members/type/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetContactPropertyResponseSuccess/members/fallback_value/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetContactPropertyResponseSuccess/members/fallback_value/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetContactPropertyResponseSuccess/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#UpdateContactPropertyResponseSuccess/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#UpdateContactPropertyResponseSuccess/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RemoveContactPropertyResponseSuccess/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RemoveContactPropertyResponseSuccess/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RemoveContactPropertyResponseSuccess/members/deleted/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

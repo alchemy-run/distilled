@@ -1,0 +1,753 @@
+{
+  "description": "Webhooks and their event deliveries. Response members are narrowed to what Resend returns: required where resend-node, the maintained official SDK, declares them non-optional and every live response (2026-10-29) carried them, and nullable where resend-node allows null or a live response held null. Errors on these operations match Resend's error `name` and status; the classes shared with other areas are in shared.json.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhookNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The webhook endpoint does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Webhook endpoint not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhookEventNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The webhook event does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksRotateSigningSecret/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksListEvents/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksGetEvent/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#WebhookEventNotFound"
+        },
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        },
+        {
+          "target": "com.resend.api#EventNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksReplayEvent/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#WebhookEventNotFound"
+        },
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        },
+        {
+          "target": "com.resend.api#EventNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksListEventAttempts/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#WebhookEventNotFound"
+        },
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        },
+        {
+          "target": "com.resend.api#EventNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhookEventsResponseDataItem/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhookEventsResponseDataItem/members/type/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhookEventsResponseDataItem/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhookEventsResponseDataItem/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetWebhookEventResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetWebhookEventResponse/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetWebhookEventResponse/members/type/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetWebhookEventResponse/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetWebhookEventResponse/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetWebhookEventResponse/members/next_attempt_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetWebhookEventResponse/members/payload/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ReplayWebhookEventResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ReplayWebhookEventResponse/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhookEventAttemptsResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhookEventAttemptsResponse/members/has_more/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhookEventAttemptsResponse/members/data/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhookEventAttemptsResponseDataItem/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhookEventAttemptsResponseDataItem/members/http_status_code/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhookEventAttemptsResponseDataItem/members/response/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhookEventAttemptsResponseDataItem/members/sent_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhooksResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhooksResponse/members/has_more/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhooksResponse/members/data/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhooksResponseDataItem/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhooksResponseDataItem/members/endpoint/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhooksResponseDataItem/members/events/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhooksResponseDataItem/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhooksResponseDataItem/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CreateWebhookResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CreateWebhookResponse/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CreateWebhookResponse/members/signing_secret/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetWebhookResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetWebhookResponse/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetWebhookResponse/members/endpoint/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetWebhookResponse/members/events/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetWebhookResponse/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetWebhookResponse/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetWebhookResponse/members/signing_secret/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#UpdateWebhookResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#UpdateWebhookResponse/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DeleteWebhookResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DeleteWebhookResponse/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DeleteWebhookResponse/members/deleted/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RotateWebhookSigningSecretResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RotateWebhookSigningSecretResponse/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RotateWebhookSigningSecretResponse/members/signing_secret/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhookEventsResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhookEventsResponse/members/has_more/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListWebhookEventsResponse/members/data/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

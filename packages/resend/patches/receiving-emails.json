@@ -1,0 +1,572 @@
+{
+  "description": "Received email. getReceivingEmail adds `html_format`, `authentication` (SPF, DKIM, DMARC results) and `raw` (a signed download link), live with a verified domain; resend-node types `raw` as optional and nullable. Response members are narrowed to what Resend returns: required where resend-node, the maintained official SDK, declares them non-optional and every live response (2026-10-29) carried them, and nullable where resend-node allows null or a live response held null. Errors on these operations match Resend's error `name` and status; the classes shared with other areas are in shared.json.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ReceivedEmailHtmlFormat",
+      "value": {
+        "type": "enum",
+        "members": {
+          "DATA_URI": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "data_uri"
+            }
+          },
+          "CID": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "cid"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "How inline images appear in `html`: as base64 `data:` URIs, or as the original `cid:` references."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ReceivedEmailAuthentication",
+      "value": {
+        "type": "structure",
+        "members": {
+          "spf": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The SPF result, such as `pass`.",
+              "smithy.api#required": {}
+            }
+          },
+          "dkim": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The DKIM result, such as `pass`.",
+              "smithy.api#required": {}
+            }
+          },
+          "dmarc": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The DMARC result, such as `pass`.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The sender authentication results Resend recorded on receipt."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ReceivedEmailRaw",
+      "value": {
+        "type": "structure",
+        "members": {
+          "download_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "A signed link to the raw message (.eml).",
+              "smithy.api#required": {}
+            }
+          },
+          "expires_at": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "When the link expires.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Where to download the raw message."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/html_format",
+      "value": {
+        "target": "com.resend.api#ReceivedEmailHtmlFormat",
+        "traits": {
+          "smithy.api#documentation": "How inline images appear in `html`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/authentication",
+      "value": {
+        "target": "com.resend.api#ReceivedEmailAuthentication",
+        "traits": {
+          "smithy.api#documentation": "The SPF, DKIM and DMARC results.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/raw",
+      "value": {
+        "target": "com.resend.api#ReceivedEmailRaw",
+        "traits": {
+          "smithy.api#documentation": "Where to download the raw message.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailAboveQuota",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The received email arrived while the team was over quota, so its content is withheld (403 `email_above_quota`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/name": "email_above_quota"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ReceivedEmailNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The received email does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Inbound email not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsListReceiving/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsGetReceiving/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#ReceivedEmailNotFound"
+        },
+        {
+          "target": "com.resend.api#EmailAboveQuota"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsListReceivingAttachments/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#ReceivedEmailNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        },
+        {
+          "target": "com.resend.api#EmailAboveQuota"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsGetReceivingAttachment/errors",
+      "value": [
+        {
+          "target": "com.resend.api#MissingApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidApiKey"
+        },
+        {
+          "target": "com.resend.api#RestrictedApiKey"
+        },
+        {
+          "target": "com.resend.api#InactiveApiKey"
+        },
+        {
+          "target": "com.resend.api#SuspendedApiKey"
+        },
+        {
+          "target": "com.resend.api#InvalidPermission"
+        },
+        {
+          "target": "com.resend.api#ValidationError"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredField"
+        },
+        {
+          "target": "com.resend.api#MissingRequiredParameter"
+        },
+        {
+          "target": "com.resend.api#InvalidParameter"
+        },
+        {
+          "target": "com.resend.api#ResourceLocked"
+        },
+        {
+          "target": "com.resend.api#AttachmentNotFound"
+        },
+        {
+          "target": "com.resend.api#ReceivedEmailNotFound"
+        },
+        {
+          "target": "com.resend.api#EmailAboveQuota"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItem/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItem/members/to/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItem/members/from/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItem/members/subject/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItem/members/message_id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItem/members/bcc/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItem/members/cc/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItem/members/reply_to/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItem/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItem/members/attachments/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItemAttachmentsItem/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItemAttachmentsItem/members/filename/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItemAttachmentsItem/members/content_type/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItemAttachmentsItem/members/content_id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItemAttachmentsItem/members/content_disposition/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItemAttachmentsItem/members/size/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/to/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/from/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/subject/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/message_id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/bcc/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/cc/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/reply_to/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/received_for/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/html/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/text/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/headers/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/attachments/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponseAttachmentsItem/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponseAttachmentsItem/members/filename/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponseAttachmentsItem/members/content_type/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponseAttachmentsItem/members/content_id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponseAttachmentsItem/members/content_disposition/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponseAttachmentsItem/members/size/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponse/members/has_more/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponse/members/data/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListReceivedEmailsResponseDataItemAttachmentsItem/members/content_id/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponseAttachmentsItem/members/content_id/traits/com.distilled.openapi#nullable",
+      "value": {}
+    }
+  ]
+}
