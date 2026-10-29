@@ -960,11 +960,18 @@ export interface NamespacesInstancesItemsChunksResultItemItem {
   metadata?: NamespacesInstancesItemsChunksResultItemItemMetadataMap | null;
   timestamp?: number | null;
 }
+export type NamespacesInstancesItemsChunksResultItemSourceMediaType = "audio" | "video";
 export interface NamespacesInstancesItemsChunksResultItem {
   id: string;
   item: NamespacesInstancesItemsChunksResultItemItem;
   text: string;
   endByte?: number | null;
+  /** Audio/video transcript chunks only: end, in milliseconds from the start of the media (whole seconds), of the last transcript section the chunk covers. */
+  mediaEndMs?: number | null;
+  /** Audio/video transcript chunks only: start, in milliseconds from the start of the media (whole seconds), of the transcript section the chunk begins in. */
+  mediaStartMs?: number | null;
+  /** Audio/video transcript chunks only: type of the source media file. Omitted for all other chunks. */
+  sourceMediaType?: NamespacesInstancesItemsChunksResultItemSourceMediaType | null;
   startByte?: number | null;
 }
 export type NamespacesInstancesItemsChunksResultList =
@@ -6835,6 +6842,9 @@ function __c10(j: number): any {
           item: __S(16, __c1, 0),
           text: S.String,
           endByte: S.optional(S.NullOr(S.Number).pipe(T.Body("end_byte"))),
+          mediaEndMs: S.optional(S.NullOr(S.Number).pipe(T.Body("media_end_ms"))),
+          mediaStartMs: S.optional(S.NullOr(S.Number).pipe(T.Body("media_start_ms"))),
+          sourceMediaType: S.optional(S.NullOr(S.String).pipe(T.Body("source_media_type"))),
           startByte: S.optional(S.NullOr(S.Number).pipe(T.Body("start_byte"))),
         }),
       ).annotate({ identifier: "NamespacesInstancesItemsChunksResultItem" });

@@ -33,38 +33,98 @@ export interface CacheReserveClearStatusRequest {
   /** Identifier. */
   zoneId: string;
 }
-export type CacheReserveClearStatusResponseState = "In-progress" | "Completed";
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface CacheReserveClearStatusResponse {
+export type CacheReserveClearStatusResultCase0State = "In-progress" | "Completed";
+export interface CacheReserveClearStatusResultCase0 {
   /** ID of the zone setting. */
-  id: unknown;
-  /** The time that the latest Cache Reserve Clear operation started. */
-  startTs: string;
-  /** The current state of the Cache Reserve Clear operation. */
-  state: CacheReserveClearStatusResponseState;
+  id?: unknown | null;
   /** The time that the latest Cache Reserve Clear operation completed. */
   endTs?: string | null;
   /** Last time this setting was modified. */
   modifiedOn?: string | null;
+  /** The time that the latest Cache Reserve Clear operation started. */
+  startTs?: string | null;
+  /** The current state of the Cache Reserve Clear operation. */
+  state?: CacheReserveClearStatusResultCase0State | null;
 }
+export type CacheReserveClearStatusResultCase1State = "In-progress" | "Completed";
+export interface CacheReserveClearStatusResultCase1 {
+  /** ID of the zone setting. */
+  id?: unknown | null;
+  /** The time that the latest Cache Reserve Clear operation completed. */
+  endTs?: string | null;
+  /** Last time this setting was modified. */
+  modifiedOn?: string | null;
+  /** The time that the latest Cache Reserve Clear operation started. */
+  startTs?: string | null;
+  /** The current state of the Cache Reserve Clear operation. */
+  state?: CacheReserveClearStatusResultCase1State | null;
+}
+export type CacheReserveClearStatusResultCase2State = "In-progress" | "Completed";
+export interface CacheReserveClearStatusResultCase2 {
+  /** ID of the zone setting. */
+  id?: unknown | null;
+  /** The time that the latest Cache Reserve Clear operation completed. */
+  endTs?: string | null;
+  /** Last time this setting was modified. */
+  modifiedOn?: string | null;
+  /** The time that the latest Cache Reserve Clear operation started. */
+  startTs?: string | null;
+  /** The current state of the Cache Reserve Clear operation. */
+  state?: CacheReserveClearStatusResultCase2State | null;
+}
+export type CacheReserveClearStatusResult =
+  | CacheReserveClearStatusResultCase0
+  | CacheReserveClearStatusResultCase1
+  | CacheReserveClearStatusResultCase2;
+export type CacheReserveClearStatusResponse = CacheReserveClearStatusResult;
 export interface ClearCacheReserveClearRequest {
   /** Identifier. */
   zoneId: string;
 }
-export type ClearCacheReserveClearResponseState = "In-progress" | "Completed";
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface ClearCacheReserveClearResponse {
+export type ClearCacheReserveClearResultCase0State = "In-progress" | "Completed";
+export interface ClearCacheReserveClearResultCase0 {
   /** ID of the zone setting. */
-  id: unknown;
-  /** The time that the latest Cache Reserve Clear operation started. */
-  startTs: string;
-  /** The current state of the Cache Reserve Clear operation. */
-  state: ClearCacheReserveClearResponseState;
+  id?: unknown | null;
   /** The time that the latest Cache Reserve Clear operation completed. */
   endTs?: string | null;
   /** Last time this setting was modified. */
   modifiedOn?: string | null;
+  /** The time that the latest Cache Reserve Clear operation started. */
+  startTs?: string | null;
+  /** The current state of the Cache Reserve Clear operation. */
+  state?: ClearCacheReserveClearResultCase0State | null;
 }
+export type ClearCacheReserveClearResultCase1State = "In-progress" | "Completed";
+export interface ClearCacheReserveClearResultCase1 {
+  /** ID of the zone setting. */
+  id?: unknown | null;
+  /** The time that the latest Cache Reserve Clear operation completed. */
+  endTs?: string | null;
+  /** Last time this setting was modified. */
+  modifiedOn?: string | null;
+  /** The time that the latest Cache Reserve Clear operation started. */
+  startTs?: string | null;
+  /** The current state of the Cache Reserve Clear operation. */
+  state?: ClearCacheReserveClearResultCase1State | null;
+}
+export type ClearCacheReserveClearResultCase2State = "In-progress" | "Completed";
+export interface ClearCacheReserveClearResultCase2 {
+  /** ID of the zone setting. */
+  id?: unknown | null;
+  /** The time that the latest Cache Reserve Clear operation completed. */
+  endTs?: string | null;
+  /** Last time this setting was modified. */
+  modifiedOn?: string | null;
+  /** The time that the latest Cache Reserve Clear operation started. */
+  startTs?: string | null;
+  /** The current state of the Cache Reserve Clear operation. */
+  state?: ClearCacheReserveClearResultCase2State | null;
+}
+export type ClearCacheReserveClearResult =
+  | ClearCacheReserveClearResultCase0
+  | ClearCacheReserveClearResultCase1
+  | ClearCacheReserveClearResultCase2;
+export type ClearCacheReserveClearResponse = ClearCacheReserveClearResult;
 export type CreateHealthCheckRequestCheckRegionsItem =
   | "WNAM"
   | "ENAM"
@@ -144,7 +204,7 @@ export interface CreateHealthCheckRequest {
   /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
   type?: string;
 }
-export type CreateHealthCheckResponseCheckRegionsItem =
+export type CreateHealthCheckResultCase0CheckRegionsItem =
   | "WNAM"
   | "ENAM"
   | "WEU"
@@ -159,48 +219,47 @@ export type CreateHealthCheckResponseCheckRegionsItem =
   | "SEAS"
   | "NEAS"
   | "ALL_REGIONS";
-export type CreateHealthCheckResponseCheckRegionsList =
-  Array<CreateHealthCheckResponseCheckRegionsItem>;
-export type CreateHealthCheckResponseHttpConfigExpectedCodesList = Array<string>;
-export type CreateHealthCheckResponseHttpConfigHeaderValueList = Array<string>;
-export type CreateHealthCheckResponseHttpConfigHeaderMap = {
-  [key: string]: CreateHealthCheckResponseHttpConfigHeaderValueList | undefined;
+export type CreateHealthCheckResultCase0CheckRegionsList =
+  Array<CreateHealthCheckResultCase0CheckRegionsItem>;
+export type CreateHealthCheckResultCase0HttpConfigExpectedCodesList = Array<string>;
+export type CreateHealthCheckResultCase0HttpConfigHeaderValueList = Array<string>;
+export type CreateHealthCheckResultCase0HttpConfigHeaderMap = {
+  [key: string]: CreateHealthCheckResultCase0HttpConfigHeaderValueList | undefined;
 };
-export type CreateHealthCheckResponseHttpConfigMethod = "GET" | "HEAD";
-export interface CreateHealthCheckResponseHttpConfig {
+export type CreateHealthCheckResultCase0HttpConfigMethod = "GET" | "HEAD";
+export interface CreateHealthCheckResultCase0HttpConfig {
   /** Do not validate the certificate when the health check uses HTTPS. */
   allowInsecure?: boolean | null;
   /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
   expectedBody?: string | null;
   /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
-  expectedCodes?: CreateHealthCheckResponseHttpConfigExpectedCodesList | null;
+  expectedCodes?: CreateHealthCheckResultCase0HttpConfigExpectedCodesList | null;
   /** Follow redirects if the origin returns a 3xx status code. */
   followRedirects?: boolean | null;
   /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
-  header?: CreateHealthCheckResponseHttpConfigHeaderMap | null;
+  header?: CreateHealthCheckResultCase0HttpConfigHeaderMap | null;
   /** The HTTP method to use for the health check. */
-  method?: CreateHealthCheckResponseHttpConfigMethod | null;
+  method?: CreateHealthCheckResultCase0HttpConfigMethod | null;
   /** The endpoint path to health check against. */
   path?: string | null;
   /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
   port?: number | null;
 }
-export type CreateHealthCheckResponseStatus = "unknown" | "healthy" | "unhealthy" | "suspended";
-export type CreateHealthCheckResponseTcpConfigMethod = "connection_established";
-export interface CreateHealthCheckResponseTcpConfig {
+export type CreateHealthCheckResultCase0Status = "unknown" | "healthy" | "unhealthy" | "suspended";
+export type CreateHealthCheckResultCase0TcpConfigMethod = "connection_established";
+export interface CreateHealthCheckResultCase0TcpConfig {
   /** The TCP connection method to use for the health check. */
-  method?: CreateHealthCheckResponseTcpConfigMethod | null;
+  method?: CreateHealthCheckResultCase0TcpConfigMethod | null;
   /** Port number to connect to for the health check. Defaults to 80. */
   port?: number | null;
 }
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface CreateHealthCheckResponse {
+export interface CreateHealthCheckResultCase0 {
   /** Identifier. */
   id?: string | null;
   /** The hostname or IP address of the origin server to run health checks on. */
   address?: string | null;
   /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?: CreateHealthCheckResponseCheckRegionsList | null;
+  checkRegions?: CreateHealthCheckResultCase0CheckRegionsList | null;
   /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
   consecutiveFails?: number | null;
   /** The number of consecutive successes required from a health check before changing the health to healthy. */
@@ -211,7 +270,7 @@ export interface CreateHealthCheckResponse {
   /** The current failure reason if status is unhealthy. */
   failureReason?: string | null;
   /** Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: CreateHealthCheckResponseHttpConfig | null;
+  httpConfig?: CreateHealthCheckResultCase0HttpConfig | null;
   /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
   interval?: number | null;
   modifiedOn?: string | null;
@@ -220,27 +279,208 @@ export interface CreateHealthCheckResponse {
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
   retries?: number | null;
   /** The current status of the origin server according to the health check. */
-  status?: CreateHealthCheckResponseStatus | null;
+  status?: CreateHealthCheckResultCase0Status | null;
   /** If suspended, no health checks are sent to the origin. */
   suspended?: boolean | null;
   /** Parameters specific to TCP health check. */
-  tcpConfig?: CreateHealthCheckResponseTcpConfig | null;
+  tcpConfig?: CreateHealthCheckResultCase0TcpConfig | null;
   /** The timeout (in seconds) before marking the health check as failed. */
   timeout?: number | null;
   /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
   type?: string | null;
 }
+export type CreateHealthCheckResultCase1CheckRegionsItem =
+  | "WNAM"
+  | "ENAM"
+  | "WEU"
+  | "EEU"
+  | "NSAM"
+  | "SSAM"
+  | "OC"
+  | "ME"
+  | "NAF"
+  | "SAF"
+  | "IN"
+  | "SEAS"
+  | "NEAS"
+  | "ALL_REGIONS";
+export type CreateHealthCheckResultCase1CheckRegionsList =
+  Array<CreateHealthCheckResultCase1CheckRegionsItem>;
+export type CreateHealthCheckResultCase1HttpConfigExpectedCodesList = Array<string>;
+export type CreateHealthCheckResultCase1HttpConfigHeaderValueList = Array<string>;
+export type CreateHealthCheckResultCase1HttpConfigHeaderMap = {
+  [key: string]: CreateHealthCheckResultCase1HttpConfigHeaderValueList | undefined;
+};
+export type CreateHealthCheckResultCase1HttpConfigMethod = "GET" | "HEAD";
+export interface CreateHealthCheckResultCase1HttpConfig {
+  /** Do not validate the certificate when the health check uses HTTPS. */
+  allowInsecure?: boolean | null;
+  /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
+  expectedBody?: string | null;
+  /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
+  expectedCodes?: CreateHealthCheckResultCase1HttpConfigExpectedCodesList | null;
+  /** Follow redirects if the origin returns a 3xx status code. */
+  followRedirects?: boolean | null;
+  /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
+  header?: CreateHealthCheckResultCase1HttpConfigHeaderMap | null;
+  /** The HTTP method to use for the health check. */
+  method?: CreateHealthCheckResultCase1HttpConfigMethod | null;
+  /** The endpoint path to health check against. */
+  path?: string | null;
+  /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
+  port?: number | null;
+}
+export type CreateHealthCheckResultCase1Status = "unknown" | "healthy" | "unhealthy" | "suspended";
+export type CreateHealthCheckResultCase1TcpConfigMethod = "connection_established";
+export interface CreateHealthCheckResultCase1TcpConfig {
+  /** The TCP connection method to use for the health check. */
+  method?: CreateHealthCheckResultCase1TcpConfigMethod | null;
+  /** Port number to connect to for the health check. Defaults to 80. */
+  port?: number | null;
+}
+export interface CreateHealthCheckResultCase1 {
+  /** Identifier. */
+  id?: string | null;
+  /** The hostname or IP address of the origin server to run health checks on. */
+  address?: string | null;
+  /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
+  checkRegions?: CreateHealthCheckResultCase1CheckRegionsList | null;
+  /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
+  consecutiveFails?: number | null;
+  /** The number of consecutive successes required from a health check before changing the health to healthy. */
+  consecutiveSuccesses?: number | null;
+  createdOn?: string | null;
+  /** A human-readable description of the health check. */
+  description?: string | null;
+  /** The current failure reason if status is unhealthy. */
+  failureReason?: string | null;
+  /** Parameters specific to an HTTP or HTTPS health check. */
+  httpConfig?: CreateHealthCheckResultCase1HttpConfig | null;
+  /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
+  interval?: number | null;
+  modifiedOn?: string | null;
+  /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
+  name?: string | null;
+  /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
+  retries?: number | null;
+  /** The current status of the origin server according to the health check. */
+  status?: CreateHealthCheckResultCase1Status | null;
+  /** If suspended, no health checks are sent to the origin. */
+  suspended?: boolean | null;
+  /** Parameters specific to TCP health check. */
+  tcpConfig?: CreateHealthCheckResultCase1TcpConfig | null;
+  /** The timeout (in seconds) before marking the health check as failed. */
+  timeout?: number | null;
+  /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
+  type?: string | null;
+}
+export type CreateHealthCheckResultCase2CheckRegionsItem =
+  | "WNAM"
+  | "ENAM"
+  | "WEU"
+  | "EEU"
+  | "NSAM"
+  | "SSAM"
+  | "OC"
+  | "ME"
+  | "NAF"
+  | "SAF"
+  | "IN"
+  | "SEAS"
+  | "NEAS"
+  | "ALL_REGIONS";
+export type CreateHealthCheckResultCase2CheckRegionsList =
+  Array<CreateHealthCheckResultCase2CheckRegionsItem>;
+export type CreateHealthCheckResultCase2HttpConfigExpectedCodesList = Array<string>;
+export type CreateHealthCheckResultCase2HttpConfigHeaderValueList = Array<string>;
+export type CreateHealthCheckResultCase2HttpConfigHeaderMap = {
+  [key: string]: CreateHealthCheckResultCase2HttpConfigHeaderValueList | undefined;
+};
+export type CreateHealthCheckResultCase2HttpConfigMethod = "GET" | "HEAD";
+export interface CreateHealthCheckResultCase2HttpConfig {
+  /** Do not validate the certificate when the health check uses HTTPS. */
+  allowInsecure?: boolean | null;
+  /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
+  expectedBody?: string | null;
+  /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
+  expectedCodes?: CreateHealthCheckResultCase2HttpConfigExpectedCodesList | null;
+  /** Follow redirects if the origin returns a 3xx status code. */
+  followRedirects?: boolean | null;
+  /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
+  header?: CreateHealthCheckResultCase2HttpConfigHeaderMap | null;
+  /** The HTTP method to use for the health check. */
+  method?: CreateHealthCheckResultCase2HttpConfigMethod | null;
+  /** The endpoint path to health check against. */
+  path?: string | null;
+  /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
+  port?: number | null;
+}
+export type CreateHealthCheckResultCase2Status = "unknown" | "healthy" | "unhealthy" | "suspended";
+export type CreateHealthCheckResultCase2TcpConfigMethod = "connection_established";
+export interface CreateHealthCheckResultCase2TcpConfig {
+  /** The TCP connection method to use for the health check. */
+  method?: CreateHealthCheckResultCase2TcpConfigMethod | null;
+  /** Port number to connect to for the health check. Defaults to 80. */
+  port?: number | null;
+}
+export interface CreateHealthCheckResultCase2 {
+  /** Identifier. */
+  id?: string | null;
+  /** The hostname or IP address of the origin server to run health checks on. */
+  address?: string | null;
+  /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
+  checkRegions?: CreateHealthCheckResultCase2CheckRegionsList | null;
+  /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
+  consecutiveFails?: number | null;
+  /** The number of consecutive successes required from a health check before changing the health to healthy. */
+  consecutiveSuccesses?: number | null;
+  createdOn?: string | null;
+  /** A human-readable description of the health check. */
+  description?: string | null;
+  /** The current failure reason if status is unhealthy. */
+  failureReason?: string | null;
+  /** Parameters specific to an HTTP or HTTPS health check. */
+  httpConfig?: CreateHealthCheckResultCase2HttpConfig | null;
+  /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
+  interval?: number | null;
+  modifiedOn?: string | null;
+  /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
+  name?: string | null;
+  /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
+  retries?: number | null;
+  /** The current status of the origin server according to the health check. */
+  status?: CreateHealthCheckResultCase2Status | null;
+  /** If suspended, no health checks are sent to the origin. */
+  suspended?: boolean | null;
+  /** Parameters specific to TCP health check. */
+  tcpConfig?: CreateHealthCheckResultCase2TcpConfig | null;
+  /** The timeout (in seconds) before marking the health check as failed. */
+  timeout?: number | null;
+  /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
+  type?: string | null;
+}
+export type CreateHealthCheckResult =
+  | CreateHealthCheckResultCase0
+  | CreateHealthCheckResultCase1
+  | CreateHealthCheckResultCase2;
+export type CreateHealthCheckResponse = CreateHealthCheckResult;
 export interface DeleteHealthCheckRequest {
   /** Identifier. */
   zoneId: string;
   /** Identifier. */
   healthcheckId: string;
 }
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface DeleteHealthCheckResponse {
+export interface DeleteHealthCheckResultID {
   /** Identifier. */
   id?: string | null;
 }
+export type DeleteHealthCheckResultID2 = DeleteHealthCheckResultID;
+export type DeleteHealthCheckResultID3 = DeleteHealthCheckResultID;
+export type DeleteHealthCheckResult =
+  | DeleteHealthCheckResultID
+  | DeleteHealthCheckResultID
+  | DeleteHealthCheckResultID;
+export type DeleteHealthCheckResponse = DeleteHealthCheckResult;
 export type EditHealthCheckRequestCheckRegionsItem =
   | "WNAM"
   | "ENAM"
@@ -322,7 +562,7 @@ export interface EditHealthCheckRequest {
   /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
   type?: string;
 }
-export type EditHealthCheckResponseCheckRegionsItem =
+export type EditHealthCheckResultCase0CheckRegionsItem =
   | "WNAM"
   | "ENAM"
   | "WEU"
@@ -337,48 +577,47 @@ export type EditHealthCheckResponseCheckRegionsItem =
   | "SEAS"
   | "NEAS"
   | "ALL_REGIONS";
-export type EditHealthCheckResponseCheckRegionsList =
-  Array<EditHealthCheckResponseCheckRegionsItem>;
-export type EditHealthCheckResponseHttpConfigExpectedCodesList = Array<string>;
-export type EditHealthCheckResponseHttpConfigHeaderValueList = Array<string>;
-export type EditHealthCheckResponseHttpConfigHeaderMap = {
-  [key: string]: EditHealthCheckResponseHttpConfigHeaderValueList | undefined;
+export type EditHealthCheckResultCase0CheckRegionsList =
+  Array<EditHealthCheckResultCase0CheckRegionsItem>;
+export type EditHealthCheckResultCase0HttpConfigExpectedCodesList = Array<string>;
+export type EditHealthCheckResultCase0HttpConfigHeaderValueList = Array<string>;
+export type EditHealthCheckResultCase0HttpConfigHeaderMap = {
+  [key: string]: EditHealthCheckResultCase0HttpConfigHeaderValueList | undefined;
 };
-export type EditHealthCheckResponseHttpConfigMethod = "GET" | "HEAD";
-export interface EditHealthCheckResponseHttpConfig {
+export type EditHealthCheckResultCase0HttpConfigMethod = "GET" | "HEAD";
+export interface EditHealthCheckResultCase0HttpConfig {
   /** Do not validate the certificate when the health check uses HTTPS. */
   allowInsecure?: boolean | null;
   /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
   expectedBody?: string | null;
   /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
-  expectedCodes?: EditHealthCheckResponseHttpConfigExpectedCodesList | null;
+  expectedCodes?: EditHealthCheckResultCase0HttpConfigExpectedCodesList | null;
   /** Follow redirects if the origin returns a 3xx status code. */
   followRedirects?: boolean | null;
   /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
-  header?: EditHealthCheckResponseHttpConfigHeaderMap | null;
+  header?: EditHealthCheckResultCase0HttpConfigHeaderMap | null;
   /** The HTTP method to use for the health check. */
-  method?: EditHealthCheckResponseHttpConfigMethod | null;
+  method?: EditHealthCheckResultCase0HttpConfigMethod | null;
   /** The endpoint path to health check against. */
   path?: string | null;
   /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
   port?: number | null;
 }
-export type EditHealthCheckResponseStatus = "unknown" | "healthy" | "unhealthy" | "suspended";
-export type EditHealthCheckResponseTcpConfigMethod = "connection_established";
-export interface EditHealthCheckResponseTcpConfig {
+export type EditHealthCheckResultCase0Status = "unknown" | "healthy" | "unhealthy" | "suspended";
+export type EditHealthCheckResultCase0TcpConfigMethod = "connection_established";
+export interface EditHealthCheckResultCase0TcpConfig {
   /** The TCP connection method to use for the health check. */
-  method?: EditHealthCheckResponseTcpConfigMethod | null;
+  method?: EditHealthCheckResultCase0TcpConfigMethod | null;
   /** Port number to connect to for the health check. Defaults to 80. */
   port?: number | null;
 }
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface EditHealthCheckResponse {
+export interface EditHealthCheckResultCase0 {
   /** Identifier. */
   id?: string | null;
   /** The hostname or IP address of the origin server to run health checks on. */
   address?: string | null;
   /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?: EditHealthCheckResponseCheckRegionsList | null;
+  checkRegions?: EditHealthCheckResultCase0CheckRegionsList | null;
   /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
   consecutiveFails?: number | null;
   /** The number of consecutive successes required from a health check before changing the health to healthy. */
@@ -389,7 +628,7 @@ export interface EditHealthCheckResponse {
   /** The current failure reason if status is unhealthy. */
   failureReason?: string | null;
   /** Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: EditHealthCheckResponseHttpConfig | null;
+  httpConfig?: EditHealthCheckResultCase0HttpConfig | null;
   /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
   interval?: number | null;
   modifiedOn?: string | null;
@@ -398,49 +637,224 @@ export interface EditHealthCheckResponse {
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
   retries?: number | null;
   /** The current status of the origin server according to the health check. */
-  status?: EditHealthCheckResponseStatus | null;
+  status?: EditHealthCheckResultCase0Status | null;
   /** If suspended, no health checks are sent to the origin. */
   suspended?: boolean | null;
   /** Parameters specific to TCP health check. */
-  tcpConfig?: EditHealthCheckResponseTcpConfig | null;
+  tcpConfig?: EditHealthCheckResultCase0TcpConfig | null;
   /** The timeout (in seconds) before marking the health check as failed. */
   timeout?: number | null;
   /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
   type?: string | null;
 }
+export type EditHealthCheckResultCase1CheckRegionsItem =
+  | "WNAM"
+  | "ENAM"
+  | "WEU"
+  | "EEU"
+  | "NSAM"
+  | "SSAM"
+  | "OC"
+  | "ME"
+  | "NAF"
+  | "SAF"
+  | "IN"
+  | "SEAS"
+  | "NEAS"
+  | "ALL_REGIONS";
+export type EditHealthCheckResultCase1CheckRegionsList =
+  Array<EditHealthCheckResultCase1CheckRegionsItem>;
+export type EditHealthCheckResultCase1HttpConfigExpectedCodesList = Array<string>;
+export type EditHealthCheckResultCase1HttpConfigHeaderValueList = Array<string>;
+export type EditHealthCheckResultCase1HttpConfigHeaderMap = {
+  [key: string]: EditHealthCheckResultCase1HttpConfigHeaderValueList | undefined;
+};
+export type EditHealthCheckResultCase1HttpConfigMethod = "GET" | "HEAD";
+export interface EditHealthCheckResultCase1HttpConfig {
+  /** Do not validate the certificate when the health check uses HTTPS. */
+  allowInsecure?: boolean | null;
+  /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
+  expectedBody?: string | null;
+  /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
+  expectedCodes?: EditHealthCheckResultCase1HttpConfigExpectedCodesList | null;
+  /** Follow redirects if the origin returns a 3xx status code. */
+  followRedirects?: boolean | null;
+  /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
+  header?: EditHealthCheckResultCase1HttpConfigHeaderMap | null;
+  /** The HTTP method to use for the health check. */
+  method?: EditHealthCheckResultCase1HttpConfigMethod | null;
+  /** The endpoint path to health check against. */
+  path?: string | null;
+  /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
+  port?: number | null;
+}
+export type EditHealthCheckResultCase1Status = "unknown" | "healthy" | "unhealthy" | "suspended";
+export type EditHealthCheckResultCase1TcpConfigMethod = "connection_established";
+export interface EditHealthCheckResultCase1TcpConfig {
+  /** The TCP connection method to use for the health check. */
+  method?: EditHealthCheckResultCase1TcpConfigMethod | null;
+  /** Port number to connect to for the health check. Defaults to 80. */
+  port?: number | null;
+}
+export interface EditHealthCheckResultCase1 {
+  /** Identifier. */
+  id?: string | null;
+  /** The hostname or IP address of the origin server to run health checks on. */
+  address?: string | null;
+  /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
+  checkRegions?: EditHealthCheckResultCase1CheckRegionsList | null;
+  /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
+  consecutiveFails?: number | null;
+  /** The number of consecutive successes required from a health check before changing the health to healthy. */
+  consecutiveSuccesses?: number | null;
+  createdOn?: string | null;
+  /** A human-readable description of the health check. */
+  description?: string | null;
+  /** The current failure reason if status is unhealthy. */
+  failureReason?: string | null;
+  /** Parameters specific to an HTTP or HTTPS health check. */
+  httpConfig?: EditHealthCheckResultCase1HttpConfig | null;
+  /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
+  interval?: number | null;
+  modifiedOn?: string | null;
+  /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
+  name?: string | null;
+  /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
+  retries?: number | null;
+  /** The current status of the origin server according to the health check. */
+  status?: EditHealthCheckResultCase1Status | null;
+  /** If suspended, no health checks are sent to the origin. */
+  suspended?: boolean | null;
+  /** Parameters specific to TCP health check. */
+  tcpConfig?: EditHealthCheckResultCase1TcpConfig | null;
+  /** The timeout (in seconds) before marking the health check as failed. */
+  timeout?: number | null;
+  /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
+  type?: string | null;
+}
+export type EditHealthCheckResultCase2CheckRegionsItem =
+  | "WNAM"
+  | "ENAM"
+  | "WEU"
+  | "EEU"
+  | "NSAM"
+  | "SSAM"
+  | "OC"
+  | "ME"
+  | "NAF"
+  | "SAF"
+  | "IN"
+  | "SEAS"
+  | "NEAS"
+  | "ALL_REGIONS";
+export type EditHealthCheckResultCase2CheckRegionsList =
+  Array<EditHealthCheckResultCase2CheckRegionsItem>;
+export type EditHealthCheckResultCase2HttpConfigExpectedCodesList = Array<string>;
+export type EditHealthCheckResultCase2HttpConfigHeaderValueList = Array<string>;
+export type EditHealthCheckResultCase2HttpConfigHeaderMap = {
+  [key: string]: EditHealthCheckResultCase2HttpConfigHeaderValueList | undefined;
+};
+export type EditHealthCheckResultCase2HttpConfigMethod = "GET" | "HEAD";
+export interface EditHealthCheckResultCase2HttpConfig {
+  /** Do not validate the certificate when the health check uses HTTPS. */
+  allowInsecure?: boolean | null;
+  /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
+  expectedBody?: string | null;
+  /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
+  expectedCodes?: EditHealthCheckResultCase2HttpConfigExpectedCodesList | null;
+  /** Follow redirects if the origin returns a 3xx status code. */
+  followRedirects?: boolean | null;
+  /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
+  header?: EditHealthCheckResultCase2HttpConfigHeaderMap | null;
+  /** The HTTP method to use for the health check. */
+  method?: EditHealthCheckResultCase2HttpConfigMethod | null;
+  /** The endpoint path to health check against. */
+  path?: string | null;
+  /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
+  port?: number | null;
+}
+export type EditHealthCheckResultCase2Status = "unknown" | "healthy" | "unhealthy" | "suspended";
+export type EditHealthCheckResultCase2TcpConfigMethod = "connection_established";
+export interface EditHealthCheckResultCase2TcpConfig {
+  /** The TCP connection method to use for the health check. */
+  method?: EditHealthCheckResultCase2TcpConfigMethod | null;
+  /** Port number to connect to for the health check. Defaults to 80. */
+  port?: number | null;
+}
+export interface EditHealthCheckResultCase2 {
+  /** Identifier. */
+  id?: string | null;
+  /** The hostname or IP address of the origin server to run health checks on. */
+  address?: string | null;
+  /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
+  checkRegions?: EditHealthCheckResultCase2CheckRegionsList | null;
+  /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
+  consecutiveFails?: number | null;
+  /** The number of consecutive successes required from a health check before changing the health to healthy. */
+  consecutiveSuccesses?: number | null;
+  createdOn?: string | null;
+  /** A human-readable description of the health check. */
+  description?: string | null;
+  /** The current failure reason if status is unhealthy. */
+  failureReason?: string | null;
+  /** Parameters specific to an HTTP or HTTPS health check. */
+  httpConfig?: EditHealthCheckResultCase2HttpConfig | null;
+  /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
+  interval?: number | null;
+  modifiedOn?: string | null;
+  /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
+  name?: string | null;
+  /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
+  retries?: number | null;
+  /** The current status of the origin server according to the health check. */
+  status?: EditHealthCheckResultCase2Status | null;
+  /** If suspended, no health checks are sent to the origin. */
+  suspended?: boolean | null;
+  /** Parameters specific to TCP health check. */
+  tcpConfig?: EditHealthCheckResultCase2TcpConfig | null;
+  /** The timeout (in seconds) before marking the health check as failed. */
+  timeout?: number | null;
+  /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
+  type?: string | null;
+}
+export type EditHealthCheckResult =
+  | EditHealthCheckResultCase0
+  | EditHealthCheckResultCase1
+  | EditHealthCheckResultCase2;
+export type EditHealthCheckResponse = EditHealthCheckResult;
 export interface GetRequest {
   /** Identifier. */
   zoneId: string;
 }
-export type GetResponseCacheReserveValue = "on" | "off";
-export interface GetResponseCacheReserve {
+export type GetResultCase0CacheReserveValue = "on" | "off";
+export interface GetResultCase0CacheReserve {
   /** The id of the Cache Reserve setting. */
   id?: string | null;
   /** Whether the setting is editable. */
   editable?: boolean | null;
   /** Specifies the enablement value of Cache Reserve. */
-  value?: GetResponseCacheReserveValue | null;
+  value?: GetResultCase0CacheReserveValue | null;
 }
-export type GetResponseRegionalTieredCacheValue = "on" | "off";
-export interface GetResponseRegionalTieredCache {
+export type GetResultCase0RegionalTieredCacheValue = "on" | "off";
+export interface GetResultCase0RegionalTieredCache {
   /** The id of the Regional Tiered Cache setting. */
   id?: string | null;
   /** Whether the setting is editable. */
   editable?: boolean | null;
   /** Specifies the enablement value of Cache Reserve. */
-  value?: GetResponseRegionalTieredCacheValue | null;
+  value?: GetResultCase0RegionalTieredCacheValue | null;
 }
-export type GetResponseSmartRoutingValue = "on" | "off";
-export interface GetResponseSmartRouting {
+export type GetResultCase0SmartRoutingValue = "on" | "off";
+export interface GetResultCase0SmartRouting {
   /** The id of the Smart Routing setting. */
   id?: string | null;
   /** Whether the setting is editable. */
   editable?: boolean | null;
   /** Specifies the enablement value of Argo Smart Routing. */
-  value?: GetResponseSmartRoutingValue | null;
+  value?: GetResultCase0SmartRoutingValue | null;
 }
-export type GetResponseSmartTieredCacheValue = "on" | "off";
-export interface GetResponseSmartTieredCache {
+export type GetResultCase0SmartTieredCacheValue = "on" | "off";
+export interface GetResultCase0SmartTieredCache {
   /** The id of the Smart Tiered Cache setting. */
   id?: string | null;
   /** Whether the setting is editable. */
@@ -448,24 +862,117 @@ export interface GetResponseSmartTieredCache {
   /** The last time the setting was modified. */
   modifiedOn?: string | null;
   /** Specifies the enablement value of Tiered Cache. */
-  value?: GetResponseSmartTieredCacheValue | null;
+  value?: GetResultCase0SmartTieredCacheValue | null;
 }
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface GetResponse {
-  cacheReserve: GetResponseCacheReserve;
+export interface GetResultCase0 {
+  cacheReserve?: GetResultCase0CacheReserve | null;
   /** The total number of health checks associated with the zone. */
-  healthchecksCount: number;
-  regionalTieredCache: GetResponseRegionalTieredCache;
-  smartRouting: GetResponseSmartRouting;
-  smartTieredCache: GetResponseSmartTieredCache;
+  healthchecksCount?: number | null;
+  regionalTieredCache?: GetResultCase0RegionalTieredCache | null;
+  smartRouting?: GetResultCase0SmartRouting | null;
+  smartTieredCache?: GetResultCase0SmartTieredCache | null;
 }
+export type GetResultCase1CacheReserveValue = "on" | "off";
+export interface GetResultCase1CacheReserve {
+  /** The id of the Cache Reserve setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Cache Reserve. */
+  value?: GetResultCase1CacheReserveValue | null;
+}
+export type GetResultCase1RegionalTieredCacheValue = "on" | "off";
+export interface GetResultCase1RegionalTieredCache {
+  /** The id of the Regional Tiered Cache setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Cache Reserve. */
+  value?: GetResultCase1RegionalTieredCacheValue | null;
+}
+export type GetResultCase1SmartRoutingValue = "on" | "off";
+export interface GetResultCase1SmartRouting {
+  /** The id of the Smart Routing setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Argo Smart Routing. */
+  value?: GetResultCase1SmartRoutingValue | null;
+}
+export type GetResultCase1SmartTieredCacheValue = "on" | "off";
+export interface GetResultCase1SmartTieredCache {
+  /** The id of the Smart Tiered Cache setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** The last time the setting was modified. */
+  modifiedOn?: string | null;
+  /** Specifies the enablement value of Tiered Cache. */
+  value?: GetResultCase1SmartTieredCacheValue | null;
+}
+export interface GetResultCase1 {
+  cacheReserve?: GetResultCase1CacheReserve | null;
+  /** The total number of health checks associated with the zone. */
+  healthchecksCount?: number | null;
+  regionalTieredCache?: GetResultCase1RegionalTieredCache | null;
+  smartRouting?: GetResultCase1SmartRouting | null;
+  smartTieredCache?: GetResultCase1SmartTieredCache | null;
+}
+export type GetResultCase2CacheReserveValue = "on" | "off";
+export interface GetResultCase2CacheReserve {
+  /** The id of the Cache Reserve setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Cache Reserve. */
+  value?: GetResultCase2CacheReserveValue | null;
+}
+export type GetResultCase2RegionalTieredCacheValue = "on" | "off";
+export interface GetResultCase2RegionalTieredCache {
+  /** The id of the Regional Tiered Cache setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Cache Reserve. */
+  value?: GetResultCase2RegionalTieredCacheValue | null;
+}
+export type GetResultCase2SmartRoutingValue = "on" | "off";
+export interface GetResultCase2SmartRouting {
+  /** The id of the Smart Routing setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Argo Smart Routing. */
+  value?: GetResultCase2SmartRoutingValue | null;
+}
+export type GetResultCase2SmartTieredCacheValue = "on" | "off";
+export interface GetResultCase2SmartTieredCache {
+  /** The id of the Smart Tiered Cache setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** The last time the setting was modified. */
+  modifiedOn?: string | null;
+  /** Specifies the enablement value of Tiered Cache. */
+  value?: GetResultCase2SmartTieredCacheValue | null;
+}
+export interface GetResultCase2 {
+  cacheReserve?: GetResultCase2CacheReserve | null;
+  /** The total number of health checks associated with the zone. */
+  healthchecksCount?: number | null;
+  regionalTieredCache?: GetResultCase2RegionalTieredCache | null;
+  smartRouting?: GetResultCase2SmartRouting | null;
+  smartTieredCache?: GetResultCase2SmartTieredCache | null;
+}
+export type GetResult = GetResultCase0 | GetResultCase1 | GetResultCase2;
+export type GetResponse = GetResult;
 export interface GetHealthCheckRequest {
   /** Identifier. */
   zoneId: string;
   /** Identifier. */
   healthcheckId: string;
 }
-export type GetHealthCheckResponseCheckRegionsItem =
+export type GetHealthCheckResultCase0CheckRegionsItem =
   | "WNAM"
   | "ENAM"
   | "WEU"
@@ -480,47 +987,47 @@ export type GetHealthCheckResponseCheckRegionsItem =
   | "SEAS"
   | "NEAS"
   | "ALL_REGIONS";
-export type GetHealthCheckResponseCheckRegionsList = Array<GetHealthCheckResponseCheckRegionsItem>;
-export type GetHealthCheckResponseHttpConfigExpectedCodesList = Array<string>;
-export type GetHealthCheckResponseHttpConfigHeaderValueList = Array<string>;
-export type GetHealthCheckResponseHttpConfigHeaderMap = {
-  [key: string]: GetHealthCheckResponseHttpConfigHeaderValueList | undefined;
+export type GetHealthCheckResultCase0CheckRegionsList =
+  Array<GetHealthCheckResultCase0CheckRegionsItem>;
+export type GetHealthCheckResultCase0HttpConfigExpectedCodesList = Array<string>;
+export type GetHealthCheckResultCase0HttpConfigHeaderValueList = Array<string>;
+export type GetHealthCheckResultCase0HttpConfigHeaderMap = {
+  [key: string]: GetHealthCheckResultCase0HttpConfigHeaderValueList | undefined;
 };
-export type GetHealthCheckResponseHttpConfigMethod = "GET" | "HEAD";
-export interface GetHealthCheckResponseHttpConfig {
+export type GetHealthCheckResultCase0HttpConfigMethod = "GET" | "HEAD";
+export interface GetHealthCheckResultCase0HttpConfig {
   /** Do not validate the certificate when the health check uses HTTPS. */
   allowInsecure?: boolean | null;
   /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
   expectedBody?: string | null;
   /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
-  expectedCodes?: GetHealthCheckResponseHttpConfigExpectedCodesList | null;
+  expectedCodes?: GetHealthCheckResultCase0HttpConfigExpectedCodesList | null;
   /** Follow redirects if the origin returns a 3xx status code. */
   followRedirects?: boolean | null;
   /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
-  header?: GetHealthCheckResponseHttpConfigHeaderMap | null;
+  header?: GetHealthCheckResultCase0HttpConfigHeaderMap | null;
   /** The HTTP method to use for the health check. */
-  method?: GetHealthCheckResponseHttpConfigMethod | null;
+  method?: GetHealthCheckResultCase0HttpConfigMethod | null;
   /** The endpoint path to health check against. */
   path?: string | null;
   /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
   port?: number | null;
 }
-export type GetHealthCheckResponseStatus = "unknown" | "healthy" | "unhealthy" | "suspended";
-export type GetHealthCheckResponseTcpConfigMethod = "connection_established";
-export interface GetHealthCheckResponseTcpConfig {
+export type GetHealthCheckResultCase0Status = "unknown" | "healthy" | "unhealthy" | "suspended";
+export type GetHealthCheckResultCase0TcpConfigMethod = "connection_established";
+export interface GetHealthCheckResultCase0TcpConfig {
   /** The TCP connection method to use for the health check. */
-  method?: GetHealthCheckResponseTcpConfigMethod | null;
+  method?: GetHealthCheckResultCase0TcpConfigMethod | null;
   /** Port number to connect to for the health check. Defaults to 80. */
   port?: number | null;
 }
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface GetHealthCheckResponse {
+export interface GetHealthCheckResultCase0 {
   /** Identifier. */
   id?: string | null;
   /** The hostname or IP address of the origin server to run health checks on. */
   address?: string | null;
   /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?: GetHealthCheckResponseCheckRegionsList | null;
+  checkRegions?: GetHealthCheckResultCase0CheckRegionsList | null;
   /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
   consecutiveFails?: number | null;
   /** The number of consecutive successes required from a health check before changing the health to healthy. */
@@ -531,7 +1038,7 @@ export interface GetHealthCheckResponse {
   /** The current failure reason if status is unhealthy. */
   failureReason?: string | null;
   /** Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: GetHealthCheckResponseHttpConfig | null;
+  httpConfig?: GetHealthCheckResultCase0HttpConfig | null;
   /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
   interval?: number | null;
   modifiedOn?: string | null;
@@ -540,16 +1047,191 @@ export interface GetHealthCheckResponse {
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
   retries?: number | null;
   /** The current status of the origin server according to the health check. */
-  status?: GetHealthCheckResponseStatus | null;
+  status?: GetHealthCheckResultCase0Status | null;
   /** If suspended, no health checks are sent to the origin. */
   suspended?: boolean | null;
   /** Parameters specific to TCP health check. */
-  tcpConfig?: GetHealthCheckResponseTcpConfig | null;
+  tcpConfig?: GetHealthCheckResultCase0TcpConfig | null;
   /** The timeout (in seconds) before marking the health check as failed. */
   timeout?: number | null;
   /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
   type?: string | null;
 }
+export type GetHealthCheckResultCase1CheckRegionsItem =
+  | "WNAM"
+  | "ENAM"
+  | "WEU"
+  | "EEU"
+  | "NSAM"
+  | "SSAM"
+  | "OC"
+  | "ME"
+  | "NAF"
+  | "SAF"
+  | "IN"
+  | "SEAS"
+  | "NEAS"
+  | "ALL_REGIONS";
+export type GetHealthCheckResultCase1CheckRegionsList =
+  Array<GetHealthCheckResultCase1CheckRegionsItem>;
+export type GetHealthCheckResultCase1HttpConfigExpectedCodesList = Array<string>;
+export type GetHealthCheckResultCase1HttpConfigHeaderValueList = Array<string>;
+export type GetHealthCheckResultCase1HttpConfigHeaderMap = {
+  [key: string]: GetHealthCheckResultCase1HttpConfigHeaderValueList | undefined;
+};
+export type GetHealthCheckResultCase1HttpConfigMethod = "GET" | "HEAD";
+export interface GetHealthCheckResultCase1HttpConfig {
+  /** Do not validate the certificate when the health check uses HTTPS. */
+  allowInsecure?: boolean | null;
+  /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
+  expectedBody?: string | null;
+  /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
+  expectedCodes?: GetHealthCheckResultCase1HttpConfigExpectedCodesList | null;
+  /** Follow redirects if the origin returns a 3xx status code. */
+  followRedirects?: boolean | null;
+  /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
+  header?: GetHealthCheckResultCase1HttpConfigHeaderMap | null;
+  /** The HTTP method to use for the health check. */
+  method?: GetHealthCheckResultCase1HttpConfigMethod | null;
+  /** The endpoint path to health check against. */
+  path?: string | null;
+  /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
+  port?: number | null;
+}
+export type GetHealthCheckResultCase1Status = "unknown" | "healthy" | "unhealthy" | "suspended";
+export type GetHealthCheckResultCase1TcpConfigMethod = "connection_established";
+export interface GetHealthCheckResultCase1TcpConfig {
+  /** The TCP connection method to use for the health check. */
+  method?: GetHealthCheckResultCase1TcpConfigMethod | null;
+  /** Port number to connect to for the health check. Defaults to 80. */
+  port?: number | null;
+}
+export interface GetHealthCheckResultCase1 {
+  /** Identifier. */
+  id?: string | null;
+  /** The hostname or IP address of the origin server to run health checks on. */
+  address?: string | null;
+  /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
+  checkRegions?: GetHealthCheckResultCase1CheckRegionsList | null;
+  /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
+  consecutiveFails?: number | null;
+  /** The number of consecutive successes required from a health check before changing the health to healthy. */
+  consecutiveSuccesses?: number | null;
+  createdOn?: string | null;
+  /** A human-readable description of the health check. */
+  description?: string | null;
+  /** The current failure reason if status is unhealthy. */
+  failureReason?: string | null;
+  /** Parameters specific to an HTTP or HTTPS health check. */
+  httpConfig?: GetHealthCheckResultCase1HttpConfig | null;
+  /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
+  interval?: number | null;
+  modifiedOn?: string | null;
+  /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
+  name?: string | null;
+  /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
+  retries?: number | null;
+  /** The current status of the origin server according to the health check. */
+  status?: GetHealthCheckResultCase1Status | null;
+  /** If suspended, no health checks are sent to the origin. */
+  suspended?: boolean | null;
+  /** Parameters specific to TCP health check. */
+  tcpConfig?: GetHealthCheckResultCase1TcpConfig | null;
+  /** The timeout (in seconds) before marking the health check as failed. */
+  timeout?: number | null;
+  /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
+  type?: string | null;
+}
+export type GetHealthCheckResultCase2CheckRegionsItem =
+  | "WNAM"
+  | "ENAM"
+  | "WEU"
+  | "EEU"
+  | "NSAM"
+  | "SSAM"
+  | "OC"
+  | "ME"
+  | "NAF"
+  | "SAF"
+  | "IN"
+  | "SEAS"
+  | "NEAS"
+  | "ALL_REGIONS";
+export type GetHealthCheckResultCase2CheckRegionsList =
+  Array<GetHealthCheckResultCase2CheckRegionsItem>;
+export type GetHealthCheckResultCase2HttpConfigExpectedCodesList = Array<string>;
+export type GetHealthCheckResultCase2HttpConfigHeaderValueList = Array<string>;
+export type GetHealthCheckResultCase2HttpConfigHeaderMap = {
+  [key: string]: GetHealthCheckResultCase2HttpConfigHeaderValueList | undefined;
+};
+export type GetHealthCheckResultCase2HttpConfigMethod = "GET" | "HEAD";
+export interface GetHealthCheckResultCase2HttpConfig {
+  /** Do not validate the certificate when the health check uses HTTPS. */
+  allowInsecure?: boolean | null;
+  /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
+  expectedBody?: string | null;
+  /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
+  expectedCodes?: GetHealthCheckResultCase2HttpConfigExpectedCodesList | null;
+  /** Follow redirects if the origin returns a 3xx status code. */
+  followRedirects?: boolean | null;
+  /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
+  header?: GetHealthCheckResultCase2HttpConfigHeaderMap | null;
+  /** The HTTP method to use for the health check. */
+  method?: GetHealthCheckResultCase2HttpConfigMethod | null;
+  /** The endpoint path to health check against. */
+  path?: string | null;
+  /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
+  port?: number | null;
+}
+export type GetHealthCheckResultCase2Status = "unknown" | "healthy" | "unhealthy" | "suspended";
+export type GetHealthCheckResultCase2TcpConfigMethod = "connection_established";
+export interface GetHealthCheckResultCase2TcpConfig {
+  /** The TCP connection method to use for the health check. */
+  method?: GetHealthCheckResultCase2TcpConfigMethod | null;
+  /** Port number to connect to for the health check. Defaults to 80. */
+  port?: number | null;
+}
+export interface GetHealthCheckResultCase2 {
+  /** Identifier. */
+  id?: string | null;
+  /** The hostname or IP address of the origin server to run health checks on. */
+  address?: string | null;
+  /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
+  checkRegions?: GetHealthCheckResultCase2CheckRegionsList | null;
+  /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
+  consecutiveFails?: number | null;
+  /** The number of consecutive successes required from a health check before changing the health to healthy. */
+  consecutiveSuccesses?: number | null;
+  createdOn?: string | null;
+  /** A human-readable description of the health check. */
+  description?: string | null;
+  /** The current failure reason if status is unhealthy. */
+  failureReason?: string | null;
+  /** Parameters specific to an HTTP or HTTPS health check. */
+  httpConfig?: GetHealthCheckResultCase2HttpConfig | null;
+  /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
+  interval?: number | null;
+  modifiedOn?: string | null;
+  /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
+  name?: string | null;
+  /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
+  retries?: number | null;
+  /** The current status of the origin server according to the health check. */
+  status?: GetHealthCheckResultCase2Status | null;
+  /** If suspended, no health checks are sent to the origin. */
+  suspended?: boolean | null;
+  /** Parameters specific to TCP health check. */
+  tcpConfig?: GetHealthCheckResultCase2TcpConfig | null;
+  /** The timeout (in seconds) before marking the health check as failed. */
+  timeout?: number | null;
+  /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
+  type?: string | null;
+}
+export type GetHealthCheckResult =
+  | GetHealthCheckResultCase0
+  | GetHealthCheckResultCase1
+  | GetHealthCheckResultCase2;
+export type GetHealthCheckResponse = GetHealthCheckResult;
 export interface ListHealthChecksRequest {
   /** Identifier. */
   zoneId: string;
@@ -558,93 +1240,7 @@ export interface ListHealthChecksRequest {
   /** Maximum number of results per page. Must be a multiple of 5. */
   perPage?: number;
 }
-export type ListHealthChecksResultItemCheckRegionsItem =
-  | "WNAM"
-  | "ENAM"
-  | "WEU"
-  | "EEU"
-  | "NSAM"
-  | "SSAM"
-  | "OC"
-  | "ME"
-  | "NAF"
-  | "SAF"
-  | "IN"
-  | "SEAS"
-  | "NEAS"
-  | "ALL_REGIONS";
-export type ListHealthChecksResultItemCheckRegionsList =
-  Array<ListHealthChecksResultItemCheckRegionsItem>;
-export type ListHealthChecksResultItemHttpConfigExpectedCodesList = Array<string>;
-export type ListHealthChecksResultItemHttpConfigHeaderValueList = Array<string>;
-export type ListHealthChecksResultItemHttpConfigHeaderMap = {
-  [key: string]: ListHealthChecksResultItemHttpConfigHeaderValueList | undefined;
-};
-export type ListHealthChecksResultItemHttpConfigMethod = "GET" | "HEAD";
-export interface ListHealthChecksResultItemHttpConfig {
-  /** Do not validate the certificate when the health check uses HTTPS. */
-  allowInsecure?: boolean | null;
-  /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
-  expectedBody?: string | null;
-  /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
-  expectedCodes?: ListHealthChecksResultItemHttpConfigExpectedCodesList | null;
-  /** Follow redirects if the origin returns a 3xx status code. */
-  followRedirects?: boolean | null;
-  /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
-  header?: ListHealthChecksResultItemHttpConfigHeaderMap | null;
-  /** The HTTP method to use for the health check. */
-  method?: ListHealthChecksResultItemHttpConfigMethod | null;
-  /** The endpoint path to health check against. */
-  path?: string | null;
-  /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
-  port?: number | null;
-}
-export type ListHealthChecksResultItemStatus = "unknown" | "healthy" | "unhealthy" | "suspended";
-export type ListHealthChecksResultItemTcpConfigMethod = "connection_established";
-export interface ListHealthChecksResultItemTcpConfig {
-  /** The TCP connection method to use for the health check. */
-  method?: ListHealthChecksResultItemTcpConfigMethod | null;
-  /** Port number to connect to for the health check. Defaults to 80. */
-  port?: number | null;
-}
-export interface ListHealthChecksResultItem {
-  /** Identifier. */
-  id?: string | null;
-  /** The hostname or IP address of the origin server to run health checks on. */
-  address?: string | null;
-  /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?: ListHealthChecksResultItemCheckRegionsList | null;
-  /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
-  consecutiveFails?: number | null;
-  /** The number of consecutive successes required from a health check before changing the health to healthy. */
-  consecutiveSuccesses?: number | null;
-  createdOn?: string | null;
-  /** A human-readable description of the health check. */
-  description?: string | null;
-  /** The current failure reason if status is unhealthy. */
-  failureReason?: string | null;
-  /** Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: ListHealthChecksResultItemHttpConfig | null;
-  /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
-  interval?: number | null;
-  modifiedOn?: string | null;
-  /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
-  name?: string | null;
-  /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
-  retries?: number | null;
-  /** The current status of the origin server according to the health check. */
-  status?: ListHealthChecksResultItemStatus | null;
-  /** If suspended, no health checks are sent to the origin. */
-  suspended?: boolean | null;
-  /** Parameters specific to TCP health check. */
-  tcpConfig?: ListHealthChecksResultItemTcpConfig | null;
-  /** The timeout (in seconds) before marking the health check as failed. */
-  timeout?: number | null;
-  /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
-  type?: string | null;
-}
-export type ListHealthChecksResultList = Array<ListHealthChecksResultItem>;
-export type ListHealthChecksResponse = ListHealthChecksResultList;
+export type ListHealthChecksResponse = unknown;
 export type UpdateRequestCacheReserveValue = "on" | "off";
 export interface UpdateRequestCacheReserve {
   /** Specifies the enablement value of Cache Reserve. */
@@ -673,8 +1269,35 @@ export interface UpdateRequest {
   smartRouting?: UpdateRequestSmartRouting;
   smartTieredCache?: UpdateRequestSmartTieredCache;
 }
-export type UpdateResponseSmartTieredCacheValue = "on" | "off";
-export interface UpdateResponseSmartTieredCache {
+export type UpdateResultCase0CacheReserveValue = "on" | "off";
+export interface UpdateResultCase0CacheReserve {
+  /** The id of the Cache Reserve setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Cache Reserve. */
+  value?: UpdateResultCase0CacheReserveValue | null;
+}
+export type UpdateResultCase0RegionalTieredCacheValue = "on" | "off";
+export interface UpdateResultCase0RegionalTieredCache {
+  /** The id of the Regional Tiered Cache setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Regional Tiered Cache. */
+  value?: UpdateResultCase0RegionalTieredCacheValue | null;
+}
+export type UpdateResultCase0SmartRoutingValue = "on" | "off";
+export interface UpdateResultCase0SmartRouting {
+  /** The id of the Smart Routing setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Argo Smart Routing. */
+  value?: UpdateResultCase0SmartRoutingValue | null;
+}
+export type UpdateResultCase0SmartTieredCacheValue = "on" | "off";
+export interface UpdateResultCase0SmartTieredCache {
   /** The id of the Smart Tiered Cache setting. */
   id?: string | null;
   /** Whether the setting is editable. */
@@ -682,12 +1305,104 @@ export interface UpdateResponseSmartTieredCache {
   /** The last time the setting was modified. */
   modifiedOn?: string | null;
   /** Specifies the enablement value of Tiered Cache. */
-  value?: UpdateResponseSmartTieredCacheValue | null;
+  value?: UpdateResultCase0SmartTieredCacheValue | null;
 }
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface UpdateResponse {
-  smartTieredCache: UpdateResponseSmartTieredCache;
+export interface UpdateResultCase0 {
+  cacheReserve?: UpdateResultCase0CacheReserve | null;
+  regionalTieredCache?: UpdateResultCase0RegionalTieredCache | null;
+  smartRouting?: UpdateResultCase0SmartRouting | null;
+  smartTieredCache?: UpdateResultCase0SmartTieredCache | null;
 }
+export type UpdateResultCase1CacheReserveValue = "on" | "off";
+export interface UpdateResultCase1CacheReserve {
+  /** The id of the Cache Reserve setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Cache Reserve. */
+  value?: UpdateResultCase1CacheReserveValue | null;
+}
+export type UpdateResultCase1RegionalTieredCacheValue = "on" | "off";
+export interface UpdateResultCase1RegionalTieredCache {
+  /** The id of the Regional Tiered Cache setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Regional Tiered Cache. */
+  value?: UpdateResultCase1RegionalTieredCacheValue | null;
+}
+export type UpdateResultCase1SmartRoutingValue = "on" | "off";
+export interface UpdateResultCase1SmartRouting {
+  /** The id of the Smart Routing setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Argo Smart Routing. */
+  value?: UpdateResultCase1SmartRoutingValue | null;
+}
+export type UpdateResultCase1SmartTieredCacheValue = "on" | "off";
+export interface UpdateResultCase1SmartTieredCache {
+  /** The id of the Smart Tiered Cache setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** The last time the setting was modified. */
+  modifiedOn?: string | null;
+  /** Specifies the enablement value of Tiered Cache. */
+  value?: UpdateResultCase1SmartTieredCacheValue | null;
+}
+export interface UpdateResultCase1 {
+  cacheReserve?: UpdateResultCase1CacheReserve | null;
+  regionalTieredCache?: UpdateResultCase1RegionalTieredCache | null;
+  smartRouting?: UpdateResultCase1SmartRouting | null;
+  smartTieredCache?: UpdateResultCase1SmartTieredCache | null;
+}
+export type UpdateResultCase2CacheReserveValue = "on" | "off";
+export interface UpdateResultCase2CacheReserve {
+  /** The id of the Cache Reserve setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Cache Reserve. */
+  value?: UpdateResultCase2CacheReserveValue | null;
+}
+export type UpdateResultCase2RegionalTieredCacheValue = "on" | "off";
+export interface UpdateResultCase2RegionalTieredCache {
+  /** The id of the Regional Tiered Cache setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Regional Tiered Cache. */
+  value?: UpdateResultCase2RegionalTieredCacheValue | null;
+}
+export type UpdateResultCase2SmartRoutingValue = "on" | "off";
+export interface UpdateResultCase2SmartRouting {
+  /** The id of the Smart Routing setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** Specifies the enablement value of Argo Smart Routing. */
+  value?: UpdateResultCase2SmartRoutingValue | null;
+}
+export type UpdateResultCase2SmartTieredCacheValue = "on" | "off";
+export interface UpdateResultCase2SmartTieredCache {
+  /** The id of the Smart Tiered Cache setting. */
+  id?: string | null;
+  /** Whether the setting is editable. */
+  editable?: boolean | null;
+  /** The last time the setting was modified. */
+  modifiedOn?: string | null;
+  /** Specifies the enablement value of Tiered Cache. */
+  value?: UpdateResultCase2SmartTieredCacheValue | null;
+}
+export interface UpdateResultCase2 {
+  cacheReserve?: UpdateResultCase2CacheReserve | null;
+  regionalTieredCache?: UpdateResultCase2RegionalTieredCache | null;
+  smartRouting?: UpdateResultCase2SmartRouting | null;
+  smartTieredCache?: UpdateResultCase2SmartTieredCache | null;
+}
+export type UpdateResult = UpdateResultCase0 | UpdateResultCase1 | UpdateResultCase2;
+export type UpdateResponse = UpdateResult;
 export interface UpdateHealthCheckRequestErrorsItemSource {
   pointer?: string;
 }
@@ -701,7 +1416,7 @@ export type UpdateHealthCheckRequestErrorsList = Array<UpdateHealthCheckRequestE
 export type UpdateHealthCheckRequestMessagesItemSource = UpdateHealthCheckRequestErrorsItemSource;
 export type UpdateHealthCheckRequestMessagesItem = UpdateHealthCheckRequestErrorsItem;
 export type UpdateHealthCheckRequestMessagesList = Array<UpdateHealthCheckRequestErrorsItem>;
-export type UpdateHealthCheckRequestResultCheckRegionsItem =
+export type UpdateHealthCheckRequestResultCase0CheckRegionsItem =
   | "WNAM"
   | "ENAM"
   | "WEU"
@@ -716,52 +1431,52 @@ export type UpdateHealthCheckRequestResultCheckRegionsItem =
   | "SEAS"
   | "NEAS"
   | "ALL_REGIONS";
-export type UpdateHealthCheckRequestResultCheckRegionsList = Array<
-  UpdateHealthCheckRequestResultCheckRegionsItem | (string & {})
+export type UpdateHealthCheckRequestResultCase0CheckRegionsList = Array<
+  UpdateHealthCheckRequestResultCase0CheckRegionsItem | (string & {})
 >;
-export type UpdateHealthCheckRequestResultHttpConfigExpectedCodesList = Array<string>;
-export type UpdateHealthCheckRequestResultHttpConfigHeaderValueList = Array<string>;
-export type UpdateHealthCheckRequestResultHttpConfigHeaderMap = {
-  [key: string]: UpdateHealthCheckRequestResultHttpConfigHeaderValueList | undefined;
+export type UpdateHealthCheckRequestResultCase0HttpConfigExpectedCodesList = Array<string>;
+export type UpdateHealthCheckRequestResultCase0HttpConfigHeaderValueList = Array<string>;
+export type UpdateHealthCheckRequestResultCase0HttpConfigHeaderMap = {
+  [key: string]: UpdateHealthCheckRequestResultCase0HttpConfigHeaderValueList | undefined;
 };
-export type UpdateHealthCheckRequestResultHttpConfigMethod = "GET" | "HEAD";
-export interface UpdateHealthCheckRequestResultHttpConfig {
+export type UpdateHealthCheckRequestResultCase0HttpConfigMethod = "GET" | "HEAD";
+export interface UpdateHealthCheckRequestResultCase0HttpConfig {
   /** Do not validate the certificate when the health check uses HTTPS. */
   allowInsecure?: boolean;
   /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
   expectedBody?: string;
   /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
-  expectedCodes?: UpdateHealthCheckRequestResultHttpConfigExpectedCodesList;
+  expectedCodes?: UpdateHealthCheckRequestResultCase0HttpConfigExpectedCodesList;
   /** Follow redirects if the origin returns a 3xx status code. */
   followRedirects?: boolean;
   /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
-  header?: UpdateHealthCheckRequestResultHttpConfigHeaderMap;
+  header?: UpdateHealthCheckRequestResultCase0HttpConfigHeaderMap;
   /** The HTTP method to use for the health check. */
-  method?: UpdateHealthCheckRequestResultHttpConfigMethod | (string & {});
+  method?: UpdateHealthCheckRequestResultCase0HttpConfigMethod | (string & {});
   /** The endpoint path to health check against. */
   path?: string;
   /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
   port?: number;
 }
-export type UpdateHealthCheckRequestResultStatus =
+export type UpdateHealthCheckRequestResultCase0Status =
   | "unknown"
   | "healthy"
   | "unhealthy"
   | "suspended";
-export type UpdateHealthCheckRequestResultTcpConfigMethod = "connection_established";
-export interface UpdateHealthCheckRequestResultTcpConfig {
+export type UpdateHealthCheckRequestResultCase0TcpConfigMethod = "connection_established";
+export interface UpdateHealthCheckRequestResultCase0TcpConfig {
   /** The TCP connection method to use for the health check. */
-  method?: UpdateHealthCheckRequestResultTcpConfigMethod | (string & {});
+  method?: UpdateHealthCheckRequestResultCase0TcpConfigMethod | (string & {});
   /** Port number to connect to for the health check. Defaults to 80. */
   port?: number;
 }
-export interface UpdateHealthCheckRequestResult {
+export interface UpdateHealthCheckRequestResultCase0 {
   /** Identifier. */
   id?: string;
   /** The hostname or IP address of the origin server to run health checks on. */
   address?: string;
   /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?: UpdateHealthCheckRequestResultCheckRegionsList;
+  checkRegions?: UpdateHealthCheckRequestResultCase0CheckRegionsList;
   /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
   consecutiveFails?: number;
   /** The number of consecutive successes required from a health check before changing the health to healthy. */
@@ -772,7 +1487,7 @@ export interface UpdateHealthCheckRequestResult {
   /** The current failure reason if status is unhealthy. */
   failureReason?: string;
   /** Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: UpdateHealthCheckRequestResultHttpConfig;
+  httpConfig?: UpdateHealthCheckRequestResultCase0HttpConfig;
   /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
   interval?: number;
   modifiedOn?: string;
@@ -781,16 +1496,200 @@ export interface UpdateHealthCheckRequestResult {
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
   retries?: number;
   /** The current status of the origin server according to the health check. */
-  status?: UpdateHealthCheckRequestResultStatus | (string & {});
+  status?: UpdateHealthCheckRequestResultCase0Status | (string & {});
   /** If suspended, no health checks are sent to the origin. */
   suspended?: boolean;
   /** Parameters specific to TCP health check. */
-  tcpConfig?: UpdateHealthCheckRequestResultTcpConfig;
+  tcpConfig?: UpdateHealthCheckRequestResultCase0TcpConfig;
   /** The timeout (in seconds) before marking the health check as failed. */
   timeout?: number;
   /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
   type?: string;
 }
+export type UpdateHealthCheckRequestResultCase1CheckRegionsItem =
+  | "WNAM"
+  | "ENAM"
+  | "WEU"
+  | "EEU"
+  | "NSAM"
+  | "SSAM"
+  | "OC"
+  | "ME"
+  | "NAF"
+  | "SAF"
+  | "IN"
+  | "SEAS"
+  | "NEAS"
+  | "ALL_REGIONS";
+export type UpdateHealthCheckRequestResultCase1CheckRegionsList = Array<
+  UpdateHealthCheckRequestResultCase1CheckRegionsItem | (string & {})
+>;
+export type UpdateHealthCheckRequestResultCase1HttpConfigExpectedCodesList = Array<string>;
+export type UpdateHealthCheckRequestResultCase1HttpConfigHeaderValueList = Array<string>;
+export type UpdateHealthCheckRequestResultCase1HttpConfigHeaderMap = {
+  [key: string]: UpdateHealthCheckRequestResultCase1HttpConfigHeaderValueList | undefined;
+};
+export type UpdateHealthCheckRequestResultCase1HttpConfigMethod = "GET" | "HEAD";
+export interface UpdateHealthCheckRequestResultCase1HttpConfig {
+  /** Do not validate the certificate when the health check uses HTTPS. */
+  allowInsecure?: boolean;
+  /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
+  expectedBody?: string;
+  /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
+  expectedCodes?: UpdateHealthCheckRequestResultCase1HttpConfigExpectedCodesList;
+  /** Follow redirects if the origin returns a 3xx status code. */
+  followRedirects?: boolean;
+  /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
+  header?: UpdateHealthCheckRequestResultCase1HttpConfigHeaderMap;
+  /** The HTTP method to use for the health check. */
+  method?: UpdateHealthCheckRequestResultCase1HttpConfigMethod | (string & {});
+  /** The endpoint path to health check against. */
+  path?: string;
+  /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
+  port?: number;
+}
+export type UpdateHealthCheckRequestResultCase1Status =
+  | "unknown"
+  | "healthy"
+  | "unhealthy"
+  | "suspended";
+export type UpdateHealthCheckRequestResultCase1TcpConfigMethod = "connection_established";
+export interface UpdateHealthCheckRequestResultCase1TcpConfig {
+  /** The TCP connection method to use for the health check. */
+  method?: UpdateHealthCheckRequestResultCase1TcpConfigMethod | (string & {});
+  /** Port number to connect to for the health check. Defaults to 80. */
+  port?: number;
+}
+export interface UpdateHealthCheckRequestResultCase1 {
+  /** Identifier. */
+  id?: string;
+  /** The hostname or IP address of the origin server to run health checks on. */
+  address?: string;
+  /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
+  checkRegions?: UpdateHealthCheckRequestResultCase1CheckRegionsList;
+  /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
+  consecutiveFails?: number;
+  /** The number of consecutive successes required from a health check before changing the health to healthy. */
+  consecutiveSuccesses?: number;
+  createdOn?: string;
+  /** A human-readable description of the health check. */
+  description?: string;
+  /** The current failure reason if status is unhealthy. */
+  failureReason?: string;
+  /** Parameters specific to an HTTP or HTTPS health check. */
+  httpConfig?: UpdateHealthCheckRequestResultCase1HttpConfig;
+  /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
+  interval?: number;
+  modifiedOn?: string;
+  /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
+  name?: string;
+  /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
+  retries?: number;
+  /** The current status of the origin server according to the health check. */
+  status?: UpdateHealthCheckRequestResultCase1Status | (string & {});
+  /** If suspended, no health checks are sent to the origin. */
+  suspended?: boolean;
+  /** Parameters specific to TCP health check. */
+  tcpConfig?: UpdateHealthCheckRequestResultCase1TcpConfig;
+  /** The timeout (in seconds) before marking the health check as failed. */
+  timeout?: number;
+  /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
+  type?: string;
+}
+export type UpdateHealthCheckRequestResultCase2CheckRegionsItem =
+  | "WNAM"
+  | "ENAM"
+  | "WEU"
+  | "EEU"
+  | "NSAM"
+  | "SSAM"
+  | "OC"
+  | "ME"
+  | "NAF"
+  | "SAF"
+  | "IN"
+  | "SEAS"
+  | "NEAS"
+  | "ALL_REGIONS";
+export type UpdateHealthCheckRequestResultCase2CheckRegionsList = Array<
+  UpdateHealthCheckRequestResultCase2CheckRegionsItem | (string & {})
+>;
+export type UpdateHealthCheckRequestResultCase2HttpConfigExpectedCodesList = Array<string>;
+export type UpdateHealthCheckRequestResultCase2HttpConfigHeaderValueList = Array<string>;
+export type UpdateHealthCheckRequestResultCase2HttpConfigHeaderMap = {
+  [key: string]: UpdateHealthCheckRequestResultCase2HttpConfigHeaderValueList | undefined;
+};
+export type UpdateHealthCheckRequestResultCase2HttpConfigMethod = "GET" | "HEAD";
+export interface UpdateHealthCheckRequestResultCase2HttpConfig {
+  /** Do not validate the certificate when the health check uses HTTPS. */
+  allowInsecure?: boolean;
+  /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
+  expectedBody?: string;
+  /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
+  expectedCodes?: UpdateHealthCheckRequestResultCase2HttpConfigExpectedCodesList;
+  /** Follow redirects if the origin returns a 3xx status code. */
+  followRedirects?: boolean;
+  /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
+  header?: UpdateHealthCheckRequestResultCase2HttpConfigHeaderMap;
+  /** The HTTP method to use for the health check. */
+  method?: UpdateHealthCheckRequestResultCase2HttpConfigMethod | (string & {});
+  /** The endpoint path to health check against. */
+  path?: string;
+  /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
+  port?: number;
+}
+export type UpdateHealthCheckRequestResultCase2Status =
+  | "unknown"
+  | "healthy"
+  | "unhealthy"
+  | "suspended";
+export type UpdateHealthCheckRequestResultCase2TcpConfigMethod = "connection_established";
+export interface UpdateHealthCheckRequestResultCase2TcpConfig {
+  /** The TCP connection method to use for the health check. */
+  method?: UpdateHealthCheckRequestResultCase2TcpConfigMethod | (string & {});
+  /** Port number to connect to for the health check. Defaults to 80. */
+  port?: number;
+}
+export interface UpdateHealthCheckRequestResultCase2 {
+  /** Identifier. */
+  id?: string;
+  /** The hostname or IP address of the origin server to run health checks on. */
+  address?: string;
+  /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
+  checkRegions?: UpdateHealthCheckRequestResultCase2CheckRegionsList;
+  /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
+  consecutiveFails?: number;
+  /** The number of consecutive successes required from a health check before changing the health to healthy. */
+  consecutiveSuccesses?: number;
+  createdOn?: string;
+  /** A human-readable description of the health check. */
+  description?: string;
+  /** The current failure reason if status is unhealthy. */
+  failureReason?: string;
+  /** Parameters specific to an HTTP or HTTPS health check. */
+  httpConfig?: UpdateHealthCheckRequestResultCase2HttpConfig;
+  /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
+  interval?: number;
+  modifiedOn?: string;
+  /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
+  name?: string;
+  /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
+  retries?: number;
+  /** The current status of the origin server according to the health check. */
+  status?: UpdateHealthCheckRequestResultCase2Status | (string & {});
+  /** If suspended, no health checks are sent to the origin. */
+  suspended?: boolean;
+  /** Parameters specific to TCP health check. */
+  tcpConfig?: UpdateHealthCheckRequestResultCase2TcpConfig;
+  /** The timeout (in seconds) before marking the health check as failed. */
+  timeout?: number;
+  /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
+  type?: string;
+}
+export type UpdateHealthCheckRequestResult =
+  | UpdateHealthCheckRequestResultCase0
+  | UpdateHealthCheckRequestResultCase1
+  | UpdateHealthCheckRequestResultCase2;
 export interface UpdateHealthCheckRequest {
   /** Identifier. */
   zoneId: string;
@@ -802,7 +1701,7 @@ export interface UpdateHealthCheckRequest {
   /** Whether the API call was successful. */
   success: boolean;
 }
-export type UpdateHealthCheckResponseCheckRegionsItem =
+export type UpdateHealthCheckResultCase0CheckRegionsItem =
   | "WNAM"
   | "ENAM"
   | "WEU"
@@ -817,48 +1716,47 @@ export type UpdateHealthCheckResponseCheckRegionsItem =
   | "SEAS"
   | "NEAS"
   | "ALL_REGIONS";
-export type UpdateHealthCheckResponseCheckRegionsList =
-  Array<UpdateHealthCheckResponseCheckRegionsItem>;
-export type UpdateHealthCheckResponseHttpConfigExpectedCodesList = Array<string>;
-export type UpdateHealthCheckResponseHttpConfigHeaderValueList = Array<string>;
-export type UpdateHealthCheckResponseHttpConfigHeaderMap = {
-  [key: string]: UpdateHealthCheckResponseHttpConfigHeaderValueList | undefined;
+export type UpdateHealthCheckResultCase0CheckRegionsList =
+  Array<UpdateHealthCheckResultCase0CheckRegionsItem>;
+export type UpdateHealthCheckResultCase0HttpConfigExpectedCodesList = Array<string>;
+export type UpdateHealthCheckResultCase0HttpConfigHeaderValueList = Array<string>;
+export type UpdateHealthCheckResultCase0HttpConfigHeaderMap = {
+  [key: string]: UpdateHealthCheckResultCase0HttpConfigHeaderValueList | undefined;
 };
-export type UpdateHealthCheckResponseHttpConfigMethod = "GET" | "HEAD";
-export interface UpdateHealthCheckResponseHttpConfig {
+export type UpdateHealthCheckResultCase0HttpConfigMethod = "GET" | "HEAD";
+export interface UpdateHealthCheckResultCase0HttpConfig {
   /** Do not validate the certificate when the health check uses HTTPS. */
   allowInsecure?: boolean | null;
   /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
   expectedBody?: string | null;
   /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
-  expectedCodes?: UpdateHealthCheckResponseHttpConfigExpectedCodesList | null;
+  expectedCodes?: UpdateHealthCheckResultCase0HttpConfigExpectedCodesList | null;
   /** Follow redirects if the origin returns a 3xx status code. */
   followRedirects?: boolean | null;
   /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
-  header?: UpdateHealthCheckResponseHttpConfigHeaderMap | null;
+  header?: UpdateHealthCheckResultCase0HttpConfigHeaderMap | null;
   /** The HTTP method to use for the health check. */
-  method?: UpdateHealthCheckResponseHttpConfigMethod | null;
+  method?: UpdateHealthCheckResultCase0HttpConfigMethod | null;
   /** The endpoint path to health check against. */
   path?: string | null;
   /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
   port?: number | null;
 }
-export type UpdateHealthCheckResponseStatus = "unknown" | "healthy" | "unhealthy" | "suspended";
-export type UpdateHealthCheckResponseTcpConfigMethod = "connection_established";
-export interface UpdateHealthCheckResponseTcpConfig {
+export type UpdateHealthCheckResultCase0Status = "unknown" | "healthy" | "unhealthy" | "suspended";
+export type UpdateHealthCheckResultCase0TcpConfigMethod = "connection_established";
+export interface UpdateHealthCheckResultCase0TcpConfig {
   /** The TCP connection method to use for the health check. */
-  method?: UpdateHealthCheckResponseTcpConfigMethod | null;
+  method?: UpdateHealthCheckResultCase0TcpConfigMethod | null;
   /** Port number to connect to for the health check. Defaults to 80. */
   port?: number | null;
 }
-/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface UpdateHealthCheckResponse {
+export interface UpdateHealthCheckResultCase0 {
   /** Identifier. */
   id?: string | null;
   /** The hostname or IP address of the origin server to run health checks on. */
   address?: string | null;
   /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
-  checkRegions?: UpdateHealthCheckResponseCheckRegionsList | null;
+  checkRegions?: UpdateHealthCheckResultCase0CheckRegionsList | null;
   /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
   consecutiveFails?: number | null;
   /** The number of consecutive successes required from a health check before changing the health to healthy. */
@@ -869,7 +1767,7 @@ export interface UpdateHealthCheckResponse {
   /** The current failure reason if status is unhealthy. */
   failureReason?: string | null;
   /** Parameters specific to an HTTP or HTTPS health check. */
-  httpConfig?: UpdateHealthCheckResponseHttpConfig | null;
+  httpConfig?: UpdateHealthCheckResultCase0HttpConfig | null;
   /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
   interval?: number | null;
   modifiedOn?: string | null;
@@ -878,16 +1776,191 @@ export interface UpdateHealthCheckResponse {
   /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
   retries?: number | null;
   /** The current status of the origin server according to the health check. */
-  status?: UpdateHealthCheckResponseStatus | null;
+  status?: UpdateHealthCheckResultCase0Status | null;
   /** If suspended, no health checks are sent to the origin. */
   suspended?: boolean | null;
   /** Parameters specific to TCP health check. */
-  tcpConfig?: UpdateHealthCheckResponseTcpConfig | null;
+  tcpConfig?: UpdateHealthCheckResultCase0TcpConfig | null;
   /** The timeout (in seconds) before marking the health check as failed. */
   timeout?: number | null;
   /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
   type?: string | null;
 }
+export type UpdateHealthCheckResultCase1CheckRegionsItem =
+  | "WNAM"
+  | "ENAM"
+  | "WEU"
+  | "EEU"
+  | "NSAM"
+  | "SSAM"
+  | "OC"
+  | "ME"
+  | "NAF"
+  | "SAF"
+  | "IN"
+  | "SEAS"
+  | "NEAS"
+  | "ALL_REGIONS";
+export type UpdateHealthCheckResultCase1CheckRegionsList =
+  Array<UpdateHealthCheckResultCase1CheckRegionsItem>;
+export type UpdateHealthCheckResultCase1HttpConfigExpectedCodesList = Array<string>;
+export type UpdateHealthCheckResultCase1HttpConfigHeaderValueList = Array<string>;
+export type UpdateHealthCheckResultCase1HttpConfigHeaderMap = {
+  [key: string]: UpdateHealthCheckResultCase1HttpConfigHeaderValueList | undefined;
+};
+export type UpdateHealthCheckResultCase1HttpConfigMethod = "GET" | "HEAD";
+export interface UpdateHealthCheckResultCase1HttpConfig {
+  /** Do not validate the certificate when the health check uses HTTPS. */
+  allowInsecure?: boolean | null;
+  /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
+  expectedBody?: string | null;
+  /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
+  expectedCodes?: UpdateHealthCheckResultCase1HttpConfigExpectedCodesList | null;
+  /** Follow redirects if the origin returns a 3xx status code. */
+  followRedirects?: boolean | null;
+  /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
+  header?: UpdateHealthCheckResultCase1HttpConfigHeaderMap | null;
+  /** The HTTP method to use for the health check. */
+  method?: UpdateHealthCheckResultCase1HttpConfigMethod | null;
+  /** The endpoint path to health check against. */
+  path?: string | null;
+  /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
+  port?: number | null;
+}
+export type UpdateHealthCheckResultCase1Status = "unknown" | "healthy" | "unhealthy" | "suspended";
+export type UpdateHealthCheckResultCase1TcpConfigMethod = "connection_established";
+export interface UpdateHealthCheckResultCase1TcpConfig {
+  /** The TCP connection method to use for the health check. */
+  method?: UpdateHealthCheckResultCase1TcpConfigMethod | null;
+  /** Port number to connect to for the health check. Defaults to 80. */
+  port?: number | null;
+}
+export interface UpdateHealthCheckResultCase1 {
+  /** Identifier. */
+  id?: string | null;
+  /** The hostname or IP address of the origin server to run health checks on. */
+  address?: string | null;
+  /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
+  checkRegions?: UpdateHealthCheckResultCase1CheckRegionsList | null;
+  /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
+  consecutiveFails?: number | null;
+  /** The number of consecutive successes required from a health check before changing the health to healthy. */
+  consecutiveSuccesses?: number | null;
+  createdOn?: string | null;
+  /** A human-readable description of the health check. */
+  description?: string | null;
+  /** The current failure reason if status is unhealthy. */
+  failureReason?: string | null;
+  /** Parameters specific to an HTTP or HTTPS health check. */
+  httpConfig?: UpdateHealthCheckResultCase1HttpConfig | null;
+  /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
+  interval?: number | null;
+  modifiedOn?: string | null;
+  /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
+  name?: string | null;
+  /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
+  retries?: number | null;
+  /** The current status of the origin server according to the health check. */
+  status?: UpdateHealthCheckResultCase1Status | null;
+  /** If suspended, no health checks are sent to the origin. */
+  suspended?: boolean | null;
+  /** Parameters specific to TCP health check. */
+  tcpConfig?: UpdateHealthCheckResultCase1TcpConfig | null;
+  /** The timeout (in seconds) before marking the health check as failed. */
+  timeout?: number | null;
+  /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
+  type?: string | null;
+}
+export type UpdateHealthCheckResultCase2CheckRegionsItem =
+  | "WNAM"
+  | "ENAM"
+  | "WEU"
+  | "EEU"
+  | "NSAM"
+  | "SSAM"
+  | "OC"
+  | "ME"
+  | "NAF"
+  | "SAF"
+  | "IN"
+  | "SEAS"
+  | "NEAS"
+  | "ALL_REGIONS";
+export type UpdateHealthCheckResultCase2CheckRegionsList =
+  Array<UpdateHealthCheckResultCase2CheckRegionsItem>;
+export type UpdateHealthCheckResultCase2HttpConfigExpectedCodesList = Array<string>;
+export type UpdateHealthCheckResultCase2HttpConfigHeaderValueList = Array<string>;
+export type UpdateHealthCheckResultCase2HttpConfigHeaderMap = {
+  [key: string]: UpdateHealthCheckResultCase2HttpConfigHeaderValueList | undefined;
+};
+export type UpdateHealthCheckResultCase2HttpConfigMethod = "GET" | "HEAD";
+export interface UpdateHealthCheckResultCase2HttpConfig {
+  /** Do not validate the certificate when the health check uses HTTPS. */
+  allowInsecure?: boolean | null;
+  /** A case-insensitive sub-string to look for in the response body. If this string is not found, the origin will be marked as unhealthy. */
+  expectedBody?: string | null;
+  /** The expected HTTP response codes (e.g. "200") or code ranges (e.g. "2xx" for all codes starting with 2) of the health check. */
+  expectedCodes?: UpdateHealthCheckResultCase2HttpConfigExpectedCodesList | null;
+  /** Follow redirects if the origin returns a 3xx status code. */
+  followRedirects?: boolean | null;
+  /** The HTTP request headers to send in the health check. It is recommended you set a Host header by default. The User-Agent header cannot be overridden. */
+  header?: UpdateHealthCheckResultCase2HttpConfigHeaderMap | null;
+  /** The HTTP method to use for the health check. */
+  method?: UpdateHealthCheckResultCase2HttpConfigMethod | null;
+  /** The endpoint path to health check against. */
+  path?: string | null;
+  /** Port number to connect to for the health check. Defaults to 80 if type is HTTP or 443 if type is HTTPS. */
+  port?: number | null;
+}
+export type UpdateHealthCheckResultCase2Status = "unknown" | "healthy" | "unhealthy" | "suspended";
+export type UpdateHealthCheckResultCase2TcpConfigMethod = "connection_established";
+export interface UpdateHealthCheckResultCase2TcpConfig {
+  /** The TCP connection method to use for the health check. */
+  method?: UpdateHealthCheckResultCase2TcpConfigMethod | null;
+  /** Port number to connect to for the health check. Defaults to 80. */
+  port?: number | null;
+}
+export interface UpdateHealthCheckResultCase2 {
+  /** Identifier. */
+  id?: string | null;
+  /** The hostname or IP address of the origin server to run health checks on. */
+  address?: string | null;
+  /** A list of regions from which to run health checks. Null means Cloudflare will pick a default region. */
+  checkRegions?: UpdateHealthCheckResultCase2CheckRegionsList | null;
+  /** The number of consecutive fails required from a health check before changing the health to unhealthy. */
+  consecutiveFails?: number | null;
+  /** The number of consecutive successes required from a health check before changing the health to healthy. */
+  consecutiveSuccesses?: number | null;
+  createdOn?: string | null;
+  /** A human-readable description of the health check. */
+  description?: string | null;
+  /** The current failure reason if status is unhealthy. */
+  failureReason?: string | null;
+  /** Parameters specific to an HTTP or HTTPS health check. */
+  httpConfig?: UpdateHealthCheckResultCase2HttpConfig | null;
+  /** The interval between each health check. Shorter intervals may give quicker notifications if the origin status changes, but will increase load on the origin as we check from multiple locations. */
+  interval?: number | null;
+  modifiedOn?: string | null;
+  /** A short name to identify the health check. Only alphanumeric characters, hyphens and underscores are allowed. */
+  name?: string | null;
+  /** The number of retries to attempt in case of a timeout before marking the origin as unhealthy. Retries are attempted immediately. */
+  retries?: number | null;
+  /** The current status of the origin server according to the health check. */
+  status?: UpdateHealthCheckResultCase2Status | null;
+  /** If suspended, no health checks are sent to the origin. */
+  suspended?: boolean | null;
+  /** Parameters specific to TCP health check. */
+  tcpConfig?: UpdateHealthCheckResultCase2TcpConfig | null;
+  /** The timeout (in seconds) before marking the health check as failed. */
+  timeout?: number | null;
+  /** The protocol to use for the health check. Currently supported protocols are 'HTTP', 'HTTPS' and 'TCP'. */
+  type?: string | null;
+}
+export type UpdateHealthCheckResult =
+  | UpdateHealthCheckResultCase0
+  | UpdateHealthCheckResultCase1
+  | UpdateHealthCheckResultCase2;
+export type UpdateHealthCheckResponse = UpdateHealthCheckResult;
 export type CacheReserveClearStatusError = CloudflareOpError;
 /** You can use Cache Reserve Clear to clear your Cache Reserve, but you must first disable Cache Reserve. In most cases, this will be accomplished within 24 hours. You cannot re-enable Cache Reserve while this process is ongoing. Keep in mind that you cannot undo or cancel this operation. */
 export const cacheReserveClearStatus: API.OperationMethod<
@@ -897,7 +1970,7 @@ export const cacheReserveClearStatus: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CacheReserveClearStatusRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<CacheReserveClearStatusResponse>,
+  output: __S(2, __c0, 2) as any as S.Schema<CacheReserveClearStatusResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -913,8 +1986,8 @@ export const clearCacheReserveClear: API.OperationMethod<
   ClearCacheReserveClearError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<ClearCacheReserveClearRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<ClearCacheReserveClearResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<ClearCacheReserveClearRequest>,
+  output: __S(10, __c1, 2) as any as S.Schema<ClearCacheReserveClearResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -930,8 +2003,8 @@ export const createHealthCheck: API.OperationMethod<
   CreateHealthCheckError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CreateHealthCheckRequest>,
-  output: __S(37, __c4, 5) as any as S.Schema<CreateHealthCheckResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateHealthCheckRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<CreateHealthCheckResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -947,8 +2020,8 @@ export const deleteHealthCheck: API.OperationMethod<
   DeleteHealthCheckError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<DeleteHealthCheckRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<DeleteHealthCheckResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteHealthCheckRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<DeleteHealthCheckResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -964,8 +2037,8 @@ export const editHealthCheck: API.OperationMethod<
   EditHealthCheckError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<EditHealthCheckRequest>,
-  output: __S(37, __c4, 5) as any as S.Schema<EditHealthCheckResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<EditHealthCheckRequest>,
+  output: __S(42, __c5, 2) as any as S.Schema<EditHealthCheckResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -977,8 +2050,8 @@ export type GetError = CloudflareOpError;
 /** Retrieve Smart Shield Settings. */
 export const get: API.OperationMethod<GetRequest, GetResponse, GetError, CloudflareOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(64, __c8, 0) as any as S.Schema<GetRequest>,
-    output: __S(66, __c8, 2) as any as S.Schema<GetResponse>,
+    input: __S(48, __c6, 0) as any as S.Schema<GetRequest>,
+    output: __S(50, __c6, 2) as any as S.Schema<GetResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflareProtocol,
     retry: Retry.Retry,
@@ -994,8 +2067,8 @@ export const getHealthCheck: API.OperationMethod<
   GetHealthCheckError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetHealthCheckRequest>,
-  output: __S(37, __c4, 5) as any as S.Schema<GetHealthCheckResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetHealthCheckRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<GetHealthCheckResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1011,8 +2084,8 @@ export const listHealthChecks: API.OperationMethod<
   ListHealthChecksError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<ListHealthChecksRequest>,
-  output: __S(90, __c11, 2) as any as S.Schema<ListHealthChecksResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ListHealthChecksRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<ListHealthChecksResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1028,8 +2101,8 @@ export const update: API.OperationMethod<
   UpdateError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c12, 1) as any as S.Schema<UpdateRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<UpdateResponse>,
+  input: __S(73, __c9, 1) as any as S.Schema<UpdateRequest>,
+  output: __S(75, __c9, 3) as any as S.Schema<UpdateResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1045,8 +2118,8 @@ export const updateHealthCheck: API.OperationMethod<
   UpdateHealthCheckError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c13, 4) as any as S.Schema<UpdateHealthCheckRequest>,
-  output: __S(37, __c4, 5) as any as S.Schema<UpdateHealthCheckResponse>,
+  input: __S(84, __c10, 4) as any as S.Schema<UpdateHealthCheckRequest>,
+  output: __S(86, __c10, 6) as any as S.Schema<UpdateHealthCheckResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1069,23 +2142,21 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CacheReserveClearStatusRequest" });
+    case 1:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          ["id", "endTs", "modifiedOn", "startTs", "state"],
+          ["id", "endTs", "modifiedOn", "startTs", "state"],
+          ["id", "endTs", "modifiedOn", "startTs", "state"],
+        ]),
+      );
+    case 2:
+      return S.suspend(() => __S(1, __c0, 1).pipe(T.EnvelopePayloadRoot())).annotate({
+        identifier: "CacheReserveClearStatusResponse",
+      });
   }
 }
 function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Unknown,
-          startTs: S.String.pipe(T.Body("start_ts")),
-          state: S.String,
-          endTs: S.optional(S.NullOr(S.String).pipe(T.Body("end_ts"))),
-          modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-        }),
-      ).annotate({ identifier: "CacheReserveClearStatusResponse" });
-  }
-}
-function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1099,9 +2170,21 @@ function __c2(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ClearCacheReserveClearRequest" });
+    case 1:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          ["id", "endTs", "modifiedOn", "startTs", "state"],
+          ["id", "endTs", "modifiedOn", "startTs", "state"],
+          ["id", "endTs", "modifiedOn", "startTs", "state"],
+        ]),
+      );
+    case 2:
+      return S.suspend(() => __S(9, __c1, 1).pipe(T.EnvelopePayloadRoot())).annotate({
+        identifier: "ClearCacheReserveClearResponse",
+      });
   }
 }
-function __c3(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1109,94 +2192,114 @@ function __c3(j: number): any {
           zoneId: S.String.pipe(T.Label("zone_id")),
           address: S.String,
           name: S.String,
-          checkRegions: S.optional(__S(32, __c4, 0).pipe(T.Body("check_regions"))),
+          checkRegions: S.optional(__S(24, __c3, 0).pipe(T.Body("check_regions"))),
           consecutiveFails: S.optional(S.Number.pipe(T.Body("consecutive_fails"))),
           consecutiveSuccesses: S.optional(S.Number.pipe(T.Body("consecutive_successes"))),
           description: S.optional(S.String),
-          httpConfig: S.optional(__S(40, __c5, 0).pipe(T.Body("http_config"))),
+          httpConfig: S.optional(__S(27, __c3, 3).pipe(T.Body("http_config"))),
           interval: S.optional(S.Number),
           retries: S.optional(S.Number),
           suspended: S.optional(S.Boolean),
-          tcpConfig: S.optional(__S(41, __c5, 1).pipe(T.Body("tcp_config"))),
+          tcpConfig: S.optional(__S(28, __c3, 4).pipe(T.Body("tcp_config"))),
           timeout: S.optional(S.Number),
           type: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/zones/{zone_id}/smart_shield/healthchecks", code: 200 }),
         ),
       ).annotate({ identifier: "CreateHealthCheckRequest" });
+    case 1:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+        ]),
+      );
+    case 2:
+      return S.suspend(() => __S(17, __c2, 1).pipe(T.EnvelopePayloadRoot())).annotate({
+        identifier: "CreateHealthCheckResponse",
+      });
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.Array(S.String);
     case 2:
-      return S.Record(S.String, __S(33, __c4, 1));
+      return S.Record(S.String, __S(25, __c3, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          allowInsecure: S.optional(S.NullOr(S.Boolean).pipe(T.Body("allow_insecure"))),
-          expectedBody: S.optional(S.NullOr(S.String).pipe(T.Body("expected_body"))),
-          expectedCodes: S.optional(S.NullOr(__S(33, __c4, 1)).pipe(T.Body("expected_codes"))),
-          followRedirects: S.optional(S.NullOr(S.Boolean).pipe(T.Body("follow_redirects"))),
-          header: S.optional(S.NullOr(__S(34, __c4, 2))),
-          method: S.optional(S.NullOr(S.String)),
-          path: S.optional(S.NullOr(S.String)),
-          port: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "CreateHealthCheckResponseHttpConfig" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          method: S.optional(S.NullOr(S.String)),
-          port: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "CreateHealthCheckResponseTcpConfig" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          address: S.optional(S.NullOr(S.String)),
-          checkRegions: S.optional(S.NullOr(__S(32, __c4, 0)).pipe(T.Body("check_regions"))),
-          consecutiveFails: S.optional(S.NullOr(S.Number).pipe(T.Body("consecutive_fails"))),
-          consecutiveSuccesses: S.optional(
-            S.NullOr(S.Number).pipe(T.Body("consecutive_successes")),
-          ),
-          createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
-          description: S.optional(S.NullOr(S.String)),
-          failureReason: S.optional(S.NullOr(S.String).pipe(T.Body("failure_reason"))),
-          httpConfig: S.optional(S.NullOr(__S(35, __c4, 3)).pipe(T.Body("http_config"))),
-          interval: S.optional(S.NullOr(S.Number)),
-          modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-          name: S.optional(S.NullOr(S.String)),
-          retries: S.optional(S.NullOr(S.Number)),
-          status: S.optional(S.NullOr(S.String)),
-          suspended: S.optional(S.NullOr(S.Boolean)),
-          tcpConfig: S.optional(S.NullOr(__S(36, __c4, 4)).pipe(T.Body("tcp_config"))),
-          timeout: S.optional(S.NullOr(S.Number)),
-          type: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "CreateHealthCheckResponse" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           allowInsecure: S.optional(S.Boolean.pipe(T.Body("allow_insecure"))),
           expectedBody: S.optional(S.String.pipe(T.Body("expected_body"))),
-          expectedCodes: S.optional(__S(33, __c4, 1).pipe(T.Body("expected_codes"))),
+          expectedCodes: S.optional(__S(25, __c3, 1).pipe(T.Body("expected_codes"))),
           followRedirects: S.optional(S.Boolean.pipe(T.Body("follow_redirects"))),
-          header: S.optional(__S(34, __c4, 2)),
+          header: S.optional(__S(26, __c3, 2)),
           method: S.optional(S.String),
           path: S.optional(S.String),
           port: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CreateHealthCheckRequestHttpConfig" });
-    case 1:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           method: S.optional(S.String),
@@ -1205,7 +2308,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateHealthCheckRequestTcpConfig" });
   }
 }
-function __c6(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1221,14 +2324,14 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "DeleteHealthCheckRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "DeleteHealthCheckResponse" });
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([["id"], ["id"], ["id"]]));
+    case 2:
+      return S.suspend(() => __S(33, __c4, 1).pipe(T.EnvelopePayloadRoot())).annotate({
+        identifier: "DeleteHealthCheckResponse",
+      });
   }
 }
-function __c7(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1237,15 +2340,15 @@ function __c7(j: number): any {
           healthcheckId: S.String.pipe(T.Label("healthcheck_id")),
           address: S.String,
           name: S.String,
-          checkRegions: S.optional(__S(32, __c4, 0).pipe(T.Body("check_regions"))),
+          checkRegions: S.optional(__S(24, __c3, 0).pipe(T.Body("check_regions"))),
           consecutiveFails: S.optional(S.Number.pipe(T.Body("consecutive_fails"))),
           consecutiveSuccesses: S.optional(S.Number.pipe(T.Body("consecutive_successes"))),
           description: S.optional(S.String),
-          httpConfig: S.optional(__S(40, __c5, 0).pipe(T.Body("http_config"))),
+          httpConfig: S.optional(__S(27, __c3, 3).pipe(T.Body("http_config"))),
           interval: S.optional(S.Number),
           retries: S.optional(S.Number),
           suspended: S.optional(S.Boolean),
-          tcpConfig: S.optional(__S(41, __c5, 1).pipe(T.Body("tcp_config"))),
+          tcpConfig: S.optional(__S(28, __c3, 4).pipe(T.Body("tcp_config"))),
           timeout: S.optional(S.Number),
           type: S.optional(S.String),
         }).pipe(
@@ -1256,9 +2359,78 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EditHealthCheckRequest" });
+    case 1:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+        ]),
+      );
+    case 2:
+      return S.suspend(() => __S(41, __c5, 1).pipe(T.EnvelopePayloadRoot())).annotate({
+        identifier: "EditHealthCheckResponse",
+      });
   }
 }
-function __c8(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1267,39 +2439,38 @@ function __c8(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/smart_shield", code: 200 })),
       ).annotate({ identifier: "GetRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          editable: S.optional(S.NullOr(S.Boolean)),
-          value: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "GetResponseCacheReserve" });
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          [
+            "cacheReserve",
+            "healthchecksCount",
+            "regionalTieredCache",
+            "smartRouting",
+            "smartTieredCache",
+          ],
+          [
+            "cacheReserve",
+            "healthchecksCount",
+            "regionalTieredCache",
+            "smartRouting",
+            "smartTieredCache",
+          ],
+          [
+            "cacheReserve",
+            "healthchecksCount",
+            "regionalTieredCache",
+            "smartRouting",
+            "smartTieredCache",
+          ],
+        ]),
+      );
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          cacheReserve: __S(65, __c8, 1).pipe(T.Body("cache_reserve")),
-          healthchecksCount: S.Number.pipe(T.Body("healthchecks_count")),
-          regionalTieredCache: __S(65, __c8, 1).pipe(T.Body("regional_tiered_cache")),
-          smartRouting: __S(65, __c8, 1).pipe(T.Body("smart_routing")),
-          smartTieredCache: __S(72, __c9, 0).pipe(T.Body("smart_tiered_cache")),
-        }),
-      ).annotate({ identifier: "GetResponse" });
+      return S.suspend(() => __S(49, __c6, 1).pipe(T.EnvelopePayloadRoot())).annotate({
+        identifier: "GetResponse",
+      });
   }
 }
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          editable: S.optional(S.NullOr(S.Boolean)),
-          modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-          value: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "GetResponseSmartTieredCache" });
-  }
-}
-function __c10(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1314,9 +2485,78 @@ function __c10(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetHealthCheckRequest" });
+    case 1:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+        ]),
+      );
+    case 2:
+      return S.suspend(() => __S(57, __c7, 1).pipe(T.EnvelopePayloadRoot())).annotate({
+        identifier: "GetHealthCheckResponse",
+      });
   }
 }
-function __c11(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1329,14 +2569,12 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListHealthChecksRequest" });
     case 1:
-      return S.Array(__S(37, __c4, 5));
-    case 2:
-      return S.suspend(() => __S(89, __c11, 1).pipe(T.EnvelopePayloadRoot())).annotate({
+      return S.suspend(() => S.Unknown.pipe(T.EnvelopePayloadRoot())).annotate({
         identifier: "ListHealthChecksResponse",
       });
   }
 }
-function __c12(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1348,21 +2586,27 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
-          cacheReserve: S.optional(__S(96, __c12, 0).pipe(T.Body("cache_reserve"))),
-          regionalTieredCache: S.optional(__S(96, __c12, 0).pipe(T.Body("regional_tiered_cache"))),
-          smartRouting: S.optional(__S(96, __c12, 0).pipe(T.Body("smart_routing"))),
-          smartTieredCache: S.optional(__S(96, __c12, 0).pipe(T.Body("smart_tiered_cache"))),
+          cacheReserve: S.optional(__S(72, __c9, 0).pipe(T.Body("cache_reserve"))),
+          regionalTieredCache: S.optional(__S(72, __c9, 0).pipe(T.Body("regional_tiered_cache"))),
+          smartRouting: S.optional(__S(72, __c9, 0).pipe(T.Body("smart_routing"))),
+          smartTieredCache: S.optional(__S(72, __c9, 0).pipe(T.Body("smart_tiered_cache"))),
         }).pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/smart_shield", code: 200 })),
       ).annotate({ identifier: "UpdateRequest" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          smartTieredCache: __S(72, __c9, 0).pipe(T.Body("smart_tiered_cache")),
-        }),
-      ).annotate({ identifier: "UpdateResponse" });
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          ["cacheReserve", "regionalTieredCache", "smartRouting", "smartTieredCache"],
+          ["cacheReserve", "regionalTieredCache", "smartRouting", "smartTieredCache"],
+          ["cacheReserve", "regionalTieredCache", "smartRouting", "smartTieredCache"],
+        ]),
+      );
+    case 3:
+      return S.suspend(() => __S(74, __c9, 2).pipe(T.EnvelopePayloadRoot())).annotate({
+        identifier: "UpdateResponse",
+      });
   }
 }
-function __c13(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1376,42 +2620,84 @@ function __c13(j: number): any {
           code: S.Number,
           message: S.String,
           documentationUrl: S.optional(S.String.pipe(T.Body("documentation_url"))),
-          source: S.optional(__S(104, __c13, 0)),
+          source: S.optional(__S(80, __c10, 0)),
         }),
       ).annotate({ identifier: "UpdateHealthCheckRequestErrorsItem" });
     case 2:
-      return S.Array(__S(105, __c13, 1));
+      return S.Array(__S(81, __c10, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          address: S.optional(S.String),
-          checkRegions: S.optional(__S(32, __c4, 0).pipe(T.Body("check_regions"))),
-          consecutiveFails: S.optional(S.Number.pipe(T.Body("consecutive_fails"))),
-          consecutiveSuccesses: S.optional(S.Number.pipe(T.Body("consecutive_successes"))),
-          createdOn: S.optional(S.String.pipe(T.Body("created_on"))),
-          description: S.optional(S.String),
-          failureReason: S.optional(S.String.pipe(T.Body("failure_reason"))),
-          httpConfig: S.optional(__S(40, __c5, 0).pipe(T.Body("http_config"))),
-          interval: S.optional(S.Number),
-          modifiedOn: S.optional(S.String.pipe(T.Body("modified_on"))),
-          name: S.optional(S.String),
-          retries: S.optional(S.Number),
-          status: S.optional(S.String),
-          suspended: S.optional(S.Boolean),
-          tcpConfig: S.optional(__S(41, __c5, 1).pipe(T.Body("tcp_config"))),
-          timeout: S.optional(S.Number),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateHealthCheckRequestResult" });
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+        ]),
+      );
     case 4:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           healthcheckId: S.String.pipe(T.Label("healthcheck_id")),
-          errors: __S(106, __c13, 2),
-          messages: __S(106, __c13, 2),
-          result: __S(107, __c13, 3),
+          errors: __S(82, __c10, 2),
+          messages: __S(82, __c10, 2),
+          result: __S(83, __c10, 3),
           success: S.Boolean,
         }).pipe(
           T.Http({
@@ -1421,6 +2707,75 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateHealthCheckRequest" });
+    case 5:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+          [
+            "id",
+            "address",
+            "checkRegions",
+            "consecutiveFails",
+            "consecutiveSuccesses",
+            "createdOn",
+            "description",
+            "failureReason",
+            "httpConfig",
+            "interval",
+            "modifiedOn",
+            "name",
+            "retries",
+            "status",
+            "suspended",
+            "tcpConfig",
+            "timeout",
+            "type",
+          ],
+        ]),
+      );
+    case 6:
+      return S.suspend(() => __S(85, __c10, 5).pipe(T.EnvelopePayloadRoot())).annotate({
+        identifier: "UpdateHealthCheckResponse",
+      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

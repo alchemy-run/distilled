@@ -1,72 +1,33 @@
 {
-  "description": "Add Workflow jurisdiction (eu/us/fedramp) from the 2026-10-27 Workflows changelog; mirrors the 2026-10-28 upstream spec",
+  "description": "The spec declares one identical jurisdiction enum per shape; merge them into a single WorkflowJurisdiction",
   "patches": [
     {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.workflows#WorkflowJurisdiction",
-      "value": {
-        "type": "enum",
-        "members": {
-          "EU": {
-            "target": "smithy.api#Unit",
-            "traits": {
-              "smithy.api#enumValue": "eu"
-            }
-          },
-          "FEDRAMP": {
-            "target": "smithy.api#Unit",
-            "traits": {
-              "smithy.api#enumValue": "fedramp"
-            }
-          },
-          "US": {
-            "target": "smithy.api#Unit",
-            "traits": {
-              "smithy.api#enumValue": "us"
-            }
-          }
-        }
-      }
+      "op": "move",
+      "from": "/shapes/com.cloudflare.workflows#UpdateRequestJurisdiction",
+      "path": "/shapes/com.cloudflare.workflows#WorkflowJurisdiction"
+    },
+    { "op": "remove", "path": "/shapes/com.cloudflare.workflows#UpdateResponseJurisdiction" },
+    { "op": "remove", "path": "/shapes/com.cloudflare.workflows#GetResponseJurisdiction" },
+    { "op": "remove", "path": "/shapes/com.cloudflare.workflows#ListResultItemJurisdiction" },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workflows#PutWorkflowRequest/members/jurisdiction/target",
+      "value": "com.cloudflare.workflows#WorkflowJurisdiction"
     },
     {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.workflows#PutWorkflowRequest/members/jurisdiction",
-      "value": {
-        "target": "com.cloudflare.workflows#WorkflowJurisdiction",
-        "traits": {
-          "smithy.api#documentation": "Jurisdiction where instances of this workflow run and store data. Can only be set when the workflow is created and cannot be changed afterwards; omit it to keep the existing jurisdiction."
-        }
-      }
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workflows#PutWorkflowResponse/members/jurisdiction/target",
+      "value": "com.cloudflare.workflows#WorkflowJurisdiction"
     },
     {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.workflows#PutWorkflowResponse/members/jurisdiction",
-      "value": {
-        "target": "com.cloudflare.workflows#WorkflowJurisdiction",
-        "traits": {
-          "smithy.api#documentation": "Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed."
-        }
-      }
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workflows#GetWorkflowResponse/members/jurisdiction/target",
+      "value": "com.cloudflare.workflows#WorkflowJurisdiction"
     },
     {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.workflows#GetWorkflowResponse/members/jurisdiction",
-      "value": {
-        "target": "com.cloudflare.workflows#WorkflowJurisdiction",
-        "traits": {
-          "smithy.api#documentation": "Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed."
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.cloudflare.workflows#ListResultItem/members/jurisdiction",
-      "value": {
-        "target": "com.cloudflare.workflows#WorkflowJurisdiction",
-        "traits": {
-          "smithy.api#documentation": "Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed."
-        }
-      }
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workflows#ListResultItem/members/jurisdiction/target",
+      "value": "com.cloudflare.workflows#WorkflowJurisdiction"
     }
   ]
 }
