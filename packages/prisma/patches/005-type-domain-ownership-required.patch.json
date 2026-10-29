@@ -1,0 +1,47 @@
+{
+  "description": "Type the domain-ownership-required 422 on createServiceDomain and createWorkspaceDomainOwnership. The spec declares a single 422 for two failures (no promoted deployment / not a valid domain, and a missing ownership TXT record), so the ownership case lands in the generic UnprocessableEntity and its `error.verification` record is lost. Observed live on 2026-10-29: POST /v1/workspaces/{workspaceId}/domain-ownerships for a hostname with no TXT record returns 422 {\"error\":{\"code\":\"domain-ownership-required\",\"message\":...,\"hint\":...,\"verification\":{\"type\":\"TXT\",\"name\":\"_prisma-verification.<hostname>\",\"value\":\"prisma-verification=<token>\",\"ttl\":300}}}; POST /v1/apps/{appId}/domains returns the same body.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#DomainOwnershipRequired",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          },
+          "body": {
+            "target": "smithy.api#Document"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "smithy.api#documentation": "The workspace has not proved it owns the domain. `body.error.verification` holds the TXT record (`type`, `name`, `value`, `ttl`) to publish before retrying.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "body": {
+                "/error/code": "domain-ownership-required"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PostV1ServicesByServiceIdDomains/errors/-",
+      "value": {
+        "target": "com.prisma#DomainOwnershipRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.prisma#PostV1WorkspacesByWorkspaceIdDomainOwnerships/errors/-",
+      "value": {
+        "target": "com.prisma#DomainOwnershipRequired"
+      }
+    }
+  ]
+}
