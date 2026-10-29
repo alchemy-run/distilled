@@ -76,6 +76,7 @@ const CORE_GROUPS: Record<string, string[]> = {
     "api",
     "category",
     "config",
+    "invalid-input",
     "pagination",
     "retry",
     "trait",

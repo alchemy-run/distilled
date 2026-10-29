@@ -5,8 +5,7 @@
  * based on Smithy HTTP trait annotations.
  */
 
-import { InvalidInput } from "@distilled.cloud/core/errors";
-import { invalidLabel } from "@distilled.cloud/core/protocol-http";
+import { InvalidInput, invalidLabel } from "@distilled.cloud/core/invalid-input";
 import type * as AST from "effect/SchemaAST";
 import type { Request } from "../client/request.ts";
 import {
@@ -57,6 +56,13 @@ export const invalidAwsLabel = (
         message: `Input member ${member} cannot be "": as a path label it would address another resource`,
       })
     : invalidLabel(member, value, greedy);
+
+/** The refusal for a host label value that would move the request to another host. */
+export const invalidHostLabel = (member: string, value: string): InvalidInput =>
+  new InvalidInput({
+    member,
+    message: `Input member ${member} cannot be ${JSON.stringify(value)}: as a host label it would address another host`,
+  });
 
 /** The @http trait of each input schema, read once. */
 const httpTraits = /*@__PURE__*/ new WeakMap<AST.AST, { trait: ReturnType<typeof getHttpTrait> }>();

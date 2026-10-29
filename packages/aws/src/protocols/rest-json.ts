@@ -9,7 +9,7 @@
  * - Default timestamp format is epoch-seconds
  */
 
-import { InvalidInput } from "@distilled.cloud/core/errors";
+import { InvalidInput } from "@distilled.cloud/core/invalid-input";
 import * as Effect from "effect/Effect";
 import type * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";

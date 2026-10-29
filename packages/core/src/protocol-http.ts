@@ -15,7 +15,7 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as AST from "effect/SchemaAST";
 import { getAnn, getProps } from "./annotations.ts";
 import { debugHttp } from "./debug.ts";
-import { InvalidInput } from "./errors.ts";
+import { InvalidInput, invalidLabel } from "./invalid-input.ts";
 import { isOpaqueValue } from "./plain-values.ts";
 import { restoreStack, suppressStack } from "./telemetry.ts";
 import {
@@ -591,26 +591,7 @@ export const makeRequest = (
     HttpBody.empty,
   );
 
-/**
- * The refusal for a path label value that would address another resource,
- * or `undefined`. The URL parser resolves a `.` or `..` segment,
- * percent-encoded or not, so no encoding can carry one
- * (`/projects/p1/branches/..` -> `/projects/p1/`). A greedy label keeps its
- * `/`, so each of its segments counts.
- */
-export const invalidLabel = (
-  member: string,
-  value: unknown,
-  greedy?: boolean,
-): InvalidInput | undefined => {
-  const text = String(value);
-  return (greedy ? text.split("/") : [text]).some((s) => s === "." || s === "..")
-    ? new InvalidInput({
-        member,
-        message: `Input member ${member} cannot be ${JSON.stringify(text)}: as a path label it would address another resource`,
-      })
-    : undefined;
-};
+export { invalidLabel } from "./invalid-input.ts";
 
 /**
  * Build an HTTP request from an operation input and its schema, driven by

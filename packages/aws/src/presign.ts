@@ -1,4 +1,4 @@
-import { InvalidInput } from "@distilled.cloud/core/errors";
+import type { InvalidInput } from "@distilled.cloud/core/invalid-input";
 import type { SourceError } from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
@@ -7,7 +7,12 @@ import * as Credentials from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
 import * as Region from "./region.ts";
 import * as SigV4 from "./sigv4.ts";
-import { encodeGreedyLabel, encodeLabel, invalidAwsLabel } from "./util/serialize-input.ts";
+import {
+  encodeGreedyLabel,
+  encodeLabel,
+  invalidAwsLabel,
+  invalidHostLabel,
+} from "./util/serialize-input.ts";
 
 /**
  * Errors returned when resolving credentials or signing a URL, and the
@@ -189,10 +194,7 @@ export const presignS3Url: (
       invalidAwsLabel("bucket", options.bucket, false) ??
       invalidAwsLabel("key", options.key, true) ??
       (!customEndpoint && encodeLabel(options.bucket) !== options.bucket
-        ? new InvalidInput({
-            member: "bucket",
-            message: `Input member bucket cannot be ${JSON.stringify(options.bucket)}: as a host label it would address another host`,
-          })
+        ? invalidHostLabel("bucket", options.bucket)
         : undefined);
     if (invalid !== undefined) return yield* invalid;
     const encodedKey = encodeGreedyLabel(options.key);

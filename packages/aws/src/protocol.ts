@@ -1,5 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
-import { InvalidInput } from "@distilled.cloud/core/errors";
+import type { InvalidInput } from "@distilled.cloud/core/invalid-input";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * AwsProtocol -- AWS's implementation of `@distilled.cloud/core`'s Protocol
@@ -70,6 +70,7 @@ import {
   isStreamingType,
 } from "./traits.ts";
 import { getIdentifier, getPropertySignatures } from "./util/ast.ts";
+import { invalidHostLabel } from "./util/serialize-input.ts";
 
 /**
  * Context (requirements) shared by every generated AWS operation.
@@ -269,12 +270,7 @@ const toHttpRequest = (
     for (const [label, member = ""] of prepared.hostPrefix.matchAll(/\{(\w+)\}/g)) {
       const value = String((input as Record<string, unknown>)?.[member] ?? "");
       if (!isValidHostLabel(value, true)) {
-        return Effect.fail(
-          new InvalidInput({
-            member,
-            message: `Input member ${member} cannot be ${JSON.stringify(value)}: as a host label it would address another host`,
-          }),
-        );
+        return Effect.fail(invalidHostLabel(member, value));
       }
       resolvedPrefix = resolvedPrefix.replace(label, value);
     }
