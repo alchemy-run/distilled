@@ -1834,12 +1834,6 @@ export interface PatchObjectsRequest {
   /** Request body */
   body?: Storage_Object;
 }
-export interface PauseAnywhereCachesRequest {
-  /** Name of the parent bucket. */
-  bucket: string;
-  /** The ID of requested Anywhere Cache instance. */
-  anywhereCacheId: string;
-}
 export type RelocateBucketRequestDestinationCustomPlacementConfig = BucketCustomPlacementConfig;
 /** A Relocate Bucket request. */
 export interface RelocateBucketRequest {
@@ -3427,23 +3421,6 @@ export const patchObjects: API.OperationMethod<
   span: "PatchObjects",
 }));
 
-export type PauseAnywhereCachesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Pauses an Anywhere Cache instance. */
-export const pauseAnywhereCaches: API.OperationMethod<
-  PauseAnywhereCachesRequest,
-  AnywhereCache,
-  PauseAnywhereCachesError,
-  GcpOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<PauseAnywhereCachesRequest>,
-  output: __S(704, __c22, 0) as any as S.Schema<AnywhereCache>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
-  protocol: GcpProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "PauseAnywhereCaches",
-}));
-
 export type RelocateBucketsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Initiates a long-running Relocate Bucket operation on the specified bucket. */
 export const relocateBuckets: API.OperationMethod<
@@ -3452,7 +3429,7 @@ export const relocateBuckets: API.OperationMethod<
   RelocateBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2625, __c82, 1) as any as S.Schema<RelocateBucketsRequest>,
+  input: __S(2593, __c81, 1) as any as S.Schema<RelocateBucketsRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3469,7 +3446,7 @@ export const renameFolders: API.OperationMethod<
   RenameFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<RenameFoldersRequest>,
+  input: __S(2624, __c82, 0) as any as S.Schema<RenameFoldersRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3486,7 +3463,7 @@ export const restoreBuckets: API.OperationMethod<
   RestoreBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<RestoreBucketsRequest>,
+  input: __S(2656, __c83, 0) as any as S.Schema<RestoreBucketsRequest>,
   output: __S(1015, __c31, 23) as any as S.Schema<Bucket>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3503,7 +3480,7 @@ export const restoreObjects: API.OperationMethod<
   RestoreObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<RestoreObjectsRequest>,
+  input: __S(2688, __c84, 0) as any as S.Schema<RestoreObjectsRequest>,
   output: __S(229, __c7, 5) as any as S.Schema<Storage_Object>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3520,7 +3497,7 @@ export const resumeAnywhereCaches: API.OperationMethod<
   ResumeAnywhereCachesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<ResumeAnywhereCachesRequest>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ResumeAnywhereCachesRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<AnywhereCache>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3537,8 +3514,8 @@ export const rewriteObjects: API.OperationMethod<
   RewriteObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<RewriteObjectsRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<RewriteResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<RewriteObjectsRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<RewriteResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3560,7 +3537,7 @@ export const setIamPolicyBuckets: API.OperationMethod<
   SetIamPolicyBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<SetIamPolicyBucketsRequest>,
+  input: __S(2784, __c87, 0) as any as S.Schema<SetIamPolicyBucketsRequest>,
   output: __S(1155, __c36, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, IamPolicyEtagMismatch, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3582,7 +3559,7 @@ export const setIamPolicyManagedFolders: API.OperationMethod<
   SetIamPolicyManagedFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<SetIamPolicyManagedFoldersRequest>,
+  input: __S(2816, __c88, 0) as any as S.Schema<SetIamPolicyManagedFoldersRequest>,
   output: __S(1155, __c36, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3599,7 +3576,7 @@ export const setIamPolicyObjects: API.OperationMethod<
   SetIamPolicyObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<SetIamPolicyObjectsRequest>,
+  input: __S(2912, __c91, 0) as any as S.Schema<SetIamPolicyObjectsRequest>,
   output: __S(1155, __c36, 3) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3616,7 +3593,7 @@ export const stopChannels: API.OperationMethod<
   StopChannelsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2977, __c93, 1) as any as S.Schema<StopChannelsRequest>,
+  input: __S(2945, __c92, 1) as any as S.Schema<StopChannelsRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<StopChannelsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3633,8 +3610,8 @@ export const testIamPermissionsBuckets: API.OperationMethod<
   TestIamPermissionsBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<TestIamPermissionsBucketsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<TestIamPermissionsBucketsRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3650,8 +3627,8 @@ export const testIamPermissionsManagedFolders: API.OperationMethod<
   TestIamPermissionsManagedFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<TestIamPermissionsManagedFoldersRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<TestIamPermissionsManagedFoldersRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3667,8 +3644,8 @@ export const testIamPermissionsObjects: API.OperationMethod<
   TestIamPermissionsObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<TestIamPermissionsObjectsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<TestIamPermissionsObjectsRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3684,7 +3661,7 @@ export const updateAnywhereCaches: API.OperationMethod<
   UpdateAnywhereCachesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<UpdateAnywhereCachesRequest>,
+  input: __S(3104, __c97, 0) as any as S.Schema<UpdateAnywhereCachesRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3706,7 +3683,7 @@ export const updateBucketAccessControls: API.OperationMethod<
   UpdateBucketAccessControlsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<UpdateBucketAccessControlsRequest>,
+  input: __S(3136, __c98, 0) as any as S.Schema<UpdateBucketAccessControlsRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<BucketAccessControl>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3723,7 +3700,7 @@ export const updateBuckets: API.OperationMethod<
   UpdateBucketsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<UpdateBucketsRequest>,
+  input: __S(3168, __c99, 0) as any as S.Schema<UpdateBucketsRequest>,
   output: __S(1015, __c31, 23) as any as S.Schema<Bucket>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3745,7 +3722,7 @@ export const updateDefaultObjectAccessControls: API.OperationMethod<
   UpdateDefaultObjectAccessControlsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<UpdateDefaultObjectAccessControlsRequest>,
+  input: __S(3200, __c100, 0) as any as S.Schema<UpdateDefaultObjectAccessControlsRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<ObjectAccessControl>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3762,7 +3739,7 @@ export const updateManagedFolders: API.OperationMethod<
   UpdateManagedFoldersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<UpdateManagedFoldersRequest>,
+  input: __S(3232, __c101, 0) as any as S.Schema<UpdateManagedFoldersRequest>,
   output: __S(1283, __c40, 3) as any as S.Schema<ManagedFolder>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3784,7 +3761,7 @@ export const updateObjectAccessControls: API.OperationMethod<
   UpdateObjectAccessControlsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<UpdateObjectAccessControlsRequest>,
+  input: __S(3392, __c106, 0) as any as S.Schema<UpdateObjectAccessControlsRequest>,
   output: __S(96, __c3, 0) as any as S.Schema<ObjectAccessControl>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3801,7 +3778,7 @@ export const updateObjects: API.OperationMethod<
   UpdateObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<UpdateObjectsRequest>,
+  input: __S(3424, __c107, 0) as any as S.Schema<UpdateObjectsRequest>,
   output: __S(229, __c7, 5) as any as S.Schema<Storage_Object>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3818,7 +3795,7 @@ export const updateProjectsHmacKeys: API.OperationMethod<
   UpdateProjectsHmacKeysError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<UpdateProjectsHmacKeysRequest>,
+  input: __S(3456, __c108, 0) as any as S.Schema<UpdateProjectsHmacKeysRequest>,
   output: __S(320, __c10, 0) as any as S.Schema<HmacKeyMetadata>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3835,7 +3812,7 @@ export const updateRapidCaches: API.OperationMethod<
   UpdateRapidCachesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<UpdateRapidCachesRequest>,
+  input: __S(3488, __c109, 0) as any as S.Schema<UpdateRapidCachesRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<GoogleLongrunningOperation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
@@ -3852,8 +3829,8 @@ export const viewFullContextObjects: API.OperationMethod<
   ViewFullContextObjectsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<ViewFullContextObjectsRequest>,
-  output: __S(3553, __c111, 1) as any as S.Schema<ObjectFullContext>,
+  input: __S(3520, __c110, 0) as any as S.Schema<ViewFullContextObjectsRequest>,
+  output: __S(3521, __c110, 1) as any as S.Schema<ObjectFullContext>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -5818,23 +5795,6 @@ function __c81(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bucket: S.String.pipe(T.Label()),
-          anywhereCacheId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "b/{bucket}/anywhereCaches/{anywhereCacheId}/pause",
-            baseUrl: "https://storage.googleapis.com/storage/v1/",
-          }),
-        ),
-      ).annotate({ identifier: "PauseAnywhereCachesRequest" });
-  }
-}
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           destinationLocation: S.optional(S.String),
           destinationCustomPlacementConfig: S.optional(__S(896, __c28, 0)),
           validateOnly: S.optional(S.Boolean),
@@ -5845,7 +5805,7 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bucket: S.String.pipe(T.Label()),
-          body: S.optional(__S(2624, __c82, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2592, __c81, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5856,7 +5816,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "RelocateBucketsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5876,7 +5836,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "RenameFoldersRequest" });
   }
 }
-function __c84(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5895,7 +5855,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "RestoreBucketsRequest" });
   }
 }
-function __c85(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5921,7 +5881,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "RestoreObjectsRequest" });
   }
 }
-function __c86(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5938,7 +5898,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "ResumeAnywhereCachesRequest" });
   }
 }
-function __c87(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5985,7 +5945,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "RewriteResponse" });
   }
 }
-function __c88(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6001,6 +5961,25 @@ function __c88(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SetIamPolicyBucketsRequest" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.String.pipe(T.Label()),
+          managedFolder: S.String.pipe(T.Label()),
+          userProject: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1155, __c36, 3).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "b/{bucket}/managedFolders/{managedFolder}/iam",
+            baseUrl: "https://storage.googleapis.com/storage/v1/",
+          }),
+        ),
+      ).annotate({ identifier: "SetIamPolicyManagedFoldersRequest" });
   }
 }
 function __c89(j: number): any {
@@ -6042,25 +6021,6 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bucket: S.String.pipe(T.Label()),
-          managedFolder: S.String.pipe(T.Label()),
-          userProject: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1155, __c36, 3).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "b/{bucket}/managedFolders/{managedFolder}/iam",
-            baseUrl: "https://storage.googleapis.com/storage/v1/",
-          }),
-        ),
-      ).annotate({ identifier: "SetIamPolicyManagedFoldersRequest" });
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
           generation: S.optional(S.String.pipe(T.Query())),
           object: S.String.pipe(T.Label()),
           userProject: S.optional(S.String.pipe(T.Query())),
@@ -6075,7 +6035,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "SetIamPolicyObjectsRequest" });
   }
 }
-function __c93(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6095,7 +6055,7 @@ function __c93(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(2976, __c93, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2944, __c92, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6106,7 +6066,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "StopChannelsRequest" });
   }
 }
-function __c94(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6124,7 +6084,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsBucketsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6135,7 +6095,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsResponse" });
   }
 }
-function __c96(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6154,7 +6114,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsManagedFoldersRequest" });
   }
 }
-function __c97(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6174,7 +6134,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsObjectsRequest" });
   }
 }
-function __c98(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6192,7 +6152,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "UpdateAnywhereCachesRequest" });
   }
 }
-function __c99(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6211,7 +6171,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "UpdateBucketAccessControlsRequest" });
   }
 }
-function __c100(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6234,7 +6194,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "UpdateBucketsRequest" });
   }
 }
-function __c101(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6251,6 +6211,26 @@ function __c101(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateDefaultObjectAccessControlsRequest" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.String.pipe(T.Label()),
+          managedFolder: S.String.pipe(T.Label()),
+          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
+          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1283, __c40, 3).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "b/{bucket}/managedFolders/{managedFolder}",
+            baseUrl: "https://storage.googleapis.com/storage/v1/",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateManagedFoldersRequest" });
   }
 }
 function __c102(j: number): any {
@@ -6326,26 +6306,6 @@ function __c106(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bucket: S.String.pipe(T.Label()),
-          managedFolder: S.String.pipe(T.Label()),
-          ifMetagenerationMatch: S.optional(S.String.pipe(T.Query())),
-          ifMetagenerationNotMatch: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1283, __c40, 3).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "b/{bucket}/managedFolders/{managedFolder}",
-            baseUrl: "https://storage.googleapis.com/storage/v1/",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateManagedFoldersRequest" });
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          bucket: S.String.pipe(T.Label()),
           entity: S.String.pipe(T.Label()),
           generation: S.optional(S.String.pipe(T.Query())),
           object: S.String.pipe(T.Label()),
@@ -6361,7 +6321,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "UpdateObjectAccessControlsRequest" });
   }
 }
-function __c108(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6388,7 +6348,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "UpdateObjectsRequest" });
   }
 }
-function __c109(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6407,7 +6367,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "UpdateProjectsHmacKeysRequest" });
   }
 }
-function __c110(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6425,7 +6385,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "UpdateRapidCachesRequest" });
   }
 }
-function __c111(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
