@@ -3,7 +3,7 @@
  *
  * The distilled v0 SDK exposed every operation from
  * `@distilled.cloud/planetscale/Operations`; alchemy imports it heavily.
- * The generated service module lives under `./services/planetscale.ts`
- * (single-service model), so the flat re-export is exact.
+ * Generated API operations and manual additions share this flat surface.
  */
 export * from "./services/planetscale.ts";
+export * from "./services/service_token_access.ts";
