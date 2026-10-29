@@ -12,7 +12,10 @@
           "smithy.api#httpError": 400,
           "smithy.api#documentation": "The environment is busy (creating, updating or being deleted) and can't take this change yet (HTTP 400: 'Cannot delete environment in state ...'). Retryable once the operation finishes.",
           "com.gcp.protocols#errorMatchers": [
-            { "status": 400, "message": { "includes": "Environment must be in RUNNING or ERROR state" } }
+            {
+              "status": 400,
+              "message": { "includes": "Environment must be in RUNNING or ERROR state" }
+            }
           ]
         }
       }
