@@ -55,8 +55,8 @@ export interface ListManagedTransformsRequest {
   /** The unique ID of the zone. */
   zoneId: string;
 }
-export type ListResultCase0ManagedRequestHeadersItemConflictsWithList = Array<string>;
-export interface ListResultCase0ManagedRequestHeadersItem {
+export type ListResultManagedRequestHeadersItemConflictsWithList = Array<string>;
+export interface ListResultManagedRequestHeadersItem {
   /** The human-readable identifier of the Managed Transform. */
   id: string;
   /** Whether the Managed Transform is enabled. */
@@ -64,12 +64,11 @@ export interface ListResultCase0ManagedRequestHeadersItem {
   /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
   hasConflict: boolean;
   /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: ListResultCase0ManagedRequestHeadersItemConflictsWithList | null;
+  conflictsWith?: ListResultManagedRequestHeadersItemConflictsWithList | null;
 }
-export type ListResultCase0ManagedRequestHeadersList =
-  Array<ListResultCase0ManagedRequestHeadersItem>;
-export type ListResultCase0ManagedResponseHeadersItemConflictsWithList = Array<string>;
-export interface ListResultCase0ManagedResponseHeadersItem {
+export type ListResultManagedRequestHeadersList = Array<ListResultManagedRequestHeadersItem>;
+export type ListResultManagedResponseHeadersItemConflictsWithList = Array<string>;
+export interface ListResultManagedResponseHeadersItem {
   /** The human-readable identifier of the Managed Transform. */
   id: string;
   /** Whether the Managed Transform is enabled. */
@@ -77,150 +76,15 @@ export interface ListResultCase0ManagedResponseHeadersItem {
   /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
   hasConflict: boolean;
   /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: ListResultCase0ManagedResponseHeadersItemConflictsWithList | null;
+  conflictsWith?: ListResultManagedResponseHeadersItemConflictsWithList | null;
 }
-export type ListResultCase0ManagedResponseHeadersList =
-  Array<ListResultCase0ManagedResponseHeadersItem>;
-export interface ListResultCase0 {
+export type ListResultManagedResponseHeadersList = Array<ListResultManagedResponseHeadersItem>;
+export interface ListResult {
   /** The list of Managed Request Transforms. */
-  managedRequestHeaders?: ListResultCase0ManagedRequestHeadersList | null;
+  managedRequestHeaders: ListResultManagedRequestHeadersList;
   /** The list of Managed Response Transforms. */
-  managedResponseHeaders?: ListResultCase0ManagedResponseHeadersList | null;
+  managedResponseHeaders: ListResultManagedResponseHeadersList;
 }
-export type ListResultCase1ManagedRequestHeadersItemConflictsWithList = Array<string>;
-export interface ListResultCase1ManagedRequestHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: ListResultCase1ManagedRequestHeadersItemConflictsWithList | null;
-}
-export type ListResultCase1ManagedRequestHeadersList =
-  Array<ListResultCase1ManagedRequestHeadersItem>;
-export type ListResultCase1ManagedResponseHeadersItemConflictsWithList = Array<string>;
-export interface ListResultCase1ManagedResponseHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: ListResultCase1ManagedResponseHeadersItemConflictsWithList | null;
-}
-export type ListResultCase1ManagedResponseHeadersList =
-  Array<ListResultCase1ManagedResponseHeadersItem>;
-export interface ListResultCase1 {
-  /** The list of Managed Request Transforms. */
-  managedRequestHeaders?: ListResultCase1ManagedRequestHeadersList | null;
-  /** The list of Managed Response Transforms. */
-  managedResponseHeaders?: ListResultCase1ManagedResponseHeadersList | null;
-}
-export type ListResultCase2ManagedRequestHeadersItemConflictsWithList = Array<string>;
-export interface ListResultCase2ManagedRequestHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: ListResultCase2ManagedRequestHeadersItemConflictsWithList | null;
-}
-export type ListResultCase2ManagedRequestHeadersList =
-  Array<ListResultCase2ManagedRequestHeadersItem>;
-export type ListResultCase2ManagedResponseHeadersItemConflictsWithList = Array<string>;
-export interface ListResultCase2ManagedResponseHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: ListResultCase2ManagedResponseHeadersItemConflictsWithList | null;
-}
-export type ListResultCase2ManagedResponseHeadersList =
-  Array<ListResultCase2ManagedResponseHeadersItem>;
-export interface ListResultCase2 {
-  /** The list of Managed Request Transforms. */
-  managedRequestHeaders?: ListResultCase2ManagedRequestHeadersList | null;
-  /** The list of Managed Response Transforms. */
-  managedResponseHeaders?: ListResultCase2ManagedResponseHeadersList | null;
-}
-export type ListResultCase3ManagedRequestHeadersItemConflictsWithList = Array<string>;
-export interface ListResultCase3ManagedRequestHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: ListResultCase3ManagedRequestHeadersItemConflictsWithList | null;
-}
-export type ListResultCase3ManagedRequestHeadersList =
-  Array<ListResultCase3ManagedRequestHeadersItem>;
-export type ListResultCase3ManagedResponseHeadersItemConflictsWithList = Array<string>;
-export interface ListResultCase3ManagedResponseHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: ListResultCase3ManagedResponseHeadersItemConflictsWithList | null;
-}
-export type ListResultCase3ManagedResponseHeadersList =
-  Array<ListResultCase3ManagedResponseHeadersItem>;
-export interface ListResultCase3 {
-  /** The list of Managed Request Transforms. */
-  managedRequestHeaders?: ListResultCase3ManagedRequestHeadersList | null;
-  /** The list of Managed Response Transforms. */
-  managedResponseHeaders?: ListResultCase3ManagedResponseHeadersList | null;
-}
-export type ListResultCase4ManagedRequestHeadersItemConflictsWithList = Array<string>;
-export interface ListResultCase4ManagedRequestHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: ListResultCase4ManagedRequestHeadersItemConflictsWithList | null;
-}
-export type ListResultCase4ManagedRequestHeadersList =
-  Array<ListResultCase4ManagedRequestHeadersItem>;
-export type ListResultCase4ManagedResponseHeadersItemConflictsWithList = Array<string>;
-export interface ListResultCase4ManagedResponseHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: ListResultCase4ManagedResponseHeadersItemConflictsWithList | null;
-}
-export type ListResultCase4ManagedResponseHeadersList =
-  Array<ListResultCase4ManagedResponseHeadersItem>;
-export interface ListResultCase4 {
-  /** The list of Managed Request Transforms. */
-  managedRequestHeaders?: ListResultCase4ManagedRequestHeadersList | null;
-  /** The list of Managed Response Transforms. */
-  managedResponseHeaders?: ListResultCase4ManagedResponseHeadersList | null;
-}
-export type ListResult =
-  | ListResultCase0
-  | ListResultCase1
-  | ListResultCase2
-  | ListResultCase3
-  | ListResultCase4;
 export type ListManagedTransformsResponse = ListResult;
 export type EditRequestManagedRequestHeadersItemConflictsWithList = Array<string>;
 export interface EditRequestManagedRequestHeadersItem {
@@ -254,8 +118,8 @@ export interface PatchManagedTransformRequest {
   /** The list of Managed Response Transforms. */
   managedResponseHeaders?: EditRequestManagedResponseHeadersList;
 }
-export type EditResultCase0ManagedRequestHeadersItemConflictsWithList = Array<string>;
-export interface EditResultCase0ManagedRequestHeadersItem {
+export type EditResultManagedRequestHeadersItemConflictsWithList = Array<string>;
+export interface EditResultManagedRequestHeadersItem {
   /** The human-readable identifier of the Managed Transform. */
   id: string;
   /** Whether the Managed Transform is enabled. */
@@ -263,12 +127,11 @@ export interface EditResultCase0ManagedRequestHeadersItem {
   /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
   hasConflict: boolean;
   /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: EditResultCase0ManagedRequestHeadersItemConflictsWithList | null;
+  conflictsWith?: EditResultManagedRequestHeadersItemConflictsWithList | null;
 }
-export type EditResultCase0ManagedRequestHeadersList =
-  Array<EditResultCase0ManagedRequestHeadersItem>;
-export type EditResultCase0ManagedResponseHeadersItemConflictsWithList = Array<string>;
-export interface EditResultCase0ManagedResponseHeadersItem {
+export type EditResultManagedRequestHeadersList = Array<EditResultManagedRequestHeadersItem>;
+export type EditResultManagedResponseHeadersItemConflictsWithList = Array<string>;
+export interface EditResultManagedResponseHeadersItem {
   /** The human-readable identifier of the Managed Transform. */
   id: string;
   /** Whether the Managed Transform is enabled. */
@@ -276,150 +139,15 @@ export interface EditResultCase0ManagedResponseHeadersItem {
   /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
   hasConflict: boolean;
   /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: EditResultCase0ManagedResponseHeadersItemConflictsWithList | null;
+  conflictsWith?: EditResultManagedResponseHeadersItemConflictsWithList | null;
 }
-export type EditResultCase0ManagedResponseHeadersList =
-  Array<EditResultCase0ManagedResponseHeadersItem>;
-export interface EditResultCase0 {
+export type EditResultManagedResponseHeadersList = Array<EditResultManagedResponseHeadersItem>;
+export interface EditResult {
   /** The list of Managed Request Transforms. */
-  managedRequestHeaders?: EditResultCase0ManagedRequestHeadersList | null;
+  managedRequestHeaders: EditResultManagedRequestHeadersList;
   /** The list of Managed Response Transforms. */
-  managedResponseHeaders?: EditResultCase0ManagedResponseHeadersList | null;
+  managedResponseHeaders: EditResultManagedResponseHeadersList;
 }
-export type EditResultCase1ManagedRequestHeadersItemConflictsWithList = Array<string>;
-export interface EditResultCase1ManagedRequestHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: EditResultCase1ManagedRequestHeadersItemConflictsWithList | null;
-}
-export type EditResultCase1ManagedRequestHeadersList =
-  Array<EditResultCase1ManagedRequestHeadersItem>;
-export type EditResultCase1ManagedResponseHeadersItemConflictsWithList = Array<string>;
-export interface EditResultCase1ManagedResponseHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: EditResultCase1ManagedResponseHeadersItemConflictsWithList | null;
-}
-export type EditResultCase1ManagedResponseHeadersList =
-  Array<EditResultCase1ManagedResponseHeadersItem>;
-export interface EditResultCase1 {
-  /** The list of Managed Request Transforms. */
-  managedRequestHeaders?: EditResultCase1ManagedRequestHeadersList | null;
-  /** The list of Managed Response Transforms. */
-  managedResponseHeaders?: EditResultCase1ManagedResponseHeadersList | null;
-}
-export type EditResultCase2ManagedRequestHeadersItemConflictsWithList = Array<string>;
-export interface EditResultCase2ManagedRequestHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: EditResultCase2ManagedRequestHeadersItemConflictsWithList | null;
-}
-export type EditResultCase2ManagedRequestHeadersList =
-  Array<EditResultCase2ManagedRequestHeadersItem>;
-export type EditResultCase2ManagedResponseHeadersItemConflictsWithList = Array<string>;
-export interface EditResultCase2ManagedResponseHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: EditResultCase2ManagedResponseHeadersItemConflictsWithList | null;
-}
-export type EditResultCase2ManagedResponseHeadersList =
-  Array<EditResultCase2ManagedResponseHeadersItem>;
-export interface EditResultCase2 {
-  /** The list of Managed Request Transforms. */
-  managedRequestHeaders?: EditResultCase2ManagedRequestHeadersList | null;
-  /** The list of Managed Response Transforms. */
-  managedResponseHeaders?: EditResultCase2ManagedResponseHeadersList | null;
-}
-export type EditResultCase3ManagedRequestHeadersItemConflictsWithList = Array<string>;
-export interface EditResultCase3ManagedRequestHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: EditResultCase3ManagedRequestHeadersItemConflictsWithList | null;
-}
-export type EditResultCase3ManagedRequestHeadersList =
-  Array<EditResultCase3ManagedRequestHeadersItem>;
-export type EditResultCase3ManagedResponseHeadersItemConflictsWithList = Array<string>;
-export interface EditResultCase3ManagedResponseHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: EditResultCase3ManagedResponseHeadersItemConflictsWithList | null;
-}
-export type EditResultCase3ManagedResponseHeadersList =
-  Array<EditResultCase3ManagedResponseHeadersItem>;
-export interface EditResultCase3 {
-  /** The list of Managed Request Transforms. */
-  managedRequestHeaders?: EditResultCase3ManagedRequestHeadersList | null;
-  /** The list of Managed Response Transforms. */
-  managedResponseHeaders?: EditResultCase3ManagedResponseHeadersList | null;
-}
-export type EditResultCase4ManagedRequestHeadersItemConflictsWithList = Array<string>;
-export interface EditResultCase4ManagedRequestHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: EditResultCase4ManagedRequestHeadersItemConflictsWithList | null;
-}
-export type EditResultCase4ManagedRequestHeadersList =
-  Array<EditResultCase4ManagedRequestHeadersItem>;
-export type EditResultCase4ManagedResponseHeadersItemConflictsWithList = Array<string>;
-export interface EditResultCase4ManagedResponseHeadersItem {
-  /** The human-readable identifier of the Managed Transform. */
-  id: string;
-  /** Whether the Managed Transform is enabled. */
-  enabled: boolean;
-  /** Whether the Managed Transform conflicts with the currently-enabled Managed Transforms. */
-  hasConflict: boolean;
-  /** The Managed Transforms that this Managed Transform conflicts with. */
-  conflictsWith?: EditResultCase4ManagedResponseHeadersItemConflictsWithList | null;
-}
-export type EditResultCase4ManagedResponseHeadersList =
-  Array<EditResultCase4ManagedResponseHeadersItem>;
-export interface EditResultCase4 {
-  /** The list of Managed Request Transforms. */
-  managedRequestHeaders?: EditResultCase4ManagedRequestHeadersList | null;
-  /** The list of Managed Response Transforms. */
-  managedResponseHeaders?: EditResultCase4ManagedResponseHeadersList | null;
-}
-export type EditResult =
-  | EditResultCase0
-  | EditResultCase1
-  | EditResultCase2
-  | EditResultCase3
-  | EditResultCase4;
 export type PatchManagedTransformResponse = EditResult;
 export type DeleteManagedTransformError = Forbidden | CloudflareOpError;
 /** Disables all Managed Transforms. */
@@ -447,7 +175,7 @@ export const listManagedTransforms: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<ListManagedTransformsRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<ListManagedTransformsResponse>,
+  output: __S(20, __c2, 4) as any as S.Schema<ListManagedTransformsResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -463,8 +191,8 @@ export const patchManagedTransform: API.OperationMethod<
   PatchManagedTransformError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19, __c2, 3) as any as S.Schema<PatchManagedTransformRequest>,
-  output: __S(21, __c2, 5) as any as S.Schema<PatchManagedTransformResponse>,
+  input: __S(26, __c3, 2) as any as S.Schema<PatchManagedTransformRequest>,
+  output: __S(20, __c2, 4) as any as S.Schema<PatchManagedTransformResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -499,20 +227,6 @@ function __c1(j: number): any {
           .pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/managed_headers", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListManagedTransformsRequest" });
-    case 1:
-      return S.Unknown.pipe(
-        /*@__PURE__*/ T.UnionCases([
-          ["managedRequestHeaders", "managedResponseHeaders"],
-          ["managedRequestHeaders", "managedResponseHeaders"],
-          ["managedRequestHeaders", "managedResponseHeaders"],
-          ["managedRequestHeaders", "managedResponseHeaders"],
-          ["managedRequestHeaders", "managedResponseHeaders"],
-        ]),
-      );
-    case 2:
-      return S.suspend(() =>
-        __S(9, __c1, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "ListManagedTransformsResponse" });
   }
 }
 function __c2(j: number): any {
@@ -524,40 +238,52 @@ function __c2(j: number): any {
         S.Struct({
           id: S.String,
           enabled: S.Boolean,
-          hasConflict: S.optional(S.Boolean.pipe(T.Body("has_conflict"))),
-          conflictsWith: S.optional(__S(16, __c2, 0).pipe(T.Body("conflicts_with"))),
+          hasConflict: S.Boolean.pipe(T.Body("has_conflict")),
+          conflictsWith: S.optional(S.NullOr(__S(16, __c2, 0)).pipe(T.Body("conflicts_with"))),
         }),
-      ).annotate({ identifier: "EditRequestManagedRequestHeadersItem" });
+      ).annotate({ identifier: "ListResultManagedRequestHeadersItem" });
     case 2:
       return S.Array(__S(17, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          managedRequestHeaders: __S(18, __c2, 2).pipe(T.Body("managed_request_headers")),
+          managedResponseHeaders: __S(18, __c2, 2).pipe(T.Body("managed_response_headers")),
+        }),
+      ).annotate({ identifier: "ListResult" });
+    case 4:
+      return S.suspend(() =>
+        __S(19, __c2, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ListManagedTransformsResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          enabled: S.Boolean,
+          hasConflict: S.optional(S.Boolean.pipe(T.Body("has_conflict"))),
+          conflictsWith: S.optional(__S(16, __c2, 0).pipe(T.Body("conflicts_with"))),
+        }),
+      ).annotate({ identifier: "EditRequestManagedRequestHeadersItem" });
+    case 1:
+      return S.Array(__S(24, __c3, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           managedRequestHeaders: S.optional(
-            __S(18, __c2, 2).pipe(T.Body("managed_request_headers")),
+            __S(25, __c3, 1).pipe(T.Body("managed_request_headers")),
           ),
           managedResponseHeaders: S.optional(
-            __S(18, __c2, 2).pipe(T.Body("managed_response_headers")),
+            __S(25, __c3, 1).pipe(T.Body("managed_response_headers")),
           ),
         })
           .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/managed_headers", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PatchManagedTransformRequest" });
-    case 4:
-      return S.Unknown.pipe(
-        /*@__PURE__*/ T.UnionCases([
-          ["managedRequestHeaders", "managedResponseHeaders"],
-          ["managedRequestHeaders", "managedResponseHeaders"],
-          ["managedRequestHeaders", "managedResponseHeaders"],
-          ["managedRequestHeaders", "managedResponseHeaders"],
-          ["managedRequestHeaders", "managedResponseHeaders"],
-        ]),
-      );
-    case 5:
-      return S.suspend(() =>
-        __S(20, __c2, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "PatchManagedTransformResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

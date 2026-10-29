@@ -2666,7 +2666,7 @@ export type AccessApplicationsCreateRequestType =
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsCreateRequestUserPopulationsList = Array<string>;
-export type AccessApplicationsCreateRequestAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsCreateRequestAllowedIdpsList = Array<string>;
 export type AccessApplicationsCreateRequestDestinationsAccessEndUserPropsItemAccessEndUserPublicDestinationOverridesItemBehavior =
   "public";
 export interface AccessApplicationsCreateRequestDestinationsAccessEndUserPropsItemAccessEndUserPublicDestinationOverridesItem {
@@ -2925,8 +2925,8 @@ export type AccessApplicationsCreateRequestDestinationsSelfHostedApplicationList
 export type AccessApplicationsCreateRequestDestinations =
   | AccessApplicationsCreateRequestDestinationsAccessEndUserPropsList
   | AccessApplicationsCreateRequestDestinationsSelfHostedApplicationList;
-export type AccessApplicationsCreateRequestSelfHostedDomainsList = Array<unknown>;
-export type AccessApplicationsCreateRequestCorsHeadersAllowedHeadersList = Array<unknown>;
+export type AccessApplicationsCreateRequestSelfHostedDomainsList = Array<string>;
+export type AccessApplicationsCreateRequestCorsHeadersAllowedHeadersList = Array<string>;
 export type AccessApplicationsCreateRequestCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -2940,7 +2940,7 @@ export type AccessApplicationsCreateRequestCorsHeadersAllowedMethodsItem =
 export type AccessApplicationsCreateRequestCorsHeadersAllowedMethodsList = Array<
   AccessApplicationsCreateRequestCorsHeadersAllowedMethodsItem | (string & {})
 >;
-export type AccessApplicationsCreateRequestCorsHeadersAllowedOriginsList = Array<unknown>;
+export type AccessApplicationsCreateRequestCorsHeadersAllowedOriginsList = Array<string>;
 export interface AccessApplicationsCreateRequestCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean;
@@ -4711,7 +4711,7 @@ export type AccessApplicationsCreateResultEndUserApplicationType =
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsCreateResultEndUserApplicationUserPopulationsList = Array<string>;
-export type AccessApplicationsCreateResultEndUserApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsCreateResultEndUserApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsCreateResultEndUserApplicationDestinationsItemAccessEndUserPublicDestinationOverridesItemBehavior =
   "public";
 export interface AccessApplicationsCreateResultEndUserApplicationDestinationsItemAccessEndUserPublicDestinationOverridesItem {
@@ -4811,7 +4811,7 @@ export type AccessApplicationsCreateResultEndUserApplicationDestinationsItem =
   | AccessApplicationsCreateResultEndUserApplicationDestinationsItemAccessEndUserAllPreviewWorkersDestination;
 export type AccessApplicationsCreateResultEndUserApplicationDestinationsList =
   Array<AccessApplicationsCreateResultEndUserApplicationDestinationsItem>;
-export type AccessApplicationsCreateResultEndUserApplicationSelfHostedDomainsList = Array<unknown>;
+export type AccessApplicationsCreateResultEndUserApplicationSelfHostedDomainsList = Array<string>;
 export interface AccessApplicationsCreateResultEndUserApplication {
   /** Beta: Optional configuration for managing an OAuth authorization flow controlled by Access. When set, Access will act as the OAuth authorization server for this application. Only compatible with OAuth clients that support [RFC 8707](https://datatracker.ietf.org/doc/html/rfc8707) (Resource Indicators for OAuth 2.0). This feature is currently in beta. */
   oauthConfiguration: AccessApplicationsCreateResultEndUserApplicationOauthConfiguration;
@@ -4854,9 +4854,9 @@ export type AccessApplicationsCreateResultSelfHostedApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsCreateResultSelfHostedApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsCreateResultSelfHostedApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsCreateResultSelfHostedApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsCreateResultSelfHostedApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -4870,7 +4870,7 @@ export type AccessApplicationsCreateResultSelfHostedApplicationCorsHeadersAllowe
 export type AccessApplicationsCreateResultSelfHostedApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsCreateResultSelfHostedApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsCreateResultSelfHostedApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsCreateResultSelfHostedApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -5716,7 +5716,7 @@ export interface AccessApplicationsCreateResultSelfHostedApplicationScimConfig {
   mappings?: AccessApplicationsCreateResultSelfHostedApplicationScimConfigMappingsList | null;
 }
 export type AccessApplicationsCreateResultSelfHostedApplicationSelfHostedDomainsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsCreateResultSelfHostedApplicationTagsList = Array<string>;
 export interface AccessApplicationsCreateResultSelfHostedApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -5790,7 +5790,7 @@ export interface AccessApplicationsCreateResultSelfHostedApplication {
   /** When the application was last updated. */
   updatedAt?: string | null;
 }
-export type AccessApplicationsCreateResultSaaSApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsCreateResultSaaSApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsCreateResultSaaSApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsCreateResultSaaSApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
   Array<string>;
@@ -6645,9 +6645,9 @@ export type AccessApplicationsCreateResultBrowserSSHApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsCreateResultBrowserSSHApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsCreateResultBrowserSSHApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsCreateResultBrowserSSHApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsCreateResultBrowserSSHApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -6661,7 +6661,7 @@ export type AccessApplicationsCreateResultBrowserSSHApplicationCorsHeadersAllowe
 export type AccessApplicationsCreateResultBrowserSSHApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsCreateResultBrowserSSHApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsCreateResultBrowserSSHApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsCreateResultBrowserSSHApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -7486,7 +7486,7 @@ export interface AccessApplicationsCreateResultBrowserSSHApplicationScimConfig {
   mappings?: AccessApplicationsCreateResultBrowserSSHApplicationScimConfigMappingsList | null;
 }
 export type AccessApplicationsCreateResultBrowserSSHApplicationSelfHostedDomainsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsCreateResultBrowserSSHApplicationTagsList = Array<string>;
 export interface AccessApplicationsCreateResultBrowserSSHApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -7576,9 +7576,9 @@ export type AccessApplicationsCreateResultBrowserVNCApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsCreateResultBrowserVNCApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsCreateResultBrowserVNCApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsCreateResultBrowserVNCApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsCreateResultBrowserVNCApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -7592,7 +7592,7 @@ export type AccessApplicationsCreateResultBrowserVNCApplicationCorsHeadersAllowe
 export type AccessApplicationsCreateResultBrowserVNCApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsCreateResultBrowserVNCApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsCreateResultBrowserVNCApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsCreateResultBrowserVNCApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -8417,7 +8417,7 @@ export interface AccessApplicationsCreateResultBrowserVNCApplicationScimConfig {
   mappings?: AccessApplicationsCreateResultBrowserVNCApplicationScimConfigMappingsList | null;
 }
 export type AccessApplicationsCreateResultBrowserVNCApplicationSelfHostedDomainsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsCreateResultBrowserVNCApplicationTagsList = Array<string>;
 export interface AccessApplicationsCreateResultBrowserVNCApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -8507,7 +8507,7 @@ export type AccessApplicationsCreateResultAppLauncherApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsCreateResultAppLauncherApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsCreateResultAppLauncherApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsCreateResultAppLauncherApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsCreateResultAppLauncherApplicationFooterLinksItem =
   AccessApplicationsCreateRequestFooterLinksItem;
@@ -9085,7 +9085,7 @@ export type AccessApplicationsCreateResultDeviceEnrollmentPermissionsApplication
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsCreateResultDeviceEnrollmentPermissionsApplicationAllowedIdpsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsCreateResultDeviceEnrollmentPermissionsApplicationCustomPagesList =
   Array<string>;
 export type AccessApplicationsCreateResultDeviceEnrollmentPermissionsApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
@@ -9636,7 +9636,7 @@ export type AccessApplicationsCreateResultBrowserIsolationPermissionsApplication
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsCreateResultBrowserIsolationPermissionsApplicationAllowedIdpsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsCreateResultBrowserIsolationPermissionsApplicationCustomPagesList =
   Array<string>;
 export type AccessApplicationsCreateResultBrowserIsolationPermissionsApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
@@ -10187,7 +10187,7 @@ export type AccessApplicationsCreateResultGatewayIdentityProxyEndpointApplicatio
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsCreateResultGatewayIdentityProxyEndpointApplicationAllowedIdpsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsCreateResultGatewayIdentityProxyEndpointApplicationCustomPagesList =
   Array<string>;
 export type AccessApplicationsCreateResultGatewayIdentityProxyEndpointApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
@@ -11955,9 +11955,9 @@ export type AccessApplicationsCreateResultBrowserRDPApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsCreateResultBrowserRDPApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsCreateResultBrowserRDPApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsCreateResultBrowserRDPApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsCreateResultBrowserRDPApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -11971,7 +11971,7 @@ export type AccessApplicationsCreateResultBrowserRDPApplicationCorsHeadersAllowe
 export type AccessApplicationsCreateResultBrowserRDPApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsCreateResultBrowserRDPApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsCreateResultBrowserRDPApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsCreateResultBrowserRDPApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -12796,7 +12796,7 @@ export interface AccessApplicationsCreateResultBrowserRDPApplicationScimConfig {
   mappings?: AccessApplicationsCreateResultBrowserRDPApplicationScimConfigMappingsList | null;
 }
 export type AccessApplicationsCreateResultBrowserRDPApplicationSelfHostedDomainsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsCreateResultBrowserRDPApplicationTagsList = Array<string>;
 export interface AccessApplicationsCreateResultBrowserRDPApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -12887,7 +12887,7 @@ export type AccessApplicationsCreateResultMcpServerApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsCreateResultMcpServerApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsCreateResultMcpServerApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsCreateResultMcpServerApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsCreateResultMcpServerApplicationDestinationsItemPublicDestinationOverridesItemBehavior =
   "public";
@@ -13743,8 +13743,7 @@ export type AccessApplicationsCreateResultMcpServerPortalApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsCreateResultMcpServerPortalApplicationAllowedIdpsList =
-  Array<unknown>;
+export type AccessApplicationsCreateResultMcpServerPortalApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsCreateResultMcpServerPortalApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsCreateResultMcpServerPortalApplicationDestinationsItemPublicDestinationOverridesItemBehavior =
   "public";
@@ -27145,7 +27144,7 @@ export type AccessApplicationsGetResultEndUserApplicationType =
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsGetResultEndUserApplicationUserPopulationsList = Array<string>;
-export type AccessApplicationsGetResultEndUserApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsGetResultEndUserApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsGetResultEndUserApplicationDestinationsItemAccessEndUserPublicDestinationOverridesItemBehavior =
   "public";
 export interface AccessApplicationsGetResultEndUserApplicationDestinationsItemAccessEndUserPublicDestinationOverridesItem {
@@ -27245,7 +27244,7 @@ export type AccessApplicationsGetResultEndUserApplicationDestinationsItem =
   | AccessApplicationsGetResultEndUserApplicationDestinationsItemAccessEndUserAllPreviewWorkersDestination;
 export type AccessApplicationsGetResultEndUserApplicationDestinationsList =
   Array<AccessApplicationsGetResultEndUserApplicationDestinationsItem>;
-export type AccessApplicationsGetResultEndUserApplicationSelfHostedDomainsList = Array<unknown>;
+export type AccessApplicationsGetResultEndUserApplicationSelfHostedDomainsList = Array<string>;
 export interface AccessApplicationsGetResultEndUserApplication {
   /** Beta: Optional configuration for managing an OAuth authorization flow controlled by Access. When set, Access will act as the OAuth authorization server for this application. Only compatible with OAuth clients that support [RFC 8707](https://datatracker.ietf.org/doc/html/rfc8707) (Resource Indicators for OAuth 2.0). This feature is currently in beta. */
   oauthConfiguration: AccessApplicationsGetResultEndUserApplicationOauthConfiguration;
@@ -27288,9 +27287,9 @@ export type AccessApplicationsGetResultSelfHostedApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsGetResultSelfHostedApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsGetResultSelfHostedApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsGetResultSelfHostedApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsGetResultSelfHostedApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -27304,7 +27303,7 @@ export type AccessApplicationsGetResultSelfHostedApplicationCorsHeadersAllowedMe
 export type AccessApplicationsGetResultSelfHostedApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsGetResultSelfHostedApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsGetResultSelfHostedApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsGetResultSelfHostedApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -28128,7 +28127,7 @@ export interface AccessApplicationsGetResultSelfHostedApplicationScimConfig {
   /** A list of mappings to apply to SCIM resources before provisioning them in this application. These can transform or filter the resources to be provisioned. */
   mappings?: AccessApplicationsGetResultSelfHostedApplicationScimConfigMappingsList | null;
 }
-export type AccessApplicationsGetResultSelfHostedApplicationSelfHostedDomainsList = Array<unknown>;
+export type AccessApplicationsGetResultSelfHostedApplicationSelfHostedDomainsList = Array<string>;
 export type AccessApplicationsGetResultSelfHostedApplicationTagsList = Array<string>;
 export interface AccessApplicationsGetResultSelfHostedApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -28202,7 +28201,7 @@ export interface AccessApplicationsGetResultSelfHostedApplication {
   /** When the application was last updated. */
   updatedAt?: string | null;
 }
-export type AccessApplicationsGetResultSaaSApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsGetResultSaaSApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsGetResultSaaSApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsGetResultSaaSApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
   Array<string>;
@@ -29043,9 +29042,9 @@ export type AccessApplicationsGetResultBrowserSSHApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsGetResultBrowserSSHApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsGetResultBrowserSSHApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsGetResultBrowserSSHApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsGetResultBrowserSSHApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -29059,7 +29058,7 @@ export type AccessApplicationsGetResultBrowserSSHApplicationCorsHeadersAllowedMe
 export type AccessApplicationsGetResultBrowserSSHApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsGetResultBrowserSSHApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsGetResultBrowserSSHApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsGetResultBrowserSSHApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -29883,7 +29882,7 @@ export interface AccessApplicationsGetResultBrowserSSHApplicationScimConfig {
   /** A list of mappings to apply to SCIM resources before provisioning them in this application. These can transform or filter the resources to be provisioned. */
   mappings?: AccessApplicationsGetResultBrowserSSHApplicationScimConfigMappingsList | null;
 }
-export type AccessApplicationsGetResultBrowserSSHApplicationSelfHostedDomainsList = Array<unknown>;
+export type AccessApplicationsGetResultBrowserSSHApplicationSelfHostedDomainsList = Array<string>;
 export type AccessApplicationsGetResultBrowserSSHApplicationTagsList = Array<string>;
 export interface AccessApplicationsGetResultBrowserSSHApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -29973,9 +29972,9 @@ export type AccessApplicationsGetResultBrowserVNCApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsGetResultBrowserVNCApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsGetResultBrowserVNCApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsGetResultBrowserVNCApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsGetResultBrowserVNCApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -29989,7 +29988,7 @@ export type AccessApplicationsGetResultBrowserVNCApplicationCorsHeadersAllowedMe
 export type AccessApplicationsGetResultBrowserVNCApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsGetResultBrowserVNCApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsGetResultBrowserVNCApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsGetResultBrowserVNCApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -30813,7 +30812,7 @@ export interface AccessApplicationsGetResultBrowserVNCApplicationScimConfig {
   /** A list of mappings to apply to SCIM resources before provisioning them in this application. These can transform or filter the resources to be provisioned. */
   mappings?: AccessApplicationsGetResultBrowserVNCApplicationScimConfigMappingsList | null;
 }
-export type AccessApplicationsGetResultBrowserVNCApplicationSelfHostedDomainsList = Array<unknown>;
+export type AccessApplicationsGetResultBrowserVNCApplicationSelfHostedDomainsList = Array<string>;
 export type AccessApplicationsGetResultBrowserVNCApplicationTagsList = Array<string>;
 export interface AccessApplicationsGetResultBrowserVNCApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -30903,7 +30902,7 @@ export type AccessApplicationsGetResultAppLauncherApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsGetResultAppLauncherApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsGetResultAppLauncherApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsGetResultAppLauncherApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsGetResultAppLauncherApplicationFooterLinksItem =
   AccessApplicationsCreateRequestFooterLinksItem;
@@ -31471,7 +31470,7 @@ export type AccessApplicationsGetResultDeviceEnrollmentPermissionsApplicationTyp
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsGetResultDeviceEnrollmentPermissionsApplicationAllowedIdpsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsGetResultDeviceEnrollmentPermissionsApplicationCustomPagesList =
   Array<string>;
 export type AccessApplicationsGetResultDeviceEnrollmentPermissionsApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
@@ -32022,7 +32021,7 @@ export type AccessApplicationsGetResultBrowserIsolationPermissionsApplicationTyp
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsGetResultBrowserIsolationPermissionsApplicationAllowedIdpsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsGetResultBrowserIsolationPermissionsApplicationCustomPagesList =
   Array<string>;
 export type AccessApplicationsGetResultBrowserIsolationPermissionsApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
@@ -32573,7 +32572,7 @@ export type AccessApplicationsGetResultGatewayIdentityProxyEndpointApplicationTy
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsGetResultGatewayIdentityProxyEndpointApplicationAllowedIdpsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsGetResultGatewayIdentityProxyEndpointApplicationCustomPagesList =
   Array<string>;
 export type AccessApplicationsGetResultGatewayIdentityProxyEndpointApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
@@ -34337,9 +34336,9 @@ export type AccessApplicationsGetResultBrowserRDPApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsGetResultBrowserRDPApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsGetResultBrowserRDPApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsGetResultBrowserRDPApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsGetResultBrowserRDPApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -34353,7 +34352,7 @@ export type AccessApplicationsGetResultBrowserRDPApplicationCorsHeadersAllowedMe
 export type AccessApplicationsGetResultBrowserRDPApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsGetResultBrowserRDPApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsGetResultBrowserRDPApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsGetResultBrowserRDPApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -35177,7 +35176,7 @@ export interface AccessApplicationsGetResultBrowserRDPApplicationScimConfig {
   /** A list of mappings to apply to SCIM resources before provisioning them in this application. These can transform or filter the resources to be provisioned. */
   mappings?: AccessApplicationsGetResultBrowserRDPApplicationScimConfigMappingsList | null;
 }
-export type AccessApplicationsGetResultBrowserRDPApplicationSelfHostedDomainsList = Array<unknown>;
+export type AccessApplicationsGetResultBrowserRDPApplicationSelfHostedDomainsList = Array<string>;
 export type AccessApplicationsGetResultBrowserRDPApplicationTagsList = Array<string>;
 export interface AccessApplicationsGetResultBrowserRDPApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -35268,7 +35267,7 @@ export type AccessApplicationsGetResultMcpServerApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsGetResultMcpServerApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsGetResultMcpServerApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsGetResultMcpServerApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsGetResultMcpServerApplicationDestinationsItemPublicDestinationOverridesItemBehavior =
   "public";
@@ -36124,7 +36123,7 @@ export type AccessApplicationsGetResultMcpServerPortalApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsGetResultMcpServerPortalApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsGetResultMcpServerPortalApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsGetResultMcpServerPortalApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsGetResultMcpServerPortalApplicationDestinationsItemPublicDestinationOverridesItemBehavior =
   "public";
@@ -49219,7 +49218,7 @@ export type AccessApplicationsListResultItemEndUserApplicationType =
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsListResultItemEndUserApplicationUserPopulationsList = Array<string>;
-export type AccessApplicationsListResultItemEndUserApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsListResultItemEndUserApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsListResultItemEndUserApplicationDestinationsItemAccessEndUserPublicDestinationOverridesItemBehavior =
   "public";
 export interface AccessApplicationsListResultItemEndUserApplicationDestinationsItemAccessEndUserPublicDestinationOverridesItem {
@@ -49319,8 +49318,7 @@ export type AccessApplicationsListResultItemEndUserApplicationDestinationsItem =
   | AccessApplicationsListResultItemEndUserApplicationDestinationsItemAccessEndUserAllPreviewWorkersDestination;
 export type AccessApplicationsListResultItemEndUserApplicationDestinationsList =
   Array<AccessApplicationsListResultItemEndUserApplicationDestinationsItem>;
-export type AccessApplicationsListResultItemEndUserApplicationSelfHostedDomainsList =
-  Array<unknown>;
+export type AccessApplicationsListResultItemEndUserApplicationSelfHostedDomainsList = Array<string>;
 export interface AccessApplicationsListResultItemEndUserApplication {
   /** Beta: Optional configuration for managing an OAuth authorization flow controlled by Access. When set, Access will act as the OAuth authorization server for this application. Only compatible with OAuth clients that support [RFC 8707](https://datatracker.ietf.org/doc/html/rfc8707) (Resource Indicators for OAuth 2.0). This feature is currently in beta. */
   oauthConfiguration: AccessApplicationsListResultItemEndUserApplicationOauthConfiguration;
@@ -49363,9 +49361,9 @@ export type AccessApplicationsListResultItemSelfHostedApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsListResultItemSelfHostedApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsListResultItemSelfHostedApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsListResultItemSelfHostedApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsListResultItemSelfHostedApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -49379,7 +49377,7 @@ export type AccessApplicationsListResultItemSelfHostedApplicationCorsHeadersAllo
 export type AccessApplicationsListResultItemSelfHostedApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsListResultItemSelfHostedApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsListResultItemSelfHostedApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsListResultItemSelfHostedApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -50204,7 +50202,7 @@ export interface AccessApplicationsListResultItemSelfHostedApplicationScimConfig
   mappings?: AccessApplicationsListResultItemSelfHostedApplicationScimConfigMappingsList | null;
 }
 export type AccessApplicationsListResultItemSelfHostedApplicationSelfHostedDomainsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsListResultItemSelfHostedApplicationTagsList = Array<string>;
 export interface AccessApplicationsListResultItemSelfHostedApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -50278,7 +50276,7 @@ export interface AccessApplicationsListResultItemSelfHostedApplication {
   /** When the application was last updated. */
   updatedAt?: string | null;
 }
-export type AccessApplicationsListResultItemSaaSApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsListResultItemSaaSApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsListResultItemSaaSApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsListResultItemSaaSApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
   Array<string>;
@@ -51123,9 +51121,9 @@ export type AccessApplicationsListResultItemBrowserSSHApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsListResultItemBrowserSSHApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsListResultItemBrowserSSHApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsListResultItemBrowserSSHApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsListResultItemBrowserSSHApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -51139,7 +51137,7 @@ export type AccessApplicationsListResultItemBrowserSSHApplicationCorsHeadersAllo
 export type AccessApplicationsListResultItemBrowserSSHApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsListResultItemBrowserSSHApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsListResultItemBrowserSSHApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsListResultItemBrowserSSHApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -51964,7 +51962,7 @@ export interface AccessApplicationsListResultItemBrowserSSHApplicationScimConfig
   mappings?: AccessApplicationsListResultItemBrowserSSHApplicationScimConfigMappingsList | null;
 }
 export type AccessApplicationsListResultItemBrowserSSHApplicationSelfHostedDomainsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsListResultItemBrowserSSHApplicationTagsList = Array<string>;
 export interface AccessApplicationsListResultItemBrowserSSHApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -52054,9 +52052,9 @@ export type AccessApplicationsListResultItemBrowserVNCApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsListResultItemBrowserVNCApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsListResultItemBrowserVNCApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsListResultItemBrowserVNCApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsListResultItemBrowserVNCApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -52070,7 +52068,7 @@ export type AccessApplicationsListResultItemBrowserVNCApplicationCorsHeadersAllo
 export type AccessApplicationsListResultItemBrowserVNCApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsListResultItemBrowserVNCApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsListResultItemBrowserVNCApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsListResultItemBrowserVNCApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -52895,7 +52893,7 @@ export interface AccessApplicationsListResultItemBrowserVNCApplicationScimConfig
   mappings?: AccessApplicationsListResultItemBrowserVNCApplicationScimConfigMappingsList | null;
 }
 export type AccessApplicationsListResultItemBrowserVNCApplicationSelfHostedDomainsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsListResultItemBrowserVNCApplicationTagsList = Array<string>;
 export interface AccessApplicationsListResultItemBrowserVNCApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -52985,7 +52983,7 @@ export type AccessApplicationsListResultItemAppLauncherApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsListResultItemAppLauncherApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsListResultItemAppLauncherApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsListResultItemAppLauncherApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsListResultItemAppLauncherApplicationFooterLinksItem =
   AccessApplicationsCreateRequestFooterLinksItem;
@@ -53553,7 +53551,7 @@ export type AccessApplicationsListResultItemDeviceEnrollmentPermissionsApplicati
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsListResultItemDeviceEnrollmentPermissionsApplicationAllowedIdpsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsListResultItemDeviceEnrollmentPermissionsApplicationCustomPagesList =
   Array<string>;
 export type AccessApplicationsListResultItemDeviceEnrollmentPermissionsApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
@@ -54104,7 +54102,7 @@ export type AccessApplicationsListResultItemBrowserIsolationPermissionsApplicati
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsListResultItemBrowserIsolationPermissionsApplicationAllowedIdpsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsListResultItemBrowserIsolationPermissionsApplicationCustomPagesList =
   Array<string>;
 export type AccessApplicationsListResultItemBrowserIsolationPermissionsApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
@@ -54655,7 +54653,7 @@ export type AccessApplicationsListResultItemGatewayIdentityProxyEndpointApplicat
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsListResultItemGatewayIdentityProxyEndpointApplicationAllowedIdpsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsListResultItemGatewayIdentityProxyEndpointApplicationCustomPagesList =
   Array<string>;
 export type AccessApplicationsListResultItemGatewayIdentityProxyEndpointApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
@@ -56426,9 +56424,9 @@ export type AccessApplicationsListResultItemBrowserRDPApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsListResultItemBrowserRDPApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsListResultItemBrowserRDPApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsListResultItemBrowserRDPApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsListResultItemBrowserRDPApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -56442,7 +56440,7 @@ export type AccessApplicationsListResultItemBrowserRDPApplicationCorsHeadersAllo
 export type AccessApplicationsListResultItemBrowserRDPApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsListResultItemBrowserRDPApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsListResultItemBrowserRDPApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsListResultItemBrowserRDPApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -57267,7 +57265,7 @@ export interface AccessApplicationsListResultItemBrowserRDPApplicationScimConfig
   mappings?: AccessApplicationsListResultItemBrowserRDPApplicationScimConfigMappingsList | null;
 }
 export type AccessApplicationsListResultItemBrowserRDPApplicationSelfHostedDomainsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsListResultItemBrowserRDPApplicationTagsList = Array<string>;
 export interface AccessApplicationsListResultItemBrowserRDPApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -57358,7 +57356,7 @@ export type AccessApplicationsListResultItemMcpServerApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsListResultItemMcpServerApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsListResultItemMcpServerApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsListResultItemMcpServerApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsListResultItemMcpServerApplicationDestinationsItemPublicDestinationOverridesItemBehavior =
   "public";
@@ -58215,7 +58213,7 @@ export type AccessApplicationsListResultItemMcpServerPortalApplicationType =
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsListResultItemMcpServerPortalApplicationAllowedIdpsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsListResultItemMcpServerPortalApplicationCustomPagesList =
   Array<string>;
 export type AccessApplicationsListResultItemMcpServerPortalApplicationDestinationsItemPublicDestinationOverridesItemBehavior =
@@ -73052,7 +73050,7 @@ export type AccessApplicationsUpdateRequestType =
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsUpdateRequestUserPopulationsList = Array<string>;
-export type AccessApplicationsUpdateRequestAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsUpdateRequestAllowedIdpsList = Array<string>;
 export type AccessApplicationsUpdateRequestDestinationsAccessEndUserPropsItemAccessEndUserPublicDestinationOverridesItemBehavior =
   "public";
 export interface AccessApplicationsUpdateRequestDestinationsAccessEndUserPropsItemAccessEndUserPublicDestinationOverridesItem {
@@ -73311,8 +73309,8 @@ export type AccessApplicationsUpdateRequestDestinationsSelfHostedApplicationList
 export type AccessApplicationsUpdateRequestDestinations =
   | AccessApplicationsUpdateRequestDestinationsAccessEndUserPropsList
   | AccessApplicationsUpdateRequestDestinationsSelfHostedApplicationList;
-export type AccessApplicationsUpdateRequestSelfHostedDomainsList = Array<unknown>;
-export type AccessApplicationsUpdateRequestCorsHeadersAllowedHeadersList = Array<unknown>;
+export type AccessApplicationsUpdateRequestSelfHostedDomainsList = Array<string>;
+export type AccessApplicationsUpdateRequestCorsHeadersAllowedHeadersList = Array<string>;
 export type AccessApplicationsUpdateRequestCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -73326,7 +73324,7 @@ export type AccessApplicationsUpdateRequestCorsHeadersAllowedMethodsItem =
 export type AccessApplicationsUpdateRequestCorsHeadersAllowedMethodsList = Array<
   AccessApplicationsUpdateRequestCorsHeadersAllowedMethodsItem | (string & {})
 >;
-export type AccessApplicationsUpdateRequestCorsHeadersAllowedOriginsList = Array<unknown>;
+export type AccessApplicationsUpdateRequestCorsHeadersAllowedOriginsList = Array<string>;
 export interface AccessApplicationsUpdateRequestCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean;
@@ -74518,7 +74516,7 @@ export type AccessApplicationsUpdateResultEndUserApplicationType =
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsUpdateResultEndUserApplicationUserPopulationsList = Array<string>;
-export type AccessApplicationsUpdateResultEndUserApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsUpdateResultEndUserApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsUpdateResultEndUserApplicationDestinationsItemAccessEndUserPublicDestinationOverridesItemBehavior =
   "public";
 export interface AccessApplicationsUpdateResultEndUserApplicationDestinationsItemAccessEndUserPublicDestinationOverridesItem {
@@ -74618,7 +74616,7 @@ export type AccessApplicationsUpdateResultEndUserApplicationDestinationsItem =
   | AccessApplicationsUpdateResultEndUserApplicationDestinationsItemAccessEndUserAllPreviewWorkersDestination;
 export type AccessApplicationsUpdateResultEndUserApplicationDestinationsList =
   Array<AccessApplicationsUpdateResultEndUserApplicationDestinationsItem>;
-export type AccessApplicationsUpdateResultEndUserApplicationSelfHostedDomainsList = Array<unknown>;
+export type AccessApplicationsUpdateResultEndUserApplicationSelfHostedDomainsList = Array<string>;
 export interface AccessApplicationsUpdateResultEndUserApplication {
   /** Beta: Optional configuration for managing an OAuth authorization flow controlled by Access. When set, Access will act as the OAuth authorization server for this application. Only compatible with OAuth clients that support [RFC 8707](https://datatracker.ietf.org/doc/html/rfc8707) (Resource Indicators for OAuth 2.0). This feature is currently in beta. */
   oauthConfiguration: AccessApplicationsUpdateResultEndUserApplicationOauthConfiguration;
@@ -74661,9 +74659,9 @@ export type AccessApplicationsUpdateResultSelfHostedApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsUpdateResultSelfHostedApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsUpdateResultSelfHostedApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsUpdateResultSelfHostedApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsUpdateResultSelfHostedApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -74677,7 +74675,7 @@ export type AccessApplicationsUpdateResultSelfHostedApplicationCorsHeadersAllowe
 export type AccessApplicationsUpdateResultSelfHostedApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsUpdateResultSelfHostedApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsUpdateResultSelfHostedApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsUpdateResultSelfHostedApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -75502,7 +75500,7 @@ export interface AccessApplicationsUpdateResultSelfHostedApplicationScimConfig {
   mappings?: AccessApplicationsUpdateResultSelfHostedApplicationScimConfigMappingsList | null;
 }
 export type AccessApplicationsUpdateResultSelfHostedApplicationSelfHostedDomainsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsUpdateResultSelfHostedApplicationTagsList = Array<string>;
 export interface AccessApplicationsUpdateResultSelfHostedApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -75576,7 +75574,7 @@ export interface AccessApplicationsUpdateResultSelfHostedApplication {
   /** When the application was last updated. */
   updatedAt?: string | null;
 }
-export type AccessApplicationsUpdateResultSaaSApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsUpdateResultSaaSApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsUpdateResultSaaSApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsUpdateResultSaaSApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
   Array<string>;
@@ -76421,9 +76419,9 @@ export type AccessApplicationsUpdateResultBrowserSSHApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsUpdateResultBrowserSSHApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsUpdateResultBrowserSSHApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsUpdateResultBrowserSSHApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsUpdateResultBrowserSSHApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -76437,7 +76435,7 @@ export type AccessApplicationsUpdateResultBrowserSSHApplicationCorsHeadersAllowe
 export type AccessApplicationsUpdateResultBrowserSSHApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsUpdateResultBrowserSSHApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsUpdateResultBrowserSSHApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsUpdateResultBrowserSSHApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -77262,7 +77260,7 @@ export interface AccessApplicationsUpdateResultBrowserSSHApplicationScimConfig {
   mappings?: AccessApplicationsUpdateResultBrowserSSHApplicationScimConfigMappingsList | null;
 }
 export type AccessApplicationsUpdateResultBrowserSSHApplicationSelfHostedDomainsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsUpdateResultBrowserSSHApplicationTagsList = Array<string>;
 export interface AccessApplicationsUpdateResultBrowserSSHApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -77352,9 +77350,9 @@ export type AccessApplicationsUpdateResultBrowserVNCApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsUpdateResultBrowserVNCApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsUpdateResultBrowserVNCApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsUpdateResultBrowserVNCApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsUpdateResultBrowserVNCApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -77368,7 +77366,7 @@ export type AccessApplicationsUpdateResultBrowserVNCApplicationCorsHeadersAllowe
 export type AccessApplicationsUpdateResultBrowserVNCApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsUpdateResultBrowserVNCApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsUpdateResultBrowserVNCApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsUpdateResultBrowserVNCApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -78193,7 +78191,7 @@ export interface AccessApplicationsUpdateResultBrowserVNCApplicationScimConfig {
   mappings?: AccessApplicationsUpdateResultBrowserVNCApplicationScimConfigMappingsList | null;
 }
 export type AccessApplicationsUpdateResultBrowserVNCApplicationSelfHostedDomainsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsUpdateResultBrowserVNCApplicationTagsList = Array<string>;
 export interface AccessApplicationsUpdateResultBrowserVNCApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -78283,7 +78281,7 @@ export type AccessApplicationsUpdateResultAppLauncherApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsUpdateResultAppLauncherApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsUpdateResultAppLauncherApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsUpdateResultAppLauncherApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsUpdateResultAppLauncherApplicationFooterLinksItem =
   AccessApplicationsCreateRequestFooterLinksItem;
@@ -78851,7 +78849,7 @@ export type AccessApplicationsUpdateResultDeviceEnrollmentPermissionsApplication
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsUpdateResultDeviceEnrollmentPermissionsApplicationAllowedIdpsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsUpdateResultDeviceEnrollmentPermissionsApplicationCustomPagesList =
   Array<string>;
 export type AccessApplicationsUpdateResultDeviceEnrollmentPermissionsApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
@@ -79402,7 +79400,7 @@ export type AccessApplicationsUpdateResultBrowserIsolationPermissionsApplication
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsUpdateResultBrowserIsolationPermissionsApplicationAllowedIdpsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsUpdateResultBrowserIsolationPermissionsApplicationCustomPagesList =
   Array<string>;
 export type AccessApplicationsUpdateResultBrowserIsolationPermissionsApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
@@ -79953,7 +79951,7 @@ export type AccessApplicationsUpdateResultGatewayIdentityProxyEndpointApplicatio
   | "mcp_portal"
   | "proxy_endpoint";
 export type AccessApplicationsUpdateResultGatewayIdentityProxyEndpointApplicationAllowedIdpsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsUpdateResultGatewayIdentityProxyEndpointApplicationCustomPagesList =
   Array<string>;
 export type AccessApplicationsUpdateResultGatewayIdentityProxyEndpointApplicationPoliciesItemApprovalGroupsItemEmailAddressesList =
@@ -81721,9 +81719,9 @@ export type AccessApplicationsUpdateResultBrowserRDPApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsUpdateResultBrowserRDPApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsUpdateResultBrowserRDPApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsUpdateResultBrowserRDPApplicationCorsHeadersAllowedHeadersList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsUpdateResultBrowserRDPApplicationCorsHeadersAllowedMethodsItem =
   | "GET"
   | "POST"
@@ -81737,7 +81735,7 @@ export type AccessApplicationsUpdateResultBrowserRDPApplicationCorsHeadersAllowe
 export type AccessApplicationsUpdateResultBrowserRDPApplicationCorsHeadersAllowedMethodsList =
   Array<AccessApplicationsUpdateResultBrowserRDPApplicationCorsHeadersAllowedMethodsItem>;
 export type AccessApplicationsUpdateResultBrowserRDPApplicationCorsHeadersAllowedOriginsList =
-  Array<unknown>;
+  Array<string>;
 export interface AccessApplicationsUpdateResultBrowserRDPApplicationCorsHeaders {
   /** Allows all HTTP request headers. */
   allowAllHeaders?: boolean | null;
@@ -82562,7 +82560,7 @@ export interface AccessApplicationsUpdateResultBrowserRDPApplicationScimConfig {
   mappings?: AccessApplicationsUpdateResultBrowserRDPApplicationScimConfigMappingsList | null;
 }
 export type AccessApplicationsUpdateResultBrowserRDPApplicationSelfHostedDomainsList =
-  Array<unknown>;
+  Array<string>;
 export type AccessApplicationsUpdateResultBrowserRDPApplicationTagsList = Array<string>;
 export interface AccessApplicationsUpdateResultBrowserRDPApplication {
   /** The primary hostname and path secured by Access. This domain will be displayed if the app is visible in the App Launcher. */
@@ -82653,7 +82651,7 @@ export type AccessApplicationsUpdateResultMcpServerApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsUpdateResultMcpServerApplicationAllowedIdpsList = Array<unknown>;
+export type AccessApplicationsUpdateResultMcpServerApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsUpdateResultMcpServerApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsUpdateResultMcpServerApplicationDestinationsItemPublicDestinationOverridesItemBehavior =
   "public";
@@ -83509,8 +83507,7 @@ export type AccessApplicationsUpdateResultMcpServerPortalApplicationType =
   | "mcp"
   | "mcp_portal"
   | "proxy_endpoint";
-export type AccessApplicationsUpdateResultMcpServerPortalApplicationAllowedIdpsList =
-  Array<unknown>;
+export type AccessApplicationsUpdateResultMcpServerPortalApplicationAllowedIdpsList = Array<string>;
 export type AccessApplicationsUpdateResultMcpServerPortalApplicationCustomPagesList = Array<string>;
 export type AccessApplicationsUpdateResultMcpServerPortalApplicationDestinationsItemPublicDestinationOverridesItemBehavior =
   "public";
@@ -93515,7 +93512,7 @@ export const createAccessApplicationForZone: API.OperationMethod<
   CreateAccessApplicationForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23521, __c735, 1) as any as S.Schema<CreateAccessApplicationForZoneRequest>,
+  input: __S(23489, __c734, 1) as any as S.Schema<CreateAccessApplicationForZoneRequest>,
   output: __S(23112, __c722, 8) as any as S.Schema<CreateAccessApplicationResponse>,
   errors: [AccessReferenceNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -93532,8 +93529,8 @@ export const createAccessApplicationPolicyForAccount: API.OperationMethod<
   CreateAccessApplicationPolicyForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23554, __c736, 2) as any as S.Schema<CreateAccessApplicationPolicyForAccountRequest>,
-  output: __S(23556, __c736, 4) as any as S.Schema<CreateAccessApplicationPolicyForAccountResponse>,
+  input: __S(23522, __c735, 2) as any as S.Schema<CreateAccessApplicationPolicyForAccountRequest>,
+  output: __S(23524, __c735, 4) as any as S.Schema<CreateAccessApplicationPolicyForAccountResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93549,8 +93546,8 @@ export const createAccessApplicationPolicyForZone: API.OperationMethod<
   CreateAccessApplicationPolicyForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23650, __c739, 2) as any as S.Schema<CreateAccessApplicationPolicyForZoneRequest>,
-  output: __S(23652, __c739, 4) as any as S.Schema<CreateAccessApplicationPolicyForZoneResponse>,
+  input: __S(23618, __c738, 2) as any as S.Schema<CreateAccessApplicationPolicyForZoneRequest>,
+  output: __S(23620, __c738, 4) as any as S.Schema<CreateAccessApplicationPolicyForZoneResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93566,8 +93563,8 @@ export const createAccessApplicationPolicyTest: API.OperationMethod<
   CreateAccessApplicationPolicyTestError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23682, __c740, 2) as any as S.Schema<CreateAccessApplicationPolicyTestRequest>,
-  output: __S(23683, __c740, 3) as any as S.Schema<CreateAccessApplicationPolicyTestResponse>,
+  input: __S(23650, __c739, 2) as any as S.Schema<CreateAccessApplicationPolicyTestRequest>,
+  output: __S(23651, __c739, 3) as any as S.Schema<CreateAccessApplicationPolicyTestResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93583,8 +93580,8 @@ export const createAccessBookmark: API.OperationMethod<
   CreateAccessBookmarkError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23712, __c741, 0) as any as S.Schema<CreateAccessBookmarkRequest>,
-  output: __S(23744, __c742, 0) as any as S.Schema<CreateAccessBookmarkResponse>,
+  input: __S(23680, __c740, 0) as any as S.Schema<CreateAccessBookmarkRequest>,
+  output: __S(23712, __c741, 0) as any as S.Schema<CreateAccessBookmarkResponse>,
   errors: [AccessBookmarkNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93602,8 +93599,8 @@ export const createAccessCertificateForAccount: API.OperationMethod<
   CreateAccessCertificateForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23776, __c743, 0) as any as S.Schema<CreateAccessCertificateForAccountRequest>,
-  output: __S(23808, __c744, 0) as any as S.Schema<CreateAccessCertificateResponse>,
+  input: __S(23744, __c742, 0) as any as S.Schema<CreateAccessCertificateForAccountRequest>,
+  output: __S(23776, __c743, 0) as any as S.Schema<CreateAccessCertificateResponse>,
   errors: [AccessCertificateQuotaExceeded, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93621,8 +93618,8 @@ export const createAccessCertificateForZone: API.OperationMethod<
   CreateAccessCertificateForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23840, __c745, 0) as any as S.Schema<CreateAccessCertificateForZoneRequest>,
-  output: __S(23808, __c744, 0) as any as S.Schema<CreateAccessCertificateResponse>,
+  input: __S(23808, __c744, 0) as any as S.Schema<CreateAccessCertificateForZoneRequest>,
+  output: __S(23776, __c743, 0) as any as S.Schema<CreateAccessCertificateResponse>,
   errors: [AccessCertificateQuotaExceeded, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93638,8 +93635,8 @@ export const createAccessCustomPage: API.OperationMethod<
   CreateAccessCustomPageError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23872, __c746, 0) as any as S.Schema<CreateAccessCustomPageRequest>,
-  output: __S(23936, __c748, 0) as any as S.Schema<CreateAccessCustomPageResponse>,
+  input: __S(23840, __c745, 0) as any as S.Schema<CreateAccessCustomPageRequest>,
+  output: __S(23904, __c747, 0) as any as S.Schema<CreateAccessCustomPageResponse>,
   errors: [AccessCustomPagesNotEntitled, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93655,8 +93652,8 @@ export const createAccessGatewayCa: API.OperationMethod<
   CreateAccessGatewayCaError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23968, __c749, 0) as any as S.Schema<CreateAccessGatewayCaRequest>,
-  output: __S(23969, __c749, 1) as any as S.Schema<CreateAccessGatewayCaResponse>,
+  input: __S(23936, __c748, 0) as any as S.Schema<CreateAccessGatewayCaRequest>,
+  output: __S(23937, __c748, 1) as any as S.Schema<CreateAccessGatewayCaResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93672,8 +93669,8 @@ export const createAccessGroupForAccount: API.OperationMethod<
   CreateAccessGroupForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24000, __c750, 0) as any as S.Schema<CreateAccessGroupForAccountRequest>,
-  output: __S(24040, __c751, 8) as any as S.Schema<CreateAccessGroupResponse>,
+  input: __S(23968, __c749, 0) as any as S.Schema<CreateAccessGroupForAccountRequest>,
+  output: __S(24008, __c750, 8) as any as S.Schema<CreateAccessGroupResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93689,8 +93686,8 @@ export const createAccessGroupForZone: API.OperationMethod<
   CreateAccessGroupForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24064, __c752, 0) as any as S.Schema<CreateAccessGroupForZoneRequest>,
-  output: __S(24040, __c751, 8) as any as S.Schema<CreateAccessGroupResponse>,
+  input: __S(24032, __c751, 0) as any as S.Schema<CreateAccessGroupForZoneRequest>,
+  output: __S(24008, __c750, 8) as any as S.Schema<CreateAccessGroupResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93706,8 +93703,8 @@ export const createAccessIdpFederationGrant: API.OperationMethod<
   CreateAccessIdpFederationGrantError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24096, __c753, 0) as any as S.Schema<CreateAccessIdpFederationGrantRequest>,
-  output: __S(24128, __c754, 0) as any as S.Schema<CreateAccessIdpFederationGrantResponse>,
+  input: __S(24064, __c752, 0) as any as S.Schema<CreateAccessIdpFederationGrantRequest>,
+  output: __S(24096, __c753, 0) as any as S.Schema<CreateAccessIdpFederationGrantResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93723,8 +93720,8 @@ export const createAccessInfrastructureTarget: API.OperationMethod<
   CreateAccessInfrastructureTargetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24160, __c755, 0) as any as S.Schema<CreateAccessInfrastructureTargetRequest>,
-  output: __S(24192, __c756, 0) as any as S.Schema<CreateAccessInfrastructureTargetResponse>,
+  input: __S(24128, __c754, 0) as any as S.Schema<CreateAccessInfrastructureTargetRequest>,
+  output: __S(24160, __c755, 0) as any as S.Schema<CreateAccessInfrastructureTargetResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93740,8 +93737,8 @@ export const createAccessPolicy: API.OperationMethod<
   CreateAccessPolicyError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24226, __c757, 2) as any as S.Schema<CreateAccessPolicyRequest>,
-  output: __S(24233, __c757, 9) as any as S.Schema<CreateAccessPolicyResponse>,
+  input: __S(24194, __c756, 2) as any as S.Schema<CreateAccessPolicyRequest>,
+  output: __S(24201, __c756, 9) as any as S.Schema<CreateAccessPolicyResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93757,8 +93754,8 @@ export const createAccessServiceTokenForAccount: API.OperationMethod<
   CreateAccessServiceTokenForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24320, __c760, 0) as any as S.Schema<CreateAccessServiceTokenForAccountRequest>,
-  output: __S(24352, __c761, 0) as any as S.Schema<CreateAccessServiceTokenResponse>,
+  input: __S(24288, __c759, 0) as any as S.Schema<CreateAccessServiceTokenForAccountRequest>,
+  output: __S(24320, __c760, 0) as any as S.Schema<CreateAccessServiceTokenResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93774,8 +93771,8 @@ export const createAccessServiceTokenForZone: API.OperationMethod<
   CreateAccessServiceTokenForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24384, __c762, 0) as any as S.Schema<CreateAccessServiceTokenForZoneRequest>,
-  output: __S(24352, __c761, 0) as any as S.Schema<CreateAccessServiceTokenResponse>,
+  input: __S(24352, __c761, 0) as any as S.Schema<CreateAccessServiceTokenForZoneRequest>,
+  output: __S(24320, __c760, 0) as any as S.Schema<CreateAccessServiceTokenResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93791,8 +93788,8 @@ export const createAccessTag: API.OperationMethod<
   CreateAccessTagError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24416, __c763, 0) as any as S.Schema<CreateAccessTagRequest>,
-  output: __S(24448, __c764, 0) as any as S.Schema<CreateAccessTagResponse>,
+  input: __S(24384, __c762, 0) as any as S.Schema<CreateAccessTagRequest>,
+  output: __S(24416, __c763, 0) as any as S.Schema<CreateAccessTagResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93808,8 +93805,8 @@ export const createAccessUser: API.OperationMethod<
   CreateAccessUserError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24480, __c765, 0) as any as S.Schema<CreateAccessUserRequest>,
-  output: __S(24512, __c766, 0) as any as S.Schema<CreateAccessUserResponse>,
+  input: __S(24448, __c764, 0) as any as S.Schema<CreateAccessUserRequest>,
+  output: __S(24480, __c765, 0) as any as S.Schema<CreateAccessUserResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93825,8 +93822,8 @@ export const createAccessUserPopulation: API.OperationMethod<
   CreateAccessUserPopulationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24544, __c767, 0) as any as S.Schema<CreateAccessUserPopulationRequest>,
-  output: __S(24576, __c768, 0) as any as S.Schema<CreateAccessUserPopulationResponse>,
+  input: __S(24512, __c766, 0) as any as S.Schema<CreateAccessUserPopulationRequest>,
+  output: __S(24544, __c767, 0) as any as S.Schema<CreateAccessUserPopulationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93842,8 +93839,8 @@ export const createAccessUserPopulationsUser: API.OperationMethod<
   CreateAccessUserPopulationsUserError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24608, __c769, 0) as any as S.Schema<CreateAccessUserPopulationsUserRequest>,
-  output: __S(24704, __c772, 0) as any as S.Schema<CreateAccessUserPopulationsUserResponse>,
+  input: __S(24576, __c768, 0) as any as S.Schema<CreateAccessUserPopulationsUserRequest>,
+  output: __S(24672, __c771, 0) as any as S.Schema<CreateAccessUserPopulationsUserResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93859,8 +93856,8 @@ export const createCasbIntegration: API.OperationMethod<
   CreateCasbIntegrationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24768, __c774, 0) as any as S.Schema<CreateCasbIntegrationRequest>,
-  output: __S(24801, __c775, 1) as any as S.Schema<CreateCasbIntegrationResponse>,
+  input: __S(24736, __c773, 0) as any as S.Schema<CreateCasbIntegrationRequest>,
+  output: __S(24769, __c774, 1) as any as S.Schema<CreateCasbIntegrationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93876,8 +93873,8 @@ export const createCasbPostureFindingType: API.OperationMethod<
   CreateCasbPostureFindingTypeError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24832, __c776, 0) as any as S.Schema<CreateCasbPostureFindingTypeRequest>,
-  output: __S(24864, __c777, 0) as any as S.Schema<CreateCasbPostureFindingTypeResponse>,
+  input: __S(24800, __c775, 0) as any as S.Schema<CreateCasbPostureFindingTypeRequest>,
+  output: __S(24832, __c776, 0) as any as S.Schema<CreateCasbPostureFindingTypeResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93893,8 +93890,8 @@ export const createCasbPosturePolicy: API.OperationMethod<
   CreateCasbPosturePolicyError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24896, __c778, 0) as any as S.Schema<CreateCasbPosturePolicyRequest>,
-  output: __S(24960, __c780, 0) as any as S.Schema<CreateCasbPosturePolicyResponse>,
+  input: __S(24864, __c777, 0) as any as S.Schema<CreateCasbPosturePolicyRequest>,
+  output: __S(24928, __c779, 0) as any as S.Schema<CreateCasbPosturePolicyResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93910,8 +93907,8 @@ export const createCasbPostureRemediationsJob: API.OperationMethod<
   CreateCasbPostureRemediationsJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25024, __c782, 0) as any as S.Schema<CreateCasbPostureRemediationsJobRequest>,
-  output: __S(25033, __c782, 9) as any as S.Schema<CreateCasbPostureRemediationsJobResponse>,
+  input: __S(24992, __c781, 0) as any as S.Schema<CreateCasbPostureRemediationsJobRequest>,
+  output: __S(25001, __c781, 9) as any as S.Schema<CreateCasbPostureRemediationsJobResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93927,8 +93924,8 @@ export const createCasbPostureWebhook: API.OperationMethod<
   CreateCasbPostureWebhookError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25088, __c784, 0) as any as S.Schema<CreateCasbPostureWebhookRequest>,
-  output: __S(25152, __c786, 0) as any as S.Schema<CreateCasbPostureWebhookResponse>,
+  input: __S(25056, __c783, 0) as any as S.Schema<CreateCasbPostureWebhookRequest>,
+  output: __S(25120, __c785, 0) as any as S.Schema<CreateCasbPostureWebhookResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93944,8 +93941,8 @@ export const createCasbPostureWebhooksJob: API.OperationMethod<
   CreateCasbPostureWebhooksJobError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25184, __c787, 0) as any as S.Schema<CreateCasbPostureWebhooksJobRequest>,
-  output: __S(25190, __c787, 6) as any as S.Schema<CreateCasbPostureWebhooksJobResponse>,
+  input: __S(25152, __c786, 0) as any as S.Schema<CreateCasbPostureWebhooksJobRequest>,
+  output: __S(25158, __c786, 6) as any as S.Schema<CreateCasbPostureWebhooksJobResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93961,8 +93958,8 @@ export const createCwsBasicAuthCredentials: API.OperationMethod<
   CreateCwsBasicAuthCredentialsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25216, __c788, 0) as any as S.Schema<CreateCwsBasicAuthCredentialsRequest>,
-  output: __S(25248, __c789, 0) as any as S.Schema<CreateCwsBasicAuthCredentialsResponse>,
+  input: __S(25184, __c787, 0) as any as S.Schema<CreateCwsBasicAuthCredentialsRequest>,
+  output: __S(25216, __c788, 0) as any as S.Schema<CreateCwsBasicAuthCredentialsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93978,8 +93975,8 @@ export const createCwsBasicAuthCredentialsSecret: API.OperationMethod<
   CreateCwsBasicAuthCredentialsSecretError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25280, __c790, 0) as any as S.Schema<CreateCwsBasicAuthCredentialsSecretRequest>,
-  output: __S(25312, __c791, 0) as any as S.Schema<CreateCwsBasicAuthCredentialsSecretResponse>,
+  input: __S(25248, __c789, 0) as any as S.Schema<CreateCwsBasicAuthCredentialsSecretRequest>,
+  output: __S(25280, __c790, 0) as any as S.Schema<CreateCwsBasicAuthCredentialsSecretResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -93995,8 +93992,8 @@ export const createCwsDeployment: API.OperationMethod<
   CreateCwsDeploymentError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25344, __c792, 0) as any as S.Schema<CreateCwsDeploymentRequest>,
-  output: __S(25376, __c793, 0) as any as S.Schema<CreateCwsDeploymentResponse>,
+  input: __S(25312, __c791, 0) as any as S.Schema<CreateCwsDeploymentRequest>,
+  output: __S(25344, __c792, 0) as any as S.Schema<CreateCwsDeploymentResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -94012,8 +94009,8 @@ export const createCwsDomainAcl: API.OperationMethod<
   CreateCwsDomainAclError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25408, __c794, 0) as any as S.Schema<CreateCwsDomainAclRequest>,
-  output: __S(25472, __c796, 0) as any as S.Schema<CreateCwsDomainAclResponse>,
+  input: __S(25376, __c793, 0) as any as S.Schema<CreateCwsDomainAclRequest>,
+  output: __S(25440, __c795, 0) as any as S.Schema<CreateCwsDomainAclResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -94029,8 +94026,8 @@ export const createCwsPolicy: API.OperationMethod<
   CreateCwsPolicyError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25504, __c797, 0) as any as S.Schema<CreateCwsPolicyRequest>,
-  output: __S(25536, __c798, 0) as any as S.Schema<CreateCwsPolicyResponse>,
+  input: __S(25472, __c796, 0) as any as S.Schema<CreateCwsPolicyRequest>,
+  output: __S(25504, __c797, 0) as any as S.Schema<CreateCwsPolicyResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -94046,8 +94043,8 @@ export const createCwsPolicySet: API.OperationMethod<
   CreateCwsPolicySetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25568, __c799, 0) as any as S.Schema<CreateCwsPolicySetRequest>,
-  output: __S(25632, __c801, 0) as any as S.Schema<CreateCwsPolicySetResponse>,
+  input: __S(25536, __c798, 0) as any as S.Schema<CreateCwsPolicySetRequest>,
+  output: __S(25600, __c800, 0) as any as S.Schema<CreateCwsPolicySetResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -94063,8 +94060,8 @@ export const createCwsRegoMetadata: API.OperationMethod<
   CreateCwsRegoMetadataError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25696, __c803, 0) as any as S.Schema<CreateCwsRegoMetadataRequest>,
-  output: __S(25728, __c804, 0) as any as S.Schema<CreateCwsRegoMetadataResponse>,
+  input: __S(25664, __c802, 0) as any as S.Schema<CreateCwsRegoMetadataRequest>,
+  output: __S(25696, __c803, 0) as any as S.Schema<CreateCwsRegoMetadataResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -94080,8 +94077,8 @@ export const createCwsRegoModule: API.OperationMethod<
   CreateCwsRegoModuleError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25760, __c805, 0) as any as S.Schema<CreateCwsRegoModuleRequest>,
-  output: __S(25792, __c806, 0) as any as S.Schema<CreateCwsRegoModuleResponse>,
+  input: __S(25728, __c804, 0) as any as S.Schema<CreateCwsRegoModuleRequest>,
+  output: __S(25760, __c805, 0) as any as S.Schema<CreateCwsRegoModuleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -94097,8 +94094,8 @@ export const createCwsTenantStructure: API.OperationMethod<
   CreateCwsTenantStructureError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25824, __c807, 0) as any as S.Schema<CreateCwsTenantStructureRequest>,
-  output: __S(25856, __c808, 0) as any as S.Schema<CreateCwsTenantStructureResponse>,
+  input: __S(25792, __c806, 0) as any as S.Schema<CreateCwsTenantStructureRequest>,
+  output: __S(25824, __c807, 0) as any as S.Schema<CreateCwsTenantStructureResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -96833,7 +96830,7 @@ export const getAccessBookmark: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<GetAccessBookmarkRequest>,
-  output: __S(23744, __c742, 0) as any as S.Schema<GetAccessBookmarkResponse>,
+  output: __S(23712, __c741, 0) as any as S.Schema<GetAccessBookmarkResponse>,
   errors: [AccessBookmarkNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -96850,7 +96847,7 @@ export const getAccessCertificateForAccount: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<GetAccessCertificateForAccountRequest>,
-  output: __S(23808, __c744, 0) as any as S.Schema<GetAccessCertificateResponse>,
+  output: __S(23776, __c743, 0) as any as S.Schema<GetAccessCertificateResponse>,
   errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -96867,7 +96864,7 @@ export const getAccessCertificateForZone: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<GetAccessCertificateForZoneRequest>,
-  output: __S(23808, __c744, 0) as any as S.Schema<GetAccessCertificateResponse>,
+  output: __S(23776, __c743, 0) as any as S.Schema<GetAccessCertificateResponse>,
   errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -96979,7 +96976,7 @@ export const getAccessIdpFederationGrant: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<GetAccessIdpFederationGrantRequest>,
-  output: __S(24128, __c754, 0) as any as S.Schema<GetAccessIdpFederationGrantResponse>,
+  output: __S(24096, __c753, 0) as any as S.Schema<GetAccessIdpFederationGrantResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -96996,7 +96993,7 @@ export const getAccessInfrastructureTarget: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<GetAccessInfrastructureTargetRequest>,
-  output: __S(24192, __c756, 0) as any as S.Schema<GetAccessInfrastructureTargetResponse>,
+  output: __S(24160, __c755, 0) as any as S.Schema<GetAccessInfrastructureTargetResponse>,
   errors: [TargetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97115,7 +97112,7 @@ export const getAccessTag: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<GetAccessTagRequest>,
-  output: __S(24448, __c764, 0) as any as S.Schema<GetAccessTagResponse>,
+  output: __S(24416, __c763, 0) as any as S.Schema<GetAccessTagResponse>,
   errors: [AccessTagNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97132,7 +97129,7 @@ export const getAccessUser: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<GetAccessUserRequest>,
-  output: __S(24512, __c766, 0) as any as S.Schema<GetAccessUserResponse>,
+  output: __S(24480, __c765, 0) as any as S.Schema<GetAccessUserResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97183,7 +97180,7 @@ export const getAccessUserPopulation: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<GetAccessUserPopulationRequest>,
-  output: __S(24576, __c768, 0) as any as S.Schema<GetAccessUserPopulationResponse>,
+  output: __S(24544, __c767, 0) as any as S.Schema<GetAccessUserPopulationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97200,7 +97197,7 @@ export const getAccessUserPopulationsUser: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<GetAccessUserPopulationsUserRequest>,
-  output: __S(24704, __c772, 0) as any as S.Schema<GetAccessUserPopulationsUserResponse>,
+  output: __S(24672, __c771, 0) as any as S.Schema<GetAccessUserPopulationsUserResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97234,7 +97231,7 @@ export const getCasbIntegration: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<GetCasbIntegrationRequest>,
-  output: __S(24801, __c775, 1) as any as S.Schema<GetCasbIntegrationResponse>,
+  output: __S(24769, __c774, 1) as any as S.Schema<GetCasbIntegrationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97336,7 +97333,7 @@ export const getCasbPosturePolicy: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<GetCasbPosturePolicyRequest>,
-  output: __S(24960, __c780, 0) as any as S.Schema<GetCasbPosturePolicyResponse>,
+  output: __S(24928, __c779, 0) as any as S.Schema<GetCasbPosturePolicyResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97353,7 +97350,7 @@ export const getCasbPostureWebhook: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<GetCasbPostureWebhookRequest>,
-  output: __S(25152, __c786, 0) as any as S.Schema<GetCasbPostureWebhookResponse>,
+  output: __S(25120, __c785, 0) as any as S.Schema<GetCasbPostureWebhookResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97387,7 +97384,7 @@ export const getCwsBasicAuthCredentials: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<GetCwsBasicAuthCredentialsRequest>,
-  output: __S(25248, __c789, 0) as any as S.Schema<GetCwsBasicAuthCredentialsResponse>,
+  output: __S(25216, __c788, 0) as any as S.Schema<GetCwsBasicAuthCredentialsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97404,7 +97401,7 @@ export const getCwsBasicAuthCredentialsSecret: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9024, __c282, 0) as any as S.Schema<GetCwsBasicAuthCredentialsSecretRequest>,
-  output: __S(25312, __c791, 0) as any as S.Schema<GetCwsBasicAuthCredentialsSecretResponse>,
+  output: __S(25280, __c790, 0) as any as S.Schema<GetCwsBasicAuthCredentialsSecretResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97421,7 +97418,7 @@ export const getCwsDeployment: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9056, __c283, 0) as any as S.Schema<GetCwsDeploymentRequest>,
-  output: __S(25376, __c793, 0) as any as S.Schema<GetCwsDeploymentResponse>,
+  output: __S(25344, __c792, 0) as any as S.Schema<GetCwsDeploymentResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97438,7 +97435,7 @@ export const getCwsDomainAcl: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9088, __c284, 0) as any as S.Schema<GetCwsDomainAclRequest>,
-  output: __S(25472, __c796, 0) as any as S.Schema<GetCwsDomainAclResponse>,
+  output: __S(25440, __c795, 0) as any as S.Schema<GetCwsDomainAclResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97455,7 +97452,7 @@ export const getCwsPolicy: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<GetCwsPolicyRequest>,
-  output: __S(25536, __c798, 0) as any as S.Schema<GetCwsPolicyResponse>,
+  output: __S(25504, __c797, 0) as any as S.Schema<GetCwsPolicyResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97472,7 +97469,7 @@ export const getCwsPolicySet: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<GetCwsPolicySetRequest>,
-  output: __S(25632, __c801, 0) as any as S.Schema<GetCwsPolicySetResponse>,
+  output: __S(25600, __c800, 0) as any as S.Schema<GetCwsPolicySetResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97489,7 +97486,7 @@ export const getCwsRegoMetadata: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<GetCwsRegoMetadataRequest>,
-  output: __S(25728, __c804, 0) as any as S.Schema<GetCwsRegoMetadataResponse>,
+  output: __S(25696, __c803, 0) as any as S.Schema<GetCwsRegoMetadataResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97506,7 +97503,7 @@ export const getCwsRegoModule: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<GetCwsRegoModuleRequest>,
-  output: __S(25792, __c806, 0) as any as S.Schema<GetCwsRegoModuleResponse>,
+  output: __S(25760, __c805, 0) as any as S.Schema<GetCwsRegoModuleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97523,7 +97520,7 @@ export const getCwsTenantStructure: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<GetCwsTenantStructureRequest>,
-  output: __S(25856, __c808, 0) as any as S.Schema<GetCwsTenantStructureResponse>,
+  output: __S(25824, __c807, 0) as any as S.Schema<GetCwsTenantStructureResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -99431,7 +99428,7 @@ export const listAccessApplicationUserPolicyChecksForAccount: API.OperationMetho
     __c415,
     0,
   ) as any as S.Schema<ListAccessApplicationUserPolicyChecksForAccountRequest>,
-  output: __S(13314, __c416, 2) as any as S.Schema<ListAccessApplicationUserPolicyChecksResponse>,
+  output: __S(13315, __c416, 3) as any as S.Schema<ListAccessApplicationUserPolicyChecksResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -99452,7 +99449,7 @@ export const listAccessApplicationUserPolicyChecksForZone: API.OperationMethod<
     __c417,
     0,
   ) as any as S.Schema<ListAccessApplicationUserPolicyChecksForZoneRequest>,
-  output: __S(13314, __c416, 2) as any as S.Schema<ListAccessApplicationUserPolicyChecksResponse>,
+  output: __S(13315, __c416, 3) as any as S.Schema<ListAccessApplicationUserPolicyChecksResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -102334,7 +102331,7 @@ export const pauseCasbIntegration: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18752, __c586, 0) as any as S.Schema<PauseCasbIntegrationRequest>,
-  output: __S(24801, __c775, 1) as any as S.Schema<PauseCasbIntegrationResponse>,
+  output: __S(24769, __c774, 1) as any as S.Schema<PauseCasbIntegrationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -102869,7 +102866,7 @@ export const replaceAccessUserPopulationsUser: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19936, __c623, 0) as any as S.Schema<ReplaceAccessUserPopulationsUserRequest>,
-  output: __S(24704, __c772, 0) as any as S.Schema<ReplaceAccessUserPopulationsUserResponse>,
+  output: __S(24672, __c771, 0) as any as S.Schema<ReplaceAccessUserPopulationsUserResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -102920,7 +102917,7 @@ export const resumeCasbIntegration: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20032, __c626, 0) as any as S.Schema<ResumeCasbIntegrationRequest>,
-  output: __S(24801, __c775, 1) as any as S.Schema<ResumeCasbIntegrationResponse>,
+  output: __S(24769, __c774, 1) as any as S.Schema<ResumeCasbIntegrationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103073,7 +103070,7 @@ export const rotateAccessServiceToken: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20352, __c636, 0) as any as S.Schema<RotateAccessServiceTokenRequest>,
-  output: __S(24352, __c761, 0) as any as S.Schema<RotateAccessServiceTokenResponse>,
+  output: __S(24320, __c760, 0) as any as S.Schema<RotateAccessServiceTokenResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103314,7 +103311,7 @@ export const updateAccessBookmark: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20960, __c655, 0) as any as S.Schema<UpdateAccessBookmarkRequest>,
-  output: __S(23744, __c742, 0) as any as S.Schema<UpdateAccessBookmarkResponse>,
+  output: __S(23712, __c741, 0) as any as S.Schema<UpdateAccessBookmarkResponse>,
   errors: [AccessBookmarkNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103331,7 +103328,7 @@ export const updateAccessCertificateForAccount: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20992, __c656, 0) as any as S.Schema<UpdateAccessCertificateForAccountRequest>,
-  output: __S(23808, __c744, 0) as any as S.Schema<UpdateAccessCertificateResponse>,
+  output: __S(23776, __c743, 0) as any as S.Schema<UpdateAccessCertificateResponse>,
   errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103348,7 +103345,7 @@ export const updateAccessCertificateForZone: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21024, __c657, 0) as any as S.Schema<UpdateAccessCertificateForZoneRequest>,
-  output: __S(23808, __c744, 0) as any as S.Schema<UpdateAccessCertificateResponse>,
+  output: __S(23776, __c743, 0) as any as S.Schema<UpdateAccessCertificateResponse>,
   errors: [AccessCertificateNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103365,7 +103362,7 @@ export const updateAccessCustomPage: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21056, __c658, 0) as any as S.Schema<UpdateAccessCustomPageRequest>,
-  output: __S(23936, __c748, 0) as any as S.Schema<UpdateAccessCustomPageResponse>,
+  output: __S(23904, __c747, 0) as any as S.Schema<UpdateAccessCustomPageResponse>,
   errors: [AccessCustomPageNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103416,7 +103413,7 @@ export const updateAccessInfrastructureTarget: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21184, __c662, 0) as any as S.Schema<UpdateAccessInfrastructureTargetRequest>,
-  output: __S(24192, __c756, 0) as any as S.Schema<UpdateAccessInfrastructureTargetResponse>,
+  output: __S(24160, __c755, 0) as any as S.Schema<UpdateAccessInfrastructureTargetResponse>,
   errors: [TargetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103484,7 +103481,7 @@ export const updateAccessTag: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21536, __c673, 0) as any as S.Schema<UpdateAccessTagRequest>,
-  output: __S(24448, __c764, 0) as any as S.Schema<UpdateAccessTagResponse>,
+  output: __S(24416, __c763, 0) as any as S.Schema<UpdateAccessTagResponse>,
   errors: [AccessTagNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103501,7 +103498,7 @@ export const updateAccessUser: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21568, __c674, 0) as any as S.Schema<UpdateAccessUserRequest>,
-  output: __S(24512, __c766, 0) as any as S.Schema<UpdateAccessUserResponse>,
+  output: __S(24480, __c765, 0) as any as S.Schema<UpdateAccessUserResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103518,7 +103515,7 @@ export const updateAccessUserPopulation: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21600, __c675, 0) as any as S.Schema<UpdateAccessUserPopulationRequest>,
-  output: __S(24576, __c768, 0) as any as S.Schema<UpdateAccessUserPopulationResponse>,
+  output: __S(24544, __c767, 0) as any as S.Schema<UpdateAccessUserPopulationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103535,7 +103532,7 @@ export const updateAccessUserPopulationsUser: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21634, __c676, 2) as any as S.Schema<UpdateAccessUserPopulationsUserRequest>,
-  output: __S(24704, __c772, 0) as any as S.Schema<UpdateAccessUserPopulationsUserResponse>,
+  output: __S(24672, __c771, 0) as any as S.Schema<UpdateAccessUserPopulationsUserResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103552,7 +103549,7 @@ export const updateCasbIntegration: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21664, __c677, 0) as any as S.Schema<UpdateCasbIntegrationRequest>,
-  output: __S(24801, __c775, 1) as any as S.Schema<UpdateCasbIntegrationResponse>,
+  output: __S(24769, __c774, 1) as any as S.Schema<UpdateCasbIntegrationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103569,7 +103566,7 @@ export const updateCasbPostureFindingType: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21696, __c678, 0) as any as S.Schema<UpdateCasbPostureFindingTypeRequest>,
-  output: __S(24864, __c777, 0) as any as S.Schema<UpdateCasbPostureFindingTypeResponse>,
+  output: __S(24832, __c776, 0) as any as S.Schema<UpdateCasbPostureFindingTypeResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103586,7 +103583,7 @@ export const updateCasbPosturePolicy: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21728, __c679, 0) as any as S.Schema<UpdateCasbPosturePolicyRequest>,
-  output: __S(24960, __c780, 0) as any as S.Schema<UpdateCasbPosturePolicyResponse>,
+  output: __S(24928, __c779, 0) as any as S.Schema<UpdateCasbPosturePolicyResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103603,7 +103600,7 @@ export const updateCasbPostureWebhook: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21760, __c680, 0) as any as S.Schema<UpdateCasbPostureWebhookRequest>,
-  output: __S(25152, __c786, 0) as any as S.Schema<UpdateCasbPostureWebhookResponse>,
+  output: __S(25120, __c785, 0) as any as S.Schema<UpdateCasbPostureWebhookResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103620,7 +103617,7 @@ export const updateCwsDeployment: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21792, __c681, 0) as any as S.Schema<UpdateCwsDeploymentRequest>,
-  output: __S(25376, __c793, 0) as any as S.Schema<UpdateCwsDeploymentResponse>,
+  output: __S(25344, __c792, 0) as any as S.Schema<UpdateCwsDeploymentResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103637,7 +103634,7 @@ export const updateCwsDomainAcl: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21824, __c682, 0) as any as S.Schema<UpdateCwsDomainAclRequest>,
-  output: __S(25472, __c796, 0) as any as S.Schema<UpdateCwsDomainAclResponse>,
+  output: __S(25440, __c795, 0) as any as S.Schema<UpdateCwsDomainAclResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103654,7 +103651,7 @@ export const updateCwsPolicy: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21952, __c686, 0) as any as S.Schema<UpdateCwsPolicyRequest>,
-  output: __S(25536, __c798, 0) as any as S.Schema<UpdateCwsPolicyResponse>,
+  output: __S(25504, __c797, 0) as any as S.Schema<UpdateCwsPolicyResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103671,7 +103668,7 @@ export const updateCwsPolicySet: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21984, __c687, 0) as any as S.Schema<UpdateCwsPolicySetRequest>,
-  output: __S(25632, __c801, 0) as any as S.Schema<UpdateCwsPolicySetResponse>,
+  output: __S(25600, __c800, 0) as any as S.Schema<UpdateCwsPolicySetResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103688,7 +103685,7 @@ export const updateCwsRegoMetadata: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22016, __c688, 0) as any as S.Schema<UpdateCwsRegoMetadataRequest>,
-  output: __S(25728, __c804, 0) as any as S.Schema<UpdateCwsRegoMetadataResponse>,
+  output: __S(25696, __c803, 0) as any as S.Schema<UpdateCwsRegoMetadataResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103705,7 +103702,7 @@ export const updateCwsRegoModule: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22048, __c689, 0) as any as S.Schema<UpdateCwsRegoModuleRequest>,
-  output: __S(25792, __c806, 0) as any as S.Schema<UpdateCwsRegoModuleResponse>,
+  output: __S(25760, __c805, 0) as any as S.Schema<UpdateCwsRegoModuleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -103722,7 +103719,7 @@ export const updateCwsTenantStructure: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22080, __c690, 0) as any as S.Schema<UpdateCwsTenantStructureRequest>,
-  output: __S(25856, __c808, 0) as any as S.Schema<UpdateCwsTenantStructureResponse>,
+  output: __S(25824, __c807, 0) as any as S.Schema<UpdateCwsTenantStructureResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -104173,7 +104170,7 @@ export const updateNetworksSubnetsInitialResolvedIp: API.OperationMethod<
   UpdateNetworksSubnetsInitialResolvedIpError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23232, __c726, 0) as any as S.Schema<UpdateNetworksSubnetsInitialResolvedIpRequest>,
+  input: __S(23200, __c725, 0) as any as S.Schema<UpdateNetworksSubnetsInitialResolvedIpRequest>,
   output: __S(3424, __c107, 0) as any as S.Schema<UpdateNetworksSubnetsInitialResolvedIpResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -104190,7 +104187,7 @@ export const updateOrganizationForAccount: API.OperationMethod<
   UpdateOrganizationForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23264, __c727, 0) as any as S.Schema<UpdateOrganizationForAccountRequest>,
+  input: __S(23232, __c726, 0) as any as S.Schema<UpdateOrganizationForAccountRequest>,
   output: __S(3587, __c112, 3) as any as S.Schema<UpdateOrganizationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -104207,7 +104204,7 @@ export const updateOrganizationForZone: API.OperationMethod<
   UpdateOrganizationForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23328, __c729, 0) as any as S.Schema<UpdateOrganizationForZoneRequest>,
+  input: __S(23296, __c728, 0) as any as S.Schema<UpdateOrganizationForZoneRequest>,
   output: __S(3587, __c112, 3) as any as S.Schema<UpdateOrganizationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -104224,7 +104221,7 @@ export const updateResourceLibraryApplication: API.OperationMethod<
   UpdateResourceLibraryApplicationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23360, __c730, 0) as any as S.Schema<UpdateResourceLibraryApplicationRequest>,
+  input: __S(23328, __c729, 0) as any as S.Schema<UpdateResourceLibraryApplicationRequest>,
   output: __S(3680, __c115, 0) as any as S.Schema<UpdateResourceLibraryApplicationResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -104244,7 +104241,7 @@ export const updateRiskScoringIntegration: API.OperationMethod<
   UpdateRiskScoringIntegrationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23392, __c731, 0) as any as S.Schema<UpdateRiskScoringIntegrationRequest>,
+  input: __S(23360, __c730, 0) as any as S.Schema<UpdateRiskScoringIntegrationRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<UpdateRiskScoringIntegrationResponse>,
   errors: [RiskScoringIntegrationNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -104261,8 +104258,8 @@ export const validateAccessCustomPage: API.OperationMethod<
   ValidateAccessCustomPageError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23424, __c732, 0) as any as S.Schema<ValidateAccessCustomPageRequest>,
-  output: __S(23425, __c732, 1) as any as S.Schema<ValidateAccessCustomPageResponse>,
+  input: __S(23392, __c731, 0) as any as S.Schema<ValidateAccessCustomPageRequest>,
+  output: __S(23393, __c731, 1) as any as S.Schema<ValidateAccessCustomPageResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -104278,8 +104275,8 @@ export const validateCasbPostureFindingType: API.OperationMethod<
   ValidateCasbPostureFindingTypeError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23456, __c733, 0) as any as S.Schema<ValidateCasbPostureFindingTypeRequest>,
-  output: __S(23459, __c733, 3) as any as S.Schema<ValidateCasbPostureFindingTypeResponse>,
+  input: __S(23424, __c732, 0) as any as S.Schema<ValidateCasbPostureFindingTypeRequest>,
+  output: __S(23427, __c732, 3) as any as S.Schema<ValidateCasbPostureFindingTypeResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -104295,8 +104292,8 @@ export const validateDlpPattern: API.OperationMethod<
   ValidateDlpPatternError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23488, __c734, 0) as any as S.Schema<ValidateDlpPatternRequest>,
-  output: __S(23489, __c734, 1) as any as S.Schema<ValidateDlpPatternResponse>,
+  input: __S(23456, __c733, 0) as any as S.Schema<ValidateDlpPatternRequest>,
+  output: __S(23457, __c733, 1) as any as S.Schema<ValidateDlpPatternResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -106486,7 +106483,7 @@ function __c87(j: number): any {
           devicePosture: S.optional(S.String.pipe(T.Body("device_posture"))),
           enabled: S.optional(S.Boolean),
           expiration: S.optional(__S(2944, __c92, 0)),
-          filters: S.optional(__S(23200, __c725, 0)),
+          filters: S.optional(__S(23168, __c724, 0)),
           identity: S.optional(S.String),
           precedence: S.optional(S.Number),
           ruleSettings: S.optional(__S(2957, __c92, 13).pipe(T.Body("rule_settings"))),
@@ -106593,7 +106590,7 @@ function __c89(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          fileTypes: S.optional(S.NullOr(__S(23200, __c725, 0)).pipe(T.Body("file_types"))),
+          fileTypes: S.optional(S.NullOr(__S(23168, __c724, 0)).pipe(T.Body("file_types"))),
         }),
       ).annotate({ identifier: "GatewayRulesCreateResponseRuleSettingsQuarantine" });
     case 11:
@@ -106685,7 +106682,7 @@ function __c90(j: number): any {
         S.Struct({
           action: S.String,
           enabled: S.Boolean,
-          filters: __S(23200, __c725, 0),
+          filters: __S(23168, __c724, 0),
           name: S.String,
           precedence: S.Number,
           traffic: S.String,
@@ -106801,7 +106798,7 @@ function __c92(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          fileTypes: S.optional(__S(23200, __c725, 0).pipe(T.Body("file_types"))),
+          fileTypes: S.optional(__S(23168, __c724, 0).pipe(T.Body("file_types"))),
         }),
       ).annotate({ identifier: "GatewayRulesCreateRequestRuleSettingsQuarantine" });
     case 10:
@@ -107525,7 +107522,7 @@ function __c111(j: number): any {
       return S.suspend(() =>
         S.Struct({
           allowedAuthenticators: S.optional(
-            S.NullOr(__S(23200, __c725, 0)).pipe(T.Body("allowed_authenticators")),
+            S.NullOr(__S(23168, __c724, 0)).pipe(T.Body("allowed_authenticators")),
           ),
           amrMatchingSessionDuration: S.optional(
             S.NullOr(S.String).pipe(T.Body("amr_matching_session_duration")),
@@ -107540,7 +107537,7 @@ function __c111(j: number): any {
           pinPolicy: S.optional(S.NullOr(S.String).pipe(T.Body("pin_policy"))),
           requireFipsDevice: S.optional(S.NullOr(S.Boolean).pipe(T.Body("require_fips_device"))),
           sshKeySize: S.optional(S.NullOr(__S(3552, __c111, 0)).pipe(T.Body("ssh_key_size"))),
-          sshKeyType: S.optional(S.NullOr(__S(23200, __c725, 0)).pipe(T.Body("ssh_key_type"))),
+          sshKeyType: S.optional(S.NullOr(__S(23168, __c724, 0)).pipe(T.Body("ssh_key_type"))),
           touchPolicy: S.optional(S.NullOr(S.String).pipe(T.Body("touch_policy"))),
         }),
       ).annotate({ identifier: "OrganizationsCreateResponseMfaPivKeyRequirements" });
@@ -107562,7 +107559,7 @@ function __c112(j: number): any {
       return S.suspend(() =>
         S.Struct({
           allowedAuthenticators: S.optional(
-            __S(23200, __c725, 0).pipe(T.Body("allowed_authenticators")),
+            __S(23168, __c724, 0).pipe(T.Body("allowed_authenticators")),
           ),
           amrMatchingSessionDuration: S.optional(
             S.String.pipe(T.Body("amr_matching_session_duration")),
@@ -107577,7 +107574,7 @@ function __c112(j: number): any {
           pinPolicy: S.optional(S.String.pipe(T.Body("pin_policy"))),
           requireFipsDevice: S.optional(S.Boolean.pipe(T.Body("require_fips_device"))),
           sshKeySize: S.optional(__S(3552, __c111, 0).pipe(T.Body("ssh_key_size"))),
-          sshKeyType: S.optional(__S(23200, __c725, 0).pipe(T.Body("ssh_key_type"))),
+          sshKeyType: S.optional(__S(23168, __c724, 0).pipe(T.Body("ssh_key_type"))),
           touchPolicy: S.optional(S.String.pipe(T.Body("touch_policy"))),
         }),
       ).annotate({ identifier: "OrganizationsCreateRequestMfaPivKeyRequirements" });
@@ -107721,7 +107718,7 @@ function __c115(j: number): any {
           name: S.String,
           portProtocols: __S(16288, __c509, 0).pipe(T.Body("port_protocols")),
           supportDomains: __S(16288, __c509, 0).pipe(T.Body("support_domains")),
-          supported: __S(23200, __c725, 0),
+          supported: __S(23168, __c724, 0),
           updatedAt: S.String.pipe(T.Body("updated_at")),
           version: S.String,
           applicationScoreComposition: S.optional(
@@ -107832,7 +107829,7 @@ function __c121(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           tunnelId: S.String.pipe(T.Label("tunnel_id")),
-          resources: __S(23200, __c725, 0),
+          resources: __S(23168, __c724, 0),
         })
           .pipe(
             T.Http({
@@ -110030,7 +110027,7 @@ function __c227(j: number): any {
           minAfflictionDate: S.optional(S.String.pipe(T.Body("min_affliction_date"))),
           orders: S.optional(__S(7297, __c228, 1)),
           search: S.optional(S.String),
-          vendors: S.optional(__S(23200, __c725, 0)),
+          vendors: S.optional(__S(23168, __c724, 0)),
         })
           .pipe(
             T.Http({
@@ -110086,8 +110083,8 @@ function __c230(j: number): any {
           orders: S.optional(__S(7297, __c228, 1)),
           product: S.optional(S.String),
           search: S.optional(S.String),
-          severities: S.optional(__S(23200, __c725, 0)),
-          vendors: S.optional(__S(23200, __c725, 0)),
+          severities: S.optional(__S(23168, __c724, 0)),
+          vendors: S.optional(__S(23168, __c724, 0)),
         })
           .pipe(
             T.Http({
@@ -110135,7 +110132,7 @@ function __c232(j: number): any {
           minUpdatedAt: S.optional(S.String.pipe(T.Body("min_updated_at"))),
           orders: S.optional(__S(7297, __c228, 1)),
           search: S.optional(S.String),
-          status: S.optional(__S(23200, __c725, 0)),
+          status: S.optional(__S(23168, __c724, 0)),
         })
           .pipe(
             T.Http({
@@ -111258,18 +111255,18 @@ function __c256(j: number): any {
           accountId: S.optional(S.NullOr(S.String).pipe(T.Body("account_id"))),
           appCount: S.optional(S.NullOr(S.Number).pipe(T.Body("app_count"))),
           approvalGroups: S.optional(
-            S.NullOr(__S(24258, __c758, 2)).pipe(T.Body("approval_groups")),
+            S.NullOr(__S(24226, __c757, 2)).pipe(T.Body("approval_groups")),
           ),
           approvalRequired: S.optional(S.NullOr(S.Boolean).pipe(T.Body("approval_required"))),
           connectionRules: S.optional(
-            S.NullOr(__S(24261, __c758, 5)).pipe(T.Body("connection_rules")),
+            S.NullOr(__S(24229, __c757, 5)).pipe(T.Body("connection_rules")),
           ),
           createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
           decision: S.optional(S.NullOr(S.String)),
           exclude: S.optional(S.NullOr(__S(8194, __c256, 2))),
           include: S.optional(S.NullOr(__S(8196, __c256, 4))),
           isolationRequired: S.optional(S.NullOr(S.Boolean).pipe(T.Body("isolation_required"))),
-          mfaConfig: S.optional(S.NullOr(__S(24256, __c758, 0)).pipe(T.Body("mfa_config"))),
+          mfaConfig: S.optional(S.NullOr(__S(24224, __c757, 0)).pipe(T.Body("mfa_config"))),
           name: S.optional(S.NullOr(S.String)),
           policyResolutionAccountId: S.optional(
             S.NullOr(S.String).pipe(T.Body("policy_resolution_account_id")),
@@ -115209,7 +115206,7 @@ function __c375(j: number): any {
           id: S.optional(S.NullOr(S.String)),
           active: S.optional(S.NullOr(S.Boolean)),
           displayName: S.optional(S.NullOr(S.String)),
-          emails: S.optional(S.NullOr(__S(24641, __c770, 1))),
+          emails: S.optional(S.NullOr(__S(24609, __c769, 1))),
           externalId: S.optional(S.NullOr(S.String)),
           meta: S.optional(S.NullOr(__S(11968, __c374, 0))),
           schemas: S.optional(S.NullOr(__S(16288, __c509, 0))),
@@ -116710,17 +116707,19 @@ function __c415(j: number): any {
 function __c416(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Unknown);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           appUid: S.optional(S.NullOr(S.String).pipe(T.Body("app_uid"))),
           aud: S.optional(S.NullOr(S.String)),
           hostname: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
-          policies: S.optional(S.NullOr(__S(23136, __c723, 0))),
+          policies: S.optional(S.NullOr(__S(13312, __c416, 0))),
           status: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "AccessApplicationsUserPolicyChecksListResponseAppState" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
@@ -116736,11 +116735,11 @@ function __c416(j: number): any {
           version: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "AccessApplicationsUserPolicyChecksListResponseUserIdentity" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          appState: S.optional(S.NullOr(__S(13312, __c416, 0)).pipe(T.Body("app_state"))),
-          userIdentity: S.optional(S.NullOr(__S(13313, __c416, 1)).pipe(T.Body("user_identity"))),
+          appState: S.optional(S.NullOr(__S(13313, __c416, 1)).pipe(T.Body("app_state"))),
+          userIdentity: S.optional(S.NullOr(__S(13314, __c416, 2)).pipe(T.Body("user_identity"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListAccessApplicationUserPolicyChecksResponse" });
   }
@@ -116873,7 +116872,7 @@ function __c422(j: number): any {
           type: S.String,
           contractVersion: S.optional(S.NullOr(S.Number).pipe(T.Body("contract_version"))),
           uid: S.optional(S.NullOr(S.String)),
-          warnings: S.optional(S.NullOr(__S(23905, __c747, 1))),
+          warnings: S.optional(S.NullOr(__S(23873, __c746, 1))),
         }),
       ).annotate({ identifier: "AccessCustomPagesListResultItem" });
     case 2:
@@ -117212,12 +117211,12 @@ function __c430(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
-          requestMethod: S.optional(__S(23200, __c725, 0).pipe(T.Query("request_method"))),
+          requestMethod: S.optional(__S(23168, __c724, 0).pipe(T.Query("request_method"))),
           resourceGroupName: S.optional(__S(16288, __c509, 0).pipe(T.Query("resource_group_name"))),
-          resourceType: S.optional(__S(23200, __c725, 0).pipe(T.Query("resource_type"))),
+          resourceType: S.optional(__S(23168, __c724, 0).pipe(T.Query("resource_type"))),
           resourceUserEmail: S.optional(__S(16288, __c509, 0).pipe(T.Query("resource_user_email"))),
           since: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(23200, __c725, 0).pipe(T.Query())),
+          status: S.optional(__S(23168, __c724, 0).pipe(T.Query())),
           until: S.optional(S.String.pipe(T.Query())),
         })
           .pipe(
@@ -117454,18 +117453,18 @@ function __c433(j: number): any {
           accountId: S.optional(S.NullOr(S.String).pipe(T.Body("account_id"))),
           appCount: S.optional(S.NullOr(S.Number).pipe(T.Body("app_count"))),
           approvalGroups: S.optional(
-            S.NullOr(__S(24258, __c758, 2)).pipe(T.Body("approval_groups")),
+            S.NullOr(__S(24226, __c757, 2)).pipe(T.Body("approval_groups")),
           ),
           approvalRequired: S.optional(S.NullOr(S.Boolean).pipe(T.Body("approval_required"))),
           connectionRules: S.optional(
-            S.NullOr(__S(24261, __c758, 5)).pipe(T.Body("connection_rules")),
+            S.NullOr(__S(24229, __c757, 5)).pipe(T.Body("connection_rules")),
           ),
           createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
           decision: S.optional(S.NullOr(S.String)),
           exclude: S.optional(S.NullOr(__S(13858, __c433, 2))),
           include: S.optional(S.NullOr(__S(13860, __c433, 4))),
           isolationRequired: S.optional(S.NullOr(S.Boolean).pipe(T.Body("isolation_required"))),
-          mfaConfig: S.optional(S.NullOr(__S(24256, __c758, 0)).pipe(T.Body("mfa_config"))),
+          mfaConfig: S.optional(S.NullOr(__S(24224, __c757, 0)).pipe(T.Body("mfa_config"))),
           name: S.optional(S.NullOr(S.String)),
           policyResolutionAccountId: S.optional(
             S.NullOr(S.String).pipe(T.Body("policy_resolution_account_id")),
@@ -117782,10 +117781,10 @@ function __c442(j: number): any {
           id: S.optional(S.NullOr(S.String)),
           active: S.optional(S.NullOr(S.Boolean)),
           displayName: S.optional(S.NullOr(S.String)),
-          emails: S.optional(S.NullOr(__S(24641, __c770, 1))),
+          emails: S.optional(S.NullOr(__S(24609, __c769, 1))),
           externalId: S.optional(S.NullOr(S.String)),
-          meta: S.optional(S.NullOr(__S(24672, __c771, 0))),
-          name: S.optional(S.NullOr(__S(24673, __c771, 1))),
+          meta: S.optional(S.NullOr(__S(24640, __c770, 0))),
+          name: S.optional(S.NullOr(__S(24641, __c770, 1))),
           schemas: S.optional(S.NullOr(__S(16288, __c509, 0))),
           userName: S.optional(S.NullOr(S.String)),
         }),
@@ -118273,7 +118272,7 @@ function __c453(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           remediationStatuses: S.optional(
-            __S(23200, __c725, 0).pipe(T.Query("remediation_statuses")),
+            __S(23168, __c724, 0).pipe(T.Query("remediation_statuses")),
           ),
           search: S.optional(S.String.pipe(T.Query())),
         })
@@ -118316,14 +118315,14 @@ function __c454(j: number): any {
           maxUpdatedAt: S.optional(S.String.pipe(T.Query("max_updated_at"))),
           minUpdatedAt: S.optional(S.String.pipe(T.Query("min_updated_at"))),
           order: S.optional(S.String.pipe(T.Query())),
-          origins: S.optional(__S(23200, __c725, 0).pipe(T.Query())),
+          origins: S.optional(__S(23168, __c724, 0).pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           quarantined: S.optional(S.Boolean.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
-          severities: S.optional(__S(23200, __c725, 0).pipe(T.Query())),
-          types: S.optional(__S(23200, __c725, 0).pipe(T.Query())),
-          vendors: S.optional(__S(23200, __c725, 0).pipe(T.Query())),
+          severities: S.optional(__S(23168, __c724, 0).pipe(T.Query())),
+          types: S.optional(__S(23168, __c724, 0).pipe(T.Query())),
+          vendors: S.optional(__S(23168, __c724, 0).pipe(T.Query())),
         })
           .pipe(
             T.Http({
@@ -118428,7 +118427,7 @@ function __c456(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          actions: __S(24932, __c779, 4),
+          actions: __S(24900, __c778, 4),
           appliesToAllIntegrations: S.Boolean.pipe(T.Body("applies_to_all_integrations")),
           createdAt: S.String.pipe(T.Body("created_at")),
           description: S.String,
@@ -118465,7 +118464,7 @@ function __c457(j: number): any {
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           search: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
-          triggeredByActor: S.optional(__S(23200, __c725, 0).pipe(T.Query("triggered_by_actor"))),
+          triggeredByActor: S.optional(__S(23168, __c724, 0).pipe(T.Query("triggered_by_actor"))),
         })
           .pipe(
             T.Http({
@@ -118492,7 +118491,7 @@ function __c457(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          category: __S(25056, __c783, 0),
+          category: __S(25024, __c782, 0),
           externalId: S.String.pipe(T.Body("external_id")),
           fields: __S(14627, __c457, 3),
           name: S.String,
@@ -118553,7 +118552,7 @@ function __c458(j: number): any {
           status: S.String,
           updatedAt: S.String.pipe(T.Body("updated_at")),
           version: S.Number,
-          headers: S.optional(S.NullOr(__S(25121, __c785, 1))),
+          headers: S.optional(S.NullOr(__S(25089, __c784, 1))),
         }),
       ).annotate({ identifier: "ListCasbPostureWebhooksResultItem" });
     case 2:
@@ -118702,7 +118701,7 @@ function __c462(j: number): any {
           id: S.String,
           createdAt: S.String.pipe(T.Body("created_at")),
           defaultAction: S.String.pipe(T.Body("default_action")),
-          entries: __S(25441, __c795, 1),
+          entries: __S(25409, __c794, 1),
           name: S.String,
           updatedAt: S.String.pipe(T.Body("updated_at")),
         }),
@@ -118779,7 +118778,7 @@ function __c464(j: number): any {
           excludeWorkloadIds: __S(16288, __c509, 0).pipe(T.Body("exclude_workload_ids")),
           includeWorkloadIds: __S(16288, __c509, 0).pipe(T.Body("include_workload_ids")),
           name: S.String,
-          policies: __S(25601, __c800, 1),
+          policies: __S(25569, __c799, 1),
           tags: __S(18496, __c578, 0),
           updatedAt: S.String.pipe(T.Body("updated_at")),
           description: S.optional(S.NullOr(S.String)),
@@ -121473,7 +121472,7 @@ function __c526(j: number): any {
         S.Struct({
           action: S.String,
           enabled: S.Boolean,
-          filters: __S(23200, __c725, 0),
+          filters: __S(23168, __c724, 0),
           name: S.String,
           precedence: S.Number,
           traffic: S.String,
@@ -121590,7 +121589,7 @@ function __c529(j: number): any {
           id: S.optional(S.NullOr(S.String)),
           active: S.optional(S.NullOr(S.Boolean)),
           displayName: S.optional(S.NullOr(S.String)),
-          emails: S.optional(S.NullOr(__S(24641, __c770, 1))),
+          emails: S.optional(S.NullOr(__S(24609, __c769, 1))),
           externalId: S.optional(S.NullOr(S.String)),
           meta: S.optional(S.NullOr(__S(11968, __c374, 0))),
           schemas: S.optional(S.NullOr(__S(16288, __c509, 0))),
@@ -121895,7 +121894,7 @@ function __c534(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           routeId: S.optional(S.String.pipe(T.Query("route_id"))),
-          tunTypes: S.optional(__S(23200, __c725, 0).pipe(T.Query("tun_types"))),
+          tunTypes: S.optional(__S(23168, __c724, 0).pipe(T.Query("tun_types"))),
           tunnelId: S.optional(S.String.pipe(T.Query("tunnel_id"))),
           virtualNetworkId: S.optional(S.String.pipe(T.Query("virtual_network_id"))),
         })
@@ -122185,7 +122184,7 @@ function __c542(j: number): any {
           supportDomains: S.optional(
             S.NullOr(__S(16288, __c509, 0)).pipe(T.Body("support_domains")),
           ),
-          supported: S.optional(S.NullOr(__S(23200, __c725, 0))),
+          supported: S.optional(S.NullOr(__S(23168, __c724, 0))),
           updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
           version: S.optional(S.NullOr(S.String)),
         }),
@@ -122362,7 +122361,7 @@ function __c547(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           status: S.optional(S.String.pipe(T.Query())),
-          tunTypes: S.optional(__S(23200, __c725, 0).pipe(T.Query("tun_types"))),
+          tunTypes: S.optional(__S(23168, __c724, 0).pipe(T.Query("tun_types"))),
           uuid: S.optional(S.String.pipe(T.Query())),
           wasActiveAt: S.optional(S.String.pipe(T.Query("was_active_at"))),
           wasInactiveAt: S.optional(S.String.pipe(T.Query("was_inactive_at"))),
@@ -124677,10 +124676,10 @@ function __c623(j: number): any {
           userId: S.String.pipe(T.Label("user_id")),
           active: S.optional(S.Boolean),
           displayName: S.optional(S.String),
-          emails: S.optional(__S(24737, __c773, 1)),
+          emails: S.optional(__S(24705, __c772, 1)),
           externalId: S.optional(S.String),
-          meta: S.optional(__S(24738, __c773, 2)),
-          name: S.optional(__S(24739, __c773, 3)),
+          meta: S.optional(__S(24706, __c772, 2)),
+          name: S.optional(__S(24707, __c772, 3)),
           schemas: S.optional(__S(16288, __c509, 0)),
           userName: S.optional(S.String),
         })
@@ -125237,18 +125236,18 @@ function __c648(j: number): any {
           oauthConfiguration: S.optional(__S(20768, __c649, 0).pipe(T.Body("oauth_configuration"))),
           type: S.optional(S.String),
           userPopulations: S.optional(__S(16288, __c509, 0).pipe(T.Body("user_populations"))),
-          allowedIdps: S.optional(__S(23136, __c723, 0).pipe(T.Body("allowed_idps"))),
+          allowedIdps: S.optional(__S(16288, __c509, 0).pipe(T.Body("allowed_idps"))),
           destinations: S.optional(__S(20769, __c649, 1)),
           domain: S.optional(S.String),
           name: S.optional(S.String),
-          selfHostedDomains: S.optional(__S(23136, __c723, 0).pipe(T.Body("self_hosted_domains"))),
+          selfHostedDomains: S.optional(__S(16288, __c509, 0).pipe(T.Body("self_hosted_domains"))),
           allowAuthenticateViaWarp: S.optional(
             S.Boolean.pipe(T.Body("allow_authenticate_via_warp")),
           ),
           allowIframe: S.optional(S.Boolean.pipe(T.Body("allow_iframe"))),
           appLauncherVisible: S.optional(S.Boolean.pipe(T.Body("app_launcher_visible"))),
           autoRedirectToIdentity: S.optional(S.Boolean.pipe(T.Body("auto_redirect_to_identity"))),
-          corsHeaders: S.optional(__S(23168, __c724, 0).pipe(T.Body("cors_headers"))),
+          corsHeaders: S.optional(__S(23136, __c723, 0).pipe(T.Body("cors_headers"))),
           customDenyMessage: S.optional(S.String.pipe(T.Body("custom_deny_message"))),
           customDenyUrl: S.optional(S.String.pipe(T.Body("custom_deny_url"))),
           customNonIdentityDenyUrl: S.optional(
@@ -125280,9 +125279,9 @@ function __c648(j: number): any {
           saasApp: S.optional(__S(20773, __c649, 5).pipe(T.Body("saas_app"))),
           appLauncherLogoUrl: S.optional(S.String.pipe(T.Body("app_launcher_logo_url"))),
           bgColor: S.optional(S.String.pipe(T.Body("bg_color"))),
-          footerLinks: S.optional(__S(23173, __c724, 5).pipe(T.Body("footer_links"))),
+          footerLinks: S.optional(__S(23141, __c723, 5).pipe(T.Body("footer_links"))),
           headerBgColor: S.optional(S.String.pipe(T.Body("header_bg_color"))),
-          landingPageDesign: S.optional(__S(23174, __c724, 6).pipe(T.Body("landing_page_design"))),
+          landingPageDesign: S.optional(__S(23142, __c723, 6).pipe(T.Body("landing_page_design"))),
           skipAppLauncherLoginPage: S.optional(
             S.Boolean.pipe(T.Body("skip_app_launcher_login_page")),
           ),
@@ -125335,7 +125334,7 @@ function __c649(j: number): any {
           authentication: S.optional(__S(20771, __c649, 3)),
           deactivateOnDelete: S.optional(S.Boolean.pipe(T.Body("deactivate_on_delete"))),
           enabled: S.optional(S.Boolean),
-          mappings: S.optional(__S(23171, __c724, 3)),
+          mappings: S.optional(__S(23139, __c723, 3)),
         }),
       ).annotate({ identifier: "AccessApplicationsUpdateRequestScimConfig" });
     case 5:
@@ -125729,18 +125728,18 @@ function __c650(j: number): any {
           oauthConfiguration: S.optional(__S(20768, __c649, 0).pipe(T.Body("oauth_configuration"))),
           type: S.optional(S.String),
           userPopulations: S.optional(__S(16288, __c509, 0).pipe(T.Body("user_populations"))),
-          allowedIdps: S.optional(__S(23136, __c723, 0).pipe(T.Body("allowed_idps"))),
+          allowedIdps: S.optional(__S(16288, __c509, 0).pipe(T.Body("allowed_idps"))),
           destinations: S.optional(__S(20769, __c649, 1)),
           domain: S.optional(S.String),
           name: S.optional(S.String),
-          selfHostedDomains: S.optional(__S(23136, __c723, 0).pipe(T.Body("self_hosted_domains"))),
+          selfHostedDomains: S.optional(__S(16288, __c509, 0).pipe(T.Body("self_hosted_domains"))),
           allowAuthenticateViaWarp: S.optional(
             S.Boolean.pipe(T.Body("allow_authenticate_via_warp")),
           ),
           allowIframe: S.optional(S.Boolean.pipe(T.Body("allow_iframe"))),
           appLauncherVisible: S.optional(S.Boolean.pipe(T.Body("app_launcher_visible"))),
           autoRedirectToIdentity: S.optional(S.Boolean.pipe(T.Body("auto_redirect_to_identity"))),
-          corsHeaders: S.optional(__S(23168, __c724, 0).pipe(T.Body("cors_headers"))),
+          corsHeaders: S.optional(__S(23136, __c723, 0).pipe(T.Body("cors_headers"))),
           customDenyMessage: S.optional(S.String.pipe(T.Body("custom_deny_message"))),
           customDenyUrl: S.optional(S.String.pipe(T.Body("custom_deny_url"))),
           customNonIdentityDenyUrl: S.optional(
@@ -125772,9 +125771,9 @@ function __c650(j: number): any {
           saasApp: S.optional(__S(20773, __c649, 5).pipe(T.Body("saas_app"))),
           appLauncherLogoUrl: S.optional(S.String.pipe(T.Body("app_launcher_logo_url"))),
           bgColor: S.optional(S.String.pipe(T.Body("bg_color"))),
-          footerLinks: S.optional(__S(23173, __c724, 5).pipe(T.Body("footer_links"))),
+          footerLinks: S.optional(__S(23141, __c723, 5).pipe(T.Body("footer_links"))),
           headerBgColor: S.optional(S.String.pipe(T.Body("header_bg_color"))),
-          landingPageDesign: S.optional(__S(23174, __c724, 6).pipe(T.Body("landing_page_design"))),
+          landingPageDesign: S.optional(__S(23142, __c723, 6).pipe(T.Body("landing_page_design"))),
           skipAppLauncherLoginPage: S.optional(
             S.Boolean.pipe(T.Body("skip_app_launcher_login_page")),
           ),
@@ -125802,7 +125801,7 @@ function __c651(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
           policyId: S.String.pipe(T.Label("policy_id")),
-          approvalGroups: S.optional(__S(23617, __c738, 1).pipe(T.Body("approval_groups"))),
+          approvalGroups: S.optional(__S(23585, __c737, 1).pipe(T.Body("approval_groups"))),
           approvalRequired: S.optional(S.Boolean.pipe(T.Body("approval_required"))),
           connectionRules: S.optional(__S(20832, __c651, 0).pipe(T.Body("connection_rules"))),
           isolationRequired: S.optional(S.Boolean.pipe(T.Body("isolation_required"))),
@@ -125998,7 +125997,7 @@ function __c653(j: number): any {
           zoneId: S.String.pipe(T.Label("zone_id")),
           appId: S.String.pipe(T.Label("app_id")),
           policyId: S.String.pipe(T.Label("policy_id")),
-          approvalGroups: S.optional(__S(23617, __c738, 1).pipe(T.Body("approval_groups"))),
+          approvalGroups: S.optional(__S(23585, __c737, 1).pipe(T.Body("approval_groups"))),
           approvalRequired: S.optional(S.Boolean.pipe(T.Body("approval_required"))),
           connectionRules: S.optional(__S(20896, __c653, 0).pipe(T.Body("connection_rules"))),
           isolationRequired: S.optional(S.Boolean.pipe(T.Body("isolation_required"))),
@@ -126437,12 +126436,12 @@ function __c663(j: number): any {
           decision: S.String,
           include: __S(21217, __c663, 1),
           name: S.String,
-          approvalGroups: S.optional(__S(23617, __c738, 1).pipe(T.Body("approval_groups"))),
+          approvalGroups: S.optional(__S(23585, __c737, 1).pipe(T.Body("approval_groups"))),
           approvalRequired: S.optional(S.Boolean.pipe(T.Body("approval_required"))),
-          connectionRules: S.optional(__S(24291, __c759, 3).pipe(T.Body("connection_rules"))),
+          connectionRules: S.optional(__S(24259, __c758, 3).pipe(T.Body("connection_rules"))),
           exclude: S.optional(__S(21217, __c663, 1)),
           isolationRequired: S.optional(S.Boolean.pipe(T.Body("isolation_required"))),
-          mfaConfig: S.optional(__S(24288, __c759, 0).pipe(T.Body("mfa_config"))),
+          mfaConfig: S.optional(__S(24256, __c758, 0).pipe(T.Body("mfa_config"))),
           policyResolutionAccountId: S.optional(
             S.String.pipe(T.Body("policy_resolution_account_id")),
           ),
@@ -126570,18 +126569,18 @@ function __c663(j: number): any {
           accountId: S.optional(S.NullOr(S.String).pipe(T.Body("account_id"))),
           appCount: S.optional(S.NullOr(S.Number).pipe(T.Body("app_count"))),
           approvalGroups: S.optional(
-            S.NullOr(__S(24258, __c758, 2)).pipe(T.Body("approval_groups")),
+            S.NullOr(__S(24226, __c757, 2)).pipe(T.Body("approval_groups")),
           ),
           approvalRequired: S.optional(S.NullOr(S.Boolean).pipe(T.Body("approval_required"))),
           connectionRules: S.optional(
-            S.NullOr(__S(24261, __c758, 5)).pipe(T.Body("connection_rules")),
+            S.NullOr(__S(24229, __c757, 5)).pipe(T.Body("connection_rules")),
           ),
           createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
           decision: S.optional(S.NullOr(S.String)),
           exclude: S.optional(S.NullOr(__S(21220, __c663, 4))),
           include: S.optional(S.NullOr(__S(21222, __c663, 6))),
           isolationRequired: S.optional(S.NullOr(S.Boolean).pipe(T.Body("isolation_required"))),
-          mfaConfig: S.optional(S.NullOr(__S(24256, __c758, 0)).pipe(T.Body("mfa_config"))),
+          mfaConfig: S.optional(S.NullOr(__S(24224, __c757, 0)).pipe(T.Body("mfa_config"))),
           name: S.optional(S.NullOr(S.String)),
           policyResolutionAccountId: S.optional(
             S.NullOr(S.String).pipe(T.Body("policy_resolution_account_id")),
@@ -126956,7 +126955,7 @@ function __c677(j: number): any {
           dlpProfiles: S.optional(__S(16288, __c509, 0).pipe(T.Body("dlp_profiles"))),
           name: S.optional(S.String),
           permissions: S.optional(__S(16288, __c509, 0)),
-          useCases: S.optional(__S(23200, __c725, 0).pipe(T.Body("use_cases"))),
+          useCases: S.optional(__S(23168, __c724, 0).pipe(T.Body("use_cases"))),
         })
           .pipe(
             T.Http({
@@ -127000,7 +126999,7 @@ function __c679(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           policyId: S.String.pipe(T.Label("policy_id")),
-          actions: __S(24996, __c781, 4),
+          actions: __S(24964, __c780, 4),
           appliesToAllIntegrations: S.Boolean.pipe(T.Body("applies_to_all_integrations")),
           displayName: S.String.pipe(T.Body("display_name")),
           enabled: S.Boolean,
@@ -127079,7 +127078,7 @@ function __c682(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           domainAclId: S.String.pipe(T.Label("domain_acl_id")),
           defaultAction: S.String.pipe(T.Body("default_action")),
-          entries: __S(25441, __c795, 1),
+          entries: __S(25409, __c794, 1),
           name: S.String,
         })
           .pipe(
@@ -127212,7 +127211,7 @@ function __c687(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           policySetId: S.String.pipe(T.Label("policy_set_id")),
           name: S.String,
-          policies: __S(25665, __c802, 1),
+          policies: __S(25633, __c801, 1),
           description: S.optional(S.String),
           excludeWorkloadIds: S.optional(
             __S(16288, __c509, 0).pipe(T.Body("exclude_workload_ids")),
@@ -128188,7 +128187,7 @@ function __c717(j: number): any {
           devicePosture: S.optional(S.String.pipe(T.Body("device_posture"))),
           enabled: S.optional(S.Boolean),
           expiration: S.optional(__S(2944, __c92, 0)),
-          filters: S.optional(__S(23200, __c725, 0)),
+          filters: S.optional(__S(23168, __c724, 0)),
           identity: S.optional(S.String),
           precedence: S.optional(S.Number),
           ruleSettings: S.optional(__S(2957, __c92, 13).pipe(T.Body("rule_settings"))),
@@ -128525,18 +128524,18 @@ function __c721(j: number): any {
           oauthConfiguration: S.optional(__S(23104, __c722, 0).pipe(T.Body("oauth_configuration"))),
           type: S.optional(S.String),
           userPopulations: S.optional(__S(16288, __c509, 0).pipe(T.Body("user_populations"))),
-          allowedIdps: S.optional(__S(23136, __c723, 0).pipe(T.Body("allowed_idps"))),
+          allowedIdps: S.optional(__S(16288, __c509, 0).pipe(T.Body("allowed_idps"))),
           destinations: S.optional(__S(23105, __c722, 1)),
           domain: S.optional(S.String),
           name: S.optional(S.String),
-          selfHostedDomains: S.optional(__S(23136, __c723, 0).pipe(T.Body("self_hosted_domains"))),
+          selfHostedDomains: S.optional(__S(16288, __c509, 0).pipe(T.Body("self_hosted_domains"))),
           allowAuthenticateViaWarp: S.optional(
             S.Boolean.pipe(T.Body("allow_authenticate_via_warp")),
           ),
           allowIframe: S.optional(S.Boolean.pipe(T.Body("allow_iframe"))),
           appLauncherVisible: S.optional(S.Boolean.pipe(T.Body("app_launcher_visible"))),
           autoRedirectToIdentity: S.optional(S.Boolean.pipe(T.Body("auto_redirect_to_identity"))),
-          corsHeaders: S.optional(__S(23168, __c724, 0).pipe(T.Body("cors_headers"))),
+          corsHeaders: S.optional(__S(23136, __c723, 0).pipe(T.Body("cors_headers"))),
           customDenyMessage: S.optional(S.String.pipe(T.Body("custom_deny_message"))),
           customDenyUrl: S.optional(S.String.pipe(T.Body("custom_deny_url"))),
           customNonIdentityDenyUrl: S.optional(
@@ -128568,9 +128567,9 @@ function __c721(j: number): any {
           saasApp: S.optional(__S(23109, __c722, 5).pipe(T.Body("saas_app"))),
           appLauncherLogoUrl: S.optional(S.String.pipe(T.Body("app_launcher_logo_url"))),
           bgColor: S.optional(S.String.pipe(T.Body("bg_color"))),
-          footerLinks: S.optional(__S(23173, __c724, 5).pipe(T.Body("footer_links"))),
+          footerLinks: S.optional(__S(23141, __c723, 5).pipe(T.Body("footer_links"))),
           headerBgColor: S.optional(S.String.pipe(T.Body("header_bg_color"))),
-          landingPageDesign: S.optional(__S(23174, __c724, 6).pipe(T.Body("landing_page_design"))),
+          landingPageDesign: S.optional(__S(23142, __c723, 6).pipe(T.Body("landing_page_design"))),
           skipAppLauncherLoginPage: S.optional(
             S.Boolean.pipe(T.Body("skip_app_launcher_login_page")),
           ),
@@ -128617,7 +128616,7 @@ function __c722(j: number): any {
           authentication: S.optional(__S(23107, __c722, 3)),
           deactivateOnDelete: S.optional(S.Boolean.pipe(T.Body("deactivate_on_delete"))),
           enabled: S.optional(S.Boolean),
-          mappings: S.optional(__S(23171, __c724, 3)),
+          mappings: S.optional(__S(23139, __c723, 3)),
         }),
       ).annotate({ identifier: "AccessApplicationsCreateRequestScimConfig" });
     case 5:
@@ -129002,21 +129001,15 @@ function __c722(j: number): any {
 function __c723(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
-  }
-}
-function __c724(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           allowAllHeaders: S.optional(S.Boolean.pipe(T.Body("allow_all_headers"))),
           allowAllMethods: S.optional(S.Boolean.pipe(T.Body("allow_all_methods"))),
           allowAllOrigins: S.optional(S.Boolean.pipe(T.Body("allow_all_origins"))),
           allowCredentials: S.optional(S.Boolean.pipe(T.Body("allow_credentials"))),
-          allowedHeaders: S.optional(__S(23136, __c723, 0).pipe(T.Body("allowed_headers"))),
-          allowedMethods: S.optional(__S(23200, __c725, 0).pipe(T.Body("allowed_methods"))),
-          allowedOrigins: S.optional(__S(23136, __c723, 0).pipe(T.Body("allowed_origins"))),
+          allowedHeaders: S.optional(__S(16288, __c509, 0).pipe(T.Body("allowed_headers"))),
+          allowedMethods: S.optional(__S(23168, __c724, 0).pipe(T.Body("allowed_methods"))),
+          allowedOrigins: S.optional(__S(16288, __c509, 0).pipe(T.Body("allowed_origins"))),
           maxAge: S.optional(S.Number.pipe(T.Body("max_age"))),
         }),
       ).annotate({ identifier: "AccessApplicationsCreateRequestCorsHeaders" });
@@ -129034,13 +129027,13 @@ function __c724(j: number): any {
           schema: S.String,
           enabled: S.optional(S.Boolean),
           filter: S.optional(S.String),
-          operations: S.optional(__S(23169, __c724, 1)),
+          operations: S.optional(__S(23137, __c723, 1)),
           strictness: S.optional(S.String),
           transformJsonata: S.optional(S.String.pipe(T.Body("transform_jsonata"))),
         }),
       ).annotate({ identifier: "AccessApplicationsCreateRequestScimConfigMappingsItem" });
     case 3:
-      return S.Array(__S(23170, __c724, 2));
+      return S.Array(__S(23138, __c723, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -129049,7 +129042,7 @@ function __c724(j: number): any {
         }),
       ).annotate({ identifier: "AccessApplicationsCreateRequestFooterLinksItem" });
     case 5:
-      return S.Array(__S(23172, __c724, 4));
+      return S.Array(__S(23140, __c723, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -129062,13 +129055,13 @@ function __c724(j: number): any {
       ).annotate({ identifier: "AccessApplicationsCreateRequestLandingPageDesign" });
   }
 }
-function __c725(j: number): any {
+function __c724(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c726(j: number): any {
+function __c725(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129090,7 +129083,7 @@ function __c726(j: number): any {
       ).annotate({ identifier: "UpdateNetworksSubnetsInitialResolvedIpRequest" });
   }
 }
-function __c727(j: number): any {
+function __c726(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129101,7 +129094,7 @@ function __c727(j: number): any {
           ),
           authDomain: S.optional(S.String.pipe(T.Body("auth_domain"))),
           autoRedirectToIdentity: S.optional(S.Boolean.pipe(T.Body("auto_redirect_to_identity"))),
-          customPages: S.optional(__S(23296, __c728, 0).pipe(T.Body("custom_pages"))),
+          customPages: S.optional(__S(23264, __c727, 0).pipe(T.Body("custom_pages"))),
           denyUnmatchedRequests: S.optional(S.Boolean.pipe(T.Body("deny_unmatched_requests"))),
           denyUnmatchedRequestsExemptedZoneNames: S.optional(
             __S(16288, __c509, 0).pipe(T.Body("deny_unmatched_requests_exempted_zone_names")),
@@ -129140,7 +129133,7 @@ function __c727(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationForAccountRequest" });
   }
 }
-function __c728(j: number): any {
+function __c727(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129151,7 +129144,7 @@ function __c728(j: number): any {
       ).annotate({ identifier: "OrganizationsUpdateRequestCustomPages" });
   }
 }
-function __c729(j: number): any {
+function __c728(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129162,7 +129155,7 @@ function __c729(j: number): any {
           ),
           authDomain: S.optional(S.String.pipe(T.Body("auth_domain"))),
           autoRedirectToIdentity: S.optional(S.Boolean.pipe(T.Body("auto_redirect_to_identity"))),
-          customPages: S.optional(__S(23296, __c728, 0).pipe(T.Body("custom_pages"))),
+          customPages: S.optional(__S(23264, __c727, 0).pipe(T.Body("custom_pages"))),
           denyUnmatchedRequests: S.optional(S.Boolean.pipe(T.Body("deny_unmatched_requests"))),
           denyUnmatchedRequestsExemptedZoneNames: S.optional(
             __S(16288, __c509, 0).pipe(T.Body("deny_unmatched_requests_exempted_zone_names")),
@@ -129195,7 +129188,7 @@ function __c729(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationForZoneRequest" });
   }
 }
-function __c730(j: number): any {
+function __c729(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129218,7 +129211,7 @@ function __c730(j: number): any {
       ).annotate({ identifier: "UpdateResourceLibraryApplicationRequest" });
   }
 }
-function __c731(j: number): any {
+function __c730(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129240,7 +129233,7 @@ function __c731(j: number): any {
       ).annotate({ identifier: "UpdateRiskScoringIntegrationRequest" });
   }
 }
-function __c732(j: number): any {
+function __c731(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129262,15 +129255,15 @@ function __c732(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          errors: __S(23905, __c747, 1),
+          errors: __S(23873, __c746, 1),
           pageType: S.String.pipe(T.Body("page_type")),
           version: S.Number,
-          warnings: __S(23905, __c747, 1),
+          warnings: __S(23873, __c746, 1),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ValidateAccessCustomPageResponse" });
   }
 }
-function __c733(j: number): any {
+function __c732(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129306,17 +129299,17 @@ function __c733(j: number): any {
         }),
       ).annotate({ identifier: "ValidateCasbPostureFindingTypeResponseErrorsItem" });
     case 2:
-      return S.Array(__S(23457, __c733, 1));
+      return S.Array(__S(23425, __c732, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          errors: __S(23458, __c733, 2),
+          errors: __S(23426, __c732, 2),
           valid: S.Boolean,
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ValidateCasbPostureFindingTypeResponse" });
   }
 }
-function __c734(j: number): any {
+function __c733(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129342,7 +129335,7 @@ function __c734(j: number): any {
       ).annotate({ identifier: "ValidateDlpPatternResponse" });
   }
 }
-function __c735(j: number): any {
+function __c734(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
@@ -129353,18 +129346,18 @@ function __c735(j: number): any {
           oauthConfiguration: S.optional(__S(23104, __c722, 0).pipe(T.Body("oauth_configuration"))),
           type: S.optional(S.String),
           userPopulations: S.optional(__S(16288, __c509, 0).pipe(T.Body("user_populations"))),
-          allowedIdps: S.optional(__S(23136, __c723, 0).pipe(T.Body("allowed_idps"))),
+          allowedIdps: S.optional(__S(16288, __c509, 0).pipe(T.Body("allowed_idps"))),
           destinations: S.optional(__S(23105, __c722, 1)),
           domain: S.optional(S.String),
           name: S.optional(S.String),
-          selfHostedDomains: S.optional(__S(23136, __c723, 0).pipe(T.Body("self_hosted_domains"))),
+          selfHostedDomains: S.optional(__S(16288, __c509, 0).pipe(T.Body("self_hosted_domains"))),
           allowAuthenticateViaWarp: S.optional(
             S.Boolean.pipe(T.Body("allow_authenticate_via_warp")),
           ),
           allowIframe: S.optional(S.Boolean.pipe(T.Body("allow_iframe"))),
           appLauncherVisible: S.optional(S.Boolean.pipe(T.Body("app_launcher_visible"))),
           autoRedirectToIdentity: S.optional(S.Boolean.pipe(T.Body("auto_redirect_to_identity"))),
-          corsHeaders: S.optional(__S(23168, __c724, 0).pipe(T.Body("cors_headers"))),
+          corsHeaders: S.optional(__S(23136, __c723, 0).pipe(T.Body("cors_headers"))),
           customDenyMessage: S.optional(S.String.pipe(T.Body("custom_deny_message"))),
           customDenyUrl: S.optional(S.String.pipe(T.Body("custom_deny_url"))),
           customNonIdentityDenyUrl: S.optional(
@@ -129380,7 +129373,7 @@ function __c735(j: number): any {
           mfaConfig: S.optional(__S(23106, __c722, 2).pipe(T.Body("mfa_config"))),
           optionsPreflightBypass: S.optional(S.Boolean.pipe(T.Body("options_preflight_bypass"))),
           pathCookieAttribute: S.optional(S.Boolean.pipe(T.Body("path_cookie_attribute"))),
-          policies: S.optional(__S(23520, __c735, 0)),
+          policies: S.optional(__S(23488, __c734, 0)),
           readServiceTokensFromHeader: S.optional(
             S.String.pipe(T.Body("read_service_tokens_from_header")),
           ),
@@ -129396,9 +129389,9 @@ function __c735(j: number): any {
           saasApp: S.optional(__S(23109, __c722, 5).pipe(T.Body("saas_app"))),
           appLauncherLogoUrl: S.optional(S.String.pipe(T.Body("app_launcher_logo_url"))),
           bgColor: S.optional(S.String.pipe(T.Body("bg_color"))),
-          footerLinks: S.optional(__S(23173, __c724, 5).pipe(T.Body("footer_links"))),
+          footerLinks: S.optional(__S(23141, __c723, 5).pipe(T.Body("footer_links"))),
           headerBgColor: S.optional(S.String.pipe(T.Body("header_bg_color"))),
-          landingPageDesign: S.optional(__S(23174, __c724, 6).pipe(T.Body("landing_page_design"))),
+          landingPageDesign: S.optional(__S(23142, __c723, 6).pipe(T.Body("landing_page_design"))),
           skipAppLauncherLoginPage: S.optional(
             S.Boolean.pipe(T.Body("skip_app_launcher_login_page")),
           ),
@@ -129409,7 +129402,7 @@ function __c735(j: number): any {
       ).annotate({ identifier: "CreateAccessApplicationForZoneRequest" });
   }
 }
-function __c736(j: number): any {
+function __c735(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([["rdp"], ["ssh"]]));
@@ -129425,11 +129418,11 @@ function __c736(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
-          approvalGroups: S.optional(__S(23617, __c738, 1).pipe(T.Body("approval_groups"))),
+          approvalGroups: S.optional(__S(23585, __c737, 1).pipe(T.Body("approval_groups"))),
           approvalRequired: S.optional(S.Boolean.pipe(T.Body("approval_required"))),
-          connectionRules: S.optional(__S(23552, __c736, 0).pipe(T.Body("connection_rules"))),
+          connectionRules: S.optional(__S(23520, __c735, 0).pipe(T.Body("connection_rules"))),
           isolationRequired: S.optional(S.Boolean.pipe(T.Body("isolation_required"))),
-          mfaConfig: S.optional(__S(23553, __c736, 1).pipe(T.Body("mfa_config"))),
+          mfaConfig: S.optional(__S(23521, __c735, 1).pipe(T.Body("mfa_config"))),
           precedence: S.optional(S.Number),
           purposeJustificationPrompt: S.optional(
             S.String.pipe(T.Body("purpose_justification_prompt")),
@@ -129439,13 +129432,13 @@ function __c736(j: number): any {
           ),
           sessionDuration: S.optional(S.String.pipe(T.Body("session_duration"))),
           decision: S.optional(S.String),
-          include: S.optional(__S(23585, __c737, 1)),
+          include: S.optional(__S(23553, __c736, 1)),
           name: S.optional(S.String),
-          exclude: S.optional(__S(23587, __c737, 3)),
+          exclude: S.optional(__S(23555, __c736, 3)),
           policyResolutionAccountId: S.optional(
             S.String.pipe(T.Body("policy_resolution_account_id")),
           ),
-          require: S.optional(__S(23589, __c737, 5)),
+          require: S.optional(__S(23557, __c736, 5)),
         })
           .pipe(
             T.Http({
@@ -129497,11 +129490,11 @@ function __c736(j: number): any {
       );
     case 4:
       return S.suspend(() =>
-        __S(23555, __c736, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(23523, __c735, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateAccessApplicationPolicyForAccountResponse" });
   }
 }
-function __c737(j: number): any {
+function __c736(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -129535,7 +129528,7 @@ function __c737(j: number): any {
         ]),
       );
     case 1:
-      return S.Array(__S(23584, __c737, 0));
+      return S.Array(__S(23552, __c736, 0));
     case 2:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -129568,7 +129561,7 @@ function __c737(j: number): any {
         ]),
       );
     case 3:
-      return S.Array(__S(23586, __c737, 2));
+      return S.Array(__S(23554, __c736, 2));
     case 4:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -129601,10 +129594,10 @@ function __c737(j: number): any {
         ]),
       );
     case 5:
-      return S.Array(__S(23588, __c737, 4));
+      return S.Array(__S(23556, __c736, 4));
   }
 }
-function __c738(j: number): any {
+function __c737(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129618,10 +129611,10 @@ function __c738(j: number): any {
           "AccessApplicationsCreateRequestPoliciesSelfHostedApplicationItemCase2ApprovalGroupsItem",
       });
     case 1:
-      return S.Array(__S(23616, __c738, 0));
+      return S.Array(__S(23584, __c737, 0));
   }
 }
-function __c739(j: number): any {
+function __c738(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([["rdp"], ["ssh"]]));
@@ -129637,11 +129630,11 @@ function __c739(j: number): any {
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           appId: S.String.pipe(T.Label("app_id")),
-          approvalGroups: S.optional(__S(23617, __c738, 1).pipe(T.Body("approval_groups"))),
+          approvalGroups: S.optional(__S(23585, __c737, 1).pipe(T.Body("approval_groups"))),
           approvalRequired: S.optional(S.Boolean.pipe(T.Body("approval_required"))),
-          connectionRules: S.optional(__S(23648, __c739, 0).pipe(T.Body("connection_rules"))),
+          connectionRules: S.optional(__S(23616, __c738, 0).pipe(T.Body("connection_rules"))),
           isolationRequired: S.optional(S.Boolean.pipe(T.Body("isolation_required"))),
-          mfaConfig: S.optional(__S(23649, __c739, 1).pipe(T.Body("mfa_config"))),
+          mfaConfig: S.optional(__S(23617, __c738, 1).pipe(T.Body("mfa_config"))),
           precedence: S.optional(S.Number),
           purposeJustificationPrompt: S.optional(
             S.String.pipe(T.Body("purpose_justification_prompt")),
@@ -129651,13 +129644,13 @@ function __c739(j: number): any {
           ),
           sessionDuration: S.optional(S.String.pipe(T.Body("session_duration"))),
           decision: S.optional(S.String),
-          include: S.optional(__S(23585, __c737, 1)),
+          include: S.optional(__S(23553, __c736, 1)),
           name: S.optional(S.String),
-          exclude: S.optional(__S(23587, __c737, 3)),
+          exclude: S.optional(__S(23555, __c736, 3)),
           policyResolutionAccountId: S.optional(
             S.String.pipe(T.Body("policy_resolution_account_id")),
           ),
-          require: S.optional(__S(23589, __c737, 5)),
+          require: S.optional(__S(23557, __c736, 5)),
         })
           .pipe(
             T.Http({
@@ -129709,11 +129702,11 @@ function __c739(j: number): any {
       );
     case 4:
       return S.suspend(() =>
-        __S(23651, __c739, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(23619, __c738, 3).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateAccessApplicationPolicyForZoneResponse" });
   }
 }
-function __c740(j: number): any {
+function __c739(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -129738,12 +129731,12 @@ function __c740(j: number): any {
         ]),
       );
     case 1:
-      return S.Array(__S(23680, __c740, 0));
+      return S.Array(__S(23648, __c739, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
-          policies: S.optional(__S(23681, __c740, 1)),
+          policies: S.optional(__S(23649, __c739, 1)),
         })
           .pipe(
             T.Http({
@@ -129763,7 +129756,7 @@ function __c740(j: number): any {
       ).annotate({ identifier: "CreateAccessApplicationPolicyTestResponse" });
   }
 }
-function __c741(j: number): any {
+function __c740(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129786,7 +129779,7 @@ function __c741(j: number): any {
       ).annotate({ identifier: "CreateAccessBookmarkRequest" });
   }
 }
-function __c742(j: number): any {
+function __c741(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129800,7 +129793,7 @@ function __c742(j: number): any {
       ).annotate({ identifier: "CreateAccessBookmarkResponse" });
   }
 }
-function __c743(j: number): any {
+function __c742(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129823,7 +129816,7 @@ function __c743(j: number): any {
       ).annotate({ identifier: "CreateAccessCertificateForAccountRequest" });
   }
 }
-function __c744(j: number): any {
+function __c743(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129839,7 +129832,7 @@ function __c744(j: number): any {
       ).annotate({ identifier: "CreateAccessCertificateResponse" });
   }
 }
-function __c745(j: number): any {
+function __c744(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129856,7 +129849,7 @@ function __c745(j: number): any {
       ).annotate({ identifier: "CreateAccessCertificateForZoneRequest" });
   }
 }
-function __c746(j: number): any {
+function __c745(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129878,7 +129871,7 @@ function __c746(j: number): any {
       ).annotate({ identifier: "CreateAccessCustomPageRequest" });
   }
 }
-function __c747(j: number): any {
+function __c746(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129889,10 +129882,10 @@ function __c747(j: number): any {
         }),
       ).annotate({ identifier: "AccessCustomPagesCreateResponseWarningsItem" });
     case 1:
-      return S.Array(__S(23904, __c747, 0));
+      return S.Array(__S(23872, __c746, 0));
   }
 }
-function __c748(j: number): any {
+function __c747(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129901,12 +129894,12 @@ function __c748(j: number): any {
           type: S.String,
           contractVersion: S.optional(S.NullOr(S.Number).pipe(T.Body("contract_version"))),
           uid: S.optional(S.NullOr(S.String)),
-          warnings: S.optional(S.NullOr(__S(23905, __c747, 1))),
+          warnings: S.optional(S.NullOr(__S(23873, __c746, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateAccessCustomPageResponse" });
   }
 }
-function __c749(j: number): any {
+function __c748(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -129927,24 +129920,24 @@ function __c749(j: number): any {
       ).annotate({ identifier: "CreateAccessGatewayCaResponse" });
   }
 }
-function __c750(j: number): any {
+function __c749(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
-          include: __S(24033, __c751, 1),
+          include: __S(24001, __c750, 1),
           name: S.String,
-          exclude: S.optional(__S(24033, __c751, 1)),
+          exclude: S.optional(__S(24001, __c750, 1)),
           isDefault: S.optional(S.Boolean.pipe(T.Body("is_default"))),
-          require: S.optional(__S(24033, __c751, 1)),
+          require: S.optional(__S(24001, __c750, 1)),
         })
           .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/access/groups", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateAccessGroupForAccountRequest" });
   }
 }
-function __c751(j: number): any {
+function __c750(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -129978,7 +129971,7 @@ function __c751(j: number): any {
         ]),
       );
     case 1:
-      return S.Array(__S(24032, __c751, 0));
+      return S.Array(__S(24000, __c750, 0));
     case 2:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -130011,7 +130004,7 @@ function __c751(j: number): any {
         ]),
       );
     case 3:
-      return S.Array(__S(24034, __c751, 2));
+      return S.Array(__S(24002, __c750, 2));
     case 4:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -130044,7 +130037,7 @@ function __c751(j: number): any {
         ]),
       );
     case 5:
-      return S.Array(__S(24036, __c751, 4));
+      return S.Array(__S(24004, __c750, 4));
     case 6:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -130077,38 +130070,38 @@ function __c751(j: number): any {
         ]),
       );
     case 7:
-      return S.Array(__S(24038, __c751, 6));
+      return S.Array(__S(24006, __c750, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          exclude: S.optional(S.NullOr(__S(24035, __c751, 3))),
-          include: S.optional(S.NullOr(__S(24037, __c751, 5))),
+          exclude: S.optional(S.NullOr(__S(24003, __c750, 3))),
+          include: S.optional(S.NullOr(__S(24005, __c750, 5))),
           isDefault: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_default"))),
           name: S.optional(S.NullOr(S.String)),
-          require: S.optional(S.NullOr(__S(24039, __c751, 7))),
+          require: S.optional(S.NullOr(__S(24007, __c750, 7))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateAccessGroupResponse" });
   }
 }
-function __c752(j: number): any {
+function __c751(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
-          include: __S(24033, __c751, 1),
+          include: __S(24001, __c750, 1),
           name: S.String,
-          exclude: S.optional(__S(24033, __c751, 1)),
+          exclude: S.optional(__S(24001, __c750, 1)),
           isDefault: S.optional(S.Boolean.pipe(T.Body("is_default"))),
-          require: S.optional(__S(24033, __c751, 1)),
+          require: S.optional(__S(24001, __c750, 1)),
         })
           .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/access/groups", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateAccessGroupForZoneRequest" });
   }
 }
-function __c753(j: number): any {
+function __c752(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130127,7 +130120,7 @@ function __c753(j: number): any {
       ).annotate({ identifier: "CreateAccessIdpFederationGrantRequest" });
   }
 }
-function __c754(j: number): any {
+function __c753(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130138,7 +130131,7 @@ function __c754(j: number): any {
       ).annotate({ identifier: "CreateAccessIdpFederationGrantResponse" });
   }
 }
-function __c755(j: number): any {
+function __c754(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130159,7 +130152,7 @@ function __c755(j: number): any {
       ).annotate({ identifier: "CreateAccessInfrastructureTargetRequest" });
   }
 }
-function __c756(j: number): any {
+function __c755(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130174,7 +130167,7 @@ function __c756(j: number): any {
       ).annotate({ identifier: "CreateAccessInfrastructureTargetResponse" });
   }
 }
-function __c757(j: number): any {
+function __c756(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -130208,20 +130201,20 @@ function __c757(j: number): any {
         ]),
       );
     case 1:
-      return S.Array(__S(24224, __c757, 0));
+      return S.Array(__S(24192, __c756, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           decision: S.String,
-          include: __S(24225, __c757, 1),
+          include: __S(24193, __c756, 1),
           name: S.String,
-          approvalGroups: S.optional(__S(23617, __c738, 1).pipe(T.Body("approval_groups"))),
+          approvalGroups: S.optional(__S(23585, __c737, 1).pipe(T.Body("approval_groups"))),
           approvalRequired: S.optional(S.Boolean.pipe(T.Body("approval_required"))),
-          connectionRules: S.optional(__S(24291, __c759, 3).pipe(T.Body("connection_rules"))),
-          exclude: S.optional(__S(24225, __c757, 1)),
+          connectionRules: S.optional(__S(24259, __c758, 3).pipe(T.Body("connection_rules"))),
+          exclude: S.optional(__S(24193, __c756, 1)),
           isolationRequired: S.optional(S.Boolean.pipe(T.Body("isolation_required"))),
-          mfaConfig: S.optional(__S(24288, __c759, 0).pipe(T.Body("mfa_config"))),
+          mfaConfig: S.optional(__S(24256, __c758, 0).pipe(T.Body("mfa_config"))),
           policyResolutionAccountId: S.optional(
             S.String.pipe(T.Body("policy_resolution_account_id")),
           ),
@@ -130231,7 +130224,7 @@ function __c757(j: number): any {
           purposeJustificationRequired: S.optional(
             S.Boolean.pipe(T.Body("purpose_justification_required")),
           ),
-          require: S.optional(__S(24225, __c757, 1)),
+          require: S.optional(__S(24193, __c756, 1)),
           sessionDuration: S.optional(S.String.pipe(T.Body("session_duration"))),
         })
           .pipe(
@@ -130271,7 +130264,7 @@ function __c757(j: number): any {
         ]),
       );
     case 4:
-      return S.Array(__S(24227, __c757, 3));
+      return S.Array(__S(24195, __c756, 3));
     case 5:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -130304,7 +130297,7 @@ function __c757(j: number): any {
         ]),
       );
     case 6:
-      return S.Array(__S(24229, __c757, 5));
+      return S.Array(__S(24197, __c756, 5));
     case 7:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -130337,7 +130330,7 @@ function __c757(j: number): any {
         ]),
       );
     case 8:
-      return S.Array(__S(24231, __c757, 7));
+      return S.Array(__S(24199, __c756, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -130345,18 +130338,18 @@ function __c757(j: number): any {
           accountId: S.optional(S.NullOr(S.String).pipe(T.Body("account_id"))),
           appCount: S.optional(S.NullOr(S.Number).pipe(T.Body("app_count"))),
           approvalGroups: S.optional(
-            S.NullOr(__S(24258, __c758, 2)).pipe(T.Body("approval_groups")),
+            S.NullOr(__S(24226, __c757, 2)).pipe(T.Body("approval_groups")),
           ),
           approvalRequired: S.optional(S.NullOr(S.Boolean).pipe(T.Body("approval_required"))),
           connectionRules: S.optional(
-            S.NullOr(__S(24261, __c758, 5)).pipe(T.Body("connection_rules")),
+            S.NullOr(__S(24229, __c757, 5)).pipe(T.Body("connection_rules")),
           ),
           createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
           decision: S.optional(S.NullOr(S.String)),
-          exclude: S.optional(S.NullOr(__S(24228, __c757, 4))),
-          include: S.optional(S.NullOr(__S(24230, __c757, 6))),
+          exclude: S.optional(S.NullOr(__S(24196, __c756, 4))),
+          include: S.optional(S.NullOr(__S(24198, __c756, 6))),
           isolationRequired: S.optional(S.NullOr(S.Boolean).pipe(T.Body("isolation_required"))),
-          mfaConfig: S.optional(S.NullOr(__S(24256, __c758, 0)).pipe(T.Body("mfa_config"))),
+          mfaConfig: S.optional(S.NullOr(__S(24224, __c757, 0)).pipe(T.Body("mfa_config"))),
           name: S.optional(S.NullOr(S.String)),
           policyResolutionAccountId: S.optional(
             S.NullOr(S.String).pipe(T.Body("policy_resolution_account_id")),
@@ -130367,7 +130360,7 @@ function __c757(j: number): any {
           purposeJustificationRequired: S.optional(
             S.NullOr(S.Boolean).pipe(T.Body("purpose_justification_required")),
           ),
-          require: S.optional(S.NullOr(__S(24232, __c757, 8))),
+          require: S.optional(S.NullOr(__S(24200, __c756, 8))),
           reusable: S.optional(S.NullOr(S.Boolean)),
           sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
           updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
@@ -130375,13 +130368,13 @@ function __c757(j: number): any {
       ).annotate({ identifier: "CreateAccessPolicyResponse" });
   }
 }
-function __c758(j: number): any {
+function __c757(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           allowedAuthenticators: S.optional(
-            S.NullOr(__S(23200, __c725, 0)).pipe(T.Body("allowed_authenticators")),
+            S.NullOr(__S(23168, __c724, 0)).pipe(T.Body("allowed_authenticators")),
           ),
           mfaDisabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("mfa_disabled"))),
           sessionDuration: S.optional(S.NullOr(S.String).pipe(T.Body("session_duration"))),
@@ -130401,17 +130394,17 @@ function __c758(j: number): any {
           "AccessApplicationsCreateResultSelfHostedApplicationPoliciesItemApprovalGroupsItem",
       });
     case 2:
-      return S.Array(__S(24257, __c758, 1));
+      return S.Array(__S(24225, __c757, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           allowedClipboardLocalToRemoteFormats: S.optional(
-            S.NullOr(__S(23200, __c725, 0)).pipe(
+            S.NullOr(__S(23168, __c724, 0)).pipe(
               T.Body("allowed_clipboard_local_to_remote_formats"),
             ),
           ),
           allowedClipboardRemoteToLocalFormats: S.optional(
-            S.NullOr(__S(23200, __c725, 0)).pipe(
+            S.NullOr(__S(23168, __c724, 0)).pipe(
               T.Body("allowed_clipboard_remote_to_local_formats"),
             ),
           ),
@@ -130430,19 +130423,19 @@ function __c758(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          rdp: S.optional(S.NullOr(__S(24259, __c758, 3))),
-          ssh: S.optional(S.NullOr(__S(24260, __c758, 4))),
+          rdp: S.optional(S.NullOr(__S(24227, __c757, 3))),
+          ssh: S.optional(S.NullOr(__S(24228, __c757, 4))),
         }),
       ).annotate({ identifier: "AccessPoliciesCreateResponseConnectionRules" });
   }
 }
-function __c759(j: number): any {
+function __c758(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           allowedAuthenticators: S.optional(
-            __S(23200, __c725, 0).pipe(T.Body("allowed_authenticators")),
+            __S(23168, __c724, 0).pipe(T.Body("allowed_authenticators")),
           ),
           mfaDisabled: S.optional(S.Boolean.pipe(T.Body("mfa_disabled"))),
           sessionDuration: S.optional(S.String.pipe(T.Body("session_duration"))),
@@ -130452,10 +130445,10 @@ function __c759(j: number): any {
       return S.suspend(() =>
         S.Struct({
           allowedClipboardLocalToRemoteFormats: S.optional(
-            __S(23200, __c725, 0).pipe(T.Body("allowed_clipboard_local_to_remote_formats")),
+            __S(23168, __c724, 0).pipe(T.Body("allowed_clipboard_local_to_remote_formats")),
           ),
           allowedClipboardRemoteToLocalFormats: S.optional(
-            __S(23200, __c725, 0).pipe(T.Body("allowed_clipboard_remote_to_local_formats")),
+            __S(23168, __c724, 0).pipe(T.Body("allowed_clipboard_remote_to_local_formats")),
           ),
         }),
       ).annotate({
@@ -130475,13 +130468,13 @@ function __c759(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rdp: S.optional(__S(24289, __c759, 1)),
-          ssh: S.optional(__S(24290, __c759, 2)),
+          rdp: S.optional(__S(24257, __c758, 1)),
+          ssh: S.optional(__S(24258, __c758, 2)),
         }),
       ).annotate({ identifier: "AccessPoliciesCreateRequestConnectionRules" });
   }
 }
-function __c760(j: number): any {
+function __c759(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130506,7 +130499,7 @@ function __c760(j: number): any {
       ).annotate({ identifier: "CreateAccessServiceTokenForAccountRequest" });
   }
 }
-function __c761(j: number): any {
+function __c760(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130521,7 +130514,7 @@ function __c761(j: number): any {
       ).annotate({ identifier: "CreateAccessServiceTokenResponse" });
   }
 }
-function __c762(j: number): any {
+function __c761(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130542,7 +130535,7 @@ function __c762(j: number): any {
       ).annotate({ identifier: "CreateAccessServiceTokenForZoneRequest" });
   }
 }
-function __c763(j: number): any {
+function __c762(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130555,7 +130548,7 @@ function __c763(j: number): any {
       ).annotate({ identifier: "CreateAccessTagRequest" });
   }
 }
-function __c764(j: number): any {
+function __c763(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130565,7 +130558,7 @@ function __c764(j: number): any {
       ).annotate({ identifier: "CreateAccessTagResponse" });
   }
 }
-function __c765(j: number): any {
+function __c764(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130579,7 +130572,7 @@ function __c765(j: number): any {
       ).annotate({ identifier: "CreateAccessUserRequest" });
   }
 }
-function __c766(j: number): any {
+function __c765(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130599,7 +130592,7 @@ function __c766(j: number): any {
       ).annotate({ identifier: "CreateAccessUserResponse" });
   }
 }
-function __c767(j: number): any {
+function __c766(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130618,7 +130611,7 @@ function __c767(j: number): any {
       ).annotate({ identifier: "CreateAccessUserPopulationRequest" });
   }
 }
-function __c768(j: number): any {
+function __c767(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130629,7 +130622,7 @@ function __c768(j: number): any {
       ).annotate({ identifier: "CreateAccessUserPopulationResponse" });
   }
 }
-function __c769(j: number): any {
+function __c768(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130638,10 +130631,10 @@ function __c769(j: number): any {
           userPopulationId: S.String.pipe(T.Label("user_population_id")),
           active: S.optional(S.Boolean),
           displayName: S.optional(S.String),
-          emails: S.optional(__S(24737, __c773, 1)),
+          emails: S.optional(__S(24705, __c772, 1)),
           externalId: S.optional(S.String),
-          meta: S.optional(__S(24738, __c773, 2)),
-          name: S.optional(__S(24739, __c773, 3)),
+          meta: S.optional(__S(24706, __c772, 2)),
+          name: S.optional(__S(24707, __c772, 3)),
           schemas: S.optional(__S(16288, __c509, 0)),
           userName: S.optional(S.String),
         })
@@ -130656,7 +130649,7 @@ function __c769(j: number): any {
       ).annotate({ identifier: "CreateAccessUserPopulationsUserRequest" });
   }
 }
-function __c770(j: number): any {
+function __c769(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130667,10 +130660,10 @@ function __c770(j: number): any {
         }),
       ).annotate({ identifier: "CreateAccessUserPopulationsUserResponseEmailsItem" });
     case 1:
-      return S.Array(__S(24640, __c770, 0));
+      return S.Array(__S(24608, __c769, 0));
   }
 }
-function __c771(j: number): any {
+function __c770(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130695,7 +130688,7 @@ function __c771(j: number): any {
       ).annotate({ identifier: "CreateAccessUserPopulationsUserResponseName" });
   }
 }
-function __c772(j: number): any {
+function __c771(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130703,17 +130696,17 @@ function __c772(j: number): any {
           id: S.optional(S.NullOr(S.String)),
           active: S.optional(S.NullOr(S.Boolean)),
           displayName: S.optional(S.NullOr(S.String)),
-          emails: S.optional(S.NullOr(__S(24641, __c770, 1))),
+          emails: S.optional(S.NullOr(__S(24609, __c769, 1))),
           externalId: S.optional(S.NullOr(S.String)),
-          meta: S.optional(S.NullOr(__S(24672, __c771, 0))),
-          name: S.optional(S.NullOr(__S(24673, __c771, 1))),
+          meta: S.optional(S.NullOr(__S(24640, __c770, 0))),
+          name: S.optional(S.NullOr(__S(24641, __c770, 1))),
           schemas: S.optional(S.NullOr(__S(16288, __c509, 0))),
           userName: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateAccessUserPopulationsUserResponse" });
   }
 }
-function __c773(j: number): any {
+function __c772(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130724,7 +130717,7 @@ function __c773(j: number): any {
         }),
       ).annotate({ identifier: "CreateAccessUserPopulationsUserRequestEmailsItem" });
     case 1:
-      return S.Array(__S(24736, __c773, 0));
+      return S.Array(__S(24704, __c772, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -130748,7 +130741,7 @@ function __c773(j: number): any {
       ).annotate({ identifier: "CreateAccessUserPopulationsUserRequestName" });
   }
 }
-function __c774(j: number): any {
+function __c773(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130757,7 +130750,7 @@ function __c774(j: number): any {
           application: S.String,
           credentials: __S(16320, __c510, 0),
           name: S.String,
-          useCases: __S(23200, __c725, 0).pipe(T.Body("use_cases")),
+          useCases: __S(23168, __c724, 0).pipe(T.Body("use_cases")),
           authMethod: S.optional(S.String.pipe(T.Body("auth_method"))),
           dlpProfiles: S.optional(__S(16288, __c509, 0).pipe(T.Body("dlp_profiles"))),
           permissions: S.optional(__S(16288, __c509, 0)),
@@ -130769,7 +130762,7 @@ function __c774(j: number): any {
       ).annotate({ identifier: "CreateCasbIntegrationRequest" });
   }
 }
-function __c775(j: number): any {
+function __c774(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130784,7 +130777,7 @@ function __c775(j: number): any {
           id: S.String,
           application: __S(18496, __c578, 0),
           authMethod: __S(18496, __c578, 0).pipe(T.Body("auth_method")),
-          authorizationLink: __S(24800, __c775, 0).pipe(T.Body("authorization_link")),
+          authorizationLink: __S(24768, __c774, 0).pipe(T.Body("authorization_link")),
           created: S.String,
           credentialsExpiry: S.String.pipe(T.Body("credentials_expiry")),
           dlpProfiles: __S(16288, __c509, 0).pipe(T.Body("dlp_profiles")),
@@ -130799,7 +130792,7 @@ function __c775(j: number): any {
       ).annotate({ identifier: "CreateCasbIntegrationResponse" });
   }
 }
-function __c776(j: number): any {
+function __c775(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130825,7 +130818,7 @@ function __c776(j: number): any {
       ).annotate({ identifier: "CreateCasbPostureFindingTypeRequest" });
   }
 }
-function __c777(j: number): any {
+function __c776(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130853,13 +130846,13 @@ function __c777(j: number): any {
       ).annotate({ identifier: "CreateCasbPostureFindingTypeResponse" });
   }
 }
-function __c778(j: number): any {
+function __c777(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
-          actions: __S(24996, __c781, 4),
+          actions: __S(24964, __c780, 4),
           appliesToAllIntegrations: S.Boolean.pipe(T.Body("applies_to_all_integrations")),
           displayName: S.String.pipe(T.Body("display_name")),
           enabled: S.Boolean,
@@ -130878,7 +130871,7 @@ function __c778(j: number): any {
       ).annotate({ identifier: "CreateCasbPosturePolicyRequest" });
   }
 }
-function __c779(j: number): any {
+function __c778(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130889,7 +130882,7 @@ function __c779(j: number): any {
         }),
       ).annotate({ identifier: "CreateCasbPosturePolicyResponseActionsRemediationTypesItem" });
     case 1:
-      return S.Array(__S(24928, __c779, 0));
+      return S.Array(__S(24896, __c778, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -130898,23 +130891,23 @@ function __c779(j: number): any {
         }),
       ).annotate({ identifier: "CreateCasbPosturePolicyResponseActionsWebhookConfigsItem" });
     case 3:
-      return S.Array(__S(24930, __c779, 2));
+      return S.Array(__S(24898, __c778, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          remediationTypes: __S(24929, __c779, 1).pipe(T.Body("remediation_types")),
-          webhookConfigs: __S(24931, __c779, 3).pipe(T.Body("webhook_configs")),
+          remediationTypes: __S(24897, __c778, 1).pipe(T.Body("remediation_types")),
+          webhookConfigs: __S(24899, __c778, 3).pipe(T.Body("webhook_configs")),
         }),
       ).annotate({ identifier: "CreateCasbPosturePolicyResponseActions" });
   }
 }
-function __c780(j: number): any {
+function __c779(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          actions: __S(24932, __c779, 4),
+          actions: __S(24900, __c778, 4),
           appliesToAllIntegrations: S.Boolean.pipe(T.Body("applies_to_all_integrations")),
           createdAt: S.String.pipe(T.Body("created_at")),
           description: S.String,
@@ -130929,7 +130922,7 @@ function __c780(j: number): any {
       ).annotate({ identifier: "CreateCasbPosturePolicyResponse" });
   }
 }
-function __c781(j: number): any {
+function __c780(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130938,7 +130931,7 @@ function __c781(j: number): any {
         }),
       ).annotate({ identifier: "CreateCasbPosturePolicyRequestActionsRemediationTypesItem" });
     case 1:
-      return S.Array(__S(24992, __c781, 0));
+      return S.Array(__S(24960, __c780, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -130946,17 +130939,17 @@ function __c781(j: number): any {
         }),
       ).annotate({ identifier: "CreateCasbPosturePolicyRequestActionsWebhookConfigsItem" });
     case 3:
-      return S.Array(__S(24994, __c781, 2));
+      return S.Array(__S(24962, __c780, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          remediationTypes: S.optional(__S(24993, __c781, 1).pipe(T.Body("remediation_types"))),
-          webhookConfigs: S.optional(__S(24995, __c781, 3).pipe(T.Body("webhook_configs"))),
+          remediationTypes: S.optional(__S(24961, __c780, 1).pipe(T.Body("remediation_types"))),
+          webhookConfigs: S.optional(__S(24963, __c780, 3).pipe(T.Body("webhook_configs"))),
         }),
       ).annotate({ identifier: "CreateCasbPosturePolicyRequestActions" });
   }
 }
-function __c782(j: number): any {
+function __c781(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -130980,21 +130973,21 @@ function __c782(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          value: __S(25025, __c782, 1),
+          value: __S(24993, __c781, 1),
           link: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({
         identifier: "CreateCasbPostureRemediationsJobResponseCreatedItemAssetFieldsItem",
       });
     case 3:
-      return S.Array(__S(25026, __c782, 2));
+      return S.Array(__S(24994, __c781, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          category: __S(25056, __c783, 0),
+          category: __S(25024, __c782, 0),
           externalId: S.String.pipe(T.Body("external_id")),
-          fields: __S(25027, __c782, 3),
+          fields: __S(24995, __c781, 3),
           name: S.String,
           link: S.optional(S.NullOr(S.String)),
         }),
@@ -131003,7 +130996,7 @@ function __c782(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          asset: __S(25028, __c782, 4),
+          asset: __S(24996, __c781, 4),
           createdAt: S.String.pipe(T.Body("created_at")),
           findingId: S.String.pipe(T.Body("finding_id")),
           findingInstanceId: S.String.pipe(T.Body("finding_instance_id")),
@@ -131019,7 +131012,7 @@ function __c782(j: number): any {
         }),
       ).annotate({ identifier: "CreateCasbPostureRemediationsJobResponseCreatedItem" });
     case 6:
-      return S.Array(__S(25029, __c782, 5));
+      return S.Array(__S(24997, __c781, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -131028,17 +131021,17 @@ function __c782(j: number): any {
         }),
       ).annotate({ identifier: "CreateCasbPostureRemediationsJobResponseFailedItem" });
     case 8:
-      return S.Array(__S(25031, __c782, 7));
+      return S.Array(__S(24999, __c781, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          created: __S(25030, __c782, 6),
-          failed: __S(25032, __c782, 8),
+          created: __S(24998, __c781, 6),
+          failed: __S(25000, __c781, 8),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateCasbPostureRemediationsJobResponse" });
   }
 }
-function __c783(j: number): any {
+function __c782(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131052,7 +131045,7 @@ function __c783(j: number): any {
       });
   }
 }
-function __c784(j: number): any {
+function __c783(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131076,7 +131069,7 @@ function __c784(j: number): any {
       ).annotate({ identifier: "CreateCasbPostureWebhookRequest" });
   }
 }
-function __c785(j: number): any {
+function __c784(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131086,10 +131079,10 @@ function __c785(j: number): any {
         }),
       ).annotate({ identifier: "CreateCasbPostureWebhookResponseHeadersItem" });
     case 1:
-      return S.Array(__S(25120, __c785, 0));
+      return S.Array(__S(25088, __c784, 0));
   }
 }
-function __c786(j: number): any {
+function __c785(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131102,12 +131095,12 @@ function __c786(j: number): any {
           status: S.String,
           updatedAt: S.String.pipe(T.Body("updated_at")),
           version: S.Number,
-          headers: S.optional(S.NullOr(__S(25121, __c785, 1))),
+          headers: S.optional(S.NullOr(__S(25089, __c784, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateCasbPostureWebhookResponse" });
   }
 }
-function __c787(j: number): any {
+function __c786(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131139,7 +131132,7 @@ function __c787(j: number): any {
           createdAt: S.String.pipe(T.Body("created_at")),
           integrationId: S.String.pipe(T.Body("integration_id")),
           lastUpdatedAt: S.String.pipe(T.Body("last_updated_at")),
-          parameters: __S(25185, __c787, 1),
+          parameters: __S(25153, __c786, 1),
           status: S.String,
           triggeredByActor: S.String.pipe(T.Body("triggered_by_actor")),
           triggeredById: S.String.pipe(T.Body("triggered_by_id")),
@@ -131151,7 +131144,7 @@ function __c787(j: number): any {
         }),
       ).annotate({ identifier: "CreateCasbPostureWebhooksJobResponseCreatedItem" });
     case 3:
-      return S.Array(__S(25186, __c787, 2));
+      return S.Array(__S(25154, __c786, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -131161,17 +131154,17 @@ function __c787(j: number): any {
         }),
       ).annotate({ identifier: "CreateCasbPostureWebhooksJobResponseFailedItem" });
     case 5:
-      return S.Array(__S(25188, __c787, 4));
+      return S.Array(__S(25156, __c786, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          created: __S(25187, __c787, 3),
-          failed: __S(25189, __c787, 5),
+          created: __S(25155, __c786, 3),
+          failed: __S(25157, __c786, 5),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateCasbPostureWebhooksJobResponse" });
   }
 }
-function __c788(j: number): any {
+function __c787(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131190,7 +131183,7 @@ function __c788(j: number): any {
       ).annotate({ identifier: "CreateCwsBasicAuthCredentialsRequest" });
   }
 }
-function __c789(j: number): any {
+function __c788(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131203,7 +131196,7 @@ function __c789(j: number): any {
       ).annotate({ identifier: "CreateCwsBasicAuthCredentialsResponse" });
   }
 }
-function __c790(j: number): any {
+function __c789(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131224,7 +131217,7 @@ function __c790(j: number): any {
       ).annotate({ identifier: "CreateCwsBasicAuthCredentialsSecretRequest" });
   }
 }
-function __c791(j: number): any {
+function __c790(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131236,7 +131229,7 @@ function __c791(j: number): any {
       ).annotate({ identifier: "CreateCwsBasicAuthCredentialsSecretResponse" });
   }
 }
-function __c792(j: number): any {
+function __c791(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131259,7 +131252,7 @@ function __c792(j: number): any {
       ).annotate({ identifier: "CreateCwsDeploymentRequest" });
   }
 }
-function __c793(j: number): any {
+function __c792(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131280,14 +131273,14 @@ function __c793(j: number): any {
       ).annotate({ identifier: "CreateCwsDeploymentResponse" });
   }
 }
-function __c794(j: number): any {
+function __c793(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           defaultAction: S.String.pipe(T.Body("default_action")),
-          entries: __S(25441, __c795, 1),
+          entries: __S(25409, __c794, 1),
           name: S.String,
         })
           .pipe(
@@ -131297,7 +131290,7 @@ function __c794(j: number): any {
       ).annotate({ identifier: "CreateCwsDomainAclRequest" });
   }
 }
-function __c795(j: number): any {
+function __c794(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131307,10 +131300,10 @@ function __c795(j: number): any {
         }),
       ).annotate({ identifier: "CreateCwsDomainAclRequestEntriesItem" });
     case 1:
-      return S.Array(__S(25440, __c795, 0));
+      return S.Array(__S(25408, __c794, 0));
   }
 }
-function __c796(j: number): any {
+function __c795(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131318,14 +131311,14 @@ function __c796(j: number): any {
           id: S.String,
           createdAt: S.String.pipe(T.Body("created_at")),
           defaultAction: S.String.pipe(T.Body("default_action")),
-          entries: __S(25441, __c795, 1),
+          entries: __S(25409, __c794, 1),
           name: S.String,
           updatedAt: S.String.pipe(T.Body("updated_at")),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateCwsDomainAclResponse" });
   }
 }
-function __c797(j: number): any {
+function __c796(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131343,7 +131336,7 @@ function __c797(j: number): any {
       ).annotate({ identifier: "CreateCwsPolicyRequest" });
   }
 }
-function __c798(j: number): any {
+function __c797(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131362,14 +131355,14 @@ function __c798(j: number): any {
       ).annotate({ identifier: "CreateCwsPolicyResponse" });
   }
 }
-function __c799(j: number): any {
+function __c798(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           name: S.String,
-          policies: __S(25665, __c802, 1),
+          policies: __S(25633, __c801, 1),
           description: S.optional(S.String),
           excludeWorkloadIds: S.optional(
             __S(16288, __c509, 0).pipe(T.Body("exclude_workload_ids")),
@@ -131386,7 +131379,7 @@ function __c799(j: number): any {
       ).annotate({ identifier: "CreateCwsPolicySetRequest" });
   }
 }
-function __c800(j: number): any {
+function __c799(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131396,10 +131389,10 @@ function __c800(j: number): any {
         }),
       ).annotate({ identifier: "CreateCwsPolicySetResponsePoliciesItem" });
     case 1:
-      return S.Array(__S(25600, __c800, 0));
+      return S.Array(__S(25568, __c799, 0));
   }
 }
-function __c801(j: number): any {
+function __c800(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131409,7 +131402,7 @@ function __c801(j: number): any {
           excludeWorkloadIds: __S(16288, __c509, 0).pipe(T.Body("exclude_workload_ids")),
           includeWorkloadIds: __S(16288, __c509, 0).pipe(T.Body("include_workload_ids")),
           name: S.String,
-          policies: __S(25601, __c800, 1),
+          policies: __S(25569, __c799, 1),
           tags: __S(18496, __c578, 0),
           updatedAt: S.String.pipe(T.Body("updated_at")),
           description: S.optional(S.NullOr(S.String)),
@@ -131417,7 +131410,7 @@ function __c801(j: number): any {
       ).annotate({ identifier: "CreateCwsPolicySetResponse" });
   }
 }
-function __c802(j: number): any {
+function __c801(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131427,10 +131420,10 @@ function __c802(j: number): any {
         }),
       ).annotate({ identifier: "CreateCwsPolicySetRequestPoliciesItem" });
     case 1:
-      return S.Array(__S(25664, __c802, 0));
+      return S.Array(__S(25632, __c801, 0));
   }
 }
-function __c803(j: number): any {
+function __c802(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131447,7 +131440,7 @@ function __c803(j: number): any {
       ).annotate({ identifier: "CreateCwsRegoMetadataRequest" });
   }
 }
-function __c804(j: number): any {
+function __c803(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131462,7 +131455,7 @@ function __c804(j: number): any {
       ).annotate({ identifier: "CreateCwsRegoMetadataResponse" });
   }
 }
-function __c805(j: number): any {
+function __c804(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131478,7 +131471,7 @@ function __c805(j: number): any {
       ).annotate({ identifier: "CreateCwsRegoModuleRequest" });
   }
 }
-function __c806(j: number): any {
+function __c805(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131493,7 +131486,7 @@ function __c806(j: number): any {
       ).annotate({ identifier: "CreateCwsRegoModuleResponse" });
   }
 }
-function __c807(j: number): any {
+function __c806(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -131514,7 +131507,7 @@ function __c807(j: number): any {
       ).annotate({ identifier: "CreateCwsTenantStructureRequest" });
   }
 }
-function __c808(j: number): any {
+function __c807(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

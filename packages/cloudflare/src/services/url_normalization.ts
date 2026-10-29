@@ -47,52 +47,14 @@ export interface GetUrlNormalizationRequest {
   /** The unique ID of the zone. */
   zoneId: string;
 }
-export type GetResultCase0Scope = "incoming" | "both" | "none";
-export type GetResultCase0Type = "cloudflare" | "rfc3986";
-export interface GetResultCase0 {
+export type GetResultScope = "incoming" | "both" | "none";
+export type GetResultType = "cloudflare" | "rfc3986";
+export interface GetResult {
   /** The scope of the URL normalization. */
-  scope?: GetResultCase0Scope | null;
+  scope: GetResultScope;
   /** The type of URL normalization performed by Cloudflare. */
-  type?: GetResultCase0Type | null;
+  type: GetResultType;
 }
-export type GetResultCase1Scope = "incoming" | "both" | "none";
-export type GetResultCase1Type = "cloudflare" | "rfc3986";
-export interface GetResultCase1 {
-  /** The scope of the URL normalization. */
-  scope?: GetResultCase1Scope | null;
-  /** The type of URL normalization performed by Cloudflare. */
-  type?: GetResultCase1Type | null;
-}
-export type GetResultCase2Scope = "incoming" | "both" | "none";
-export type GetResultCase2Type = "cloudflare" | "rfc3986";
-export interface GetResultCase2 {
-  /** The scope of the URL normalization. */
-  scope?: GetResultCase2Scope | null;
-  /** The type of URL normalization performed by Cloudflare. */
-  type?: GetResultCase2Type | null;
-}
-export type GetResultCase3Scope = "incoming" | "both" | "none";
-export type GetResultCase3Type = "cloudflare" | "rfc3986";
-export interface GetResultCase3 {
-  /** The scope of the URL normalization. */
-  scope?: GetResultCase3Scope | null;
-  /** The type of URL normalization performed by Cloudflare. */
-  type?: GetResultCase3Type | null;
-}
-export type GetResultCase4Scope = "incoming" | "both" | "none";
-export type GetResultCase4Type = "cloudflare" | "rfc3986";
-export interface GetResultCase4 {
-  /** The scope of the URL normalization. */
-  scope?: GetResultCase4Scope | null;
-  /** The type of URL normalization performed by Cloudflare. */
-  type?: GetResultCase4Type | null;
-}
-export type GetResult =
-  | GetResultCase0
-  | GetResultCase1
-  | GetResultCase2
-  | GetResultCase3
-  | GetResultCase4;
 export type GetUrlNormalizationResponse = GetResult;
 export type UpdateRequestScope = "incoming" | "both" | "none";
 export type UpdateRequestType = "cloudflare" | "rfc3986";
@@ -104,52 +66,14 @@ export interface PutUrlNormalizationRequest {
   /** The type of URL normalization performed by Cloudflare. */
   type: UpdateRequestType | (string & {});
 }
-export type UpdateResultCase0Scope = "incoming" | "both" | "none";
-export type UpdateResultCase0Type = "cloudflare" | "rfc3986";
-export interface UpdateResultCase0 {
+export type UpdateResultScope = "incoming" | "both" | "none";
+export type UpdateResultType = "cloudflare" | "rfc3986";
+export interface UpdateResult {
   /** The scope of the URL normalization. */
-  scope?: UpdateResultCase0Scope | null;
+  scope: UpdateResultScope;
   /** The type of URL normalization performed by Cloudflare. */
-  type?: UpdateResultCase0Type | null;
+  type: UpdateResultType;
 }
-export type UpdateResultCase1Scope = "incoming" | "both" | "none";
-export type UpdateResultCase1Type = "cloudflare" | "rfc3986";
-export interface UpdateResultCase1 {
-  /** The scope of the URL normalization. */
-  scope?: UpdateResultCase1Scope | null;
-  /** The type of URL normalization performed by Cloudflare. */
-  type?: UpdateResultCase1Type | null;
-}
-export type UpdateResultCase2Scope = "incoming" | "both" | "none";
-export type UpdateResultCase2Type = "cloudflare" | "rfc3986";
-export interface UpdateResultCase2 {
-  /** The scope of the URL normalization. */
-  scope?: UpdateResultCase2Scope | null;
-  /** The type of URL normalization performed by Cloudflare. */
-  type?: UpdateResultCase2Type | null;
-}
-export type UpdateResultCase3Scope = "incoming" | "both" | "none";
-export type UpdateResultCase3Type = "cloudflare" | "rfc3986";
-export interface UpdateResultCase3 {
-  /** The scope of the URL normalization. */
-  scope?: UpdateResultCase3Scope | null;
-  /** The type of URL normalization performed by Cloudflare. */
-  type?: UpdateResultCase3Type | null;
-}
-export type UpdateResultCase4Scope = "incoming" | "both" | "none";
-export type UpdateResultCase4Type = "cloudflare" | "rfc3986";
-export interface UpdateResultCase4 {
-  /** The scope of the URL normalization. */
-  scope?: UpdateResultCase4Scope | null;
-  /** The type of URL normalization performed by Cloudflare. */
-  type?: UpdateResultCase4Type | null;
-}
-export type UpdateResult =
-  | UpdateResultCase0
-  | UpdateResultCase1
-  | UpdateResultCase2
-  | UpdateResultCase3
-  | UpdateResultCase4;
 export type PutUrlNormalizationResponse = UpdateResult;
 export type DeleteUrlNormalizationError = Forbidden | CloudflareOpError;
 /** Deletes the URL Normalization settings. */
@@ -176,8 +100,8 @@ export const getUrlNormalization: API.OperationMethod<
   GetUrlNormalizationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<GetUrlNormalizationRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<GetUrlNormalizationResponse>,
+  input: __S(2, __c1, 0) as any as S.Schema<GetUrlNormalizationRequest>,
+  output: __S(5, __c2, 1) as any as S.Schema<GetUrlNormalizationResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -193,8 +117,8 @@ export const putUrlNormalization: API.OperationMethod<
   PutUrlNormalizationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<PutUrlNormalizationRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<PutUrlNormalizationResponse>,
+  input: __S(6, __c3, 0) as any as S.Schema<PutUrlNormalizationRequest>,
+  output: __S(5, __c2, 1) as any as S.Schema<PutUrlNormalizationResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -225,23 +149,24 @@ function __c1(j: number): any {
           zoneId: S.String.pipe(T.Label("zone_id")),
         }).pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}/url_normalization", code: 200 })),
       ).annotate({ identifier: "GetUrlNormalizationRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          scope: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "GetResult" });
     case 1:
-      return S.Unknown.pipe(
-        /*@__PURE__*/ T.UnionCases([
-          ["scope", "type"],
-          ["scope", "type"],
-          ["scope", "type"],
-          ["scope", "type"],
-          ["scope", "type"],
-        ]),
-      );
-    case 2:
-      return S.suspend(() => __S(5, __c1, 1).pipe(T.EnvelopePayloadRoot())).annotate({
+      return S.suspend(() => __S(4, __c2, 0).pipe(T.EnvelopePayloadRoot())).annotate({
         identifier: "GetUrlNormalizationResponse",
       });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -251,20 +176,6 @@ function __c2(j: number): any {
           type: S.String,
         }).pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/url_normalization", code: 200 })),
       ).annotate({ identifier: "PutUrlNormalizationRequest" });
-    case 1:
-      return S.Unknown.pipe(
-        /*@__PURE__*/ T.UnionCases([
-          ["scope", "type"],
-          ["scope", "type"],
-          ["scope", "type"],
-          ["scope", "type"],
-          ["scope", "type"],
-        ]),
-      );
-    case 2:
-      return S.suspend(() => __S(9, __c2, 1).pipe(T.EnvelopePayloadRoot())).annotate({
-        identifier: "PutUrlNormalizationResponse",
-      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
