@@ -87,6 +87,46 @@ const resendSpec: SdkSpec = {
       : code,
 };
 
+const WEBHOOK_EVENT_TRAIT = "com.distilled.resend#webhookEvent";
+
+/**
+ * The webhook_events model (see convert.ts) has no operations: its payload
+ * shapes, tagged with their event name, are the roots. The module closes
+ * with the `WebhookEvent` union, which a receiver narrows on `type`, and a
+ * `WebhookEvents` map from event name to payload.
+ */
+const webhookEventsSpec = (model: any): SdkSpec => {
+  const events: Array<[event: string, name: string]> = [];
+  for (const [id, shape] of Object.entries<any>(model.shapes)) {
+    const meta = shape.traits?.[WEBHOOK_EVENT_TRAIT];
+    if (meta) events.push([meta.event, id.slice(id.indexOf("#") + 1)]);
+  }
+  events.sort(([a], [b]) => a.localeCompare(b));
+  const tail = [
+    "",
+    "/** Every event Resend delivers to a webhook endpoint, discriminated on `type`. */",
+    "export type WebhookEvent =",
+    ...events.map(([, name]) => `  | ${name}`),
+    ";",
+    "",
+    "/** Every webhook payload, keyed by its event name (the payload's `type`). */",
+    "export interface WebhookEvents {",
+    ...events.map(([event, name]) => `  ${JSON.stringify(event)}: ${name};`),
+    "}",
+    "",
+    "/** A webhook event name. */",
+    "export type WebhookEventType = keyof WebhookEvents;",
+    "",
+  ].join("\n");
+  return {
+    ...resendSpec,
+    // No operations, so nothing reads the error classes.
+    operationDecl: { ...resendSpec.operationDecl!, commonErrorClasses: [] },
+    extraRoots: () => events.map(([, name]) => `com.resend.webhooks#${name}`),
+    postProcess: (code) => resendSpec.postProcess!(code) + tail,
+  };
+};
+
 runGeneratorCli({
   description: "Generate the Resend Effect SDK from the Smithy model",
   convert: () => import("./convert.ts"),
@@ -95,6 +135,9 @@ runGeneratorCli({
   patchesDir: false,
   spec: (model) => {
     const shapes = (model.shapes ?? {}) as Record<string, any>;
+    if (Object.values(shapes).some((shape) => shape?.traits?.[WEBHOOK_EVENT_TRAIT])) {
+      return webhookEventsSpec(model);
+    }
     for (const shape of Object.values(shapes)) {
       if (shape?.type !== "operation") continue;
       if (shape.traits?.[PAGINATED_TRAIT]) continue;
