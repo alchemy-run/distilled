@@ -4,6 +4,7 @@
  * https://smithy.io/2.0/aws/protocols/aws-restxml-protocol.html
  */
 
+import { InvalidInput } from "@distilled.cloud/core/errors";
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
@@ -159,7 +160,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     }
   }
 
-  const serialize = (input: unknown): Request => {
+  const serialize = (input: unknown): Request | InvalidInput => {
     // Encode the input via schema - handles all transformations
     const encoded = encodeInput(input);
 
@@ -171,11 +172,9 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     };
 
     applyHttpTrait(inputAst, request);
-    const { payloadValue, payloadAst, bodyMembers, hasBodyMembers } = bindInputToRequest(
-      inputAst,
-      encoded as Record<string, unknown>,
-      request,
-    );
+    const bound = bindInputToRequest(inputAst, encoded as Record<string, unknown>, request);
+    if (bound instanceof InvalidInput) return bound;
+    const { payloadValue, payloadAst, bodyMembers, hasBodyMembers } = bound;
     extractStaticQueryParams(request);
 
     // Serialize body

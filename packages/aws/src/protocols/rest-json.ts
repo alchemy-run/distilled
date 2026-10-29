@@ -9,6 +9,7 @@
  * - Default timestamp format is epoch-seconds
  */
 
+import { InvalidInput } from "@distilled.cloud/core/errors";
 import * as Effect from "effect/Effect";
 import type * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
@@ -173,7 +174,7 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
       !hasHttpPayload(prop),
   );
 
-  const serialize = (input: unknown): Request => {
+  const serialize = (input: unknown): Request | InvalidInput => {
     const encoded = encodeInput(input);
 
     // Start without Content-Type - we'll set it based on the body type
@@ -186,11 +187,9 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
     };
 
     applyHttpTrait(inputAst, request);
-    const { payloadValue, payloadAst, bodyMembers, hasBodyMembers } = bindInputToRequest(
-      inputAst,
-      encoded as Record<string, unknown>,
-      request,
-    );
+    const bound = bindInputToRequest(inputAst, encoded as Record<string, unknown>, request);
+    if (bound instanceof InvalidInput) return bound;
+    const { payloadValue, payloadAst, bodyMembers, hasBodyMembers } = bound;
     extractStaticQueryParams(request);
 
     // Track if user set Content-Type explicitly via httpHeader binding

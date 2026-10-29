@@ -1,3 +1,4 @@
+import { InvalidInput } from "@distilled.cloud/core/errors";
 import { failUnlessLenient } from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
 import { ParseError } from "../errors.ts";
@@ -24,10 +25,11 @@ export interface DeserializedError {
 
 export interface ProtocolHandler {
   /**
-   * Serialize an input object into a request, without effects. Throws the
-   * `ParseError` an input that does not match the schema fails with.
+   * Serialize an input object into a request, without effects. Returns the
+   * `InvalidInput` of a path label that would address another resource, and
+   * throws the `ParseError` an input that does not match the schema fails with.
    */
-  readonly serialize: (input: unknown) => Request;
+  readonly serialize: (input: unknown) => Request | InvalidInput;
 
   /**
    * Deserialize a 2xx response whose body has been read as text, without
@@ -90,12 +92,16 @@ export const loadHandler = (
   handler: ProtocolHandler | LazyHandler,
 ): Effect.Effect<ProtocolHandler> => ("ready" in handler ? handler.ready : Effect.succeed(handler));
 
-/** `serialize` as an effect: a thrown `ParseError` fails, anything else dies. */
+/**
+ * `serialize` as an effect: a returned `InvalidInput` or a thrown
+ * `ParseError` fails, anything else thrown dies.
+ */
 export const serializeEffect =
-  (serialize: (input: unknown) => Request) =>
-  (input: unknown): Effect.Effect<Request, ParseError> => {
+  (serialize: (input: unknown) => Request | InvalidInput) =>
+  (input: unknown): Effect.Effect<Request, ParseError | InvalidInput> => {
     try {
-      return Effect.succeed(serialize(input));
+      const request = serialize(input);
+      return request instanceof InvalidInput ? Effect.fail(request) : Effect.succeed(request);
     } catch (e) {
       return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
     }
