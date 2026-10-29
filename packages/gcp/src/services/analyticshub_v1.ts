@@ -83,6 +83,20 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** The query template was submitted or approved, so it can't be deleted on its own (HTTP 400: 'QueryTemplate must be in DRAFTED state to be deleted'). Deleting its data exchange removes it. */
+export class QueryTemplateNotDrafted
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<QueryTemplateNotDrafted>()("QueryTemplateNotDrafted", {
+      code: /*@__PURE__*/ S.optional(S.Number),
+      message: S.String,
+      status: /*@__PURE__*/ S.optional(S.String),
+      reason: /*@__PURE__*/ S.optional(S.String),
+      domain: /*@__PURE__*/ S.optional(S.String),
+      details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, message: { includes: "must be in DRAFTED state to be deleted" } }],
+  ) {}
+
 /** Message for approving a QueryTemplate. */
 export interface ApproveQueryTemplateRequest {}
 export interface ApproveProjectsLocationsDataExchangesQueryTemplatesRequest {
@@ -1077,11 +1091,11 @@ export const approveProjectsLocationsDataExchangesQueryTemplates: API.OperationM
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1280,
-    __c40,
+    1312,
+    __c41,
     0,
   ) as any as S.Schema<ApproveProjectsLocationsDataExchangesQueryTemplatesRequest>,
-  output: __S(1346, __c42, 2) as any as S.Schema<QueryTemplate>,
+  output: __S(1378, __c43, 2) as any as S.Schema<QueryTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1102,8 +1116,8 @@ export const createProjectsLocationsDataExchanges: API.OperationMethod<
   CreateProjectsLocationsDataExchangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<CreateProjectsLocationsDataExchangesRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<DataExchange>,
+  input: __S(1408, __c44, 0) as any as S.Schema<CreateProjectsLocationsDataExchangesRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<DataExchange>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1125,11 +1139,11 @@ export const createProjectsLocationsDataExchangesListings: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1440,
-    __c45,
+    1472,
+    __c46,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(1516, __c47, 12) as any as S.Schema<Listing>,
+  output: __S(1548, __c48, 12) as any as S.Schema<Listing>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1151,11 +1165,11 @@ export const createProjectsLocationsDataExchangesQueryTemplates: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1536,
-    __c48,
+    1568,
+    __c49,
     0,
   ) as any as S.Schema<CreateProjectsLocationsDataExchangesQueryTemplatesRequest>,
-  output: __S(1346, __c42, 2) as any as S.Schema<QueryTemplate>,
+  output: __S(1378, __c43, 2) as any as S.Schema<QueryTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1176,8 +1190,8 @@ export const deleteProjectsLocationsDataExchanges: API.OperationMethod<
   DeleteProjectsLocationsDataExchangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<DeleteProjectsLocationsDataExchangesRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<Empty>,
+  input: __S(1600, __c50, 0) as any as S.Schema<DeleteProjectsLocationsDataExchangesRequest>,
+  output: __S(1344, __c42, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1198,12 +1212,8 @@ export const deleteProjectsLocationsDataExchangesListings: API.OperationMethod<
   DeleteProjectsLocationsDataExchangesListingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    1600,
-    __c50,
-    0,
-  ) as any as S.Schema<DeleteProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<Empty>,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsDataExchangesListingsRequest>,
+  output: __S(1344, __c42, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1216,6 +1226,7 @@ export type DeleteProjectsLocationsDataExchangesQueryTemplatesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | QueryTemplateNotDrafted
   | GcpOpError;
 /** Deletes a query template. */
 export const deleteProjectsLocationsDataExchangesQueryTemplates: API.OperationMethod<
@@ -1225,12 +1236,12 @@ export const deleteProjectsLocationsDataExchangesQueryTemplates: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    0,
-    __c0,
+    32,
+    __c1,
     0,
   ) as any as S.Schema<DeleteProjectsLocationsDataExchangesQueryTemplatesRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<Empty>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  output: __S(1344, __c42, 0) as any as S.Schema<Empty>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, QueryTemplateNotDrafted, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1250,8 +1261,8 @@ export const deleteProjectsLocationsSubscriptions: API.OperationMethod<
   DeleteProjectsLocationsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<DeleteProjectsLocationsSubscriptionsRequest>,
-  output: __S(66, __c2, 2) as any as S.Schema<Operation>,
+  input: __S(64, __c2, 0) as any as S.Schema<DeleteProjectsLocationsSubscriptionsRequest>,
+  output: __S(98, __c3, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1272,8 +1283,8 @@ export const getIamPolicyProjectsLocationsDataExchanges: API.OperationMethod<
   GetIamPolicyProjectsLocationsDataExchangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<GetIamPolicyProjectsLocationsDataExchangesRequest>,
-  output: __S(199, __c6, 7) as any as S.Schema<Policy>,
+  input: __S(160, __c5, 0) as any as S.Schema<GetIamPolicyProjectsLocationsDataExchangesRequest>,
+  output: __S(231, __c7, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1295,11 +1306,11 @@ export const getIamPolicyProjectsLocationsDataExchangesListings: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    224,
-    __c7,
+    256,
+    __c8,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(199, __c6, 7) as any as S.Schema<Policy>,
+  output: __S(231, __c7, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1320,8 +1331,8 @@ export const getIamPolicyProjectsLocationsSubscriptions: API.OperationMethod<
   GetIamPolicyProjectsLocationsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetIamPolicyProjectsLocationsSubscriptionsRequest>,
-  output: __S(199, __c6, 7) as any as S.Schema<Policy>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetIamPolicyProjectsLocationsSubscriptionsRequest>,
+  output: __S(231, __c7, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1337,8 +1348,8 @@ export const getProjectsLocationsDataExchanges: API.OperationMethod<
   GetProjectsLocationsDataExchangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetProjectsLocationsDataExchangesRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<DataExchange>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetProjectsLocationsDataExchangesRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<DataExchange>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1354,8 +1365,8 @@ export const getProjectsLocationsDataExchangesListings: API.OperationMethod<
   GetProjectsLocationsDataExchangesListingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(1516, __c47, 12) as any as S.Schema<Listing>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetProjectsLocationsDataExchangesListingsRequest>,
+  output: __S(1548, __c48, 12) as any as S.Schema<Listing>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1375,11 +1386,11 @@ export const getProjectsLocationsDataExchangesQueryTemplates: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    352,
-    __c11,
+    384,
+    __c12,
     0,
   ) as any as S.Schema<GetProjectsLocationsDataExchangesQueryTemplatesRequest>,
-  output: __S(1346, __c42, 2) as any as S.Schema<QueryTemplate>,
+  output: __S(1378, __c43, 2) as any as S.Schema<QueryTemplate>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1395,8 +1406,8 @@ export const getProjectsLocationsSubscriptions: API.OperationMethod<
   GetProjectsLocationsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetProjectsLocationsSubscriptionsRequest>,
-  output: __S(453, __c14, 5) as any as S.Schema<Subscription>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetProjectsLocationsSubscriptionsRequest>,
+  output: __S(485, __c15, 5) as any as S.Schema<Subscription>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1413,8 +1424,8 @@ export const listOrganizationsLocationsDataExchanges: API.PaginatedOperationMeth
   GcpOpContext,
   ListOrgDataExchangesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ListOrganizationsLocationsDataExchangesRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<ListOrgDataExchangesResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<ListOrganizationsLocationsDataExchangesRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<ListOrgDataExchangesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1432,8 +1443,8 @@ export const listProjectsLocationsDataExchanges: API.PaginatedOperationMethod<
   GcpOpContext,
   ListDataExchangesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListProjectsLocationsDataExchangesRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<ListDataExchangesResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListProjectsLocationsDataExchangesRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<ListDataExchangesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1451,8 +1462,8 @@ export const listProjectsLocationsDataExchangesListings: API.PaginatedOperationM
   GcpOpContext,
   ListListingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ListProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(578, __c18, 2) as any as S.Schema<ListListingsResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<ListProjectsLocationsDataExchangesListingsRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<ListListingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1474,11 +1485,11 @@ export const listProjectsLocationsDataExchangesQueryTemplates: API.PaginatedOper
   ListQueryTemplatesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    608,
-    __c19,
+    640,
+    __c20,
     0,
   ) as any as S.Schema<ListProjectsLocationsDataExchangesQueryTemplatesRequest>,
-  output: __S(610, __c19, 2) as any as S.Schema<ListQueryTemplatesResponse>,
+  output: __S(642, __c20, 2) as any as S.Schema<ListQueryTemplatesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1496,8 +1507,8 @@ export const listProjectsLocationsSubscriptions: API.PaginatedOperationMethod<
   GcpOpContext,
   ListSubscriptionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ListProjectsLocationsSubscriptionsRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<ListSubscriptionsResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListProjectsLocationsSubscriptionsRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<ListSubscriptionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1519,11 +1530,11 @@ export const listSubscriptionsProjectsLocationsDataExchanges: API.PaginatedOpera
   ListSharedResourceSubscriptionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    704,
-    __c22,
+    736,
+    __c23,
     0,
   ) as any as S.Schema<ListSubscriptionsProjectsLocationsDataExchangesRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ListSharedResourceSubscriptionsResponse>,
+  output: __S(768, __c24, 0) as any as S.Schema<ListSharedResourceSubscriptionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1545,11 +1556,11 @@ export const listSubscriptionsProjectsLocationsDataExchangesListings: API.Pagina
   ListSharedResourceSubscriptionsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    768,
-    __c24,
+    800,
+    __c25,
     0,
   ) as any as S.Schema<ListSubscriptionsProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(736, __c23, 0) as any as S.Schema<ListSharedResourceSubscriptionsResponse>,
+  output: __S(768, __c24, 0) as any as S.Schema<ListSharedResourceSubscriptionsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1571,8 +1582,8 @@ export const patchProjectsLocationsDataExchanges: API.OperationMethod<
   PatchProjectsLocationsDataExchangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<PatchProjectsLocationsDataExchangesRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<DataExchange>,
+  input: __S(832, __c26, 0) as any as S.Schema<PatchProjectsLocationsDataExchangesRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<DataExchange>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1593,8 +1604,8 @@ export const patchProjectsLocationsDataExchangesListings: API.OperationMethod<
   PatchProjectsLocationsDataExchangesListingsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<PatchProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(1516, __c47, 12) as any as S.Schema<Listing>,
+  input: __S(864, __c27, 0) as any as S.Schema<PatchProjectsLocationsDataExchangesListingsRequest>,
+  output: __S(1548, __c48, 12) as any as S.Schema<Listing>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1616,11 +1627,11 @@ export const patchProjectsLocationsDataExchangesQueryTemplates: API.OperationMet
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    864,
-    __c27,
+    896,
+    __c28,
     0,
   ) as any as S.Schema<PatchProjectsLocationsDataExchangesQueryTemplatesRequest>,
-  output: __S(1346, __c42, 2) as any as S.Schema<QueryTemplate>,
+  output: __S(1378, __c43, 2) as any as S.Schema<QueryTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1641,8 +1652,8 @@ export const refreshProjectsLocationsSubscriptions: API.OperationMethod<
   RefreshProjectsLocationsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<RefreshProjectsLocationsSubscriptionsRequest>,
-  output: __S(66, __c2, 2) as any as S.Schema<Operation>,
+  input: __S(928, __c29, 0) as any as S.Schema<RefreshProjectsLocationsSubscriptionsRequest>,
+  output: __S(98, __c3, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1663,8 +1674,8 @@ export const revokeProjectsLocationsSubscriptions: API.OperationMethod<
   RevokeProjectsLocationsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(929, __c29, 1) as any as S.Schema<RevokeProjectsLocationsSubscriptionsRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<RevokeSubscriptionResponse>,
+  input: __S(961, __c30, 1) as any as S.Schema<RevokeProjectsLocationsSubscriptionsRequest>,
+  output: __S(1344, __c42, 0) as any as S.Schema<RevokeSubscriptionResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1685,8 +1696,8 @@ export const setIamPolicyProjectsLocationsDataExchanges: API.OperationMethod<
   SetIamPolicyProjectsLocationsDataExchangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<SetIamPolicyProjectsLocationsDataExchangesRequest>,
-  output: __S(199, __c6, 7) as any as S.Schema<Policy>,
+  input: __S(992, __c31, 0) as any as S.Schema<SetIamPolicyProjectsLocationsDataExchangesRequest>,
+  output: __S(231, __c7, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1708,11 +1719,11 @@ export const setIamPolicyProjectsLocationsDataExchangesListings: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1024,
-    __c32,
+    1056,
+    __c33,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(199, __c6, 7) as any as S.Schema<Policy>,
+  output: __S(231, __c7, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1733,8 +1744,8 @@ export const setIamPolicyProjectsLocationsSubscriptions: API.OperationMethod<
   SetIamPolicyProjectsLocationsSubscriptionsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<SetIamPolicyProjectsLocationsSubscriptionsRequest>,
-  output: __S(199, __c6, 7) as any as S.Schema<Policy>,
+  input: __S(1088, __c34, 0) as any as S.Schema<SetIamPolicyProjectsLocationsSubscriptionsRequest>,
+  output: __S(231, __c7, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1756,11 +1767,11 @@ export const submitProjectsLocationsDataExchangesQueryTemplates: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
-    __c34,
+    1120,
+    __c35,
     0,
   ) as any as S.Schema<SubmitProjectsLocationsDataExchangesQueryTemplatesRequest>,
-  output: __S(1346, __c42, 2) as any as S.Schema<QueryTemplate>,
+  output: __S(1378, __c43, 2) as any as S.Schema<QueryTemplate>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1781,8 +1792,8 @@ export const subscribeProjectsLocationsDataExchanges: API.OperationMethod<
   SubscribeProjectsLocationsDataExchangesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1121, __c35, 1) as any as S.Schema<SubscribeProjectsLocationsDataExchangesRequest>,
-  output: __S(66, __c2, 2) as any as S.Schema<Operation>,
+  input: __S(1153, __c36, 1) as any as S.Schema<SubscribeProjectsLocationsDataExchangesRequest>,
+  output: __S(98, __c3, 2) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1804,11 +1815,11 @@ export const subscribeProjectsLocationsDataExchangesListings: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1173,
-    __c36,
+    1205,
+    __c37,
     21,
   ) as any as S.Schema<SubscribeProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(1174, __c36, 22) as any as S.Schema<SubscribeListingResponse>,
+  output: __S(1206, __c37, 22) as any as S.Schema<SubscribeListingResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1830,11 +1841,11 @@ export const testIamPermissionsProjectsLocationsDataExchanges: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1184,
-    __c37,
+    1216,
+    __c38,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDataExchangesRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1248, __c39, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1856,11 +1867,11 @@ export const testIamPermissionsProjectsLocationsDataExchangesListings: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1248,
-    __c39,
+    1280,
+    __c40,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsLocationsDataExchangesListingsRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(1248, __c39, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1875,6 +1886,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
+          deleteCommercial: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1882,7 +1894,7 @@ function __c0(j: number): any {
             baseUrl: "https://analyticshub.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsDataExchangesQueryTemplatesRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsDataExchangesListingsRequest" });
   }
 }
 function __c1(j: number): any {
@@ -1898,46 +1910,62 @@ function __c1(j: number): any {
             baseUrl: "https://analyticshub.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "DeleteProjectsLocationsSubscriptionsRequest" });
+      ).annotate({ identifier: "DeleteProjectsLocationsDataExchangesQueryTemplatesRequest" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(96, __c3, 0));
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "v1/{+name}",
+            baseUrl: "https://analyticshub.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteProjectsLocationsSubscriptionsRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(128, __c4, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          details: S.optional(__S(64, __c2, 0)),
+          details: S.optional(__S(96, __c3, 0)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(96, __c3, 0)),
-          error: S.optional(__S(65, __c2, 1)),
+          response: S.optional(__S(128, __c4, 0)),
+          error: S.optional(__S(97, __c3, 1)),
           name: S.optional(S.String),
-          metadata: S.optional(__S(96, __c3, 0)),
+          metadata: S.optional(__S(128, __c4, 0)),
           done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(161, __c5, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(193, __c6, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1948,7 +1976,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsDataExchangesRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1959,31 +1987,31 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(160, __c5, 0)),
+          options: S.optional(__S(192, __c6, 0)),
         }),
       ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(1472, __c46, 0)),
+          exemptedMembers: S.optional(__S(1504, __c47, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 1:
-      return S.Array(__S(192, __c6, 0));
+      return S.Array(__S(224, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(193, __c6, 1)),
+          auditLogConfigs: S.optional(__S(225, __c7, 1)),
           service: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 3:
-      return S.Array(__S(194, __c6, 2));
+      return S.Array(__S(226, __c7, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1997,30 +2025,30 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           role: S.optional(S.String),
-          condition: S.optional(__S(196, __c6, 4)),
-          members: S.optional(__S(1472, __c46, 0)),
+          condition: S.optional(__S(228, __c7, 4)),
+          members: S.optional(__S(1504, __c47, 0)),
         }),
       ).annotate({ identifier: "Binding" });
     case 6:
-      return S.Array(__S(197, __c6, 5));
+      return S.Array(__S(229, __c7, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.Number),
           etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(195, __c6, 3)),
-          bindings: S.optional(__S(198, __c6, 6)),
+          auditConfigs: S.optional(__S(227, __c7, 3)),
+          bindings: S.optional(__S(230, __c7, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(161, __c5, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(193, __c6, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2031,13 +2059,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsDataExchangesListingsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(161, __c5, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(193, __c6, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2046,22 +2074,6 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetIamPolicyProjectsLocationsSubscriptionsRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://analyticshub.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsLocationsDataExchangesRequest" });
   }
 }
 function __c10(j: number): any {
@@ -2077,7 +2089,7 @@ function __c10(j: number): any {
             baseUrl: "https://analyticshub.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsDataExchangesListingsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsDataExchangesRequest" });
   }
 }
 function __c11(j: number): any {
@@ -2093,7 +2105,7 @@ function __c11(j: number): any {
             baseUrl: "https://analyticshub.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsDataExchangesQueryTemplatesRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsDataExchangesListingsRequest" });
   }
 }
 function __c12(j: number): any {
@@ -2109,10 +2121,26 @@ function __c12(j: number): any {
             baseUrl: "https://analyticshub.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsLocationsSubscriptionsRequest" });
+      ).annotate({ identifier: "GetProjectsLocationsDataExchangesQueryTemplatesRequest" });
   }
 }
 function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://analyticshub.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsLocationsSubscriptionsRequest" });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2126,17 +2154,17 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          datasetReference: S.optional(__S(416, __c13, 0)),
+          datasetReference: S.optional(__S(448, __c14, 0)),
           location: S.optional(S.String),
-          labels: S.optional(__S(417, __c13, 1)),
+          labels: S.optional(__S(449, __c14, 1)),
           friendlyName: S.optional(S.String),
-          replicaLocations: S.optional(__S(1472, __c46, 0)),
+          replicaLocations: S.optional(__S(1504, __c47, 0)),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "DestinationDataset" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2150,7 +2178,7 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cloudMarketplace: S.optional(__S(448, __c14, 0)),
+          cloudMarketplace: S.optional(__S(480, __c15, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudBigqueryAnalyticshubV1SubscriptionCommercialInfo" });
     case 2:
@@ -2162,16 +2190,16 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "LinkedResource" });
     case 3:
-      return S.Record(S.String, __S(450, __c14, 2));
+      return S.Record(S.String, __S(482, __c15, 2));
     case 4:
-      return S.Array(__S(450, __c14, 2));
+      return S.Array(__S(482, __c15, 2));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          destinationDataset: S.optional(__S(418, __c13, 2)),
-          commercialInfo: S.optional(__S(449, __c14, 1)),
+          destinationDataset: S.optional(__S(450, __c14, 2)),
+          commercialInfo: S.optional(__S(481, __c15, 1)),
           logLinkedDatasetQueryUserEmail: S.optional(S.Boolean),
-          linkedDatasetMap: S.optional(__S(451, __c14, 3)),
+          linkedDatasetMap: S.optional(__S(483, __c15, 3)),
           creationTime: S.optional(S.String),
           name: S.optional(S.String),
           organizationDisplayName: S.optional(S.String),
@@ -2179,7 +2207,7 @@ function __c14(j: number): any {
           state: S.optional(S.String),
           subscriberContact: S.optional(S.String),
           organizationId: S.optional(S.String),
-          linkedResources: S.optional(__S(452, __c14, 4)),
+          linkedResources: S.optional(__S(484, __c15, 4)),
           lastModifyTime: S.optional(S.String),
           resourceType: S.optional(S.String),
           dataExchange: S.optional(S.String),
@@ -2187,7 +2215,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "Subscription" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2205,20 +2233,20 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ListOrganizationsLocationsDataExchangesRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1410, __c44, 2));
+      return S.Array(__S(1442, __c45, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dataExchanges: S.optional(__S(512, __c16, 0)),
+          dataExchanges: S.optional(__S(544, __c17, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOrgDataExchangesResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2236,7 +2264,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ListProjectsLocationsDataExchangesRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2253,17 +2281,17 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDataExchangesListingsRequest" });
     case 1:
-      return S.Array(__S(1516, __c47, 12));
+      return S.Array(__S(1548, __c48, 12));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          listings: S.optional(__S(577, __c18, 1)),
+          listings: S.optional(__S(609, __c19, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListListingsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2280,17 +2308,17 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsDataExchangesQueryTemplatesRequest" });
     case 1:
-      return S.Array(__S(1346, __c42, 2));
+      return S.Array(__S(1378, __c43, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          queryTemplates: S.optional(__S(609, __c19, 1)),
+          queryTemplates: S.optional(__S(641, __c20, 1)),
         }),
       ).annotate({ identifier: "ListQueryTemplatesResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2310,19 +2338,19 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          subscriptions: S.optional(__S(672, __c21, 0)),
+          subscriptions: S.optional(__S(704, __c22, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSubscriptionsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(453, __c14, 5));
+      return S.Array(__S(485, __c15, 5));
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2341,18 +2369,18 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ListSubscriptionsProjectsLocationsDataExchangesRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sharedResourceSubscriptions: S.optional(__S(672, __c21, 0)),
+          sharedResourceSubscriptions: S.optional(__S(704, __c22, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSharedResourceSubscriptionsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2371,14 +2399,14 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ListSubscriptionsProjectsLocationsDataExchangesListingsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1410, __c44, 2).pipe(T.HttpBody())),
+          body: S.optional(__S(1442, __c45, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2389,14 +2417,14 @@ function __c25(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDataExchangesRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1516, __c47, 12).pipe(T.HttpBody())),
+          body: S.optional(__S(1548, __c48, 12).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2407,14 +2435,14 @@ function __c26(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDataExchangesListingsRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1346, __c42, 2).pipe(T.HttpBody())),
+          body: S.optional(__S(1378, __c43, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2425,13 +2453,13 @@ function __c27(j: number): any {
       ).annotate({ identifier: "PatchProjectsLocationsDataExchangesQueryTemplatesRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2442,7 +2470,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "RefreshProjectsLocationsSubscriptionsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2454,7 +2482,7 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(928, __c29, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(960, __c30, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2465,13 +2493,13 @@ function __c29(j: number): any {
       ).annotate({ identifier: "RevokeProjectsLocationsSubscriptionsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(992, __c31, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2482,24 +2510,24 @@ function __c30(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDataExchangesRequest" });
   }
 }
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(__S(199, __c6, 7)),
-          updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
 function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          policy: S.optional(__S(231, __c7, 7)),
+          updateMask: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(992, __c31, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2510,13 +2538,13 @@ function __c32(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsDataExchangesListingsRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(992, __c31, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1024, __c32, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2527,13 +2555,13 @@ function __c33(j: number): any {
       ).annotate({ identifier: "SetIamPolicyProjectsLocationsSubscriptionsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2544,12 +2572,12 @@ function __c34(j: number): any {
       ).annotate({ identifier: "SubmitProjectsLocationsDataExchangesQueryTemplatesRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          destinationDataset: S.optional(__S(418, __c13, 2)),
+          destinationDataset: S.optional(__S(450, __c14, 2)),
           subscription: S.optional(S.String),
           destination: S.optional(S.String),
           subscriberContact: S.optional(S.String),
@@ -2559,7 +2587,7 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1120, __c35, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2570,20 +2598,20 @@ function __c35(j: number): any {
       ).annotate({ identifier: "SubscribeProjectsLocationsDataExchangesRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          keyFields: S.optional(__S(1472, __c46, 0)),
+          keyFields: S.optional(__S(1504, __c47, 0)),
           delimiter: S.optional(S.String),
         }),
       ).annotate({ identifier: "DelimitedKey" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rowKeySchema: S.optional(__S(1312, __c41, 0)),
-          delimitedKey: S.optional(__S(1152, __c36, 0)),
+          rowKeySchema: S.optional(__S(1344, __c42, 0)),
+          delimitedKey: S.optional(__S(1184, __c37, 0)),
         }),
       ).annotate({ identifier: "ColumnFamilyMapping" });
     case 2:
@@ -2593,7 +2621,7 @@ function __c36(j: number): any {
           serviceAccountEmail: S.optional(S.String),
           appProfileId: S.optional(S.String),
           table: S.optional(S.String),
-          columnFamilyMapping: S.optional(__S(1153, __c36, 1)),
+          columnFamilyMapping: S.optional(__S(1185, __c37, 1)),
         }),
       ).annotate({ identifier: "BigtableConfig" });
     case 3:
@@ -2612,10 +2640,10 @@ function __c36(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          pubsubWrapper: S.optional(__S(1312, __c41, 0)),
-          attributes: S.optional(__S(417, __c13, 1)),
-          oidcToken: S.optional(__S(1155, __c36, 3)),
-          noWrapper: S.optional(__S(1156, __c36, 4)),
+          pubsubWrapper: S.optional(__S(1344, __c42, 0)),
+          attributes: S.optional(__S(449, __c14, 1)),
+          oidcToken: S.optional(__S(1187, __c37, 3)),
+          noWrapper: S.optional(__S(1188, __c37, 4)),
           pushEndpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "PushConfig" });
@@ -2629,14 +2657,14 @@ function __c36(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(96, __c3, 0)),
+          parameters: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "UnstructuredInference" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.optional(S.String),
-          unstructuredInference: S.optional(__S(1159, __c36, 7)),
+          unstructuredInference: S.optional(__S(1191, __c37, 7)),
           serviceAccountEmail: S.optional(S.String),
         }),
       ).annotate({ identifier: "AIInference" });
@@ -2658,14 +2686,14 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          aiInference: S.optional(__S(1160, __c36, 8)),
+          aiInference: S.optional(__S(1192, __c37, 8)),
           disabled: S.optional(S.Boolean),
-          compression: S.optional(__S(1161, __c36, 9)),
-          javascriptUdf: S.optional(__S(1162, __c36, 10)),
+          compression: S.optional(__S(1193, __c37, 9)),
+          javascriptUdf: S.optional(__S(1194, __c37, 10)),
         }),
       ).annotate({ identifier: "MessageTransform" });
     case 12:
-      return S.Array(__S(1163, __c36, 11));
+      return S.Array(__S(1195, __c37, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -2696,13 +2724,13 @@ function __c36(j: number): any {
         S.Struct({
           maxDuration: S.optional(S.String),
           filenameSuffix: S.optional(S.String),
-          textConfig: S.optional(__S(1312, __c41, 0)),
+          textConfig: S.optional(__S(1344, __c42, 0)),
           maxMessages: S.optional(S.String),
           maxBytes: S.optional(S.String),
           filenamePrefix: S.optional(S.String),
           filenameDatetimeFormat: S.optional(S.String),
           bucket: S.optional(S.String),
-          avroConfig: S.optional(__S(1167, __c36, 15)),
+          avroConfig: S.optional(__S(1199, __c37, 15)),
           serviceAccountEmail: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudStorageConfig" });
@@ -2715,44 +2743,44 @@ function __c36(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          bigtableConfig: S.optional(__S(1154, __c36, 2)),
-          pushConfig: S.optional(__S(1157, __c36, 5)),
+          bigtableConfig: S.optional(__S(1186, __c37, 2)),
+          pushConfig: S.optional(__S(1189, __c37, 5)),
           detached: S.optional(S.Boolean),
-          retryPolicy: S.optional(__S(1158, __c36, 6)),
+          retryPolicy: S.optional(__S(1190, __c37, 6)),
           enableMessageOrdering: S.optional(S.Boolean),
-          messageTransforms: S.optional(__S(1164, __c36, 12)),
+          messageTransforms: S.optional(__S(1196, __c37, 12)),
           ackDeadlineSeconds: S.optional(S.Number),
           retainAckedMessages: S.optional(S.Boolean),
           messageRetentionDuration: S.optional(S.String),
-          labels: S.optional(__S(417, __c13, 1)),
+          labels: S.optional(__S(449, __c14, 1)),
           name: S.optional(S.String),
           enableExactlyOnceDelivery: S.optional(S.Boolean),
-          tags: S.optional(__S(417, __c13, 1)),
-          bigqueryConfig: S.optional(__S(1165, __c36, 13)),
-          deadLetterPolicy: S.optional(__S(1166, __c36, 14)),
-          cloudStorageConfig: S.optional(__S(1168, __c36, 16)),
-          expirationPolicy: S.optional(__S(1169, __c36, 17)),
+          tags: S.optional(__S(449, __c14, 1)),
+          bigqueryConfig: S.optional(__S(1197, __c37, 13)),
+          deadLetterPolicy: S.optional(__S(1198, __c37, 14)),
+          cloudStorageConfig: S.optional(__S(1200, __c37, 16)),
+          expirationPolicy: S.optional(__S(1201, __c37, 17)),
           filter: S.optional(S.String),
         }),
       ).annotate({ identifier: "GooglePubsubV1Subscription" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          pubsubSubscription: S.optional(__S(1170, __c36, 18)),
+          pubsubSubscription: S.optional(__S(1202, __c37, 18)),
         }),
       ).annotate({ identifier: "DestinationPubSubSubscription" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          destinationDataset: S.optional(__S(418, __c13, 2)),
-          destinationPubsubSubscription: S.optional(__S(1171, __c36, 19)),
+          destinationDataset: S.optional(__S(450, __c14, 2)),
+          destinationPubsubSubscription: S.optional(__S(1203, __c37, 19)),
         }),
       ).annotate({ identifier: "SubscribeListingRequest" });
     case 21:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1172, __c36, 20).pipe(T.HttpBody())),
+          body: S.optional(__S(1204, __c37, 20).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2764,18 +2792,18 @@ function __c36(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          subscription: S.optional(__S(453, __c14, 5)),
+          subscription: S.optional(__S(485, __c15, 5)),
         }),
       ).annotate({ identifier: "SubscribeListingResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1248, __c39, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2786,23 +2814,23 @@ function __c37(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDataExchangesRequest" });
   }
 }
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(1472, __c46, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-  }
-}
 function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          permissions: S.optional(__S(1504, __c47, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(1216, __c38, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1248, __c39, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2813,13 +2841,13 @@ function __c39(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsLocationsDataExchangesListingsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1312, __c41, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(1344, __c42, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2830,13 +2858,13 @@ function __c40(j: number): any {
       ).annotate({ identifier: "ApproveProjectsLocationsDataExchangesQueryTemplatesRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "ApproveQueryTemplateRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2854,12 +2882,12 @@ function __c42(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          routine: S.optional(__S(1344, __c42, 0)),
+          routine: S.optional(__S(1376, __c43, 0)),
           createTime: S.optional(S.String),
           displayName: S.optional(S.String),
           state: S.optional(S.String),
           documentation: S.optional(S.String),
-          encryptionConfiguration: S.optional(__S(1345, __c42, 1)),
+          encryptionConfiguration: S.optional(__S(1377, __c43, 1)),
           description: S.optional(S.String),
           primaryContact: S.optional(S.String),
           name: S.optional(S.String),
@@ -2869,14 +2897,14 @@ function __c42(j: number): any {
       ).annotate({ identifier: "QueryTemplate" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataExchangeId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1410, __c44, 2).pipe(T.HttpBody())),
+          body: S.optional(__S(1442, __c45, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2887,7 +2915,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataExchangesRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2899,8 +2927,8 @@ function __c44(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          defaultExchangeConfig: S.optional(__S(1312, __c41, 0)),
-          dcrExchangeConfig: S.optional(__S(1408, __c44, 0)),
+          defaultExchangeConfig: S.optional(__S(1344, __c42, 0)),
+          dcrExchangeConfig: S.optional(__S(1440, __c45, 0)),
         }),
       ).annotate({ identifier: "SharingEnvironmentConfig" });
     case 2:
@@ -2909,7 +2937,7 @@ function __c44(j: number): any {
           listingCount: S.optional(S.Number),
           documentation: S.optional(S.String),
           name: S.optional(S.String),
-          sharingEnvironmentConfig: S.optional(__S(1409, __c44, 1)),
+          sharingEnvironmentConfig: S.optional(__S(1441, __c45, 1)),
           displayName: S.optional(S.String),
           logLinkedDatasetQueryUserEmail: S.optional(S.Boolean),
           discoveryType: S.optional(S.String),
@@ -2920,14 +2948,14 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DataExchange" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           listingId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(1516, __c47, 12).pipe(T.HttpBody())),
+          body: S.optional(__S(1548, __c48, 12).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2938,13 +2966,13 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataExchangesListingsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2959,7 +2987,7 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cloudMarketplace: S.optional(__S(1504, __c47, 0)),
+          cloudMarketplace: S.optional(__S(1536, __c48, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudBigqueryAnalyticshubV1ListingCommercialInfo" });
     case 2:
@@ -2970,7 +2998,7 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "SelectedResource" });
     case 3:
-      return S.Array(__S(1506, __c47, 2));
+      return S.Array(__S(1538, __c48, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2980,7 +3008,7 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "Replica" });
     case 5:
-      return S.Array(__S(1508, __c47, 4));
+      return S.Array(__S(1540, __c48, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2992,11 +3020,11 @@ function __c47(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          replicaLocations: S.optional(__S(1472, __c46, 0)),
-          selectedResources: S.optional(__S(1507, __c47, 3)),
+          replicaLocations: S.optional(__S(1504, __c47, 0)),
+          selectedResources: S.optional(__S(1539, __c48, 3)),
           dataset: S.optional(S.String),
-          effectiveReplicas: S.optional(__S(1509, __c47, 5)),
-          restrictedExportPolicy: S.optional(__S(1510, __c47, 6)),
+          effectiveReplicas: S.optional(__S(1541, __c48, 5)),
+          restrictedExportPolicy: S.optional(__S(1542, __c48, 6)),
         }),
       ).annotate({ identifier: "BigQueryDatasetSource" });
     case 8:
@@ -3012,51 +3040,51 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           topic: S.optional(S.String),
-          dataAffinityRegions: S.optional(__S(1472, __c46, 0)),
+          dataAffinityRegions: S.optional(__S(1504, __c47, 0)),
         }),
       ).annotate({ identifier: "PubSubTopicSource" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          allowedStoredProcedureTypes: S.optional(__S(1513, __c47, 9)),
+          allowedStoredProcedureTypes: S.optional(__S(1545, __c48, 9)),
         }),
       ).annotate({ identifier: "StoredProcedureConfig" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           requestAccess: S.optional(S.String),
-          commercialInfo: S.optional(__S(1505, __c47, 1)),
+          commercialInfo: S.optional(__S(1537, __c48, 1)),
           state: S.optional(S.String),
           resourceType: S.optional(S.String),
-          bigqueryDataset: S.optional(__S(1511, __c47, 7)),
+          bigqueryDataset: S.optional(__S(1543, __c48, 7)),
           icon: S.optional(S.String),
           logLinkedDatasetQueryUserEmail: S.optional(S.Boolean),
           documentation: S.optional(S.String),
           allowOnlyMetadataSharing: S.optional(S.Boolean),
-          publisher: S.optional(__S(1512, __c47, 8)),
+          publisher: S.optional(__S(1544, __c48, 8)),
           discoveryType: S.optional(S.String),
           description: S.optional(S.String),
-          categories: S.optional(__S(1513, __c47, 9)),
-          dataProvider: S.optional(__S(1512, __c47, 8)),
+          categories: S.optional(__S(1545, __c48, 9)),
+          dataProvider: S.optional(__S(1544, __c48, 8)),
           displayName: S.optional(S.String),
-          pubsubTopic: S.optional(__S(1514, __c47, 10)),
-          restrictedExportConfig: S.optional(__S(1510, __c47, 6)),
+          pubsubTopic: S.optional(__S(1546, __c48, 10)),
+          restrictedExportConfig: S.optional(__S(1542, __c48, 6)),
           name: S.optional(S.String),
           primaryContact: S.optional(S.String),
-          storedProcedureConfig: S.optional(__S(1515, __c47, 11)),
+          storedProcedureConfig: S.optional(__S(1547, __c48, 11)),
         }),
       ).annotate({ identifier: "Listing" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           queryTemplateId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1346, __c42, 2).pipe(T.HttpBody())),
+          body: S.optional(__S(1378, __c43, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3067,7 +3095,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "CreateProjectsLocationsDataExchangesQueryTemplatesRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3081,23 +3109,6 @@ function __c49(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteProjectsLocationsDataExchangesRequest" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          deleteCommercial: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "v1/{+name}",
-            baseUrl: "https://analyticshub.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteProjectsLocationsDataExchangesListingsRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
