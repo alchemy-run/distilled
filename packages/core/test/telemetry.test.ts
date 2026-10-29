@@ -429,6 +429,15 @@ describe("operationInfo", () => {
     );
   });
 
+  test("labelNames renames a derived label", () => {
+    expect(facts("GetRecord", { ...RULES, labelNames: { zoneId: "zones.zone.id" } }).input).toEqual(
+      [
+        ["zoneId", { name: "zones.zone.id" }],
+        ["recordID", { name: "zones.record_id" }],
+      ],
+    );
+  });
+
   test("no labels rule: no derived input; no op: nothing derived", () => {
     expect(facts("GetRecord", { ...RULES, labels: undefined }).input).toEqual([]);
     expect(facts({ name: "Full.Name", method: "Full/Name" })).toEqual({

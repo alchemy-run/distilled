@@ -111,6 +111,23 @@ export class SourceTableNotReady
     [{ status: 400, message: { includes: "while it is being created or modified" } }],
   ) {}
 
+/** The table isn't ready: it is still being created, modified, restored or deleted (HTTP 400: '... is still being created' / '... is either creating or deleting'). The API doesn't say which. Retryable after a short wait. */
+export class TableNotReady
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<TableNotReady>()("TableNotReady", {
+      code: /*@__PURE__*/ S.optional(S.Number),
+      message: S.String,
+      status: /*@__PURE__*/ S.optional(S.String),
+      reason: /*@__PURE__*/ S.optional(S.String),
+      domain: /*@__PURE__*/ S.optional(S.String),
+      details: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Array(S.Unknown)),
+    }).pipe(C.withBadRequestError),
+    [
+      { status: 400, message: { includes: "is still being created" } },
+      { status: 400, message: { includes: "is either creating or deleting" } },
+    ],
+  ) {}
+
 /** Checks that all writes before the consistency token was generated in the same cluster are readable by Databoost. */
 export interface DataBoostReadLocalWrites {}
 /** Checks that all writes before the consistency token was generated are replicated in every cluster and readable. */
@@ -1725,8 +1742,8 @@ export const checkConsistencyProjectsInstancesTables: API.OperationMethod<
   CheckConsistencyProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1953, __c61, 1) as any as S.Schema<CheckConsistencyProjectsInstancesTablesRequest>,
-  output: __S(1954, __c61, 2) as any as S.Schema<CheckConsistencyResponse>,
+  input: __S(2337, __c73, 1) as any as S.Schema<CheckConsistencyProjectsInstancesTablesRequest>,
+  output: __S(2338, __c73, 2) as any as S.Schema<CheckConsistencyResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1747,8 +1764,8 @@ export const copyProjectsInstancesClustersBackups: API.OperationMethod<
   CopyProjectsInstancesClustersBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2337, __c73, 1) as any as S.Schema<CopyProjectsInstancesClustersBackupsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(2785, __c87, 1) as any as S.Schema<CopyProjectsInstancesClustersBackupsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1769,8 +1786,8 @@ export const createProjectsInstances: API.OperationMethod<
   CreateProjectsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2850, __c89, 2) as any as S.Schema<CreateProjectsInstancesRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(3202, __c100, 2) as any as S.Schema<CreateProjectsInstancesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1791,8 +1808,8 @@ export const createProjectsInstancesAppProfiles: API.OperationMethod<
   CreateProjectsInstancesAppProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<CreateProjectsInstancesAppProfilesRequest>,
-  output: __S(3300, __c103, 4) as any as S.Schema<AppProfile>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsInstancesAppProfilesRequest>,
+  output: __S(68, __c2, 4) as any as S.Schema<AppProfile>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1813,8 +1830,8 @@ export const createProjectsInstancesClusters: API.OperationMethod<
   CreateProjectsInstancesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateProjectsInstancesClustersRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(96, __c3, 0) as any as S.Schema<CreateProjectsInstancesClustersRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1835,8 +1852,8 @@ export const createProjectsInstancesClustersBackups: API.OperationMethod<
   CreateProjectsInstancesClustersBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<CreateProjectsInstancesClustersBackupsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(128, __c4, 0) as any as S.Schema<CreateProjectsInstancesClustersBackupsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1857,8 +1874,8 @@ export const createProjectsInstancesLogicalViews: API.OperationMethod<
   CreateProjectsInstancesLogicalViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<CreateProjectsInstancesLogicalViewsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(224, __c7, 0) as any as S.Schema<CreateProjectsInstancesLogicalViewsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1880,8 +1897,8 @@ export const createProjectsInstancesMaterializedViews: API.OperationMethod<
   CreateProjectsInstancesMaterializedViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<CreateProjectsInstancesMaterializedViewsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(288, __c9, 0) as any as S.Schema<CreateProjectsInstancesMaterializedViewsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, SourceTableNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1902,8 +1919,8 @@ export const createProjectsInstancesTables: API.OperationMethod<
   CreateProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(259, __c8, 3) as any as S.Schema<CreateProjectsInstancesTablesRequest>,
-  output: __S(329, __c10, 9) as any as S.Schema<Table>,
+  input: __S(355, __c11, 3) as any as S.Schema<CreateProjectsInstancesTablesRequest>,
+  output: __S(425, __c13, 9) as any as S.Schema<Table>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1924,8 +1941,8 @@ export const createProjectsInstancesTablesAuthorizedViews: API.OperationMethod<
   CreateProjectsInstancesTablesAuthorizedViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<CreateProjectsInstancesTablesAuthorizedViewsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(448, __c14, 0) as any as S.Schema<CreateProjectsInstancesTablesAuthorizedViewsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1946,8 +1963,8 @@ export const createProjectsInstancesTablesSchemaBundles: API.OperationMethod<
   CreateProjectsInstancesTablesSchemaBundlesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<CreateProjectsInstancesTablesSchemaBundlesRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(512, __c16, 0) as any as S.Schema<CreateProjectsInstancesTablesSchemaBundlesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1968,8 +1985,8 @@ export const deleteProjectsInstances: API.OperationMethod<
   DeleteProjectsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<DeleteProjectsInstancesRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
+  input: __S(576, __c18, 0) as any as S.Schema<DeleteProjectsInstancesRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1990,8 +2007,8 @@ export const deleteProjectsInstancesAppProfiles: API.OperationMethod<
   DeleteProjectsInstancesAppProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<DeleteProjectsInstancesAppProfilesRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
+  input: __S(608, __c19, 0) as any as S.Schema<DeleteProjectsInstancesAppProfilesRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2013,8 +2030,8 @@ export const deleteProjectsInstancesClusters: API.OperationMethod<
   DeleteProjectsInstancesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<DeleteProjectsInstancesClustersRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
+  input: __S(640, __c20, 0) as any as S.Schema<DeleteProjectsInstancesClustersRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, LastClusterDeletion, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2035,8 +2052,8 @@ export const deleteProjectsInstancesClustersBackups: API.OperationMethod<
   DeleteProjectsInstancesClustersBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<DeleteProjectsInstancesClustersBackupsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
+  input: __S(672, __c21, 0) as any as S.Schema<DeleteProjectsInstancesClustersBackupsRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2057,8 +2074,8 @@ export const deleteProjectsInstancesLogicalViews: API.OperationMethod<
   DeleteProjectsInstancesLogicalViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<DeleteProjectsInstancesLogicalViewsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
+  input: __S(704, __c22, 0) as any as S.Schema<DeleteProjectsInstancesLogicalViewsRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2079,8 +2096,8 @@ export const deleteProjectsInstancesMaterializedViews: API.OperationMethod<
   DeleteProjectsInstancesMaterializedViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<DeleteProjectsInstancesMaterializedViewsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
+  input: __S(736, __c23, 0) as any as S.Schema<DeleteProjectsInstancesMaterializedViewsRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2093,6 +2110,7 @@ export type DeleteProjectsInstancesTablesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | TableNotReady
   | GcpOpError;
 /** Permanently deletes a specified table and all of its data. */
 export const deleteProjectsInstancesTables: API.OperationMethod<
@@ -2101,9 +2119,9 @@ export const deleteProjectsInstancesTables: API.OperationMethod<
   DeleteProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<DeleteProjectsInstancesTablesRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  input: __S(768, __c24, 0) as any as S.Schema<DeleteProjectsInstancesTablesRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, TableNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2123,8 +2141,8 @@ export const deleteProjectsInstancesTablesAuthorizedViews: API.OperationMethod<
   DeleteProjectsInstancesTablesAuthorizedViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<DeleteProjectsInstancesTablesAuthorizedViewsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
+  input: __S(800, __c25, 0) as any as S.Schema<DeleteProjectsInstancesTablesAuthorizedViewsRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2145,8 +2163,8 @@ export const deleteProjectsInstancesTablesSchemaBundles: API.OperationMethod<
   DeleteProjectsInstancesTablesSchemaBundlesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<DeleteProjectsInstancesTablesSchemaBundlesRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
+  input: __S(832, __c26, 0) as any as S.Schema<DeleteProjectsInstancesTablesSchemaBundlesRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2167,8 +2185,8 @@ export const dropRowRangeProjectsInstancesTables: API.OperationMethod<
   DropRowRangeProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(769, __c24, 1) as any as S.Schema<DropRowRangeProjectsInstancesTablesRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<Empty>,
+  input: __S(865, __c27, 1) as any as S.Schema<DropRowRangeProjectsInstancesTablesRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2190,11 +2208,11 @@ export const generateConsistencyTokenProjectsInstancesTables: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    800,
-    __c25,
+    896,
+    __c28,
     0,
   ) as any as S.Schema<GenerateConsistencyTokenProjectsInstancesTablesRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<GenerateConsistencyTokenResponse>,
+  output: __S(897, __c28, 1) as any as S.Schema<GenerateConsistencyTokenResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2215,8 +2233,8 @@ export const getIamPolicyProjectsInstances: API.OperationMethod<
   GetIamPolicyProjectsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<GetIamPolicyProjectsInstancesRequest>,
-  output: __S(903, __c28, 7) as any as S.Schema<Policy>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetIamPolicyProjectsInstancesRequest>,
+  output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2237,8 +2255,12 @@ export const getIamPolicyProjectsInstancesClustersBackups: API.OperationMethod<
   GetIamPolicyProjectsInstancesClustersBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetIamPolicyProjectsInstancesClustersBackupsRequest>,
-  output: __S(903, __c28, 7) as any as S.Schema<Policy>,
+  input: __S(
+    1024,
+    __c32,
+    0,
+  ) as any as S.Schema<GetIamPolicyProjectsInstancesClustersBackupsRequest>,
+  output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2259,8 +2281,8 @@ export const getIamPolicyProjectsInstancesLogicalViews: API.OperationMethod<
   GetIamPolicyProjectsInstancesLogicalViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetIamPolicyProjectsInstancesLogicalViewsRequest>,
-  output: __S(903, __c28, 7) as any as S.Schema<Policy>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetIamPolicyProjectsInstancesLogicalViewsRequest>,
+  output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2282,11 +2304,11 @@ export const getIamPolicyProjectsInstancesMaterializedViews: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    992,
-    __c31,
+    1088,
+    __c34,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsInstancesMaterializedViewsRequest>,
-  output: __S(903, __c28, 7) as any as S.Schema<Policy>,
+  output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2299,6 +2321,7 @@ export type GetIamPolicyProjectsInstancesTablesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | TableNotReady
   | GcpOpError;
 /** Gets the access control policy for a Bigtable resource. Returns an empty policy if the resource exists but does not have a policy set. */
 export const getIamPolicyProjectsInstancesTables: API.OperationMethod<
@@ -2307,9 +2330,9 @@ export const getIamPolicyProjectsInstancesTables: API.OperationMethod<
   GetIamPolicyProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetIamPolicyProjectsInstancesTablesRequest>,
-  output: __S(903, __c28, 7) as any as S.Schema<Policy>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  input: __S(1120, __c35, 0) as any as S.Schema<GetIamPolicyProjectsInstancesTablesRequest>,
+  output: __S(999, __c31, 7) as any as S.Schema<Policy>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, TableNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2330,11 +2353,11 @@ export const getIamPolicyProjectsInstancesTablesAuthorizedViews: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1056,
-    __c33,
+    1152,
+    __c36,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest>,
-  output: __S(903, __c28, 7) as any as S.Schema<Policy>,
+  output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2356,11 +2379,11 @@ export const getIamPolicyProjectsInstancesTablesSchemaBundles: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1088,
-    __c34,
+    1184,
+    __c37,
     0,
   ) as any as S.Schema<GetIamPolicyProjectsInstancesTablesSchemaBundlesRequest>,
-  output: __S(903, __c28, 7) as any as S.Schema<Policy>,
+  output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2376,8 +2399,8 @@ export const getMemoryLayerProjectsInstancesClusters: API.OperationMethod<
   GetMemoryLayerProjectsInstancesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<GetMemoryLayerProjectsInstancesClustersRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<MemoryLayer>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetMemoryLayerProjectsInstancesClustersRequest>,
+  output: __S(1249, __c39, 1) as any as S.Schema<MemoryLayer>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2393,8 +2416,8 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetOperationsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetOperationsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2410,8 +2433,8 @@ export const getProjectsInstances: API.OperationMethod<
   GetProjectsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<GetProjectsInstancesRequest>,
-  output: __S(2944, __c92, 0) as any as S.Schema<Instance>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetProjectsInstancesRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2427,8 +2450,8 @@ export const getProjectsInstancesAppProfiles: API.OperationMethod<
   GetProjectsInstancesAppProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetProjectsInstancesAppProfilesRequest>,
-  output: __S(3300, __c103, 4) as any as S.Schema<AppProfile>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetProjectsInstancesAppProfilesRequest>,
+  output: __S(68, __c2, 4) as any as S.Schema<AppProfile>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2444,8 +2467,8 @@ export const getProjectsInstancesClusters: API.OperationMethod<
   GetProjectsInstancesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetProjectsInstancesClustersRequest>,
-  output: __S(2885, __c90, 5) as any as S.Schema<Cluster>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetProjectsInstancesClustersRequest>,
+  output: __S(3237, __c101, 5) as any as S.Schema<Cluster>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2461,8 +2484,8 @@ export const getProjectsInstancesClustersBackups: API.OperationMethod<
   GetProjectsInstancesClustersBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetProjectsInstancesClustersBackupsRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<Backup>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetProjectsInstancesClustersBackupsRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<Backup>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2478,8 +2501,8 @@ export const getProjectsInstancesLogicalViews: API.OperationMethod<
   GetProjectsInstancesLogicalViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetProjectsInstancesLogicalViewsRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<LogicalView>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetProjectsInstancesLogicalViewsRequest>,
+  output: __S(256, __c8, 0) as any as S.Schema<LogicalView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2495,8 +2518,8 @@ export const getProjectsInstancesMaterializedViews: API.OperationMethod<
   GetProjectsInstancesMaterializedViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetProjectsInstancesMaterializedViewsRequest>,
-  output: __S(226, __c7, 2) as any as S.Schema<MaterializedView>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetProjectsInstancesMaterializedViewsRequest>,
+  output: __S(322, __c10, 2) as any as S.Schema<MaterializedView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2504,7 +2527,7 @@ export const getProjectsInstancesMaterializedViews: API.OperationMethod<
   span: "GetProjectsInstancesMaterializedViews",
 }));
 
-export type GetProjectsInstancesTablesError = NotFound | Forbidden | GcpOpError;
+export type GetProjectsInstancesTablesError = NotFound | Forbidden | TableNotReady | GcpOpError;
 /** Gets metadata information about the specified table. */
 export const getProjectsInstancesTables: API.OperationMethod<
   GetProjectsInstancesTablesRequest,
@@ -2512,9 +2535,9 @@ export const getProjectsInstancesTables: API.OperationMethod<
   GetProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetProjectsInstancesTablesRequest>,
-  output: __S(329, __c10, 9) as any as S.Schema<Table>,
-  errors: [NotFound, Forbidden, UnknownGCPError],
+  input: __S(1504, __c47, 0) as any as S.Schema<GetProjectsInstancesTablesRequest>,
+  output: __S(425, __c13, 9) as any as S.Schema<Table>,
+  errors: [NotFound, Forbidden, TableNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2529,8 +2552,8 @@ export const getProjectsInstancesTablesAuthorizedViews: API.OperationMethod<
   GetProjectsInstancesTablesAuthorizedViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetProjectsInstancesTablesAuthorizedViewsRequest>,
-  output: __S(387, __c12, 3) as any as S.Schema<AuthorizedView>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetProjectsInstancesTablesAuthorizedViewsRequest>,
+  output: __S(483, __c15, 3) as any as S.Schema<AuthorizedView>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2546,8 +2569,8 @@ export const getProjectsInstancesTablesSchemaBundles: API.OperationMethod<
   GetProjectsInstancesTablesSchemaBundlesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetProjectsInstancesTablesSchemaBundlesRequest>,
-  output: __S(450, __c14, 2) as any as S.Schema<SchemaBundle>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetProjectsInstancesTablesSchemaBundlesRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<SchemaBundle>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2564,8 +2587,8 @@ export const listOperationsProjectsOperations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListOperationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<ListOperationsProjectsOperationsRequest>,
-  output: __S(1506, __c47, 2) as any as S.Schema<ListOperationsResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<ListOperationsProjectsOperationsRequest>,
+  output: __S(1602, __c50, 2) as any as S.Schema<ListOperationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2583,8 +2606,8 @@ export const listProjectsInstances: API.PaginatedOperationMethod<
   GcpOpContext,
   ListInstancesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<ListProjectsInstancesRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<ListInstancesResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<ListProjectsInstancesRequest>,
+  output: __S(1634, __c51, 2) as any as S.Schema<ListInstancesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2602,8 +2625,8 @@ export const listProjectsInstancesAppProfiles: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAppProfilesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<ListProjectsInstancesAppProfilesRequest>,
-  output: __S(1570, __c49, 2) as any as S.Schema<ListAppProfilesResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<ListProjectsInstancesAppProfilesRequest>,
+  output: __S(1666, __c52, 2) as any as S.Schema<ListAppProfilesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2621,8 +2644,8 @@ export const listProjectsInstancesClusters: API.PaginatedOperationMethod<
   GcpOpContext,
   ListClustersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<ListProjectsInstancesClustersRequest>,
-  output: __S(1602, __c50, 2) as any as S.Schema<ListClustersResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ListProjectsInstancesClustersRequest>,
+  output: __S(1698, __c53, 2) as any as S.Schema<ListClustersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2640,8 +2663,8 @@ export const listProjectsInstancesClustersBackups: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBackupsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<ListProjectsInstancesClustersBackupsRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<ListBackupsResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ListProjectsInstancesClustersBackupsRequest>,
+  output: __S(1730, __c54, 2) as any as S.Schema<ListBackupsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2659,8 +2682,8 @@ export const listProjectsInstancesClustersHotTablets: API.PaginatedOperationMeth
   GcpOpContext,
   ListHotTabletsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<ListProjectsInstancesClustersHotTabletsRequest>,
-  output: __S(1667, __c52, 3) as any as S.Schema<ListHotTabletsResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListProjectsInstancesClustersHotTabletsRequest>,
+  output: __S(1763, __c55, 3) as any as S.Schema<ListHotTabletsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2678,8 +2701,8 @@ export const listProjectsInstancesClustersMemoryLayers: API.PaginatedOperationMe
   GcpOpContext,
   ListMemoryLayersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<ListProjectsInstancesClustersMemoryLayersRequest>,
-  output: __S(1698, __c53, 2) as any as S.Schema<ListMemoryLayersResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ListProjectsInstancesClustersMemoryLayersRequest>,
+  output: __S(1794, __c56, 2) as any as S.Schema<ListMemoryLayersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2697,8 +2720,8 @@ export const listProjectsInstancesLogicalViews: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLogicalViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<ListProjectsInstancesLogicalViewsRequest>,
-  output: __S(1730, __c54, 2) as any as S.Schema<ListLogicalViewsResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ListProjectsInstancesLogicalViewsRequest>,
+  output: __S(1826, __c57, 2) as any as S.Schema<ListLogicalViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2716,8 +2739,8 @@ export const listProjectsInstancesMaterializedViews: API.PaginatedOperationMetho
   GcpOpContext,
   ListMaterializedViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<ListProjectsInstancesMaterializedViewsRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<ListMaterializedViewsResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListProjectsInstancesMaterializedViewsRequest>,
+  output: __S(1858, __c58, 2) as any as S.Schema<ListMaterializedViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2735,8 +2758,8 @@ export const listProjectsInstancesTables: API.PaginatedOperationMethod<
   GcpOpContext,
   ListTablesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<ListProjectsInstancesTablesRequest>,
-  output: __S(1794, __c56, 2) as any as S.Schema<ListTablesResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListProjectsInstancesTablesRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<ListTablesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2754,8 +2777,8 @@ export const listProjectsInstancesTablesAuthorizedViews: API.PaginatedOperationM
   GcpOpContext,
   ListAuthorizedViewsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ListProjectsInstancesTablesAuthorizedViewsRequest>,
-  output: __S(1826, __c57, 2) as any as S.Schema<ListAuthorizedViewsResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListProjectsInstancesTablesAuthorizedViewsRequest>,
+  output: __S(1922, __c60, 2) as any as S.Schema<ListAuthorizedViewsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2773,8 +2796,8 @@ export const listProjectsInstancesTablesSchemaBundles: API.PaginatedOperationMet
   GcpOpContext,
   ListSchemaBundlesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ListProjectsInstancesTablesSchemaBundlesRequest>,
-  output: __S(1858, __c58, 2) as any as S.Schema<ListSchemaBundlesResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListProjectsInstancesTablesSchemaBundlesRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<ListSchemaBundlesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2792,8 +2815,8 @@ export const listProjectsLocations: API.PaginatedOperationMethod<
   GcpOpContext,
   ListLocationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListProjectsLocationsRequest>,
-  output: __S(1891, __c59, 3) as any as S.Schema<ListLocationsResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListProjectsLocationsRequest>,
+  output: __S(1987, __c62, 3) as any as S.Schema<ListLocationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2815,8 +2838,8 @@ export const modifyColumnFamiliesProjectsInstancesTables: API.OperationMethod<
   ModifyColumnFamiliesProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1923, __c60, 3) as any as S.Schema<ModifyColumnFamiliesProjectsInstancesTablesRequest>,
-  output: __S(329, __c10, 9) as any as S.Schema<Table>,
+  input: __S(2019, __c63, 3) as any as S.Schema<ModifyColumnFamiliesProjectsInstancesTablesRequest>,
+  output: __S(425, __c13, 9) as any as S.Schema<Table>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2838,11 +2861,11 @@ export const partialUpdateClusterProjectsInstancesClusters: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2016,
-    __c63,
+    2048,
+    __c64,
     0,
   ) as any as S.Schema<PartialUpdateClusterProjectsInstancesClustersRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2863,8 +2886,8 @@ export const partialUpdateInstanceProjectsInstances: API.OperationMethod<
   PartialUpdateInstanceProjectsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<PartialUpdateInstanceProjectsInstancesRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(2080, __c65, 0) as any as S.Schema<PartialUpdateInstanceProjectsInstancesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2885,8 +2908,8 @@ export const patchProjectsInstancesAppProfiles: API.OperationMethod<
   PatchProjectsInstancesAppProfilesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<PatchProjectsInstancesAppProfilesRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(2112, __c66, 0) as any as S.Schema<PatchProjectsInstancesAppProfilesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2907,8 +2930,8 @@ export const patchProjectsInstancesClustersBackups: API.OperationMethod<
   PatchProjectsInstancesClustersBackupsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<PatchProjectsInstancesClustersBackupsRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<Backup>,
+  input: __S(2144, __c67, 0) as any as S.Schema<PatchProjectsInstancesClustersBackupsRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<Backup>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2929,8 +2952,8 @@ export const patchProjectsInstancesLogicalViews: API.OperationMethod<
   PatchProjectsInstancesLogicalViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<PatchProjectsInstancesLogicalViewsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(2176, __c68, 0) as any as S.Schema<PatchProjectsInstancesLogicalViewsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2951,8 +2974,8 @@ export const patchProjectsInstancesMaterializedViews: API.OperationMethod<
   PatchProjectsInstancesMaterializedViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<PatchProjectsInstancesMaterializedViewsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(2208, __c69, 0) as any as S.Schema<PatchProjectsInstancesMaterializedViewsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2973,8 +2996,8 @@ export const patchProjectsInstancesTables: API.OperationMethod<
   PatchProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<PatchProjectsInstancesTablesRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(2240, __c70, 0) as any as S.Schema<PatchProjectsInstancesTablesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2995,8 +3018,8 @@ export const patchProjectsInstancesTablesAuthorizedViews: API.OperationMethod<
   PatchProjectsInstancesTablesAuthorizedViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<PatchProjectsInstancesTablesAuthorizedViewsRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(2272, __c71, 0) as any as S.Schema<PatchProjectsInstancesTablesAuthorizedViewsRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3017,8 +3040,8 @@ export const patchProjectsInstancesTablesSchemaBundles: API.OperationMethod<
   PatchProjectsInstancesTablesSchemaBundlesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<PatchProjectsInstancesTablesSchemaBundlesRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(2304, __c72, 0) as any as S.Schema<PatchProjectsInstancesTablesSchemaBundlesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3039,8 +3062,8 @@ export const restoreProjectsInstancesTables: API.OperationMethod<
   RestoreProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2305, __c72, 1) as any as S.Schema<RestoreProjectsInstancesTablesRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(2401, __c75, 1) as any as S.Schema<RestoreProjectsInstancesTablesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3061,8 +3084,8 @@ export const setIamPolicyProjectsInstances: API.OperationMethod<
   SetIamPolicyProjectsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<SetIamPolicyProjectsInstancesRequest>,
-  output: __S(903, __c28, 7) as any as S.Schema<Policy>,
+  input: __S(2432, __c76, 0) as any as S.Schema<SetIamPolicyProjectsInstancesRequest>,
+  output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3084,11 +3107,11 @@ export const setIamPolicyProjectsInstancesClustersBackups: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2528,
-    __c79,
+    2496,
+    __c78,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsInstancesClustersBackupsRequest>,
-  output: __S(903, __c28, 7) as any as S.Schema<Policy>,
+  output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3109,8 +3132,8 @@ export const setIamPolicyProjectsInstancesLogicalViews: API.OperationMethod<
   SetIamPolicyProjectsInstancesLogicalViewsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<SetIamPolicyProjectsInstancesLogicalViewsRequest>,
-  output: __S(903, __c28, 7) as any as S.Schema<Policy>,
+  input: __S(2528, __c79, 0) as any as S.Schema<SetIamPolicyProjectsInstancesLogicalViewsRequest>,
+  output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3132,11 +3155,11 @@ export const setIamPolicyProjectsInstancesMaterializedViews: API.OperationMethod
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2592,
-    __c81,
+    2560,
+    __c80,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsInstancesMaterializedViewsRequest>,
-  output: __S(903, __c28, 7) as any as S.Schema<Policy>,
+  output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3157,8 +3180,8 @@ export const setIamPolicyProjectsInstancesTables: API.OperationMethod<
   SetIamPolicyProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<SetIamPolicyProjectsInstancesTablesRequest>,
-  output: __S(903, __c28, 7) as any as S.Schema<Policy>,
+  input: __S(2592, __c81, 0) as any as S.Schema<SetIamPolicyProjectsInstancesTablesRequest>,
+  output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3180,11 +3203,11 @@ export const setIamPolicyProjectsInstancesTablesAuthorizedViews: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2656,
-    __c83,
+    2624,
+    __c82,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest>,
-  output: __S(903, __c28, 7) as any as S.Schema<Policy>,
+  output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3206,11 +3229,11 @@ export const setIamPolicyProjectsInstancesTablesSchemaBundles: API.OperationMeth
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2688,
-    __c84,
+    2656,
+    __c83,
     0,
   ) as any as S.Schema<SetIamPolicyProjectsInstancesTablesSchemaBundlesRequest>,
-  output: __S(903, __c28, 7) as any as S.Schema<Policy>,
+  output: __S(999, __c31, 7) as any as S.Schema<Policy>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3231,8 +3254,8 @@ export const testIamPermissionsProjectsInstances: API.OperationMethod<
   TestIamPermissionsProjectsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsProjectsInstancesRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<TestIamPermissionsProjectsInstancesRequest>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3254,11 +3277,11 @@ export const testIamPermissionsProjectsInstancesClustersBackups: API.OperationMe
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2784,
-    __c87,
+    2752,
+    __c86,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsInstancesClustersBackupsRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3280,11 +3303,11 @@ export const testIamPermissionsProjectsInstancesLogicalViews: API.OperationMetho
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2816,
-    __c88,
+    2912,
+    __c91,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsInstancesLogicalViewsRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3306,11 +3329,11 @@ export const testIamPermissionsProjectsInstancesMaterializedViews: API.Operation
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2976,
-    __c93,
+    2944,
+    __c92,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsInstancesMaterializedViewsRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3331,8 +3354,8 @@ export const testIamPermissionsProjectsInstancesTables: API.OperationMethod<
   TestIamPermissionsProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<TestIamPermissionsProjectsInstancesTablesRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<TestIamPermissionsProjectsInstancesTablesRequest>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3354,11 +3377,11 @@ export const testIamPermissionsProjectsInstancesTablesAuthorizedViews: API.Opera
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3040,
-    __c95,
+    3008,
+    __c94,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsInstancesTablesAuthorizedViewsRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3380,11 +3403,11 @@ export const testIamPermissionsProjectsInstancesTablesSchemaBundles: API.Operati
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3072,
-    __c96,
+    3040,
+    __c95,
     0,
   ) as any as S.Schema<TestIamPermissionsProjectsInstancesTablesSchemaBundlesRequest>,
-  output: __S(2752, __c86, 0) as any as S.Schema<TestIamPermissionsResponse>,
+  output: __S(2720, __c85, 0) as any as S.Schema<TestIamPermissionsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3397,6 +3420,7 @@ export type UndeleteProjectsInstancesTablesError =
   | Forbidden
   | BadRequest
   | Conflict
+  | TableNotReady
   | GcpOpError;
 /** Restores a specified table which was accidentally deleted. */
 export const undeleteProjectsInstancesTables: API.OperationMethod<
@@ -3405,9 +3429,9 @@ export const undeleteProjectsInstancesTables: API.OperationMethod<
   UndeleteProjectsInstancesTablesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<UndeleteProjectsInstancesTablesRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  input: __S(3072, __c96, 0) as any as S.Schema<UndeleteProjectsInstancesTablesRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
+  errors: [NotFound, Forbidden, BadRequest, Conflict, TableNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3427,8 +3451,8 @@ export const updateMemoryLayerProjectsInstancesClusters: API.OperationMethod<
   UpdateMemoryLayerProjectsInstancesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<UpdateMemoryLayerProjectsInstancesClustersRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(3104, __c97, 0) as any as S.Schema<UpdateMemoryLayerProjectsInstancesClustersRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3449,8 +3473,8 @@ export const updateProjectsInstances: API.OperationMethod<
   UpdateProjectsInstancesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<UpdateProjectsInstancesRequest>,
-  output: __S(2944, __c92, 0) as any as S.Schema<Instance>,
+  input: __S(3136, __c98, 0) as any as S.Schema<UpdateProjectsInstancesRequest>,
+  output: __S(3296, __c103, 0) as any as S.Schema<Instance>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3471,8 +3495,8 @@ export const updateProjectsInstancesClusters: API.OperationMethod<
   UpdateProjectsInstancesClustersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<UpdateProjectsInstancesClustersRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<Operation>,
+  input: __S(3168, __c99, 0) as any as S.Schema<UpdateProjectsInstancesClustersRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3486,9 +3510,78 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          appProfileId: S.optional(S.String.pipe(T.Query())),
+          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          body: S.optional(__S(68, __c2, 4).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+parent}/appProfiles",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CreateProjectsInstancesAppProfilesRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clusterId: S.optional(S.String),
+          allowTransactionalWrites: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SingleClusterRouting" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          clusterIds: S.optional(__S(32, __c1, 0)),
+          rowAffinity: S.optional(__S(2368, __c74, 0)),
+        }),
+      ).annotate({ identifier: "MultiClusterRoutingUseAny" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          computeBillingOwner: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataBoostIsolationReadOnly" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          memoryConfig: S.optional(__S(2368, __c74, 0)),
+          priority: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StandardIsolation" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          etag: S.optional(S.String),
+          singleClusterRouting: S.optional(__S(64, __c2, 0)),
+          name: S.optional(S.String),
+          multiClusterRoutingUseAny: S.optional(__S(65, __c2, 1)),
+          dataBoostIsolationReadOnly: S.optional(__S(66, __c2, 2)),
+          standardIsolation: S.optional(__S(67, __c2, 3)),
+          priority: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AppProfile" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           clusterId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2885, __c90, 5).pipe(T.HttpBody())),
+          body: S.optional(__S(3237, __c101, 5).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3499,14 +3592,14 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateProjectsInstancesClustersRequest" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           backupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3517,19 +3610,19 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateProjectsInstancesClustersBackupsRequest" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          encryptionStatus: S.optional(__S(2401, __c75, 1)),
+          encryptionStatus: S.optional(__S(2849, __c89, 1)),
           encryptionType: S.optional(S.String),
           kmsKeyVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "EncryptionInfo" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3544,19 +3637,19 @@ function __c3(j: number): any {
           sourceTable: S.optional(S.String),
           startTime: S.optional(S.String),
           sizeBytes: S.optional(S.String),
-          encryptionInfo: S.optional(__S(64, __c2, 0)),
+          encryptionInfo: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "Backup" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           logicalViewId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3567,7 +3660,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateProjectsInstancesLogicalViewsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3580,7 +3673,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "LogicalView" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3588,7 +3681,7 @@ function __c6(j: number): any {
           parent: S.String.pipe(T.Label()),
           materializedViewId: S.optional(S.String.pipe(T.Query())),
           ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(226, __c7, 2).pipe(T.HttpBody())),
+          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3599,7 +3692,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateProjectsInstancesMaterializedViewsRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3608,20 +3701,20 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2MaterializedViewClusterState" });
     case 1:
-      return S.Record(S.String, __S(224, __c7, 0));
+      return S.Record(S.String, __S(320, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           query: S.optional(S.String),
-          clusterStates: S.optional(__S(225, __c7, 1)),
+          clusterStates: S.optional(__S(321, __c10, 1)),
           deletionProtection: S.optional(S.Boolean),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "MaterializedView" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3630,20 +3723,20 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "Split" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
+      return S.Array(__S(352, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          initialSplits: S.optional(__S(257, __c8, 1)),
+          initialSplits: S.optional(__S(353, __c11, 1)),
           tableId: S.optional(S.String),
-          table: S.optional(__S(329, __c10, 9)),
+          table: S.optional(__S(425, __c13, 9)),
         }),
       ).annotate({ identifier: "CreateTableRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(258, __c8, 2).pipe(T.HttpBody())),
+          body: S.optional(__S(354, __c11, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3654,7 +3747,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateProjectsInstancesTablesRequest" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3678,8 +3771,8 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          keyType: S.optional(S.suspend(() => __S(314, __c9, 26))),
-          valueType: S.optional(S.suspend(() => __S(314, __c9, 26))),
+          keyType: S.optional(S.suspend(() => __S(410, __c12, 26))),
+          valueType: S.optional(S.suspend(() => __S(410, __c12, 26))),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeMap" });
     case 3:
@@ -3692,7 +3785,7 @@ function __c9(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          encoding: S.optional(__S(1984, __c62, 0)),
+          encoding: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeBool" });
     case 5:
@@ -3711,24 +3804,24 @@ function __c9(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          raw: S.optional(__S(294, __c9, 6)),
+          raw: S.optional(__S(390, __c12, 6)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeBytesEncoding" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          encoding: S.optional(__S(295, __c9, 7)),
+          encoding: S.optional(__S(391, __c12, 7)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeBytes" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          hllppUniqueCount: S.optional(__S(1984, __c62, 0)),
-          max: S.optional(__S(1984, __c62, 0)),
-          min: S.optional(__S(1984, __c62, 0)),
-          inputType: S.optional(S.suspend(() => __S(314, __c9, 26))),
-          stateType: S.optional(S.suspend(() => __S(314, __c9, 26))),
-          sum: S.optional(__S(1984, __c62, 0)),
+          hllppUniqueCount: S.optional(__S(2368, __c74, 0)),
+          max: S.optional(__S(2368, __c74, 0)),
+          min: S.optional(__S(2368, __c74, 0)),
+          inputType: S.optional(S.suspend(() => __S(410, __c12, 26))),
+          stateType: S.optional(S.suspend(() => __S(410, __c12, 26))),
+          sum: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeAggregate" });
     case 10:
@@ -3740,14 +3833,14 @@ function __c9(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          utf8Raw: S.optional(__S(1984, __c62, 0)),
-          utf8Bytes: S.optional(__S(298, __c9, 10)),
+          utf8Raw: S.optional(__S(2368, __c74, 0)),
+          utf8Bytes: S.optional(__S(394, __c12, 10)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeStringEncoding" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          encoding: S.optional(__S(299, __c9, 11)),
+          encoding: S.optional(__S(395, __c12, 11)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeString" });
     case 13:
@@ -3759,128 +3852,128 @@ function __c9(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          orderedCodeBytes: S.optional(__S(1984, __c62, 0)),
-          singleton: S.optional(__S(1984, __c62, 0)),
-          delimitedBytes: S.optional(__S(301, __c9, 13)),
+          orderedCodeBytes: S.optional(__S(2368, __c74, 0)),
+          singleton: S.optional(__S(2368, __c74, 0)),
+          delimitedBytes: S.optional(__S(397, __c12, 13)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeStructEncoding" });
     case 15:
       return S.suspend(() =>
         S.Struct({
           fieldName: S.optional(S.String),
-          type: S.optional(S.suspend(() => __S(314, __c9, 26))),
+          type: S.optional(S.suspend(() => __S(410, __c12, 26))),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeStructField" });
     case 16:
-      return S.Array(__S(303, __c9, 15));
+      return S.Array(__S(399, __c12, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          encoding: S.optional(__S(302, __c9, 14)),
-          fields: S.optional(__S(304, __c9, 16)),
+          encoding: S.optional(__S(398, __c12, 14)),
+          fields: S.optional(__S(400, __c12, 16)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeStruct" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          bytesType: S.optional(__S(296, __c9, 8)),
+          bytesType: S.optional(__S(392, __c12, 8)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt64EncodingBigEndianBytes" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          bigEndianBytes: S.optional(__S(306, __c9, 18)),
-          orderedCodeBytes: S.optional(__S(1984, __c62, 0)),
+          bigEndianBytes: S.optional(__S(402, __c12, 18)),
+          orderedCodeBytes: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt64Encoding" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          unixMicrosInt64: S.optional(__S(307, __c9, 19)),
+          unixMicrosInt64: S.optional(__S(403, __c12, 19)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeTimestampEncoding" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          encoding: S.optional(__S(308, __c9, 20)),
+          encoding: S.optional(__S(404, __c12, 20)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeTimestamp" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          elementType: S.optional(S.suspend(() => __S(314, __c9, 26))),
+          elementType: S.optional(S.suspend(() => __S(410, __c12, 26))),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeArray" });
     case 23:
       return S.suspend(() =>
         S.Struct({
-          encoding: S.optional(__S(307, __c9, 19)),
+          encoding: S.optional(__S(403, __c12, 19)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt64" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          orderedCodeBytes: S.optional(__S(1984, __c62, 0)),
-          bigEndianBytes: S.optional(__S(1984, __c62, 0)),
+          orderedCodeBytes: S.optional(__S(2368, __c74, 0)),
+          bigEndianBytes: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt32Encoding" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          encoding: S.optional(__S(312, __c9, 24)),
+          encoding: S.optional(__S(408, __c12, 24)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt32" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          mapType: S.optional(__S(290, __c9, 2)),
-          float64Type: S.optional(__S(1984, __c62, 0)),
-          enumType: S.optional(__S(291, __c9, 3)),
-          boolType: S.optional(__S(292, __c9, 4)),
-          protoType: S.optional(__S(293, __c9, 5)),
-          bytesType: S.optional(__S(296, __c9, 8)),
-          aggregateType: S.optional(__S(297, __c9, 9)),
-          float32Type: S.optional(__S(1984, __c62, 0)),
-          stringType: S.optional(__S(300, __c9, 12)),
-          geographyType: S.optional(__S(1984, __c62, 0)),
-          structType: S.optional(__S(305, __c9, 17)),
-          timestampType: S.optional(__S(309, __c9, 21)),
-          dateType: S.optional(__S(1984, __c62, 0)),
-          arrayType: S.optional(__S(310, __c9, 22)),
-          int64Type: S.optional(__S(311, __c9, 23)),
-          int32Type: S.optional(__S(313, __c9, 25)),
+          mapType: S.optional(__S(386, __c12, 2)),
+          float64Type: S.optional(__S(2368, __c74, 0)),
+          enumType: S.optional(__S(387, __c12, 3)),
+          boolType: S.optional(__S(388, __c12, 4)),
+          protoType: S.optional(__S(389, __c12, 5)),
+          bytesType: S.optional(__S(392, __c12, 8)),
+          aggregateType: S.optional(__S(393, __c12, 9)),
+          float32Type: S.optional(__S(2368, __c74, 0)),
+          stringType: S.optional(__S(396, __c12, 12)),
+          geographyType: S.optional(__S(2368, __c74, 0)),
+          structType: S.optional(__S(401, __c12, 17)),
+          timestampType: S.optional(__S(405, __c12, 21)),
+          dateType: S.optional(__S(2368, __c74, 0)),
+          arrayType: S.optional(__S(406, __c12, 22)),
+          int64Type: S.optional(__S(407, __c12, 23)),
+          int32Type: S.optional(__S(409, __c12, 25)),
         }),
       ).annotate({ identifier: "Type" });
     case 27:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(317, __c9, 29)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(413, __c12, 29)));
     case 28:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(315, __c9, 27)),
+          rules: S.optional(__S(411, __c12, 27)),
         }),
       ).annotate({ identifier: "Intersection" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          intersection: S.optional(__S(316, __c9, 28)),
+          intersection: S.optional(__S(412, __c12, 28)),
           maxNumVersions: S.optional(S.Number),
-          union: S.optional(__S(316, __c9, 28)),
+          union: S.optional(__S(412, __c12, 28)),
           maxAge: S.optional(S.String),
         }),
       ).annotate({ identifier: "GcRule" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          stats: S.optional(__S(289, __c9, 1)),
-          valueType: S.optional(__S(314, __c9, 26)),
-          gcRule: S.optional(__S(317, __c9, 29)),
+          stats: S.optional(__S(385, __c12, 1)),
+          valueType: S.optional(__S(410, __c12, 26)),
+          gcRule: S.optional(__S(413, __c12, 29)),
         }),
       ).annotate({ identifier: "ColumnFamily" });
     case 31:
-      return S.Record(S.String, __S(318, __c9, 30));
+      return S.Record(S.String, __S(414, __c12, 30));
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3891,26 +3984,26 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          infrequentAccess: S.optional(__S(320, __c10, 0)),
+          infrequentAccess: S.optional(__S(416, __c13, 0)),
         }),
       ).annotate({ identifier: "TieredStorageConfig" });
     case 2:
-      return S.Array(__S(64, __c2, 0));
+      return S.Array(__S(160, __c5, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          encryptionInfo: S.optional(__S(322, __c10, 2)),
+          encryptionInfo: S.optional(__S(418, __c13, 2)),
           replicationState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterState" });
     case 4:
-      return S.Record(S.String, __S(323, __c10, 3));
+      return S.Record(S.String, __S(419, __c13, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           frequency: S.optional(S.String),
           retentionPeriod: S.optional(S.String),
-          locations: S.optional(__S(3264, __c102, 0)),
+          locations: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "AutomatedBackupPolicy" });
     case 6:
@@ -3926,7 +4019,7 @@ function __c10(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          backupInfo: S.optional(__S(326, __c10, 6)),
+          backupInfo: S.optional(__S(422, __c13, 6)),
           sourceType: S.optional(S.String),
         }),
       ).annotate({ identifier: "RestoreInfo" });
@@ -3939,29 +4032,29 @@ function __c10(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          stats: S.optional(__S(288, __c9, 0)),
-          columnFamilies: S.optional(__S(319, __c9, 31)),
+          stats: S.optional(__S(384, __c12, 0)),
+          columnFamilies: S.optional(__S(415, __c12, 31)),
           name: S.optional(S.String),
-          tieredStorageConfig: S.optional(__S(321, __c10, 1)),
-          rowKeySchema: S.optional(__S(305, __c9, 17)),
-          clusterStates: S.optional(__S(324, __c10, 4)),
-          automatedBackupPolicy: S.optional(__S(325, __c10, 5)),
-          restoreInfo: S.optional(__S(327, __c10, 7)),
+          tieredStorageConfig: S.optional(__S(417, __c13, 1)),
+          rowKeySchema: S.optional(__S(401, __c12, 17)),
+          clusterStates: S.optional(__S(420, __c13, 4)),
+          automatedBackupPolicy: S.optional(__S(421, __c13, 5)),
+          restoreInfo: S.optional(__S(423, __c13, 7)),
           deletionProtection: S.optional(S.Boolean),
-          changeStreamConfig: S.optional(__S(328, __c10, 8)),
+          changeStreamConfig: S.optional(__S(424, __c13, 8)),
           granularity: S.optional(S.String),
         }),
       ).annotate({ identifier: "Table" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           authorizedViewId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(387, __c12, 3).pipe(T.HttpBody())),
+          body: S.optional(__S(483, __c15, 3).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3972,22 +4065,22 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateProjectsInstancesTablesAuthorizedViewsRequest" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          qualifiers: S.optional(__S(3264, __c102, 0)),
-          qualifierPrefixes: S.optional(__S(3264, __c102, 0)),
+          qualifiers: S.optional(__S(32, __c1, 0)),
+          qualifierPrefixes: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2AuthorizedViewFamilySubsets" });
     case 1:
-      return S.Record(S.String, __S(384, __c12, 0));
+      return S.Record(S.String, __S(480, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          rowPrefixes: S.optional(__S(3264, __c102, 0)),
-          familySubsets: S.optional(__S(385, __c12, 1)),
+          rowPrefixes: S.optional(__S(32, __c1, 0)),
+          familySubsets: S.optional(__S(481, __c15, 1)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2AuthorizedViewSubsetView" });
     case 3:
@@ -3996,19 +4089,19 @@ function __c12(j: number): any {
           etag: S.optional(S.String),
           deletionProtection: S.optional(S.Boolean),
           name: S.optional(S.String),
-          subsetView: S.optional(__S(386, __c12, 2)),
+          subsetView: S.optional(__S(482, __c15, 2)),
         }),
       ).annotate({ identifier: "AuthorizedView" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           schemaBundleId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(450, __c14, 2).pipe(T.HttpBody())),
+          body: S.optional(__S(546, __c17, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4019,7 +4112,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateProjectsInstancesTablesSchemaBundlesRequest" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4030,21 +4123,21 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          jsonSchemas: S.optional(__S(3264, __c102, 0)),
+          jsonSchemas: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "AvroSchema" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          protoSchema: S.optional(__S(448, __c14, 0)),
+          protoSchema: S.optional(__S(544, __c17, 0)),
           etag: S.optional(S.String),
-          avroSchema: S.optional(__S(449, __c14, 1)),
+          avroSchema: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "SchemaBundle" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4060,7 +4153,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteProjectsInstancesRequest" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4077,7 +4170,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteProjectsInstancesAppProfilesRequest" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4093,7 +4186,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteProjectsInstancesClustersRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4109,7 +4202,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteProjectsInstancesClustersBackupsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4126,7 +4219,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteProjectsInstancesLogicalViewsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4143,7 +4236,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteProjectsInstancesMaterializedViewsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4159,7 +4252,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteProjectsInstancesTablesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4176,7 +4269,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteProjectsInstancesTablesAuthorizedViewsRequest" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4193,7 +4286,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteProjectsInstancesTablesSchemaBundlesRequest" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4206,7 +4299,7 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(768, __c24, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4217,13 +4310,13 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DropRowRangeProjectsInstancesTablesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2368, __c74, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4240,13 +4333,13 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GenerateConsistencyTokenResponse" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(865, __c27, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4257,7 +4350,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsInstancesRequest" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4268,12 +4361,12 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(864, __c27, 0)),
+          options: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "GetIamPolicyRequest" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4287,49 +4380,49 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(3264, __c102, 0)),
-          condition: S.optional(__S(896, __c28, 0)),
+          members: S.optional(__S(32, __c1, 0)),
+          condition: S.optional(__S(992, __c31, 0)),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
-      return S.Array(__S(897, __c28, 1));
+      return S.Array(__S(993, __c31, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          exemptedMembers: S.optional(__S(3264, __c102, 0)),
+          exemptedMembers: S.optional(__S(32, __c1, 0)),
           logType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
     case 4:
-      return S.Array(__S(899, __c28, 3));
+      return S.Array(__S(995, __c31, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(900, __c28, 4)),
+          auditLogConfigs: S.optional(__S(996, __c31, 4)),
         }),
       ).annotate({ identifier: "AuditConfig" });
     case 6:
-      return S.Array(__S(901, __c28, 5));
+      return S.Array(__S(997, __c31, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(898, __c28, 2)),
+          bindings: S.optional(__S(994, __c31, 2)),
           version: S.optional(S.Number),
           etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(902, __c28, 6)),
+          auditConfigs: S.optional(__S(998, __c31, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(865, __c27, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4340,13 +4433,13 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsInstancesClustersBackupsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(865, __c27, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4357,13 +4450,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsInstancesLogicalViewsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(865, __c27, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4374,13 +4467,13 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsInstancesMaterializedViewsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(865, __c27, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4391,13 +4484,13 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsInstancesTablesRequest" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(865, __c27, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4408,13 +4501,13 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(865, __c27, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4423,57 +4516,6 @@ function __c34(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetIamPolicyProjectsInstancesTablesSchemaBundlesRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetMemoryLayerProjectsInstancesClustersRequest" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          storageSizeGib: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2MemoryLayerMemoryConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          etag: S.optional(S.String),
-          name: S.optional(S.String),
-          memoryConfig: S.optional(__S(1152, __c36, 0)),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MemoryLayer" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetOperationsRequest" });
   }
 }
 function __c38(j: number): any {
@@ -4489,7 +4531,7 @@ function __c38(j: number): any {
             baseUrl: "https://bigtableadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsInstancesRequest" });
+      ).annotate({ identifier: "GetMemoryLayerProjectsInstancesClustersRequest" });
   }
 }
 function __c39(j: number): any {
@@ -4497,15 +4539,18 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetProjectsInstancesAppProfilesRequest" });
+          storageSizeGib: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2MemoryLayerMemoryConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          etag: S.optional(S.String),
+          name: S.optional(S.String),
+          memoryConfig: S.optional(__S(1248, __c39, 0)),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MemoryLayer" });
   }
 }
 function __c40(j: number): any {
@@ -4521,7 +4566,7 @@ function __c40(j: number): any {
             baseUrl: "https://bigtableadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsInstancesClustersRequest" });
+      ).annotate({ identifier: "GetOperationsRequest" });
   }
 }
 function __c41(j: number): any {
@@ -4537,7 +4582,7 @@ function __c41(j: number): any {
             baseUrl: "https://bigtableadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsInstancesClustersBackupsRequest" });
+      ).annotate({ identifier: "GetProjectsInstancesRequest" });
   }
 }
 function __c42(j: number): any {
@@ -4553,10 +4598,58 @@ function __c42(j: number): any {
             baseUrl: "https://bigtableadmin.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetProjectsInstancesLogicalViewsRequest" });
+      ).annotate({ identifier: "GetProjectsInstancesAppProfilesRequest" });
   }
 }
 function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsInstancesClustersRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsInstancesClustersBackupsRequest" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetProjectsInstancesLogicalViewsRequest" });
+  }
+}
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4573,7 +4666,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetProjectsInstancesMaterializedViewsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4590,7 +4683,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetProjectsInstancesTablesRequest" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4607,7 +4700,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetProjectsInstancesTablesAuthorizedViewsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4623,7 +4716,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetProjectsInstancesTablesSchemaBundlesRequest" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4642,18 +4735,18 @@ function __c47(j: number): any {
         ),
       ).annotate({ identifier: "ListOperationsProjectsOperationsRequest" });
     case 1:
-      return S.Array(__S(2432, __c76, 0));
+      return S.Array(__S(2880, __c90, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(3264, __c102, 0)),
-          operations: S.optional(__S(1505, __c47, 1)),
+          unreachable: S.optional(__S(32, __c1, 0)),
+          operations: S.optional(__S(1601, __c50, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4669,18 +4762,18 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesRequest" });
     case 1:
-      return S.Array(__S(2944, __c92, 0));
+      return S.Array(__S(3296, __c103, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          instances: S.optional(__S(1537, __c48, 1)),
-          failedLocations: S.optional(__S(3264, __c102, 0)),
+          instances: S.optional(__S(1633, __c51, 1)),
+          failedLocations: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4697,18 +4790,18 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesAppProfilesRequest" });
     case 1:
-      return S.Array(__S(3300, __c103, 4));
+      return S.Array(__S(68, __c2, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          appProfiles: S.optional(__S(1569, __c49, 1)),
-          failedLocations: S.optional(__S(3264, __c102, 0)),
+          appProfiles: S.optional(__S(1665, __c52, 1)),
+          failedLocations: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ListAppProfilesResponse" });
   }
 }
-function __c50(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4724,18 +4817,18 @@ function __c50(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesClustersRequest" });
     case 1:
-      return S.Array(__S(2885, __c90, 5));
+      return S.Array(__S(3237, __c101, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          clusters: S.optional(__S(1601, __c50, 1)),
-          failedLocations: S.optional(__S(3264, __c102, 0)),
+          clusters: S.optional(__S(1697, __c53, 1)),
+          failedLocations: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ListClustersResponse" });
   }
 }
-function __c51(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4754,17 +4847,17 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesClustersBackupsRequest" });
     case 1:
-      return S.Array(__S(96, __c3, 0));
+      return S.Array(__S(192, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          backups: S.optional(__S(1633, __c51, 1)),
+          backups: S.optional(__S(1729, __c54, 1)),
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
   }
 }
-function __c52(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4795,17 +4888,17 @@ function __c52(j: number): any {
         }),
       ).annotate({ identifier: "HotTablet" });
     case 2:
-      return S.Array(__S(1665, __c52, 1));
+      return S.Array(__S(1761, __c55, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          hotTablets: S.optional(__S(1666, __c52, 2)),
+          hotTablets: S.optional(__S(1762, __c55, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListHotTabletsResponse" });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4822,18 +4915,18 @@ function __c53(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesClustersMemoryLayersRequest" });
     case 1:
-      return S.Array(__S(1153, __c36, 1));
+      return S.Array(__S(1249, __c39, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          memoryLayers: S.optional(__S(1697, __c53, 1)),
-          failedLocations: S.optional(__S(3264, __c102, 0)),
+          memoryLayers: S.optional(__S(1793, __c56, 1)),
+          failedLocations: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ListMemoryLayersResponse" });
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4850,17 +4943,17 @@ function __c54(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesLogicalViewsRequest" });
     case 1:
-      return S.Array(__S(160, __c5, 0));
+      return S.Array(__S(256, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          logicalViews: S.optional(__S(1729, __c54, 1)),
+          logicalViews: S.optional(__S(1825, __c57, 1)),
         }),
       ).annotate({ identifier: "ListLogicalViewsResponse" });
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4878,17 +4971,17 @@ function __c55(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesMaterializedViewsRequest" });
     case 1:
-      return S.Array(__S(226, __c7, 2));
+      return S.Array(__S(322, __c10, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          materializedViews: S.optional(__S(1761, __c55, 1)),
+          materializedViews: S.optional(__S(1857, __c58, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMaterializedViewsResponse" });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4906,17 +4999,17 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesTablesRequest" });
     case 1:
-      return S.Array(__S(329, __c10, 9));
+      return S.Array(__S(425, __c13, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tables: S.optional(__S(1793, __c56, 1)),
+          tables: S.optional(__S(1889, __c59, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTablesResponse" });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4934,17 +5027,17 @@ function __c57(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesTablesAuthorizedViewsRequest" });
     case 1:
-      return S.Array(__S(387, __c12, 3));
+      return S.Array(__S(483, __c15, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          authorizedViews: S.optional(__S(1825, __c57, 1)),
+          authorizedViews: S.optional(__S(1921, __c60, 1)),
         }),
       ).annotate({ identifier: "ListAuthorizedViewsResponse" });
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4962,17 +5055,17 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsInstancesTablesSchemaBundlesRequest" });
     case 1:
-      return S.Array(__S(450, __c14, 2));
+      return S.Array(__S(546, __c17, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          schemaBundles: S.optional(__S(1857, __c58, 1)),
+          schemaBundles: S.optional(__S(1953, __c61, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSchemaBundlesResponse" });
   }
 }
-function __c59(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4980,7 +5073,7 @@ function __c59(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(3264, __c102, 0).pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(32, __c1, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -4993,25 +5086,25 @@ function __c59(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(2368, __c74, 0)),
+          metadata: S.optional(__S(2816, __c88, 0)),
           locationId: S.optional(S.String),
-          labels: S.optional(__S(2912, __c91, 0)),
+          labels: S.optional(__S(3264, __c102, 0)),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
     case 2:
-      return S.Array(__S(1889, __c59, 1));
+      return S.Array(__S(1985, __c62, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(1890, __c59, 2)),
+          locations: S.optional(__S(1986, __c62, 2)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
 }
-function __c60(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5019,16 +5112,16 @@ function __c60(j: number): any {
           updateMask: S.optional(S.String),
           id: S.optional(S.String),
           drop: S.optional(S.Boolean),
-          create: S.optional(__S(318, __c9, 30)),
-          update: S.optional(__S(318, __c9, 30)),
+          create: S.optional(__S(414, __c12, 30)),
+          update: S.optional(__S(414, __c12, 30)),
         }),
       ).annotate({ identifier: "Modification" });
     case 1:
-      return S.Array(__S(1920, __c60, 0));
+      return S.Array(__S(2016, __c63, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          modifications: S.optional(__S(1921, __c60, 1)),
+          modifications: S.optional(__S(2017, __c63, 1)),
           ignoreWarnings: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ModifyColumnFamiliesRequest" });
@@ -5036,7 +5129,7 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1922, __c60, 2).pipe(T.HttpBody())),
+          body: S.optional(__S(2018, __c63, 2).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5047,21 +5140,187 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ModifyColumnFamiliesProjectsInstancesTablesRequest" });
   }
 }
-function __c61(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataBoostReadLocalWrites: S.optional(__S(1984, __c62, 0)),
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(3237, __c101, 5).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PartialUpdateClusterProjectsInstancesClustersRequest" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PartialUpdateInstanceProjectsInstancesRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(68, __c2, 4).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsInstancesAppProfilesRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsInstancesClustersBackupsRequest" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsInstancesLogicalViewsRequest" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsInstancesMaterializedViewsRequest" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(425, __c13, 9).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsInstancesTablesRequest" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+          body: S.optional(__S(483, __c15, 3).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsInstancesTablesAuthorizedViewsRequest" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(546, __c17, 2).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "PatchProjectsInstancesTablesSchemaBundlesRequest" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dataBoostReadLocalWrites: S.optional(__S(2368, __c74, 0)),
           consistencyToken: S.optional(S.String),
-          standardReadRemoteWrites: S.optional(__S(1984, __c62, 0)),
+          standardReadRemoteWrites: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "CheckConsistencyRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2336, __c73, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5078,179 +5337,13 @@ function __c61(j: number): any {
       ).annotate({ identifier: "CheckConsistencyResponse" });
   }
 }
-function __c62(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DataBoostReadLocalWrites" });
   }
 }
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2885, __c90, 5).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PartialUpdateClusterProjectsInstancesClustersRequest" });
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2944, __c92, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PartialUpdateInstanceProjectsInstancesRequest" });
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3300, __c103, 4).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsInstancesAppProfilesRequest" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(96, __c3, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsInstancesClustersBackupsRequest" });
-  }
-}
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(160, __c5, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsInstancesLogicalViewsRequest" });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(226, __c7, 2).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsInstancesMaterializedViewsRequest" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(329, __c10, 9).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsInstancesTablesRequest" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(387, __c12, 3).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsInstancesTablesAuthorizedViewsRequest" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(450, __c14, 2).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "PatchProjectsInstancesTablesSchemaBundlesRequest" });
-  }
-}
-function __c72(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5263,7 +5356,7 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2304, __c72, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5274,7 +5367,181 @@ function __c72(j: number): any {
       ).annotate({ identifier: "RestoreProjectsInstancesTablesRequest" });
   }
 }
-function __c73(j: number): any {
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String.pipe(T.Label()),
+          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+resource}:setIamPolicy",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "SetIamPolicyProjectsInstancesRequest" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          policy: S.optional(__S(999, __c31, 7)),
+          updateMask: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SetIamPolicyRequest" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String.pipe(T.Label()),
+          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+resource}:setIamPolicy",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "SetIamPolicyProjectsInstancesClustersBackupsRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String.pipe(T.Label()),
+          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+resource}:setIamPolicy",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "SetIamPolicyProjectsInstancesLogicalViewsRequest" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String.pipe(T.Label()),
+          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+resource}:setIamPolicy",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "SetIamPolicyProjectsInstancesMaterializedViewsRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String.pipe(T.Label()),
+          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+resource}:setIamPolicy",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "SetIamPolicyProjectsInstancesTablesRequest" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String.pipe(T.Label()),
+          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+resource}:setIamPolicy",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "SetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String.pipe(T.Label()),
+          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+resource}:setIamPolicy",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "SetIamPolicyProjectsInstancesTablesSchemaBundlesRequest" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String.pipe(T.Label()),
+          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+resource}:testIamPermissions",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "TestIamPermissionsProjectsInstancesRequest" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.optional(__S(32, __c1, 0)),
+        }),
+      ).annotate({ identifier: "TestIamPermissionsRequest" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String.pipe(T.Label()),
+          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+resource}:testIamPermissions",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "TestIamPermissionsProjectsInstancesClustersBackupsRequest" });
+  }
+}
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5288,7 +5555,7 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2336, __c73, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2784, __c87, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5299,221 +5566,47 @@ function __c73(j: number): any {
       ).annotate({ identifier: "CopyProjectsInstancesClustersBackupsRequest" });
   }
 }
-function __c74(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c75(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2368, __c74, 0));
+      return S.Array(__S(2816, __c88, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(2400, __c75, 0)),
+          details: S.optional(__S(2848, __c89, 0)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
   }
 }
-function __c76(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(2368, __c74, 0)),
-          error: S.optional(__S(2401, __c75, 1)),
+          metadata: S.optional(__S(2816, __c88, 0)),
+          error: S.optional(__S(2849, __c89, 1)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(2368, __c74, 0)),
+          response: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c77(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+resource}:setIamPolicy",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "SetIamPolicyProjectsInstancesRequest" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policy: S.optional(__S(903, __c28, 7)),
-          updateMask: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SetIamPolicyRequest" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+resource}:setIamPolicy",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "SetIamPolicyProjectsInstancesClustersBackupsRequest" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+resource}:setIamPolicy",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "SetIamPolicyProjectsInstancesLogicalViewsRequest" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+resource}:setIamPolicy",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "SetIamPolicyProjectsInstancesMaterializedViewsRequest" });
-  }
-}
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+resource}:setIamPolicy",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "SetIamPolicyProjectsInstancesTablesRequest" });
-  }
-}
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+resource}:setIamPolicy",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "SetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest" });
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2496, __c78, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+resource}:setIamPolicy",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "SetIamPolicyProjectsInstancesTablesSchemaBundlesRequest" });
-  }
-}
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2752, __c86, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+resource}:testIamPermissions",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "TestIamPermissionsProjectsInstancesRequest" });
-  }
-}
-function __c86(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          permissions: S.optional(__S(3264, __c102, 0)),
-        }),
-      ).annotate({ identifier: "TestIamPermissionsRequest" });
-  }
-}
-function __c87(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2752, __c86, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+resource}:testIamPermissions",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "TestIamPermissionsProjectsInstancesClustersBackupsRequest" });
-  }
-}
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2752, __c86, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5524,16 +5617,153 @@ function __c88(j: number): any {
       ).annotate({ identifier: "TestIamPermissionsProjectsInstancesLogicalViewsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(2885, __c90, 5));
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String.pipe(T.Label()),
+          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+resource}:testIamPermissions",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "TestIamPermissionsProjectsInstancesMaterializedViewsRequest" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String.pipe(T.Label()),
+          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+resource}:testIamPermissions",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "TestIamPermissionsProjectsInstancesTablesRequest" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String.pipe(T.Label()),
+          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+resource}:testIamPermissions",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "TestIamPermissionsProjectsInstancesTablesAuthorizedViewsRequest" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.String.pipe(T.Label()),
+          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+resource}:testIamPermissions",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "TestIamPermissionsProjectsInstancesTablesSchemaBundlesRequest" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(2368, __c74, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "v2/{+name}:undelete",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "UndeleteProjectsInstancesTablesRequest" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(1249, __c39, 1).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateMemoryLayerProjectsInstancesClustersRequest" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateProjectsInstancesRequest" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(3237, __c101, 5).pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "v2/{+name}",
+            baseUrl: "https://bigtableadmin.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateProjectsInstancesClustersRequest" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(3237, __c101, 5));
     case 1:
       return S.suspend(() =>
         S.Struct({
           instanceId: S.optional(S.String),
-          clusters: S.optional(__S(2848, __c89, 0)),
-          instance: S.optional(__S(2944, __c92, 0)),
+          clusters: S.optional(__S(3200, __c100, 0)),
+          instance: S.optional(__S(3296, __c103, 0)),
           parent: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateInstanceRequest" });
@@ -5541,7 +5771,7 @@ function __c89(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2849, __c89, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(3201, __c100, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5552,7 +5782,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "CreateProjectsInstancesRequest" });
   }
 }
-function __c90(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5577,217 +5807,35 @@ function __c90(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          autoscalingLimits: S.optional(__S(2881, __c90, 1)),
-          autoscalingTargets: S.optional(__S(2882, __c90, 2)),
+          autoscalingLimits: S.optional(__S(3233, __c101, 1)),
+          autoscalingTargets: S.optional(__S(3234, __c101, 2)),
         }),
       ).annotate({ identifier: "ClusterAutoscalingConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          clusterAutoscalingConfig: S.optional(__S(2883, __c90, 3)),
+          clusterAutoscalingConfig: S.optional(__S(3235, __c101, 3)),
         }),
       ).annotate({ identifier: "ClusterConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           nodeScalingFactor: S.optional(S.String),
-          encryptionConfig: S.optional(__S(2880, __c90, 0)),
+          encryptionConfig: S.optional(__S(3232, __c101, 0)),
           name: S.optional(S.String),
           serveNodes: S.optional(S.Number),
           state: S.optional(S.String),
           defaultStorageType: S.optional(S.String),
-          clusterConfig: S.optional(__S(2884, __c90, 4)),
+          clusterConfig: S.optional(__S(3236, __c101, 4)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "Cluster" });
   }
 }
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          satisfiesPzs: S.optional(S.Boolean),
-          type: S.optional(S.String),
-          labels: S.optional(__S(2912, __c91, 0)),
-          edition: S.optional(S.String),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          knowledgeCatalogRegion: S.optional(S.String),
-          displayName: S.optional(S.String),
-          tags: S.optional(__S(2912, __c91, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Instance" });
-  }
-}
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2752, __c86, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+resource}:testIamPermissions",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "TestIamPermissionsProjectsInstancesMaterializedViewsRequest" });
-  }
-}
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2752, __c86, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+resource}:testIamPermissions",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "TestIamPermissionsProjectsInstancesTablesRequest" });
-  }
-}
-function __c95(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2752, __c86, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+resource}:testIamPermissions",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "TestIamPermissionsProjectsInstancesTablesAuthorizedViewsRequest" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2752, __c86, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+resource}:testIamPermissions",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "TestIamPermissionsProjectsInstancesTablesSchemaBundlesRequest" });
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1984, __c62, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+name}:undelete",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "UndeleteProjectsInstancesTablesRequest" });
-  }
-}
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1153, __c36, 1).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateMemoryLayerProjectsInstancesClustersRequest" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2944, __c92, 0).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateProjectsInstancesRequest" });
-  }
-}
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2885, __c90, 5).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "v2/{+name}",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateProjectsInstancesClustersRequest" });
-  }
-}
-function __c101(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appProfileId: S.optional(S.String.pipe(T.Query())),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3300, __c103, 4).pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "v2/{+parent}/appProfiles",
-            baseUrl: "https://bigtableadmin.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "CreateProjectsInstancesAppProfilesRequest" });
-  }
-}
 function __c102(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Record(S.String, S.String);
   }
 }
 function __c103(j: number): any {
@@ -5795,43 +5843,19 @@ function __c103(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clusterId: S.optional(S.String),
-          allowTransactionalWrites: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "SingleClusterRouting" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          clusterIds: S.optional(__S(3264, __c102, 0)),
-          rowAffinity: S.optional(__S(1984, __c62, 0)),
-        }),
-      ).annotate({ identifier: "MultiClusterRoutingUseAny" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          computeBillingOwner: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DataBoostIsolationReadOnly" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          memoryConfig: S.optional(__S(1984, __c62, 0)),
-          priority: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StandardIsolation" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          etag: S.optional(S.String),
-          singleClusterRouting: S.optional(__S(3296, __c103, 0)),
+          satisfiesPzs: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          labels: S.optional(__S(3264, __c102, 0)),
+          edition: S.optional(S.String),
+          createTime: S.optional(S.String),
           name: S.optional(S.String),
-          multiClusterRoutingUseAny: S.optional(__S(3297, __c103, 1)),
-          dataBoostIsolationReadOnly: S.optional(__S(3298, __c103, 2)),
-          standardIsolation: S.optional(__S(3299, __c103, 3)),
-          priority: S.optional(S.String),
-          description: S.optional(S.String),
+          state: S.optional(S.String),
+          knowledgeCatalogRegion: S.optional(S.String),
+          displayName: S.optional(S.String),
+          tags: S.optional(__S(3264, __c102, 0)),
+          satisfiesPzi: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "AppProfile" });
+      ).annotate({ identifier: "Instance" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

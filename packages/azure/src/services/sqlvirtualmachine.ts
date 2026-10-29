@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Sqlvirtualmachine",
   service: "Sqlvirtualmachine",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 

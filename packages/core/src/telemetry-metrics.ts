@@ -7,7 +7,7 @@
  * program.pipe(Effect.provide(TelemetryMetrics.layer));
  * ```
  *
- * Records `rpc.client.call.duration` (semantic conventions v1.39+:
+ * Records `rpc.client.call.duration` (semantic conventions v1.44:
  * histogram, seconds) for every operation call, around all its retries,
  * whether or not a span is recorded, with `rpc.system.name`, `rpc.method`
  * and, on failure, `error.type`. Effect's metric exporters

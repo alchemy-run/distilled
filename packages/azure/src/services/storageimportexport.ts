@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Storageimportexport",
   service: "Storageimportexport",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 

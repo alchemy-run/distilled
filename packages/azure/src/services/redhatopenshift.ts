@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Redhatopenshift",
   service: "Redhatopenshift",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 

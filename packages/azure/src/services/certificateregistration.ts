@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Certificateregistration",
   service: "Certificateregistration",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 

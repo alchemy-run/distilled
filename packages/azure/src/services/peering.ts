@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Peering",
   service: "Peering",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 

@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Confidentialledger",
   service: "Confidentialledger",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 

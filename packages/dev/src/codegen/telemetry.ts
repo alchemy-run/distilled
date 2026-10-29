@@ -38,7 +38,8 @@ export type Transform =
   | "lastPathSegment"
   | "arnResource"
   | "arn"
-  | "jsonList";
+  | "jsonList"
+  | "nonZero";
 
 export type Scalar = string | number | boolean;
 
@@ -152,6 +153,8 @@ export interface TelemetryOptions {
    * model's service name, `Compute`).
    */
   readonly prefix?: string;
+  /** Path-label members recorded under another name: Smithy member -> attribute. */
+  readonly labelNames?: Readonly<Record<string, string>>;
   /**
    * Attribute namespace for path-label members (`cloudflare` makes
    * `zone_id` → `cloudflare.zone_id`). `false` records no labels.
@@ -214,6 +217,8 @@ const PROVIDERS: Readonly<
   azure: {
     prefix: "service",
     headers: ["x-ms-correlation-request-id"],
+    // semconv v1.43+ names the resource group; other labels stay `azure.<label>`.
+    labelNames: { resourceGroupName: "azure.resource_group.name" },
     namedHeaders: [{ header: "x-ms-request-id", name: "azure.service.request.id" }],
     // The resource provider the call goes to: the last
     // `/providers/<Namespace>/` of the path.
@@ -326,6 +331,7 @@ export const providerDefaults = (root: string, extra?: TelemetryOptions): Teleme
     ],
     ...(known.member ? { member: known.member } : {}),
     ...(known.operation ? { operation: known.operation } : {}),
+    ...(known.labelNames ? { labelNames: known.labelNames } : {}),
     ...(known.modelAttributes ? { modelAttributes: known.modelAttributes } : {}),
     ...extra,
   };
@@ -430,7 +436,9 @@ export const applyTelemetryTraits = (
       if (SENSITIVE in traits || SENSITIVE in (shapes[m.target]?.traits ?? {})) continue;
       const rules: AttributeRule[] = [];
       if (options.labelNamespace && "smithy.api#httpLabel" in traits) {
-        rules.push({ name: `${options.labelNamespace}.${snakeCase(member)}` });
+        rules.push({
+          name: options.labelNames?.[member] ?? `${options.labelNamespace}.${snakeCase(member)}`,
+        });
       }
       for (const rule of options.member?.({ ...ctx, member, traits }) ?? []) {
         if (!rules.some((r) => r.name === rule.name)) rules.push(rule);
