@@ -52,7 +52,7 @@ import {
   isBooleanAST,
   isNumberAST,
 } from "../util/ast.ts";
-import { inputEncoderSync } from "../util/codec.ts";
+import { inputEncoderSync, outputBody } from "../util/codec.ts";
 import { extractJsonErrorCode, extractJsonErrorData, sanitizeErrorCode } from "../util/error.ts";
 import { extractStaticQueryParams } from "../util/query-params.ts";
 import { applyHttpTrait, bindInputToRequest } from "../util/serialize-input.ts";
@@ -407,14 +407,17 @@ export const restJson1Protocol: ProtocolImpl = (operation: Operation): ProtocolH
     if (bodyText) {
       try {
         const parsed = JSON.parse(bodyText, (_, v) => (v === null ? undefined : v));
-        if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+        if (outputPayloadProp) {
+          // A structure, union or document payload is the whole body.
+          result[outputPayloadProp.name] = parsed;
+        } else if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
           Object.assign(result, parsed);
         }
       } catch {
         // Lenient mode returns the body as read.
         return new Unreadable(
           new ParseError({
-            message: `Failed to parse JSON body: ${bodyText}`,
+            message: `Failed to parse JSON body: ${outputBody(operation, bodyText)}`,
           }),
           bodyText,
         );

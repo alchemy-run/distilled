@@ -103,25 +103,35 @@ export const serializeEffect =
 
 /**
  * A 2xx response through the handler: `deserializeStream` for outputs
- * that stream, else the body (read as text) through `deserializeText`. An {@link Unreadable} body fails in strict mode and is returned as
- * read in lenient mode.
+ * that stream, else the body (read as text) through `deserializeText`,
+ * which may be {@link Unreadable}.
  */
-export const deserialize = (
+export const readResponse = (
   protocol: ProtocolHandler,
   response: Response,
 ): Effect.Effect<unknown, ParseError> => {
-  const fromText = (body: string): Effect.Effect<unknown, ParseError> => {
-    const result = protocol.deserializeText({ ...response, body });
-    return result instanceof Unreadable
-      ? failUnlessLenient(result.error, result.asRead)
-      : Effect.succeed(result);
-  };
+  const fromText = (body: string): Effect.Effect<unknown, ParseError> =>
+    Effect.succeed(protocol.deserializeText({ ...response, body }));
   const body = response.body;
   return (
     protocol.deserializeStream?.(response) ??
     (typeof body === "string" ? fromText(body) : Effect.flatMap(readStreamAsText(body), fromText))
   );
 };
+
+/**
+ * {@link readResponse}, with an {@link Unreadable} body failing in strict
+ * mode and returned as read in lenient mode.
+ */
+export const deserialize = (
+  protocol: ProtocolHandler,
+  response: Response,
+): Effect.Effect<unknown, ParseError> =>
+  Effect.flatMap(readResponse(protocol, response), (result) =>
+    result instanceof Unreadable
+      ? failUnlessLenient(result.error, result.asRead)
+      : Effect.succeed(result),
+  );
 
 /** The handler with effect-returning `serializeRequest` / `deserializeResponse`, for tests. */
 export const withEffects = (handler: ProtocolHandler) => ({

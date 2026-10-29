@@ -10,7 +10,11 @@
  * This is independently testable without making HTTP requests.
  */
 
-import { checkResponse, ResponseValidation } from "@distilled.cloud/core/response-validation";
+import {
+  checkResponse,
+  ResponseValidation,
+  withholdActual,
+} from "@distilled.cloud/core/response-validation";
 import { restoreStack, suppressStack } from "@distilled.cloud/core/telemetry";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -26,9 +30,9 @@ import {
   type SyntheticErrorTrait,
 } from "../traits.ts";
 import { getIdentifier, getPropertySignatures, isBooleanAST, isNumberAST } from "../util/ast.ts";
-import { decode } from "../util/codec.ts";
+import { decode, decodeFailure, errorBody, holdsSensitive } from "../util/codec.ts";
 import type { Operation } from "./operation.ts";
-import { deserialize, loadHandler, Unreadable, type Protocol } from "./protocol.ts";
+import { loadHandler, readResponse, Unreadable, type Protocol } from "./protocol.ts";
 import type { Response } from "./response.ts";
 import { makeStreamParser } from "./stream-parser.ts";
 
@@ -87,6 +91,11 @@ export type Decoded =
  * operation whose output never streams: converts what the protocol's
  * `deserializeText` read and, unless lenient, validates it. `context` is
  * the calling fiber's (it carries the validation mode).
+ *
+ * Lenient mode returns a mismatched response converted as far as it fits,
+ * so sensitive members are still `Redacted`. For an output that can hold a
+ * secret, a body the protocol could not read fails in every mode, and no
+ * error message quotes the response.
  */
 export const makeSuccessDecoder = (
   operation: Operation<any, any, any>,
@@ -98,7 +107,10 @@ export const makeSuccessDecoder = (
     const mode = Context.get(context, ResponseValidation);
     const strict = mode !== "lenient";
     if (read instanceof Unreadable) {
-      return strict ? { ok: false, error: read.error } : { ok: true, value: read.asRead };
+      // The protocol's error already withholds the body of such an output.
+      return strict || holdsSensitive(outputAst)
+        ? { ok: false, error: read.error }
+        : { ok: true, value: read.asRead };
     }
     let decoded: unknown;
     try {
@@ -110,10 +122,10 @@ export const makeSuccessDecoder = (
         ? {
             ok: false,
             error: new ParseError({
-              message: `${what} response does not match its output schema: ${(error as Error).message}`,
+              message: `${what} response does not match its output schema: ${decodeFailure(error, holdsSensitive(outputAst))}`,
             }),
           }
-        : { ok: true, value: read };
+        : { ok: true, value: decode(outputAst, read) };
     }
     const invalid = strict ? checkResponse(context, outputAst as any, decoded) : undefined;
     return invalid === undefined
@@ -121,7 +133,7 @@ export const makeSuccessDecoder = (
       : {
           ok: false,
           error: new ParseError({
-            message: `${what} response does not match its output schema: ${invalid.message}`,
+            message: `${what} response does not match its output schema: ${(holdsSensitive(outputAst) ? withholdActual(invalid) : invalid).message}`,
           }),
         };
   };
@@ -223,19 +235,20 @@ export const makeResponseParser = <A>(
     const protocol = yield* handler;
     // Success path
     if (response.status >= 200 && response.status < 300) {
-      const deserialized = (yield* deserialize(protocol, response)) as
+      const deserialized = (yield* readResponse(protocol, response)) as
         | Record<string, unknown>
+        | Unreadable
         | undefined;
 
       // If the output has an event stream member, parse and decode it
-      const stream = streamParser?.(deserialized);
+      const stream = deserialized instanceof Unreadable ? null : streamParser?.(deserialized);
       if (stream) {
         return stream as A;
       }
 
       // Skip validation if requested - return raw deserialized response
       if (skipValidation) {
-        return deserialized as A;
+        return (deserialized instanceof Unreadable ? deserialized.asRead : deserialized) as A;
       }
 
       // Convert wire values to the declared types (timestamp -> Date,
@@ -305,7 +318,7 @@ export const makeResponseParser = <A>(
         return yield* new InternalError();
       } else {
         return yield* new ParseError({
-          message: `No error code found in response and ${statusMatches.length} declared errors match status ${response.status}. Data: ${JSON.stringify(data)}`,
+          message: `No error code found in response and ${statusMatches.length} declared errors match status ${response.status}. Data: ${errorBody(operation, JSON.stringify(data))}`,
         });
       }
     }
@@ -353,7 +366,9 @@ export const makeResponseParser = <A>(
       // The error class built from its members, converted from the wire.
       // Its _tag is the class identifier, which may differ from the wire
       // errorCode ("EntityAlreadyExists" -> "EntityAlreadyExistsException").
-      // Data that does not match the class stays a plain tagged object.
+      // Data that does not match the class stays a plain tagged object of
+      // its members, converted as far as they fit (sensitive ones
+      // `Redacted`), like the class would hold them.
       const schemaTag = getIdentifier(errorSchema.ast) ?? errorCode;
       let decoded: unknown;
       try {
@@ -364,7 +379,10 @@ export const makeResponseParser = <A>(
           restoreStack(saved);
         }
       } catch {
-        decoded = { _tag: schemaTag, ...data };
+        decoded = {
+          _tag: schemaTag,
+          ...(decode(errorSchema.ast, data) as Record<string, unknown>),
+        };
       }
       // Ensure the JS `Error.message` carries the service's message. The
       // generator tags exactly one member per error class as the canonical
