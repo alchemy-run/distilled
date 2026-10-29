@@ -159,7 +159,7 @@ export interface InstancesBulkRequestBodyItem {
   instanceRetention?: InstancesBulkRequestBodyItemInstanceRetention;
   locationHint?: InstancesBulkRequestBodyItemLocationHint | (string & {});
   /** JSON-encoded event payload passed into the new instance. */
-  params?: string;
+  params?: unknown;
 }
 export type InstancesBulkRequestBodyList = Array<InstancesBulkRequestBodyItem>;
 export interface BulkInstanceRequest {
@@ -220,7 +220,7 @@ export interface CreateInstanceRequest {
   instanceRetention?: InstancesCreateRequestInstanceRetention;
   locationHint?: InstancesCreateRequestLocationHint | (string & {});
   /** JSON-encoded event payload passed into the new instance. */
-  params?: string;
+  params?: unknown;
 }
 export type InstancesCreateResponseStatus =
   | "queued"
@@ -1973,7 +1973,7 @@ function __c15(j: number): any {
           instanceId: S.optional(S.String.pipe(T.Body("instance_id"))),
           instanceRetention: S.optional(__S(242, __c15, 2).pipe(T.Body("instance_retention"))),
           locationHint: S.optional(S.String.pipe(T.Body("location_hint"))),
-          params: S.optional(S.String),
+          params: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "InstancesBulkRequestBodyItem" });
     case 4:
@@ -2036,7 +2036,7 @@ function __c16(j: number): any {
           instanceId: S.optional(S.String.pipe(T.Body("instance_id"))),
           instanceRetention: S.optional(__S(258, __c16, 2).pipe(T.Body("instance_retention"))),
           locationHint: S.optional(S.String.pipe(T.Body("location_hint"))),
-          params: S.optional(S.String),
+          params: S.optional(S.Unknown),
         })
           .pipe(
             T.Http({
