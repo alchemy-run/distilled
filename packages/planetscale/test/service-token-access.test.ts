@@ -136,3 +136,25 @@ describe("Service token accesses", () => {
     expect(result).toEqual({});
   });
 });
+
+describe("Service token access errors", () => {
+  test("surfaces a 404 as NotFound", async () => {
+    const error = await run(
+      Effect.flip(
+        removeServiceTokenAccess({
+          organization: "my-org",
+          id: "missing",
+          database: "hidden-river-4209",
+          access: ["read_comment"],
+        }),
+      ),
+      new Response(JSON.stringify({ code: "not_found", message: "Not Found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      }),
+      () => {},
+    );
+
+    expect(error._tag).toBe("NotFound");
+  });
+});

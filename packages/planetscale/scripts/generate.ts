@@ -142,6 +142,5 @@ runGeneratorCli({
   // patches/ holds Swagger-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
-  manualSpecsDir: "manual-specs",
   spec: () => makePlanetScaleSpec(),
 });
