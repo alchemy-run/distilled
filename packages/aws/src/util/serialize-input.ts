@@ -5,6 +5,7 @@
  * based on Smithy HTTP trait annotations.
  */
 
+import { InvalidInput, invalidLabel } from "@distilled.cloud/core/protocol-http";
 import type * as AST from "effect/SchemaAST";
 import type { Request } from "../client/request.ts";
 import {
@@ -37,6 +38,32 @@ export const encodeLabel = (value: string): string =>
 export const encodeGreedyLabel = (value: string): string =>
   value.split("/").map(encodeLabel).join("/");
 
+/**
+ * The refusal for a path label value that would address another resource,
+ * or `undefined`: a `.` or `..` value or greedy segment (core's
+ * `invalidLabel`), or an empty value, which drops the segment (S3
+ * `DeleteObject` with `Key: ""` would address the bucket). The AWS SDK for
+ * JavaScript refuses an empty label too.
+ */
+export const invalidAwsLabel = (
+  member: string,
+  value: unknown,
+  greedy: boolean,
+): InvalidInput | undefined =>
+  String(value) === ""
+    ? new InvalidInput({
+        member,
+        message: `Input member ${member} cannot be "": as a path label it would address another resource`,
+      })
+    : invalidLabel(member, value, greedy);
+
+/** The refusal for a host label value that would move the request to another host. */
+export const invalidHostLabel = (member: string, value: string): InvalidInput =>
+  new InvalidInput({
+    member,
+    message: `Input member ${member} cannot be ${JSON.stringify(value)}: as a host label it would address another host`,
+  });
+
 /** The @http trait of each input schema, read once. */
 const httpTraits = /*@__PURE__*/ new WeakMap<AST.AST, { trait: ReturnType<typeof getHttpTrait> }>();
 
@@ -63,6 +90,8 @@ interface MemberBinding {
   readonly header: string | undefined;
   /** The `{Label}` / `{Label+}` placeholder of an @httpLabel member. */
   readonly label: RegExp | undefined;
+  /** Whether the placeholder is greedy (`{Label+}`), so the value keeps its `/`. */
+  readonly greedy: boolean;
   readonly queryParam: string | undefined;
   readonly queryParams: boolean;
   readonly prefixHeaders: string | undefined;
@@ -74,6 +103,7 @@ const bindings = /*@__PURE__*/ new WeakMap<AST.AST, ReadonlyArray<MemberBinding>
 const bindingsOf = (ast: AST.AST): ReadonlyArray<MemberBinding> => {
   let members = bindings.get(ast);
   if (members === undefined) {
+    const uri = getHttpTrait(ast)?.uri ?? "";
     // Use encoded property signatures - these have wire format keys matching the encoded input
     members = getEncodedPropertySignatures(ast).map((prop) => {
       const name = prop.name as string;
@@ -83,7 +113,8 @@ const bindingsOf = (ast: AST.AST): ReadonlyArray<MemberBinding> => {
         name,
         type: prop.type,
         header: getHttpHeader(prop),
-        label: hasHttpLabel(prop) ? new RegExp(`\\{${labelName}(\\+?)\\}`) : undefined,
+        label: hasHttpLabel(prop) ? new RegExp(`\\{${labelName}\\+?\\}`) : undefined,
+        greedy: uri.includes(`{${labelName}+}`),
         queryParam: getHttpQuery(prop),
         queryParams: hasHttpQueryParams(prop),
         prefixHeaders: getHttpPrefixHeaders(prop),
@@ -100,13 +131,25 @@ const bindingsOf = (ast: AST.AST): ReadonlyArray<MemberBinding> => {
  *
  * This processes each input member and:
  * - Adds @httpHeader values to request.headers
- * - Substitutes @httpLabel values in request.path
+ * - Substitutes @httpLabel values in request.path, or returns the
+ *   {@link InvalidInput} of a value {@link invalidAwsLabel} refuses
  * - Adds @httpQuery values to request.query
  * - Adds @httpPrefixHeaders values to request.headers
  * - Collects @httpPayload for body serialization
  * - Collects remaining members as body content
  */
-export function bindInputToRequest(ast: AST.AST, input: Record<string, unknown>, request: Request) {
+export function bindInputToRequest(
+  ast: AST.AST,
+  input: Record<string, unknown>,
+  request: Request,
+):
+  | {
+      readonly payloadValue: unknown;
+      readonly payloadAst: AST.AST | undefined;
+      readonly bodyMembers: Record<string, unknown>;
+      readonly hasBodyMembers: boolean;
+    }
+  | InvalidInput {
   let payloadValue: unknown = undefined;
   let payloadAst: AST.AST | undefined = undefined;
   const bodyMembers: Record<string, unknown> = {};
@@ -121,9 +164,10 @@ export function bindInputToRequest(ast: AST.AST, input: Record<string, unknown>,
       // Value should already be encoded (dates as formatted strings, etc.)
       request.headers[member.header] = String(value);
     } else if (member.label !== undefined) {
-      request.path = request.path.replace(member.label, (_, greedy: string) =>
-        greedy ? encodeGreedyLabel(String(value)) : encodeLabel(String(value)),
-      );
+      const invalid = invalidAwsLabel(name, value, member.greedy);
+      if (invalid !== undefined) return invalid;
+      const encoded = member.greedy ? encodeGreedyLabel(String(value)) : encodeLabel(String(value));
+      request.path = request.path.replace(member.label, () => encoded);
     } else if (member.queryParam !== undefined) {
       // Handle arrays as repeated query parameters (e.g., tagKeys=A&tagKeys=B)
       if (Array.isArray(value)) {

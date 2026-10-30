@@ -64,8 +64,9 @@ export const sensitiveValueSymbol = /*@__PURE__*/ Symbol.for(
   "@distilled.cloud/core/sensitive-value",
 );
 /**
- * Marks a member, map value or list element as sensitive (mirrors
- * `smithy.api#sensitive`). The REST protocol wraps decoded values in `Redacted` on the way out and
+ * Marks a string member, map value or list element as sensitive (mirrors
+ * `smithy.api#sensitive`). The REST protocol wraps decoded values in
+ * `Redacted` on the way out (an untyped `S.Unknown` value whole) and
  * accepts `string | Redacted<string>` on the way in (unwrapped before
  * serialization). Takes an ignored argument so generators can inline the
  * smithy trait value (`T.SensitiveValue({})`).
@@ -101,14 +102,20 @@ export const BinaryResponse = () => makeAnnotation(binaryResponseSymbol, true);
 
 export { unwrapRedactedDeep };
 
-const isSecretValue = (v: unknown): boolean =>
-  typeof v === "string" || (typeof v === "object" && v !== null);
+/**
+ * A sensitive value that {@link wrapSensitive} wraps: a string, or any
+ * non-null value of an untyped (`S.Unknown`) schema, such as a JSON scalar or
+ * object. A typed struct is walked so its own sensitive members are wrapped
+ * and its type stays accurate.
+ */
+const isSecretValue = (type: AST.AST, v: unknown): boolean =>
+  typeof v === "string" || (v !== null && resolveNode(type)._tag === "Unknown");
 
 /**
- * Walk a decoded (TS-named) value alongside its schema AST, wrapping string or
- * object values marked {@link SensitiveValue} (members, map values, list
- * elements) in `Redacted`. Keys the schema doesn't model pass through. A union
- * applies every arm in turn; a map arm skips keys a sibling arm names.
+ * Walk a decoded (TS-named) value alongside its schema AST, wrapping values
+ * marked {@link SensitiveValue} (members, map values, list elements) in
+ * `Redacted`. Keys the schema doesn't model pass through. A union applies
+ * every arm in turn; a map arm skips keys a sibling arm names.
  */
 export const wrapSensitive = (
   ast: AST.AST,
@@ -143,7 +150,7 @@ export const wrapSensitive = (
     if (!elem) return value;
     const sensitive = getAnn(elem, sensitiveValueSymbol) !== undefined;
     return value.map((v) =>
-      sensitive && isSecretValue(v) && !Redacted.isRedacted(v)
+      sensitive && isSecretValue(elem, v) && !Redacted.isRedacted(v)
         ? Redacted.make(v)
         : wrapSensitive(elem, v),
     );
@@ -161,7 +168,7 @@ export const wrapSensitive = (
         const type = prop?.type ?? (siblingNames?.has(k) ? undefined : mapValue);
         if (type === undefined) return [[k, v]];
         // Union arms run over each other's output: keep a value one already wrapped.
-        if (getAnn(type, sensitiveValueSymbol) !== undefined && isSecretValue(v)) {
+        if (getAnn(type, sensitiveValueSymbol) !== undefined && isSecretValue(type, v)) {
           return [[k, Redacted.isRedacted(v) ? v : Redacted.make(v)]];
         }
         return [[k, wrapSensitive(type, v)]];

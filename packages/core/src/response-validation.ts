@@ -8,8 +8,8 @@
  *                      A body that does not match the declared output type
  *                      (a missing member, a wrong primitive, a non-JSON
  *                      body) still succeeds, except that core's REST
- *                      protocol, Stripe and Fly.io fail a non-JSON body for
- *                      an output with sensitive members in every mode.
+ *                      protocol, Stripe, Fly.io and AWS fail a non-JSON body
+ *                      for an output with sensitive members in every mode.
  *   additionalProperties: the response is checked against the output
  *                      schema, and a mismatch fails the call with the SDK's
  *                      `<Sdk>ParseError` (AWS: `ParseError`). Keys the

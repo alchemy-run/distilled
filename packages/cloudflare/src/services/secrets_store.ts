@@ -166,12 +166,12 @@ export type StoresSecretsCreateRequestBodyItemScopesList = Array<
 export interface StoresSecretsCreateRequestBodyItem {
   /** The name of the secret. */
   name: string;
-  /** The list of services that can use this secret. */
-  scopes: StoresSecretsCreateRequestBodyItemScopesList;
   /** The value of the secret. Maximum 64 KiB (65,536 bytes). Note that this is 'write only' - the API never returns this value; it exists only to create or modify secrets. */
   value: string;
   /** Freeform text describing the secret. */
   comment?: string;
+  /** The list of services that can use this secret. Omit it on create or duplicate to inherit the store's scopes. An empty list lets no service use the secret. */
+  scopes?: StoresSecretsCreateRequestBodyItemScopesList;
 }
 export type StoresSecretsCreateRequestBodyList = Array<StoresSecretsCreateRequestBodyItem>;
 export interface CreateStoreSecretRequest {
@@ -203,7 +203,7 @@ export interface StoresSecretsCreateResultItem {
   storeId: string;
   /** Freeform text describing the secret. */
   comment?: string | null;
-  /** The list of services that can use this secret. */
+  /** The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit again. An empty list lets no service use the secret. */
   scopes?: StoresSecretsCreateResultItemScopesList | null;
 }
 export type StoresSecretsCreateResultList = Array<StoresSecretsCreateResultItem>;
@@ -242,10 +242,10 @@ export interface DuplicateStoreSecretRequest {
   secretId: string;
   /** The name of the secret. */
   name: string;
-  /** The list of services that can use this secret. */
-  scopes: StoresSecretsDuplicateRequestScopesList;
   /** Freeform text describing the secret. */
   comment?: string;
+  /** The list of services that can use this secret. Omit it on create or duplicate to inherit the store's scopes. An empty list lets no service use the secret. */
+  scopes?: StoresSecretsDuplicateRequestScopesList;
 }
 export type StoresSecretsDuplicateResponseStatus = "pending" | "active" | "deleted";
 export type StoresSecretsDuplicateResponseScopesItem =
@@ -272,7 +272,7 @@ export interface DuplicateStoreSecretResponse {
   storeId: string;
   /** Freeform text describing the secret. */
   comment?: string | null;
-  /** The list of services that can use this secret. */
+  /** The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit again. An empty list lets no service use the secret. */
   scopes?: StoresSecretsDuplicateResponseScopesList | null;
 }
 export interface GetQuotaRequest {
@@ -334,7 +334,7 @@ export interface GetStoreSecretResponse {
   storeId: string;
   /** Freeform text describing the secret. */
   comment?: string | null;
-  /** The list of services that can use this secret. */
+  /** The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit again. An empty list lets no service use the secret. */
   scopes?: StoresSecretsGetResponseScopesList | null;
 }
 export type StoresListRequestDirection = "asc" | "desc";
@@ -420,7 +420,7 @@ export interface StoresSecretsListResultItem {
   storeId: string;
   /** Freeform text describing the secret. */
   comment?: string | null;
-  /** The list of services that can use this secret. */
+  /** The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit again. An empty list lets no service use the secret. */
   scopes?: StoresSecretsListResultItemScopesList | null;
 }
 export type StoresSecretsListResultList = Array<StoresSecretsListResultItem>;
@@ -446,7 +446,7 @@ export interface PatchStoreSecretRequest {
   secretId: string;
   /** Freeform text describing the secret. */
   comment?: string;
-  /** The list of services that can use this secret. */
+  /** The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit again. An empty list lets no service use the secret. */
   scopes?: StoresSecretsEditRequestScopesList;
   /** The value of the secret. Maximum 64 KiB (65,536 bytes). Note that this is 'write only' - the API never returns this value; it exists only to create or modify secrets. */
   value?: string;
@@ -475,7 +475,7 @@ export interface PatchStoreSecretResponse {
   storeId: string;
   /** Freeform text describing the secret. */
   comment?: string | null;
-  /** The list of services that can use this secret. */
+  /** The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit again. An empty list lets no service use the secret. */
   scopes?: StoresSecretsEditResponseScopesList | null;
 }
 export type BulkDeleteStoreSecretsError =
@@ -854,9 +854,9 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          scopes: __S(20, __c5, 0),
           value: S.String,
           comment: S.optional(S.String),
+          scopes: S.optional(__S(20, __c5, 0)),
         }),
       ).annotate({ identifier: "StoresSecretsCreateRequestBodyItem" });
     case 1:
@@ -960,8 +960,8 @@ function __c9(j: number): any {
           storeId: S.String.pipe(T.Label("store_id")),
           secretId: S.String.pipe(T.Label("secret_id")),
           name: S.String,
-          scopes: __S(20, __c5, 0),
           comment: S.optional(S.String),
+          scopes: S.optional(__S(20, __c5, 0)),
         })
           .pipe(
             T.Http({

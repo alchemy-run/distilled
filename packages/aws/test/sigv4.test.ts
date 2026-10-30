@@ -1,6 +1,7 @@
 import { createHash, createHmac } from "node:crypto";
 import * as Signer from "@distilled.cloud/aws4signer";
 import * as CoreCrypto from "@distilled.cloud/core/crypto";
+import { InvalidInput } from "@distilled.cloud/core/errors";
 import * as Cache from "effect/Cache";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -467,6 +468,38 @@ describe("Presign", () => {
     expect(parsed.searchParams.get("X-Amz-Signature")).toBe(
       new URL(expected.url).searchParams.get("X-Amz-Signature"),
     );
+  });
+
+  test("presignS3Url fails with InvalidInput for a bucket or key that addresses another resource", async () => {
+    const cases: Array<[bucket: string, key: string, member: string, custom?: boolean]> = [
+      ["examplebucket", "", "key"],
+      ["examplebucket", "..", "key"],
+      ["examplebucket", "a/../../other/k", "key"],
+      ["", "k", "bucket"],
+      ["..", "k", "bucket", true],
+      ["attacker.invalid/x", "k", "bucket"],
+      ["attacker.invalid#", "k", "bucket"],
+    ];
+    for (const [bucket, key, member, custom] of cases) {
+      const program = Presign.presignS3Url({ bucket, key, datetime }).pipe(Effect.provide(layer));
+      const error = await Effect.runPromise(
+        Effect.flip(
+          custom ? program.pipe(Effect.provide(Endpoint.of("http://localhost:4566"))) : program,
+        ),
+      );
+      expect(error, `${bucket} ${key}`).toBeInstanceOf(InvalidInput);
+      expect((error as InvalidInput).member).toBe(member);
+    }
+  });
+
+  test("presignS3Url keeps a custom-endpoint bucket in one path segment", async () => {
+    const signed = await Effect.runPromise(
+      Presign.presignS3Url({ bucket: "a/b", key: "k", datetime }).pipe(
+        Effect.provide(layer),
+        Effect.provide(Endpoint.of("http://localhost:4566")),
+      ),
+    );
+    expect(new URL(signed).pathname).toBe("/a%2Fb/k");
   });
 
   test("presignS3Url leaves current-version URLs unchanged when versionId is omitted", async () => {

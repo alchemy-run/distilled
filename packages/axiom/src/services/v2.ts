@@ -285,7 +285,7 @@ export interface CreateAPITokenResponse {
   orgCapabilities: OrgCapabilities;
   samlAuthenticated?: boolean;
   viewCapabilities?: ViewCapabilities;
-  token?: string;
+  token?: string | Redacted.Redacted<string>;
 }
 export type TimeSeriesChartType = "TimeSeries";
 /** Controls how empty intervals are rendered in time series charts. `auto` infers from the query, `null` leaves gaps, `span` connects adjacent points, `zero` fills with zero. */
@@ -896,12 +896,12 @@ export interface DiscordConfig {
   /** Discord channel ID to send notifications */
   discordChannel?: string;
   /** Discord bot token for authentication */
-  discordToken?: string;
+  discordToken?: string | Redacted.Redacted<string>;
 }
 /** Configuration for Discord notifications using webhooks */
 export interface DiscordWebhookConfig {
   /** Discord webhook URL */
-  discordWebhookUrl?: string;
+  discordWebhookUrl?: string | Redacted.Redacted<string>;
 }
 /** List of email addresses to receive notifications */
 export type EmailConfigEmailsList = Array<string>;
@@ -913,7 +913,7 @@ export interface EmailConfig {
 /** Configuration for Microsoft Teams notifications */
 export interface MicrosoftTeamsConfig {
   /** Microsoft Teams webhook URL */
-  microsoftTeamsUrl?: string;
+  microsoftTeamsUrl?: string | Redacted.Redacted<string>;
 }
 /** Configuration for OpsGenie integration */
 export interface OpsGenieConfig {
@@ -925,14 +925,14 @@ export interface OpsGenieConfig {
 /** Configuration for PagerDuty integration */
 export interface PagerDutyConfig {
   /** PagerDuty integration key for routing alerts */
-  routingKey?: string;
+  routingKey?: string | Redacted.Redacted<string>;
   /** PagerDuty API token for additional functionality */
-  token?: string;
+  token?: string | Redacted.Redacted<string>;
 }
 /** Configuration for Slack notifications using incoming webhooks */
 export interface SlackConfig {
   /** Slack incoming webhook URL */
-  slackUrl?: string;
+  slackUrl?: string | Redacted.Redacted<string>;
 }
 /** Configuration for simple webhook notifications */
 export interface WebhookConfig {
@@ -1907,7 +1907,7 @@ export interface ProvisionOrgResponse {
   /** URL a human follows to claim ownership of the temporary org. */
   claimUrl: string;
   /** Full-permission API token the agent uses to create datasets, ingest, and query. Returned once and never retrievable again. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CreateAPIToken2 {
   datasetCapabilities?: DatasetCapabilities;
@@ -1941,7 +1941,7 @@ export interface RegenerateAPITokenResponse {
   orgCapabilities: OrgCapabilities;
   samlAuthenticated?: boolean;
   viewCapabilities?: ViewCapabilities;
-  token?: string;
+  token?: string | Redacted.Redacted<string>;
 }
 export interface RemoveUserFromOrgRequest {
   id: string;
@@ -3735,13 +3735,13 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           discordChannel: S.optional(S.String),
-          discordToken: S.optional(S.String),
+          discordToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DiscordConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          discordWebhookUrl: S.optional(S.String),
+          discordWebhookUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DiscordWebhookConfig" });
     case 4:
@@ -3753,7 +3753,7 @@ function __c5(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          microsoftTeamsUrl: S.optional(S.String),
+          microsoftTeamsUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "MicrosoftTeamsConfig" });
     case 6:
@@ -3766,14 +3766,14 @@ function __c5(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          routingKey: S.optional(S.String),
-          token: S.optional(S.String),
+          routingKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PagerDutyConfig" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          slackUrl: S.optional(S.String),
+          slackUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SlackConfig" });
     case 9:
@@ -4744,7 +4744,7 @@ function __c69(j: number): any {
           orgCapabilities: __S(1091, __c68, 3),
           samlAuthenticated: S.optional(S.Boolean),
           viewCapabilities: S.optional(__S(1093, __c68, 5)),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateAPITokenResponse" });
   }
@@ -4846,7 +4846,7 @@ function __c75(j: number): any {
           defaultEdgeDeployment: S.String,
           expiresAt: S.String,
           claimUrl: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ProvisionOrgResponse" });
   }

@@ -567,7 +567,7 @@ export interface BetaWorkersVersionsProfileRequest {
   versionId: string;
   /** Profile duration in milliseconds. */
   durationMs: number;
-  /** Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested Worker version. */
+  /** Identifies the exact Durable Object actor to profile. Must be specified together with namespace_id. The actor must currently be active and running the requested version. */
   actorId?: string;
   /** Identifies the Durable Object namespace containing the actor to profile. Must be specified together with actor_id. */
   namespaceId?: string;
@@ -1701,9 +1701,9 @@ export interface BetaWorkersVersionsCreateRequestBindingsItemVPCNetwork {
   name: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateRequestBindingsItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
   identity?: BetaWorkersVersionsCreateRequestBindingsItemVPCNetworkIdentity | (string & {});
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
   networkId?: string;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
   tunnelId?: string;
@@ -2522,9 +2522,9 @@ export interface BetaWorkersVersionsCreateResponseBindingsItemVPCNetwork {
   name: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsCreateResponseBindingsItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
   identity?: BetaWorkersVersionsCreateResponseBindingsItemVPCNetworkIdentity | null;
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
   networkId?: string | null;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
   tunnelId?: string | null;
@@ -4103,6 +4103,8 @@ export interface CreateScriptDeploymentRequest {
   /** Worker versions included in this deployment. Each object must contain a `version_id` UUID and a `percentage`; percentages across all objects must total 100. In the `cf` CLI, pass the entire array as one JSON value to `--versions`, either inline, for example `--versions '[{"version_id":"023e105f-2a42-4f8b-a1c1-73f6a2a30c0f","percentage":100}]'`, or from a JSON file with `--versions @versions.json`. */
   versions: ScriptsDeploymentsCreateRequestVersionsList;
   annotations?: ScriptsDeploymentsCreateRequestAnnotations;
+  /** Choose whether to apply Durable Object code updates immediately or defer them. When omitted, the default strategy applies. */
+  codeUpdateStrategy?: unknown;
 }
 export type ScriptsDeploymentsCreateResponseStrategy = "percentage";
 export type ScriptsDeploymentsCreateResponseVersionsItem =
@@ -4125,6 +4127,8 @@ export interface CreateScriptDeploymentResponse {
   versions: ScriptsDeploymentsCreateResponseVersionsList;
   annotations?: ScriptsDeploymentsCreateResponseAnnotations | null;
   authorEmail?: string | null;
+  /** Choose whether to apply Durable Object code updates immediately or defer them. When omitted, the default strategy applies. */
+  codeUpdateStrategy?: unknown | null;
 }
 export interface CreateScriptEdgePreviewWranglerSessionConfigWorkersDev {
   /** Route the preview through workers.dev. */
@@ -6331,9 +6335,9 @@ export interface BetaWorkersVersionsGetResponseBindingsItemVPCNetwork {
   name: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsGetResponseBindingsItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
   identity?: BetaWorkersVersionsGetResponseBindingsItemVPCNetworkIdentity | null;
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
   networkId?: string | null;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
   tunnelId?: string | null;
@@ -7280,6 +7284,10 @@ export interface ObservabilitySharedQueriesGetResponseDistribution {
   /** Sampling-corrected counts. matrix[bucketIdx][binIdx] is the estimated number of events in value-bucket 'bucketIdx' during time-bin 'binIdx'. */
   matrix: ObservabilitySharedQueriesGetResponseDistributionMatrixList;
 }
+export type ObservabilitySharedQueriesGetResponseEventsEventsItemMetadataSpanStatus =
+  | "unset"
+  | "ok"
+  | "error";
 export interface ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata {
   /** Unique event ID. Use as the cursor value for offset-based pagination. */
   id: string;
@@ -7331,6 +7339,10 @@ export interface ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata {
   spanId?: string | null;
   /** Human-readable name for this span. */
   spanName?: string | null;
+  /** OpenTelemetry span status. Present only on spans. `unset` when the span did not set a status, including spans recorded before status was captured. */
+  spanStatus?: ObservabilitySharedQueriesGetResponseEventsEventsItemMetadataSpanStatus | null;
+  /** OpenTelemetry span status message. Present only on spans when the status is `error` and a message was set. */
+  spanStatusMessage?: string | null;
   /** Stack / deployment identifier. */
   stackId?: string | null;
   /** Span start time as a Unix epoch in milliseconds. */
@@ -7531,8 +7543,88 @@ export interface ObservabilitySharedQueriesGetResponseEvents {
   /** Time-series data for the matched events, bucketed by the query granularity. */
   series?: ObservabilitySharedQueriesGetResponseEventsSeriesList | null;
 }
-export type ObservabilitySharedQueriesGetResponseInvocationsValueItemMetadata =
-  ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata;
+export type ObservabilitySharedQueriesGetResponseInvocationsValueItemMetadataSpanStatus =
+  | "unset"
+  | "ok"
+  | "error";
+export interface ObservabilitySharedQueriesGetResponseInvocationsValueItemMetadata {
+  /** Unique event ID. Use as the cursor value for offset-based pagination. */
+  id: string;
+  /** Cloudflare account identifier. */
+  account?: string | null;
+  /** Cloudflare product that generated this event (e.g. workers, pages). */
+  cloudService?: string | null;
+  /** exclusiveMinimum */
+  coldStart?: number | null;
+  /** Estimated cost units for this invocation. */
+  cost?: number | null;
+  /** Span duration in milliseconds. */
+  duration?: number | null;
+  /** Span end time as a Unix epoch in milliseconds. */
+  endTime?: number | null;
+  /** Span end time as a Unix epoch in nanoseconds. */
+  endTimeNs?: string | null;
+  /** Error message, present when the log represents an error. */
+  error?: string | null;
+  /** Templatized version of the error message used for grouping similar errors. */
+  errorTemplate?: string | null;
+  /** Size of the stored telemetry event in bytes. */
+  eventSize?: number | null;
+  /** Content-based fingerprint used to group similar events. */
+  fingerprint?: string | null;
+  /** Log level (e.g. log, debug, info, warn, error). */
+  level?: string | null;
+  /** Log message text. */
+  message?: string | null;
+  /** Templatized version of the log message used for grouping similar messages. */
+  messageTemplate?: string | null;
+  /** Metric name when the event represents a metric data point. */
+  metricName?: string | null;
+  /** Origin of the event (e.g. fetch, scheduled, queue). */
+  origin?: string | null;
+  /** Span ID of the parent span in the trace hierarchy. */
+  parentSpanId?: string | null;
+  /** Infrastructure provider identifier. */
+  provider?: string | null;
+  /** Cloudflare Ray ID from the `cf-ray` header of the request that triggered the invocation. */
+  rayId?: string | null;
+  /** Cloudflare data center / region that handled the request. */
+  region?: string | null;
+  /** Cloudflare request ID that ties all logs from a single invocation together. */
+  requestId?: string | null;
+  /** Worker script name that produced this event. */
+  service?: string | null;
+  /** Span ID for this individual unit of work within a trace. */
+  spanId?: string | null;
+  /** Human-readable name for this span. */
+  spanName?: string | null;
+  /** OpenTelemetry span status. Present only on spans. `unset` when the span did not set a status, including spans recorded before status was captured. */
+  spanStatus?: ObservabilitySharedQueriesGetResponseInvocationsValueItemMetadataSpanStatus | null;
+  /** OpenTelemetry span status message. Present only on spans when the status is `error` and a message was set. */
+  spanStatusMessage?: string | null;
+  /** Stack / deployment identifier. */
+  stackId?: string | null;
+  /** Span start time as a Unix epoch in milliseconds. */
+  startTime?: number | null;
+  /** Span start time as a Unix epoch in nanoseconds. */
+  startTimeNs?: string | null;
+  /** HTTP response status code returned by the Worker. */
+  statusCode?: number | null;
+  /** Event time as a Unix epoch in nanoseconds. */
+  timestampNs?: string | null;
+  /** Total duration of the entire trace in milliseconds. */
+  traceDuration?: number | null;
+  /** Distributed trace ID linking spans across services. */
+  traceId?: string | null;
+  /** Logical transaction name for this request. */
+  transactionName?: string | null;
+  /** What triggered the invocation (e.g. GET /users, POST /orders, queue message). */
+  trigger?: string | null;
+  /** Event type classifier (e.g. cf-worker-event, cf-worker-log). */
+  type?: string | null;
+  /** Request URL that triggered the Worker invocation. */
+  url?: string | null;
+}
 export type ObservabilitySharedQueriesGetResponseInvocationsValueItemSourceCase1Map = {
   [key: string]: unknown | undefined;
 };
@@ -7631,7 +7723,7 @@ export type ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkers =
   | ObservabilitySharedQueriesGetResponseInvocationsValueItemWorkersCase1;
 export interface ObservabilitySharedQueriesGetResponseInvocationsValueItem {
   /** Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation. */
-  metadata: ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata;
+  metadata: ObservabilitySharedQueriesGetResponseInvocationsValueItemMetadata;
   /** The dataset this event belongs to (e.g. cloudflare-workers). */
   dataset: string;
   /** Raw log payload. May be a string or a structured object depending on how the log was emitted. */
@@ -7758,6 +7850,8 @@ export interface GetScriptDeploymentResponse {
   versions: ScriptsDeploymentsGetResponseVersionsList;
   annotations?: ScriptsDeploymentsCreateResponseAnnotations | null;
   authorEmail?: string | null;
+  /** Choose whether to apply Durable Object code updates immediately or defer them. When omitted, the default strategy applies. */
+  codeUpdateStrategy?: unknown | null;
 }
 export interface GetScriptEventTriggersRequest {
   /** Identifier. */
@@ -8240,9 +8334,9 @@ export interface ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetwor
   name: string;
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
   identity?: ScriptsScriptAndVersionSettingsGetResponseBindingsItemVPCNetworkIdentity | null;
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
   networkId?: string | null;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
   tunnelId?: string | null;
@@ -10013,9 +10107,9 @@ export interface BetaWorkersVersionsListResultItemBindingsItemVPCNetwork {
   name: string;
   /** The kind of resource that the binding provides. */
   type: BetaWorkersVersionsListResultItemBindingsItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
   identity?: BetaWorkersVersionsListResultItemBindingsItemVPCNetworkIdentity | null;
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
   networkId?: string | null;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
   tunnelId?: string | null;
@@ -10874,6 +10968,8 @@ export interface ScriptsDeploymentsListResponseDeploymentsItem {
   versions: ScriptsDeploymentsListResponseDeploymentsItemVersionsList;
   annotations?: ScriptsDeploymentsCreateResponseAnnotations | null;
   authorEmail?: string | null;
+  /** Choose whether to apply Durable Object code updates immediately or defer them. When omitted, the default strategy applies. */
+  codeUpdateStrategy?: unknown | null;
 }
 export type ScriptsDeploymentsListResponseDeploymentsList =
   Array<ScriptsDeploymentsListResponseDeploymentsItem>;
@@ -12429,9 +12525,9 @@ export interface ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetwo
   name: string;
   /** The kind of resource that the binding provides. */
   type: ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
   identity?: ScriptsScriptAndVersionSettingsEditResponseBindingsItemVPCNetworkIdentity | null;
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
   networkId?: string | null;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
   tunnelId?: string | null;
@@ -14720,8 +14816,88 @@ export interface ObservabilityTelemetryQueryResponseDistribution {
   /** Sampling-corrected counts. matrix[bucketIdx][binIdx] is the estimated number of events in value-bucket 'bucketIdx' during time-bin 'binIdx'. */
   matrix: ObservabilityTelemetryQueryResponseDistributionMatrixList;
 }
-export type ObservabilityTelemetryQueryResponseEventsEventsItemMetadata =
-  ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata;
+export type ObservabilityTelemetryQueryResponseEventsEventsItemMetadataSpanStatus =
+  | "unset"
+  | "ok"
+  | "error";
+export interface ObservabilityTelemetryQueryResponseEventsEventsItemMetadata {
+  /** Unique event ID. Use as the cursor value for offset-based pagination. */
+  id: string;
+  /** Cloudflare account identifier. */
+  account?: string | null;
+  /** Cloudflare product that generated this event (e.g. workers, pages). */
+  cloudService?: string | null;
+  /** exclusiveMinimum */
+  coldStart?: number | null;
+  /** Estimated cost units for this invocation. */
+  cost?: number | null;
+  /** Span duration in milliseconds. */
+  duration?: number | null;
+  /** Span end time as a Unix epoch in milliseconds. */
+  endTime?: number | null;
+  /** Span end time as a Unix epoch in nanoseconds. */
+  endTimeNs?: string | null;
+  /** Error message, present when the log represents an error. */
+  error?: string | null;
+  /** Templatized version of the error message used for grouping similar errors. */
+  errorTemplate?: string | null;
+  /** Size of the stored telemetry event in bytes. */
+  eventSize?: number | null;
+  /** Content-based fingerprint used to group similar events. */
+  fingerprint?: string | null;
+  /** Log level (e.g. log, debug, info, warn, error). */
+  level?: string | null;
+  /** Log message text. */
+  message?: string | null;
+  /** Templatized version of the log message used for grouping similar messages. */
+  messageTemplate?: string | null;
+  /** Metric name when the event represents a metric data point. */
+  metricName?: string | null;
+  /** Origin of the event (e.g. fetch, scheduled, queue). */
+  origin?: string | null;
+  /** Span ID of the parent span in the trace hierarchy. */
+  parentSpanId?: string | null;
+  /** Infrastructure provider identifier. */
+  provider?: string | null;
+  /** Cloudflare Ray ID from the `cf-ray` header of the request that triggered the invocation. */
+  rayId?: string | null;
+  /** Cloudflare data center / region that handled the request. */
+  region?: string | null;
+  /** Cloudflare request ID that ties all logs from a single invocation together. */
+  requestId?: string | null;
+  /** Worker script name that produced this event. */
+  service?: string | null;
+  /** Span ID for this individual unit of work within a trace. */
+  spanId?: string | null;
+  /** Human-readable name for this span. */
+  spanName?: string | null;
+  /** OpenTelemetry span status. Present only on spans. `unset` when the span did not set a status, including spans recorded before status was captured. */
+  spanStatus?: ObservabilityTelemetryQueryResponseEventsEventsItemMetadataSpanStatus | null;
+  /** OpenTelemetry span status message. Present only on spans when the status is `error` and a message was set. */
+  spanStatusMessage?: string | null;
+  /** Stack / deployment identifier. */
+  stackId?: string | null;
+  /** Span start time as a Unix epoch in milliseconds. */
+  startTime?: number | null;
+  /** Span start time as a Unix epoch in nanoseconds. */
+  startTimeNs?: string | null;
+  /** HTTP response status code returned by the Worker. */
+  statusCode?: number | null;
+  /** Event time as a Unix epoch in nanoseconds. */
+  timestampNs?: string | null;
+  /** Total duration of the entire trace in milliseconds. */
+  traceDuration?: number | null;
+  /** Distributed trace ID linking spans across services. */
+  traceId?: string | null;
+  /** Logical transaction name for this request. */
+  transactionName?: string | null;
+  /** What triggered the invocation (e.g. GET /users, POST /orders, queue message). */
+  trigger?: string | null;
+  /** Event type classifier (e.g. cf-worker-event, cf-worker-log). */
+  type?: string | null;
+  /** Request URL that triggered the Worker invocation. */
+  url?: string | null;
+}
 export type ObservabilityTelemetryQueryResponseEventsEventsItemSourceCase1Map = {
   [key: string]: unknown | undefined;
 };
@@ -14820,7 +14996,7 @@ export type ObservabilityTelemetryQueryResponseEventsEventsItemWorkers =
   | ObservabilityTelemetryQueryResponseEventsEventsItemWorkersCase1;
 export interface ObservabilityTelemetryQueryResponseEventsEventsItem {
   /** Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation. */
-  metadata: ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata;
+  metadata: ObservabilityTelemetryQueryResponseEventsEventsItemMetadata;
   /** The dataset this event belongs to (e.g. cloudflare-workers). */
   dataset: string;
   /** Raw log payload. May be a string or a structured object depending on how the log was emitted. */
@@ -14877,8 +15053,88 @@ export interface ObservabilityTelemetryQueryResponseEvents {
   /** Time-series data for the matched events, bucketed by the query granularity. */
   series?: ObservabilityTelemetryQueryResponseEventsSeriesList | null;
 }
-export type ObservabilityTelemetryQueryResponseInvocationsValueItemMetadata =
-  ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata;
+export type ObservabilityTelemetryQueryResponseInvocationsValueItemMetadataSpanStatus =
+  | "unset"
+  | "ok"
+  | "error";
+export interface ObservabilityTelemetryQueryResponseInvocationsValueItemMetadata {
+  /** Unique event ID. Use as the cursor value for offset-based pagination. */
+  id: string;
+  /** Cloudflare account identifier. */
+  account?: string | null;
+  /** Cloudflare product that generated this event (e.g. workers, pages). */
+  cloudService?: string | null;
+  /** exclusiveMinimum */
+  coldStart?: number | null;
+  /** Estimated cost units for this invocation. */
+  cost?: number | null;
+  /** Span duration in milliseconds. */
+  duration?: number | null;
+  /** Span end time as a Unix epoch in milliseconds. */
+  endTime?: number | null;
+  /** Span end time as a Unix epoch in nanoseconds. */
+  endTimeNs?: string | null;
+  /** Error message, present when the log represents an error. */
+  error?: string | null;
+  /** Templatized version of the error message used for grouping similar errors. */
+  errorTemplate?: string | null;
+  /** Size of the stored telemetry event in bytes. */
+  eventSize?: number | null;
+  /** Content-based fingerprint used to group similar events. */
+  fingerprint?: string | null;
+  /** Log level (e.g. log, debug, info, warn, error). */
+  level?: string | null;
+  /** Log message text. */
+  message?: string | null;
+  /** Templatized version of the log message used for grouping similar messages. */
+  messageTemplate?: string | null;
+  /** Metric name when the event represents a metric data point. */
+  metricName?: string | null;
+  /** Origin of the event (e.g. fetch, scheduled, queue). */
+  origin?: string | null;
+  /** Span ID of the parent span in the trace hierarchy. */
+  parentSpanId?: string | null;
+  /** Infrastructure provider identifier. */
+  provider?: string | null;
+  /** Cloudflare Ray ID from the `cf-ray` header of the request that triggered the invocation. */
+  rayId?: string | null;
+  /** Cloudflare data center / region that handled the request. */
+  region?: string | null;
+  /** Cloudflare request ID that ties all logs from a single invocation together. */
+  requestId?: string | null;
+  /** Worker script name that produced this event. */
+  service?: string | null;
+  /** Span ID for this individual unit of work within a trace. */
+  spanId?: string | null;
+  /** Human-readable name for this span. */
+  spanName?: string | null;
+  /** OpenTelemetry span status. Present only on spans. `unset` when the span did not set a status, including spans recorded before status was captured. */
+  spanStatus?: ObservabilityTelemetryQueryResponseInvocationsValueItemMetadataSpanStatus | null;
+  /** OpenTelemetry span status message. Present only on spans when the status is `error` and a message was set. */
+  spanStatusMessage?: string | null;
+  /** Stack / deployment identifier. */
+  stackId?: string | null;
+  /** Span start time as a Unix epoch in milliseconds. */
+  startTime?: number | null;
+  /** Span start time as a Unix epoch in nanoseconds. */
+  startTimeNs?: string | null;
+  /** HTTP response status code returned by the Worker. */
+  statusCode?: number | null;
+  /** Event time as a Unix epoch in nanoseconds. */
+  timestampNs?: string | null;
+  /** Total duration of the entire trace in milliseconds. */
+  traceDuration?: number | null;
+  /** Distributed trace ID linking spans across services. */
+  traceId?: string | null;
+  /** Logical transaction name for this request. */
+  transactionName?: string | null;
+  /** What triggered the invocation (e.g. GET /users, POST /orders, queue message). */
+  trigger?: string | null;
+  /** Event type classifier (e.g. cf-worker-event, cf-worker-log). */
+  type?: string | null;
+  /** Request URL that triggered the Worker invocation. */
+  url?: string | null;
+}
 export type ObservabilityTelemetryQueryResponseInvocationsValueItemSourceCase1Map = {
   [key: string]: unknown | undefined;
 };
@@ -14977,7 +15233,7 @@ export type ObservabilityTelemetryQueryResponseInvocationsValueItemWorkers =
   | ObservabilityTelemetryQueryResponseInvocationsValueItemWorkersCase1;
 export interface ObservabilityTelemetryQueryResponseInvocationsValueItem {
   /** Structured metadata extracted from the event. These fields are indexed and available for filtering and aggregation. */
-  metadata: ObservabilitySharedQueriesGetResponseEventsEventsItemMetadata;
+  metadata: ObservabilityTelemetryQueryResponseInvocationsValueItemMetadata;
   /** The dataset this event belongs to (e.g. cloudflare-workers). */
   dataset: string;
   /** Raw log payload. May be a string or a structured object depending on how the log was emitted. */
@@ -18035,6 +18291,7 @@ function __c8(j: number): any {
           versions: __S(2529, __c79, 1),
           annotations: S.optional(S.NullOr(__S(2530, __c79, 2))),
           authorEmail: S.optional(S.NullOr(S.String).pipe(T.Body("author_email"))),
+          codeUpdateStrategy: S.optional(S.NullOr(S.Unknown).pipe(T.Body("code_update_strategy"))),
         }),
       ).annotate({ identifier: "ScriptsDeploymentsListResponseDeploymentsItem" });
     case 2:
@@ -21346,6 +21603,7 @@ function __c77(j: number): any {
           strategy: S.String,
           versions: __S(2529, __c79, 1),
           annotations: S.optional(__S(2464, __c77, 0)),
+          codeUpdateStrategy: S.optional(S.Unknown.pipe(T.Body("code_update_strategy"))),
         })
           .pipe(
             T.Http({
@@ -21370,6 +21628,7 @@ function __c78(j: number): any {
           versions: __S(2529, __c79, 1),
           annotations: S.optional(S.NullOr(__S(2530, __c79, 2))),
           authorEmail: S.optional(S.NullOr(S.String).pipe(T.Body("author_email"))),
+          codeUpdateStrategy: S.optional(S.NullOr(S.Unknown).pipe(T.Body("code_update_strategy"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateScriptDeploymentResponse" });
   }
@@ -23380,6 +23639,8 @@ function __c119(j: number): any {
           service: S.optional(S.NullOr(S.String)),
           spanId: S.optional(S.NullOr(S.String)),
           spanName: S.optional(S.NullOr(S.String)),
+          spanStatus: S.optional(S.NullOr(S.String)),
+          spanStatusMessage: S.optional(S.NullOr(S.String)),
           stackId: S.optional(S.NullOr(S.String)),
           startTime: S.optional(S.NullOr(S.Number)),
           startTimeNs: S.optional(S.NullOr(S.String)),

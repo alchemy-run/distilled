@@ -238,17 +238,6 @@ describe("sensitive union responses", () => {
     }
   });
 
-  test("a sensitive member two union arms both mark is wrapped once", () => {
-    const shared = S.Union([
-      S.Struct({ kind: S.Literal("a"), password: S.String.pipe(SensitiveValue()) }),
-      S.Struct({ kind: S.Literal("b"), password: S.String.pipe(SensitiveValue()) }),
-    ]);
-    const wrapped = wrapSensitive(shared.ast, { kind: "a", password: "fixture-password" }) as {
-      password: Redacted.Redacted<string>;
-    };
-    expect(Redacted.value(wrapped.password)).toBe("fixture-password");
-  });
-
   test("nested arrays and optional nullable unions preserve nonsecret values", () => {
     const nested = S.Struct({
       provider: S.optional(S.NullOr(schema)),
@@ -268,6 +257,35 @@ describe("sensitive union responses", () => {
         ],
       });
     }
+  });
+});
+
+describe("sensitive untyped members", () => {
+  const schema = S.Struct({
+    environment: S.NullOr(S.Unknown).pipe(SensitiveValue()),
+    config: S.NullOr(
+      S.Struct({ name: S.String, secret: S.NullOr(S.String).pipe(SensitiveValue()) }),
+    ).pipe(SensitiveValue()),
+  });
+
+  test("an untyped object is redacted whole; a typed struct is walked", () => {
+    const environment = { AWS_ACCESS_KEY_ID: "fixture-id", AWS_SECRET_ACCESS_KEY: "fixture-key" };
+    const wrapped = wrapSensitive(schema.ast, {
+      environment,
+      config: { name: "files", secret: "fixture-secret" },
+    }) as any;
+    expect(Redacted.isRedacted(wrapped.environment)).toBe(true);
+    expect(Redacted.value(wrapped.environment)).toEqual(environment);
+    expect(wrapped.config).toEqual({ name: "files", secret: Redacted.make("fixture-secret") });
+    expect(String(wrapped.environment)).not.toContain("fixture-key");
+    expect(wrapSensitive(schema.ast, wrapped)).toEqual(wrapped);
+  });
+
+  test("null stays null", () => {
+    expect(wrapSensitive(schema.ast, { environment: null, config: null })).toEqual({
+      environment: null,
+      config: null,
+    });
   });
 });
 

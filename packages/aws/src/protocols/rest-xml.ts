@@ -4,6 +4,7 @@
  * https://smithy.io/2.0/aws/protocols/aws-restxml-protocol.html
  */
 
+import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
@@ -49,7 +50,7 @@ import {
   isStringAST,
   unwrapUnion,
 } from "../util/ast.ts";
-import { inputEncoderSync } from "../util/codec.ts";
+import { errorBody, inputEncoderSync } from "../util/codec.ts";
 import { sanitizeErrorCode } from "../util/error.ts";
 import { extractStaticQueryParams } from "../util/query-params.ts";
 import { applyHttpTrait, bindInputToRequest } from "../util/serialize-input.ts";
@@ -159,7 +160,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     }
   }
 
-  const serialize = (input: unknown): Request => {
+  const serialize = (input: unknown): Request | InvalidInput => {
     // Encode the input via schema - handles all transformations
     const encoded = encodeInput(input);
 
@@ -171,11 +172,9 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
     };
 
     applyHttpTrait(inputAst, request);
-    const { payloadValue, payloadAst, bodyMembers, hasBodyMembers } = bindInputToRequest(
-      inputAst,
-      encoded as Record<string, unknown>,
-      request,
-    );
+    const bound = bindInputToRequest(inputAst, encoded as Record<string, unknown>, request);
+    if (bound instanceof InvalidInput) return bound;
+    const { payloadValue, payloadAst, bodyMembers, hasBodyMembers } = bound;
     extractStaticQueryParams(request);
 
     // Serialize body
@@ -296,7 +295,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
           }
           // HTML response without parseable error - don't try XML parsing
           return yield* new ParseError({
-            message: `Could not parse HTML error response: ${bodyText}`,
+            message: `Could not parse HTML error response: ${errorBody(operation, bodyText)}`,
           });
         }
 
@@ -324,7 +323,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
 
         if (!errorContent) {
           return yield* new ParseError({
-            message: `Could not find Error element in XML response: ${bodyText}`,
+            message: `Could not find Error element in XML response: ${errorBody(operation, bodyText)}`,
           });
         }
 
@@ -332,7 +331,7 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
         const rawErrorCode = errorContent.Code;
         if (typeof rawErrorCode !== "string") {
           return yield* new ParseError({
-            message: `No Code element found in error response: ${bodyText}`,
+            message: `No Code element found in error response: ${errorBody(operation, bodyText)}`,
           });
         }
 

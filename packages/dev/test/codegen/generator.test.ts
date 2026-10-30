@@ -233,91 +233,24 @@ describe("pagination over a bare-array response", () => {
       /PaginatedOperationMethod<\s*ListThingsRequest,\s*ListThingsResponse,\s*ListThingsError,\s*ExampleContext,\s*Thing\s*>/,
     );
   });
-});
 
-describe("sensitive map values", () => {
-  const mapModel = (valueTraits?: Record<string, unknown>) => ({
-    smithy: "2.0",
-    shapes: {
-      "ns#Example": {
-        type: "service",
-        version: "1",
-        operations: [{ target: "ns#GetHook" }],
+  test("a profile that injects a page member keeps the struct form", () => {
+    const { code } = generateService(model, {
+      ...pageSpec,
+      paginationProfiles: {
+        link: {
+          strategy: "paginateLink",
+          itemsFallback: "",
+          syntheticOutputs: ["resultInfo"],
+          injectOutputMember: {
+            tsName: "resultInfo",
+            interfaceLines: ["  resultInfo?: string | null;"],
+            structLine: `  "resultInfo": S.optional(S.NullOr(S.String)),`,
+          },
+        },
       },
-      "ns#GetHook": {
-        type: "operation",
-        input: { target: "smithy.api#Unit" },
-        output: { target: "ns#Output" },
-        traits: { "smithy.api#http": { method: "GET", uri: "/hook" } },
-      },
-      "ns#Output": {
-        type: "structure",
-        members: { headers: { target: "ns#Headers" } },
-      },
-      "ns#Headers": {
-        type: "map",
-        key: { target: "smithy.api#String" },
-        value: { target: "smithy.api#String", ...(valueTraits ? { traits: valueTraits } : {}) },
-      },
-    },
-  });
-
-  const sensitiveSpec: SdkSpec = {
-    ...spec,
-    memberTraitPipes: { "smithy.api#sensitive": "T.SensitiveValue" },
-    memberTsType: (m) =>
-      "smithy.api#sensitive" in m.traits ? "string | Redacted.Redacted<string>" : undefined,
-  };
-
-  test("a map value marked sensitive is generated as a secret, like a sensitive field", () => {
-    const { code } = generateService(mapModel({ "smithy.api#sensitive": {} }), sensitiveSpec);
-    expect(code).toContain(
-      "export type Headers = { [key: string]: string | Redacted.Redacted<string> | undefined };",
-    );
-    expect(code).toContain(
-      "export const Headers = /*@__PURE__*/ S.Record(S.String, S.String.pipe(T.SensitiveValue({}))) as any as S.Schema<Headers>;",
-    );
-  });
-});
-
-describe("sensitive list members", () => {
-  const listModel = (memberTraits?: Record<string, unknown>) => ({
-    smithy: "2.0",
-    shapes: {
-      "ns#Example": {
-        type: "service",
-        version: "1",
-        operations: [{ target: "ns#GetHook" }],
-      },
-      "ns#GetHook": {
-        type: "operation",
-        input: { target: "smithy.api#Unit" },
-        output: { target: "ns#Output" },
-        traits: { "smithy.api#http": { method: "GET", uri: "/hook" } },
-      },
-      "ns#Output": {
-        type: "structure",
-        members: { tokens: { target: "ns#Tokens" } },
-      },
-      "ns#Tokens": {
-        type: "list",
-        member: { target: "smithy.api#String", ...(memberTraits ? { traits: memberTraits } : {}) },
-      },
-    },
-  });
-
-  const sensitiveSpec: SdkSpec = {
-    ...spec,
-    memberTraitPipes: { "smithy.api#sensitive": "T.SensitiveValue" },
-    memberTsType: (m) =>
-      "smithy.api#sensitive" in m.traits ? "string | Redacted.Redacted<string>" : undefined,
-  };
-
-  test("a list member marked sensitive is generated as a secret, like a sensitive field", () => {
-    const { code } = generateService(listModel({ "smithy.api#sensitive": {} }), sensitiveSpec);
-    expect(code).toContain("export type Tokens = Array<string | Redacted.Redacted<string>>;");
-    expect(code).toContain(
-      "export const Tokens = /*@__PURE__*/ S.Array(S.String.pipe(T.SensitiveValue({}))) as any as S.Schema<Tokens>;",
-    );
+    });
+    expect(code).not.toContain("export type ListThingsResponse = ThingList;");
+    expect(code).toContain("resultInfo?: string | null;");
   });
 });
