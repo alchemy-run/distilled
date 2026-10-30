@@ -26,6 +26,7 @@ import {
   nameOf,
 } from "@distilled.cloud/core/protocol-http";
 import {
+  debugResponse,
   hasSensitive,
   hasSensitiveMember,
   unwrapRedactedDeep,
@@ -598,9 +599,7 @@ const decodeResponse = (
     onSuccess: (read): Effect.Effect<unknown> => {
       // Read as text and parse tolerantly -- error pages can be non-JSON.
       const text = read ?? "";
-      if (debugHttp()) {
-        console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-      }
+      debugResponse(response.status, text, outputAst);
       let json: unknown;
       let nonJson = false;
       if (text.trim().length > 0) {

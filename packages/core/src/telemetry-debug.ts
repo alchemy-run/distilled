@@ -25,8 +25,9 @@
  * [distilled] <- 404 {"success":false,"errors":[...]}
  * ```
  *
- * Response lines carry up to 400 characters of the body, which can hold
- * secrets the API returns.
+ * Response lines carry up to 400 characters of the body, or `[REDACTED]` when
+ * the operation's output has sensitive members. A body the schema does not
+ * mark sensitive can still hold secrets the API returns.
  */
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";

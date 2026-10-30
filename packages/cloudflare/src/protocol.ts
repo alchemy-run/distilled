@@ -1,6 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
 import { retryableKey } from "@distilled.cloud/core/category";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   ConfigError,
   Forbidden,
@@ -24,6 +23,7 @@ import {
   withResponseHeaders,
   type ResponseHeaderMember,
 } from "@distilled.cloud/core/protocol-http";
+import { debugResponse } from "@distilled.cloud/core/protocol-rest";
 import {
   checkResponse,
   ResponseValidation,
@@ -460,9 +460,7 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
       onFailure: fail,
       onSuccess: (read): Effect.Effect<unknown> => {
         const text = read ?? "";
-        if (debugHttp()) {
-          console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-        }
+        debugResponse(response.status, text, outputAst);
         let json: Record<string, unknown> = {};
         let nonJson = false;
         if (text.trim().length > 0) {

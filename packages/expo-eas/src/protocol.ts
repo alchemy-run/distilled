@@ -2,6 +2,7 @@ import * as API from "@distilled.cloud/core/api";
 import { debugHttp } from "@distilled.cloud/core/debug";
 import { HTTP_STATUS_MAP, type ConfigError } from "@distilled.cloud/core/errors";
 import { getAnn } from "@distilled.cloud/core/protocol-http";
+import { debugResponse } from "@distilled.cloud/core/protocol-rest";
 import { failUnlessLenient, validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 /**
@@ -261,9 +262,7 @@ const decode = ({
 }) =>
   Effect.gen(function* () {
     const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
+    debugResponse(response.status, text, outputAst);
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
 

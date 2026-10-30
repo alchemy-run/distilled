@@ -1,9 +1,12 @@
 import * as crypto from "node:crypto";
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import { ConfigError, HTTP_STATUS_MAP, type InvalidInput } from "@distilled.cloud/core/errors";
 import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
+import {
+  debugResponse,
+  unwrapRedactedDeep,
+  wrapSensitive,
+} from "@distilled.cloud/core/protocol-rest";
 import { validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 /**
@@ -401,9 +404,7 @@ const decode = ({
 }) =>
   Effect.gen(function* () {
     const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
+    debugResponse(response.status, text, outputAst);
     let json: unknown;
     if (text.trim().length > 0) {
       try {

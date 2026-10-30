@@ -1,5 +1,4 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   ConfigError,
   GatewayTimeout,
@@ -17,7 +16,11 @@ import {
   mapKeys,
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
+import {
+  debugResponse,
+  unwrapRedactedDeep,
+  wrapSensitive,
+} from "@distilled.cloud/core/protocol-rest";
 import { validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
 import { httpSymbol, querySymbol, type HttpTrait } from "@distilled.cloud/core/trait";
@@ -183,9 +186,7 @@ const decode = ({
     // decodes from the same buffer.
     const bytes = new Uint8Array(yield* response.arrayBuffer.pipe(Effect.catch(fail)));
     const text = new TextDecoder().decode(bytes);
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
+    debugResponse(response.status, text, outputAst);
 
     let json: Record<string, unknown> | undefined;
     if (text.trim().length > 0) {
