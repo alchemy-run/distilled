@@ -82,6 +82,11 @@ export interface CreateLogoResponse {
   tag?: string | null;
   uploadPath?: string | null;
 }
+export interface QueriesCreateRequestStringMatchesItem {
+  pattern: string;
+  maxEditDistance?: number;
+}
+export type QueriesCreateRequestStringMatchesList = Array<QueriesCreateRequestStringMatchesItem>;
 export interface CreateQueryRequest {
   accountId: string;
   id?: string;
@@ -89,7 +94,7 @@ export interface CreateQueryRequest {
   tag?: string;
   maxTime?: string;
   minTime?: string;
-  stringMatches?: unknown;
+  stringMatches?: QueriesCreateRequestStringMatchesList;
   bodyScan?: boolean;
   bodyTag?: string;
 }
@@ -362,7 +367,7 @@ export interface UrlInfoBrandProtectionResponse {
   resultInfo?: ResultInfo | null;
 }
 export type BulkQueryError = CloudflareOpError;
-/** Return a success message after creating new saved string queries in bulk */
+/** Return a success message after creating new saved string queries in bulk. */
 export const bulkQuery: API.OperationMethod<
   BulkQueryRequest,
   BulkQueryResponse,
@@ -379,7 +384,7 @@ export const bulkQuery: API.OperationMethod<
 }));
 
 export type CreateLogoError = CloudflareOpError;
-/** Return new saved logo queries created from image files */
+/** Return new saved logo queries created from image files. */
 export const createLogo: API.OperationMethod<
   CreateLogoRequest,
   CreateLogoResponse,
@@ -396,14 +401,14 @@ export const createLogo: API.OperationMethod<
 }));
 
 export type CreateQueryError = CloudflareOpError;
-/** Return a success message after creating new saved string queries */
+/** Return a success message after creating new saved string queries. */
 export const createQuery: API.OperationMethod<
   CreateQueryRequest,
   CreateQueryResponse,
   CreateQueryError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreateQueryRequest>,
+  input: __S(90, __c11, 2) as any as S.Schema<CreateQueryRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CreateQueryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -430,7 +435,7 @@ export const createV2Logo: API.OperationMethod<
 }));
 
 export type DeleteLogoError = CloudflareOpError;
-/** Return a success message after deleting saved logo queries by ID */
+/** Return a success message after deleting saved logo queries by ID. */
 export const deleteLogo: API.OperationMethod<
   DeleteLogoRequest,
   DeleteLogoResponse,
@@ -447,7 +452,7 @@ export const deleteLogo: API.OperationMethod<
 }));
 
 export type DeleteQueryError = CloudflareOpError;
-/** Return a success message after deleting saved string queries by ID */
+/** Return a success message after deleting saved string queries by ID. */
 export const deleteQuery: API.OperationMethod<
   DeleteQueryRequest,
   DeleteQueryResponse,
@@ -481,7 +486,7 @@ export const deleteV2Logo: API.OperationMethod<
 }));
 
 export type DownloadLogoMatchError = CloudflareOpError;
-/** Return matches as CSV for logo queries based on ID */
+/** Return matches as CSV for logo queries based on ID. */
 export const downloadLogoMatch: API.OperationMethod<
   DownloadLogoMatchRequest,
   DownloadLogoMatchResponse,
@@ -498,7 +503,7 @@ export const downloadLogoMatch: API.OperationMethod<
 }));
 
 export type DownloadMatchError = CloudflareOpError;
-/** Return matches as CSV for string queries based on ID */
+/** Return matches as CSV for string queries based on ID. */
 export const downloadMatch: API.OperationMethod<
   DownloadMatchRequest,
   DownloadMatchResponse,
@@ -515,7 +520,7 @@ export const downloadMatch: API.OperationMethod<
 }));
 
 export type GetLogoMatchError = CloudflareOpError;
-/** Return matches for logo queries based on ID */
+/** Return matches for logo queries based on ID. */
 export const getLogoMatch: API.OperationMethod<
   GetLogoMatchRequest,
   GetLogoMatchResponse,
@@ -532,7 +537,7 @@ export const getLogoMatch: API.OperationMethod<
 }));
 
 export type GetMatchError = CloudflareOpError;
-/** Return matches for string queries based on ID */
+/** Return matches for string queries based on ID. */
 export const getMatch: API.OperationMethod<
   GetMatchRequest,
   GetMatchResponse,
@@ -617,7 +622,7 @@ export const getV2Query: API.OperationMethod<
 }));
 
 export type SubmitBrandProtectionError = CloudflareOpError;
-/** Return new URL submissions */
+/** Return new URL submissions. */
 export const submitBrandProtection: API.OperationMethod<
   SubmitBrandProtectionRequest,
   SubmitBrandProtectionResponse,
@@ -634,7 +639,7 @@ export const submitBrandProtection: API.OperationMethod<
 }));
 
 export type UrlInfoBrandProtectionError = CloudflareOpError;
-/** Return submitted URLs based on ID */
+/** Return submitted URLs based on ID. */
 export const urlInfoBrandProtection: API.PaginatedOperationMethod<
   UrlInfoBrandProtectionRequest,
   UrlInfoBrandProtectionResponse,
@@ -976,13 +981,22 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pattern: S.String,
+          maxEditDistance: S.optional(S.Number.pipe(T.Body("max_edit_distance"))),
+        }),
+      ).annotate({ identifier: "QueriesCreateRequestStringMatchesItem" });
+    case 1:
+      return S.Array(__S(88, __c11, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           id: S.optional(S.String.pipe(T.Query())),
           scan: S.optional(S.Boolean.pipe(T.Query())),
           tag: S.optional(S.String.pipe(T.Query())),
           maxTime: S.optional(S.String.pipe(T.Body("max_time"))),
           minTime: S.optional(S.String.pipe(T.Body("min_time"))),
-          stringMatches: S.optional(S.Unknown.pipe(T.Body("string_matches"))),
+          stringMatches: S.optional(__S(89, __c11, 1).pipe(T.Body("string_matches"))),
           bodyScan: S.optional(S.Boolean.pipe(T.Body("scan"))),
           bodyTag: S.optional(S.String.pipe(T.Body("tag"))),
         })

@@ -221,6 +221,12 @@ export class RealtimeKitWebhookNotFound
     [{ status: 404 }],
   ) {}
 
+export interface MeetingsAddParticipantRequestToken {
+  /** RFC 3339 timestamp with a timezone at or after which the token cannot be used. Must be in the future. Defaults to not_before plus 100 days. */
+  expiresOn?: string;
+  /** RFC 3339 timestamp with a timezone before which the token cannot be used. Defaults to the current time. May be in the past. */
+  notBefore?: string;
+}
 export interface AddParticipantMeetingRequest {
   /** The account identifier tag. */
   accountId: string;
@@ -231,6 +237,8 @@ export interface AddParticipantMeetingRequest {
   customParticipantId: string;
   /** Name of the preset to apply to this participant. */
   presetName: string;
+  /** Validity window of the participant authentication token. The window is [not_before, expires_on) and cannot be longer than 100 days. Defaults to a token valid from now for 100 days. */
+  token?: MeetingsAddParticipantRequestToken;
   /** (Optional) Name of the participant. */
   name?: string;
   /** (Optional) A URL to a picture to be used for the participant. */
@@ -249,8 +257,12 @@ export interface MeetingsAddParticipantResponseData {
   presetName: string;
   /** When this object was updated. The time is returned in ISO format. */
   updatedAt: string;
+  /** Time at which the token stops being valid, in UTC. Returned when adding a participant. */
+  expiresOn?: string | null;
   /** Name of the participant. */
   name?: string | null;
+  /** Time from which the token is valid, in UTC. Returned when adding a participant. */
+  notBefore?: string | null;
   /** URL to a picture of the participant. */
   picture?: string | null;
 }
@@ -5323,10 +5335,18 @@ export interface RefreshParticipantTokenMeetingRequest {
   appId: string;
   meetingId: string;
   participantId: string;
+  /** RFC 3339 timestamp with a timezone at or after which the token cannot be used. Must be in the future. Defaults to not_before plus 100 days. */
+  expiresOn?: string;
+  /** RFC 3339 timestamp with a timezone before which the token cannot be used. Defaults to the current time. May be in the past. */
+  notBefore?: string;
 }
 export interface MeetingsRefreshParticipantTokenResponseData {
   /** Regenerated participant's authentication token. */
   token: string;
+  /** Time at which the token stops being valid, in UTC. */
+  expiresOn: string;
+  /** Time from which the token is valid, in UTC. */
+  notBefore: string;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface RefreshParticipantTokenMeetingResponse {
@@ -7386,7 +7406,7 @@ export const addParticipantMeeting: API.OperationMethod<
   AddParticipantMeetingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<AddParticipantMeetingRequest>,
+  input: __S(1793, __c56, 1) as any as S.Schema<AddParticipantMeetingRequest>,
   output: __S(1825, __c57, 1) as any as S.Schema<AddParticipantMeetingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -11199,11 +11219,19 @@ function __c56(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          expiresOn: S.optional(S.String.pipe(T.Body("expires_on"))),
+          notBefore: S.optional(S.String.pipe(T.Body("not_before"))),
+        }),
+      ).annotate({ identifier: "MeetingsAddParticipantRequestToken" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
           meetingId: S.String.pipe(T.Label("meeting_id")),
           customParticipantId: S.String.pipe(T.Body("custom_participant_id")),
           presetName: S.String.pipe(T.Body("preset_name")),
+          token: S.optional(__S(1792, __c56, 0)),
           name: S.optional(S.String),
           picture: S.optional(S.String),
         })
@@ -11229,7 +11257,9 @@ function __c57(j: number): any {
           customParticipantId: S.String.pipe(T.Body("custom_participant_id")),
           presetName: S.String.pipe(T.Body("preset_name")),
           updatedAt: S.String.pipe(T.Body("updated_at")),
+          expiresOn: S.optional(S.NullOr(S.String).pipe(T.Body("expires_on"))),
           name: S.optional(S.NullOr(S.String)),
+          notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
           picture: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "MeetingsAddParticipantResponseData" });
@@ -11385,6 +11415,8 @@ function __c60(j: number): any {
           appId: S.String.pipe(T.Label("app_id")),
           meetingId: S.String.pipe(T.Label("meeting_id")),
           participantId: S.String.pipe(T.Label("participant_id")),
+          expiresOn: S.optional(S.String.pipe(T.Body("expires_on"))),
+          notBefore: S.optional(S.String.pipe(T.Body("not_before"))),
         })
           .pipe(
             T.Http({
@@ -11399,6 +11431,8 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           token: S.String,
+          expiresOn: S.String.pipe(T.Body("expires_on")),
+          notBefore: S.String.pipe(T.Body("not_before")),
         }),
       ).annotate({ identifier: "MeetingsRefreshParticipantTokenResponseData" });
     case 2:

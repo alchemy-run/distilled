@@ -73,7 +73,7 @@ export class SendingSubdomainNotFound
 export interface CreateSubdomainRequest {
   /** Identifier. */
   zoneId: string;
-  /** The domain name within the zone. A wildcard is allowed only as the complete leftmost label (`*.example.com`) and requires the account wildcard Email Sending entitlement. */
+  /** The domain name within the zone. A wildcard is allowed only as the complete leftmost label (`*.example.com`) and requires the account wildcard Email Sending entitlement. The derived Return-Path hostname, including its bounce prefix, must be at most 201 characters after ASCII conversion; wildcards use the base hostname. */
   name: string;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */

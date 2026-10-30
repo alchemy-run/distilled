@@ -72,7 +72,7 @@ export interface GetCustomTopicRequest {
 export interface CustomTopicsGetResponseTopicsItem {
   /** Unique label identifier. Must contain only lowercase letters (a-z), digits (0-9), and hyphens. */
   label: string;
-  /** Description of the topic category. Must contain only printable ASCII characters. */
+  /** Description of the topic category. Must contain 2-50 UTF-8 bytes. Text in any language is supported, including spaces, numbers, punctuation, and symbols. Tabs, line breaks, invalid text, and invisible formatting characters are not allowed. */
   topic: string;
 }
 export type CustomTopicsGetResponseTopicsList = Array<CustomTopicsGetResponseTopicsItem>;
@@ -193,7 +193,7 @@ export type PutCustomTopicError =
   | ZoneNotAuthorized
   | Forbidden
   | CloudflareOpError;
-/** Update the custom topic list of the zone, overwriting it entirely with the topics in the request, so include every topic you want to keep. Changes can take up to a minute to propagate. Each entry has a `label`, used to reference the topic in rule expressions and analytics, and a `topic` description, which the classifier scores prompts against while AI Security for Apps is enabled. The following rules apply: - A zone can hold at most 20 topics. - `label` must be 2-20 characters, using only lowercase letters (a-z), digits (0-9), and hyphens. - `topic` must be 2-50 printable ASCII characters. - Labels must be unique within the zone, and so must topic descriptions. */
+/** Update the custom topic list of the zone, overwriting it entirely with the topics in the request, so include every topic you want to keep. Changes can take up to a minute to propagate. Each entry has a `label`, used to reference the topic in rule expressions and analytics, and a `topic` description, which the classifier scores prompts against while AI Security for Apps is enabled. The following rules apply: - A zone can hold at most 20 topics. - `label` must be 2-20 characters, using only lowercase letters (a-z), digits (0-9), and hyphens. - `topic` must be 2-50 UTF-8 bytes. Text in any language is supported, including spaces, numbers, punctuation, and symbols. Tabs, line breaks, invalid text, and invisible formatting characters are not allowed. - Labels must be unique within the zone, and so must topic descriptions. */
 export const putCustomTopic: API.OperationMethod<
   PutCustomTopicRequest,
   PutCustomTopicResponse,

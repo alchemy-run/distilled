@@ -1303,9 +1303,9 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemVPCNetwork {
   name: string;
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsBindingsGetResultItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
   identity?: DispatchNamespacesScriptsBindingsGetResultItemVPCNetworkIdentity | null;
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
   networkId?: string | null;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
   tunnelId?: string | null;
@@ -1850,9 +1850,9 @@ export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemVPCNetw
   name: string;
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
   identity?: DispatchNamespacesScriptsSettingsGetResponseBindingsItemVPCNetworkIdentity | null;
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
   networkId?: string | null;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
   tunnelId?: string | null;
@@ -2937,11 +2937,11 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   name: string;
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
   identity?:
     | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemVPCNetworkIdentity
     | (string & {});
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
   networkId?: string;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
   tunnelId?: string;
@@ -3909,9 +3909,9 @@ export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemVPCNet
   name: string;
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
   identity?: DispatchNamespacesScriptsSettingsEditResponseBindingsItemVPCNetworkIdentity | null;
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
   networkId?: string | null;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
   tunnelId?: string | null;

@@ -4439,6 +4439,8 @@ export type CreateSettingsAccountNameserverSetRequestNameserversList =
 export interface CreateSettingsAccountNameserverSetRequest {
   /** Identifier. */
   accountId: string;
+  /** Customer-defined name, unique within the account by exact string equality (case-sensitive, with no Unicode normalization). Must be valid UTF-8 and at most 255 UTF-8 bytes, not 255 characters. Only graphical Unicode characters are allowed; leading or trailing whitespace is rejected. The name can be changed without changing the set's nameservers or addresses. */
+  name: string;
   /** Lists each nameserver and the number of addresses to allocate to it. Requires a unique name for each entry in the set. */
   nameservers: CreateSettingsAccountNameserverSetRequestNameserversList;
   /** Whether to allocate the nameservers from distinct Advanced anycast groups. */
@@ -4469,6 +4471,8 @@ export interface CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSe
   createdOn: string;
   /** Selects the account-specific IP set that supplies the nameserver addresses. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups. */
   ipSet: number;
+  /** Customer-defined name, unique within the account by exact string equality (case-sensitive, with no Unicode normalization). Must be valid UTF-8 and at most 255 UTF-8 bytes, not 255 characters. Only graphical Unicode characters are allowed; leading or trailing whitespace is rejected. The name can be changed without changing the set's nameservers or addresses. */
+  name: string;
   nameservers: CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList;
 }
 export type CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List =
@@ -4510,6 +4514,8 @@ export interface CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSe
   createdOn: string;
   /** Selects the account-specific IP set that supplies the nameserver addresses. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups. */
   ipSet: number;
+  /** Customer-defined name, unique within the account by exact string equality (case-sensitive, with no Unicode normalization). Must be valid UTF-8 and at most 255 UTF-8 bytes, not 255 characters. Only graphical Unicode characters are allowed; leading or trailing whitespace is rejected. The name can be changed without changing the set's nameservers or addresses. */
+  name: string;
   nameservers: CreateSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList;
 }
 export type CreateSettingsAccountNameserverSetResult =
@@ -5848,6 +5854,8 @@ export interface GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetSt
   createdOn: string;
   /** Selects the account-specific IP set that supplies the nameserver addresses. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups. */
   ipSet: number;
+  /** Customer-defined name, unique within the account by exact string equality (case-sensitive, with no Unicode normalization). Must be valid UTF-8 and at most 255 UTF-8 bytes, not 255 characters. Only graphical Unicode characters are allowed; leading or trailing whitespace is rejected. The name can be changed without changing the set's nameservers or addresses. */
+  name: string;
   nameservers: GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetStandardResponseNameserversList;
 }
 export type GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List =
@@ -5889,6 +5897,8 @@ export interface GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAd
   createdOn: string;
   /** Selects the account-specific IP set that supplies the nameserver addresses. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups. */
   ipSet: number;
+  /** Customer-defined name, unique within the account by exact string equality (case-sensitive, with no Unicode normalization). Must be valid UTF-8 and at most 255 UTF-8 bytes, not 255 characters. Only graphical Unicode characters are allowed; leading or trailing whitespace is rejected. The name can be changed without changing the set's nameservers or addresses. */
+  name: string;
   nameservers: GetSettingsAccountNameserverSetResultDNSSettingsNameserverSetAdvancedResponseNameserversList;
 }
 export type GetSettingsAccountNameserverSetResult =
@@ -7192,6 +7202,8 @@ export interface ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserve
   createdOn: string;
   /** Selects the account-specific IP set that supplies the nameserver addresses. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups. */
   ipSet: number;
+  /** Customer-defined name, unique within the account by exact string equality (case-sensitive, with no Unicode normalization). Must be valid UTF-8 and at most 255 UTF-8 bytes, not 255 characters. Only graphical Unicode characters are allowed; leading or trailing whitespace is rejected. The name can be changed without changing the set's nameservers or addresses. */
+  name: string;
   nameservers: ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetStandardResponseNameserversList;
 }
 export type ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversItemIpv4List =
@@ -7233,6 +7245,8 @@ export interface ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserve
   createdOn: string;
   /** Selects the account-specific IP set that supplies the nameserver addresses. Nameserver sets with the same `ip_set` and `advanced` value may reuse addresses; otherwise, they use disjoint address groups. */
   ipSet: number;
+  /** Customer-defined name, unique within the account by exact string equality (case-sensitive, with no Unicode normalization). Must be valid UTF-8 and at most 255 UTF-8 bytes, not 255 characters. Only graphical Unicode characters are allowed; leading or trailing whitespace is rejected. The name can be changed without changing the set's nameservers or addresses. */
+  name: string;
   nameservers: ListSettingsAccountNameserverSetsResultItemDNSSettingsNameserverSetAdvancedResponseNameserversList;
 }
 export type ListSettingsAccountNameserverSetsResultItem =
@@ -11618,7 +11632,7 @@ export const createSettingAccountView: API.OperationMethod<
 }));
 
 export type CreateSettingsAccountNameserverSetError = CloudflareOpError;
-/** Creates an immutable Custom Nameserver Set. To change a set, create a new one, move any zone assignments, and delete the old set. */
+/** Creates a named Custom Nameserver Set. Only the customer-defined name can be changed later. To change nameservers or addresses, create a new set, move any zone assignments, and delete the old set. */
 export const createSettingsAccountNameserverSet: API.OperationMethod<
   CreateSettingsAccountNameserverSetRequest,
   CreateSettingsAccountNameserverSetResponse,
@@ -14239,6 +14253,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
+          name: S.String,
           nameservers: __S(97, __c6, 1),
           advanced: S.optional(S.Boolean),
           ipSet: S.optional(S.Number.pipe(T.Body("ip_set"))),
@@ -14255,8 +14270,8 @@ function __c6(j: number): any {
     case 3:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
-          ["id", "advanced", "createdOn", "ipSet", "nameservers"],
-          ["id", "advanced", "createdOn", "ipSet", "nameservers"],
+          ["id", "advanced", "createdOn", "ipSet", "name", "nameservers"],
+          ["id", "advanced", "createdOn", "ipSet", "name", "nameservers"],
         ]),
       );
     case 4:
@@ -15409,8 +15424,8 @@ function __c44(j: number): any {
     case 1:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
-          ["id", "advanced", "createdOn", "ipSet", "nameservers"],
-          ["id", "advanced", "createdOn", "ipSet", "nameservers"],
+          ["id", "advanced", "createdOn", "ipSet", "name", "nameservers"],
+          ["id", "advanced", "createdOn", "ipSet", "name", "nameservers"],
         ]),
       );
     case 2:
@@ -16228,8 +16243,8 @@ function __c60(j: number): any {
     case 1:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
-          ["id", "advanced", "createdOn", "ipSet", "nameservers"],
-          ["id", "advanced", "createdOn", "ipSet", "nameservers"],
+          ["id", "advanced", "createdOn", "ipSet", "name", "nameservers"],
+          ["id", "advanced", "createdOn", "ipSet", "name", "nameservers"],
         ]),
       );
     case 2:

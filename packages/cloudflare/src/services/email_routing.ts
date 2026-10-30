@@ -81,6 +81,15 @@ export class EmailRoutingRuleNotFound
     [{ status: 404 }],
   ) {}
 
+export class EmailRoutingSubdomainNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<EmailRoutingSubdomainNotFound>()("EmailRoutingSubdomainNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 404, message: { includes: "Subdomain not found" } }],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -1069,8 +1078,8 @@ export const accountRulesListForAccount: API.OperationMethod<
   AccountRulesListForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<AccountRulesListForAccountRequest>,
-  output: __S(119, __c29, 3) as any as S.Schema<AccountRulesListResponse>,
+  input: __S(112, __c28, 0) as any as S.Schema<AccountRulesListForAccountRequest>,
+  output: __S(127, __c31, 3) as any as S.Schema<AccountRulesListResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1086,8 +1095,8 @@ export const accountRulesListForZone: API.OperationMethod<
   AccountRulesListForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<AccountRulesListForZoneRequest>,
-  output: __S(119, __c29, 3) as any as S.Schema<AccountRulesListResponse>,
+  input: __S(128, __c32, 0) as any as S.Schema<AccountRulesListForZoneRequest>,
+  output: __S(127, __c31, 3) as any as S.Schema<AccountRulesListResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1103,8 +1112,8 @@ export const createAddress: API.OperationMethod<
   CreateAddressError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(124, __c31, 0) as any as S.Schema<CreateAddressRequest>,
-  output: __S(128, __c32, 0) as any as S.Schema<CreateAddressResponse>,
+  input: __S(132, __c33, 0) as any as S.Schema<CreateAddressRequest>,
+  output: __S(136, __c34, 0) as any as S.Schema<CreateAddressResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1120,8 +1129,8 @@ export const createDns: API.OperationMethod<
   CreateDnsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(132, __c33, 0) as any as S.Schema<CreateDnsRequest>,
-  output: __S(136, __c34, 0) as any as S.Schema<CreateDnsResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateDnsRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<CreateDnsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1137,8 +1146,8 @@ export const createRule: API.OperationMethod<
   CreateRuleError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateRuleRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<CreateRuleResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<CreateRuleRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<CreateRuleResponse>,
   errors: [WorkerScriptNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1157,8 +1166,8 @@ export const deleteAddress: API.OperationMethod<
   DeleteAddressError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<DeleteAddressRequest>,
-  output: __S(128, __c32, 0) as any as S.Schema<DeleteAddressResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<DeleteAddressRequest>,
+  output: __S(136, __c34, 0) as any as S.Schema<DeleteAddressResponse>,
   errors: [
     EmailAddressNotFound,
     EmailAddressCreatedTooRecently,
@@ -1179,8 +1188,8 @@ export const deleteDns: API.OperationMethod<
   DeleteDnsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<DeleteDnsRequest>,
-  output: __S(136, __c34, 0) as any as S.Schema<DnsDeleteResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<DeleteDnsRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<DnsDeleteResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1196,8 +1205,8 @@ export const deleteRule: API.OperationMethod<
   DeleteRuleError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<DeleteRuleRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<DeleteRuleResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<DeleteRuleRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<DeleteRuleResponse>,
   errors: [EmailRoutingRuleNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1213,8 +1222,8 @@ export const disableEmailRouting: API.OperationMethod<
   DisableEmailRoutingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<DisableEmailRoutingRequest>,
-  output: __S(136, __c34, 0) as any as S.Schema<DisableEmailRoutingResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<DisableEmailRoutingRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<DisableEmailRoutingResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1226,8 +1235,8 @@ export type EditError = CloudflareOpError;
 /** Update the settings for your Email Routing zone. */
 export const edit: API.OperationMethod<EditRequest, EditResponse, EditError, CloudflareOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(32, __c8, 0) as any as S.Schema<EditRequest>,
-    output: __S(136, __c34, 0) as any as S.Schema<EditResponse>,
+    input: __S(40, __c10, 0) as any as S.Schema<EditRequest>,
+    output: __S(4, __c1, 0) as any as S.Schema<EditResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflareProtocol,
     retry: Retry.Retry,
@@ -1243,8 +1252,8 @@ export const editAddress: API.OperationMethod<
   EditAddressError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<EditAddressRequest>,
-  output: __S(128, __c32, 0) as any as S.Schema<EditAddressResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<EditAddressRequest>,
+  output: __S(136, __c34, 0) as any as S.Schema<EditAddressResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1260,8 +1269,8 @@ export const enableEmailRouting: API.OperationMethod<
   EnableEmailRoutingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<EnableEmailRoutingRequest>,
-  output: __S(136, __c34, 0) as any as S.Schema<EnableEmailRoutingResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<EnableEmailRoutingRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<EnableEmailRoutingResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1277,8 +1286,8 @@ export const getAddress: API.OperationMethod<
   GetAddressError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<GetAddressRequest>,
-  output: __S(128, __c32, 0) as any as S.Schema<GetAddressResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<GetAddressRequest>,
+  output: __S(136, __c34, 0) as any as S.Schema<GetAddressResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1294,8 +1303,8 @@ export const getDns: API.OperationMethod<
   GetDnsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<GetDnsRequest>,
-  output: __S(51, __c12, 3) as any as S.Schema<GetDnsResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<GetDnsRequest>,
+  output: __S(59, __c14, 3) as any as S.Schema<GetDnsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1311,8 +1320,8 @@ export const getEmailRouting: API.OperationMethod<
   GetEmailRoutingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<GetEmailRoutingRequest>,
-  output: __S(136, __c34, 0) as any as S.Schema<GetEmailRoutingResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<GetEmailRoutingRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<GetEmailRoutingResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1328,8 +1337,8 @@ export const getRule: API.OperationMethod<
   GetRuleError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<GetRuleRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<GetRuleResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<GetRuleRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<GetRuleResponse>,
   errors: [Forbidden, EmailRoutingRuleNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1345,8 +1354,8 @@ export const getRuleCatchAll: API.OperationMethod<
   GetRuleCatchAllError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GetRuleCatchAllRequest>,
-  output: __S(66, __c16, 2) as any as S.Schema<GetRuleCatchAllResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<GetRuleCatchAllRequest>,
+  output: __S(74, __c18, 2) as any as S.Schema<GetRuleCatchAllResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1364,8 +1373,8 @@ export const listAddresses: API.PaginatedOperationMethod<
   AddressesListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(68, __c17, 0) as any as S.Schema<ListAddressesRequest>,
-    output: __S(71, __c17, 3) as any as S.Schema<ListAddressesResponse>,
+    input: __S(76, __c19, 0) as any as S.Schema<ListAddressesRequest>,
+    output: __S(79, __c19, 3) as any as S.Schema<ListAddressesResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1392,8 +1401,8 @@ export const listRules: API.PaginatedOperationMethod<
   GetRuleResponse
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(72, __c18, 0) as any as S.Schema<ListRulesRequest>,
-    output: __S(74, __c18, 2) as any as S.Schema<ListRulesResponse>,
+    input: __S(80, __c20, 0) as any as S.Schema<ListRulesRequest>,
+    output: __S(82, __c20, 2) as any as S.Schema<ListRulesResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1410,7 +1419,7 @@ export const listRules: API.PaginatedOperationMethod<
   cloudflarePaginate,
 ) as any;
 
-export type PatchDnsError = CloudflareOpError;
+export type PatchDnsError = EmailRoutingSubdomainNotFound | CloudflareOpError;
 /** Unlock MX Records previously locked by Email Routing. */
 export const patchDns: API.OperationMethod<
   PatchDnsRequest,
@@ -1418,9 +1427,9 @@ export const patchDns: API.OperationMethod<
   PatchDnsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<PatchDnsRequest>,
-  output: __S(136, __c34, 0) as any as S.Schema<PatchDnsResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  input: __S(84, __c21, 0) as any as S.Schema<PatchDnsRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<PatchDnsResponse>,
+  errors: [EmailRoutingSubdomainNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1439,8 +1448,8 @@ export const putRuleCatchAll: API.OperationMethod<
   PutRuleCatchAllError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<PutRuleCatchAllRequest>,
-  output: __S(66, __c16, 2) as any as S.Schema<PutRuleCatchAllResponse>,
+  input: __S(88, __c22, 0) as any as S.Schema<PutRuleCatchAllRequest>,
+  output: __S(74, __c18, 2) as any as S.Schema<PutRuleCatchAllResponse>,
   errors: [
     Forbidden,
     DestinationNotVerified,
@@ -1462,8 +1471,8 @@ export const rulesListForAccount: API.OperationMethod<
   RulesListForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<RulesListForAccountRequest>,
-  output: __S(119, __c29, 3) as any as S.Schema<RulesListResponse>,
+  input: __S(92, __c23, 0) as any as S.Schema<RulesListForAccountRequest>,
+  output: __S(127, __c31, 3) as any as S.Schema<RulesListResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1479,8 +1488,8 @@ export const rulesListForZone: API.OperationMethod<
   RulesListForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<RulesListForZoneRequest>,
-  output: __S(119, __c29, 3) as any as S.Schema<RulesListResponse>,
+  input: __S(96, __c24, 0) as any as S.Schema<RulesListForZoneRequest>,
+  output: __S(127, __c31, 3) as any as S.Schema<RulesListResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1496,8 +1505,8 @@ export const unlock: API.OperationMethod<
   UnlockError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<UnlockRequest>,
-  output: __S(136, __c34, 0) as any as S.Schema<UnlockResponse>,
+  input: __S(100, __c25, 0) as any as S.Schema<UnlockRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<UnlockResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1513,8 +1522,8 @@ export const update: API.OperationMethod<
   UpdateError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<UpdateRequest>,
-  output: __S(136, __c34, 0) as any as S.Schema<UpdateResponse>,
+  input: __S(104, __c26, 0) as any as S.Schema<UpdateRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<UpdateResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1530,8 +1539,8 @@ export const updateRule: API.OperationMethod<
   UpdateRuleError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<UpdateRuleRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<UpdateRuleResponse>,
+  input: __S(108, __c27, 0) as any as S.Schema<UpdateRuleRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<UpdateRuleResponse>,
   errors: [WorkerScriptNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1546,8 +1555,39 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
-          actions: __S(9, __c2, 1),
-          matchers: __S(13, __c3, 1),
+          name: S.optional(S.String),
+        })
+          .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/email/routing/dns", code: 200 }))
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateDnsRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          enabled: S.Boolean,
+          name: S.String,
+          created: S.optional(S.NullOr(S.String)),
+          modified: S.optional(S.NullOr(S.String)),
+          skipWizard: S.optional(S.NullOr(S.Boolean).pipe(T.Body("skip_wizard"))),
+          status: S.optional(S.NullOr(S.String)),
+          supportSubaddress: S.optional(S.NullOr(S.Boolean).pipe(T.Body("support_subaddress"))),
+          tag: S.optional(S.NullOr(S.String)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateDnsResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          zoneId: S.String.pipe(T.Label("zone_id")),
+          actions: __S(17, __c4, 1),
+          matchers: __S(21, __c5, 1),
           enabled: S.optional(S.Boolean),
           name: S.optional(S.String),
           ownerWorkerTag: S.optional(S.String.pipe(T.Body("owner_worker_tag"))),
@@ -1559,15 +1599,15 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateRuleRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          actions: S.optional(S.NullOr(__S(110, __c27, 2))),
+          actions: S.optional(S.NullOr(__S(118, __c29, 2))),
           enabled: S.optional(S.NullOr(S.Boolean)),
-          matchers: S.optional(S.NullOr(__S(113, __c28, 1))),
+          matchers: S.optional(S.NullOr(__S(121, __c30, 1))),
           name: S.optional(S.NullOr(S.String)),
           priority: S.optional(S.NullOr(S.Number)),
           source: S.optional(S.NullOr(S.String)),
@@ -1576,20 +1616,20 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateRuleResponse" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          value: S.optional(__S(108, __c27, 0)),
+          value: S.optional(__S(116, __c29, 0)),
         }),
       ).annotate({ identifier: "RulesCreateRequestActionsItem" });
     case 1:
-      return S.Array(__S(8, __c2, 0));
+      return S.Array(__S(16, __c4, 0));
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1600,10 +1640,10 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "RulesCreateRequestMatchersItem" });
     case 1:
-      return S.Array(__S(12, __c3, 0));
+      return S.Array(__S(20, __c5, 0));
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1622,7 +1662,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteAddressRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1634,7 +1674,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeleteDnsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1653,7 +1693,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteRuleRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1667,7 +1707,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DisableEmailRoutingRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1682,7 +1722,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "EditRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1702,7 +1742,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "EditAddressRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1714,7 +1754,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "EnableEmailRoutingRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1733,7 +1773,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetAddressRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1755,14 +1795,14 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "DnsGetResultItem" });
     case 2:
-      return S.Array(__S(49, __c12, 1));
+      return S.Array(__S(57, __c14, 1));
     case 3:
       return S.suspend(() =>
-        __S(50, __c12, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(58, __c14, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetDnsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1774,7 +1814,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetEmailRoutingRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1793,7 +1833,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetRuleRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1811,7 +1851,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetRuleCatchAllRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1820,14 +1860,14 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "RulesCatchAllsGetResponseMatchersItem" });
     case 1:
-      return S.Array(__S(64, __c16, 0));
+      return S.Array(__S(72, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          actions: S.optional(S.NullOr(__S(110, __c27, 2))),
+          actions: S.optional(S.NullOr(__S(118, __c29, 2))),
           enabled: S.optional(S.NullOr(S.Boolean)),
-          matchers: S.optional(S.NullOr(__S(65, __c16, 1))),
+          matchers: S.optional(S.NullOr(__S(73, __c18, 1))),
           name: S.optional(S.NullOr(S.String)),
           source: S.optional(S.NullOr(S.String)),
           tag: S.optional(S.NullOr(S.String)),
@@ -1835,7 +1875,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetRuleCatchAllResponse" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1867,17 +1907,17 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "AddressesListResultItem" });
     case 2:
-      return S.Array(__S(69, __c17, 1));
+      return S.Array(__S(77, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(70, __c17, 2).pipe(T.EnvelopePayload()),
+          result: __S(78, __c19, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListAddressesResponse" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1891,17 +1931,17 @@ function __c18(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListRulesRequest" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
+      return S.Array(__S(12, __c3, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: __S(73, __c18, 1).pipe(T.EnvelopePayload()),
+          result: __S(81, __c20, 1).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListRulesResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1914,14 +1954,14 @@ function __c19(j: number): any {
       ).annotate({ identifier: "PatchDnsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
-          actions: __S(9, __c2, 1),
-          matchers: __S(65, __c16, 1),
+          actions: __S(17, __c4, 1),
+          matchers: __S(73, __c18, 1),
           enabled: S.optional(S.Boolean),
           name: S.optional(S.String),
           ownerWorkerTag: S.optional(S.String.pipe(T.Body("owner_worker_tag"))),
@@ -1938,7 +1978,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "PutRuleCatchAllRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1955,7 +1995,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "RulesListForAccountRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1970,7 +2010,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "RulesListForZoneRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1983,7 +2023,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UnlockRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1998,15 +2038,15 @@ function __c24(j: number): any {
       ).annotate({ identifier: "UpdateRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           ruleIdentifier: S.String.pipe(T.Label("rule_identifier")),
-          actions: __S(9, __c2, 1),
-          matchers: __S(13, __c3, 1),
+          actions: __S(17, __c4, 1),
+          matchers: __S(21, __c5, 1),
           enabled: S.optional(S.Boolean),
           name: S.optional(S.String),
           ownerWorkerTag: S.optional(S.String.pipe(T.Body("owner_worker_tag"))),
@@ -2024,7 +2064,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateRuleRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2041,7 +2081,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "AccountRulesListForAccountRequest" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -2049,14 +2089,14 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          value: S.optional(S.NullOr(__S(108, __c27, 0))),
+          value: S.optional(S.NullOr(__S(116, __c29, 0))),
         }),
       ).annotate({ identifier: "AccountRulesListResultItemActionsItem" });
     case 2:
-      return S.Array(__S(109, __c27, 1));
+      return S.Array(__S(117, __c29, 1));
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2067,10 +2107,10 @@ function __c28(j: number): any {
         }),
       ).annotate({ identifier: "AccountRulesListResultItemMatchersItem" });
     case 1:
-      return S.Array(__S(112, __c28, 0));
+      return S.Array(__S(120, __c30, 0));
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2083,25 +2123,25 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          actions: S.optional(S.NullOr(__S(110, __c27, 2))),
+          actions: S.optional(S.NullOr(__S(118, __c29, 2))),
           enabled: S.optional(S.NullOr(S.Boolean)),
-          matchers: S.optional(S.NullOr(__S(113, __c28, 1))),
+          matchers: S.optional(S.NullOr(__S(121, __c30, 1))),
           name: S.optional(S.NullOr(S.String)),
           priority: S.optional(S.NullOr(S.Number)),
           source: S.optional(S.NullOr(S.String)),
           tag: S.optional(S.NullOr(S.String)),
-          zone: S.optional(S.NullOr(__S(116, __c29, 0))),
+          zone: S.optional(S.NullOr(__S(124, __c31, 0))),
         }),
       ).annotate({ identifier: "AccountRulesListResultItem" });
     case 2:
-      return S.Array(__S(117, __c29, 1));
+      return S.Array(__S(125, __c31, 1));
     case 3:
       return S.suspend(() =>
-        __S(118, __c29, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(126, __c31, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "AccountRulesListResponse" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2116,7 +2156,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "AccountRulesListForZoneRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2135,7 +2175,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CreateAddressRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2148,37 +2188,6 @@ function __c32(j: number): any {
           verified: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateAddressResponse" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          zoneId: S.String.pipe(T.Label("zone_id")),
-          name: S.optional(S.String),
-        })
-          .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/email/routing/dns", code: 200 }))
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateDnsRequest" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          enabled: S.Boolean,
-          name: S.String,
-          created: S.optional(S.NullOr(S.String)),
-          modified: S.optional(S.NullOr(S.String)),
-          skipWizard: S.optional(S.NullOr(S.Boolean).pipe(T.Body("skip_wizard"))),
-          status: S.optional(S.NullOr(S.String)),
-          supportSubaddress: S.optional(S.NullOr(S.Boolean).pipe(T.Body("support_subaddress"))),
-          tag: S.optional(S.NullOr(S.String)),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateDnsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

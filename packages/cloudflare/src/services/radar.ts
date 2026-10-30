@@ -10361,6 +10361,8 @@ export interface AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItem {
 export type AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsList =
   Array<AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItem>;
 export interface AnnotationsOutagesGetResponseAnnotationsItemEntitiesItem {
+  /** Alpha-2 code of the country the entity belongs to (GEOLOCATION and AS entities only). */
+  entityLocation: string;
   entityName: string;
   entityType: string;
   entityValue: string;
@@ -14795,7 +14797,10 @@ export interface TrafficAnomaliesGetResponseTrafficAnomaliesItem {
   endDate: string;
   locationDetails: AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation;
   originDetails: AnnotationsOutagesGetResponseAnnotationsItemOriginsDetailsItem;
+  /** ID of the published outage this anomaly was confirmed as, if any. */
+  outageId: string;
   startDate: string;
+  /** Verification status: UNVERIFIED (automatically detected, not yet validated by Radar), TP (verified by Radar) or VERIFIED (verified by Radar and a third-party source). */
   status: string;
   type: string;
   uuid: string;
@@ -55055,6 +55060,7 @@ function __c286(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          entityLocation: S.String,
           entityName: S.String,
           entityType: S.String,
           entityValue: S.String,
@@ -56553,6 +56559,7 @@ function __c333(j: number): any {
           endDate: S.String,
           locationDetails: __S(4592, __c287, 0),
           originDetails: __S(4594, __c287, 2),
+          outageId: S.String,
           startDate: S.String,
           status: S.String,
           type: S.String,
