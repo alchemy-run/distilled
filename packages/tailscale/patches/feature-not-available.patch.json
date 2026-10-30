@@ -1,0 +1,104 @@
+{
+  "description": "Type the billing-plan refusal as FeatureNotAvailable instead of a generic Forbidden or BadRequest. Free-plan tailnets get 403 or 400 with 'feature not available on current billing plan' or 'current plan does not allow' from these operations (live, 2026-10-03 and 2026-10-08).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#FeatureNotAvailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The tailnet's billing plan does not include this feature (HTTP 403 or 400, 'feature not available on current billing plan' or 'current plan does not allow').",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "feature not available on current billing plan"
+              }
+            },
+            {
+              "status": 400,
+              "message": {
+                "includes": "feature not available on current billing plan"
+              }
+            },
+            {
+              "status": 403,
+              "message": {
+                "includes": "current plan does not allow"
+              }
+            },
+            {
+              "status": 400,
+              "message": {
+                "includes": "current plan does not allow"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetLogStreamingConfiguration/errors/-",
+      "value": {
+        "target": "com.tailscale.api#FeatureNotAvailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetLogStreamingStatus/errors/-",
+      "value": {
+        "target": "com.tailscale.api#FeatureNotAvailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetLogStreamingConfiguration/errors/-",
+      "value": {
+        "target": "com.tailscale.api#FeatureNotAvailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#DisableLogStreaming/errors/-",
+      "value": {
+        "target": "com.tailscale.api#FeatureNotAvailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetCustomDevicePostureAttributes/errors/-",
+      "value": {
+        "target": "com.tailscale.api#FeatureNotAvailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#DeleteCustomDevicePostureAttributes/errors/-",
+      "value": {
+        "target": "com.tailscale.api#FeatureNotAvailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#UpdateTailnetSettings/errors/-",
+      "value": {
+        "target": "com.tailscale.api#FeatureNotAvailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#CreateUserInvites/errors/-",
+      "value": {
+        "target": "com.tailscale.api#FeatureNotAvailable"
+      }
+    }
+  ]
+}

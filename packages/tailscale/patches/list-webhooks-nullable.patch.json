@@ -1,0 +1,12 @@
+{
+  "description": "Allow a null webhooks list: listWebhooks on a tailnet with none returns 200 {\"webhooks\": null} (live, 2026-10-03).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ListWebhooksResponse/members/webhooks/traits",
+      "value": {
+        "com.distilled.openapi#nullable": {}
+      }
+    }
+  ]
+}
