@@ -4,11 +4,10 @@ import { debugHttp } from "@distilled.cloud/core/debug";
 import { ConfigError, HTTP_STATUS_MAP, type InvalidInput } from "@distilled.cloud/core/errors";
 import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
 import {
-  hasSensitiveMember,
   unwrapRedactedDeep,
+  validateSuccess,
   wrapSensitive,
 } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse, withholdActual } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 /**
  * CoinbaseProtocol -- hand-written.
@@ -431,27 +430,17 @@ const decode = ({
     // No envelope: the response body IS the payload, mapped onto the output
     // schema (wire names -> TS names), with members marked T.SensitiveValue
     // delivered as Redacted. Strict mode (core/response-validation) checks
-    // the mapped body against the output schema first. For an output with
-    // sensitive members, a non-JSON body fails in every mode and parse errors
-    // withhold the body.
-    const sensitive = hasSensitiveMember(outputAst);
-    if (nonJson && sensitive) {
-      return yield* fail(
-        new CoinbaseParseError({ body: "[REDACTED]", cause: "Invalid JSON response" }),
-      );
-    }
-    const body = json === undefined ? {} : json;
-    const mapped = yield* validateResponse(
+    // the mapped body against the output schema first, and parse errors
+    // withhold a body that can hold a secret (core `validateSuccess`).
+    return yield* validateSuccess(
       outputAst,
-      mapKeys(outputAst, body, "decode"),
-      (cause) =>
-        new CoinbaseParseError(
-          sensitive
-            ? { body: "[REDACTED]", cause: withholdActual(cause) }
-            : { body: json ?? text, cause },
-        ),
+      {
+        value: mapKeys(outputAst, json === undefined ? {} : json, "decode"),
+        body: json ?? text,
+        nonJson,
+      },
+      (info) => new CoinbaseParseError(info),
     ).pipe(Effect.catch(fail));
-    return wrapSensitive(outputAst, mapped);
   });
 
 /**
