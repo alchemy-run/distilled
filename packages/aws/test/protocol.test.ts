@@ -263,6 +263,7 @@ describe("AwsProtocol.call", () => {
 });
 
 describe("S3 InvalidAccessKeyId", () => {
+  // Declared on every S3 operation (patches/s3.json `allOperations`).
   // What S3 answers when the request is signed with an access key it does not know.
   const invalidKey: Canned = {
     status: 403,
@@ -285,6 +286,10 @@ describe("S3 InvalidAccessKeyId", () => {
     ["listParts", () => S3.listParts(upload)],
     ["abortMultipartUpload", () => S3.abortMultipartUpload(upload)],
     ["listMultipartUploads", () => S3.listMultipartUploads({ Bucket: "my-bucket" })],
+    // Bucket and account operations: S3 checks the key before the operation.
+    ["listBuckets", () => S3.listBuckets({})],
+    ["getBucketPolicy", () => S3.getBucketPolicy({ Bucket: "my-bucket" })],
+    ["copyObject", () => S3.copyObject({ ...object, CopySource: "other-bucket/k" })],
   ] as const) {
     test(`${name} fails with the typed InvalidAccessKeyId error`, async () => {
       const { exit } = await run(

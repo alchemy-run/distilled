@@ -2732,6 +2732,10 @@ export class IllegalLocationConstraintException
     "IllegalLocationConstraintException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ).pipe(C.withBadRequestError) {}
+export class InvalidAccessKeyId
+  extends /*@__PURE__*/ S.TaggedError<InvalidAccessKeyId>()("InvalidAccessKeyId", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }).pipe(C.withAuthError) {}
 export class InvalidAnnotationName
   extends /*@__PURE__*/ S.TaggedError<InvalidAnnotationName>()(
     "InvalidAnnotationName",
@@ -4807,7 +4811,7 @@ export interface Bucket {
   BucketRegion?: string;
   BucketArn?: string;
 }
-const Bucket = /*@__PURE__*/ __L.at(__c79, 0) as any as S.Schema<Bucket>;
+const Bucket = /*@__PURE__*/ __L.at(__c80, 0) as any as S.Schema<Bucket>;
 export type Buckets = Bucket[];
 export interface ListBucketsOutput {
   Buckets?: Bucket[];
@@ -5885,6 +5889,7 @@ export type AbortMultipartUploadError =
   | SlowDown
   | NoSuchBucket
   | NotFound
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation aborts a multipart upload. After a multipart upload is aborted, no additional parts
@@ -5946,9 +5951,16 @@ export const abortMultipartUpload: API.OperationMethod<
   AbortMultipartUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<AbortMultipartUploadRequest>,
-  output: __S(1249, __c78, 1) as any as S.Schema<AbortMultipartUploadOutput>,
-  errors: [NoSuchUpload, RequestLimitExceeded, SlowDown, NoSuchBucket, NotFound],
+  input: __S(1264, __c79, 0) as any as S.Schema<AbortMultipartUploadRequest>,
+  output: __S(1265, __c79, 1) as any as S.Schema<AbortMultipartUploadOutput>,
+  errors: [
+    NoSuchUpload,
+    RequestLimitExceeded,
+    SlowDown,
+    NoSuchBucket,
+    NotFound,
+    InvalidAccessKeyId,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortMultipartUpload",
@@ -5956,7 +5968,7 @@ export const abortMultipartUpload: API.OperationMethod<
   span: { op: "AbortMultipartUpload", input: { UploadId: [{ name: "aws.s3.upload_id" }] } },
 }));
 
-export type CompleteMultipartUploadError = NoSuchUpload | CommonErrors;
+export type CompleteMultipartUploadError = NoSuchUpload | InvalidAccessKeyId | CommonErrors;
 /**
  * Completes a multipart upload by assembling previously uploaded parts.
  *
@@ -6076,9 +6088,9 @@ export const completeMultipartUpload: API.OperationMethod<
   CompleteMultipartUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1283, __c80, 3) as any as S.Schema<CompleteMultipartUploadRequest>,
-  output: __S(1284, __c80, 4) as any as S.Schema<CompleteMultipartUploadOutput>,
-  errors: [NoSuchUpload],
+  input: __S(1299, __c81, 3) as any as S.Schema<CompleteMultipartUploadRequest>,
+  output: __S(1300, __c81, 4) as any as S.Schema<CompleteMultipartUploadOutput>,
+  errors: [NoSuchUpload, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteMultipartUpload",
@@ -6095,6 +6107,7 @@ export type CopyObjectError =
   | NoSuchKey
   | NoSuchVersion
   | InvalidRequest
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Creates a copy of an object that is already stored in Amazon S3.
@@ -6263,8 +6276,8 @@ export const copyObject: API.OperationMethod<
   CopyObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<CopyObjectRequest>,
-  output: __S(1298, __c81, 2) as any as S.Schema<CopyObjectOutput>,
+  input: __S(1312, __c82, 0) as any as S.Schema<CopyObjectRequest>,
+  output: __S(1314, __c82, 2) as any as S.Schema<CopyObjectOutput>,
   errors: [
     ObjectNotInActiveTierError,
     RequestLimitExceeded,
@@ -6274,6 +6287,7 @@ export const copyObject: API.OperationMethod<
     NoSuchKey,
     NoSuchVersion,
     InvalidRequest,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6291,6 +6305,7 @@ export type CreateBucketError =
   | InvalidArgument
   | InvalidBucketName
   | InvalidLocationConstraint
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This action creates an Amazon S3 bucket. To create an Amazon S3 on Outposts bucket, see
@@ -6412,8 +6427,8 @@ export const createBucket: API.OperationMethod<
   CreateBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1331, __c83, 3) as any as S.Schema<CreateBucketRequest>,
-  output: __S(1332, __c83, 4) as any as S.Schema<CreateBucketOutput>,
+  input: __S(1347, __c84, 3) as any as S.Schema<CreateBucketRequest>,
+  output: __S(1348, __c84, 4) as any as S.Schema<CreateBucketOutput>,
   errors: [
     BucketAlreadyExists,
     BucketAlreadyOwnedByYou,
@@ -6423,6 +6438,7 @@ export const createBucket: API.OperationMethod<
     InvalidArgument,
     InvalidBucketName,
     InvalidLocationConstraint,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6431,7 +6447,7 @@ export const createBucket: API.OperationMethod<
   span: "CreateBucket",
 }));
 
-export type CreateBucketMetadataConfigurationError = CommonErrors;
+export type CreateBucketMetadataConfigurationError = InvalidAccessKeyId | CommonErrors;
 /**
  * Creates an S3 Metadata V2 metadata configuration for a general purpose bucket. For more information, see
  * Accelerating
@@ -6506,9 +6522,9 @@ export const createBucketMetadataConfiguration: API.OperationMethod<
   CreateBucketMetadataConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1364, __c85, 4) as any as S.Schema<CreateBucketMetadataConfigurationRequest>,
-  output: __S(1365, __c85, 5) as any as S.Schema<CreateBucketMetadataConfigurationResponse>,
-  errors: [],
+  input: __S(1380, __c86, 4) as any as S.Schema<CreateBucketMetadataConfigurationRequest>,
+  output: __S(1381, __c86, 5) as any as S.Schema<CreateBucketMetadataConfigurationResponse>,
+  errors: [InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucketMetadataConfiguration",
@@ -6516,7 +6532,7 @@ export const createBucketMetadataConfiguration: API.OperationMethod<
   span: "CreateBucketMetadataConfiguration",
 }));
 
-export type CreateBucketMetadataTableConfigurationError = CommonErrors;
+export type CreateBucketMetadataTableConfigurationError = InvalidAccessKeyId | CommonErrors;
 /**
  * We recommend that you create your S3 Metadata configurations by using the V2
  * CreateBucketMetadataConfiguration API operation. We no longer recommend using the V1
@@ -6571,9 +6587,9 @@ export const createBucketMetadataTableConfiguration: API.OperationMethod<
   CreateBucketMetadataTableConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1410, __c88, 2) as any as S.Schema<CreateBucketMetadataTableConfigurationRequest>,
-  output: __S(1411, __c88, 3) as any as S.Schema<CreateBucketMetadataTableConfigurationResponse>,
-  errors: [],
+  input: __S(1426, __c89, 2) as any as S.Schema<CreateBucketMetadataTableConfigurationRequest>,
+  output: __S(1427, __c89, 3) as any as S.Schema<CreateBucketMetadataTableConfigurationResponse>,
+  errors: [InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucketMetadataTableConfiguration",
@@ -6586,6 +6602,7 @@ export type CreateMultipartUploadError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025,
@@ -6767,9 +6784,9 @@ export const createMultipartUpload: API.OperationMethod<
   CreateMultipartUploadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<CreateMultipartUploadRequest>,
-  output: __S(1425, __c89, 1) as any as S.Schema<CreateMultipartUploadOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(1440, __c90, 0) as any as S.Schema<CreateMultipartUploadRequest>,
+  output: __S(1441, __c90, 1) as any as S.Schema<CreateMultipartUploadOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultipartUpload",
@@ -6777,7 +6794,7 @@ export const createMultipartUpload: API.OperationMethod<
   span: "CreateMultipartUpload",
 }));
 
-export type CreateSessionError = NoSuchBucket | CommonErrors;
+export type CreateSessionError = NoSuchBucket | InvalidAccessKeyId | CommonErrors;
 /**
  * Creates a session that establishes temporary security credentials to support fast authentication and
  * authorization for the Zonal endpoint API operations on directory buckets. For more information about Zonal endpoint API operations that
@@ -6879,9 +6896,9 @@ export const createSession: API.OperationMethod<
   CreateSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<CreateSessionRequest>,
-  output: __S(1442, __c90, 2) as any as S.Schema<CreateSessionOutput>,
-  errors: [NoSuchBucket],
+  input: __S(1456, __c91, 0) as any as S.Schema<CreateSessionRequest>,
+  output: __S(1458, __c91, 2) as any as S.Schema<CreateSessionOutput>,
+  errors: [NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
@@ -6896,6 +6913,7 @@ export type DeleteBucketError =
   | BucketHasAccessPointsAttached
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Deletes the S3 bucket. All objects (including all object versions and delete markers) in the bucket
@@ -6938,8 +6956,8 @@ export const deleteBucket: API.OperationMethod<
   DeleteBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<DeleteBucketRequest>,
-  output: __S(1457, __c91, 1) as any as S.Schema<DeleteBucketResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<DeleteBucketRequest>,
+  output: __S(1473, __c92, 1) as any as S.Schema<DeleteBucketResponse>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -6947,6 +6965,7 @@ export const deleteBucket: API.OperationMethod<
     BucketHasAccessPointsAttached,
     NoSuchBucket,
     PermanentRedirect,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6959,6 +6978,7 @@ export type DeleteBucketAnalyticsConfigurationError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -6990,9 +7010,9 @@ export const deleteBucketAnalyticsConfiguration: API.OperationMethod<
   DeleteBucketAnalyticsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<DeleteBucketAnalyticsConfigurationRequest>,
-  output: __S(1473, __c92, 1) as any as S.Schema<DeleteBucketAnalyticsConfigurationResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(1488, __c93, 0) as any as S.Schema<DeleteBucketAnalyticsConfigurationRequest>,
+  output: __S(1489, __c93, 1) as any as S.Schema<DeleteBucketAnalyticsConfigurationResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketAnalyticsConfiguration",
@@ -7000,7 +7020,12 @@ export const deleteBucketAnalyticsConfiguration: API.OperationMethod<
   span: "DeleteBucketAnalyticsConfiguration",
 }));
 
-export type DeleteBucketCorsError = RequestLimitExceeded | SlowDown | NoSuchBucket | CommonErrors;
+export type DeleteBucketCorsError =
+  | RequestLimitExceeded
+  | SlowDown
+  | NoSuchBucket
+  | InvalidAccessKeyId
+  | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
  *
@@ -7026,9 +7051,9 @@ export const deleteBucketCors: API.OperationMethod<
   DeleteBucketCorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<DeleteBucketCorsRequest>,
-  output: __S(1489, __c93, 1) as any as S.Schema<DeleteBucketCorsResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(1504, __c94, 0) as any as S.Schema<DeleteBucketCorsRequest>,
+  output: __S(1505, __c94, 1) as any as S.Schema<DeleteBucketCorsResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketCors",
@@ -7040,6 +7065,7 @@ export type DeleteBucketEncryptionError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This implementation of the DELETE action resets the default encryption for the bucket as server-side
@@ -7085,9 +7111,9 @@ export const deleteBucketEncryption: API.OperationMethod<
   DeleteBucketEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<DeleteBucketEncryptionRequest>,
-  output: __S(1505, __c94, 1) as any as S.Schema<DeleteBucketEncryptionResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(1520, __c95, 0) as any as S.Schema<DeleteBucketEncryptionRequest>,
+  output: __S(1521, __c95, 1) as any as S.Schema<DeleteBucketEncryptionResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketEncryption",
@@ -7099,6 +7125,7 @@ export type DeleteBucketIntelligentTieringConfigurationError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -7127,13 +7154,13 @@ export const deleteBucketIntelligentTieringConfiguration: API.OperationMethod<
   DeleteBucketIntelligentTieringConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<DeleteBucketIntelligentTieringConfigurationRequest>,
+  input: __S(1536, __c96, 0) as any as S.Schema<DeleteBucketIntelligentTieringConfigurationRequest>,
   output: __S(
-    1521,
-    __c95,
+    1537,
+    __c96,
     1,
   ) as any as S.Schema<DeleteBucketIntelligentTieringConfigurationResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketIntelligentTieringConfiguration",
@@ -7145,6 +7172,7 @@ export type DeleteBucketInventoryConfigurationError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Deletes an S3 Inventory configuration (identified by the inventory ID) from the bucket.
@@ -7197,9 +7225,9 @@ export const deleteBucketInventoryConfiguration: API.OperationMethod<
   DeleteBucketInventoryConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<DeleteBucketInventoryConfigurationRequest>,
-  output: __S(1537, __c96, 1) as any as S.Schema<DeleteBucketInventoryConfigurationResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(1552, __c97, 0) as any as S.Schema<DeleteBucketInventoryConfigurationRequest>,
+  output: __S(1553, __c97, 1) as any as S.Schema<DeleteBucketInventoryConfigurationResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketInventoryConfiguration",
@@ -7211,6 +7239,7 @@ export type DeleteBucketLifecycleError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all the lifecycle
@@ -7267,9 +7296,9 @@ export const deleteBucketLifecycle: API.OperationMethod<
   DeleteBucketLifecycleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<DeleteBucketLifecycleRequest>,
-  output: __S(1553, __c97, 1) as any as S.Schema<DeleteBucketLifecycleResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(1568, __c98, 0) as any as S.Schema<DeleteBucketLifecycleRequest>,
+  output: __S(1569, __c98, 1) as any as S.Schema<DeleteBucketLifecycleResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketLifecycle",
@@ -7281,6 +7310,7 @@ export type DeleteBucketMetadataConfigurationError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Deletes an S3 Metadata configuration from a general purpose bucket. For more information, see
@@ -7319,9 +7349,9 @@ export const deleteBucketMetadataConfiguration: API.OperationMethod<
   DeleteBucketMetadataConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<DeleteBucketMetadataConfigurationRequest>,
-  output: __S(1569, __c98, 1) as any as S.Schema<DeleteBucketMetadataConfigurationResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(1584, __c99, 0) as any as S.Schema<DeleteBucketMetadataConfigurationRequest>,
+  output: __S(1585, __c99, 1) as any as S.Schema<DeleteBucketMetadataConfigurationResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketMetadataConfiguration",
@@ -7333,6 +7363,7 @@ export type DeleteBucketMetadataTableConfigurationError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * We recommend that you delete your S3 Metadata configurations by using the V2
@@ -7377,9 +7408,9 @@ export const deleteBucketMetadataTableConfiguration: API.OperationMethod<
   DeleteBucketMetadataTableConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<DeleteBucketMetadataTableConfigurationRequest>,
-  output: __S(1585, __c99, 1) as any as S.Schema<DeleteBucketMetadataTableConfigurationResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(1600, __c100, 0) as any as S.Schema<DeleteBucketMetadataTableConfigurationRequest>,
+  output: __S(1601, __c100, 1) as any as S.Schema<DeleteBucketMetadataTableConfigurationResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketMetadataTableConfiguration",
@@ -7391,6 +7422,7 @@ export type DeleteBucketMetricsConfigurationError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Deletes a metrics configuration for the Amazon CloudWatch request metrics (specified by the metrics
@@ -7444,9 +7476,9 @@ export const deleteBucketMetricsConfiguration: API.OperationMethod<
   DeleteBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<DeleteBucketMetricsConfigurationRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<DeleteBucketMetricsConfigurationResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(1616, __c101, 0) as any as S.Schema<DeleteBucketMetricsConfigurationRequest>,
+  output: __S(1617, __c101, 1) as any as S.Schema<DeleteBucketMetricsConfigurationResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketMetricsConfiguration",
@@ -7458,6 +7490,7 @@ export type DeleteBucketOwnershipControlsError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -7483,9 +7516,9 @@ export const deleteBucketOwnershipControls: API.OperationMethod<
   DeleteBucketOwnershipControlsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<DeleteBucketOwnershipControlsRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<DeleteBucketOwnershipControlsResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(1632, __c102, 0) as any as S.Schema<DeleteBucketOwnershipControlsRequest>,
+  output: __S(1633, __c102, 1) as any as S.Schema<DeleteBucketOwnershipControlsResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketOwnershipControls",
@@ -7499,6 +7532,7 @@ export type DeleteBucketPolicyError =
   | NoSuchBucket
   | PermanentRedirect
   | SignatureDoesNotMatch
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Deletes the policy of a specified bucket.
@@ -7555,9 +7589,16 @@ export const deleteBucketPolicy: API.OperationMethod<
   DeleteBucketPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<DeleteBucketPolicyRequest>,
-  output: __S(1633, __c102, 1) as any as S.Schema<DeleteBucketPolicyResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, SignatureDoesNotMatch],
+  input: __S(1648, __c103, 0) as any as S.Schema<DeleteBucketPolicyRequest>,
+  output: __S(1649, __c103, 1) as any as S.Schema<DeleteBucketPolicyResponse>,
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    NoSuchBucket,
+    PermanentRedirect,
+    SignatureDoesNotMatch,
+    InvalidAccessKeyId,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketPolicy",
@@ -7569,6 +7610,7 @@ export type DeleteBucketReplicationError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -7599,9 +7641,9 @@ export const deleteBucketReplication: API.OperationMethod<
   DeleteBucketReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<DeleteBucketReplicationRequest>,
-  output: __S(1649, __c103, 1) as any as S.Schema<DeleteBucketReplicationResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(1664, __c104, 0) as any as S.Schema<DeleteBucketReplicationRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<DeleteBucketReplicationResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketReplication",
@@ -7613,6 +7655,7 @@ export type DeleteBucketTaggingError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -7636,9 +7679,9 @@ export const deleteBucketTagging: API.OperationMethod<
   DeleteBucketTaggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<DeleteBucketTaggingRequest>,
-  output: __S(1665, __c104, 1) as any as S.Schema<DeleteBucketTaggingResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(1680, __c105, 0) as any as S.Schema<DeleteBucketTaggingRequest>,
+  output: __S(1681, __c105, 1) as any as S.Schema<DeleteBucketTaggingResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketTagging",
@@ -7650,6 +7693,7 @@ export type DeleteBucketWebsiteError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -7681,9 +7725,9 @@ export const deleteBucketWebsite: API.OperationMethod<
   DeleteBucketWebsiteError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<DeleteBucketWebsiteRequest>,
-  output: __S(1681, __c105, 1) as any as S.Schema<DeleteBucketWebsiteResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(1696, __c106, 0) as any as S.Schema<DeleteBucketWebsiteRequest>,
+  output: __S(1697, __c106, 1) as any as S.Schema<DeleteBucketWebsiteResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketWebsite",
@@ -7697,6 +7741,7 @@ export type DeleteObjectError =
   | NoSuchBucket
   | NoSuchKey
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Removes an object from a bucket. The behavior depends on the bucket's versioning state:
@@ -7794,9 +7839,16 @@ export const deleteObject: API.OperationMethod<
   DeleteObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<DeleteObjectRequest>,
-  output: __S(1697, __c106, 1) as any as S.Schema<DeleteObjectOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchKey, PermanentRedirect],
+  input: __S(1712, __c107, 0) as any as S.Schema<DeleteObjectRequest>,
+  output: __S(1713, __c107, 1) as any as S.Schema<DeleteObjectOutput>,
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    NoSuchBucket,
+    NoSuchKey,
+    PermanentRedirect,
+    InvalidAccessKeyId,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObject",
@@ -7804,7 +7856,11 @@ export const deleteObject: API.OperationMethod<
   span: "DeleteObject",
 }));
 
-export type DeleteObjectAnnotationError = NoSuchBucket | NoSuchKey | CommonErrors;
+export type DeleteObjectAnnotationError =
+  | NoSuchBucket
+  | NoSuchKey
+  | InvalidAccessKeyId
+  | CommonErrors;
 /**
  * Deletes a specific annotation from an Amazon S3 object. Use the `x-amz-object-if-match`
  * header to perform a conditional delete that only succeeds if the object's ETag matches the
@@ -7835,9 +7891,9 @@ export const deleteObjectAnnotation: API.OperationMethod<
   DeleteObjectAnnotationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<DeleteObjectAnnotationRequest>,
-  output: __S(1713, __c107, 1) as any as S.Schema<DeleteObjectAnnotationOutput>,
-  errors: [NoSuchBucket, NoSuchKey],
+  input: __S(1728, __c108, 0) as any as S.Schema<DeleteObjectAnnotationRequest>,
+  output: __S(1729, __c108, 1) as any as S.Schema<DeleteObjectAnnotationOutput>,
+  errors: [NoSuchBucket, NoSuchKey, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjectAnnotation",
@@ -7850,6 +7906,7 @@ export type DeleteObjectsError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation enables you to delete multiple objects from a bucket using a single HTTP request. If
@@ -7949,9 +8006,9 @@ export const deleteObjects: API.OperationMethod<
   DeleteObjectsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1731, __c108, 3) as any as S.Schema<DeleteObjectsRequest>,
-  output: __S(1736, __c108, 8) as any as S.Schema<DeleteObjectsOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(1747, __c109, 3) as any as S.Schema<DeleteObjectsRequest>,
+  output: __S(1752, __c109, 8) as any as S.Schema<DeleteObjectsOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjects",
@@ -7966,6 +8023,7 @@ export type DeleteObjectTaggingError =
   | PermanentRedirect
   | NoSuchVersion
   | MethodNotAllowed
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -7994,8 +8052,8 @@ export const deleteObjectTagging: API.OperationMethod<
   DeleteObjectTaggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<DeleteObjectTaggingRequest>,
-  output: __S(1745, __c109, 1) as any as S.Schema<DeleteObjectTaggingOutput>,
+  input: __S(1760, __c110, 0) as any as S.Schema<DeleteObjectTaggingRequest>,
+  output: __S(1761, __c110, 1) as any as S.Schema<DeleteObjectTaggingOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -8003,6 +8061,7 @@ export const deleteObjectTagging: API.OperationMethod<
     PermanentRedirect,
     NoSuchVersion,
     MethodNotAllowed,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8015,6 +8074,7 @@ export type DeletePublicAccessBlockError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -8045,9 +8105,9 @@ export const deletePublicAccessBlock: API.OperationMethod<
   DeletePublicAccessBlockError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<DeletePublicAccessBlockRequest>,
-  output: __S(1761, __c110, 1) as any as S.Schema<DeletePublicAccessBlockResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(1776, __c111, 0) as any as S.Schema<DeletePublicAccessBlockRequest>,
+  output: __S(1777, __c111, 1) as any as S.Schema<DeletePublicAccessBlockResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicAccessBlock",
@@ -8055,7 +8115,12 @@ export const deletePublicAccessBlock: API.OperationMethod<
   span: "DeletePublicAccessBlock",
 }));
 
-export type GetBucketAbacError = RequestLimitExceeded | SlowDown | NoSuchBucket | CommonErrors;
+export type GetBucketAbacError =
+  | RequestLimitExceeded
+  | SlowDown
+  | NoSuchBucket
+  | InvalidAccessKeyId
+  | CommonErrors;
 /**
  * Returns the attribute-based access control (ABAC) property of the general purpose bucket. If ABAC is enabled on your bucket, you can use tags on the bucket for access control. For more information, see Enabling ABAC in general purpose buckets.
  */
@@ -8065,9 +8130,9 @@ export const getBucketAbac: API.OperationMethod<
   GetBucketAbacError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<GetBucketAbacRequest>,
-  output: __S(1777, __c111, 1) as any as S.Schema<GetBucketAbacOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(1792, __c112, 0) as any as S.Schema<GetBucketAbacRequest>,
+  output: __S(1793, __c112, 1) as any as S.Schema<GetBucketAbacOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAbac",
@@ -8080,6 +8145,7 @@ export type GetBucketAccelerateConfigurationError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -8116,9 +8182,9 @@ export const getBucketAccelerateConfiguration: API.OperationMethod<
   GetBucketAccelerateConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<GetBucketAccelerateConfigurationRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<GetBucketAccelerateConfigurationOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(1824, __c114, 0) as any as S.Schema<GetBucketAccelerateConfigurationRequest>,
+  output: __S(1825, __c114, 1) as any as S.Schema<GetBucketAccelerateConfigurationOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAccelerateConfiguration",
@@ -8131,6 +8197,7 @@ export type GetBucketAclError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -8165,9 +8232,9 @@ export const getBucketAcl: API.OperationMethod<
   GetBucketAclError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<GetBucketAclRequest>,
-  output: __S(1825, __c114, 1) as any as S.Schema<GetBucketAclOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(1840, __c115, 0) as any as S.Schema<GetBucketAclRequest>,
+  output: __S(1841, __c115, 1) as any as S.Schema<GetBucketAclOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAcl",
@@ -8180,6 +8247,7 @@ export type GetBucketAnalyticsConfigurationError =
   | SlowDown
   | NoSuchBucket
   | NoSuchConfiguration
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -8211,9 +8279,9 @@ export const getBucketAnalyticsConfiguration: API.OperationMethod<
   GetBucketAnalyticsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<GetBucketAnalyticsConfigurationRequest>,
-  output: __S(1889, __c118, 1) as any as S.Schema<GetBucketAnalyticsConfigurationOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchConfiguration],
+  input: __S(1904, __c119, 0) as any as S.Schema<GetBucketAnalyticsConfigurationRequest>,
+  output: __S(1905, __c119, 1) as any as S.Schema<GetBucketAnalyticsConfigurationOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchConfiguration, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAnalyticsConfiguration",
@@ -8227,6 +8295,7 @@ export type GetBucketCorsError =
   | NoSuchBucket
   | NoSuchCORSConfiguration
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -8260,14 +8329,15 @@ export const getBucketCors: API.OperationMethod<
   GetBucketCorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<GetBucketCorsRequest>,
-  output: __S(1921, __c120, 1) as any as S.Schema<GetBucketCorsOutput>,
+  input: __S(1936, __c121, 0) as any as S.Schema<GetBucketCorsRequest>,
+  output: __S(1937, __c121, 1) as any as S.Schema<GetBucketCorsOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
     NoSuchBucket,
     NoSuchCORSConfiguration,
     PermanentRedirect,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8282,6 +8352,7 @@ export type GetBucketEncryptionError =
   | NoSuchBucket
   | ParseError
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Returns the default encryption configuration for an Amazon S3 bucket. By default, all buckets have a
@@ -8327,9 +8398,16 @@ export const getBucketEncryption: API.OperationMethod<
   GetBucketEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<GetBucketEncryptionRequest>,
-  output: __S(1953, __c122, 1) as any as S.Schema<GetBucketEncryptionOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, ParseError, PermanentRedirect],
+  input: __S(1968, __c123, 0) as any as S.Schema<GetBucketEncryptionRequest>,
+  output: __S(1969, __c123, 1) as any as S.Schema<GetBucketEncryptionOutput>,
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    NoSuchBucket,
+    ParseError,
+    PermanentRedirect,
+    InvalidAccessKeyId,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketEncryption",
@@ -8342,6 +8420,7 @@ export type GetBucketIntelligentTieringConfigurationError =
   | SlowDown
   | NoSuchBucket
   | NoSuchConfiguration
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -8370,9 +8449,9 @@ export const getBucketIntelligentTieringConfiguration: API.OperationMethod<
   GetBucketIntelligentTieringConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<GetBucketIntelligentTieringConfigurationRequest>,
-  output: __S(1985, __c124, 1) as any as S.Schema<GetBucketIntelligentTieringConfigurationOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchConfiguration],
+  input: __S(2000, __c125, 0) as any as S.Schema<GetBucketIntelligentTieringConfigurationRequest>,
+  output: __S(2001, __c125, 1) as any as S.Schema<GetBucketIntelligentTieringConfigurationOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchConfiguration, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketIntelligentTieringConfiguration",
@@ -8385,6 +8464,7 @@ export type GetBucketInventoryConfigurationError =
   | SlowDown
   | NoSuchBucket
   | NoSuchConfiguration
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Returns an S3 Inventory configuration (identified by the inventory configuration ID) from the
@@ -8435,9 +8515,9 @@ export const getBucketInventoryConfiguration: API.OperationMethod<
   GetBucketInventoryConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<GetBucketInventoryConfigurationRequest>,
-  output: __S(2017, __c126, 1) as any as S.Schema<GetBucketInventoryConfigurationOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchConfiguration],
+  input: __S(2032, __c127, 0) as any as S.Schema<GetBucketInventoryConfigurationRequest>,
+  output: __S(2033, __c127, 1) as any as S.Schema<GetBucketInventoryConfigurationOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchConfiguration, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketInventoryConfiguration",
@@ -8451,6 +8531,7 @@ export type GetBucketLifecycleConfigurationError =
   | NoSuchBucket
   | NoSuchLifecycleConfiguration
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Returns the lifecycle configuration information set on the bucket. For information about lifecycle
@@ -8524,14 +8605,15 @@ export const getBucketLifecycleConfiguration: API.OperationMethod<
   GetBucketLifecycleConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<GetBucketLifecycleConfigurationRequest>,
-  output: __S(2049, __c128, 1) as any as S.Schema<GetBucketLifecycleConfigurationOutput>,
+  input: __S(2064, __c129, 0) as any as S.Schema<GetBucketLifecycleConfigurationRequest>,
+  output: __S(2065, __c129, 1) as any as S.Schema<GetBucketLifecycleConfigurationOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
     NoSuchBucket,
     NoSuchLifecycleConfiguration,
     PermanentRedirect,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8540,7 +8622,12 @@ export const getBucketLifecycleConfiguration: API.OperationMethod<
   span: "GetBucketLifecycleConfiguration",
 }));
 
-export type GetBucketLocationError = RequestLimitExceeded | SlowDown | NoSuchBucket | CommonErrors;
+export type GetBucketLocationError =
+  | RequestLimitExceeded
+  | SlowDown
+  | NoSuchBucket
+  | InvalidAccessKeyId
+  | CommonErrors;
 /**
  * Using the `GetBucketLocation` operation is no longer a best practice. To return the
  * Region that a bucket resides in, we recommend that you use the
@@ -8582,9 +8669,9 @@ export const getBucketLocation: API.OperationMethod<
   GetBucketLocationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<GetBucketLocationRequest>,
-  output: __S(2081, __c130, 1) as any as S.Schema<GetBucketLocationOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(2096, __c131, 0) as any as S.Schema<GetBucketLocationRequest>,
+  output: __S(2097, __c131, 1) as any as S.Schema<GetBucketLocationOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketLocation",
@@ -8597,6 +8684,7 @@ export type GetBucketLoggingError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -8618,9 +8706,9 @@ export const getBucketLogging: API.OperationMethod<
   GetBucketLoggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<GetBucketLoggingRequest>,
-  output: __S(2097, __c131, 1) as any as S.Schema<GetBucketLoggingOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(2112, __c132, 0) as any as S.Schema<GetBucketLoggingRequest>,
+  output: __S(2113, __c132, 1) as any as S.Schema<GetBucketLoggingOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketLogging",
@@ -8632,6 +8720,7 @@ export type GetBucketMetadataConfigurationError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Retrieves the S3 Metadata configuration for a general purpose bucket. For more information, see
@@ -8669,9 +8758,9 @@ export const getBucketMetadataConfiguration: API.OperationMethod<
   GetBucketMetadataConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<GetBucketMetadataConfigurationRequest>,
-  output: __S(2135, __c133, 7) as any as S.Schema<GetBucketMetadataConfigurationOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(2144, __c134, 0) as any as S.Schema<GetBucketMetadataConfigurationRequest>,
+  output: __S(2151, __c134, 7) as any as S.Schema<GetBucketMetadataConfigurationOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketMetadataConfiguration",
@@ -8683,6 +8772,7 @@ export type GetBucketMetadataTableConfigurationError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * We recommend that you retrieve your S3 Metadata configurations by using the V2
@@ -8726,9 +8816,9 @@ export const getBucketMetadataTableConfiguration: API.OperationMethod<
   GetBucketMetadataTableConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<GetBucketMetadataTableConfigurationRequest>,
-  output: __S(2164, __c135, 4) as any as S.Schema<GetBucketMetadataTableConfigurationOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(2176, __c136, 0) as any as S.Schema<GetBucketMetadataTableConfigurationRequest>,
+  output: __S(2180, __c136, 4) as any as S.Schema<GetBucketMetadataTableConfigurationOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketMetadataTableConfiguration",
@@ -8741,6 +8831,7 @@ export type GetBucketMetricsConfigurationError =
   | SlowDown
   | NoSuchBucket
   | NoSuchConfiguration
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Gets a metrics configuration (specified by the metrics configuration ID) from the bucket. Note that
@@ -8795,9 +8886,9 @@ export const getBucketMetricsConfiguration: API.OperationMethod<
   GetBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<GetBucketMetricsConfigurationRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<GetBucketMetricsConfigurationOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchConfiguration],
+  input: __S(2192, __c137, 0) as any as S.Schema<GetBucketMetricsConfigurationRequest>,
+  output: __S(2193, __c137, 1) as any as S.Schema<GetBucketMetricsConfigurationOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchConfiguration, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketMetricsConfiguration",
@@ -8809,6 +8900,7 @@ export type GetBucketNotificationConfigurationError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -8845,9 +8937,9 @@ export const getBucketNotificationConfiguration: API.OperationMethod<
   GetBucketNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<GetBucketNotificationConfigurationRequest>,
-  output: __S(2236, __c139, 12) as any as S.Schema<NotificationConfiguration>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(2224, __c139, 0) as any as S.Schema<GetBucketNotificationConfigurationRequest>,
+  output: __S(2252, __c140, 12) as any as S.Schema<NotificationConfiguration>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketNotificationConfiguration",
@@ -8860,6 +8952,7 @@ export type GetBucketOwnershipControlsError =
   | SlowDown
   | NoSuchBucket
   | OwnershipControlsNotFoundError
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -8895,9 +8988,15 @@ export const getBucketOwnershipControls: API.OperationMethod<
   GetBucketOwnershipControlsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<GetBucketOwnershipControlsRequest>,
-  output: __S(2241, __c140, 1) as any as S.Schema<GetBucketOwnershipControlsOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, OwnershipControlsNotFoundError],
+  input: __S(2256, __c141, 0) as any as S.Schema<GetBucketOwnershipControlsRequest>,
+  output: __S(2257, __c141, 1) as any as S.Schema<GetBucketOwnershipControlsOutput>,
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    NoSuchBucket,
+    OwnershipControlsNotFoundError,
+    InvalidAccessKeyId,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketOwnershipControls",
@@ -8912,6 +9011,7 @@ export type GetBucketPolicyError =
   | NoSuchBucketPolicy
   | PermanentRedirect
   | SignatureDoesNotMatch
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Returns the policy of a specified bucket.
@@ -8974,8 +9074,8 @@ export const getBucketPolicy: API.OperationMethod<
   GetBucketPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<GetBucketPolicyRequest>,
-  output: __S(2273, __c142, 1) as any as S.Schema<GetBucketPolicyOutput>,
+  input: __S(2288, __c143, 0) as any as S.Schema<GetBucketPolicyRequest>,
+  output: __S(2289, __c143, 1) as any as S.Schema<GetBucketPolicyOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -8983,6 +9083,7 @@ export const getBucketPolicy: API.OperationMethod<
     NoSuchBucketPolicy,
     PermanentRedirect,
     SignatureDoesNotMatch,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8996,6 +9097,7 @@ export type GetBucketPolicyStatusError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -9025,9 +9127,9 @@ export const getBucketPolicyStatus: API.OperationMethod<
   GetBucketPolicyStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<GetBucketPolicyStatusRequest>,
-  output: __S(2290, __c143, 2) as any as S.Schema<GetBucketPolicyStatusOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(2304, __c144, 0) as any as S.Schema<GetBucketPolicyStatusRequest>,
+  output: __S(2306, __c144, 2) as any as S.Schema<GetBucketPolicyStatusOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketPolicyStatus",
@@ -9040,6 +9142,7 @@ export type GetBucketReplicationError =
   | SlowDown
   | NoSuchBucket
   | ReplicationConfigurationNotFoundError
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -9077,9 +9180,15 @@ export const getBucketReplication: API.OperationMethod<
   GetBucketReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<GetBucketReplicationRequest>,
-  output: __S(2305, __c144, 1) as any as S.Schema<GetBucketReplicationOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, ReplicationConfigurationNotFoundError],
+  input: __S(2320, __c145, 0) as any as S.Schema<GetBucketReplicationRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<GetBucketReplicationOutput>,
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    NoSuchBucket,
+    ReplicationConfigurationNotFoundError,
+    InvalidAccessKeyId,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketReplication",
@@ -9092,6 +9201,7 @@ export type GetBucketRequestPaymentError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -9111,9 +9221,9 @@ export const getBucketRequestPayment: API.OperationMethod<
   GetBucketRequestPaymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<GetBucketRequestPaymentRequest>,
-  output: __S(2337, __c146, 1) as any as S.Schema<GetBucketRequestPaymentOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(2352, __c147, 0) as any as S.Schema<GetBucketRequestPaymentRequest>,
+  output: __S(2353, __c147, 1) as any as S.Schema<GetBucketRequestPaymentOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketRequestPayment",
@@ -9127,6 +9237,7 @@ export type GetBucketTaggingError =
   | NoSuchBucket
   | NoSuchTagSet
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -9156,9 +9267,16 @@ export const getBucketTagging: API.OperationMethod<
   GetBucketTaggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<GetBucketTaggingRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<GetBucketTaggingOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchTagSet, PermanentRedirect],
+  input: __S(0, __c0, 0) as any as S.Schema<GetBucketTaggingRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<GetBucketTaggingOutput>,
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    NoSuchBucket,
+    NoSuchTagSet,
+    PermanentRedirect,
+    InvalidAccessKeyId,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketTagging",
@@ -9171,6 +9289,7 @@ export type GetBucketVersioningError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -9199,9 +9318,9 @@ export const getBucketVersioning: API.OperationMethod<
   GetBucketVersioningError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetBucketVersioningRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<GetBucketVersioningOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(16, __c1, 0) as any as S.Schema<GetBucketVersioningRequest>,
+  output: __S(17, __c1, 1) as any as S.Schema<GetBucketVersioningOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketVersioning",
@@ -9215,6 +9334,7 @@ export type GetBucketWebsiteError =
   | NoSuchBucket
   | NoSuchWebsiteConfiguration
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -9241,14 +9361,15 @@ export const getBucketWebsite: API.OperationMethod<
   GetBucketWebsiteError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetBucketWebsiteRequest>,
-  output: __S(17, __c1, 1) as any as S.Schema<GetBucketWebsiteOutput>,
+  input: __S(32, __c2, 0) as any as S.Schema<GetBucketWebsiteRequest>,
+  output: __S(33, __c2, 1) as any as S.Schema<GetBucketWebsiteOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
     NoSuchBucket,
     NoSuchWebsiteConfiguration,
     PermanentRedirect,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9266,6 +9387,7 @@ export type GetObjectError =
   | PermanentRedirect
   | NoSuchVersion
   | MethodNotAllowed
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Retrieves an object from Amazon S3.
@@ -9405,8 +9527,8 @@ export const getObject: API.OperationMethod<
   GetObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetObjectRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<GetObjectOutput>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetObjectRequest>,
+  output: __S(65, __c4, 1) as any as S.Schema<GetObjectOutput>,
   errors: [
     InvalidObjectState,
     NoSuchKey,
@@ -9416,6 +9538,7 @@ export const getObject: API.OperationMethod<
     PermanentRedirect,
     NoSuchVersion,
     MethodNotAllowed,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9430,6 +9553,7 @@ export type GetObjectAclError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -9467,9 +9591,16 @@ export const getObjectAcl: API.OperationMethod<
   GetObjectAclError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetObjectAclRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<GetObjectAclOutput>,
-  errors: [NoSuchKey, RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(80, __c5, 0) as any as S.Schema<GetObjectAclRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<GetObjectAclOutput>,
+  errors: [
+    NoSuchKey,
+    RequestLimitExceeded,
+    SlowDown,
+    NoSuchBucket,
+    PermanentRedirect,
+    InvalidAccessKeyId,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAcl",
@@ -9477,7 +9608,12 @@ export const getObjectAcl: API.OperationMethod<
   span: "GetObjectAcl",
 }));
 
-export type GetObjectAnnotationError = NoSuchAnnotation | NoSuchBucket | NoSuchKey | CommonErrors;
+export type GetObjectAnnotationError =
+  | NoSuchAnnotation
+  | NoSuchBucket
+  | NoSuchKey
+  | InvalidAccessKeyId
+  | CommonErrors;
 /**
  * Retrieves an annotation from an Amazon S3 object. To use this operation, you must have the
  * `s3:GetObjectAnnotation` permission.
@@ -9503,9 +9639,9 @@ export const getObjectAnnotation: API.OperationMethod<
   GetObjectAnnotationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<GetObjectAnnotationRequest>,
-  output: __S(81, __c5, 1) as any as S.Schema<GetObjectAnnotationOutput>,
-  errors: [NoSuchAnnotation, NoSuchBucket, NoSuchKey],
+  input: __S(96, __c6, 0) as any as S.Schema<GetObjectAnnotationRequest>,
+  output: __S(97, __c6, 1) as any as S.Schema<GetObjectAnnotationOutput>,
+  errors: [NoSuchAnnotation, NoSuchBucket, NoSuchKey, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAnnotation",
@@ -9513,7 +9649,12 @@ export const getObjectAnnotation: API.OperationMethod<
   span: "GetObjectAnnotation",
 }));
 
-export type GetObjectAttributesError = NoSuchKey | NoSuchVersion | MethodNotAllowed | CommonErrors;
+export type GetObjectAttributesError =
+  | NoSuchKey
+  | NoSuchVersion
+  | MethodNotAllowed
+  | InvalidAccessKeyId
+  | CommonErrors;
 /**
  * Retrieves all of the metadata from an object without returning the object itself. This operation is
  * useful if you're interested only in an object's metadata.
@@ -9660,9 +9801,9 @@ export const getObjectAttributes: API.OperationMethod<
   GetObjectAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c6, 1) as any as S.Schema<GetObjectAttributesRequest>,
-  output: __S(102, __c6, 6) as any as S.Schema<GetObjectAttributesOutput>,
-  errors: [NoSuchKey, NoSuchVersion, MethodNotAllowed],
+  input: __S(113, __c7, 1) as any as S.Schema<GetObjectAttributesRequest>,
+  output: __S(118, __c7, 6) as any as S.Schema<GetObjectAttributesOutput>,
+  errors: [NoSuchKey, NoSuchVersion, MethodNotAllowed, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAttributes",
@@ -9677,6 +9818,7 @@ export type GetObjectLegalHoldError =
   | NoSuchKey
   | NoSuchVersion
   | MethodNotAllowed
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -9697,8 +9839,8 @@ export const getObjectLegalHold: API.OperationMethod<
   GetObjectLegalHoldError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetObjectLegalHoldRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<GetObjectLegalHoldOutput>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetObjectLegalHoldRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<GetObjectLegalHoldOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -9706,6 +9848,7 @@ export const getObjectLegalHold: API.OperationMethod<
     NoSuchKey,
     NoSuchVersion,
     MethodNotAllowed,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9720,6 +9863,7 @@ export type GetObjectLockConfigurationError =
   | NoSuchBucket
   | ObjectLockConfigurationNotFoundError
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -9740,14 +9884,15 @@ export const getObjectLockConfiguration: API.OperationMethod<
   GetObjectLockConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetObjectLockConfigurationRequest>,
-  output: __S(145, __c9, 1) as any as S.Schema<GetObjectLockConfigurationOutput>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetObjectLockConfigurationRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<GetObjectLockConfigurationOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
     NoSuchBucket,
     ObjectLockConfigurationNotFoundError,
     PermanentRedirect,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9763,6 +9908,7 @@ export type GetObjectRetentionError =
   | NoSuchKey
   | NoSuchVersion
   | MethodNotAllowed
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -9783,8 +9929,8 @@ export const getObjectRetention: API.OperationMethod<
   GetObjectRetentionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetObjectRetentionRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<GetObjectRetentionOutput>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetObjectRetentionRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<GetObjectRetentionOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -9792,6 +9938,7 @@ export const getObjectRetention: API.OperationMethod<
     NoSuchKey,
     NoSuchVersion,
     MethodNotAllowed,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9808,6 +9955,7 @@ export type GetObjectTaggingError =
   | PermanentRedirect
   | NoSuchVersion
   | MethodNotAllowed
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -9841,8 +9989,8 @@ export const getObjectTagging: API.OperationMethod<
   GetObjectTaggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetObjectTaggingRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<GetObjectTaggingOutput>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetObjectTaggingRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<GetObjectTaggingOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -9851,6 +9999,7 @@ export const getObjectTagging: API.OperationMethod<
     PermanentRedirect,
     NoSuchVersion,
     MethodNotAllowed,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9859,7 +10008,7 @@ export const getObjectTagging: API.OperationMethod<
   span: "GetObjectTagging",
 }));
 
-export type GetObjectTorrentError = CommonErrors;
+export type GetObjectTorrentError = InvalidAccessKeyId | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
  *
@@ -9885,9 +10034,9 @@ export const getObjectTorrent: API.OperationMethod<
   GetObjectTorrentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetObjectTorrentRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<GetObjectTorrentOutput>,
-  errors: [],
+  input: __S(256, __c16, 0) as any as S.Schema<GetObjectTorrentRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<GetObjectTorrentOutput>,
+  errors: [InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectTorrent",
@@ -9901,6 +10050,7 @@ export type GetPublicAccessBlockError =
   | NoSuchBucket
   | NoSuchPublicAccessBlockConfiguration
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -9941,14 +10091,15 @@ export const getPublicAccessBlock: API.OperationMethod<
   GetPublicAccessBlockError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetPublicAccessBlockRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<GetPublicAccessBlockOutput>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetPublicAccessBlockRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<GetPublicAccessBlockOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
     NoSuchBucket,
     NoSuchPublicAccessBlockConfiguration,
     PermanentRedirect,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9963,6 +10114,7 @@ export type HeadBucketError =
   | SlowDown
   | ParseError
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * You can use this operation to determine if a bucket exists and if you have permission to access it.
@@ -10033,9 +10185,9 @@ export const headBucket: API.OperationMethod<
   HeadBucketError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<HeadBucketRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<HeadBucketOutput>,
-  errors: [NotFound, RequestLimitExceeded, SlowDown, ParseError, NoSuchBucket],
+  input: __S(304, __c19, 0) as any as S.Schema<HeadBucketRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<HeadBucketOutput>,
+  errors: [NotFound, RequestLimitExceeded, SlowDown, ParseError, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "HeadBucket",
@@ -10050,6 +10202,7 @@ export type HeadObjectError =
   | ParseError
   | NoSuchBucket
   | MethodNotAllowed
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * The `HEAD` operation retrieves metadata from an object without returning the object
@@ -10165,9 +10318,17 @@ export const headObject: API.OperationMethod<
   HeadObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<HeadObjectRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<HeadObjectOutput>,
-  errors: [NotFound, RequestLimitExceeded, SlowDown, ParseError, NoSuchBucket, MethodNotAllowed],
+  input: __S(320, __c20, 0) as any as S.Schema<HeadObjectRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<HeadObjectOutput>,
+  errors: [
+    NotFound,
+    RequestLimitExceeded,
+    SlowDown,
+    ParseError,
+    NoSuchBucket,
+    MethodNotAllowed,
+    InvalidAccessKeyId,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "HeadObject",
@@ -10179,6 +10340,7 @@ export type ListBucketAnalyticsConfigurationsError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -10218,9 +10380,9 @@ export const listBucketAnalyticsConfigurations: API.OperationMethod<
   ListBucketAnalyticsConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListBucketAnalyticsConfigurationsRequest>,
-  output: __S(322, __c20, 2) as any as S.Schema<ListBucketAnalyticsConfigurationsOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(336, __c21, 0) as any as S.Schema<ListBucketAnalyticsConfigurationsRequest>,
+  output: __S(338, __c21, 2) as any as S.Schema<ListBucketAnalyticsConfigurationsOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketAnalyticsConfigurations",
@@ -10232,6 +10394,7 @@ export type ListBucketIntelligentTieringConfigurationsError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -10260,9 +10423,9 @@ export const listBucketIntelligentTieringConfigurations: API.OperationMethod<
   ListBucketIntelligentTieringConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<ListBucketIntelligentTieringConfigurationsRequest>,
-  output: __S(338, __c21, 2) as any as S.Schema<ListBucketIntelligentTieringConfigurationsOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(352, __c22, 0) as any as S.Schema<ListBucketIntelligentTieringConfigurationsRequest>,
+  output: __S(354, __c22, 2) as any as S.Schema<ListBucketIntelligentTieringConfigurationsOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketIntelligentTieringConfigurations",
@@ -10274,6 +10437,7 @@ export type ListBucketInventoryConfigurationsError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Returns a list of S3 Inventory configurations for the bucket. You can have up to 1,000 inventory
@@ -10331,9 +10495,9 @@ export const listBucketInventoryConfigurations: API.OperationMethod<
   ListBucketInventoryConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<ListBucketInventoryConfigurationsRequest>,
-  output: __S(354, __c22, 2) as any as S.Schema<ListBucketInventoryConfigurationsOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(368, __c23, 0) as any as S.Schema<ListBucketInventoryConfigurationsRequest>,
+  output: __S(370, __c23, 2) as any as S.Schema<ListBucketInventoryConfigurationsOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketInventoryConfigurations",
@@ -10345,6 +10509,7 @@ export type ListBucketMetricsConfigurationsError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Lists the metrics configurations for the bucket. The metrics configurations are only for the request
@@ -10404,9 +10569,9 @@ export const listBucketMetricsConfigurations: API.OperationMethod<
   ListBucketMetricsConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<ListBucketMetricsConfigurationsRequest>,
-  output: __S(370, __c23, 2) as any as S.Schema<ListBucketMetricsConfigurationsOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(384, __c24, 0) as any as S.Schema<ListBucketMetricsConfigurationsRequest>,
+  output: __S(386, __c24, 2) as any as S.Schema<ListBucketMetricsConfigurationsOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketMetricsConfigurations",
@@ -10414,7 +10579,12 @@ export const listBucketMetricsConfigurations: API.OperationMethod<
   span: "ListBucketMetricsConfigurations",
 }));
 
-export type ListBucketsError = RequestLimitExceeded | SlowDown | RequestError | CommonErrors;
+export type ListBucketsError =
+  | RequestLimitExceeded
+  | SlowDown
+  | RequestError
+  | InvalidAccessKeyId
+  | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
  *
@@ -10440,9 +10610,9 @@ export const listBuckets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Bucket
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<ListBucketsRequest>,
-  output: __S(385, __c24, 1) as any as S.Schema<ListBucketsOutput>,
-  errors: [RequestLimitExceeded, SlowDown, RequestError],
+  input: __S(400, __c25, 0) as any as S.Schema<ListBucketsRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<ListBucketsOutput>,
+  errors: [RequestLimitExceeded, SlowDown, RequestError, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBuckets",
@@ -10456,7 +10626,7 @@ export const listBuckets: API.PaginatedOperationMethod<
   span: "ListBuckets",
 })) as any;
 
-export type ListDirectoryBucketsError = CommonErrors;
+export type ListDirectoryBucketsError = InvalidAccessKeyId | CommonErrors;
 /**
  * Returns a list of all Amazon S3 directory buckets owned by the authenticated sender of the request. For
  * more information about directory buckets, see Directory buckets in the
@@ -10491,9 +10661,9 @@ export const listDirectoryBuckets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Bucket
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<ListDirectoryBucketsRequest>,
-  output: __S(417, __c26, 1) as any as S.Schema<ListDirectoryBucketsOutput>,
-  errors: [],
+  input: __S(432, __c27, 0) as any as S.Schema<ListDirectoryBucketsRequest>,
+  output: __S(433, __c27, 1) as any as S.Schema<ListDirectoryBucketsOutput>,
+  errors: [InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDirectoryBuckets",
@@ -10512,6 +10682,7 @@ export type ListMultipartUploadsError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation lists in-progress multipart uploads in a bucket. An in-progress multipart upload is a
@@ -10606,9 +10777,9 @@ export const listMultipartUploads: API.OperationMethod<
   ListMultipartUploadsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<ListMultipartUploadsRequest>,
-  output: __S(435, __c27, 3) as any as S.Schema<ListMultipartUploadsOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(448, __c28, 0) as any as S.Schema<ListMultipartUploadsRequest>,
+  output: __S(451, __c28, 3) as any as S.Schema<ListMultipartUploadsOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMultipartUploads",
@@ -10616,7 +10787,12 @@ export const listMultipartUploads: API.OperationMethod<
   span: "ListMultipartUploads",
 }));
 
-export type ListObjectAnnotationsError = InvalidPrefix | NoSuchBucket | NoSuchKey | CommonErrors;
+export type ListObjectAnnotationsError =
+  | InvalidPrefix
+  | NoSuchBucket
+  | NoSuchKey
+  | InvalidAccessKeyId
+  | CommonErrors;
 /**
  * Lists the annotations attached to an Amazon S3 object. Results are paginated, with a maximum of
  * 1,000 annotations per object. Use the `AnnotationPrefix` parameter to filter the
@@ -10643,9 +10819,9 @@ export const listObjectAnnotations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AnnotationEntry
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ListObjectAnnotationsRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<ListObjectAnnotationsOutput>,
-  errors: [InvalidPrefix, NoSuchBucket, NoSuchKey],
+  input: __S(496, __c31, 0) as any as S.Schema<ListObjectAnnotationsRequest>,
+  output: __S(499, __c31, 3) as any as S.Schema<ListObjectAnnotationsOutput>,
+  errors: [InvalidPrefix, NoSuchBucket, NoSuchKey, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListObjectAnnotations",
@@ -10664,6 +10840,7 @@ export type ListObjectsError =
   | RequestLimitExceeded
   | SlowDown
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -10697,9 +10874,9 @@ export const listObjects: API.OperationMethod<
   ListObjectsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<ListObjectsRequest>,
-  output: __S(513, __c32, 1) as any as S.Schema<ListObjectsOutput>,
-  errors: [NoSuchBucket, RequestLimitExceeded, SlowDown, PermanentRedirect],
+  input: __S(528, __c33, 0) as any as S.Schema<ListObjectsRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<ListObjectsOutput>,
+  errors: [NoSuchBucket, RequestLimitExceeded, SlowDown, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListObjects",
@@ -10712,6 +10889,7 @@ export type ListObjectsV2Error =
   | RequestLimitExceeded
   | SlowDown
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Returns some or all (up to 1,000) of the objects in a bucket with each request. You can use the
@@ -10786,9 +10964,9 @@ export const listObjectsV2: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ListObjectsV2Request>,
-  output: __S(561, __c35, 1) as any as S.Schema<ListObjectsV2Output>,
-  errors: [NoSuchBucket, RequestLimitExceeded, SlowDown, PermanentRedirect],
+  input: __S(576, __c36, 0) as any as S.Schema<ListObjectsV2Request>,
+  output: __S(577, __c36, 1) as any as S.Schema<ListObjectsV2Output>,
+  errors: [NoSuchBucket, RequestLimitExceeded, SlowDown, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListObjectsV2",
@@ -10806,6 +10984,7 @@ export type ListObjectVersionsError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -10839,9 +11018,9 @@ export const listObjectVersions: API.OperationMethod<
   ListObjectVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<ListObjectVersionsRequest>,
-  output: __S(581, __c36, 5) as any as S.Schema<ListObjectVersionsOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(592, __c37, 0) as any as S.Schema<ListObjectVersionsRequest>,
+  output: __S(597, __c37, 5) as any as S.Schema<ListObjectVersionsOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListObjectVersions",
@@ -10854,6 +11033,7 @@ export type ListPartsError =
   | SlowDown
   | NoSuchBucket
   | NoSuchUpload
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Lists the parts that have been uploaded for a specific multipart upload.
@@ -10924,9 +11104,9 @@ export const listParts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Part
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<ListPartsRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<ListPartsOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchUpload],
+  input: __S(608, __c38, 0) as any as S.Schema<ListPartsRequest>,
+  output: __S(611, __c38, 3) as any as S.Schema<ListPartsOutput>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, NoSuchUpload, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListParts",
@@ -10940,7 +11120,7 @@ export const listParts: API.PaginatedOperationMethod<
   span: { op: "ListParts", input: { UploadId: [{ name: "aws.s3.upload_id" }] } },
 })) as any;
 
-export type PutBucketAbacError = CommonErrors;
+export type PutBucketAbacError = InvalidAccessKeyId | CommonErrors;
 /**
  * Sets the attribute-based access control (ABAC) property of the general purpose bucket. You must have `s3:PutBucketABAC` permission to perform this action. When you enable ABAC, you can use tags for access control on your buckets. Additionally, when ABAC is enabled, you must use the TagResource and UntagResource actions to manage tags on your buckets. You can nolonger use the PutBucketTagging and DeleteBucketTagging actions to tag your bucket. For more information, see Enabling ABAC in general purpose buckets.
  */
@@ -10950,9 +11130,9 @@ export const putBucketAbac: API.OperationMethod<
   PutBucketAbacError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<PutBucketAbacRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<PutBucketAbacResponse>,
-  errors: [],
+  input: __S(624, __c39, 0) as any as S.Schema<PutBucketAbacRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<PutBucketAbacResponse>,
+  errors: [InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAbac",
@@ -10965,6 +11145,7 @@ export type PutBucketAccelerateConfigurationError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -11008,9 +11189,9 @@ export const putBucketAccelerateConfiguration: API.OperationMethod<
   PutBucketAccelerateConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(625, __c39, 1) as any as S.Schema<PutBucketAccelerateConfigurationRequest>,
-  output: __S(626, __c39, 2) as any as S.Schema<PutBucketAccelerateConfigurationResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(641, __c40, 1) as any as S.Schema<PutBucketAccelerateConfigurationRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<PutBucketAccelerateConfigurationResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAccelerateConfiguration",
@@ -11023,6 +11204,7 @@ export type PutBucketAclError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025,
@@ -11175,9 +11357,9 @@ export const putBucketAcl: API.OperationMethod<
   PutBucketAclError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<PutBucketAclRequest>,
-  output: __S(641, __c40, 1) as any as S.Schema<PutBucketAclResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(656, __c41, 0) as any as S.Schema<PutBucketAclRequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<PutBucketAclResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAcl",
@@ -11185,7 +11367,7 @@ export const putBucketAcl: API.OperationMethod<
   span: "PutBucketAcl",
 }));
 
-export type PutBucketAnalyticsConfigurationError = CommonErrors;
+export type PutBucketAnalyticsConfigurationError = InvalidAccessKeyId | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
  *
@@ -11255,9 +11437,9 @@ export const putBucketAnalyticsConfiguration: API.OperationMethod<
   PutBucketAnalyticsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<PutBucketAnalyticsConfigurationRequest>,
-  output: __S(673, __c42, 1) as any as S.Schema<PutBucketAnalyticsConfigurationResponse>,
-  errors: [],
+  input: __S(688, __c43, 0) as any as S.Schema<PutBucketAnalyticsConfigurationRequest>,
+  output: __S(689, __c43, 1) as any as S.Schema<PutBucketAnalyticsConfigurationResponse>,
+  errors: [InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAnalyticsConfiguration",
@@ -11270,6 +11452,7 @@ export type PutBucketCorsError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -11323,9 +11506,9 @@ export const putBucketCors: API.OperationMethod<
   PutBucketCorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(689, __c43, 1) as any as S.Schema<PutBucketCorsRequest>,
-  output: __S(690, __c43, 2) as any as S.Schema<PutBucketCorsResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(705, __c44, 1) as any as S.Schema<PutBucketCorsRequest>,
+  output: __S(706, __c44, 2) as any as S.Schema<PutBucketCorsResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketCors",
@@ -11338,6 +11521,7 @@ export type PutBucketEncryptionError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation configures default encryption and Amazon S3 Bucket Keys for an existing bucket. You can also block encryption types using this operation.
@@ -11430,9 +11614,9 @@ export const putBucketEncryption: API.OperationMethod<
   PutBucketEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<PutBucketEncryptionRequest>,
-  output: __S(705, __c44, 1) as any as S.Schema<PutBucketEncryptionResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(720, __c45, 0) as any as S.Schema<PutBucketEncryptionRequest>,
+  output: __S(721, __c45, 1) as any as S.Schema<PutBucketEncryptionResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketEncryption",
@@ -11444,6 +11628,7 @@ export type PutBucketIntelligentTieringConfigurationError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -11498,9 +11683,9 @@ export const putBucketIntelligentTieringConfiguration: API.OperationMethod<
   PutBucketIntelligentTieringConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<PutBucketIntelligentTieringConfigurationRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<PutBucketIntelligentTieringConfigurationResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(736, __c46, 0) as any as S.Schema<PutBucketIntelligentTieringConfigurationRequest>,
+  output: __S(737, __c46, 1) as any as S.Schema<PutBucketIntelligentTieringConfigurationResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketIntelligentTieringConfiguration",
@@ -11512,6 +11697,7 @@ export type PutBucketInventoryConfigurationError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This implementation of the `PUT` action adds an S3 Inventory configuration (identified by
@@ -11609,9 +11795,9 @@ export const putBucketInventoryConfiguration: API.OperationMethod<
   PutBucketInventoryConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<PutBucketInventoryConfigurationRequest>,
-  output: __S(737, __c46, 1) as any as S.Schema<PutBucketInventoryConfigurationResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(752, __c47, 0) as any as S.Schema<PutBucketInventoryConfigurationRequest>,
+  output: __S(753, __c47, 1) as any as S.Schema<PutBucketInventoryConfigurationResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketInventoryConfiguration",
@@ -11626,6 +11812,7 @@ export type PutBucketLifecycleConfigurationError =
   | MalformedXML
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle
@@ -11729,8 +11916,8 @@ export const putBucketLifecycleConfiguration: API.OperationMethod<
   PutBucketLifecycleConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(753, __c47, 1) as any as S.Schema<PutBucketLifecycleConfigurationRequest>,
-  output: __S(754, __c47, 2) as any as S.Schema<PutBucketLifecycleConfigurationOutput>,
+  input: __S(769, __c48, 1) as any as S.Schema<PutBucketLifecycleConfigurationRequest>,
+  output: __S(770, __c48, 2) as any as S.Schema<PutBucketLifecycleConfigurationOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -11738,6 +11925,7 @@ export const putBucketLifecycleConfiguration: API.OperationMethod<
     MalformedXML,
     NoSuchBucket,
     PermanentRedirect,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11751,6 +11939,7 @@ export type PutBucketLoggingError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025,
@@ -11826,9 +12015,9 @@ export const putBucketLogging: API.OperationMethod<
   PutBucketLoggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(769, __c48, 1) as any as S.Schema<PutBucketLoggingRequest>,
-  output: __S(770, __c48, 2) as any as S.Schema<PutBucketLoggingResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(785, __c49, 1) as any as S.Schema<PutBucketLoggingRequest>,
+  output: __S(786, __c49, 2) as any as S.Schema<PutBucketLoggingResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketLogging",
@@ -11840,6 +12029,7 @@ export type PutBucketMetricsConfigurationError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Sets a metrics configuration (specified by the metrics configuration ID) for the bucket. You can
@@ -11902,9 +12092,9 @@ export const putBucketMetricsConfiguration: API.OperationMethod<
   PutBucketMetricsConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<PutBucketMetricsConfigurationRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<PutBucketMetricsConfigurationResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(800, __c50, 0) as any as S.Schema<PutBucketMetricsConfigurationRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<PutBucketMetricsConfigurationResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketMetricsConfiguration",
@@ -11916,6 +12106,7 @@ export type PutBucketNotificationConfigurationError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -11976,9 +12167,9 @@ export const putBucketNotificationConfiguration: API.OperationMethod<
   PutBucketNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<PutBucketNotificationConfigurationRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<PutBucketNotificationConfigurationResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(816, __c51, 0) as any as S.Schema<PutBucketNotificationConfigurationRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<PutBucketNotificationConfigurationResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketNotificationConfiguration",
@@ -11990,6 +12181,7 @@ export type PutBucketOwnershipControlsError =
   | RequestLimitExceeded
   | SlowDown
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -12014,9 +12206,9 @@ export const putBucketOwnershipControls: API.OperationMethod<
   PutBucketOwnershipControlsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<PutBucketOwnershipControlsRequest>,
-  output: __S(817, __c51, 1) as any as S.Schema<PutBucketOwnershipControlsResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket],
+  input: __S(832, __c52, 0) as any as S.Schema<PutBucketOwnershipControlsRequest>,
+  output: __S(833, __c52, 1) as any as S.Schema<PutBucketOwnershipControlsResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketOwnershipControls",
@@ -12035,6 +12227,7 @@ export type PutBucketPolicyError =
   | NoSuchBucket
   | PermanentRedirect
   | SignatureDoesNotMatch
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Applies an Amazon S3 bucket policy to an Amazon S3 bucket.
@@ -12099,8 +12292,8 @@ export const putBucketPolicy: API.OperationMethod<
   PutBucketPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<PutBucketPolicyRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<PutBucketPolicyResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<PutBucketPolicyRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<PutBucketPolicyResponse>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -12112,6 +12305,7 @@ export const putBucketPolicy: API.OperationMethod<
     NoSuchBucket,
     PermanentRedirect,
     SignatureDoesNotMatch,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12125,6 +12319,7 @@ export type PutBucketReplicationError =
   | SlowDown
   | InvalidRequest
   | NoSuchBucket
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -12193,9 +12388,9 @@ export const putBucketReplication: API.OperationMethod<
   PutBucketReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<PutBucketReplicationRequest>,
-  output: __S(849, __c53, 1) as any as S.Schema<PutBucketReplicationResponse>,
-  errors: [RequestLimitExceeded, SlowDown, InvalidRequest, NoSuchBucket],
+  input: __S(864, __c54, 0) as any as S.Schema<PutBucketReplicationRequest>,
+  output: __S(865, __c54, 1) as any as S.Schema<PutBucketReplicationResponse>,
+  errors: [RequestLimitExceeded, SlowDown, InvalidRequest, NoSuchBucket, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketReplication",
@@ -12208,6 +12403,7 @@ export type PutBucketRequestPaymentError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -12231,9 +12427,9 @@ export const putBucketRequestPayment: API.OperationMethod<
   PutBucketRequestPaymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(865, __c54, 1) as any as S.Schema<PutBucketRequestPaymentRequest>,
-  output: __S(866, __c54, 2) as any as S.Schema<PutBucketRequestPaymentResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(881, __c55, 1) as any as S.Schema<PutBucketRequestPaymentRequest>,
+  output: __S(882, __c55, 2) as any as S.Schema<PutBucketRequestPaymentResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketRequestPayment",
@@ -12246,6 +12442,7 @@ export type PutBucketTaggingError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -12295,9 +12492,9 @@ export const putBucketTagging: API.OperationMethod<
   PutBucketTaggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<PutBucketTaggingRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<PutBucketTaggingResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(896, __c56, 0) as any as S.Schema<PutBucketTaggingRequest>,
+  output: __S(897, __c56, 1) as any as S.Schema<PutBucketTaggingResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketTagging",
@@ -12310,6 +12507,7 @@ export type PutBucketVersioningError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -12360,9 +12558,9 @@ export const putBucketVersioning: API.OperationMethod<
   PutBucketVersioningError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(913, __c57, 1) as any as S.Schema<PutBucketVersioningRequest>,
-  output: __S(914, __c57, 2) as any as S.Schema<PutBucketVersioningResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(929, __c58, 1) as any as S.Schema<PutBucketVersioningRequest>,
+  output: __S(930, __c58, 2) as any as S.Schema<PutBucketVersioningResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketVersioning",
@@ -12375,6 +12573,7 @@ export type PutBucketWebsiteError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -12453,9 +12652,9 @@ export const putBucketWebsite: API.OperationMethod<
   PutBucketWebsiteError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(929, __c58, 1) as any as S.Schema<PutBucketWebsiteRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<PutBucketWebsiteResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(945, __c59, 1) as any as S.Schema<PutBucketWebsiteRequest>,
+  output: __S(946, __c59, 2) as any as S.Schema<PutBucketWebsiteResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketWebsite",
@@ -12474,6 +12673,7 @@ export type PutObjectError =
   | PermanentRedirect
   | PreconditionFailed
   | ConditionalRequestConflict
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025,
@@ -12604,8 +12804,8 @@ export const putObject: API.OperationMethod<
   PutObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<PutObjectRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<PutObjectOutput>,
+  input: __S(960, __c60, 0) as any as S.Schema<PutObjectRequest>,
+  output: __S(961, __c60, 1) as any as S.Schema<PutObjectOutput>,
   errors: [
     EncryptionTypeMismatch,
     InvalidRequest,
@@ -12617,6 +12817,7 @@ export const putObject: API.OperationMethod<
     PermanentRedirect,
     PreconditionFailed,
     ConditionalRequestConflict,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12630,6 +12831,7 @@ export type PutObjectAclError =
   | RequestLimitExceeded
   | SlowDown
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025,
@@ -12780,9 +12982,9 @@ export const putObjectAcl: API.OperationMethod<
   PutObjectAclError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<PutObjectAclRequest>,
-  output: __S(961, __c60, 1) as any as S.Schema<PutObjectAclOutput>,
-  errors: [NoSuchKey, RequestLimitExceeded, SlowDown, PermanentRedirect],
+  input: __S(976, __c61, 0) as any as S.Schema<PutObjectAclRequest>,
+  output: __S(977, __c61, 1) as any as S.Schema<PutObjectAclOutput>,
+  errors: [NoSuchKey, RequestLimitExceeded, SlowDown, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectAcl",
@@ -12798,6 +13000,7 @@ export type PutObjectAnnotationError =
   | NoSuchBucket
   | NoSuchKey
   | UnsupportedMediaType
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Attaches an annotation to an Amazon S3 object. An annotation is a named payload of 1 byte to 1 MiB
@@ -12832,8 +13035,8 @@ export const putObjectAnnotation: API.OperationMethod<
   PutObjectAnnotationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<PutObjectAnnotationRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<PutObjectAnnotationOutput>,
+  input: __S(992, __c62, 0) as any as S.Schema<PutObjectAnnotationRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<PutObjectAnnotationOutput>,
   errors: [
     AnnotationLimitExceeded,
     AnnotationNameTooLong,
@@ -12842,6 +13045,7 @@ export const putObjectAnnotation: API.OperationMethod<
     NoSuchBucket,
     NoSuchKey,
     UnsupportedMediaType,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12858,6 +13062,7 @@ export type PutObjectLegalHoldError =
   | NoSuchKey
   | NoSuchVersion
   | MethodNotAllowed
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -12874,8 +13079,8 @@ export const putObjectLegalHold: API.OperationMethod<
   PutObjectLegalHoldError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<PutObjectLegalHoldRequest>,
-  output: __S(993, __c62, 1) as any as S.Schema<PutObjectLegalHoldOutput>,
+  input: __S(1008, __c63, 0) as any as S.Schema<PutObjectLegalHoldRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<PutObjectLegalHoldOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -12884,6 +13089,7 @@ export const putObjectLegalHold: API.OperationMethod<
     NoSuchKey,
     NoSuchVersion,
     MethodNotAllowed,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12898,6 +13104,7 @@ export type PutObjectLockConfigurationError =
   | InvalidBucketState
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -12924,9 +13131,16 @@ export const putObjectLockConfiguration: API.OperationMethod<
   PutObjectLockConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<PutObjectLockConfigurationRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<PutObjectLockConfigurationOutput>,
-  errors: [RequestLimitExceeded, SlowDown, InvalidBucketState, NoSuchBucket, PermanentRedirect],
+  input: __S(1024, __c64, 0) as any as S.Schema<PutObjectLockConfigurationRequest>,
+  output: __S(1025, __c64, 1) as any as S.Schema<PutObjectLockConfigurationOutput>,
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    InvalidBucketState,
+    NoSuchBucket,
+    PermanentRedirect,
+    InvalidAccessKeyId,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectLockConfiguration",
@@ -12941,6 +13155,7 @@ export type PutObjectRetentionError =
   | NoSuchKey
   | NoSuchVersion
   | MethodNotAllowed
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -12960,8 +13175,8 @@ export const putObjectRetention: API.OperationMethod<
   PutObjectRetentionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<PutObjectRetentionRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<PutObjectRetentionOutput>,
+  input: __S(1040, __c65, 0) as any as S.Schema<PutObjectRetentionRequest>,
+  output: __S(1041, __c65, 1) as any as S.Schema<PutObjectRetentionOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -12969,6 +13184,7 @@ export const putObjectRetention: API.OperationMethod<
     NoSuchKey,
     NoSuchVersion,
     MethodNotAllowed,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12984,6 +13200,7 @@ export type PutObjectTaggingError =
   | PermanentRedirect
   | NoSuchVersion
   | MethodNotAllowed
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -13031,8 +13248,8 @@ export const putObjectTagging: API.OperationMethod<
   PutObjectTaggingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<PutObjectTaggingRequest>,
-  output: __S(1041, __c65, 1) as any as S.Schema<PutObjectTaggingOutput>,
+  input: __S(1056, __c66, 0) as any as S.Schema<PutObjectTaggingRequest>,
+  output: __S(1057, __c66, 1) as any as S.Schema<PutObjectTaggingOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -13040,6 +13257,7 @@ export const putObjectTagging: API.OperationMethod<
     PermanentRedirect,
     NoSuchVersion,
     MethodNotAllowed,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13053,6 +13271,7 @@ export type PutPublicAccessBlockError =
   | SlowDown
   | NoSuchBucket
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -13090,9 +13309,9 @@ export const putPublicAccessBlock: API.OperationMethod<
   PutPublicAccessBlockError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<PutPublicAccessBlockRequest>,
-  output: __S(1057, __c66, 1) as any as S.Schema<PutPublicAccessBlockResponse>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect],
+  input: __S(1072, __c67, 0) as any as S.Schema<PutPublicAccessBlockRequest>,
+  output: __S(1073, __c67, 1) as any as S.Schema<PutPublicAccessBlockResponse>,
+  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPublicAccessBlock",
@@ -13100,7 +13319,7 @@ export const putPublicAccessBlock: API.OperationMethod<
   span: "PutPublicAccessBlock",
 }));
 
-export type RenameObjectError = IdempotencyParameterMismatch | CommonErrors;
+export type RenameObjectError = IdempotencyParameterMismatch | InvalidAccessKeyId | CommonErrors;
 /**
  * Renames an existing object in a directory bucket that uses the S3 Express One Zone storage class.
  * You can use `RenameObject` by specifying an existing object's name as the source and the new
@@ -13152,9 +13371,9 @@ export const renameObject: API.OperationMethod<
   RenameObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<RenameObjectRequest>,
-  output: __S(1073, __c67, 1) as any as S.Schema<RenameObjectOutput>,
-  errors: [IdempotencyParameterMismatch],
+  input: __S(1088, __c68, 0) as any as S.Schema<RenameObjectRequest>,
+  output: __S(1089, __c68, 1) as any as S.Schema<RenameObjectOutput>,
+  errors: [IdempotencyParameterMismatch, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenameObject",
@@ -13171,6 +13390,7 @@ export type RestoreObjectError =
   | InvalidObjectState
   | NoSuchVersion
   | MethodNotAllowed
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -13318,8 +13538,8 @@ export const restoreObject: API.OperationMethod<
   RestoreObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1096, __c68, 8) as any as S.Schema<RestoreObjectRequest>,
-  output: __S(1097, __c68, 9) as any as S.Schema<RestoreObjectOutput>,
+  input: __S(1112, __c69, 8) as any as S.Schema<RestoreObjectRequest>,
+  output: __S(1113, __c69, 9) as any as S.Schema<RestoreObjectOutput>,
   errors: [
     ObjectAlreadyInActiveTierError,
     RequestLimitExceeded,
@@ -13329,6 +13549,7 @@ export const restoreObject: API.OperationMethod<
     InvalidObjectState,
     NoSuchVersion,
     MethodNotAllowed,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13341,6 +13562,7 @@ export type SelectObjectContentError =
   | RequestLimitExceeded
   | SlowDown
   | PermanentRedirect
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
@@ -13439,9 +13661,9 @@ export const selectObjectContent: API.OperationMethod<
   SelectObjectContentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1122, __c70, 2) as any as S.Schema<SelectObjectContentRequest>,
-  output: __S(1131, __c70, 11) as any as S.Schema<SelectObjectContentOutput>,
-  errors: [RequestLimitExceeded, SlowDown, PermanentRedirect],
+  input: __S(1138, __c71, 2) as any as S.Schema<SelectObjectContentRequest>,
+  output: __S(1147, __c71, 11) as any as S.Schema<SelectObjectContentOutput>,
+  errors: [RequestLimitExceeded, SlowDown, PermanentRedirect, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SelectObjectContent",
@@ -13449,7 +13671,9 @@ export const selectObjectContent: API.OperationMethod<
   span: "SelectObjectContent",
 }));
 
-export type UpdateBucketMetadataAnnotationTableConfigurationError = CommonErrors;
+export type UpdateBucketMetadataAnnotationTableConfigurationError =
+  | InvalidAccessKeyId
+  | CommonErrors;
 /**
  * Updates the annotation table configuration for an Amazon S3 bucket's metadata configuration. Use this
  * operation to enable or disable the annotation table, or to update its associated IAM role.
@@ -13481,16 +13705,16 @@ export const updateBucketMetadataAnnotationTableConfiguration: API.OperationMeth
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1137,
-    __c71,
+    1153,
+    __c72,
     1,
   ) as any as S.Schema<UpdateBucketMetadataAnnotationTableConfigurationRequest>,
   output: __S(
-    1138,
-    __c71,
+    1154,
+    __c72,
     2,
   ) as any as S.Schema<UpdateBucketMetadataAnnotationTableConfigurationResponse>,
-  errors: [],
+  errors: [InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucketMetadataAnnotationTableConfiguration",
@@ -13498,7 +13722,9 @@ export const updateBucketMetadataAnnotationTableConfiguration: API.OperationMeth
   span: "UpdateBucketMetadataAnnotationTableConfiguration",
 }));
 
-export type UpdateBucketMetadataInventoryTableConfigurationError = CommonErrors;
+export type UpdateBucketMetadataInventoryTableConfigurationError =
+  | InvalidAccessKeyId
+  | CommonErrors;
 /**
  * Enables or disables a live inventory table for an S3 Metadata configuration on a general
  * purpose bucket. For more information, see
@@ -13552,16 +13778,16 @@ export const updateBucketMetadataInventoryTableConfiguration: API.OperationMetho
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1153,
-    __c72,
+    1169,
+    __c73,
     1,
   ) as any as S.Schema<UpdateBucketMetadataInventoryTableConfigurationRequest>,
   output: __S(
-    1154,
-    __c72,
+    1170,
+    __c73,
     2,
   ) as any as S.Schema<UpdateBucketMetadataInventoryTableConfigurationResponse>,
-  errors: [],
+  errors: [InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucketMetadataInventoryTableConfiguration",
@@ -13569,7 +13795,7 @@ export const updateBucketMetadataInventoryTableConfiguration: API.OperationMetho
   span: "UpdateBucketMetadataInventoryTableConfiguration",
 }));
 
-export type UpdateBucketMetadataJournalTableConfigurationError = CommonErrors;
+export type UpdateBucketMetadataJournalTableConfigurationError = InvalidAccessKeyId | CommonErrors;
 /**
  * Enables or disables journal table record expiration for an S3 Metadata configuration on a general
  * purpose bucket. For more information, see
@@ -13601,16 +13827,16 @@ export const updateBucketMetadataJournalTableConfiguration: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1169,
-    __c73,
+    1185,
+    __c74,
     1,
   ) as any as S.Schema<UpdateBucketMetadataJournalTableConfigurationRequest>,
   output: __S(
-    1170,
-    __c73,
+    1186,
+    __c74,
     2,
   ) as any as S.Schema<UpdateBucketMetadataJournalTableConfigurationResponse>,
-  errors: [],
+  errors: [InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucketMetadataJournalTableConfiguration",
@@ -13618,7 +13844,12 @@ export const updateBucketMetadataJournalTableConfiguration: API.OperationMethod<
   span: "UpdateBucketMetadataJournalTableConfiguration",
 }));
 
-export type UpdateObjectEncryptionError = AccessDenied | InvalidRequest | NoSuchKey | CommonErrors;
+export type UpdateObjectEncryptionError =
+  | AccessDenied
+  | InvalidRequest
+  | NoSuchKey
+  | InvalidAccessKeyId
+  | CommonErrors;
 /**
  * This operation is not supported for directory buckets or Amazon S3 on Outposts buckets.
  *
@@ -13734,9 +13965,9 @@ export const updateObjectEncryption: API.OperationMethod<
   UpdateObjectEncryptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1186, __c74, 2) as any as S.Schema<UpdateObjectEncryptionRequest>,
-  output: __S(1187, __c74, 3) as any as S.Schema<UpdateObjectEncryptionResponse>,
-  errors: [AccessDenied, InvalidRequest, NoSuchKey],
+  input: __S(1202, __c75, 2) as any as S.Schema<UpdateObjectEncryptionRequest>,
+  output: __S(1203, __c75, 3) as any as S.Schema<UpdateObjectEncryptionResponse>,
+  errors: [AccessDenied, InvalidRequest, NoSuchKey, InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateObjectEncryption",
@@ -13750,6 +13981,7 @@ export type UploadPartError =
   | NoSuchBucket
   | PermanentRedirect
   | NoSuchUpload
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Uploads a part in a multipart upload.
@@ -13897,9 +14129,16 @@ export const uploadPart: API.OperationMethod<
   UploadPartError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<UploadPartRequest>,
-  output: __S(1201, __c75, 1) as any as S.Schema<UploadPartOutput>,
-  errors: [RequestLimitExceeded, SlowDown, NoSuchBucket, PermanentRedirect, NoSuchUpload],
+  input: __S(1216, __c76, 0) as any as S.Schema<UploadPartRequest>,
+  output: __S(1217, __c76, 1) as any as S.Schema<UploadPartOutput>,
+  errors: [
+    RequestLimitExceeded,
+    SlowDown,
+    NoSuchBucket,
+    PermanentRedirect,
+    NoSuchUpload,
+    InvalidAccessKeyId,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadPart",
@@ -13921,6 +14160,7 @@ export type UploadPartCopyError =
   | NoSuchVersion
   | NoSuchKey
   | InvalidRequest
+  | InvalidAccessKeyId
   | CommonErrors;
 /**
  * Uploads a part by copying data from an existing object as data source. To specify the data source,
@@ -14089,8 +14329,8 @@ export const uploadPartCopy: API.OperationMethod<
   UploadPartCopyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<UploadPartCopyRequest>,
-  output: __S(1218, __c76, 2) as any as S.Schema<UploadPartCopyOutput>,
+  input: __S(1232, __c77, 0) as any as S.Schema<UploadPartCopyRequest>,
+  output: __S(1234, __c77, 2) as any as S.Schema<UploadPartCopyOutput>,
   errors: [
     RequestLimitExceeded,
     SlowDown,
@@ -14099,6 +14339,7 @@ export const uploadPartCopy: API.OperationMethod<
     NoSuchVersion,
     NoSuchKey,
     InvalidRequest,
+    InvalidAccessKeyId,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14114,7 +14355,7 @@ export const uploadPartCopy: API.OperationMethod<
   },
 }));
 
-export type WriteGetObjectResponseError = CommonErrors;
+export type WriteGetObjectResponseError = InvalidAccessKeyId | CommonErrors;
 /**
  * This operation is not supported for directory buckets.
  *
@@ -14164,9 +14405,9 @@ export const writeGetObjectResponse: API.OperationMethod<
   WriteGetObjectResponseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<WriteGetObjectResponseRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<WriteGetObjectResponseResponse>,
-  errors: [],
+  input: __S(1248, __c78, 0) as any as S.Schema<WriteGetObjectResponseRequest>,
+  output: __S(1249, __c78, 1) as any as S.Schema<WriteGetObjectResponseResponse>,
+  errors: [InvalidAccessKeyId],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "WriteGetObjectResponse",
@@ -14177,6 +14418,34 @@ export const writeGetObjectResponse: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
+          ExpectedBucketOwner: S.optional(S.String).pipe(
+            T.HttpHeader("x-amz-expected-bucket-owner"),
+          ),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/{Bucket}?tagging" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+            T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
+          ),
+        ),
+      ).annotate({ identifier: "GetBucketTaggingRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ TagSet: __S(1361, __c85, 1) }).pipe(T.all(T.XmlName("Tagging"), ns)),
+      ).annotate({ identifier: "GetBucketTaggingOutput" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14207,7 +14476,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetBucketVersioningOutput" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14232,15 +14501,15 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          RedirectAllRequestsTo: S.optional(__S(32, __c2, 0)),
-          IndexDocument: S.optional(__S(33, __c2, 1)),
-          ErrorDocument: S.optional(__S(34, __c2, 2)),
-          RoutingRules: S.optional(__S(38, __c2, 6)),
+          RedirectAllRequestsTo: S.optional(__S(48, __c3, 0)),
+          IndexDocument: S.optional(__S(49, __c3, 1)),
+          ErrorDocument: S.optional(__S(50, __c3, 2)),
+          RoutingRules: S.optional(__S(54, __c3, 6)),
         }).pipe(T.all(T.XmlName("WebsiteConfiguration"), ns)),
       ).annotate({ identifier: "GetBucketWebsiteOutput" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14271,17 +14540,17 @@ function __c2(j: number): any {
       ).annotate({ identifier: "Redirect" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ Condition: S.optional(__S(35, __c2, 3)), Redirect: __S(36, __c2, 4) }),
+        S.Struct({ Condition: S.optional(__S(51, __c3, 3)), Redirect: __S(52, __c3, 4) }),
       ).annotate({ identifier: "RoutingRule" });
     case 6:
       return S.Array(
-        /*@__PURE__*/ __S(37, __c2, 5)
+        /*@__PURE__*/ __S(53, __c3, 5)
           .pipe(/*@__PURE__*/ T.XmlName("RoutingRule"))
           .annotate({ identifier: "RoutingRule" }),
       );
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14392,7 +14661,7 @@ function __c3(j: number): any {
           ServerSideEncryption: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-server-side-encryption"),
           ),
-          Metadata: S.optional(__S(1312, __c82, 0)).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
+          Metadata: S.optional(__S(1328, __c83, 0)).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
           SSECustomerAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
           ),
@@ -14430,7 +14699,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetObjectOutput" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14457,14 +14726,14 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Owner: S.optional(__S(1840, __c115, 0)),
-          Grants: S.optional(__S(1857, __c116, 1)).pipe(T.XmlName("AccessControlList")),
+          Owner: S.optional(__S(1856, __c116, 0)),
+          Grants: S.optional(__S(1873, __c117, 1)).pipe(T.XmlName("AccessControlList")),
           RequestCharged: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-charged")),
         }).pipe(T.all(T.XmlName("AccessControlPolicy"), ns)),
       ).annotate({ identifier: "GetObjectAclOutput" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14534,7 +14803,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetObjectAnnotationOutput" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -14559,7 +14828,7 @@ function __c6(j: number): any {
           ExpectedBucketOwner: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-expected-bucket-owner"),
           ),
-          ObjectAttributes: __S(96, __c6, 0).pipe(T.HttpHeader("x-amz-object-attributes")),
+          ObjectAttributes: __S(112, __c7, 0).pipe(T.HttpHeader("x-amz-object-attributes")),
         }).pipe(
           T.all(
             ns,
@@ -14606,7 +14875,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "ObjectPart" });
     case 4:
-      return S.Array(__S(99, __c6, 3));
+      return S.Array(__S(115, __c7, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -14615,7 +14884,7 @@ function __c6(j: number): any {
           NextPartNumberMarker: S.optional(S.String),
           MaxParts: S.optional(S.Number),
           IsTruncated: S.optional(S.Boolean),
-          Parts: S.optional(__S(100, __c6, 4)).pipe(T.XmlName("Part"), T.XmlFlattened()),
+          Parts: S.optional(__S(116, __c7, 4)).pipe(T.XmlName("Part"), T.XmlFlattened()),
         }),
       ).annotate({ identifier: "GetObjectAttributesParts" });
     case 6:
@@ -14628,15 +14897,15 @@ function __c6(j: number): any {
           VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
           RequestCharged: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-charged")),
           ETag: S.optional(S.String),
-          Checksum: S.optional(__S(98, __c6, 2)),
-          ObjectParts: S.optional(__S(101, __c6, 5)),
+          Checksum: S.optional(__S(114, __c7, 2)),
+          ObjectParts: S.optional(__S(117, __c7, 5)),
           StorageClass: S.optional(S.String),
           ObjectSize: S.optional(S.Number),
         }).pipe(T.all(T.XmlName("GetObjectAttributesResponse"), ns)),
       ).annotate({ identifier: "GetObjectAttributesOutput" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14663,14 +14932,14 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          LegalHold: S.optional(__S(128, __c8, 0))
+          LegalHold: S.optional(__S(144, __c9, 0))
             .pipe(T.HttpPayload(), T.XmlName("LegalHold"))
             .annotate({ identifier: "ObjectLockLegalHold" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetObjectLegalHoldOutput" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Status: S.optional(S.String) })).annotate({
@@ -14678,7 +14947,7 @@ function __c8(j: number): any {
       });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14702,14 +14971,14 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ObjectLockConfiguration: S.optional(__S(178, __c11, 2))
+          ObjectLockConfiguration: S.optional(__S(194, __c12, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ObjectLockConfiguration" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetObjectLockConfigurationOutput" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14717,7 +14986,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "EventHoldDuration" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14725,20 +14994,20 @@ function __c11(j: number): any {
           Mode: S.optional(S.String),
           Days: S.optional(S.Number),
           Years: S.optional(S.Number),
-          DefaultEventHold: S.optional(__S(160, __c10, 0)),
+          DefaultEventHold: S.optional(__S(176, __c11, 0)),
         }),
       ).annotate({ identifier: "DefaultRetention" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DefaultRetention: S.optional(__S(176, __c11, 0)) }),
+        S.Struct({ DefaultRetention: S.optional(__S(192, __c12, 0)) }),
       ).annotate({ identifier: "ObjectLockRule" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ ObjectLockEnabled: S.optional(S.String), Rule: S.optional(__S(177, __c11, 1)) }),
+        S.Struct({ ObjectLockEnabled: S.optional(S.String), Rule: S.optional(__S(193, __c12, 1)) }),
       ).annotate({ identifier: "ObjectLockConfiguration" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14765,14 +15034,14 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Retention: S.optional(__S(208, __c13, 0))
+          Retention: S.optional(__S(224, __c14, 0))
             .pipe(T.HttpPayload(), T.XmlName("Retention"))
             .annotate({ identifier: "ObjectLockRetention" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetObjectRetentionOutput" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14780,12 +15049,12 @@ function __c13(j: number): any {
           Mode: S.optional(S.String),
           RetainUntilDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           EventHold: S.optional(S.String),
-          EventHoldDuration: S.optional(__S(160, __c10, 0)),
+          EventHoldDuration: S.optional(__S(176, __c11, 0)),
         }),
       ).annotate({ identifier: "ObjectLockRetention" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14813,12 +15082,12 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           VersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-version-id")),
-          TagSet: S.optional(__S(1345, __c84, 1)),
+          TagSet: S.optional(__S(1361, __c85, 1)),
         }).pipe(T.all(T.XmlName("Tagging"), ns)),
       ).annotate({ identifier: "GetObjectTaggingOutput" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14850,7 +15119,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetObjectTorrentOutput" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14875,14 +15144,14 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          PublicAccessBlockConfiguration: S.optional(__S(272, __c17, 0))
+          PublicAccessBlockConfiguration: S.optional(__S(288, __c18, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "PublicAccessBlockConfiguration" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetPublicAccessBlockOutput" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14895,7 +15164,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "PublicAccessBlockConfiguration" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14920,7 +15189,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "HeadBucketOutput" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15017,7 +15286,7 @@ function __c19(j: number): any {
           ServerSideEncryption: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-server-side-encryption"),
           ),
-          Metadata: S.optional(__S(1312, __c82, 0)).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
+          Metadata: S.optional(__S(1328, __c83, 0)).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
           SSECustomerAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-server-side-encryption-customer-algorithm"),
           ),
@@ -15055,7 +15324,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "HeadObjectOutput" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15082,14 +15351,14 @@ function __c20(j: number): any {
         ),
       ).annotate({ identifier: "ListBucketAnalyticsConfigurationsRequest" });
     case 1:
-      return S.Array(__S(1910, __c119, 6));
+      return S.Array(__S(1926, __c120, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
           IsTruncated: S.optional(S.Boolean),
           ContinuationToken: S.optional(S.String),
           NextContinuationToken: S.optional(S.String),
-          AnalyticsConfigurationList: S.optional(__S(321, __c20, 1)).pipe(
+          AnalyticsConfigurationList: S.optional(__S(337, __c21, 1)).pipe(
             T.XmlName("AnalyticsConfiguration"),
             T.XmlFlattened(),
           ),
@@ -15097,7 +15366,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ListBucketAnalyticsConfigurationsOutput" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15124,14 +15393,14 @@ function __c21(j: number): any {
         ),
       ).annotate({ identifier: "ListBucketIntelligentTieringConfigurationsRequest" });
     case 1:
-      return S.Array(__S(2004, __c125, 4));
+      return S.Array(__S(2020, __c126, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           IsTruncated: S.optional(S.Boolean),
           ContinuationToken: S.optional(S.String),
           NextContinuationToken: S.optional(S.String),
-          IntelligentTieringConfigurationList: S.optional(__S(337, __c21, 1)).pipe(
+          IntelligentTieringConfigurationList: S.optional(__S(353, __c22, 1)).pipe(
             T.XmlName("IntelligentTieringConfiguration"),
             T.XmlFlattened(),
           ),
@@ -15139,7 +15408,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ListBucketIntelligentTieringConfigurationsOutput" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15166,12 +15435,12 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListBucketInventoryConfigurationsRequest" });
     case 1:
-      return S.Array(__S(2040, __c127, 8));
+      return S.Array(__S(2056, __c128, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ContinuationToken: S.optional(S.String),
-          InventoryConfigurationList: S.optional(__S(353, __c22, 1)).pipe(
+          InventoryConfigurationList: S.optional(__S(369, __c23, 1)).pipe(
             T.XmlName("InventoryConfiguration"),
             T.XmlFlattened(),
           ),
@@ -15181,7 +15450,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ListBucketInventoryConfigurationsOutput" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15208,14 +15477,14 @@ function __c23(j: number): any {
         ),
       ).annotate({ identifier: "ListBucketMetricsConfigurationsRequest" });
     case 1:
-      return S.Array(__S(2194, __c137, 2));
+      return S.Array(__S(2210, __c138, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           IsTruncated: S.optional(S.Boolean),
           ContinuationToken: S.optional(S.String),
           NextContinuationToken: S.optional(S.String),
-          MetricsConfigurationList: S.optional(__S(369, __c23, 1)).pipe(
+          MetricsConfigurationList: S.optional(__S(385, __c24, 1)).pipe(
             T.XmlName("MetricsConfiguration"),
             T.XmlFlattened(),
           ),
@@ -15223,7 +15492,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ListBucketMetricsConfigurationsOutput" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15247,15 +15516,15 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Buckets: S.optional(__S(400, __c25, 0)),
-          Owner: S.optional(__S(1840, __c115, 0)),
+          Buckets: S.optional(__S(416, __c26, 0)),
+          Owner: S.optional(__S(1856, __c116, 0)),
           ContinuationToken: S.optional(S.String),
           Prefix: S.optional(S.String),
         }).pipe(T.all(T.XmlName("ListAllMyBucketsResult"), ns)),
       ).annotate({ identifier: "ListBucketsOutput" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Array(
@@ -15265,7 +15534,7 @@ function __c25(j: number): any {
       );
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15288,13 +15557,13 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Buckets: S.optional(__S(400, __c25, 0)),
+          Buckets: S.optional(__S(416, __c26, 0)),
           ContinuationToken: S.optional(S.String),
         }).pipe(T.all(T.XmlName("ListAllMyDirectoryBucketsResult"), ns)),
       ).annotate({ identifier: "ListDirectoryBucketsOutput" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15329,14 +15598,14 @@ function __c27(j: number): any {
           Key: S.optional(S.String),
           Initiated: S.optional(T.DateFromString),
           StorageClass: S.optional(S.String),
-          Owner: S.optional(__S(1840, __c115, 0)),
-          Initiator: S.optional(__S(464, __c29, 0)),
+          Owner: S.optional(__S(1856, __c116, 0)),
+          Initiator: S.optional(__S(480, __c30, 0)),
           ChecksumAlgorithm: S.optional(S.String),
           ChecksumType: S.optional(S.String),
         }),
       ).annotate({ identifier: "MultipartUpload" });
     case 2:
-      return S.Array(__S(433, __c27, 1));
+      return S.Array(__S(449, __c28, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -15349,25 +15618,25 @@ function __c27(j: number): any {
           NextUploadIdMarker: S.optional(S.String),
           MaxUploads: S.optional(S.Number),
           IsTruncated: S.optional(S.Boolean),
-          Uploads: S.optional(__S(434, __c27, 2)).pipe(T.XmlName("Upload"), T.XmlFlattened()),
-          CommonPrefixes: S.optional(__S(449, __c28, 1)).pipe(T.XmlFlattened()),
+          Uploads: S.optional(__S(450, __c28, 2)).pipe(T.XmlName("Upload"), T.XmlFlattened()),
+          CommonPrefixes: S.optional(__S(465, __c29, 1)).pipe(T.XmlFlattened()),
           EncodingType: S.optional(S.String),
           RequestCharged: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-charged")),
         }).pipe(T.all(T.XmlName("ListMultipartUploadsResult"), ns)),
       ).annotate({ identifier: "ListMultipartUploadsOutput" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Prefix: S.optional(S.String) })).annotate({
         identifier: "CommonPrefix",
       });
     case 1:
-      return S.Array(__S(448, __c28, 0));
+      return S.Array(__S(464, __c29, 0));
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15375,7 +15644,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "Initiator" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15411,21 +15680,21 @@ function __c30(j: number): any {
           AnnotationName: S.String,
           LastModified: T.DateFromString,
           ETag: S.optional(S.String),
-          ChecksumAlgorithm: S.optional(__S(496, __c31, 0)).pipe(T.XmlFlattened()),
+          ChecksumAlgorithm: S.optional(__S(512, __c32, 0)).pipe(T.XmlFlattened()),
           Size: S.Number,
           ReplicationStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnnotationEntry" });
     case 2:
       return S.Array(
-        /*@__PURE__*/ __S(481, __c30, 1)
+        /*@__PURE__*/ __S(497, __c31, 1)
           .pipe(/*@__PURE__*/ T.XmlName("AnnotationEntry"))
           .annotate({ identifier: "AnnotationEntry" }),
       );
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Annotations: S.optional(__S(482, __c30, 2)),
+          Annotations: S.optional(__S(498, __c31, 2)),
           Bucket: S.optional(S.String),
           Key: S.optional(S.String),
           ObjectVersionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-object-version-id")),
@@ -15439,13 +15708,13 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ListObjectAnnotationsOutput" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15460,7 +15729,7 @@ function __c32(j: number): any {
           ExpectedBucketOwner: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-expected-bucket-owner"),
           ),
-          OptionalObjectAttributes: S.optional(__S(544, __c34, 0)).pipe(
+          OptionalObjectAttributes: S.optional(__S(560, __c35, 0)).pipe(
             T.HttpHeader("x-amz-optional-object-attributes"),
           ),
         }).pipe(
@@ -15473,19 +15742,19 @@ function __c32(j: number): any {
           IsTruncated: S.optional(S.Boolean),
           Marker: S.optional(S.String),
           NextMarker: S.optional(S.String),
-          Contents: S.optional(__S(529, __c33, 1)).pipe(T.XmlFlattened()),
+          Contents: S.optional(__S(545, __c34, 1)).pipe(T.XmlFlattened()),
           Name: S.optional(S.String),
           Prefix: S.optional(S.String),
           Delimiter: S.optional(S.String),
           MaxKeys: S.optional(S.Number),
-          CommonPrefixes: S.optional(__S(449, __c28, 1)).pipe(T.XmlFlattened()),
+          CommonPrefixes: S.optional(__S(465, __c29, 1)).pipe(T.XmlFlattened()),
           EncodingType: S.optional(S.String),
           RequestCharged: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-charged")),
         }).pipe(T.all(T.XmlName("ListBucketResult"), ns)),
       ).annotate({ identifier: "ListObjectsOutput" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15493,19 +15762,19 @@ function __c33(j: number): any {
           Key: S.optional(S.String),
           LastModified: S.optional(T.DateFromString),
           ETag: S.optional(S.String),
-          ChecksumAlgorithm: S.optional(__S(496, __c31, 0)).pipe(T.XmlFlattened()),
+          ChecksumAlgorithm: S.optional(__S(512, __c32, 0)).pipe(T.XmlFlattened()),
           ChecksumType: S.optional(S.String),
           Size: S.optional(S.Number),
           StorageClass: S.optional(S.String),
-          Owner: S.optional(__S(1840, __c115, 0)),
-          RestoreStatus: S.optional(__S(545, __c34, 1)),
+          Owner: S.optional(__S(1856, __c116, 0)),
+          RestoreStatus: S.optional(__S(561, __c35, 1)),
         }),
       ).annotate({ identifier: "Object" });
     case 1:
-      return S.Array(__S(528, __c33, 0));
+      return S.Array(__S(544, __c34, 0));
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -15518,7 +15787,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "RestoreStatus" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15535,7 +15804,7 @@ function __c35(j: number): any {
           ExpectedBucketOwner: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-expected-bucket-owner"),
           ),
-          OptionalObjectAttributes: S.optional(__S(544, __c34, 0)).pipe(
+          OptionalObjectAttributes: S.optional(__S(560, __c35, 0)).pipe(
             T.HttpHeader("x-amz-optional-object-attributes"),
           ),
         }).pipe(
@@ -15554,12 +15823,12 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           IsTruncated: S.optional(S.Boolean),
-          Contents: S.optional(__S(529, __c33, 1)).pipe(T.XmlFlattened()),
+          Contents: S.optional(__S(545, __c34, 1)).pipe(T.XmlFlattened()),
           Name: S.optional(S.String),
           Prefix: S.optional(S.String),
           Delimiter: S.optional(S.String),
           MaxKeys: S.optional(S.Number),
-          CommonPrefixes: S.optional(__S(449, __c28, 1)).pipe(T.XmlFlattened()),
+          CommonPrefixes: S.optional(__S(465, __c29, 1)).pipe(T.XmlFlattened()),
           EncodingType: S.optional(S.String),
           KeyCount: S.optional(S.Number),
           ContinuationToken: S.optional(S.String),
@@ -15570,7 +15839,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "ListObjectsV2Output" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15586,7 +15855,7 @@ function __c36(j: number): any {
             T.HttpHeader("x-amz-expected-bucket-owner"),
           ),
           RequestPayer: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-payer")),
-          OptionalObjectAttributes: S.optional(__S(544, __c34, 0)).pipe(
+          OptionalObjectAttributes: S.optional(__S(560, __c35, 0)).pipe(
             T.HttpHeader("x-amz-optional-object-attributes"),
           ),
         }).pipe(
@@ -15605,7 +15874,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ETag: S.optional(S.String),
-          ChecksumAlgorithm: S.optional(__S(496, __c31, 0)).pipe(T.XmlFlattened()),
+          ChecksumAlgorithm: S.optional(__S(512, __c32, 0)).pipe(T.XmlFlattened()),
           ChecksumType: S.optional(S.String),
           Size: S.optional(S.Number),
           StorageClass: S.optional(S.String),
@@ -15613,16 +15882,16 @@ function __c36(j: number): any {
           VersionId: S.optional(S.String),
           IsLatest: S.optional(S.Boolean),
           LastModified: S.optional(T.DateFromString),
-          Owner: S.optional(__S(1840, __c115, 0)),
-          RestoreStatus: S.optional(__S(545, __c34, 1)),
+          Owner: S.optional(__S(1856, __c116, 0)),
+          RestoreStatus: S.optional(__S(561, __c35, 1)),
         }),
       ).annotate({ identifier: "ObjectVersion" });
     case 2:
-      return S.Array(__S(577, __c36, 1));
+      return S.Array(__S(593, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Owner: S.optional(__S(1840, __c115, 0)),
+          Owner: S.optional(__S(1856, __c116, 0)),
           Key: S.optional(S.String),
           VersionId: S.optional(S.String),
           IsLatest: S.optional(S.Boolean),
@@ -15630,7 +15899,7 @@ function __c36(j: number): any {
         }),
       ).annotate({ identifier: "DeleteMarkerEntry" });
     case 4:
-      return S.Array(__S(579, __c36, 3));
+      return S.Array(__S(595, __c37, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -15639,8 +15908,8 @@ function __c36(j: number): any {
           VersionIdMarker: S.optional(S.String),
           NextKeyMarker: S.optional(S.String),
           NextVersionIdMarker: S.optional(S.String),
-          Versions: S.optional(__S(578, __c36, 2)).pipe(T.XmlName("Version"), T.XmlFlattened()),
-          DeleteMarkers: S.optional(__S(580, __c36, 4)).pipe(
+          Versions: S.optional(__S(594, __c37, 2)).pipe(T.XmlName("Version"), T.XmlFlattened()),
+          DeleteMarkers: S.optional(__S(596, __c37, 4)).pipe(
             T.XmlName("DeleteMarker"),
             T.XmlFlattened(),
           ),
@@ -15648,14 +15917,14 @@ function __c36(j: number): any {
           Prefix: S.optional(S.String),
           Delimiter: S.optional(S.String),
           MaxKeys: S.optional(S.Number),
-          CommonPrefixes: S.optional(__S(449, __c28, 1)).pipe(T.XmlFlattened()),
+          CommonPrefixes: S.optional(__S(465, __c29, 1)).pipe(T.XmlFlattened()),
           EncodingType: S.optional(S.String),
           RequestCharged: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-charged")),
         }).pipe(T.all(T.XmlName("ListVersionsResult"), ns)),
       ).annotate({ identifier: "ListObjectVersionsOutput" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15710,7 +15979,7 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "Part" });
     case 2:
-      return S.Array(__S(593, __c37, 1));
+      return S.Array(__S(609, __c38, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -15725,9 +15994,9 @@ function __c37(j: number): any {
           NextPartNumberMarker: S.optional(S.String),
           MaxParts: S.optional(S.Number),
           IsTruncated: S.optional(S.Boolean),
-          Parts: S.optional(__S(594, __c37, 2)).pipe(T.XmlName("Part"), T.XmlFlattened()),
-          Initiator: S.optional(__S(464, __c29, 0)),
-          Owner: S.optional(__S(1840, __c115, 0)),
+          Parts: S.optional(__S(610, __c38, 2)).pipe(T.XmlName("Part"), T.XmlFlattened()),
+          Initiator: S.optional(__S(480, __c30, 0)),
+          Owner: S.optional(__S(1856, __c116, 0)),
           StorageClass: S.optional(S.String),
           RequestCharged: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-charged")),
           ChecksumAlgorithm: S.optional(S.String),
@@ -15736,7 +16005,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "ListPartsOutput" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15749,7 +16018,7 @@ function __c38(j: number): any {
           ExpectedBucketOwner: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-expected-bucket-owner"),
           ),
-          AbacStatus: __S(1792, __c112, 0)
+          AbacStatus: __S(1808, __c113, 0)
             .pipe(T.HttpPayload(), T.XmlName("AbacStatus"))
             .annotate({ identifier: "AbacStatus" }),
         }).pipe(
@@ -15771,7 +16040,7 @@ function __c38(j: number): any {
       });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Status: S.optional(S.String) })).annotate({
@@ -15781,7 +16050,7 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-          AccelerateConfiguration: __S(624, __c39, 0)
+          AccelerateConfiguration: __S(640, __c40, 0)
             .pipe(T.HttpPayload(), T.XmlName("AccelerateConfiguration"))
             .annotate({ identifier: "AccelerateConfiguration" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -15810,13 +16079,13 @@ function __c39(j: number): any {
       });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
-          AccessControlPolicy: S.optional(__S(656, __c41, 0))
+          AccessControlPolicy: S.optional(__S(672, __c42, 0))
             .pipe(T.HttpPayload(), T.XmlName("AccessControlPolicy"))
             .annotate({ identifier: "AccessControlPolicy" }),
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
@@ -15855,25 +16124,25 @@ function __c40(j: number): any {
       });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Grants: S.optional(__S(1857, __c116, 1)).pipe(T.XmlName("AccessControlList")),
-          Owner: S.optional(__S(1840, __c115, 0)),
+          Grants: S.optional(__S(1873, __c117, 1)).pipe(T.XmlName("AccessControlList")),
+          Owner: S.optional(__S(1856, __c116, 0)),
         }),
       ).annotate({ identifier: "AccessControlPolicy" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
           Id: S.String.pipe(T.HttpQuery("id")),
-          AnalyticsConfiguration: __S(1910, __c119, 6)
+          AnalyticsConfiguration: __S(1926, __c120, 6)
             .pipe(T.HttpPayload(), T.XmlName("AnalyticsConfiguration"))
             .annotate({ identifier: "AnalyticsConfiguration" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -15898,17 +16167,17 @@ function __c42(j: number): any {
       });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ CORSRules: __S(1941, __c121, 5).pipe(T.XmlName("CORSRule"), T.XmlFlattened()) }),
+        S.Struct({ CORSRules: __S(1957, __c122, 5).pipe(T.XmlName("CORSRule"), T.XmlFlattened()) }),
       ).annotate({ identifier: "CORSConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-          CORSConfiguration: __S(688, __c43, 0)
+          CORSConfiguration: __S(704, __c44, 0)
             .pipe(T.HttpPayload(), T.XmlName("CORSConfiguration"))
             .annotate({ identifier: "CORSConfiguration" }),
           ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
@@ -15941,7 +16210,7 @@ function __c43(j: number): any {
       });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15951,7 +16220,7 @@ function __c44(j: number): any {
           ChecksumAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-sdk-checksum-algorithm"),
           ),
-          ServerSideEncryptionConfiguration: __S(1973, __c123, 5)
+          ServerSideEncryptionConfiguration: __S(1989, __c124, 5)
             .pipe(T.HttpPayload(), T.XmlName("ServerSideEncryptionConfiguration"))
             .annotate({ identifier: "ServerSideEncryptionConfiguration" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -15980,7 +16249,7 @@ function __c44(j: number): any {
       });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15990,7 +16259,7 @@ function __c45(j: number): any {
           ExpectedBucketOwner: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-expected-bucket-owner"),
           ),
-          IntelligentTieringConfiguration: __S(2004, __c125, 4)
+          IntelligentTieringConfiguration: __S(2020, __c126, 4)
             .pipe(T.HttpPayload(), T.XmlName("IntelligentTieringConfiguration"))
             .annotate({ identifier: "IntelligentTieringConfiguration" }),
         }).pipe(
@@ -16012,14 +16281,14 @@ function __c45(j: number): any {
       });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
           Id: S.String.pipe(T.HttpQuery("id")),
-          InventoryConfiguration: __S(2040, __c127, 8)
+          InventoryConfiguration: __S(2056, __c128, 8)
             .pipe(T.HttpPayload(), T.XmlName("InventoryConfiguration"))
             .annotate({ identifier: "InventoryConfiguration" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -16044,11 +16313,11 @@ function __c46(j: number): any {
       });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Rules: __S(2074, __c129, 10).pipe(T.XmlName("Rule"), T.XmlFlattened()) }),
+        S.Struct({ Rules: __S(2090, __c130, 10).pipe(T.XmlName("Rule"), T.XmlFlattened()) }),
       ).annotate({ identifier: "BucketLifecycleConfiguration" });
     case 1:
       return S.suspend(() =>
@@ -16057,7 +16326,7 @@ function __c47(j: number): any {
           ChecksumAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-sdk-checksum-algorithm"),
           ),
-          LifecycleConfiguration: S.optional(__S(752, __c47, 0))
+          LifecycleConfiguration: S.optional(__S(768, __c48, 0))
             .pipe(T.HttpPayload(), T.XmlName("LifecycleConfiguration"))
             .annotate({ identifier: "BucketLifecycleConfiguration" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -16093,17 +16362,17 @@ function __c47(j: number): any {
       ).annotate({ identifier: "PutBucketLifecycleConfigurationOutput" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ LoggingEnabled: S.optional(__S(2117, __c132, 5)) }),
+        S.Struct({ LoggingEnabled: S.optional(__S(2133, __c133, 5)) }),
       ).annotate({ identifier: "BucketLoggingStatus" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-          BucketLoggingStatus: __S(768, __c48, 0)
+          BucketLoggingStatus: __S(784, __c49, 0)
             .pipe(T.HttpPayload(), T.XmlName("BucketLoggingStatus"))
             .annotate({ identifier: "BucketLoggingStatus" }),
           ContentMD5: S.optional(S.String).pipe(T.HttpHeader("Content-MD5")),
@@ -16136,14 +16405,14 @@ function __c48(j: number): any {
       });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
           Id: S.String.pipe(T.HttpQuery("id")),
-          MetricsConfiguration: __S(2194, __c137, 2)
+          MetricsConfiguration: __S(2210, __c138, 2)
             .pipe(T.HttpPayload(), T.XmlName("MetricsConfiguration"))
             .annotate({ identifier: "MetricsConfiguration" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -16168,13 +16437,13 @@ function __c49(j: number): any {
       });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-          NotificationConfiguration: __S(2236, __c139, 12)
+          NotificationConfiguration: __S(2252, __c140, 12)
             .pipe(T.HttpPayload(), T.XmlName("NotificationConfiguration"))
             .annotate({ identifier: "NotificationConfiguration" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -16202,7 +16471,7 @@ function __c50(j: number): any {
       });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16212,7 +16481,7 @@ function __c51(j: number): any {
           ExpectedBucketOwner: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-expected-bucket-owner"),
           ),
-          OwnershipControls: __S(2258, __c141, 2)
+          OwnershipControls: __S(2274, __c142, 2)
             .pipe(T.HttpPayload(), T.XmlName("OwnershipControls"))
             .annotate({ identifier: "OwnershipControls" }),
           ChecksumAlgorithm: S.optional(S.String).pipe(
@@ -16241,7 +16510,7 @@ function __c51(j: number): any {
       });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16281,7 +16550,7 @@ function __c52(j: number): any {
       });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16291,7 +16560,7 @@ function __c53(j: number): any {
           ChecksumAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-sdk-checksum-algorithm"),
           ),
-          ReplicationConfiguration: __S(2335, __c145, 15)
+          ReplicationConfiguration: __S(2351, __c146, 15)
             .pipe(T.HttpPayload(), T.XmlName("ReplicationConfiguration"))
             .annotate({ identifier: "ReplicationConfiguration" }),
           Token: S.optional(S.String).pipe(T.HttpHeader("x-amz-bucket-object-lock-token")),
@@ -16321,7 +16590,7 @@ function __c53(j: number): any {
       });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Payer: S.String })).annotate({
@@ -16335,7 +16604,7 @@ function __c54(j: number): any {
           ChecksumAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-sdk-checksum-algorithm"),
           ),
-          RequestPaymentConfiguration: __S(864, __c54, 0)
+          RequestPaymentConfiguration: __S(880, __c55, 0)
             .pipe(T.HttpPayload(), T.XmlName("RequestPaymentConfiguration"))
             .annotate({ identifier: "RequestPaymentConfiguration" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -16364,7 +16633,7 @@ function __c54(j: number): any {
       });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16374,7 +16643,7 @@ function __c55(j: number): any {
           ChecksumAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-sdk-checksum-algorithm"),
           ),
-          Tagging: __S(896, __c56, 0)
+          Tagging: __S(912, __c57, 0)
             .pipe(T.HttpPayload(), T.XmlName("Tagging"))
             .annotate({ identifier: "Tagging" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -16403,15 +16672,15 @@ function __c55(j: number): any {
       });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ TagSet: __S(1345, __c84, 1) })).annotate({
+      return S.suspend(() => S.Struct({ TagSet: __S(1361, __c85, 1) })).annotate({
         identifier: "Tagging",
       });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16429,7 +16698,7 @@ function __c57(j: number): any {
             T.HttpHeader("x-amz-sdk-checksum-algorithm"),
           ),
           MFA: S.optional(S.String).pipe(T.HttpHeader("x-amz-mfa")),
-          VersioningConfiguration: __S(912, __c57, 0)
+          VersioningConfiguration: __S(928, __c58, 0)
             .pipe(T.HttpPayload(), T.XmlName("VersioningConfiguration"))
             .annotate({ identifier: "VersioningConfiguration" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -16458,15 +16727,15 @@ function __c57(j: number): any {
       });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ErrorDocument: S.optional(__S(34, __c2, 2)),
-          IndexDocument: S.optional(__S(33, __c2, 1)),
-          RedirectAllRequestsTo: S.optional(__S(32, __c2, 0)),
-          RoutingRules: S.optional(__S(38, __c2, 6)),
+          ErrorDocument: S.optional(__S(50, __c3, 2)),
+          IndexDocument: S.optional(__S(49, __c3, 1)),
+          RedirectAllRequestsTo: S.optional(__S(48, __c3, 0)),
+          RoutingRules: S.optional(__S(54, __c3, 6)),
         }),
       ).annotate({ identifier: "WebsiteConfiguration" });
     case 1:
@@ -16477,7 +16746,7 @@ function __c58(j: number): any {
           ChecksumAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-sdk-checksum-algorithm"),
           ),
-          WebsiteConfiguration: __S(928, __c58, 0)
+          WebsiteConfiguration: __S(944, __c59, 0)
             .pipe(T.HttpPayload(), T.XmlName("WebsiteConfiguration"))
             .annotate({ identifier: "WebsiteConfiguration" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -16506,7 +16775,7 @@ function __c58(j: number): any {
       });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16543,7 +16812,7 @@ function __c59(j: number): any {
           GrantWriteACP: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-write-acp")),
           Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
           WriteOffsetBytes: S.optional(S.Number).pipe(T.HttpHeader("x-amz-write-offset-bytes")),
-          Metadata: S.optional(__S(1312, __c82, 0)).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
+          Metadata: S.optional(__S(1328, __c83, 0)).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
           ServerSideEncryption: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-server-side-encryption"),
           ),
@@ -16644,13 +16913,13 @@ function __c59(j: number): any {
       ).annotate({ identifier: "PutObjectOutput" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
-          AccessControlPolicy: S.optional(__S(656, __c41, 0))
+          AccessControlPolicy: S.optional(__S(672, __c42, 0))
             .pipe(T.HttpPayload(), T.XmlName("AccessControlPolicy"))
             .annotate({ identifier: "AccessControlPolicy" }),
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
@@ -16693,7 +16962,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "PutObjectAclOutput" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16761,14 +17030,14 @@ function __c61(j: number): any {
       ).annotate({ identifier: "PutObjectAnnotationOutput" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
           Key: S.String.pipe(T.HttpLabel("Key")),
-          LegalHold: S.optional(__S(128, __c8, 0))
+          LegalHold: S.optional(__S(144, __c9, 0))
             .pipe(T.HttpPayload(), T.XmlName("LegalHold"))
             .annotate({ identifier: "ObjectLockLegalHold" }),
           RequestPayer: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-payer")),
@@ -16804,13 +17073,13 @@ function __c62(j: number): any {
       ).annotate({ identifier: "PutObjectLegalHoldOutput" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-          ObjectLockConfiguration: S.optional(__S(178, __c11, 2))
+          ObjectLockConfiguration: S.optional(__S(194, __c12, 2))
             .pipe(T.HttpPayload(), T.XmlName("ObjectLockConfiguration"))
             .annotate({ identifier: "ObjectLockConfiguration" }),
           RequestPayer: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-payer")),
@@ -16846,14 +17115,14 @@ function __c63(j: number): any {
       ).annotate({ identifier: "PutObjectLockConfigurationOutput" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
           Key: S.String.pipe(T.HttpLabel("Key")),
-          Retention: S.optional(__S(208, __c13, 0))
+          Retention: S.optional(__S(224, __c14, 0))
             .pipe(T.HttpPayload(), T.XmlName("Retention"))
             .annotate({ identifier: "ObjectLockRetention" }),
           RequestPayer: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-payer")),
@@ -16892,7 +17161,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "PutObjectRetentionOutput" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16904,7 +17173,7 @@ function __c65(j: number): any {
           ChecksumAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-sdk-checksum-algorithm"),
           ),
-          Tagging: __S(896, __c56, 0)
+          Tagging: __S(912, __c57, 0)
             .pipe(T.HttpPayload(), T.XmlName("Tagging"))
             .annotate({ identifier: "Tagging" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -16935,7 +17204,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "PutObjectTaggingOutput" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16945,7 +17214,7 @@ function __c66(j: number): any {
           ChecksumAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-sdk-checksum-algorithm"),
           ),
-          PublicAccessBlockConfiguration: __S(272, __c17, 0)
+          PublicAccessBlockConfiguration: __S(288, __c18, 0)
             .pipe(T.HttpPayload(), T.XmlName("PublicAccessBlockConfiguration"))
             .annotate({ identifier: "PublicAccessBlockConfiguration" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -16974,7 +17243,7 @@ function __c66(j: number): any {
       });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17020,7 +17289,7 @@ function __c67(j: number): any {
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({ identifier: "RenameObjectOutput" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Tier: S.String })).annotate({
@@ -17029,10 +17298,10 @@ function __c68(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          InputSerialization: __S(1107, __c69, 3),
+          InputSerialization: __S(1123, __c70, 3),
           ExpressionType: S.String,
           Expression: S.String,
-          OutputSerialization: __S(1110, __c69, 6),
+          OutputSerialization: __S(1126, __c70, 6),
         }),
       ).annotate({ identifier: "SelectParameters" });
     case 2:
@@ -17049,7 +17318,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "MetadataEntry" });
     case 4:
       return S.Array(
-        /*@__PURE__*/ __S(1091, __c68, 3)
+        /*@__PURE__*/ __S(1107, __c69, 3)
           .pipe(/*@__PURE__*/ T.XmlName("MetadataEntry"))
           .annotate({ identifier: "MetadataEntry" }),
       );
@@ -17058,28 +17327,28 @@ function __c68(j: number): any {
         S.Struct({
           BucketName: S.String,
           Prefix: S.String,
-          Encryption: S.optional(__S(1090, __c68, 2)),
+          Encryption: S.optional(__S(1106, __c69, 2)),
           CannedACL: S.optional(S.String),
-          AccessControlList: S.optional(__S(1857, __c116, 1)),
-          Tagging: S.optional(__S(896, __c56, 0)),
-          UserMetadata: S.optional(__S(1092, __c68, 4)),
+          AccessControlList: S.optional(__S(1873, __c117, 1)),
+          Tagging: S.optional(__S(912, __c57, 0)),
+          UserMetadata: S.optional(__S(1108, __c69, 4)),
           StorageClass: S.optional(S.String),
         }),
       ).annotate({ identifier: "S3Location" });
     case 6:
-      return S.suspend(() => S.Struct({ S3: S.optional(__S(1093, __c68, 5)) })).annotate({
+      return S.suspend(() => S.Struct({ S3: S.optional(__S(1109, __c69, 5)) })).annotate({
         identifier: "OutputLocation",
       });
     case 7:
       return S.suspend(() =>
         S.Struct({
           Days: S.optional(S.Number),
-          GlacierJobParameters: S.optional(__S(1088, __c68, 0)),
+          GlacierJobParameters: S.optional(__S(1104, __c69, 0)),
           Type: S.optional(S.String),
           Tier: S.optional(S.String),
           Description: S.optional(S.String),
-          SelectParameters: S.optional(__S(1089, __c68, 1)),
-          OutputLocation: S.optional(__S(1094, __c68, 6)),
+          SelectParameters: S.optional(__S(1105, __c69, 1)),
+          OutputLocation: S.optional(__S(1110, __c69, 6)),
         }),
       ).annotate({ identifier: "RestoreRequest" });
     case 8:
@@ -17088,7 +17357,7 @@ function __c68(j: number): any {
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
           Key: S.String.pipe(T.HttpLabel("Key")),
           VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-          RestoreRequest: S.optional(__S(1095, __c68, 7))
+          RestoreRequest: S.optional(__S(1111, __c69, 7))
             .pipe(T.HttpPayload(), T.XmlName("RestoreRequest"))
             .annotate({ identifier: "RestoreRequest" }),
           RequestPayer: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-payer")),
@@ -17120,7 +17389,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "RestoreObjectOutput" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17143,10 +17412,10 @@ function __c69(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CSV: S.optional(__S(1104, __c69, 0)),
+          CSV: S.optional(__S(1120, __c70, 0)),
           CompressionType: S.optional(S.String),
-          JSON: S.optional(__S(1105, __c69, 1)),
-          Parquet: S.optional(__S(1106, __c69, 2)),
+          JSON: S.optional(__S(1121, __c70, 1)),
+          Parquet: S.optional(__S(1122, __c70, 2)),
         }),
       ).annotate({ identifier: "InputSerialization" });
     case 4:
@@ -17165,11 +17434,11 @@ function __c69(j: number): any {
       });
     case 6:
       return S.suspend(() =>
-        S.Struct({ CSV: S.optional(__S(1108, __c69, 4)), JSON: S.optional(__S(1109, __c69, 5)) }),
+        S.Struct({ CSV: S.optional(__S(1124, __c70, 4)), JSON: S.optional(__S(1125, __c70, 5)) }),
       ).annotate({ identifier: "OutputSerialization" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Enabled: S.optional(S.Boolean) })).annotate({
@@ -17195,10 +17464,10 @@ function __c70(j: number): any {
           ),
           Expression: S.String,
           ExpressionType: S.String,
-          RequestProgress: S.optional(__S(1120, __c70, 0)),
-          InputSerialization: __S(1107, __c69, 3),
-          OutputSerialization: __S(1110, __c69, 6),
-          ScanRange: S.optional(__S(1121, __c70, 1)),
+          RequestProgress: S.optional(__S(1136, __c71, 0)),
+          InputSerialization: __S(1123, __c70, 3),
+          OutputSerialization: __S(1126, __c70, 6),
+          ScanRange: S.optional(__S(1137, __c71, 1)),
           ExpectedBucketOwner: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-expected-bucket-owner"),
           ),
@@ -17229,7 +17498,7 @@ function __c70(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Details: S.optional(__S(1124, __c70, 4))
+          Details: S.optional(__S(1140, __c71, 4))
             .pipe(T.EventPayload())
             .annotate({ identifier: "Stats" }),
         }),
@@ -17245,7 +17514,7 @@ function __c70(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          Details: S.optional(__S(1126, __c70, 6))
+          Details: S.optional(__S(1142, __c71, 6))
             .pipe(T.EventPayload())
             .annotate({ identifier: "Progress" }),
         }),
@@ -17257,26 +17526,26 @@ function __c70(j: number): any {
     case 10:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ Records: __S(1123, __c70, 3) }),
-          /*@__PURE__*/ S.Struct({ Stats: __S(1125, __c70, 5) }),
-          /*@__PURE__*/ S.Struct({ Progress: __S(1127, __c70, 7) }),
-          /*@__PURE__*/ S.Struct({ Cont: __S(1128, __c70, 8) }),
-          /*@__PURE__*/ S.Struct({ End: __S(1129, __c70, 9) }),
+          /*@__PURE__*/ S.Struct({ Records: __S(1139, __c71, 3) }),
+          /*@__PURE__*/ S.Struct({ Stats: __S(1141, __c71, 5) }),
+          /*@__PURE__*/ S.Struct({ Progress: __S(1143, __c71, 7) }),
+          /*@__PURE__*/ S.Struct({ Cont: __S(1144, __c71, 8) }),
+          /*@__PURE__*/ S.Struct({ End: __S(1145, __c71, 9) }),
         ]),
       );
     case 11:
       return S.suspend(() =>
-        S.Struct({ Payload: S.optional(__S(1130, __c70, 10)).pipe(T.HttpPayload()) }).pipe(ns),
+        S.Struct({ Payload: S.optional(__S(1146, __c71, 10)).pipe(T.HttpPayload()) }).pipe(ns),
       ).annotate({ identifier: "SelectObjectContentOutput" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ConfigurationState: S.String,
-          EncryptionConfiguration: S.optional(__S(1376, __c86, 0)),
+          EncryptionConfiguration: S.optional(__S(1392, __c87, 0)),
           Role: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnnotationTableConfigurationUpdates" });
@@ -17288,7 +17557,7 @@ function __c71(j: number): any {
           ChecksumAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-sdk-checksum-algorithm"),
           ),
-          AnnotationTableConfiguration: __S(1136, __c71, 0)
+          AnnotationTableConfiguration: __S(1152, __c72, 0)
             .pipe(T.HttpPayload(), T.XmlName("AnnotationTableConfiguration"))
             .annotate({ identifier: "AnnotationTableConfigurationUpdates" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -17317,13 +17586,13 @@ function __c71(j: number): any {
       });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ConfigurationState: S.String,
-          EncryptionConfiguration: S.optional(__S(1376, __c86, 0)),
+          EncryptionConfiguration: S.optional(__S(1392, __c87, 0)),
         }),
       ).annotate({ identifier: "InventoryTableConfigurationUpdates" });
     case 1:
@@ -17334,7 +17603,7 @@ function __c72(j: number): any {
           ChecksumAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-sdk-checksum-algorithm"),
           ),
-          InventoryTableConfiguration: __S(1152, __c72, 0)
+          InventoryTableConfiguration: __S(1168, __c73, 0)
             .pipe(T.HttpPayload(), T.XmlName("InventoryTableConfiguration"))
             .annotate({ identifier: "InventoryTableConfigurationUpdates" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -17363,10 +17632,10 @@ function __c72(j: number): any {
       });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ RecordExpiration: __S(1392, __c87, 0) })).annotate({
+      return S.suspend(() => S.Struct({ RecordExpiration: __S(1408, __c88, 0) })).annotate({
         identifier: "JournalTableConfigurationUpdates",
       });
     case 1:
@@ -17377,7 +17646,7 @@ function __c73(j: number): any {
           ChecksumAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-sdk-checksum-algorithm"),
           ),
-          JournalTableConfiguration: __S(1168, __c73, 0)
+          JournalTableConfiguration: __S(1184, __c74, 0)
             .pipe(T.HttpPayload(), T.XmlName("JournalTableConfiguration"))
             .annotate({ identifier: "JournalTableConfigurationUpdates" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -17406,7 +17675,7 @@ function __c73(j: number): any {
       });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17417,7 +17686,7 @@ function __c74(j: number): any {
     case 1:
       return S.Union([
         /*@__PURE__*/ S.Struct({
-          SSEKMS: /*@__PURE__*/ __S(1184, __c74, 0)
+          SSEKMS: /*@__PURE__*/ __S(1200, __c75, 0)
             .pipe(/*@__PURE__*/ T.XmlName("SSE-KMS"))
             .annotate({ identifier: "SSEKMSEncryption" }),
         }),
@@ -17428,7 +17697,7 @@ function __c74(j: number): any {
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
           Key: S.String.pipe(T.HttpLabel("Key")),
           VersionId: S.optional(S.String).pipe(T.HttpQuery("versionId")),
-          ObjectEncryption: __S(1185, __c74, 1).pipe(T.HttpPayload()),
+          ObjectEncryption: __S(1201, __c75, 1).pipe(T.HttpPayload()),
           RequestPayer: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-payer")),
           ExpectedBucketOwner: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-expected-bucket-owner"),
@@ -17461,7 +17730,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "UpdateObjectEncryptionResponse" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17546,7 +17815,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "UploadPartOutput" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17628,7 +17897,7 @@ function __c76(j: number): any {
           CopySourceVersionId: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-copy-source-version-id"),
           ),
-          CopyPartResult: S.optional(__S(1217, __c76, 1))
+          CopyPartResult: S.optional(__S(1233, __c77, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "CopyPartResult" }),
           ServerSideEncryption: S.optional(S.String).pipe(
@@ -17651,7 +17920,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "UploadPartCopyOutput" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17718,7 +17987,7 @@ function __c77(j: number): any {
           MissingMeta: S.optional(S.Number).pipe(
             T.HttpHeader("x-amz-fwd-header-x-amz-missing-meta"),
           ),
-          Metadata: S.optional(__S(1312, __c82, 0)).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
+          Metadata: S.optional(__S(1328, __c83, 0)).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
           ObjectLockMode: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-fwd-header-x-amz-object-lock-mode"),
           ),
@@ -17777,7 +18046,7 @@ function __c77(j: number): any {
       });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17812,7 +18081,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "AbortMultipartUploadOutput" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17825,7 +18094,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "Bucket" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17845,11 +18114,11 @@ function __c80(j: number): any {
         }),
       ).annotate({ identifier: "CompletedPart" });
     case 1:
-      return S.Array(__S(1280, __c80, 0));
+      return S.Array(__S(1296, __c81, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Parts: S.optional(__S(1281, __c80, 1)).pipe(T.XmlName("Part"), T.XmlFlattened()),
+          Parts: S.optional(__S(1297, __c81, 1)).pipe(T.XmlName("Part"), T.XmlFlattened()),
         }),
       ).annotate({ identifier: "CompletedMultipartUpload" });
     case 3:
@@ -17857,7 +18126,7 @@ function __c80(j: number): any {
         S.Struct({
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
           Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-          MultipartUpload: S.optional(__S(1282, __c80, 2))
+          MultipartUpload: S.optional(__S(1298, __c81, 2))
             .pipe(T.HttpPayload(), T.XmlName("CompleteMultipartUpload"))
             .annotate({ identifier: "CompletedMultipartUpload" }),
           UploadId: S.String.pipe(T.HttpQuery("uploadId")),
@@ -17934,7 +18203,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CompleteMultipartUploadOutput" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17969,7 +18238,7 @@ function __c81(j: number): any {
           IfMatch: S.optional(S.String).pipe(T.HttpHeader("If-Match")),
           IfNoneMatch: S.optional(S.String).pipe(T.HttpHeader("If-None-Match")),
           Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-          Metadata: S.optional(__S(1312, __c82, 0)).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
+          Metadata: S.optional(__S(1328, __c83, 0)).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
           MetadataDirective: S.optional(S.String).pipe(T.HttpHeader("x-amz-metadata-directive")),
           TaggingDirective: S.optional(S.String).pipe(T.HttpHeader("x-amz-tagging-directive")),
           AnnotationDirective: S.optional(S.String).pipe(
@@ -18067,7 +18336,7 @@ function __c81(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          CopyObjectResult: S.optional(__S(1297, __c81, 1))
+          CopyObjectResult: S.optional(__S(1313, __c82, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "CopyObjectResult" }),
           Expiration: S.optional(S.String).pipe(T.HttpHeader("x-amz-expiration")),
@@ -18098,13 +18367,13 @@ function __c81(j: number): any {
       ).annotate({ identifier: "CopyObjectOutput" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18118,9 +18387,9 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           LocationConstraint: S.optional(S.String),
-          Location: S.optional(__S(1328, __c83, 0)),
-          Bucket: S.optional(__S(1329, __c83, 1)),
-          Tags: S.optional(__S(1345, __c84, 1)),
+          Location: S.optional(__S(1344, __c84, 0)),
+          Bucket: S.optional(__S(1345, __c84, 1)),
+          Tags: S.optional(__S(1361, __c85, 1)),
         }),
       ).annotate({ identifier: "CreateBucketConfiguration" });
     case 3:
@@ -18128,7 +18397,7 @@ function __c83(j: number): any {
         S.Struct({
           ACL: S.optional(S.String).pipe(T.HttpHeader("x-amz-acl")),
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-          CreateBucketConfiguration: S.optional(__S(1330, __c83, 2))
+          CreateBucketConfiguration: S.optional(__S(1346, __c84, 2))
             .pipe(T.HttpPayload(), T.XmlName("CreateBucketConfiguration"))
             .annotate({ identifier: "CreateBucketConfiguration" }),
           GrantFullControl: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-full-control")),
@@ -18166,7 +18435,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "CreateBucketOutput" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
@@ -18174,42 +18443,42 @@ function __c84(j: number): any {
       });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(1344, __c84, 0)
+        /*@__PURE__*/ __S(1360, __c85, 0)
           .pipe(/*@__PURE__*/ T.XmlName("Tag"))
           .annotate({ identifier: "Tag" }),
       );
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          RecordExpiration: __S(1392, __c87, 0),
-          EncryptionConfiguration: S.optional(__S(1376, __c86, 0)),
+          RecordExpiration: __S(1408, __c88, 0),
+          EncryptionConfiguration: S.optional(__S(1392, __c87, 0)),
         }),
       ).annotate({ identifier: "JournalTableConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           ConfigurationState: S.String,
-          EncryptionConfiguration: S.optional(__S(1376, __c86, 0)),
+          EncryptionConfiguration: S.optional(__S(1392, __c87, 0)),
         }),
       ).annotate({ identifier: "InventoryTableConfiguration" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           ConfigurationState: S.String,
-          EncryptionConfiguration: S.optional(__S(1376, __c86, 0)),
+          EncryptionConfiguration: S.optional(__S(1392, __c87, 0)),
           Role: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnnotationTableConfiguration" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          JournalTableConfiguration: __S(1360, __c85, 0),
-          InventoryTableConfiguration: S.optional(__S(1361, __c85, 1)),
-          AnnotationTableConfiguration: S.optional(__S(1362, __c85, 2)),
+          JournalTableConfiguration: __S(1376, __c86, 0),
+          InventoryTableConfiguration: S.optional(__S(1377, __c86, 1)),
+          AnnotationTableConfiguration: S.optional(__S(1378, __c86, 2)),
         }),
       ).annotate({ identifier: "MetadataConfiguration" });
     case 4:
@@ -18220,7 +18489,7 @@ function __c85(j: number): any {
           ChecksumAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-sdk-checksum-algorithm"),
           ),
-          MetadataConfiguration: __S(1363, __c85, 3)
+          MetadataConfiguration: __S(1379, __c86, 3)
             .pipe(T.HttpPayload(), T.XmlName("MetadataConfiguration"))
             .annotate({ identifier: "MetadataConfiguration" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -18249,7 +18518,7 @@ function __c85(j: number): any {
       });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18257,7 +18526,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "MetadataTableEncryptionConfiguration" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18265,14 +18534,14 @@ function __c87(j: number): any {
       ).annotate({ identifier: "RecordExpiration" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ TableBucketArn: S.String, TableName: S.String })).annotate({
         identifier: "S3TablesDestination",
       });
     case 1:
-      return S.suspend(() => S.Struct({ S3TablesDestination: __S(1408, __c88, 0) })).annotate({
+      return S.suspend(() => S.Struct({ S3TablesDestination: __S(1424, __c89, 0) })).annotate({
         identifier: "MetadataTableConfiguration",
       });
     case 2:
@@ -18283,7 +18552,7 @@ function __c88(j: number): any {
           ChecksumAlgorithm: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-sdk-checksum-algorithm"),
           ),
-          MetadataTableConfiguration: __S(1409, __c88, 1)
+          MetadataTableConfiguration: __S(1425, __c89, 1)
             .pipe(T.HttpPayload(), T.XmlName("MetadataTableConfiguration"))
             .annotate({ identifier: "MetadataTableConfiguration" }),
           ExpectedBucketOwner: S.optional(S.String).pipe(
@@ -18312,7 +18581,7 @@ function __c88(j: number): any {
       });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18330,7 +18599,7 @@ function __c89(j: number): any {
           GrantReadACP: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-read-acp")),
           GrantWriteACP: S.optional(S.String).pipe(T.HttpHeader("x-amz-grant-write-acp")),
           Key: S.String.pipe(T.HttpLabel("Key"), T.ContextParam("Key")),
-          Metadata: S.optional(__S(1312, __c82, 0)).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
+          Metadata: S.optional(__S(1328, __c83, 0)).pipe(T.HttpPrefixHeaders("x-amz-meta-")),
           ServerSideEncryption: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-server-side-encryption"),
           ),
@@ -18426,7 +18695,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "CreateMultipartUploadOutput" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18482,14 +18751,14 @@ function __c90(j: number): any {
           BucketKeyEnabled: S.optional(S.Boolean).pipe(
             T.HttpHeader("x-amz-server-side-encryption-bucket-key-enabled"),
           ),
-          Credentials: __S(1441, __c90, 1)
+          Credentials: __S(1457, __c91, 1)
             .pipe(T.XmlName("Credentials"))
             .annotate({ identifier: "SessionCredentials" }),
         }).pipe(T.all(T.XmlName("CreateSessionResult"), ns)),
       ).annotate({ identifier: "CreateSessionOutput" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18517,7 +18786,7 @@ function __c91(j: number): any {
       });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18546,7 +18815,7 @@ function __c92(j: number): any {
       });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18574,7 +18843,7 @@ function __c93(j: number): any {
       });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18602,7 +18871,7 @@ function __c94(j: number): any {
       });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18631,7 +18900,7 @@ function __c95(j: number): any {
       });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18660,7 +18929,7 @@ function __c96(j: number): any {
       });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18688,7 +18957,7 @@ function __c97(j: number): any {
       });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18716,7 +18985,7 @@ function __c98(j: number): any {
       });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18744,7 +19013,7 @@ function __c99(j: number): any {
       });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18773,7 +19042,7 @@ function __c100(j: number): any {
       });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18801,7 +19070,7 @@ function __c101(j: number): any {
       });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18829,7 +19098,7 @@ function __c102(j: number): any {
       });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18857,7 +19126,7 @@ function __c103(j: number): any {
       });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18885,7 +19154,7 @@ function __c104(j: number): any {
       });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18913,7 +19182,7 @@ function __c105(j: number): any {
       });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18956,7 +19225,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "DeleteObjectOutput" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18991,7 +19260,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "DeleteObjectAnnotationOutput" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19004,11 +19273,11 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "ObjectIdentifier" });
     case 1:
-      return S.Array(__S(1728, __c108, 0));
+      return S.Array(__S(1744, __c109, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Objects: __S(1729, __c108, 1).pipe(T.XmlName("Object"), T.XmlFlattened()),
+          Objects: __S(1745, __c109, 1).pipe(T.XmlName("Object"), T.XmlFlattened()),
           Quiet: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Delete" });
@@ -19016,7 +19285,7 @@ function __c108(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-          Delete: __S(1730, __c108, 2)
+          Delete: __S(1746, __c109, 2)
             .pipe(T.HttpPayload(), T.XmlName("Delete"))
             .annotate({ identifier: "Delete" }),
           MFA: S.optional(S.String).pipe(T.HttpHeader("x-amz-mfa")),
@@ -19056,7 +19325,7 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "DeletedObject" });
     case 5:
-      return S.Array(__S(1732, __c108, 4));
+      return S.Array(__S(1748, __c109, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -19067,18 +19336,18 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "Error" });
     case 7:
-      return S.Array(__S(1734, __c108, 6));
+      return S.Array(__S(1750, __c109, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          Deleted: S.optional(__S(1733, __c108, 5)).pipe(T.XmlFlattened()),
+          Deleted: S.optional(__S(1749, __c109, 5)).pipe(T.XmlFlattened()),
           RequestCharged: S.optional(S.String).pipe(T.HttpHeader("x-amz-request-charged")),
-          Errors: S.optional(__S(1735, __c108, 7)).pipe(T.XmlName("Error"), T.XmlFlattened()),
+          Errors: S.optional(__S(1751, __c109, 7)).pipe(T.XmlName("Error"), T.XmlFlattened()),
         }).pipe(T.all(T.XmlName("DeleteResult"), ns)),
       ).annotate({ identifier: "DeleteObjectsOutput" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19109,7 +19378,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "DeleteObjectTaggingOutput" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19137,7 +19406,7 @@ function __c110(j: number): any {
       });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19153,14 +19422,14 @@ function __c111(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          AbacStatus: S.optional(__S(1792, __c112, 0))
+          AbacStatus: S.optional(__S(1808, __c113, 0))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "AbacStatus" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetBucketAbacOutput" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Status: S.optional(S.String) })).annotate({
@@ -19168,7 +19437,7 @@ function __c112(j: number): any {
       });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19200,7 +19469,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "GetBucketAccelerateConfigurationOutput" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19225,13 +19494,13 @@ function __c114(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Owner: S.optional(__S(1840, __c115, 0)),
-          Grants: S.optional(__S(1857, __c116, 1)).pipe(T.XmlName("AccessControlList")),
+          Owner: S.optional(__S(1856, __c116, 0)),
+          Grants: S.optional(__S(1873, __c117, 1)).pipe(T.XmlName("AccessControlList")),
         }).pipe(T.all(T.XmlName("AccessControlPolicy"), ns)),
       ).annotate({ identifier: "GetBucketAclOutput" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19239,21 +19508,21 @@ function __c115(j: number): any {
       ).annotate({ identifier: "Owner" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Grantee: S.optional(__S(1872, __c117, 0)), Permission: S.optional(S.String) }),
+        S.Struct({ Grantee: S.optional(__S(1888, __c118, 0)), Permission: S.optional(S.String) }),
       ).annotate({ identifier: "Grant" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(1856, __c116, 0)
+        /*@__PURE__*/ __S(1872, __c117, 0)
           .pipe(/*@__PURE__*/ T.XmlName("Grant"))
           .annotate({ identifier: "Grant" }),
       );
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19267,7 +19536,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "Grantee" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19296,27 +19565,27 @@ function __c118(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          AnalyticsConfiguration: S.optional(__S(1910, __c119, 6))
+          AnalyticsConfiguration: S.optional(__S(1926, __c120, 6))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "AnalyticsConfiguration" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetBucketAnalyticsConfigurationOutput" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Prefix: S.optional(S.String),
-          Tags: S.optional(__S(1345, __c84, 1)).pipe(T.XmlName("Tag"), T.XmlFlattened()),
+          Tags: S.optional(__S(1361, __c85, 1)).pipe(T.XmlName("Tag"), T.XmlFlattened()),
         }),
       ).annotate({ identifier: "AnalyticsAndOperator" });
     case 1:
       return S.Union([
         /*@__PURE__*/ S.Struct({ Prefix: S.String }),
-        /*@__PURE__*/ S.Struct({ Tag: __S(1344, __c84, 0) }),
-        /*@__PURE__*/ S.Struct({ And: __S(1904, __c119, 0) }),
+        /*@__PURE__*/ S.Struct({ Tag: __S(1360, __c85, 0) }),
+        /*@__PURE__*/ S.Struct({ And: __S(1920, __c120, 0) }),
       ]);
     case 2:
       return S.suspend(() =>
@@ -19328,28 +19597,28 @@ function __c119(j: number): any {
         }),
       ).annotate({ identifier: "AnalyticsS3BucketDestination" });
     case 3:
-      return S.suspend(() => S.Struct({ S3BucketDestination: __S(1906, __c119, 2) })).annotate({
+      return S.suspend(() => S.Struct({ S3BucketDestination: __S(1922, __c120, 2) })).annotate({
         identifier: "AnalyticsExportDestination",
       });
     case 4:
       return S.suspend(() =>
-        S.Struct({ OutputSchemaVersion: S.String, Destination: __S(1907, __c119, 3) }),
+        S.Struct({ OutputSchemaVersion: S.String, Destination: __S(1923, __c120, 3) }),
       ).annotate({ identifier: "StorageClassAnalysisDataExport" });
     case 5:
-      return S.suspend(() => S.Struct({ DataExport: S.optional(__S(1908, __c119, 4)) })).annotate({
+      return S.suspend(() => S.Struct({ DataExport: S.optional(__S(1924, __c120, 4)) })).annotate({
         identifier: "StorageClassAnalysis",
       });
     case 6:
       return S.suspend(() =>
         S.Struct({
           Id: S.String,
-          Filter: S.optional(__S(1905, __c119, 1)),
-          StorageClassAnalysis: __S(1909, __c119, 5),
+          Filter: S.optional(__S(1921, __c120, 1)),
+          StorageClassAnalysis: __S(1925, __c120, 5),
         }),
       ).annotate({ identifier: "AnalyticsConfiguration" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19374,12 +19643,12 @@ function __c120(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CORSRules: S.optional(__S(1941, __c121, 5)).pipe(T.XmlName("CORSRule"), T.XmlFlattened()),
+          CORSRules: S.optional(__S(1957, __c122, 5)).pipe(T.XmlName("CORSRule"), T.XmlFlattened()),
         }).pipe(T.all(T.XmlName("CORSConfiguration"), ns)),
       ).annotate({ identifier: "GetBucketCorsOutput" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -19393,13 +19662,13 @@ function __c121(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ID: S.optional(S.String),
-          AllowedHeaders: S.optional(__S(1936, __c121, 0)).pipe(
+          AllowedHeaders: S.optional(__S(1952, __c122, 0)).pipe(
             T.XmlName("AllowedHeader"),
             T.XmlFlattened(),
           ),
-          AllowedMethods: __S(1937, __c121, 1).pipe(T.XmlName("AllowedMethod"), T.XmlFlattened()),
-          AllowedOrigins: __S(1938, __c121, 2).pipe(T.XmlName("AllowedOrigin"), T.XmlFlattened()),
-          ExposeHeaders: S.optional(__S(1939, __c121, 3)).pipe(
+          AllowedMethods: __S(1953, __c122, 1).pipe(T.XmlName("AllowedMethod"), T.XmlFlattened()),
+          AllowedOrigins: __S(1954, __c122, 2).pipe(T.XmlName("AllowedOrigin"), T.XmlFlattened()),
+          ExposeHeaders: S.optional(__S(1955, __c122, 3)).pipe(
             T.XmlName("ExposeHeader"),
             T.XmlFlattened(),
           ),
@@ -19407,10 +19676,10 @@ function __c121(j: number): any {
         }),
       ).annotate({ identifier: "CORSRule" });
     case 5:
-      return S.Array(__S(1940, __c121, 4));
+      return S.Array(__S(1956, __c122, 4));
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19435,14 +19704,14 @@ function __c122(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ServerSideEncryptionConfiguration: S.optional(__S(1973, __c123, 5))
+          ServerSideEncryptionConfiguration: S.optional(__S(1989, __c124, 5))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ServerSideEncryptionConfiguration" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetBucketEncryptionOutput" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19452,25 +19721,25 @@ function __c123(j: number): any {
       return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("EncryptionType")));
     case 2:
       return S.suspend(() =>
-        S.Struct({ EncryptionType: S.optional(__S(1969, __c123, 1)).pipe(T.XmlFlattened()) }),
+        S.Struct({ EncryptionType: S.optional(__S(1985, __c124, 1)).pipe(T.XmlFlattened()) }),
       ).annotate({ identifier: "BlockedEncryptionTypes" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ApplyServerSideEncryptionByDefault: S.optional(__S(1968, __c123, 0)),
+          ApplyServerSideEncryptionByDefault: S.optional(__S(1984, __c124, 0)),
           BucketKeyEnabled: S.optional(S.Boolean),
-          BlockedEncryptionTypes: S.optional(__S(1970, __c123, 2)),
+          BlockedEncryptionTypes: S.optional(__S(1986, __c124, 2)),
         }),
       ).annotate({ identifier: "ServerSideEncryptionRule" });
     case 4:
-      return S.Array(__S(1971, __c123, 3));
+      return S.Array(__S(1987, __c124, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ Rules: __S(1972, __c123, 4).pipe(T.XmlName("Rule"), T.XmlFlattened()) }),
+        S.Struct({ Rules: __S(1988, __c124, 4).pipe(T.XmlName("Rule"), T.XmlFlattened()) }),
       ).annotate({ identifier: "ServerSideEncryptionConfiguration" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19499,28 +19768,28 @@ function __c124(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          IntelligentTieringConfiguration: S.optional(__S(2004, __c125, 4))
+          IntelligentTieringConfiguration: S.optional(__S(2020, __c126, 4))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "IntelligentTieringConfiguration" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetBucketIntelligentTieringConfigurationOutput" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Prefix: S.optional(S.String),
-          Tags: S.optional(__S(1345, __c84, 1)).pipe(T.XmlName("Tag"), T.XmlFlattened()),
+          Tags: S.optional(__S(1361, __c85, 1)).pipe(T.XmlName("Tag"), T.XmlFlattened()),
         }),
       ).annotate({ identifier: "IntelligentTieringAndOperator" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           Prefix: S.optional(S.String),
-          Tag: S.optional(__S(1344, __c84, 0)),
-          And: S.optional(__S(2000, __c125, 0)),
+          Tag: S.optional(__S(1360, __c85, 0)),
+          And: S.optional(__S(2016, __c126, 0)),
         }),
       ).annotate({ identifier: "IntelligentTieringFilter" });
     case 2:
@@ -19528,19 +19797,19 @@ function __c125(j: number): any {
         identifier: "Tiering",
       });
     case 3:
-      return S.Array(__S(2002, __c125, 2));
+      return S.Array(__S(2018, __c126, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           Id: S.String,
-          Filter: S.optional(__S(2001, __c125, 1)),
+          Filter: S.optional(__S(2017, __c126, 1)),
           Status: S.String,
-          Tierings: __S(2003, __c125, 3).pipe(T.XmlName("Tiering"), T.XmlFlattened()),
+          Tierings: __S(2019, __c126, 3).pipe(T.XmlName("Tiering"), T.XmlFlattened()),
         }),
       ).annotate({ identifier: "IntelligentTieringConfiguration" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19569,14 +19838,14 @@ function __c126(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          InventoryConfiguration: S.optional(__S(2040, __c127, 8))
+          InventoryConfiguration: S.optional(__S(2056, __c128, 8))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "InventoryConfiguration" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetBucketInventoryConfigurationOutput" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({}).pipe(T.XmlName("SSE-S3"))).annotate({
@@ -19589,10 +19858,10 @@ function __c127(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          SSES3: S.optional(__S(2032, __c127, 0))
+          SSES3: S.optional(__S(2048, __c128, 0))
             .pipe(T.XmlName("SSE-S3"))
             .annotate({ identifier: "SSES3" }),
-          SSEKMS: S.optional(__S(2033, __c127, 1))
+          SSEKMS: S.optional(__S(2049, __c128, 1))
             .pipe(T.XmlName("SSE-KMS"))
             .annotate({ identifier: "SSEKMS" }),
         }),
@@ -19604,11 +19873,11 @@ function __c127(j: number): any {
           Bucket: S.String,
           Format: S.String,
           Prefix: S.optional(S.String),
-          Encryption: S.optional(__S(2034, __c127, 2)),
+          Encryption: S.optional(__S(2050, __c128, 2)),
         }),
       ).annotate({ identifier: "InventoryS3BucketDestination" });
     case 4:
-      return S.suspend(() => S.Struct({ S3BucketDestination: __S(2035, __c127, 3) })).annotate({
+      return S.suspend(() => S.Struct({ S3BucketDestination: __S(2051, __c128, 3) })).annotate({
         identifier: "InventoryDestination",
       });
     case 5:
@@ -19624,18 +19893,18 @@ function __c127(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          Destination: __S(2036, __c127, 4),
+          Destination: __S(2052, __c128, 4),
           IsEnabled: S.Boolean,
-          Filter: S.optional(__S(2037, __c127, 5)),
+          Filter: S.optional(__S(2053, __c128, 5)),
           Id: S.String,
           IncludedObjectVersions: S.String,
-          OptionalFields: S.optional(__S(2038, __c127, 6)),
-          Schedule: __S(2039, __c127, 7),
+          OptionalFields: S.optional(__S(2054, __c128, 6)),
+          Schedule: __S(2055, __c128, 7),
         }),
       ).annotate({ identifier: "InventoryConfiguration" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19660,7 +19929,7 @@ function __c128(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Rules: S.optional(__S(2074, __c129, 10)).pipe(T.XmlName("Rule"), T.XmlFlattened()),
+          Rules: S.optional(__S(2090, __c130, 10)).pipe(T.XmlName("Rule"), T.XmlFlattened()),
           TransitionDefaultMinimumObjectSize: S.optional(S.String).pipe(
             T.HttpHeader("x-amz-transition-default-minimum-object-size"),
           ),
@@ -19668,7 +19937,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "GetBucketLifecycleConfigurationOutput" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19682,7 +19951,7 @@ function __c129(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Prefix: S.optional(S.String),
-          Tags: S.optional(__S(1345, __c84, 1)).pipe(T.XmlName("Tag"), T.XmlFlattened()),
+          Tags: S.optional(__S(1361, __c85, 1)).pipe(T.XmlName("Tag"), T.XmlFlattened()),
           ObjectSizeGreaterThan: S.optional(S.Number),
           ObjectSizeLessThan: S.optional(S.Number),
         }),
@@ -19691,10 +19960,10 @@ function __c129(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Prefix: S.optional(S.String),
-          Tag: S.optional(__S(1344, __c84, 0)),
+          Tag: S.optional(__S(1360, __c85, 0)),
           ObjectSizeGreaterThan: S.optional(S.Number),
           ObjectSizeLessThan: S.optional(S.Number),
-          And: S.optional(__S(2065, __c129, 1)),
+          And: S.optional(__S(2081, __c130, 1)),
         }),
       ).annotate({ identifier: "LifecycleRuleFilter" });
     case 3:
@@ -19706,7 +19975,7 @@ function __c129(j: number): any {
         }),
       ).annotate({ identifier: "Transition" });
     case 4:
-      return S.Array(__S(2067, __c129, 3));
+      return S.Array(__S(2083, __c130, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -19716,7 +19985,7 @@ function __c129(j: number): any {
         }),
       ).annotate({ identifier: "NoncurrentVersionTransition" });
     case 6:
-      return S.Array(__S(2069, __c129, 5));
+      return S.Array(__S(2085, __c130, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -19731,28 +20000,28 @@ function __c129(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          Expiration: S.optional(__S(2064, __c129, 0)),
+          Expiration: S.optional(__S(2080, __c130, 0)),
           ID: S.optional(S.String),
           Prefix: S.optional(S.String),
-          Filter: S.optional(__S(2066, __c129, 2)),
+          Filter: S.optional(__S(2082, __c130, 2)),
           Status: S.String,
-          Transitions: S.optional(__S(2068, __c129, 4)).pipe(
+          Transitions: S.optional(__S(2084, __c130, 4)).pipe(
             T.XmlName("Transition"),
             T.XmlFlattened(),
           ),
-          NoncurrentVersionTransitions: S.optional(__S(2070, __c129, 6)).pipe(
+          NoncurrentVersionTransitions: S.optional(__S(2086, __c130, 6)).pipe(
             T.XmlName("NoncurrentVersionTransition"),
             T.XmlFlattened(),
           ),
-          NoncurrentVersionExpiration: S.optional(__S(2071, __c129, 7)),
-          AbortIncompleteMultipartUpload: S.optional(__S(2072, __c129, 8)),
+          NoncurrentVersionExpiration: S.optional(__S(2087, __c130, 7)),
+          AbortIncompleteMultipartUpload: S.optional(__S(2088, __c130, 8)),
         }),
       ).annotate({ identifier: "LifecycleRule" });
     case 10:
-      return S.Array(__S(2073, __c129, 9));
+      return S.Array(__S(2089, __c130, 9));
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19782,7 +20051,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GetBucketLocationOutput" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19806,21 +20075,21 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetBucketLoggingRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ LoggingEnabled: S.optional(__S(2117, __c132, 5)) }).pipe(
+        S.Struct({ LoggingEnabled: S.optional(__S(2133, __c133, 5)) }).pipe(
           T.all(T.XmlName("BucketLoggingStatus"), ns),
         ),
       ).annotate({ identifier: "GetBucketLoggingOutput" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Grantee: S.optional(__S(1872, __c117, 0)), Permission: S.optional(S.String) }),
+        S.Struct({ Grantee: S.optional(__S(1888, __c118, 0)), Permission: S.optional(S.String) }),
       ).annotate({ identifier: "TargetGrant" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ __S(2112, __c132, 0)
+        /*@__PURE__*/ __S(2128, __c133, 0)
           .pipe(/*@__PURE__*/ T.XmlName("Grant"))
           .annotate({ identifier: "TargetGrant" }),
       );
@@ -19837,10 +20106,10 @@ function __c132(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          SimplePrefix: S.optional(__S(2114, __c132, 2))
+          SimplePrefix: S.optional(__S(2130, __c133, 2))
             .pipe(T.XmlName("SimplePrefix"))
             .annotate({ identifier: "SimplePrefix" }),
-          PartitionedPrefix: S.optional(__S(2115, __c132, 3))
+          PartitionedPrefix: S.optional(__S(2131, __c133, 3))
             .pipe(T.XmlName("PartitionedPrefix"))
             .annotate({ identifier: "PartitionedPrefix" }),
         }),
@@ -19849,14 +20118,14 @@ function __c132(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TargetBucket: S.String,
-          TargetGrants: S.optional(__S(2113, __c132, 1)),
+          TargetGrants: S.optional(__S(2129, __c133, 1)),
           TargetPrefix: S.String,
-          TargetObjectKeyFormat: S.optional(__S(2116, __c132, 4)),
+          TargetObjectKeyFormat: S.optional(__S(2132, __c133, 4)),
         }),
       ).annotate({ identifier: "LoggingEnabled" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19890,10 +20159,10 @@ function __c133(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TableStatus: S.String,
-          Error: S.optional(__S(2144, __c134, 0)),
+          Error: S.optional(__S(2160, __c135, 0)),
           TableName: S.String,
           TableArn: S.optional(S.String),
-          RecordExpiration: __S(1392, __c87, 0),
+          RecordExpiration: __S(1408, __c88, 0),
         }),
       ).annotate({ identifier: "JournalTableConfigurationResult" });
     case 3:
@@ -19901,7 +20170,7 @@ function __c133(j: number): any {
         S.Struct({
           ConfigurationState: S.String,
           TableStatus: S.optional(S.String),
-          Error: S.optional(__S(2144, __c134, 0)),
+          Error: S.optional(__S(2160, __c135, 0)),
           TableName: S.optional(S.String),
           TableArn: S.optional(S.String),
         }),
@@ -19911,7 +20180,7 @@ function __c133(j: number): any {
         S.Struct({
           ConfigurationState: S.String,
           TableStatus: S.optional(S.String),
-          Error: S.optional(__S(2144, __c134, 0)),
+          Error: S.optional(__S(2160, __c135, 0)),
           TableName: S.optional(S.String),
           TableArn: S.optional(S.String),
           Role: S.optional(S.String),
@@ -19920,27 +20189,27 @@ function __c133(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          DestinationResult: __S(2129, __c133, 1),
-          JournalTableConfigurationResult: S.optional(__S(2130, __c133, 2)),
-          InventoryTableConfigurationResult: S.optional(__S(2131, __c133, 3)),
-          AnnotationTableConfigurationResult: S.optional(__S(2132, __c133, 4)),
+          DestinationResult: __S(2145, __c134, 1),
+          JournalTableConfigurationResult: S.optional(__S(2146, __c134, 2)),
+          InventoryTableConfigurationResult: S.optional(__S(2147, __c134, 3)),
+          AnnotationTableConfigurationResult: S.optional(__S(2148, __c134, 4)),
         }),
       ).annotate({ identifier: "MetadataConfigurationResult" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ MetadataConfigurationResult: __S(2133, __c133, 5) }),
+        S.Struct({ MetadataConfigurationResult: __S(2149, __c134, 5) }),
       ).annotate({ identifier: "GetBucketMetadataConfigurationResult" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          GetBucketMetadataConfigurationResult: S.optional(__S(2134, __c133, 6))
+          GetBucketMetadataConfigurationResult: S.optional(__S(2150, __c134, 6))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "GetBucketMetadataConfigurationResult" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetBucketMetadataConfigurationOutput" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19948,7 +20217,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "ErrorDetails" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19981,27 +20250,27 @@ function __c135(j: number): any {
       ).annotate({ identifier: "S3TablesDestinationResult" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ S3TablesDestinationResult: __S(2161, __c135, 1) }),
+        S.Struct({ S3TablesDestinationResult: __S(2177, __c136, 1) }),
       ).annotate({ identifier: "MetadataTableConfigurationResult" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          MetadataTableConfigurationResult: __S(2162, __c135, 2),
+          MetadataTableConfigurationResult: __S(2178, __c136, 2),
           Status: S.String,
-          Error: S.optional(__S(2144, __c134, 0)),
+          Error: S.optional(__S(2160, __c135, 0)),
         }),
       ).annotate({ identifier: "GetBucketMetadataTableConfigurationResult" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          GetBucketMetadataTableConfigurationResult: S.optional(__S(2163, __c135, 3))
+          GetBucketMetadataTableConfigurationResult: S.optional(__S(2179, __c136, 3))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "GetBucketMetadataTableConfigurationResult" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetBucketMetadataTableConfigurationOutput" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20027,37 +20296,37 @@ function __c136(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          MetricsConfiguration: S.optional(__S(2194, __c137, 2))
+          MetricsConfiguration: S.optional(__S(2210, __c138, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "MetricsConfiguration" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetBucketMetricsConfigurationOutput" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Prefix: S.optional(S.String),
-          Tags: S.optional(__S(1345, __c84, 1)).pipe(T.XmlName("Tag"), T.XmlFlattened()),
+          Tags: S.optional(__S(1361, __c85, 1)).pipe(T.XmlName("Tag"), T.XmlFlattened()),
           AccessPointArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "MetricsAndOperator" });
     case 1:
       return S.Union([
         /*@__PURE__*/ S.Struct({ Prefix: S.String }),
-        /*@__PURE__*/ S.Struct({ Tag: __S(1344, __c84, 0) }),
+        /*@__PURE__*/ S.Struct({ Tag: __S(1360, __c85, 0) }),
         /*@__PURE__*/ S.Struct({ AccessPointArn: S.String }),
-        /*@__PURE__*/ S.Struct({ And: __S(2192, __c137, 0) }),
+        /*@__PURE__*/ S.Struct({ And: __S(2208, __c138, 0) }),
       ]);
     case 2:
       return S.suspend(() =>
-        S.Struct({ Id: S.String, Filter: S.optional(__S(2193, __c137, 1)) }),
+        S.Struct({ Id: S.String, Filter: S.optional(__S(2209, __c138, 1)) }),
       ).annotate({ identifier: "MetricsConfiguration" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20081,7 +20350,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetBucketNotificationConfigurationRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -20090,11 +20359,11 @@ function __c139(j: number): any {
         S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
       ).annotate({ identifier: "FilterRule" });
     case 2:
-      return S.Array(__S(2225, __c139, 1));
+      return S.Array(__S(2241, __c140, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          FilterRules: S.optional(__S(2226, __c139, 2)).pipe(
+          FilterRules: S.optional(__S(2242, __c140, 2)).pipe(
             T.XmlName("FilterRule"),
             T.XmlFlattened(),
           ),
@@ -20103,7 +20372,7 @@ function __c139(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Key: S.optional(__S(2227, __c139, 3))
+          Key: S.optional(__S(2243, __c140, 3))
             .pipe(T.XmlName("S3Key"))
             .annotate({ identifier: "S3KeyFilter" }),
         }),
@@ -20113,57 +20382,57 @@ function __c139(j: number): any {
         S.Struct({
           Id: S.optional(S.String),
           TopicArn: S.String.pipe(T.XmlName("Topic")),
-          Events: __S(2224, __c139, 0).pipe(T.XmlName("Event"), T.XmlFlattened()),
-          Filter: S.optional(__S(2228, __c139, 4)),
+          Events: __S(2240, __c140, 0).pipe(T.XmlName("Event"), T.XmlFlattened()),
+          Filter: S.optional(__S(2244, __c140, 4)),
         }),
       ).annotate({ identifier: "TopicConfiguration" });
     case 6:
-      return S.Array(__S(2229, __c139, 5));
+      return S.Array(__S(2245, __c140, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           Id: S.optional(S.String),
           QueueArn: S.String.pipe(T.XmlName("Queue")),
-          Events: __S(2224, __c139, 0).pipe(T.XmlName("Event"), T.XmlFlattened()),
-          Filter: S.optional(__S(2228, __c139, 4)),
+          Events: __S(2240, __c140, 0).pipe(T.XmlName("Event"), T.XmlFlattened()),
+          Filter: S.optional(__S(2244, __c140, 4)),
         }),
       ).annotate({ identifier: "QueueConfiguration" });
     case 8:
-      return S.Array(__S(2231, __c139, 7));
+      return S.Array(__S(2247, __c140, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           Id: S.optional(S.String),
           LambdaFunctionArn: S.String.pipe(T.XmlName("CloudFunction")),
-          Events: __S(2224, __c139, 0).pipe(T.XmlName("Event"), T.XmlFlattened()),
-          Filter: S.optional(__S(2228, __c139, 4)),
+          Events: __S(2240, __c140, 0).pipe(T.XmlName("Event"), T.XmlFlattened()),
+          Filter: S.optional(__S(2244, __c140, 4)),
         }),
       ).annotate({ identifier: "LambdaFunctionConfiguration" });
     case 10:
-      return S.Array(__S(2233, __c139, 9));
+      return S.Array(__S(2249, __c140, 9));
     case 11:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "EventBridgeConfiguration" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          TopicConfigurations: S.optional(__S(2230, __c139, 6)).pipe(
+          TopicConfigurations: S.optional(__S(2246, __c140, 6)).pipe(
             T.XmlName("TopicConfiguration"),
             T.XmlFlattened(),
           ),
-          QueueConfigurations: S.optional(__S(2232, __c139, 8)).pipe(
+          QueueConfigurations: S.optional(__S(2248, __c140, 8)).pipe(
             T.XmlName("QueueConfiguration"),
             T.XmlFlattened(),
           ),
-          LambdaFunctionConfigurations: S.optional(__S(2234, __c139, 10)).pipe(
+          LambdaFunctionConfigurations: S.optional(__S(2250, __c140, 10)).pipe(
             T.XmlName("CloudFunctionConfiguration"),
             T.XmlFlattened(),
           ),
-          EventBridgeConfiguration: S.optional(__S(2235, __c139, 11)),
+          EventBridgeConfiguration: S.optional(__S(2251, __c140, 11)),
         }).pipe(ns),
       ).annotate({ identifier: "NotificationConfiguration" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20188,28 +20457,28 @@ function __c140(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          OwnershipControls: S.optional(__S(2258, __c141, 2))
+          OwnershipControls: S.optional(__S(2274, __c142, 2))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "OwnershipControls" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetBucketOwnershipControlsOutput" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ ObjectOwnership: S.String })).annotate({
         identifier: "OwnershipControlsRule",
       });
     case 1:
-      return S.Array(__S(2256, __c141, 0));
+      return S.Array(__S(2272, __c142, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ Rules: __S(2257, __c141, 1).pipe(T.XmlName("Rule"), T.XmlFlattened()) }),
+        S.Struct({ Rules: __S(2273, __c142, 1).pipe(T.XmlName("Rule"), T.XmlFlattened()) }),
       ).annotate({ identifier: "OwnershipControls" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20237,7 +20506,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetBucketPolicyOutput" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20266,14 +20535,14 @@ function __c143(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          PolicyStatus: S.optional(__S(2289, __c143, 1))
+          PolicyStatus: S.optional(__S(2305, __c144, 1))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "PolicyStatus" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetBucketPolicyStatusOutput" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20298,28 +20567,28 @@ function __c144(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ReplicationConfiguration: S.optional(__S(2335, __c145, 15))
+          ReplicationConfiguration: S.optional(__S(2351, __c146, 15))
             .pipe(T.HttpPayload())
             .annotate({ identifier: "ReplicationConfiguration" }),
         }).pipe(ns),
       ).annotate({ identifier: "GetBucketReplicationOutput" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Prefix: S.optional(S.String),
-          Tags: S.optional(__S(1345, __c84, 1)).pipe(T.XmlName("Tag"), T.XmlFlattened()),
+          Tags: S.optional(__S(1361, __c85, 1)).pipe(T.XmlName("Tag"), T.XmlFlattened()),
         }),
       ).annotate({ identifier: "ReplicationRuleAndOperator" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           Prefix: S.optional(S.String),
-          Tag: S.optional(__S(1344, __c84, 0)),
-          And: S.optional(__S(2320, __c145, 0)),
+          Tag: S.optional(__S(1360, __c85, 0)),
+          And: S.optional(__S(2336, __c146, 0)),
         }),
       ).annotate({ identifier: "ReplicationRuleFilter" });
     case 2:
@@ -20333,8 +20602,8 @@ function __c145(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          SseKmsEncryptedObjects: S.optional(__S(2322, __c145, 2)),
-          ReplicaModifications: S.optional(__S(2323, __c145, 3)),
+          SseKmsEncryptedObjects: S.optional(__S(2338, __c146, 2)),
+          ReplicaModifications: S.optional(__S(2339, __c146, 3)),
         }),
       ).annotate({ identifier: "SourceSelectionCriteria" });
     case 5:
@@ -20354,12 +20623,12 @@ function __c145(j: number): any {
         identifier: "ReplicationTimeValue",
       });
     case 9:
-      return S.suspend(() => S.Struct({ Status: S.String, Time: __S(2328, __c145, 8) })).annotate({
+      return S.suspend(() => S.Struct({ Status: S.String, Time: __S(2344, __c146, 8) })).annotate({
         identifier: "ReplicationTime",
       });
     case 10:
       return S.suspend(() =>
-        S.Struct({ Status: S.String, EventThreshold: S.optional(__S(2328, __c145, 8)) }),
+        S.Struct({ Status: S.String, EventThreshold: S.optional(__S(2344, __c146, 8)) }),
       ).annotate({ identifier: "Metrics" });
     case 11:
       return S.suspend(() =>
@@ -20367,10 +20636,10 @@ function __c145(j: number): any {
           Bucket: S.String,
           Account: S.optional(S.String),
           StorageClass: S.optional(S.String),
-          AccessControlTranslation: S.optional(__S(2326, __c145, 6)),
-          EncryptionConfiguration: S.optional(__S(2327, __c145, 7)),
-          ReplicationTime: S.optional(__S(2329, __c145, 9)),
-          Metrics: S.optional(__S(2330, __c145, 10)),
+          AccessControlTranslation: S.optional(__S(2342, __c146, 6)),
+          EncryptionConfiguration: S.optional(__S(2343, __c146, 7)),
+          ReplicationTime: S.optional(__S(2345, __c146, 9)),
+          Metrics: S.optional(__S(2346, __c146, 10)),
         }),
       ).annotate({ identifier: "Destination" });
     case 12:
@@ -20383,26 +20652,26 @@ function __c145(j: number): any {
           ID: S.optional(S.String),
           Priority: S.optional(S.Number),
           Prefix: S.optional(S.String),
-          Filter: S.optional(__S(2321, __c145, 1)),
+          Filter: S.optional(__S(2337, __c146, 1)),
           Status: S.String,
-          SourceSelectionCriteria: S.optional(__S(2324, __c145, 4)),
-          ExistingObjectReplication: S.optional(__S(2325, __c145, 5)),
-          Destination: __S(2331, __c145, 11),
-          DeleteMarkerReplication: S.optional(__S(2332, __c145, 12)),
+          SourceSelectionCriteria: S.optional(__S(2340, __c146, 4)),
+          ExistingObjectReplication: S.optional(__S(2341, __c146, 5)),
+          Destination: __S(2347, __c146, 11),
+          DeleteMarkerReplication: S.optional(__S(2348, __c146, 12)),
         }),
       ).annotate({ identifier: "ReplicationRule" });
     case 14:
-      return S.Array(__S(2333, __c145, 13));
+      return S.Array(__S(2349, __c146, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           Role: S.String,
-          Rules: __S(2334, __c145, 14).pipe(T.XmlName("Rule"), T.XmlFlattened()),
+          Rules: __S(2350, __c146, 14).pipe(T.XmlName("Rule"), T.XmlFlattened()),
         }),
       ).annotate({ identifier: "ReplicationConfiguration" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20430,34 +20699,6 @@ function __c146(j: number): any {
           T.all(T.XmlName("RequestPaymentConfiguration"), ns),
         ),
       ).annotate({ identifier: "GetBucketRequestPaymentOutput" });
-  }
-}
-function __c147(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Bucket: S.String.pipe(T.HttpLabel("Bucket"), T.ContextParam("Bucket")),
-          ExpectedBucketOwner: S.optional(S.String).pipe(
-            T.HttpHeader("x-amz-expected-bucket-owner"),
-          ),
-        }).pipe(
-          T.all(
-            ns,
-            T.Http({ method: "GET", uri: "/{Bucket}?tagging" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-            T.StaticContextParams({ UseS3ExpressControlEndpoint: { value: true } }),
-          ),
-        ),
-      ).annotate({ identifier: "GetBucketTaggingRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ TagSet: __S(1345, __c84, 1) }).pipe(T.all(T.XmlName("Tagging"), ns)),
-      ).annotate({ identifier: "GetBucketTaggingOutput" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
