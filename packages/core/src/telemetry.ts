@@ -365,7 +365,7 @@ export const operationInfo = (
   };
 };
 
-const flatten = (
+export const flatten = (
   rules: Readonly<Record<string, ReadonlyArray<AttributeRule>>> | undefined,
 ): Array<readonly [string, AttributeRule]> => {
   const out: Array<readonly [string, AttributeRule]> = [];
@@ -376,7 +376,7 @@ const flatten = (
 };
 
 /** Attributes the rules read from a value (the input or the output). Redacted values are skipped. */
-const readRules = (
+export const readRules = (
   rules: OperationInfo["input"],
   value: unknown,
   set: (key: string, value: unknown) => void,

@@ -2,7 +2,9 @@
  * When an operation span ends for a streamed response (issue #979), as the
  * OpenTelemetry AWS SDK instrumentations do: a GenAI stream (Bedrock
  * ConverseStream) keeps the span open until the caller has read it; an S3
- * object body does not, so GetObject ends at the response headers.
+ * object body does not, so GetObject ends at the response headers. The
+ * ConverseStream span also records usage and finish reason from the stream's
+ * events (issue #978).
  */
 import { TelemetryDebug } from "@distilled.cloud/core/telemetry-debug";
 import * as Effect from "effect/Effect";
@@ -117,6 +119,12 @@ describe("Bedrock ConverseStream", () => {
         { messageStart: { role: "assistant" } },
         { contentBlockDelta: { contentBlockIndex: 0, delta: { text: "hi" } } },
         { messageStop: { stopReason: "end_turn" } },
+        {
+          metadata: {
+            usage: { inputTokens: 12, outputTokens: 3, totalTokens: 15, cacheReadInputTokens: 0 },
+            metrics: { latencyMs: 120 },
+          },
+        },
       ].map((event) => Effect.runPromise(encodeEvent(serializeInputEvent(event)))),
     );
   });
@@ -150,12 +158,38 @@ describe("Bedrock ConverseStream", () => {
     const span = spans[0]!;
     expect(span.name).toBe("chat m");
     expect(ok(span)).toBe(true);
-    // 3 events and the end of the body, PART_MS each.
-    expect(ms(span)).toBeGreaterThanOrEqual(4 * PART_MS - 5);
+    // 4 events and the end of the body, PART_MS each.
+    expect(ms(span)).toBeGreaterThanOrEqual(5 * PART_MS - 5);
     const first = span.attributes.get("gen_ai.response.time_to_first_chunk") as number;
     expect(first).toBeGreaterThanOrEqual((PART_MS - 5) / 1000);
     expect(first).toBeLessThan((2 * PART_MS) / 1000);
     expect(span.attributes.get("aws.request_id")).toBe("B1");
+  });
+
+  test("usage and finish reason come from the stream's events (issue #978)", async () => {
+    const { spans, exit } = await run(readAll, bedrock());
+    expect(Exit.isSuccess(exit)).toBe(true);
+    const attributes = Object.fromEntries(spans[0]!.attributes);
+    expect(attributes).toMatchObject({
+      "gen_ai.request.stream": true,
+      "gen_ai.usage.input_tokens": 12,
+      "gen_ai.usage.output_tokens": 3,
+      "gen_ai.response.finish_reasons": ["end_turn"],
+    });
+    // nonZero: a cache that was not used records nothing.
+    expect(attributes).not.toHaveProperty("gen_ai.usage.cache_read.input_tokens");
+    expect(attributes).not.toHaveProperty("gen_ai.usage.cache_write.input_tokens");
+  });
+
+  test("a caller that stops before the metadata event records no usage", async () => {
+    const { spans } = await run(
+      Effect.flatMap(converse, (out) =>
+        Stream.runCollect(Stream.take(out.stream as Stream.Stream<unknown, unknown>, 1)),
+      ),
+      bedrock(),
+    );
+    expect(spans[0]!.attributes.has("gen_ai.usage.input_tokens")).toBe(false);
+    expect(spans[0]!.attributes.has("gen_ai.response.finish_reasons")).toBe(false);
   });
 
   test("an error while reading fails the span", async () => {
@@ -188,8 +222,8 @@ describe("Bedrock ConverseStream", () => {
     expect(read.parent._tag === "Some" && read.parent.value.spanId).toBe(op.spanId);
     expect(Object.fromEntries(read.attributes)).toMatchObject({
       "distilled.stream.member": "stream",
-      "distilled.stream.items": 3,
+      "distilled.stream.items": 4,
     });
-    expect(ms(read)).toBeGreaterThanOrEqual(4 * PART_MS - 5);
+    expect(ms(read)).toBeGreaterThanOrEqual(5 * PART_MS - 5);
   });
 });

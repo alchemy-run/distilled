@@ -722,7 +722,7 @@ const scenarios = (): Scenario[] => [
   {
     id: "bedrock-converse-stream",
     title: "Bedrock ConverseStream, 5 events",
-    what: "A streamed GenAI response. The headers arrive after 180 ms, the events over the next 400 ms. A GenAI span ends when the response is fully received (GenAI conventions; the OpenTelemetry AWS SDK instrumentations do the same), so the operation span stays open until the caller has read the last event, and gen_ai.response.time_to_first_chunk records when the first event arrived. Debug mode shows the read as distilled.read_stream.",
+    what: "A streamed GenAI response. The headers arrive after 180 ms, the events over the next 400 ms. A GenAI span ends when the response is fully received (GenAI conventions; the OpenTelemetry AWS SDK instrumentations do the same), so the operation span stays open until the caller has read the last event, and gen_ai.response.time_to_first_chunk records when the first event arrived. The messageStop event gives gen_ai.response.finish_reasons and the metadata event gives gen_ai.usage.input_tokens and output_tokens, the attributes Converse reads from its response. Debug mode shows the read as distilled.read_stream.",
     code: `const { stream } = yield* Bedrock.converseStream({
   modelId: "anthropic.claude-sonnet",
   messages: [{ role: "user", content: [{ text: "hi" }] }],

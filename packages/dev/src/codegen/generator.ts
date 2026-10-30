@@ -1378,7 +1378,17 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       extensions.push(`${key}: ${use(target[0])}.${target[1]}(${JSON.stringify(place)})`);
     }
     if (stream !== undefined) {
-      const rule = { ...stream, member: tsName(op.def.__output, stream.member) };
+      const rule: Record<string, unknown> = {
+        ...stream,
+        member: tsName(op.def.__output, stream.member),
+      };
+      if (stream.events !== undefined) {
+        // Event rules are keyed by the stream union's members.
+        const union = (shapes[op.def.__output]?.members ?? {})[stream.member]?.target;
+        rule.events = Object.fromEntries(
+          Object.entries(stream.events).map(([event, rules]) => [tsName(union, event), rules]),
+        );
+      }
       extensions.push(`hold: ${use(TX_STREAM)}.holdForStream(${JSON.stringify(rule)})`);
     }
     const spanCode =
