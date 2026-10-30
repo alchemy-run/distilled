@@ -877,7 +877,9 @@ export interface CreateMonitorResponse {
 /** HTTP headers to include in the request */
 export type CustomNotifierConfigHeadersMap = { [key: string]: string | undefined };
 /** Sensitive HTTP headers (tokens, keys) that should be masked in logs */
-export type CustomNotifierConfigSecretHeadersMap = { [key: string]: string | undefined };
+export type CustomNotifierConfigSecretHeadersMap = {
+  [key: string]: string | Redacted.Redacted<string> | undefined;
+};
 /** Configuration for custom webhook notifications with flexible headers and body template. Supports variable substitution in the body template using {{.Variable}} syntax. */
 export interface CustomNotifierConfig {
   /** Template for the webhook body, supports variable substitution */
@@ -2423,7 +2425,7 @@ export const createNotifier: API.OperationMethod<
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateNotifierRequest>,
-  output: __S(90, __c5, 10) as any as S.Schema<CreateNotifierResponse>,
+  output: __S(91, __c5, 11) as any as S.Schema<CreateNotifierResponse>,
   errors: [UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3020,7 +3022,7 @@ export const getNotifier: API.OperationMethod<
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<GetNotifierRequest>,
-  output: __S(90, __c5, 10) as any as S.Schema<GetNotifierResponse>,
+  output: __S(91, __c5, 11) as any as S.Schema<GetNotifierResponse>,
   errors: [NotFound, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3491,7 +3493,7 @@ export const updateNotifier: API.OperationMethod<
   AxiomOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<UpdateNotifierRequest>,
-  output: __S(90, __c5, 10) as any as S.Schema<UpdateNotifierResponse>,
+  output: __S(91, __c5, 11) as any as S.Schema<UpdateNotifierResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
   protocol: AxiomProtocol,
   retry: Retry.Retry,
@@ -3705,7 +3707,7 @@ function __c3(j: number): any {
         S.Struct({
           disabledUntil: S.optional(S.String),
           name: S.String,
-          properties: __S(89, __c5, 9),
+          properties: __S(90, __c5, 10),
         }).pipe(T.Http({ method: "POST", uri: "/v2/notifiers", code: 200 })),
       ).annotate({ identifier: "CreateNotifierRequest" });
   }
@@ -3719,87 +3721,89 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           body: S.String,
           headers: S.optional(__S(64, __c4, 0)),
-          secretHeaders: S.optional(__S(64, __c4, 0)),
+          secretHeaders: S.optional(__S(80, __c5, 0)),
           url: S.String,
         }),
       ).annotate({ identifier: "CustomNotifierConfig" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           discordChannel: S.optional(S.String),
           discordToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DiscordConfig" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           discordWebhookUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DiscordWebhookConfig" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           emails: S.optional(__S(896, __c56, 0)),
         }),
       ).annotate({ identifier: "EmailConfig" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           microsoftTeamsUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "MicrosoftTeamsConfig" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           isEU: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "OpsGenieConfig" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           routingKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PagerDutyConfig" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           slackUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SlackConfig" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebhookConfig" });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          customWebhook: S.optional(__S(80, __c5, 0)),
-          discord: S.optional(__S(81, __c5, 1)),
-          discordWebhook: S.optional(__S(82, __c5, 2)),
-          email: S.optional(__S(83, __c5, 3)),
-          microsoftTeams: S.optional(__S(84, __c5, 4)),
-          opsgenie: S.optional(__S(85, __c5, 5)),
-          pagerduty: S.optional(__S(86, __c5, 6)),
-          slack: S.optional(__S(87, __c5, 7)),
-          webhook: S.optional(__S(88, __c5, 8)),
+          customWebhook: S.optional(__S(81, __c5, 1)),
+          discord: S.optional(__S(82, __c5, 2)),
+          discordWebhook: S.optional(__S(83, __c5, 3)),
+          email: S.optional(__S(84, __c5, 4)),
+          microsoftTeams: S.optional(__S(85, __c5, 5)),
+          opsgenie: S.optional(__S(86, __c5, 6)),
+          pagerduty: S.optional(__S(87, __c5, 7)),
+          slack: S.optional(__S(88, __c5, 8)),
+          webhook: S.optional(__S(89, __c5, 9)),
         }),
       ).annotate({ identifier: "NotifierProperties" });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
           createdBy: S.optional(S.String),
           disabledUntil: S.optional(S.String),
           name: S.String,
-          properties: __S(89, __c5, 9),
+          properties: __S(90, __c5, 10),
           updatedAt: S.optional(S.String),
           id: S.optional(S.String),
         }),
@@ -4494,7 +4498,7 @@ function __c53(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/notifiers", code: 200 })),
       ).annotate({ identifier: "GetNotifiersRequest" });
     case 1:
-      return S.Array(__S(90, __c5, 10));
+      return S.Array(__S(91, __c5, 11));
     case 2:
       return S.suspend(() => __S(849, __c53, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetNotifiersResponse",
@@ -5112,7 +5116,7 @@ function __c90(j: number): any {
           id: S.String.pipe(T.Label()),
           disabledUntil: S.optional(S.String),
           name: S.String,
-          properties: __S(89, __c5, 9),
+          properties: __S(90, __c5, 10),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/notifiers/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateNotifierRequest" });
   }

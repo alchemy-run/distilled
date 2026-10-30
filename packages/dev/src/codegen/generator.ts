@@ -700,14 +700,18 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     (spec.extraBindings ?? []).find((b) => b.binding === info.binding && b.tsType !== undefined)
       ?.tsType;
 
-  const emitMember = (info: EmittedMember, selfIdx: number): string => {
+  const memberExpr = (info: EmittedMember, selfIdx: number): string => {
     let expr =
       spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ?? ref(info.target, selfIdx);
     if (info.nullable) expr = `S.NullOr(${expr})`;
     const pipes = memberPipes(info);
     if (pipes.length) expr = `${expr}.pipe(${pipes.join(", ")})`;
-    if (!info.required) expr = `S.optional(${expr})`;
-    return `  ${q(info.tsName)}: ${expr},`;
+    return expr;
+  };
+
+  const emitMember = (info: EmittedMember, selfIdx: number): string => {
+    const expr = memberExpr(info, selfIdx);
+    return `  ${q(info.tsName)}: ${info.required ? expr : `S.optional(${expr})`},`;
   };
 
   const opIoShapes = new Set<string>();
@@ -960,25 +964,33 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
           }),
         );
       }
-    } else if (d.type === "list") {
-      const nullable =
-        spec.nullableTrait !== undefined && spec.nullableTrait in (d.member.traits ?? {});
-      const item = ref(d.member.target, i);
+    } else if (d.type === "list" || d.type === "map") {
+      // The element takes a structure member's traits, so a sensitive one
+      // types and decodes as Redacted.
+      const [elemName, elem] = d.type === "list" ? ["member", d.member] : ["value", d.value];
+      const traits = elem.traits ?? {};
+      const member: EmittedMember = {
+        name: elemName,
+        tsName: elemName,
+        wire: elemName,
+        target: elem.target,
+        binding: "body",
+        required: true,
+        nullable: spec.nullableTrait !== undefined && spec.nullableTrait in traits,
+        doc: undefined,
+        traits,
+      };
+      const elemType =
+        memberTsTypeOf(member, tsRef) ??
+        `${tsRefAt(member.target, id)}${member.nullable ? " | null" : ""}`;
+      const elemExpr = memberExpr(member, i);
       out.push(
-        `export type ${name} = Array<${tsRefAt(d.member.target, id)}${nullable ? " | null" : ""}>;`,
+        d.type === "list"
+          ? `export type ${name} = Array<${elemType}>;`
+          : `export type ${name} = { [key: string]: ${elemType} | undefined };`,
       );
       out.push(
-        `export const ${name} = ${pure}S.Array(${nullable ? `S.NullOr(${item})` : item}) as any as S.${spec.schemaType ?? "Schema"}<${name}>;\n`,
-      );
-    } else if (d.type === "map") {
-      const nullable =
-        spec.nullableTrait !== undefined && spec.nullableTrait in (d.value.traits ?? {});
-      const value = ref(d.value.target, i);
-      out.push(
-        `export type ${name} = { [key: string]: ${tsRefAt(d.value.target, id)}${nullable ? " | null" : ""} | undefined };`,
-      );
-      out.push(
-        `export const ${name} = ${pure}S.Record(S.String, ${nullable ? `S.NullOr(${value})` : value}) as any as S.${spec.schemaType ?? "Schema"}<${name}>;\n`,
+        `export const ${name} = ${pure}${d.type === "list" ? `S.Array(${elemExpr})` : `S.Record(S.String, ${elemExpr})`} as any as S.${spec.schemaType ?? "Schema"}<${name}>;\n`,
       );
     } else if (d.type === "union") {
       // A union arm targeting the union itself carries no information
