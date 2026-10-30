@@ -1,10 +1,9 @@
 /**
- * The operation span of a call with a streamed output (S3 GetObject's
- * `Body`) covers the whole response: it ends when the caller has read the
- * stream, not when the headers arrive (issue #979).
+ * When an operation span ends for a streamed response (issue #979), as the
+ * OpenTelemetry AWS SDK instrumentations do: a GenAI stream (Bedrock
+ * ConverseStream) keeps the span open until the caller has read it; an S3
+ * object body does not, so GetObject ends at the response headers.
  */
-import { setFlagsFromString } from "node:v8";
-import { runInNewContext } from "node:vm";
 import { TelemetryDebug } from "@distilled.cloud/core/telemetry-debug";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
@@ -14,15 +13,22 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import * as Tracer from "effect/Tracer";
-import { describe, expect, test } from "vitest";
+import { beforeAll, describe, expect, test } from "vitest";
 import * as Credentials from "../src/credentials.browser.ts";
+import { encodeEvent } from "../src/eventstream/codec.ts";
+import { serializeInputEvent } from "../src/eventstream/serializer.ts";
 import * as Retry from "../src/retry.ts";
+import * as Bedrock from "../src/services/bedrock-runtime.ts";
 import * as S3 from "../src/services/s3.ts";
 
-const CHUNK_MS = 40;
+const PART_MS = 40;
 
-/** A GetObject response whose body sends `chunks` parts, CHUNK_MS apart, then `end`s. */
-const http = (chunks: number, end: "close" | "error" = "close") =>
+/** A 200 response whose body sends `parts`, PART_MS apart, then ends with `end`. */
+const http = (
+  parts: ReadonlyArray<Uint8Array>,
+  headers: Record<string, string>,
+  end: "close" | "error" = "close",
+) =>
   Layer.succeed(
     HttpClient.HttpClient,
     HttpClient.make((request) =>
@@ -30,19 +36,13 @@ const http = (chunks: number, end: "close" | "error" = "close") =>
         let sent = 0;
         const body = new ReadableStream<Uint8Array>({
           async pull(controller) {
-            await new Promise((resolve) => setTimeout(resolve, CHUNK_MS));
-            if (sent < chunks) controller.enqueue(new TextEncoder().encode(`part${++sent};`));
+            await new Promise((resolve) => setTimeout(resolve, PART_MS));
+            if (sent < parts.length) controller.enqueue(parts[sent++]!);
             else if (end === "close") controller.close();
             else controller.error(new Error("connection reset"));
           },
         });
-        return HttpClientResponse.fromWeb(
-          request,
-          new Response(body, {
-            status: 200,
-            headers: { "content-type": "application/octet-stream", "x-amz-request-id": "R1" },
-          }),
-        );
+        return HttpClientResponse.fromWeb(request, new Response(body, { status: 200, headers }));
       }),
     ),
   );
@@ -77,96 +77,119 @@ const run = async <A>(
   return { spans, exit };
 };
 
-const getObject = S3.getObject({ Bucket: "b", Key: "k" });
-const read = (body: unknown) =>
-  Stream.mkString(Stream.decodeText(body as Stream.Stream<Uint8Array, unknown>));
 const ms = (span: Tracer.NativeSpan) => {
   const status = span.status;
-  if (status._tag !== "Ended") return undefined;
-  return Number(status.endTime - status.startTime) / 1e6;
+  return status._tag === "Ended" ? Number(status.endTime - status.startTime) / 1e6 : undefined;
 };
+const ok = (span: Tracer.NativeSpan) =>
+  span.status._tag === "Ended" && Exit.isSuccess(span.status.exit);
+const failed = (span: Tracer.NativeSpan) =>
+  span.status._tag === "Ended" && Exit.isFailure(span.status.exit);
 
-describe("operation span of a streamed output", () => {
-  test("ends when the caller has read the body", async () => {
+describe("S3 GetObject", () => {
+  const body = ["part1;", "part2;", "part3;"].map((s) => new TextEncoder().encode(s));
+  const s3 = http(body, { "content-type": "application/octet-stream", "x-amz-request-id": "R1" });
+
+  test("the span ends at the response headers; reading the body is the caller's", async () => {
     const spans: Tracer.NativeSpan[] = [];
     let endedBeforeRead: boolean | undefined;
     const { exit } = await run(
       Effect.gen(function* () {
-        const out = yield* getObject;
+        const out = yield* S3.getObject({ Bucket: "b", Key: "k" });
         endedBeforeRead = spans[0]!.status._tag === "Ended";
-        return yield* read(out.Body);
+        return yield* Stream.mkString(Stream.decodeText(out.Body as Stream.Stream<Uint8Array>));
       }),
-      http(3),
+      s3,
       spans,
     );
     expect(exit).toEqual(Exit.succeed("part1;part2;part3;"));
-    expect(endedBeforeRead).toBe(false);
+    expect(endedBeforeRead).toBe(true);
     expect(spans.map((s) => s.name)).toEqual(["S3.GetObject"]);
-    // 3 parts and the end of the body, CHUNK_MS each.
-    expect(ms(spans[0]!)).toBeGreaterThanOrEqual(4 * CHUNK_MS - 5);
-    const status = spans[0]!.status;
-    expect(status._tag === "Ended" && Exit.isSuccess(status.exit)).toBe(true);
-    expect(spans[0]!.attributes.get("aws.request_id")).toBe("R1");
+    expect(ms(spans[0]!)).toBeLessThan(PART_MS);
+  });
+});
+
+describe("Bedrock ConverseStream", () => {
+  let events: Uint8Array[] = [];
+  beforeAll(async () => {
+    events = await Promise.all(
+      [
+        { messageStart: { role: "assistant" } },
+        { contentBlockDelta: { contentBlockIndex: 0, delta: { text: "hi" } } },
+        { messageStop: { stopReason: "end_turn" } },
+      ].map((event) => Effect.runPromise(encodeEvent(serializeInputEvent(event)))),
+    );
+  });
+  const bedrock = (end: "close" | "error" = "close") =>
+    http(
+      events,
+      { "content-type": "application/vnd.amazon.eventstream", "x-amzn-requestid": "B1" },
+      end,
+    );
+  const converse = Bedrock.converseStream({
+    modelId: "m",
+    messages: [{ role: "user", content: [{ text: "hi" }] }],
+  } as never);
+  const readAll = Effect.flatMap(converse, (out) =>
+    Stream.runCollect(out.stream as Stream.Stream<unknown, unknown>),
+  );
+
+  test("the span stays open until the caller has read every event", async () => {
+    const spans: Tracer.NativeSpan[] = [];
+    let endedBeforeRead: boolean | undefined;
+    const { exit } = await run(
+      Effect.flatMap(converse, (out) => {
+        endedBeforeRead = spans[0]!.status._tag === "Ended";
+        return Stream.runCollect(out.stream as Stream.Stream<unknown, unknown>);
+      }),
+      bedrock(),
+      spans,
+    );
+    expect(Exit.isSuccess(exit)).toBe(true);
+    expect(endedBeforeRead).toBe(false);
+    const span = spans[0]!;
+    expect(span.name).toBe("chat m");
+    expect(ok(span)).toBe(true);
+    // 3 events and the end of the body, PART_MS each.
+    expect(ms(span)).toBeGreaterThanOrEqual(4 * PART_MS - 5);
+    const first = span.attributes.get("gen_ai.response.time_to_first_chunk") as number;
+    expect(first).toBeGreaterThanOrEqual((PART_MS - 5) / 1000);
+    expect(first).toBeLessThan((2 * PART_MS) / 1000);
+    expect(span.attributes.get("aws.request_id")).toBe("B1");
   });
 
   test("an error while reading fails the span", async () => {
-    const { spans, exit } = await run(
-      Effect.flatMap(getObject, (out) => read(out.Body)),
-      http(1, "error"),
-    );
+    const { spans, exit } = await run(readAll, bedrock("error"));
     expect(Exit.isFailure(exit)).toBe(true);
-    const status = spans[0]!.status;
-    expect(status._tag === "Ended" && Exit.isFailure(status.exit)).toBe(true);
+    expect(failed(spans[0]!)).toBe(true);
     expect(spans[0]!.attributes.get("error.type")).toBeDefined();
   });
 
   test("a caller that stops reading early ends it with success", async () => {
     const { spans, exit } = await run(
-      Effect.flatMap(getObject, (out) =>
-        Stream.runCollect(Stream.take(out.Body as Stream.Stream<Uint8Array>, 1)),
+      Effect.flatMap(converse, (out) =>
+        Stream.runCollect(Stream.take(out.stream as Stream.Stream<unknown, unknown>, 1)),
       ),
-      http(5),
+      bedrock(),
     );
     expect(Exit.isSuccess(exit)).toBe(true);
-    const status = spans[0]!.status;
-    expect(status._tag === "Ended" && Exit.isSuccess(status.exit)).toBe(true);
-    expect(ms(spans[0]!)).toBeLessThan(5 * CHUNK_MS);
+    expect(ok(spans[0]!)).toBe(true);
+    expect(ms(spans[0]!)).toBeLessThan(3 * PART_MS);
   });
 
   test("debug mode shows the read as its own span under the operation", async () => {
     const { spans, exit } = await run(
-      Effect.flatMap(getObject, (out) => read(out.Body)).pipe(Effect.provide(TelemetryDebug.layer)),
-      http(3),
+      readAll.pipe(Effect.provide(TelemetryDebug.layer)),
+      bedrock(),
     );
     expect(Exit.isSuccess(exit)).toBe(true);
-    const op = spans.find((s) => s.name === "S3.GetObject")!;
-    const readSpan = spans.find((s) => s.name === "distilled.read_stream")!;
-    expect(readSpan.parent._tag === "Some" && readSpan.parent.value.spanId).toBe(op.spanId);
-    expect(Object.fromEntries(readSpan.attributes)).toMatchObject({
-      "distilled.stream.member": "Body",
+    const op = spans.find((s) => s.name === "chat m")!;
+    const read = spans.find((s) => s.name === "distilled.read_stream")!;
+    expect(read.parent._tag === "Some" && read.parent.value.spanId).toBe(op.spanId);
+    expect(Object.fromEntries(read.attributes)).toMatchObject({
+      "distilled.stream.member": "stream",
       "distilled.stream.items": 3,
-      "distilled.stream.bytes": 18,
     });
-    expect(ms(readSpan)).toBeGreaterThanOrEqual(4 * CHUNK_MS - 5);
-    const opEnd = op.status._tag === "Ended" ? op.status.endTime : 0n;
-    const readEnd = readSpan.status._tag === "Ended" ? readSpan.status.endTime : 1n;
-    expect(readEnd <= opEnd).toBe(true);
-  });
-
-  test("a body the caller drops unread ends it at the headers, once collected", async () => {
-    setFlagsFromString("--expose-gc");
-    const gc = runInNewContext("gc") as () => void;
-    const { spans, exit } = await run(
-      Effect.map(getObject, (out) => out.ContentType),
-      http(3),
-    );
-    expect(exit).toEqual(Exit.succeed("application/octet-stream"));
-    for (let i = 0; i < 20 && spans[0]!.status._tag !== "Ended"; i++) {
-      gc();
-      await new Promise((resolve) => setTimeout(resolve, 10));
-    }
-    const status = spans[0]!.status;
-    expect(status._tag).toBe("Ended");
-    expect(ms(spans[0]!)).toBeLessThan(CHUNK_MS);
+    expect(ms(read)).toBeGreaterThanOrEqual(4 * PART_MS - 5);
   });
 });

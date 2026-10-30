@@ -1167,6 +1167,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   const TX_HOST = ["TxHost", "@distilled.cloud/core/telemetry-host-rules"] as const;
   const TX_XRAY = ["TxXray", "@distilled.cloud/core/telemetry-xray"] as const;
   const TX_LAMBDA = ["TxLambda", "@distilled.cloud/core/telemetry-lambda-context"] as const;
+  const TX_STREAM = ["TxStream", "@distilled.cloud/core/telemetry-stream"] as const;
   /** Message trace context: format and direction -> module and function. */
   const MESSAGE_FORMATS: Record<string, readonly [readonly [string, string], string]> = {
     "awsMessageAttributes/inject": [TX_MESSAGE, "injectAwsMessageAttributes"],
@@ -1309,7 +1310,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       }
       return out;
     };
-    const { nameTemplate, inject, extract, ...data } = trait;
+    const { nameTemplate, inject, extract, stream, ...data } = trait;
     let span: Record<string, unknown>;
     {
       const { name, method, attributes, ...rest } = data;
@@ -1375,6 +1376,10 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       }
       const { format: _format, ...place } = message(ctx, shapeId)!;
       extensions.push(`${key}: ${use(target[0])}.${target[1]}(${JSON.stringify(place)})`);
+    }
+    if (stream !== undefined) {
+      const rule = { ...stream, member: tsName(op.def.__output, stream.member) };
+      extensions.push(`hold: ${use(TX_STREAM)}.holdForStream(${JSON.stringify(rule)})`);
     }
     const spanCode =
       extensions.length > 0

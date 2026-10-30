@@ -277,6 +277,12 @@ const converseEvents = await Promise.all(
   ].map((event) => Effect.runPromise(encodeEvent(serializeInputEvent(event)))),
 );
 
+// The caller reads an S3 object body in its own traced function.
+const loadConfig = Effect.fn("loadConfig")(function* () {
+  const object = yield* S3.getObject({ Bucket: "app-config", Key: "prod.json" });
+  return yield* Stream.mkString(Stream.decodeText(object.Body as Stream.Stream<Uint8Array>));
+});
+
 const scenarios = (): Scenario[] => [
   {
     id: "s3-missing",
@@ -716,7 +722,7 @@ const scenarios = (): Scenario[] => [
   {
     id: "bedrock-converse-stream",
     title: "Bedrock ConverseStream, 5 events",
-    what: "A streamed GenAI response. The headers arrive after 180 ms, the events over the next 400 ms. The operation span stays open until the caller has read the last event, so it covers the whole response. Debug mode shows the read as distilled.read_stream, with the number of events.",
+    what: "A streamed GenAI response. The headers arrive after 180 ms, the events over the next 400 ms. A GenAI span ends when the response is fully received (GenAI conventions; the OpenTelemetry AWS SDK instrumentations do the same), so the operation span stays open until the caller has read the last event, and gen_ai.response.time_to_first_chunk records when the first event arrived. Debug mode shows the read as distilled.read_stream.",
     code: `const { stream } = yield* Bedrock.converseStream({
   modelId: "anthropic.claude-sonnet",
   messages: [{ role: "user", content: [{ text: "hi" }] }],
@@ -744,18 +750,15 @@ yield* Stream.runCollect(stream);`,
   {
     id: "s3-get-stream",
     title: "S3 GetObject, body read in 3 parts",
-    what: "A streamed object body. The headers arrive after 20 ms, the body over the next 360 ms. The operation span ends when the caller has read the body; debug mode shows that read as distilled.read_stream, with its bytes. A read error would fail the span; a body the caller drops unread ends it at the headers.",
-    code: `const object = yield* S3.getObject({
-  Bucket: "app-config",
-  Key: "prod.json",
-});
-const text = yield* object.Body.pipe(
-  Stream.decodeText,
-  Stream.mkString,
-);`,
-    program: Effect.flatMap(S3.getObject({ Bucket: "app-config", Key: "prod.json" }), (object) =>
-      Stream.mkString(Stream.decodeText(object.Body as Stream.Stream<Uint8Array>)),
-    ) as never,
+    what: "A streamed object body, read inside the caller's own Effect.fn. The headers arrive after 20 ms, the body over the next 360 ms. The operation span ends at the headers, as in the OpenTelemetry AWS SDK instrumentations and the HTTP client span conventions; the caller's loadConfig span covers the read.",
+    code: `const loadConfig = Effect.fn("loadConfig")(function* () {
+  const object = yield* S3.getObject({
+    Bucket: "app-config",
+    Key: "prod.json",
+  });
+  return yield* object.Body.pipe(Stream.decodeText, Stream.mkString);
+});`,
+    program: loadConfig() as never,
     http: [
       {
         ms: 20,

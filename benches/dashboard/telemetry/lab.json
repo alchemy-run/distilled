@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-30T13:52:41.223Z",
+  "generatedAt": "2026-10-30T14:03:44.085Z",
   "node": "v24.19.0",
   "scenarios": [
     {
@@ -11,18 +11,18 @@
         {
           "level": "operation",
           "ok": false,
-          "pretty": "NoSuchKey: The specified key does not exist.\n    at S3.GetObject (benches/otel-lab/lab.ts:292:32)",
+          "pretty": "NoSuchKey: The specified key does not exist.\n    at S3.GetObject (benches/otel-lab/lab.ts:298:32)",
           "errorFields": {
             "_tag": "NoSuchKey"
           },
           "spans": [
             {
-              "id": "f7472c7c41293bda",
+              "id": "aa42e1e58ab29d37",
               "name": "S3.GetObject",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 35580.371,
+              "endUs": 37340.987,
               "status": "error",
               "attributes": {
                 "rpc.method": "S3/GetObject",
@@ -46,32 +46,32 @@
           "sent": [],
           "sentHeaders": [
             {
-              "x-amzn-trace-id": "Root=1-f809c8fd-7824cc69922e8a245b265162;Parent=f7472c7c41293bda;Sampled=1"
+              "x-amzn-trace-id": "Root=1-0b746bb8-76098eafe399653dbb59e65d;Parent=aa42e1e58ab29d37;Sampled=1"
             }
           ]
         },
         {
           "level": "debug",
           "ok": false,
-          "pretty": "NoSuchKey: The specified key does not exist.\n    at S3.GetObject (benches/otel-lab/lab.ts:292:32)",
+          "pretty": "NoSuchKey: The specified key does not exist.\n    at S3.GetObject (benches/otel-lab/lab.ts:298:32)",
           "errorFields": {
             "_tag": "NoSuchKey"
           },
           "spans": [
             {
-              "id": "156ffa7dc0799228",
+              "id": "3a1c86e7c1f97799",
               "name": "S3.GetObject",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 20457.246,
+              "endUs": 20331.018,
               "status": "error",
               "attributes": {
                 "rpc.method": "S3/GetObject",
                 "rpc.system.name": "aws-api",
                 "url.template": "/{Bucket}/{Key+}",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 292,
+                "code.line.number": 298,
                 "code.column.number": 32,
                 "code.function.name": "<anonymous>",
                 "aws.s3.bucket": "app-config",
@@ -89,13 +89,13 @@
               "source": "distilled"
             },
             {
-              "id": "15eb1ed35f7868ad",
-              "parent": "156ffa7dc0799228",
+              "id": "d6bc797bca423031",
+              "parent": "3a1c86e7c1f97799",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 101.662,
-              "endUs": 20415.975,
+              "startUs": 88.462,
+              "endUs": 20301.733,
               "status": "error",
               "attributes": {
                 "distilled.attempt": 1,
@@ -113,26 +113,26 @@
               "source": "attempt"
             },
             {
-              "id": "086e39ba176d11be",
-              "parent": "15eb1ed35f7868ad",
+              "id": "dd0a804d845dc131",
+              "parent": "d6bc797bca423031",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 189.258,
-              "endUs": 398.21,
+              "startUs": 181.952,
+              "endUs": 363.222,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "75fe40d5307e5ea5",
-              "parent": "15eb1ed35f7868ad",
+              "id": "584bdc02ed38ca62",
+              "parent": "d6bc797bca423031",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 421.126,
-              "endUs": 672.82,
+              "startUs": 385.25,
+              "endUs": 648.107,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "s3"
@@ -141,13 +141,13 @@
               "source": "distilled"
             },
             {
-              "id": "ea859f40c17c46e9",
-              "parent": "15eb1ed35f7868ad",
+              "id": "7ec798c43712f507",
+              "parent": "d6bc797bca423031",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 744.173,
-              "endUs": 19816.153,
+              "startUs": 721.29,
+              "endUs": 19722.44,
               "status": "error",
               "attributes": {
                 "http.request.method": "GET",
@@ -164,13 +164,13 @@
               "source": "effect-http"
             },
             {
-              "id": "9234c1af128fd761",
-              "parent": "15eb1ed35f7868ad",
+              "id": "6f9e25b57d2e9dff",
+              "parent": "d6bc797bca423031",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 19885.418,
-              "endUs": 20383.528,
+              "startUs": 19785.979,
+              "endUs": 20267.628,
               "status": "error",
               "attributes": {},
               "links": [],
@@ -180,9 +180,9 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-d7b508c330c4954c603edb0e1c742c99-ea859f40c17c46e9-01",
-              "b3": "d7b508c330c4954c603edb0e1c742c99-ea859f40c17c46e9-1-15eb1ed35f7868ad",
-              "x-amzn-trace-id": "Root=1-d7b508c3-30c4954c603edb0e1c742c99;Parent=15eb1ed35f7868ad;Sampled=1"
+              "traceparent": "00-dfcec1fed90401186f6db4d3042d2164-7ec798c43712f507-01",
+              "b3": "dfcec1fed90401186f6db4d3042d2164-7ec798c43712f507-1-d6bc797bca423031",
+              "x-amzn-trace-id": "Root=1-dfcec1fe-d90401186f6db4d3042d2164;Parent=d6bc797bca423031;Sampled=1"
             }
           ]
         }
@@ -197,31 +197,31 @@
         {
           "level": "operation",
           "ok": false,
-          "pretty": "NoSuchKey: The specified key does not exist.\n    at S3.GetObject (benches/otel-lab/lab.ts:260:28)\n    at deployConfig (benches/otel-lab/lab.ts:318:14)\n    at deployConfig (definition) (benches/otel-lab/lab.ts:259:29)",
+          "pretty": "NoSuchKey: The specified key does not exist.\n    at S3.GetObject (benches/otel-lab/lab.ts:260:28)\n    at deployConfig (benches/otel-lab/lab.ts:324:14)\n    at deployConfig (definition) (benches/otel-lab/lab.ts:259:29)",
           "errorFields": {
             "_tag": "NoSuchKey"
           },
           "spans": [
             {
-              "id": "651cf5c0357844e5",
+              "id": "2683ed289fc8e106",
               "name": "deployConfig",
               "kind": "internal",
               "sampled": true,
               "startUs": 0,
-              "endUs": 19757.823,
+              "endUs": 19533.714,
               "status": "error",
               "attributes": {},
               "links": [],
               "source": "user"
             },
             {
-              "id": "a7c09da922ff30a0",
-              "parent": "651cf5c0357844e5",
+              "id": "88cf580b3a22bba1",
+              "parent": "2683ed289fc8e106",
               "name": "S3.GetObject",
               "kind": "client",
               "sampled": true,
-              "startUs": 99.104,
-              "endUs": 19730.986,
+              "startUs": 107.786,
+              "endUs": 19510.886,
               "status": "error",
               "attributes": {
                 "rpc.method": "S3/GetObject",
@@ -244,38 +244,38 @@
           "sent": [],
           "sentHeaders": [
             {
-              "x-amzn-trace-id": "Root=1-7cf52df8-072de4d2a60e6bbbd52b90e8;Parent=a7c09da922ff30a0;Sampled=1"
+              "x-amzn-trace-id": "Root=1-eb273bf3-3f577f52ef42fc76627ff164;Parent=88cf580b3a22bba1;Sampled=1"
             }
           ]
         },
         {
           "level": "debug",
           "ok": false,
-          "pretty": "NoSuchKey: The specified key does not exist.\n    at S3.GetObject (benches/otel-lab/lab.ts:260:28)\n    at deployConfig (benches/otel-lab/lab.ts:318:14)\n    at deployConfig (definition) (benches/otel-lab/lab.ts:259:29)",
+          "pretty": "NoSuchKey: The specified key does not exist.\n    at S3.GetObject (benches/otel-lab/lab.ts:260:28)\n    at deployConfig (benches/otel-lab/lab.ts:324:14)\n    at deployConfig (definition) (benches/otel-lab/lab.ts:259:29)",
           "errorFields": {
             "_tag": "NoSuchKey"
           },
           "spans": [
             {
-              "id": "1d6aa14d66f98814",
+              "id": "925924262a4bc225",
               "name": "deployConfig",
               "kind": "internal",
               "sampled": true,
               "startUs": 0,
-              "endUs": 19750.813,
+              "endUs": 19714.054,
               "status": "error",
               "attributes": {},
               "links": [],
               "source": "user"
             },
             {
-              "id": "21e336b4ad6357d4",
-              "parent": "1d6aa14d66f98814",
+              "id": "eeef1aada501fcc3",
+              "parent": "925924262a4bc225",
               "name": "S3.GetObject",
               "kind": "client",
               "sampled": true,
-              "startUs": 150.596,
-              "endUs": 19733.643,
+              "startUs": 144.519,
+              "endUs": 19699.582,
               "status": "error",
               "attributes": {
                 "rpc.method": "S3/GetObject",
@@ -299,13 +299,13 @@
               "source": "distilled"
             },
             {
-              "id": "2d244c3b9d3f1996",
-              "parent": "21e336b4ad6357d4",
+              "id": "597bd9846e96f760",
+              "parent": "eeef1aada501fcc3",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 182.337,
-              "endUs": 19710.291,
+              "startUs": 173.767,
+              "endUs": 19672.032,
               "status": "error",
               "attributes": {
                 "distilled.attempt": 1,
@@ -322,26 +322,26 @@
               "source": "attempt"
             },
             {
-              "id": "797de7eb7229274c",
-              "parent": "2d244c3b9d3f1996",
+              "id": "0a387683702517be",
+              "parent": "597bd9846e96f760",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 204.419,
-              "endUs": 293.2,
+              "startUs": 194.13,
+              "endUs": 269.653,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "19c05825fd01472d",
-              "parent": "2d244c3b9d3f1996",
+              "id": "59d34a479d41f969",
+              "parent": "597bd9846e96f760",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 374.214,
-              "endUs": 578.057,
+              "startUs": 288.276,
+              "endUs": 450.268,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "s3"
@@ -350,13 +350,13 @@
               "source": "distilled"
             },
             {
-              "id": "ca16d2f4718a584d",
-              "parent": "2d244c3b9d3f1996",
+              "id": "2bef0638aaa0c7df",
+              "parent": "597bd9846e96f760",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 624.453,
-              "endUs": 19204.433,
+              "startUs": 496.744,
+              "endUs": 19202.59,
               "status": "error",
               "attributes": {
                 "http.request.method": "GET",
@@ -373,13 +373,13 @@
               "source": "effect-http"
             },
             {
-              "id": "9d6bc0f3109b9ce1",
-              "parent": "2d244c3b9d3f1996",
+              "id": "e189184a16d31ad4",
+              "parent": "597bd9846e96f760",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 19265.322,
-              "endUs": 19697.171,
+              "startUs": 19269.584,
+              "endUs": 19660.418,
               "status": "error",
               "attributes": {},
               "links": [],
@@ -389,9 +389,9 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-c6fb6f2d33ea65804be2b77d7b0e7206-ca16d2f4718a584d-01",
-              "b3": "c6fb6f2d33ea65804be2b77d7b0e7206-ca16d2f4718a584d-1-2d244c3b9d3f1996",
-              "x-amzn-trace-id": "Root=1-c6fb6f2d-33ea65804be2b77d7b0e7206;Parent=2d244c3b9d3f1996;Sampled=1"
+              "traceparent": "00-638dc9b566a7ed351cddfa3387b27dfb-2bef0638aaa0c7df-01",
+              "b3": "638dc9b566a7ed351cddfa3387b27dfb-2bef0638aaa0c7df-1-597bd9846e96f760",
+              "x-amzn-trace-id": "Root=1-638dc9b5-66a7ed351cddfa3387b27dfb;Parent=597bd9846e96f760;Sampled=1"
             }
           ]
         }
@@ -408,12 +408,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "3fe0ae85b844e585",
+              "id": "bc99bec3cd69f94b",
               "name": "DynamoDB.GetItem",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 1115328.982,
+              "endUs": 1043765.543,
               "status": "ok",
               "attributes": {
                 "rpc.method": "DynamoDB/GetItem",
@@ -430,7 +430,7 @@
                 "aws.request_id": "R3OK",
                 "distilled.attempts": 3,
                 "distilled.retry.errors": ["ThrottlingException", "InternalServerError"],
-                "distilled.retry.delay_ms": 1079
+                "distilled.retry.delay_ms": 1010
               },
               "links": [],
               "source": "distilled"
@@ -443,13 +443,13 @@
           ],
           "sentHeaders": [
             {
-              "x-amzn-trace-id": "Root=1-a3ad945c-6d4545bc3844a7ed4521ae20;Parent=3fe0ae85b844e585;Sampled=1"
+              "x-amzn-trace-id": "Root=1-409adb6f-b29175c9093da7f6d46b2edf;Parent=bc99bec3cd69f94b;Sampled=1"
             },
             {
-              "x-amzn-trace-id": "Root=1-a3ad945c-6d4545bc3844a7ed4521ae20;Parent=3fe0ae85b844e585;Sampled=1"
+              "x-amzn-trace-id": "Root=1-409adb6f-b29175c9093da7f6d46b2edf;Parent=bc99bec3cd69f94b;Sampled=1"
             },
             {
-              "x-amzn-trace-id": "Root=1-a3ad945c-6d4545bc3844a7ed4521ae20;Parent=3fe0ae85b844e585;Sampled=1"
+              "x-amzn-trace-id": "Root=1-409adb6f-b29175c9093da7f6d46b2edf;Parent=bc99bec3cd69f94b;Sampled=1"
             }
           ]
         },
@@ -458,12 +458,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "5bb0752bcd92967d",
+              "id": "2070957f2e41c2af",
               "name": "DynamoDB.GetItem",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 1082211.058,
+              "endUs": 1076805.504,
               "status": "ok",
               "attributes": {
                 "rpc.method": "DynamoDB/GetItem",
@@ -471,7 +471,7 @@
                 "db.system.name": "aws.dynamodb",
                 "db.operation.name": "GetItem",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 336,
+                "code.line.number": 342,
                 "code.column.number": 23,
                 "code.function.name": "scenarios",
                 "aws.dynamodb.table_names": ["users"],
@@ -484,19 +484,19 @@
                 "aws.request_id": "R3OK",
                 "distilled.attempts": 3,
                 "distilled.retry.errors": ["ThrottlingException", "InternalServerError"],
-                "distilled.retry.delay_ms": 1051
+                "distilled.retry.delay_ms": 1045
               },
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "b35ea6cdba7285af",
-              "parent": "5bb0752bcd92967d",
+              "id": "9a43c984e5066a12",
+              "parent": "2070957f2e41c2af",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 47.213,
-              "endUs": 10218.616,
+              "startUs": 35.518,
+              "endUs": 10045.282,
               "status": "error",
               "attributes": {
                 "distilled.attempt": 1,
@@ -513,26 +513,26 @@
               "source": "attempt"
             },
             {
-              "id": "3a5bff5862e9d32a",
-              "parent": "b35ea6cdba7285af",
+              "id": "ac6d6f444f58c19a",
+              "parent": "9a43c984e5066a12",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 65.596,
-              "endUs": 108.128,
+              "startUs": 52.681,
+              "endUs": 115.336,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "765c205d5269908d",
-              "parent": "b35ea6cdba7285af",
+              "id": "d9d98075d26a6e89",
+              "parent": "9a43c984e5066a12",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 122.272,
-              "endUs": 285.73,
+              "startUs": 126.927,
+              "endUs": 278.08,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "dynamodb"
@@ -541,13 +541,13 @@
               "source": "distilled"
             },
             {
-              "id": "b66f2b7e5eb99ea5",
-              "parent": "b35ea6cdba7285af",
+              "id": "f6529312dccff39f",
+              "parent": "9a43c984e5066a12",
               "name": "POST",
               "kind": "client",
               "sampled": true,
-              "startUs": 324.568,
-              "endUs": 9941.079,
+              "startUs": 312.852,
+              "endUs": 9755.303,
               "status": "error",
               "attributes": {
                 "http.request.method": "POST",
@@ -563,43 +563,43 @@
               "source": "effect-http"
             },
             {
-              "id": "6fc72e979a61954f",
-              "parent": "b35ea6cdba7285af",
+              "id": "dee099aa5d05e0a3",
+              "parent": "9a43c984e5066a12",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 10021.485,
-              "endUs": 10209.914,
+              "startUs": 9818.87,
+              "endUs": 10036.827,
               "status": "error",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "6fba8134dfea6854",
-              "parent": "5bb0752bcd92967d",
+              "id": "d7eb9ca803536d13",
+              "parent": "2070957f2e41c2af",
               "name": "distilled.retry.backoff",
               "kind": "internal",
               "sampled": true,
-              "startUs": 10248.987,
-              "endUs": 549552.234,
+              "startUs": 10090.423,
+              "endUs": 517338.081,
               "status": "ok",
               "attributes": {
                 "distilled.retry.attempt": 1,
-                "distilled.retry.delay_ms": 539,
+                "distilled.retry.delay_ms": 507,
                 "distilled.retry.reason": "ThrottlingException"
               },
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "9c070768c97b4939",
-              "parent": "5bb0752bcd92967d",
+              "id": "b27f9239e70fe2e3",
+              "parent": "2070957f2e41c2af",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 549629.131,
-              "endUs": 562082.175,
+              "startUs": 517437.372,
+              "endUs": 529967.781,
               "status": "error",
               "attributes": {
                 "distilled.attempt": 2,
@@ -616,26 +616,26 @@
               "source": "attempt"
             },
             {
-              "id": "15ece54bc6072018",
-              "parent": "9c070768c97b4939",
+              "id": "06daffa4926ba32f",
+              "parent": "b27f9239e70fe2e3",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 549721.459,
-              "endUs": 549794.409,
+              "startUs": 517549.839,
+              "endUs": 517647.469,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "66a1b16adf9c2cfe",
-              "parent": "9c070768c97b4939",
+              "id": "b0fd08485085f6e4",
+              "parent": "b27f9239e70fe2e3",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 549822.656,
-              "endUs": 550092.91,
+              "startUs": 517685.656,
+              "endUs": 518047.525,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "dynamodb"
@@ -644,13 +644,13 @@
               "source": "distilled"
             },
             {
-              "id": "ed78c37051dcd4eb",
-              "parent": "9c070768c97b4939",
+              "id": "e80bb77ac2042b9a",
+              "parent": "b27f9239e70fe2e3",
               "name": "POST",
               "kind": "client",
               "sampled": true,
-              "startUs": 550153.191,
-              "endUs": 561777.143,
+              "startUs": 518106.774,
+              "endUs": 529685.16,
               "status": "error",
               "attributes": {
                 "http.request.method": "POST",
@@ -666,43 +666,43 @@
               "source": "effect-http"
             },
             {
-              "id": "492e3be0292f197f",
-              "parent": "9c070768c97b4939",
+              "id": "7a8d0335b598733f",
+              "parent": "b27f9239e70fe2e3",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 561860.404,
-              "endUs": 562073.952,
+              "startUs": 529761.894,
+              "endUs": 529959.168,
               "status": "error",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "fd056b3afd3a9252",
-              "parent": "5bb0752bcd92967d",
+              "id": "ac0c2cc611447811",
+              "parent": "2070957f2e41c2af",
               "name": "distilled.retry.backoff",
               "kind": "internal",
               "sampled": true,
-              "startUs": 562105.622,
-              "endUs": 1073448.537,
+              "startUs": 529989.355,
+              "endUs": 1068279.842,
               "status": "ok",
               "attributes": {
                 "distilled.retry.attempt": 2,
-                "distilled.retry.delay_ms": 512,
+                "distilled.retry.delay_ms": 538,
                 "distilled.retry.reason": "InternalServerError"
               },
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "bf4673a8c620be87",
-              "parent": "5bb0752bcd92967d",
+              "id": "d43387aa48c586bf",
+              "parent": "2070957f2e41c2af",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 1073559.072,
-              "endUs": 1082193.62,
+              "startUs": 1068346.966,
+              "endUs": 1076798.293,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 3,
@@ -718,26 +718,26 @@
               "source": "attempt"
             },
             {
-              "id": "5b684ab663344d8a",
-              "parent": "bf4673a8c620be87",
+              "id": "ce3788e6806358be",
+              "parent": "d43387aa48c586bf",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 1073653.762,
-              "endUs": 1073759.86,
+              "startUs": 1068415.281,
+              "endUs": 1068492.632,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "e61a25bcfb3070fc",
-              "parent": "bf4673a8c620be87",
+              "id": "92544db8669466e9",
+              "parent": "d43387aa48c586bf",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 1073791.782,
-              "endUs": 1074143.669,
+              "startUs": 1068516.483,
+              "endUs": 1068755.744,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "dynamodb"
@@ -746,13 +746,13 @@
               "source": "distilled"
             },
             {
-              "id": "66cf503fa8ae8010",
-              "parent": "bf4673a8c620be87",
+              "id": "c636c6b559d961ae",
+              "parent": "d43387aa48c586bf",
               "name": "POST",
               "kind": "client",
               "sampled": true,
-              "startUs": 1074223.008,
-              "endUs": 1081883.32,
+              "startUs": 1068812.636,
+              "endUs": 1076485.002,
               "status": "ok",
               "attributes": {
                 "http.request.method": "POST",
@@ -767,13 +767,13 @@
               "source": "effect-http"
             },
             {
-              "id": "e4054bf2772efcd0",
-              "parent": "bf4673a8c620be87",
+              "id": "0a1057fd37cde4b6",
+              "parent": "d43387aa48c586bf",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 1081977.119,
-              "endUs": 1082190.469,
+              "startUs": 1076579.659,
+              "endUs": 1076787.619,
               "status": "ok",
               "attributes": {},
               "links": [],
@@ -787,19 +787,19 @@
           ],
           "sentHeaders": [
             {
-              "traceparent": "00-1a69ba9f9966584f0b19f310defaf699-b66f2b7e5eb99ea5-01",
-              "b3": "1a69ba9f9966584f0b19f310defaf699-b66f2b7e5eb99ea5-1-b35ea6cdba7285af",
-              "x-amzn-trace-id": "Root=1-1a69ba9f-9966584f0b19f310defaf699;Parent=b35ea6cdba7285af;Sampled=1"
+              "traceparent": "00-f7e4fbbb430235322e437135764e2e36-f6529312dccff39f-01",
+              "b3": "f7e4fbbb430235322e437135764e2e36-f6529312dccff39f-1-9a43c984e5066a12",
+              "x-amzn-trace-id": "Root=1-f7e4fbbb-430235322e437135764e2e36;Parent=9a43c984e5066a12;Sampled=1"
             },
             {
-              "traceparent": "00-1a69ba9f9966584f0b19f310defaf699-ed78c37051dcd4eb-01",
-              "b3": "1a69ba9f9966584f0b19f310defaf699-ed78c37051dcd4eb-1-9c070768c97b4939",
-              "x-amzn-trace-id": "Root=1-1a69ba9f-9966584f0b19f310defaf699;Parent=9c070768c97b4939;Sampled=1"
+              "traceparent": "00-f7e4fbbb430235322e437135764e2e36-e80bb77ac2042b9a-01",
+              "b3": "f7e4fbbb430235322e437135764e2e36-e80bb77ac2042b9a-1-b27f9239e70fe2e3",
+              "x-amzn-trace-id": "Root=1-f7e4fbbb-430235322e437135764e2e36;Parent=b27f9239e70fe2e3;Sampled=1"
             },
             {
-              "traceparent": "00-1a69ba9f9966584f0b19f310defaf699-66cf503fa8ae8010-01",
-              "b3": "1a69ba9f9966584f0b19f310defaf699-66cf503fa8ae8010-1-bf4673a8c620be87",
-              "x-amzn-trace-id": "Root=1-1a69ba9f-9966584f0b19f310defaf699;Parent=bf4673a8c620be87;Sampled=1"
+              "traceparent": "00-f7e4fbbb430235322e437135764e2e36-c636c6b559d961ae-01",
+              "b3": "f7e4fbbb430235322e437135764e2e36-c636c6b559d961ae-1-d43387aa48c586bf",
+              "x-amzn-trace-id": "Root=1-f7e4fbbb-430235322e437135764e2e36;Parent=d43387aa48c586bf;Sampled=1"
             }
           ]
         }
@@ -816,12 +816,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "7273bbb7996f68d7",
+              "id": "06f871b7124a4832",
               "name": "S3.PutObject",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 4394100.334,
+              "endUs": 4395708.338,
               "status": "ok",
               "attributes": {
                 "rpc.method": "S3/PutObject",
@@ -837,7 +837,7 @@
                 "aws.request_id": "OK5",
                 "distilled.attempts": 5,
                 "distilled.retry.errors": ["SlowDown", "SlowDown", "SlowDown", "SlowDown"],
-                "distilled.retry.delay_ms": 4116
+                "distilled.retry.delay_ms": 4117
               },
               "links": [],
               "source": "distilled"
@@ -852,19 +852,19 @@
           ],
           "sentHeaders": [
             {
-              "x-amzn-trace-id": "Root=1-72cdd3c3-97574d252935cb9980ec867d;Parent=7273bbb7996f68d7;Sampled=1"
+              "x-amzn-trace-id": "Root=1-3bbf1e0c-31a9ec7bd09d75b50dc78dd9;Parent=06f871b7124a4832;Sampled=1"
             },
             {
-              "x-amzn-trace-id": "Root=1-72cdd3c3-97574d252935cb9980ec867d;Parent=7273bbb7996f68d7;Sampled=1"
+              "x-amzn-trace-id": "Root=1-3bbf1e0c-31a9ec7bd09d75b50dc78dd9;Parent=06f871b7124a4832;Sampled=1"
             },
             {
-              "x-amzn-trace-id": "Root=1-72cdd3c3-97574d252935cb9980ec867d;Parent=7273bbb7996f68d7;Sampled=1"
+              "x-amzn-trace-id": "Root=1-3bbf1e0c-31a9ec7bd09d75b50dc78dd9;Parent=06f871b7124a4832;Sampled=1"
             },
             {
-              "x-amzn-trace-id": "Root=1-72cdd3c3-97574d252935cb9980ec867d;Parent=7273bbb7996f68d7;Sampled=1"
+              "x-amzn-trace-id": "Root=1-3bbf1e0c-31a9ec7bd09d75b50dc78dd9;Parent=06f871b7124a4832;Sampled=1"
             },
             {
-              "x-amzn-trace-id": "Root=1-72cdd3c3-97574d252935cb9980ec867d;Parent=7273bbb7996f68d7;Sampled=1"
+              "x-amzn-trace-id": "Root=1-3bbf1e0c-31a9ec7bd09d75b50dc78dd9;Parent=06f871b7124a4832;Sampled=1"
             }
           ]
         },
@@ -873,19 +873,19 @@
           "ok": true,
           "spans": [
             {
-              "id": "7bb4af7c9fff1cfe",
+              "id": "fa9b6f5437fb3437",
               "name": "S3.PutObject",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 4355732.708,
+              "endUs": 4361103.77,
               "status": "ok",
               "attributes": {
                 "rpc.method": "S3/PutObject",
                 "rpc.system.name": "aws-api",
                 "url.template": "/{Bucket}/{Key+}",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 373,
+                "code.line.number": 379,
                 "code.column.number": 17,
                 "code.function.name": "scenarios",
                 "aws.s3.bucket": "app-assets",
@@ -898,19 +898,19 @@
                 "aws.request_id": "OK5",
                 "distilled.attempts": 5,
                 "distilled.retry.errors": ["SlowDown", "SlowDown", "SlowDown", "SlowDown"],
-                "distilled.retry.delay_ms": 4080
+                "distilled.retry.delay_ms": 4083
               },
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "c636f514b9252415",
-              "parent": "7bb4af7c9fff1cfe",
+              "id": "cdc8f80ba4fe418c",
+              "parent": "fa9b6f5437fb3437",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 181.88,
-              "endUs": 46349.71,
+              "startUs": 66.585,
+              "endUs": 46377.327,
               "status": "error",
               "attributes": {
                 "distilled.attempt": 1,
@@ -927,26 +927,26 @@
               "source": "attempt"
             },
             {
-              "id": "422cfd4cf8462e4b",
-              "parent": "c636f514b9252415",
+              "id": "8ae1408f21af6539",
+              "parent": "cdc8f80ba4fe418c",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 203.107,
-              "endUs": 309.685,
+              "startUs": 88.822,
+              "endUs": 217.821,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "2887d525976b928f",
-              "parent": "c636f514b9252415",
+              "id": "ecd9688fca329c0e",
+              "parent": "cdc8f80ba4fe418c",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 324.652,
-              "endUs": 498.612,
+              "startUs": 234.827,
+              "endUs": 482.876,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "s3"
@@ -955,13 +955,13 @@
               "source": "distilled"
             },
             {
-              "id": "44276a76c2c9167f",
-              "parent": "c636f514b9252415",
+              "id": "024c6ad60059814d",
+              "parent": "cdc8f80ba4fe418c",
               "name": "PUT",
               "kind": "client",
               "sampled": true,
-              "startUs": 532.968,
-              "endUs": 46075.862,
+              "startUs": 526.569,
+              "endUs": 46106.553,
               "status": "error",
               "attributes": {
                 "http.request.method": "PUT",
@@ -978,43 +978,43 @@
               "source": "effect-http"
             },
             {
-              "id": "d1aaaedc58537c3d",
-              "parent": "c636f514b9252415",
+              "id": "0911ea5f8139a084",
+              "parent": "cdc8f80ba4fe418c",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 46142.577,
-              "endUs": 46341.3,
+              "startUs": 46174.263,
+              "endUs": 46368.934,
               "status": "error",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "eeb82ececa9f38f8",
-              "parent": "7bb4af7c9fff1cfe",
+              "id": "6977fbc2a4450c98",
+              "parent": "fa9b6f5437fb3437",
               "name": "distilled.retry.backoff",
               "kind": "internal",
               "sampled": true,
-              "startUs": 46387.169,
-              "endUs": 577637.475,
+              "startUs": 46415.188,
+              "endUs": 555852.139,
               "status": "ok",
               "attributes": {
                 "distilled.retry.attempt": 1,
-                "distilled.retry.delay_ms": 532,
+                "distilled.retry.delay_ms": 509,
                 "distilled.retry.reason": "SlowDown"
               },
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "a3968786bc48257b",
-              "parent": "7bb4af7c9fff1cfe",
+              "id": "cfa0ddfe93f578d9",
+              "parent": "fa9b6f5437fb3437",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 577698.046,
-              "endUs": 629075.934,
+              "startUs": 555976.926,
+              "endUs": 607452.217,
               "status": "error",
               "attributes": {
                 "distilled.attempt": 2,
@@ -1031,26 +1031,26 @@
               "source": "attempt"
             },
             {
-              "id": "899c2f5bbe6c69fa",
-              "parent": "a3968786bc48257b",
+              "id": "c8b81c0b354c3cb3",
+              "parent": "cfa0ddfe93f578d9",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 577748.759,
-              "endUs": 577890.032,
+              "startUs": 556068.973,
+              "endUs": 556316.298,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "8bb839782dace430",
-              "parent": "a3968786bc48257b",
+              "id": "36bb9d96199c3e34",
+              "parent": "cfa0ddfe93f578d9",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 577910.339,
-              "endUs": 578077.971,
+              "startUs": 556345.419,
+              "endUs": 556682.451,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "s3"
@@ -1059,13 +1059,13 @@
               "source": "distilled"
             },
             {
-              "id": "ab8065681644f603",
-              "parent": "a3968786bc48257b",
+              "id": "42ddf03d179b478d",
+              "parent": "cfa0ddfe93f578d9",
               "name": "PUT",
               "kind": "client",
               "sampled": true,
-              "startUs": 578127.378,
-              "endUs": 628634.381,
+              "startUs": 556765.662,
+              "endUs": 607220.181,
               "status": "error",
               "attributes": {
                 "http.request.method": "PUT",
@@ -1082,43 +1082,43 @@
               "source": "effect-http"
             },
             {
-              "id": "d2708ae8e8406a2f",
-              "parent": "a3968786bc48257b",
+              "id": "b645a332e297c69a",
+              "parent": "cfa0ddfe93f578d9",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 628697.639,
-              "endUs": 629065.562,
+              "startUs": 607267.322,
+              "endUs": 607443.727,
               "status": "error",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "1fc6f64b083161ff",
-              "parent": "7bb4af7c9fff1cfe",
+              "id": "56b49204465d2be4",
+              "parent": "fa9b6f5437fb3437",
               "name": "distilled.retry.backoff",
               "kind": "internal",
               "sampled": true,
-              "startUs": 629105.582,
-              "endUs": 1145377.526,
+              "startUs": 607478.132,
+              "endUs": 1107882.529,
               "status": "ok",
               "attributes": {
                 "distilled.retry.attempt": 2,
-                "distilled.retry.delay_ms": 516,
+                "distilled.retry.delay_ms": 500,
                 "distilled.retry.reason": "SlowDown"
               },
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "30ae10e53e3d7ab5",
-              "parent": "7bb4af7c9fff1cfe",
+              "id": "23b9b66b69022896",
+              "parent": "fa9b6f5437fb3437",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 1145435.043,
-              "endUs": 1202058.843,
+              "startUs": 1107983.779,
+              "endUs": 1164835.93,
               "status": "error",
               "attributes": {
                 "distilled.attempt": 3,
@@ -1135,26 +1135,26 @@
               "source": "attempt"
             },
             {
-              "id": "7e28aed3103a5acc",
-              "parent": "30ae10e53e3d7ab5",
+              "id": "821e4d259bd5e4bf",
+              "parent": "23b9b66b69022896",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 1145479.547,
-              "endUs": 1145616.82,
+              "startUs": 1108083.28,
+              "endUs": 1108325.423,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "2fd5d0832189fe3c",
-              "parent": "30ae10e53e3d7ab5",
+              "id": "ada31368b84c291c",
+              "parent": "23b9b66b69022896",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 1145627.617,
-              "endUs": 1145788.932,
+              "startUs": 1108346.222,
+              "endUs": 1108640.86,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "s3"
@@ -1163,13 +1163,13 @@
               "source": "distilled"
             },
             {
-              "id": "1ab858289119656b",
-              "parent": "30ae10e53e3d7ab5",
+              "id": "ca372501f8a6cab7",
+              "parent": "23b9b66b69022896",
               "name": "PUT",
               "kind": "client",
               "sampled": true,
-              "startUs": 1145818.97,
-              "endUs": 1201615.33,
+              "startUs": 1108688.267,
+              "endUs": 1164376.249,
               "status": "error",
               "attributes": {
                 "http.request.method": "PUT",
@@ -1186,43 +1186,43 @@
               "source": "effect-http"
             },
             {
-              "id": "0893880d33ed3635",
-              "parent": "30ae10e53e3d7ab5",
+              "id": "82196d2f6ea6e2a9",
+              "parent": "23b9b66b69022896",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 1201724.472,
-              "endUs": 1202048.254,
+              "startUs": 1164499.06,
+              "endUs": 1164825.819,
               "status": "error",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "692052a4e3cb5d72",
-              "parent": "7bb4af7c9fff1cfe",
+              "id": "6597b312c8075d86",
+              "parent": "fa9b6f5437fb3437",
               "name": "distilled.retry.backoff",
               "kind": "internal",
               "sampled": true,
-              "startUs": 1202089.691,
-              "endUs": 2211654.679,
+              "startUs": 1164873.626,
+              "endUs": 2214382.366,
               "status": "ok",
               "attributes": {
                 "distilled.retry.attempt": 3,
-                "distilled.retry.delay_ms": 1010,
+                "distilled.retry.delay_ms": 1050,
                 "distilled.retry.reason": "SlowDown"
               },
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "b4d4842f0a598921",
-              "parent": "7bb4af7c9fff1cfe",
+              "id": "2af9f85fd0c05f20",
+              "parent": "fa9b6f5437fb3437",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 2211765.392,
-              "endUs": 2273344.828,
+              "startUs": 2214456.289,
+              "endUs": 2276084.778,
               "status": "error",
               "attributes": {
                 "distilled.attempt": 4,
@@ -1239,26 +1239,26 @@
               "source": "attempt"
             },
             {
-              "id": "b498227c45214e24",
-              "parent": "b4d4842f0a598921",
+              "id": "38e70b2a02eec1e4",
+              "parent": "2af9f85fd0c05f20",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 2211855.572,
-              "endUs": 2212104.388,
+              "startUs": 2214512.985,
+              "endUs": 2214676.835,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "c5c9aa682f81775e",
-              "parent": "b4d4842f0a598921",
+              "id": "ac5be12caa3cfc09",
+              "parent": "2af9f85fd0c05f20",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 2212127.444,
-              "endUs": 2212413.908,
+              "startUs": 2214692.464,
+              "endUs": 2214902.865,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "s3"
@@ -1267,13 +1267,13 @@
               "source": "distilled"
             },
             {
-              "id": "75be9bb09d236dc5",
-              "parent": "b4d4842f0a598921",
+              "id": "e6faf09ccccbe9f5",
+              "parent": "2af9f85fd0c05f20",
               "name": "PUT",
               "kind": "client",
               "sampled": true,
-              "startUs": 2212466.498,
-              "endUs": 2273077.104,
+              "startUs": 2214938.77,
+              "endUs": 2275619.723,
               "status": "error",
               "attributes": {
                 "http.request.method": "PUT",
@@ -1290,43 +1290,43 @@
               "source": "effect-http"
             },
             {
-              "id": "76dc2d3945c19039",
-              "parent": "b4d4842f0a598921",
+              "id": "e54673c6194312ac",
+              "parent": "2af9f85fd0c05f20",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 2273152.308,
-              "endUs": 2273338.164,
+              "startUs": 2275762.5,
+              "endUs": 2276072.522,
               "status": "error",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "6fba92b97525bcbe",
-              "parent": "7bb4af7c9fff1cfe",
+              "id": "3287b19da621a31b",
+              "parent": "fa9b6f5437fb3437",
               "name": "distilled.retry.backoff",
               "kind": "internal",
               "sampled": true,
-              "startUs": 2273359.568,
-              "endUs": 4294604.093,
+              "startUs": 2276106.251,
+              "endUs": 4299351.684,
               "status": "ok",
               "attributes": {
                 "distilled.retry.attempt": 4,
-                "distilled.retry.delay_ms": 2022,
+                "distilled.retry.delay_ms": 2024,
                 "distilled.retry.reason": "SlowDown"
               },
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "b3813abd76ce476a",
-              "parent": "7bb4af7c9fff1cfe",
+              "id": "b58cd203227b09de",
+              "parent": "fa9b6f5437fb3437",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 4294673.992,
-              "endUs": 4355720.918,
+              "startUs": 4299402.857,
+              "endUs": 4361101.811,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 5,
@@ -1342,26 +1342,26 @@
               "source": "attempt"
             },
             {
-              "id": "41b75cb69549d143",
-              "parent": "b3813abd76ce476a",
+              "id": "cd95e8b21b2ef6e1",
+              "parent": "b58cd203227b09de",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 4294722.858,
-              "endUs": 4294861.879,
+              "startUs": 4299451.939,
+              "endUs": 4299582.718,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "975f62870d46ca1e",
-              "parent": "b3813abd76ce476a",
+              "id": "4f379133440c2020",
+              "parent": "b58cd203227b09de",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 4294873.678,
-              "endUs": 4295041.578,
+              "startUs": 4299594.61,
+              "endUs": 4299963.405,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "s3"
@@ -1370,13 +1370,13 @@
               "source": "distilled"
             },
             {
-              "id": "5e98f1379b609366",
-              "parent": "b3813abd76ce476a",
+              "id": "8612a623d6f052e5",
+              "parent": "b58cd203227b09de",
               "name": "PUT",
               "kind": "client",
               "sampled": true,
-              "startUs": 4295070.927,
-              "endUs": 4355517.51,
+              "startUs": 4299992.265,
+              "endUs": 4360753.281,
               "status": "ok",
               "attributes": {
                 "http.request.method": "PUT",
@@ -1392,13 +1392,13 @@
               "source": "effect-http"
             },
             {
-              "id": "d6ec64992e6fafeb",
-              "parent": "b3813abd76ce476a",
+              "id": "50ad5eb7060bec25",
+              "parent": "b58cd203227b09de",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 4355581.089,
-              "endUs": 4355718.929,
+              "startUs": 4360862.944,
+              "endUs": 4361097.41,
               "status": "ok",
               "attributes": {},
               "links": [],
@@ -1414,29 +1414,29 @@
           ],
           "sentHeaders": [
             {
-              "traceparent": "00-e4266c72db46fec239b5d20d75ae7b2e-44276a76c2c9167f-01",
-              "b3": "e4266c72db46fec239b5d20d75ae7b2e-44276a76c2c9167f-1-c636f514b9252415",
-              "x-amzn-trace-id": "Root=1-e4266c72-db46fec239b5d20d75ae7b2e;Parent=c636f514b9252415;Sampled=1"
+              "traceparent": "00-7bfe36ae3d1fdf5867353643af7fdbea-024c6ad60059814d-01",
+              "b3": "7bfe36ae3d1fdf5867353643af7fdbea-024c6ad60059814d-1-cdc8f80ba4fe418c",
+              "x-amzn-trace-id": "Root=1-7bfe36ae-3d1fdf5867353643af7fdbea;Parent=cdc8f80ba4fe418c;Sampled=1"
             },
             {
-              "traceparent": "00-e4266c72db46fec239b5d20d75ae7b2e-ab8065681644f603-01",
-              "b3": "e4266c72db46fec239b5d20d75ae7b2e-ab8065681644f603-1-a3968786bc48257b",
-              "x-amzn-trace-id": "Root=1-e4266c72-db46fec239b5d20d75ae7b2e;Parent=a3968786bc48257b;Sampled=1"
+              "traceparent": "00-7bfe36ae3d1fdf5867353643af7fdbea-42ddf03d179b478d-01",
+              "b3": "7bfe36ae3d1fdf5867353643af7fdbea-42ddf03d179b478d-1-cfa0ddfe93f578d9",
+              "x-amzn-trace-id": "Root=1-7bfe36ae-3d1fdf5867353643af7fdbea;Parent=cfa0ddfe93f578d9;Sampled=1"
             },
             {
-              "traceparent": "00-e4266c72db46fec239b5d20d75ae7b2e-1ab858289119656b-01",
-              "b3": "e4266c72db46fec239b5d20d75ae7b2e-1ab858289119656b-1-30ae10e53e3d7ab5",
-              "x-amzn-trace-id": "Root=1-e4266c72-db46fec239b5d20d75ae7b2e;Parent=30ae10e53e3d7ab5;Sampled=1"
+              "traceparent": "00-7bfe36ae3d1fdf5867353643af7fdbea-ca372501f8a6cab7-01",
+              "b3": "7bfe36ae3d1fdf5867353643af7fdbea-ca372501f8a6cab7-1-23b9b66b69022896",
+              "x-amzn-trace-id": "Root=1-7bfe36ae-3d1fdf5867353643af7fdbea;Parent=23b9b66b69022896;Sampled=1"
             },
             {
-              "traceparent": "00-e4266c72db46fec239b5d20d75ae7b2e-75be9bb09d236dc5-01",
-              "b3": "e4266c72db46fec239b5d20d75ae7b2e-75be9bb09d236dc5-1-b4d4842f0a598921",
-              "x-amzn-trace-id": "Root=1-e4266c72-db46fec239b5d20d75ae7b2e;Parent=b4d4842f0a598921;Sampled=1"
+              "traceparent": "00-7bfe36ae3d1fdf5867353643af7fdbea-e6faf09ccccbe9f5-01",
+              "b3": "7bfe36ae3d1fdf5867353643af7fdbea-e6faf09ccccbe9f5-1-2af9f85fd0c05f20",
+              "x-amzn-trace-id": "Root=1-7bfe36ae-3d1fdf5867353643af7fdbea;Parent=2af9f85fd0c05f20;Sampled=1"
             },
             {
-              "traceparent": "00-e4266c72db46fec239b5d20d75ae7b2e-5e98f1379b609366-01",
-              "b3": "e4266c72db46fec239b5d20d75ae7b2e-5e98f1379b609366-1-b3813abd76ce476a",
-              "x-amzn-trace-id": "Root=1-e4266c72-db46fec239b5d20d75ae7b2e;Parent=b3813abd76ce476a;Sampled=1"
+              "traceparent": "00-7bfe36ae3d1fdf5867353643af7fdbea-8612a623d6f052e5-01",
+              "b3": "7bfe36ae3d1fdf5867353643af7fdbea-8612a623d6f052e5-1-b58cd203227b09de",
+              "x-amzn-trace-id": "Root=1-7bfe36ae-3d1fdf5867353643af7fdbea;Parent=b58cd203227b09de;Sampled=1"
             }
           ]
         }
@@ -1453,12 +1453,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "7ccc87a56644fc47",
+              "id": "4d6d712f7ed133e6",
               "name": "send orders",
               "kind": "producer",
               "sampled": true,
               "startUs": 0,
-              "endUs": 13155.603,
+              "endUs": 13698.949,
               "status": "ok",
               "attributes": {
                 "rpc.method": "SQS/SendMessage",
@@ -1481,11 +1481,11 @@
             }
           ],
           "sent": [
-            "{\"QueueUrl\":\"https://sqs.us-east-1.amazonaws.com/123456789012/orders\",\"MessageBody\":\"{\\\"orderId\\\":42}\",\"MessageAttributes\":{\"traceparent\":{\"StringValue\":\"00-5fc6614eea67993797128c45395b0088-7ccc87a56644fc47-01\",\"DataType\":\"String\"}}}"
+            "{\"QueueUrl\":\"https://sqs.us-east-1.amazonaws.com/123456789012/orders\",\"MessageBody\":\"{\\\"orderId\\\":42}\",\"MessageAttributes\":{\"traceparent\":{\"StringValue\":\"00-0d7526b7ee9b87cb1a60fbf3c0c9aa68-4d6d712f7ed133e6-01\",\"DataType\":\"String\"}}}"
           ],
           "sentHeaders": [
             {
-              "x-amzn-trace-id": "Root=1-5fc6614e-ea67993797128c45395b0088;Parent=7ccc87a56644fc47;Sampled=1"
+              "x-amzn-trace-id": "Root=1-0d7526b7-ee9b87cb1a60fbf3c0c9aa68;Parent=4d6d712f7ed133e6;Sampled=1"
             }
           ]
         },
@@ -1494,12 +1494,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "43c8a3eebc3a7756",
+              "id": "ed6085d9304a30ce",
               "name": "send orders",
               "kind": "producer",
               "sampled": true,
               "startUs": 0,
-              "endUs": 12823.159,
+              "endUs": 12860.336,
               "status": "ok",
               "attributes": {
                 "rpc.method": "SQS/SendMessage",
@@ -1508,7 +1508,7 @@
                 "messaging.operation.name": "send",
                 "messaging.operation.type": "send",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 401,
+                "code.line.number": 407,
                 "code.column.number": 18,
                 "code.function.name": "scenarios",
                 "aws.sqs.queue.url": "https://sqs.us-east-1.amazonaws.com/123456789012/orders",
@@ -1525,13 +1525,13 @@
               "source": "distilled"
             },
             {
-              "id": "c1924a7c534f2a5d",
-              "parent": "43c8a3eebc3a7756",
+              "id": "2d2567e0415782b8",
+              "parent": "ed6085d9304a30ce",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 60.006,
-              "endUs": 12806.752,
+              "startUs": 72.05,
+              "endUs": 12854.457,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -1547,26 +1547,26 @@
               "source": "attempt"
             },
             {
-              "id": "c86b5584ac15235a",
-              "parent": "c1924a7c534f2a5d",
+              "id": "5729c7a7135a1b44",
+              "parent": "2d2567e0415782b8",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 81.414,
-              "endUs": 111.707,
+              "startUs": 98.612,
+              "endUs": 146.715,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "a59ca98389886900",
-              "parent": "c1924a7c534f2a5d",
+              "id": "47a4f2072f0c98f7",
+              "parent": "2d2567e0415782b8",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 119.757,
-              "endUs": 240.741,
+              "startUs": 158.302,
+              "endUs": 348.018,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "sqs"
@@ -1575,13 +1575,13 @@
               "source": "distilled"
             },
             {
-              "id": "b31c9243e1fa0e03",
-              "parent": "c1924a7c534f2a5d",
+              "id": "776c58368a623978",
+              "parent": "2d2567e0415782b8",
               "name": "POST",
               "kind": "client",
               "sampled": true,
-              "startUs": 259.043,
-              "endUs": 12628.705,
+              "startUs": 373.457,
+              "endUs": 12716.622,
               "status": "ok",
               "attributes": {
                 "http.request.method": "POST",
@@ -1596,13 +1596,13 @@
               "source": "effect-http"
             },
             {
-              "id": "ae94fb0516c9bc63",
-              "parent": "c1924a7c534f2a5d",
+              "id": "c50e315b361809b8",
+              "parent": "2d2567e0415782b8",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 12698.096,
-              "endUs": 12804.106,
+              "startUs": 12752.679,
+              "endUs": 12852.814,
               "status": "ok",
               "attributes": {},
               "links": [],
@@ -1610,13 +1610,13 @@
             }
           ],
           "sent": [
-            "{\"QueueUrl\":\"https://sqs.us-east-1.amazonaws.com/123456789012/orders\",\"MessageBody\":\"{\\\"orderId\\\":42}\",\"MessageAttributes\":{\"traceparent\":{\"StringValue\":\"00-9ff1430a1de6abc8e05212c454c52d52-43c8a3eebc3a7756-01\",\"DataType\":\"String\"}}}"
+            "{\"QueueUrl\":\"https://sqs.us-east-1.amazonaws.com/123456789012/orders\",\"MessageBody\":\"{\\\"orderId\\\":42}\",\"MessageAttributes\":{\"traceparent\":{\"StringValue\":\"00-4ec95cfac663b5ecbbc04266ba37718f-ed6085d9304a30ce-01\",\"DataType\":\"String\"}}}"
           ],
           "sentHeaders": [
             {
-              "traceparent": "00-9ff1430a1de6abc8e05212c454c52d52-b31c9243e1fa0e03-01",
-              "b3": "9ff1430a1de6abc8e05212c454c52d52-b31c9243e1fa0e03-1-c1924a7c534f2a5d",
-              "x-amzn-trace-id": "Root=1-9ff1430a-1de6abc8e05212c454c52d52;Parent=c1924a7c534f2a5d;Sampled=1"
+              "traceparent": "00-4ec95cfac663b5ecbbc04266ba37718f-776c58368a623978-01",
+              "b3": "4ec95cfac663b5ecbbc04266ba37718f-776c58368a623978-1-2d2567e0415782b8",
+              "x-amzn-trace-id": "Root=1-4ec95cfa-c663b5ecbbc04266ba37718f;Parent=2d2567e0415782b8;Sampled=1"
             }
           ]
         }
@@ -1633,12 +1633,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "debcc00dd551014e",
+              "id": "d0488215f450698e",
               "name": "receive orders",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 16428.963,
+              "endUs": 16338.919,
               "status": "ok",
               "attributes": {
                 "rpc.method": "SQS/ReceiveMessage",
@@ -1680,7 +1680,7 @@
           ],
           "sentHeaders": [
             {
-              "x-amzn-trace-id": "Root=1-5cd1efc9-7a21ae6074d9f8a4acc0f544;Parent=debcc00dd551014e;Sampled=1"
+              "x-amzn-trace-id": "Root=1-09af63f5-827a4b7b39dd6964e37098b1;Parent=d0488215f450698e;Sampled=1"
             }
           ]
         },
@@ -1689,12 +1689,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "2e2053f287c50e2f",
+              "id": "408e5d5ee1aea863",
               "name": "receive orders",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 15882.776,
+              "endUs": 15805.726,
               "status": "ok",
               "attributes": {
                 "rpc.method": "SQS/ReceiveMessage",
@@ -1703,7 +1703,7 @@
                 "messaging.operation.name": "receive",
                 "messaging.operation.type": "receive",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 424,
+                "code.line.number": 430,
                 "code.column.number": 18,
                 "code.function.name": "scenarios",
                 "aws.sqs.queue.url": "https://sqs.us-east-1.amazonaws.com/123456789012/orders",
@@ -1735,13 +1735,13 @@
               "source": "distilled"
             },
             {
-              "id": "412ce7ff85282096",
-              "parent": "2e2053f287c50e2f",
+              "id": "0a4d1682bacbc90b",
+              "parent": "408e5d5ee1aea863",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 23.387,
-              "endUs": 15852.447,
+              "startUs": 23.627,
+              "endUs": 15778.009,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -1757,26 +1757,26 @@
               "source": "attempt"
             },
             {
-              "id": "7349e5b5a22a42ad",
-              "parent": "412ce7ff85282096",
+              "id": "46ec57cfbe386e32",
+              "parent": "0a4d1682bacbc90b",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 34.424,
-              "endUs": 70.6,
+              "startUs": 36.642,
+              "endUs": 77.543,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "ff5cd85c0dbab6a1",
-              "parent": "412ce7ff85282096",
+              "id": "e5cb563a0c585caf",
+              "parent": "0a4d1682bacbc90b",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 84.578,
-              "endUs": 192,
+              "startUs": 86.087,
+              "endUs": 205.379,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "sqs"
@@ -1785,13 +1785,13 @@
               "source": "distilled"
             },
             {
-              "id": "6926235abe25e6a4",
-              "parent": "412ce7ff85282096",
+              "id": "7f26759f90fc60aa",
+              "parent": "0a4d1682bacbc90b",
               "name": "POST",
               "kind": "client",
               "sampled": true,
-              "startUs": 212.508,
-              "endUs": 15656.971,
+              "startUs": 226.65,
+              "endUs": 15576.761,
               "status": "ok",
               "attributes": {
                 "http.request.method": "POST",
@@ -1806,13 +1806,13 @@
               "source": "effect-http"
             },
             {
-              "id": "6ac6f730900e83ee",
-              "parent": "412ce7ff85282096",
+              "id": "867ab8df5d23a9ae",
+              "parent": "0a4d1682bacbc90b",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 15711.237,
-              "endUs": 15850.392,
+              "startUs": 15625.164,
+              "endUs": 15775.336,
               "status": "ok",
               "attributes": {},
               "links": [],
@@ -1824,9 +1824,9 @@
           ],
           "sentHeaders": [
             {
-              "traceparent": "00-29a0a84429893daa31d788638f2a852e-6926235abe25e6a4-01",
-              "b3": "29a0a84429893daa31d788638f2a852e-6926235abe25e6a4-1-412ce7ff85282096",
-              "x-amzn-trace-id": "Root=1-29a0a844-29893daa31d788638f2a852e;Parent=412ce7ff85282096;Sampled=1"
+              "traceparent": "00-31e8aa2bff4d90757e164161357e9d68-7f26759f90fc60aa-01",
+              "b3": "31e8aa2bff4d90757e164161357e9d68-7f26759f90fc60aa-1-0a4d1682bacbc90b",
+              "x-amzn-trace-id": "Root=1-31e8aa2b-ff4d90757e164161357e9d68;Parent=0a4d1682bacbc90b;Sampled=1"
             }
           ]
         }
@@ -1843,12 +1843,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "c37a77b5eebc0614",
+              "id": "d35cb28e014ee2b1",
               "name": "S3.GetObject",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 0,
+              "endUs": 23097.095,
               "status": "ok",
               "attributes": {
                 "rpc.method": "S3/GetObject",
@@ -1873,7 +1873,7 @@
           "sent": [],
           "sentHeaders": [
             {
-              "x-amzn-trace-id": "Root=1-6c256f2d-638d5b3f3e33406327a344f4;Parent=c37a77b5eebc0614;Sampled=1"
+              "x-amzn-trace-id": "Root=1-57653518-185c1e241ecfe8a38aab5918;Parent=d35cb28e014ee2b1;Sampled=1"
             }
           ]
         },
@@ -1882,19 +1882,19 @@
           "ok": true,
           "spans": [
             {
-              "id": "7debaae534abf636",
+              "id": "7a9ee2bf4d6ed7fd",
               "name": "S3.GetObject",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 0,
+              "endUs": 22890.388,
               "status": "ok",
               "attributes": {
                 "rpc.method": "S3/GetObject",
                 "rpc.system.name": "aws-api",
                 "url.template": "/{Bucket}/{Key+}",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 459,
+                "code.line.number": 465,
                 "code.column.number": 10,
                 "code.function.name": "scenarios",
                 "aws.s3.bucket": "assets",
@@ -1913,13 +1913,13 @@
               "source": "distilled"
             },
             {
-              "id": "1e99e610c996366b",
-              "parent": "7debaae534abf636",
+              "id": "23d3f04cf997146e",
+              "parent": "7a9ee2bf4d6ed7fd",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 34.098,
-              "endUs": 23122.936,
+              "startUs": 27.546,
+              "endUs": 22889.131,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -1938,26 +1938,26 @@
               "source": "attempt"
             },
             {
-              "id": "7344e674935399a9",
-              "parent": "1e99e610c996366b",
+              "id": "57e022c0486de6a5",
+              "parent": "23d3f04cf997146e",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 47.754,
-              "endUs": 129.801,
+              "startUs": 39.632,
+              "endUs": 100.196,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "c2c9f4456c43ee7b",
-              "parent": "1e99e610c996366b",
+              "id": "df848980d5d21084",
+              "parent": "23d3f04cf997146e",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 142.888,
-              "endUs": 253.556,
+              "startUs": 110.752,
+              "endUs": 229.241,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "s3"
@@ -1966,13 +1966,13 @@
               "source": "distilled"
             },
             {
-              "id": "5d7fd9145231c98d",
-              "parent": "1e99e610c996366b",
+              "id": "ec00e06cc950a1b9",
+              "parent": "23d3f04cf997146e",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 280.817,
-              "endUs": 22745.083,
+              "startUs": 254.73,
+              "endUs": 22633.546,
               "status": "ok",
               "attributes": {
                 "http.request.method": "GET",
@@ -1988,13 +1988,13 @@
               "source": "effect-http"
             },
             {
-              "id": "908cb87ce354303f",
-              "parent": "1e99e610c996366b",
+              "id": "6d1faecefedcdc8c",
+              "parent": "23d3f04cf997146e",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 22817.989,
-              "endUs": 23119.554,
+              "startUs": 22667.173,
+              "endUs": 22887.087,
               "status": "ok",
               "attributes": {},
               "links": [],
@@ -2004,9 +2004,9 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-b5254131146c529ff40654aae2b75c05-5d7fd9145231c98d-01",
-              "b3": "b5254131146c529ff40654aae2b75c05-5d7fd9145231c98d-1-1e99e610c996366b",
-              "x-amzn-trace-id": "Root=1-b5254131-146c529ff40654aae2b75c05;Parent=1e99e610c996366b;Sampled=1"
+              "traceparent": "00-cd22843ef1e8aa7be881f5a8ed6d95e8-ec00e06cc950a1b9-01",
+              "b3": "cd22843ef1e8aa7be881f5a8ed6d95e8-ec00e06cc950a1b9-1-23d3f04cf997146e",
+              "x-amzn-trace-id": "Root=1-cd22843e-f1e8aa7be881f5a8ed6d95e8;Parent=23d3f04cf997146e;Sampled=1"
             }
           ]
         }
@@ -2023,12 +2023,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "41c764fd837f25d1",
+              "id": "e50de52039cabd30",
               "name": "Cloudflare.GetBucket",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 19844.551,
+              "endUs": 19768.831,
               "status": "ok",
               "attributes": {
                 "rpc.method": "R2/GetBucket",
@@ -2050,7 +2050,7 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-feb63f1a0a0c6a2f15591dc32a6f126a-41c764fd837f25d1-01"
+              "traceparent": "00-31ce0b44ce55ec0231e4a79c44991176-e50de52039cabd30-01"
             }
           ]
         },
@@ -2059,19 +2059,19 @@
           "ok": true,
           "spans": [
             {
-              "id": "732236705fa3467d",
+              "id": "e4e96f63c62a43d0",
               "name": "Cloudflare.GetBucket",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 18652.795,
+              "endUs": 18660.274,
               "status": "ok",
               "attributes": {
                 "rpc.method": "R2/GetBucket",
                 "rpc.system.name": "cloudflare-api",
                 "url.template": "/accounts/{account_id}/r2/buckets/{bucket_name}",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 478,
+                "code.line.number": 484,
                 "code.column.number": 17,
                 "code.function.name": "scenarios",
                 "cloudflare.account_id": "0123456789abcdef",
@@ -2087,13 +2087,13 @@
               "source": "distilled"
             },
             {
-              "id": "1b46faaa2b34b028",
-              "parent": "732236705fa3467d",
+              "id": "6410c63baada2fec",
+              "parent": "e4e96f63c62a43d0",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 18.651,
-              "endUs": 18646.308,
+              "startUs": 23.105,
+              "endUs": 18658.5,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -2108,13 +2108,13 @@
               "source": "attempt"
             },
             {
-              "id": "3d440c1aa7c32963",
-              "parent": "1b46faaa2b34b028",
+              "id": "38d4e1ec78634dd4",
+              "parent": "6410c63baada2fec",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 67.623,
-              "endUs": 18463.821,
+              "startUs": 84.666,
+              "endUs": 18477.783,
               "status": "ok",
               "attributes": {
                 "http.request.method": "GET",
@@ -2129,13 +2129,13 @@
               "source": "effect-http"
             },
             {
-              "id": "4b1eaacf41afd0aa",
-              "parent": "1b46faaa2b34b028",
+              "id": "5aa9f4f02885fd68",
+              "parent": "6410c63baada2fec",
               "name": "cloudflare.decode",
               "kind": "internal",
               "sampled": true,
-              "startUs": 18538.057,
-              "endUs": 18644.238,
+              "startUs": 18537.238,
+              "endUs": 18656.596,
               "status": "ok",
               "attributes": {},
               "links": [],
@@ -2145,8 +2145,8 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-844e028dcae2999b6a71ec4924549509-3d440c1aa7c32963-01",
-              "b3": "844e028dcae2999b6a71ec4924549509-3d440c1aa7c32963-1-1b46faaa2b34b028"
+              "traceparent": "00-ffe1ce464b4e5f1a412cb1eb38807c65-38d4e1ec78634dd4-01",
+              "b3": "ffe1ce464b4e5f1a412cb1eb38807c65-38d4e1ec78634dd4-1-6410c63baada2fec"
             }
           ]
         }
@@ -2163,12 +2163,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "f59766ccead6df15",
+              "id": "ccce7f1fbdf5c5aa",
               "name": "Railway.project",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 31714.852,
+              "endUs": 31336.25,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Railway/project",
@@ -2191,7 +2191,7 @@
           ],
           "sentHeaders": [
             {
-              "traceparent": "00-4f88348a27bf10530668b8dc959aed68-f59766ccead6df15-01"
+              "traceparent": "00-fc9b231da7ea56e7e773f978a40209c9-ccce7f1fbdf5c5aa-01"
             }
           ]
         },
@@ -2200,12 +2200,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "58ee9f840a039a05",
+              "id": "957dc17355e8b587",
               "name": "Railway.project",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 31033.736,
+              "endUs": 30754.359,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Railway/project",
@@ -2223,13 +2223,13 @@
               "source": "distilled"
             },
             {
-              "id": "90a71584d9180a87",
-              "parent": "58ee9f840a039a05",
+              "id": "dacc6234b836d86e",
+              "parent": "957dc17355e8b587",
               "name": "POST",
               "kind": "client",
               "sampled": true,
-              "startUs": 316.474,
-              "endUs": 30791.049,
+              "startUs": 206.376,
+              "endUs": 30562.057,
               "status": "ok",
               "attributes": {
                 "http.request.method": "POST",
@@ -2249,8 +2249,8 @@
           ],
           "sentHeaders": [
             {
-              "traceparent": "00-baaa634b52f77a05caa2644550206f90-90a71584d9180a87-01",
-              "b3": "baaa634b52f77a05caa2644550206f90-90a71584d9180a87-1-58ee9f840a039a05"
+              "traceparent": "00-5506d24867420d1f2fb6e23b03774897-dacc6234b836d86e-01",
+              "b3": "5506d24867420d1f2fb6e23b03774897-dacc6234b836d86e-1-957dc17355e8b587"
             }
           ]
         }
@@ -2265,7 +2265,7 @@
         {
           "level": "operation",
           "ok": false,
-          "pretty": "InvalidRequestError: No such customer: 'cus_missing'\n    at Stripe.GetCustomer (benches/otel-lab/lab.ts:513:21)",
+          "pretty": "InvalidRequestError: No such customer: 'cus_missing'\n    at Stripe.GetCustomer (benches/otel-lab/lab.ts:519:21)",
           "errorFields": {
             "code": "resource_missing",
             "param": "id",
@@ -2274,12 +2274,12 @@
           },
           "spans": [
             {
-              "id": "838e7246c1e9511b",
+              "id": "e0e559db9eed43f3",
               "name": "Stripe.GetCustomer",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 22201.414,
+              "endUs": 22250.839,
               "status": "error",
               "attributes": {
                 "rpc.method": "Stripe/GetCustomer",
@@ -2300,14 +2300,14 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-d2ee3136be10a56b6f4de407cfeffe3d-838e7246c1e9511b-01"
+              "traceparent": "00-2815ac95d7a25e8f8ad3beea879b57b5-e0e559db9eed43f3-01"
             }
           ]
         },
         {
           "level": "debug",
           "ok": false,
-          "pretty": "InvalidRequestError: No such customer: 'cus_missing'\n    at Stripe.GetCustomer (benches/otel-lab/lab.ts:513:21)",
+          "pretty": "InvalidRequestError: No such customer: 'cus_missing'\n    at Stripe.GetCustomer (benches/otel-lab/lab.ts:519:21)",
           "errorFields": {
             "code": "resource_missing",
             "param": "id",
@@ -2316,19 +2316,19 @@
           },
           "spans": [
             {
-              "id": "7032f6b0e8e6b810",
+              "id": "96f973b643028822",
               "name": "Stripe.GetCustomer",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 21868.218,
+              "endUs": 21835.643,
               "status": "error",
               "attributes": {
                 "rpc.method": "Stripe/GetCustomer",
                 "rpc.system.name": "stripe-api",
                 "url.template": "/v1/customers/{customer}",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 513,
+                "code.line.number": 519,
                 "code.column.number": 21,
                 "code.function.name": "scenarios",
                 "stripe.customer": "cus_missing",
@@ -2343,13 +2343,13 @@
               "source": "distilled"
             },
             {
-              "id": "e78c4f6af8e5e4b0",
-              "parent": "7032f6b0e8e6b810",
+              "id": "168f00f419b1a446",
+              "parent": "96f973b643028822",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 21.53,
-              "endUs": 21836.821,
+              "startUs": 22.292,
+              "endUs": 21815.434,
               "status": "error",
               "attributes": {
                 "distilled.attempt": 1,
@@ -2365,13 +2365,13 @@
               "source": "attempt"
             },
             {
-              "id": "b8ea6f4f908493a1",
-              "parent": "e78c4f6af8e5e4b0",
+              "id": "8936450cc4a640a8",
+              "parent": "168f00f419b1a446",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 91.565,
-              "endUs": 21614.018,
+              "startUs": 91.662,
+              "endUs": 21612.873,
               "status": "error",
               "attributes": {
                 "http.request.method": "GET",
@@ -2390,8 +2390,8 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-1d9f7cbf07958fb715917e1f476cb0aa-b8ea6f4f908493a1-01",
-              "b3": "1d9f7cbf07958fb715917e1f476cb0aa-b8ea6f4f908493a1-1-e78c4f6af8e5e4b0"
+              "traceparent": "00-b3f4c79b68ef648b40c297372c227408-8936450cc4a640a8-01",
+              "b3": "b3f4c79b68ef648b40c297372c227408-8936450cc4a640a8-1-168f00f419b1a446"
             }
           ]
         }
@@ -2408,12 +2408,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "d1cde347c9425f05",
+              "id": "c6a6cbf9c7f67ccb",
               "name": "Storage.GetObjects",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 27367.074,
+              "endUs": 27173.234,
               "status": "ok",
               "attributes": {
                 "rpc.method": "storage/GetObjects",
@@ -2434,7 +2434,7 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-e0021af13a447a65e82f28649a48a490-d1cde347c9425f05-01"
+              "traceparent": "00-a9835cf839e179a65ebc0f9d64d49e07-c6a6cbf9c7f67ccb-01"
             }
           ]
         },
@@ -2443,12 +2443,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "6c55a538a7631663",
+              "id": "42e2bf1491f8f681",
               "name": "Storage.GetObjects",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 26780.676,
+              "endUs": 26814.524,
               "status": "ok",
               "attributes": {
                 "rpc.method": "storage/GetObjects",
@@ -2456,7 +2456,7 @@
                 "gcp.client.service": "storage",
                 "url.template": "b/{bucket}/o/{object}",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 539,
+                "code.line.number": 545,
                 "code.column.number": 22,
                 "code.function.name": "scenarios",
                 "gcp.bucket": "acme-assets",
@@ -2470,13 +2470,13 @@
               "source": "distilled"
             },
             {
-              "id": "0f9614de434441f3",
-              "parent": "6c55a538a7631663",
+              "id": "6c9a5f57c2e4c451",
+              "parent": "42e2bf1491f8f681",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 23.419,
-              "endUs": 26772.634,
+              "startUs": 27.727,
+              "endUs": 26805.946,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -2490,13 +2490,13 @@
               "source": "attempt"
             },
             {
-              "id": "0ad2308cfad07566",
-              "parent": "0f9614de434441f3",
+              "id": "5b5b4bea93cb8414",
+              "parent": "6c9a5f57c2e4c451",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 139.155,
-              "endUs": 26613.836,
+              "startUs": 124.043,
+              "endUs": 26638.824,
               "status": "ok",
               "attributes": {
                 "http.request.method": "GET",
@@ -2514,8 +2514,8 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-d85e5d8119ab9e11d5fc3228b57d00f2-0ad2308cfad07566-01",
-              "b3": "d85e5d8119ab9e11d5fc3228b57d00f2-0ad2308cfad07566-1-0f9614de434441f3"
+              "traceparent": "00-c789ed8d6329dcc641dd0fca86ec9b48-5b5b4bea93cb8414-01",
+              "b3": "c789ed8d6329dcc641dd0fca86ec9b48-5b5b4bea93cb8414-1-6c9a5f57c2e4c451"
             }
           ]
         }
@@ -2530,19 +2530,19 @@
         {
           "level": "operation",
           "ok": false,
-          "pretty": "NotFound: The resource 'projects/acme-prod/zones/us-central1-a/instances/web-1' was not found\n    at Compute.GetInstances (benches/otel-lab/lab.ts:563:22)",
+          "pretty": "NotFound: The resource 'projects/acme-prod/zones/us-central1-a/instances/web-1' was not found\n    at Compute.GetInstances (benches/otel-lab/lab.ts:569:22)",
           "errorFields": {
             "code": 404,
             "_tag": "NotFound"
           },
           "spans": [
             {
-              "id": "43d64b3160179885",
+              "id": "8210069ee9fdece7",
               "name": "Compute.GetInstances",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 35023.154,
+              "endUs": 34124.813,
               "status": "error",
               "attributes": {
                 "rpc.method": "compute/GetInstances",
@@ -2565,26 +2565,26 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-270e5bd84a772794ba0cf1ae611c2b22-43d64b3160179885-01"
+              "traceparent": "00-e193806582b201e5d545536c184bae9f-8210069ee9fdece7-01"
             }
           ]
         },
         {
           "level": "debug",
           "ok": false,
-          "pretty": "NotFound: The resource 'projects/acme-prod/zones/us-central1-a/instances/web-1' was not found\n    at Compute.GetInstances (benches/otel-lab/lab.ts:563:22)",
+          "pretty": "NotFound: The resource 'projects/acme-prod/zones/us-central1-a/instances/web-1' was not found\n    at Compute.GetInstances (benches/otel-lab/lab.ts:569:22)",
           "errorFields": {
             "code": 404,
             "_tag": "NotFound"
           },
           "spans": [
             {
-              "id": "830c31fbc825fb2c",
+              "id": "54df8212432a0758",
               "name": "Compute.GetInstances",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 33856.943,
+              "endUs": 34276.329,
               "status": "error",
               "attributes": {
                 "rpc.method": "compute/GetInstances",
@@ -2592,7 +2592,7 @@
                 "gcp.client.service": "compute",
                 "url.template": "projects/{project}/zones/{zone}/instances/{instance}",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 563,
+                "code.line.number": 569,
                 "code.column.number": 22,
                 "code.function.name": "scenarios",
                 "gcp.project": "acme-prod",
@@ -2608,13 +2608,13 @@
               "source": "distilled"
             },
             {
-              "id": "773db464134e8e70",
-              "parent": "830c31fbc825fb2c",
+              "id": "1b8eebd9ac7b8254",
+              "parent": "54df8212432a0758",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 23.157,
-              "endUs": 33836.842,
+              "startUs": 25.677,
+              "endUs": 34243.705,
               "status": "error",
               "attributes": {
                 "distilled.attempt": 1,
@@ -2629,13 +2629,13 @@
               "source": "attempt"
             },
             {
-              "id": "c3365d4ec913a432",
-              "parent": "773db464134e8e70",
+              "id": "62e5f9aae63e0651",
+              "parent": "1b8eebd9ac7b8254",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 120.915,
-              "endUs": 33642.595,
+              "startUs": 149.053,
+              "endUs": 33897.949,
               "status": "error",
               "attributes": {
                 "http.request.method": "GET",
@@ -2654,8 +2654,8 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-f0eef7a63650fd4d195337bf5c3ce2e6-c3365d4ec913a432-01",
-              "b3": "f0eef7a63650fd4d195337bf5c3ce2e6-c3365d4ec913a432-1-773db464134e8e70"
+              "traceparent": "00-c08edb568329bb546a8056529dd62ee8-62e5f9aae63e0651-01",
+              "b3": "c08edb568329bb546a8056529dd62ee8-62e5f9aae63e0651-1-1b8eebd9ac7b8254"
             }
           ]
         }
@@ -2672,12 +2672,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "92eeee89f948f8cc",
+              "id": "9f412b7a8e1f51b3",
               "name": "Resources.GetResourceGroup",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 42564.315,
+              "endUs": 42960.189,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Resources/GetResourceGroup",
@@ -2701,7 +2701,7 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-978e19b92c726ee7dbe618c00db729f4-92eeee89f948f8cc-01"
+              "traceparent": "00-7d134ad5516bbadeeaa1b58dc898fce6-9f412b7a8e1f51b3-01"
             }
           ]
         },
@@ -2710,19 +2710,19 @@
           "ok": true,
           "spans": [
             {
-              "id": "2c7d2c958e029ed6",
+              "id": "47c287961b13fb89",
               "name": "Resources.GetResourceGroup",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 41826.916,
+              "endUs": 42113.57,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Resources/GetResourceGroup",
                 "rpc.system.name": "azure-api",
                 "url.template": "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 592,
+                "code.line.number": 598,
                 "code.column.number": 29,
                 "code.function.name": "scenarios",
                 "azure.subscription_id": "00000000-0000-0000-0000-000000000001",
@@ -2740,13 +2740,13 @@
               "source": "distilled"
             },
             {
-              "id": "ef24b0a118c99a7e",
-              "parent": "2c7d2c958e029ed6",
+              "id": "2f34e09a3e8c8b17",
+              "parent": "47c287961b13fb89",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 24.508,
-              "endUs": 41819.577,
+              "startUs": 29.215,
+              "endUs": 42110.822,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -2764,13 +2764,13 @@
               "source": "attempt"
             },
             {
-              "id": "afd378b0c955c6fc",
-              "parent": "ef24b0a118c99a7e",
+              "id": "14f0aa0a9808dd64",
+              "parent": "2f34e09a3e8c8b17",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 183.818,
-              "endUs": 41622.714,
+              "startUs": 249.861,
+              "endUs": 41767.77,
               "status": "ok",
               "attributes": {
                 "http.request.method": "GET",
@@ -2789,8 +2789,8 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-67739219abdb226b77628777c8f2da28-afd378b0c955c6fc-01",
-              "b3": "67739219abdb226b77628777c8f2da28-afd378b0c955c6fc-1-ef24b0a118c99a7e"
+              "traceparent": "00-fd2397d89f46b7d8f8482f349a4a8dfa-14f0aa0a9808dd64-01",
+              "b3": "fd2397d89f46b7d8f8482f349a4a8dfa-14f0aa0a9808dd64-1-2f34e09a3e8c8b17"
             }
           ]
         }
@@ -2807,12 +2807,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "e9dd96a0cc1a3e1c",
+              "id": "578dd520264f5763",
               "name": "GitHub.Get",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 21060.818,
+              "endUs": 26958.32,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Repos/Get",
@@ -2833,7 +2833,7 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-de8f00f96aff2474927e404c2bb16ba6-e9dd96a0cc1a3e1c-01"
+              "traceparent": "00-ff104947d63f206407f0c25dc01b7a23-578dd520264f5763-01"
             }
           ]
         },
@@ -2842,19 +2842,19 @@
           "ok": true,
           "spans": [
             {
-              "id": "16ba77126ba23d66",
+              "id": "c6e432188689e770",
               "name": "GitHub.Get",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 19676.243,
+              "endUs": 18602.668,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Repos/Get",
                 "rpc.system.name": "github-api",
                 "url.template": "/repos/{owner}/{repo}",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 618,
+                "code.line.number": 624,
                 "code.column.number": 26,
                 "code.function.name": "scenarios",
                 "github.owner": "alchemy-run",
@@ -2869,13 +2869,13 @@
               "source": "distilled"
             },
             {
-              "id": "0dc7343639e6da2d",
-              "parent": "16ba77126ba23d66",
+              "id": "2c412f9da0c038fe",
+              "parent": "c6e432188689e770",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 24.867,
-              "endUs": 19669.234,
+              "startUs": 20.85,
+              "endUs": 18598.744,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -2890,13 +2890,13 @@
               "source": "attempt"
             },
             {
-              "id": "51e558cbce277b4c",
-              "parent": "0dc7343639e6da2d",
+              "id": "32ea397cf83f8ed4",
+              "parent": "2c412f9da0c038fe",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 99.582,
-              "endUs": 19514.242,
+              "startUs": 84.942,
+              "endUs": 18468.748,
               "status": "ok",
               "attributes": {
                 "http.request.method": "GET",
@@ -2914,8 +2914,8 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-a8a8e51a9228d5ed3465701d22f38f09-51e558cbce277b4c-01",
-              "b3": "a8a8e51a9228d5ed3465701d22f38f09-51e558cbce277b4c-1-0dc7343639e6da2d"
+              "traceparent": "00-b6a5078e44561ba911088bc7f3d9b74d-32ea397cf83f8ed4-01",
+              "b3": "b6a5078e44561ba911088bc7f3d9b74d-32ea397cf83f8ed4-1-2c412f9da0c038fe"
             }
           ]
         }
@@ -2932,12 +2932,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "4f079edcf3305f0b",
+              "id": "a64da72da1962942",
               "name": "Neon.GetProject",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 25244.837,
+              "endUs": 25596.345,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Neon/GetProject",
@@ -2957,7 +2957,7 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-8bf48ded06fd15cd188e792b39aa684f-4f079edcf3305f0b-01"
+              "traceparent": "00-7927b27226676db3960d4792a6ae662d-a64da72da1962942-01"
             }
           ]
         },
@@ -2966,19 +2966,19 @@
           "ok": true,
           "spans": [
             {
-              "id": "5fd5acfcccc5c3cd",
+              "id": "870f81d28eea9646",
               "name": "Neon.GetProject",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 24566.709,
+              "endUs": 24623.382,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Neon/GetProject",
                 "rpc.system.name": "neon-api",
                 "url.template": "/projects/{project_id}",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 635,
+                "code.line.number": 641,
                 "code.column.number": 19,
                 "code.function.name": "scenarios",
                 "neon.project_id": "round-sky-12345",
@@ -2992,13 +2992,13 @@
               "source": "distilled"
             },
             {
-              "id": "948018398f738065",
-              "parent": "5fd5acfcccc5c3cd",
+              "id": "f2a425e50fc3352b",
+              "parent": "870f81d28eea9646",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 19.698,
-              "endUs": 24559.406,
+              "startUs": 28.648,
+              "endUs": 24620.662,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -3013,13 +3013,13 @@
               "source": "attempt"
             },
             {
-              "id": "5453f49f7591fb5d",
-              "parent": "948018398f738065",
+              "id": "44c847732ae126c3",
+              "parent": "f2a425e50fc3352b",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 80.308,
-              "endUs": 24418.281,
+              "startUs": 139.215,
+              "endUs": 24459.649,
               "status": "ok",
               "attributes": {
                 "http.request.method": "GET",
@@ -3037,8 +3037,8 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-47f9e5f7f75c5687a10d6a232942e4fe-5453f49f7591fb5d-01",
-              "b3": "47f9e5f7f75c5687a10d6a232942e4fe-5453f49f7591fb5d-1-948018398f738065"
+              "traceparent": "00-6c1394d70705cb9568bf680768fcbe0e-44c847732ae126c3-01",
+              "b3": "6c1394d70705cb9568bf680768fcbe0e-44c847732ae126c3-1-f2a425e50fc3352b"
             }
           ]
         }
@@ -3055,12 +3055,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "c79567c3cb19aaa6",
+              "id": "5890fa31c7146e5b",
               "name": "Vercel.GetProject",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 21181.925,
+              "endUs": 20795.88,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Projects/GetProject",
@@ -3080,7 +3080,7 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-e6f30eebd81bd1e479c1c88e5ff517fc-c79567c3cb19aaa6-01"
+              "traceparent": "00-1f0d202d549b298af24f7373b2590429-5890fa31c7146e5b-01"
             }
           ]
         },
@@ -3089,19 +3089,19 @@
           "ok": true,
           "spans": [
             {
-              "id": "05f4200027477593",
+              "id": "b2779aa54b98b885",
               "name": "Vercel.GetProject",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 17551.759,
+              "endUs": 18253.758,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Projects/GetProject",
                 "rpc.system.name": "vercel-api",
                 "url.template": "/v9/projects/{idOrName}",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 649,
+                "code.line.number": 655,
                 "code.column.number": 29,
                 "code.function.name": "scenarios",
                 "vercel.id_or_name": "acme-web",
@@ -3115,13 +3115,13 @@
               "source": "distilled"
             },
             {
-              "id": "8bc54dcc067b3c6f",
-              "parent": "05f4200027477593",
+              "id": "d718c531a3a53e5e",
+              "parent": "b2779aa54b98b885",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 16.661,
-              "endUs": 17544.572,
+              "startUs": 16.214,
+              "endUs": 18251.484,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -3136,13 +3136,13 @@
               "source": "attempt"
             },
             {
-              "id": "597061a91279d09a",
-              "parent": "8bc54dcc067b3c6f",
+              "id": "9fab47d6cab615ed",
+              "parent": "d718c531a3a53e5e",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 67.003,
-              "endUs": 17335.559,
+              "startUs": 67.441,
+              "endUs": 18039.054,
               "status": "ok",
               "attributes": {
                 "http.request.method": "GET",
@@ -3160,8 +3160,8 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-9e7987256b81287dd7e03c44ba4c440c-597061a91279d09a-01",
-              "b3": "9e7987256b81287dd7e03c44ba4c440c-597061a91279d09a-1-8bc54dcc067b3c6f"
+              "traceparent": "00-abd23868ed0d7f03142ff8a55be7cb45-9fab47d6cab615ed-01",
+              "b3": "abd23868ed0d7f03142ff8a55be7cb45-9fab47d6cab615ed-1-d718c531a3a53e5e"
             }
           ]
         }
@@ -3176,19 +3176,19 @@
         {
           "level": "operation",
           "ok": false,
-          "pretty": "SlackError: \n    at <anonymous> (packages/slack/src/protocol.ts:256:11)\n    at Slack.PostMessage (benches/otel-lab/lab.ts:666:24)",
+          "pretty": "SlackError: \n    at <anonymous> (packages/slack/src/protocol.ts:256:11)\n    at Slack.PostMessage (benches/otel-lab/lab.ts:672:24)",
           "errorFields": {
             "code": "channel_not_found",
             "_tag": "SlackError"
           },
           "spans": [
             {
-              "id": "86ed70404bcb9a5c",
+              "id": "6e4397aba69ccd9b",
               "name": "Slack.PostMessage",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 29300.888,
+              "endUs": 29686.415,
               "status": "error",
               "attributes": {
                 "rpc.method": "Chat/PostMessage",
@@ -3208,33 +3208,33 @@
           "sent": ["{\"channel\":\"C0123456\",\"text\":\"deploy finished\"}"],
           "sentHeaders": [
             {
-              "traceparent": "00-e8c197940d05c58545bb3740e30a4557-86ed70404bcb9a5c-01"
+              "traceparent": "00-a10510b161509317beaa94fd057b4db5-6e4397aba69ccd9b-01"
             }
           ]
         },
         {
           "level": "debug",
           "ok": false,
-          "pretty": "SlackError: \n    at <anonymous> (packages/slack/src/protocol.ts:256:11)\n    at Slack.PostMessage (benches/otel-lab/lab.ts:666:24)",
+          "pretty": "SlackError: \n    at <anonymous> (packages/slack/src/protocol.ts:256:11)\n    at Slack.PostMessage (benches/otel-lab/lab.ts:672:24)",
           "errorFields": {
             "code": "channel_not_found",
             "_tag": "SlackError"
           },
           "spans": [
             {
-              "id": "94580e52889e34e1",
+              "id": "e6c4f82a3cfcaa43",
               "name": "Slack.PostMessage",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 28811.544,
+              "endUs": 28619.707,
               "status": "error",
               "attributes": {
                 "rpc.method": "Chat/PostMessage",
                 "rpc.system.name": "slack-api",
                 "url.template": "/chat.postMessage",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 666,
+                "code.line.number": 672,
                 "code.column.number": 24,
                 "code.function.name": "scenarios",
                 "http.request.method": "POST",
@@ -3248,13 +3248,13 @@
               "source": "distilled"
             },
             {
-              "id": "6b38b9680954d65e",
-              "parent": "94580e52889e34e1",
+              "id": "968e75a71bdb92c1",
+              "parent": "e6c4f82a3cfcaa43",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 20.31,
-              "endUs": 28782.16,
+              "startUs": 13.737,
+              "endUs": 28602.826,
               "status": "error",
               "attributes": {
                 "distilled.attempt": 1,
@@ -3270,13 +3270,13 @@
               "source": "attempt"
             },
             {
-              "id": "d14043666c32e768",
-              "parent": "6b38b9680954d65e",
+              "id": "087a9b0afbb507d0",
+              "parent": "968e75a71bdb92c1",
               "name": "POST",
               "kind": "client",
               "sampled": true,
-              "startUs": 104.656,
-              "endUs": 28508.685,
+              "startUs": 79.016,
+              "endUs": 28443.1,
               "status": "ok",
               "attributes": {
                 "http.request.method": "POST",
@@ -3294,8 +3294,8 @@
           "sent": ["{\"channel\":\"C0123456\",\"text\":\"deploy finished\"}"],
           "sentHeaders": [
             {
-              "traceparent": "00-db89542da1e4706392276dd04d3336fd-d14043666c32e768-01",
-              "b3": "db89542da1e4706392276dd04d3336fd-d14043666c32e768-1-6b38b9680954d65e"
+              "traceparent": "00-64aa4b583e25c9f8a8b377e4edff72f6-087a9b0afbb507d0-01",
+              "b3": "64aa4b583e25c9f8a8b377e4edff72f6-087a9b0afbb507d0-1-968e75a71bdb92c1"
             }
           ]
         }
@@ -3312,12 +3312,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "7721aebfaa223b45",
+              "id": "88eb2a2b9a359f77",
               "name": "Fly.GetApp",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 23010.964,
+              "endUs": 23569.62,
               "status": "ok",
               "attributes": {
                 "rpc.method": "FlyMachines/GetApp",
@@ -3337,7 +3337,7 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-e17ddbfb3b6f9aa55721271a7f8a0627-7721aebfaa223b45-01"
+              "traceparent": "00-8e15b2a8bfd00e1a3422b80ba97c0e45-88eb2a2b9a359f77-01"
             }
           ]
         },
@@ -3346,19 +3346,19 @@
           "ok": true,
           "spans": [
             {
-              "id": "6d22c1e50fbf7feb",
+              "id": "665a13fdb9a5e3c6",
               "name": "Fly.GetApp",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 22501.552,
+              "endUs": 22939.745,
               "status": "ok",
               "attributes": {
                 "rpc.method": "FlyMachines/GetApp",
                 "rpc.system.name": "fly-io-api",
                 "url.template": "/v1/apps/{app_name}",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 680,
+                "code.line.number": 686,
                 "code.column.number": 26,
                 "code.function.name": "scenarios",
                 "fly_io.app_name": "acme-api",
@@ -3372,13 +3372,13 @@
               "source": "distilled"
             },
             {
-              "id": "ab513a0eed09c9ce",
-              "parent": "6d22c1e50fbf7feb",
+              "id": "fe440d87093d8010",
+              "parent": "665a13fdb9a5e3c6",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 22.001,
-              "endUs": 22495.344,
+              "startUs": 25.511,
+              "endUs": 22937.291,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -3393,13 +3393,13 @@
               "source": "attempt"
             },
             {
-              "id": "08c8489d97322ae5",
-              "parent": "ab513a0eed09c9ce",
+              "id": "a41a5aa63c9cbf23",
+              "parent": "fe440d87093d8010",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 119.473,
-              "endUs": 22385.884,
+              "startUs": 153.888,
+              "endUs": 22806.635,
               "status": "ok",
               "attributes": {
                 "http.request.method": "GET",
@@ -3417,8 +3417,8 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-c1052438e0e3b1170d2d0e59a16c9299-08c8489d97322ae5-01",
-              "b3": "c1052438e0e3b1170d2d0e59a16c9299-08c8489d97322ae5-1-ab513a0eed09c9ce"
+              "traceparent": "00-d8e3b3945c34703dc2f1088cff605ac3-a41a5aa63c9cbf23-01",
+              "b3": "d8e3b3945c34703dc2f1088cff605ac3-a41a5aa63c9cbf23-1-fe440d87093d8010"
             }
           ]
         }
@@ -3435,12 +3435,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "b00fca385a98839a",
+              "id": "99ba2acdb7182b59",
               "name": "chat anthropic.claude-sonnet",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 425788.837,
+              "endUs": 425459.909,
               "status": "ok",
               "attributes": {
                 "rpc.method": "BedrockRuntime/Converse",
@@ -3470,7 +3470,7 @@
           ],
           "sentHeaders": [
             {
-              "x-amzn-trace-id": "Root=1-9bd675f2-1994df1b8bdba61327d2d56b;Parent=b00fca385a98839a;Sampled=1"
+              "x-amzn-trace-id": "Root=1-668ac172-6d6967647d3fc4ed82343124;Parent=99ba2acdb7182b59;Sampled=1"
             }
           ]
         },
@@ -3479,12 +3479,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "c8d2096c07eed527",
+              "id": "ff676b9be751bf4d",
               "name": "chat anthropic.claude-sonnet",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 421042.243,
+              "endUs": 421267.449,
               "status": "ok",
               "attributes": {
                 "rpc.method": "BedrockRuntime/Converse",
@@ -3493,7 +3493,7 @@
                 "gen_ai.provider.name": "aws.bedrock",
                 "gen_ai.operation.name": "chat",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 698,
+                "code.line.number": 704,
                 "code.column.number": 22,
                 "code.function.name": "scenarios",
                 "gen_ai.request.model": "anthropic.claude-sonnet",
@@ -3513,13 +3513,13 @@
               "source": "distilled"
             },
             {
-              "id": "a9d7444158f9b35b",
-              "parent": "c8d2096c07eed527",
+              "id": "407f2dd2c829b3d4",
+              "parent": "ff676b9be751bf4d",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 32.454,
-              "endUs": 421023.665,
+              "startUs": 26.891,
+              "endUs": 421251.314,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -3535,26 +3535,26 @@
               "source": "attempt"
             },
             {
-              "id": "1ecd97a30e47682e",
-              "parent": "a9d7444158f9b35b",
+              "id": "66cf7cfdc3a2be84",
+              "parent": "407f2dd2c829b3d4",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 48.369,
-              "endUs": 167.423,
+              "startUs": 40.537,
+              "endUs": 161.036,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "2a1c227565be3083",
-              "parent": "a9d7444158f9b35b",
+              "id": "324aa12e01152be1",
+              "parent": "407f2dd2c829b3d4",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 180.036,
-              "endUs": 363.48,
+              "startUs": 172.82,
+              "endUs": 571.595,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "bedrock"
@@ -3563,13 +3563,13 @@
               "source": "distilled"
             },
             {
-              "id": "222fa3a65cdfaa4c",
-              "parent": "a9d7444158f9b35b",
+              "id": "8c7ee808bec99bf5",
+              "parent": "407f2dd2c829b3d4",
               "name": "POST",
               "kind": "client",
               "sampled": true,
-              "startUs": 398.326,
-              "endUs": 420831.032,
+              "startUs": 608.317,
+              "endUs": 421052.627,
               "status": "ok",
               "attributes": {
                 "http.request.method": "POST",
@@ -3584,13 +3584,13 @@
               "source": "effect-http"
             },
             {
-              "id": "aa6e41cbcb522009",
-              "parent": "a9d7444158f9b35b",
+              "id": "8b18137097c69e3b",
+              "parent": "407f2dd2c829b3d4",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 420883.877,
-              "endUs": 421022.012,
+              "startUs": 421106.709,
+              "endUs": 421249.058,
               "status": "ok",
               "attributes": {},
               "links": [],
@@ -3602,9 +3602,9 @@
           ],
           "sentHeaders": [
             {
-              "traceparent": "00-781e2b25513584e7d5b971f95cd7b5b0-222fa3a65cdfaa4c-01",
-              "b3": "781e2b25513584e7d5b971f95cd7b5b0-222fa3a65cdfaa4c-1-a9d7444158f9b35b",
-              "x-amzn-trace-id": "Root=1-781e2b25-513584e7d5b971f95cd7b5b0;Parent=a9d7444158f9b35b;Sampled=1"
+              "traceparent": "00-0765f4532dc3eb3bcb6975c3620c3709-8c7ee808bec99bf5-01",
+              "b3": "0765f4532dc3eb3bcb6975c3620c3709-8c7ee808bec99bf5-1-407f2dd2c829b3d4",
+              "x-amzn-trace-id": "Root=1-0765f453-2dc3eb3bcb6975c3620c3709;Parent=407f2dd2c829b3d4;Sampled=1"
             }
           ]
         }
@@ -3613,7 +3613,7 @@
     {
       "id": "bedrock-converse-stream",
       "title": "Bedrock ConverseStream, 5 events",
-      "what": "A streamed GenAI response. The headers arrive after 180 ms, the events over the next 400 ms. The operation span stays open until the caller has read the last event, so it covers the whole response. Debug mode shows the read as distilled.read_stream, with the number of events.",
+      "what": "A streamed GenAI response. The headers arrive after 180 ms, the events over the next 400 ms. A GenAI span ends when the response is fully received (GenAI conventions; the OpenTelemetry AWS SDK instrumentations do the same), so the operation span stays open until the caller has read the last event, and gen_ai.response.time_to_first_chunk records when the first event arrived. Debug mode shows the read as distilled.read_stream.",
       "code": "const { stream } = yield* Bedrock.converseStream({\n  modelId: \"anthropic.claude-sonnet\",\n  messages: [{ role: \"user\", content: [{ text: \"hi\" }] }],\n});\nyield* Stream.runCollect(stream);",
       "runs": [
         {
@@ -3621,12 +3621,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "e6b80c391be2da48",
+              "id": "e749b2e3430fc564",
               "name": "chat anthropic.claude-sonnet",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 586854.2,
+              "endUs": 588602.513,
               "status": "ok",
               "attributes": {
                 "rpc.method": "BedrockRuntime/ConverseStream",
@@ -3641,7 +3641,8 @@
                 "server.address": "bedrock-runtime.us-east-1.amazonaws.com",
                 "server.port": 443,
                 "http.response.status_code": 200,
-                "aws.request_id": "BRS1"
+                "aws.request_id": "BRS1",
+                "gen_ai.response.time_to_first_chunk": 0.265404038
               },
               "links": [],
               "source": "distilled"
@@ -3650,7 +3651,7 @@
           "sent": ["{\"messages\":[{\"role\":\"user\",\"content\":[{\"text\":\"hi\"}]}]}"],
           "sentHeaders": [
             {
-              "x-amzn-trace-id": "Root=1-21ed0c81-9530e4ff2372432fd90406de;Parent=e6b80c391be2da48;Sampled=1"
+              "x-amzn-trace-id": "Root=1-85b97332-0cc1dc3d80fc7413165b0334;Parent=e749b2e3430fc564;Sampled=1"
             }
           ]
         },
@@ -3659,12 +3660,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "4aa7e3a39adfc452",
+              "id": "133b749743c1fef9",
               "name": "chat anthropic.claude-sonnet",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 584774.09,
+              "endUs": 584695.779,
               "status": "ok",
               "attributes": {
                 "rpc.method": "BedrockRuntime/ConverseStream",
@@ -3674,7 +3675,7 @@
                 "gen_ai.operation.name": "chat",
                 "gen_ai.request.stream": true,
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 726,
+                "code.line.number": 732,
                 "code.column.number": 15,
                 "code.function.name": "scenarios",
                 "gen_ai.request.model": "anthropic.claude-sonnet",
@@ -3683,19 +3684,20 @@
                 "server.address": "bedrock-runtime.us-east-1.amazonaws.com",
                 "server.port": 443,
                 "http.response.status_code": 200,
-                "aws.request_id": "BRS1"
+                "aws.request_id": "BRS1",
+                "gen_ai.response.time_to_first_chunk": 0.262741353
               },
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "d1ddf29ad011a5b4",
-              "parent": "4aa7e3a39adfc452",
+              "id": "ac7ca6961cf58c19",
+              "parent": "133b749743c1fef9",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 20.323,
-              "endUs": 181193.505,
+              "startUs": 33.268,
+              "endUs": 181402.866,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -3711,26 +3713,26 @@
               "source": "attempt"
             },
             {
-              "id": "7002494057093d7b",
-              "parent": "d1ddf29ad011a5b4",
+              "id": "8b28e3b71ec405ac",
+              "parent": "ac7ca6961cf58c19",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 47.349,
-              "endUs": 95.843,
+              "startUs": 52.82,
+              "endUs": 135.133,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "98de697f6ea6c742",
-              "parent": "d1ddf29ad011a5b4",
+              "id": "7951ebd9fa5e333b",
+              "parent": "ac7ca6961cf58c19",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 103.852,
-              "endUs": 218.453,
+              "startUs": 146.746,
+              "endUs": 357.939,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "bedrock"
@@ -3739,13 +3741,13 @@
               "source": "distilled"
             },
             {
-              "id": "623454c7f90b6c96",
-              "parent": "d1ddf29ad011a5b4",
+              "id": "74edf3882c45b288",
+              "parent": "ac7ca6961cf58c19",
               "name": "POST",
               "kind": "client",
               "sampled": true,
-              "startUs": 240.049,
-              "endUs": 180757.935,
+              "startUs": 389.319,
+              "endUs": 181002.614,
               "status": "ok",
               "attributes": {
                 "http.request.method": "POST",
@@ -3760,26 +3762,26 @@
               "source": "effect-http"
             },
             {
-              "id": "71aeb10f09464a2c",
-              "parent": "d1ddf29ad011a5b4",
+              "id": "bf14e078591f4838",
+              "parent": "ac7ca6961cf58c19",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 180858.745,
-              "endUs": 181190.449,
+              "startUs": 181100.208,
+              "endUs": 181400.466,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "26a38cbc30d5023e",
-              "parent": "4aa7e3a39adfc452",
+              "id": "c3fe664b72ac67d0",
+              "parent": "133b749743c1fef9",
               "name": "distilled.read_stream",
               "kind": "internal",
               "sampled": true,
-              "startUs": 181399.483,
-              "endUs": 584758.382,
+              "startUs": 181621.135,
+              "endUs": 584681.157,
               "status": "ok",
               "attributes": {
                 "distilled.stream.member": "stream",
@@ -3792,9 +3794,9 @@
           "sent": ["{\"messages\":[{\"role\":\"user\",\"content\":[{\"text\":\"hi\"}]}]}"],
           "sentHeaders": [
             {
-              "traceparent": "00-a3bfbebddd20eaca477de656dbd7c134-623454c7f90b6c96-01",
-              "b3": "a3bfbebddd20eaca477de656dbd7c134-623454c7f90b6c96-1-d1ddf29ad011a5b4",
-              "x-amzn-trace-id": "Root=1-a3bfbebd-dd20eaca477de656dbd7c134;Parent=d1ddf29ad011a5b4;Sampled=1"
+              "traceparent": "00-e61df284bbc7943d5b55f47fbc2dc496-74edf3882c45b288-01",
+              "b3": "e61df284bbc7943d5b55f47fbc2dc496-74edf3882c45b288-1-ac7ca6961cf58c19",
+              "x-amzn-trace-id": "Root=1-e61df284-bbc7943d5b55f47fbc2dc496;Parent=ac7ca6961cf58c19;Sampled=1"
             }
           ]
         }
@@ -3803,20 +3805,33 @@
     {
       "id": "s3-get-stream",
       "title": "S3 GetObject, body read in 3 parts",
-      "what": "A streamed object body. The headers arrive after 20 ms, the body over the next 360 ms. The operation span ends when the caller has read the body; debug mode shows that read as distilled.read_stream, with its bytes. A read error would fail the span; a body the caller drops unread ends it at the headers.",
-      "code": "const object = yield* S3.getObject({\n  Bucket: \"app-config\",\n  Key: \"prod.json\",\n});\nconst text = yield* object.Body.pipe(\n  Stream.decodeText,\n  Stream.mkString,\n);",
+      "what": "A streamed object body, read inside the caller's own Effect.fn. The headers arrive after 20 ms, the body over the next 360 ms. The operation span ends at the headers, as in the OpenTelemetry AWS SDK instrumentations and the HTTP client span conventions; the caller's loadConfig span covers the read.",
+      "code": "const loadConfig = Effect.fn(\"loadConfig\")(function* () {\n  const object = yield* S3.getObject({\n    Bucket: \"app-config\",\n    Key: \"prod.json\",\n  });\n  return yield* object.Body.pipe(Stream.decodeText, Stream.mkString);\n});",
       "runs": [
         {
           "level": "operation",
           "ok": true,
           "spans": [
             {
-              "id": "ccfe2642e2941e92",
+              "id": "6f849830feac8083",
+              "name": "loadConfig",
+              "kind": "internal",
+              "sampled": true,
+              "startUs": 0,
+              "endUs": 382968.009,
+              "status": "ok",
+              "attributes": {},
+              "links": [],
+              "source": "user"
+            },
+            {
+              "id": "a7286c8fd091ca43",
+              "parent": "6f849830feac8083",
               "name": "S3.GetObject",
               "kind": "client",
               "sampled": true,
-              "startUs": 0,
-              "endUs": 382834.3,
+              "startUs": 121.918,
+              "endUs": 21345.195,
               "status": "ok",
               "attributes": {
                 "rpc.method": "S3/GetObject",
@@ -3838,7 +3853,7 @@
           "sent": [],
           "sentHeaders": [
             {
-              "x-amzn-trace-id": "Root=1-011a102e-c0c833e28a9d6c9667275e5a;Parent=ccfe2642e2941e92;Sampled=1"
+              "x-amzn-trace-id": "Root=1-785b6792-2c679a4db68ab7c5567b3d99;Parent=a7286c8fd091ca43;Sampled=1"
             }
           ]
         },
@@ -3847,21 +3862,34 @@
           "ok": true,
           "spans": [
             {
-              "id": "ff3c817835476194",
+              "id": "735ba7fc32103f60",
+              "name": "loadConfig",
+              "kind": "internal",
+              "sampled": true,
+              "startUs": 0,
+              "endUs": 382557.792,
+              "status": "ok",
+              "attributes": {},
+              "links": [],
+              "source": "user"
+            },
+            {
+              "id": "abc1b9d53ee5854e",
+              "parent": "735ba7fc32103f60",
               "name": "S3.GetObject",
               "kind": "client",
               "sampled": true,
-              "startUs": 0,
-              "endUs": 382196.71,
+              "startUs": 134.025,
+              "endUs": 21074.586,
               "status": "ok",
               "attributes": {
                 "rpc.method": "S3/GetObject",
                 "rpc.system.name": "aws-api",
                 "url.template": "/{Bucket}/{Key+}",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 756,
-                "code.column.number": 32,
-                "code.function.name": "scenarios",
+                "code.line.number": 282,
+                "code.column.number": 28,
+                "code.function.name": "<anonymous>",
                 "aws.s3.bucket": "app-config",
                 "aws.s3.key": "prod.json",
                 "cloud.region": "us-east-1",
@@ -3875,13 +3903,13 @@
               "source": "distilled"
             },
             {
-              "id": "efc359a83c05f652",
-              "parent": "ff3c817835476194",
+              "id": "fb72912e58eeb2a5",
+              "parent": "abc1b9d53ee5854e",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 31.16,
-              "endUs": 20985.361,
+              "startUs": 150.995,
+              "endUs": 21073.284,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -3897,26 +3925,26 @@
               "source": "attempt"
             },
             {
-              "id": "f4a4c47dade0eed8",
-              "parent": "efc359a83c05f652",
+              "id": "71c4c9c94086c01f",
+              "parent": "fb72912e58eeb2a5",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 51.978,
-              "endUs": 165.656,
+              "startUs": 164.058,
+              "endUs": 250.639,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "1482fa9b3fcffd0d",
-              "parent": "efc359a83c05f652",
+              "id": "1a0ec456e0f60d74",
+              "parent": "fb72912e58eeb2a5",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 177.78,
-              "endUs": 385.965,
+              "startUs": 260.399,
+              "endUs": 391.006,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "s3"
@@ -3925,13 +3953,13 @@
               "source": "distilled"
             },
             {
-              "id": "43112521005aa4fe",
-              "parent": "efc359a83c05f652",
+              "id": "7c28b3bff1473dab",
+              "parent": "fb72912e58eeb2a5",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 421.747,
-              "endUs": 20796.42,
+              "startUs": 418.343,
+              "endUs": 20804.578,
               "status": "ok",
               "attributes": {
                 "http.request.method": "GET",
@@ -3947,32 +3975,15 @@
               "source": "effect-http"
             },
             {
-              "id": "b70deb385f353daf",
-              "parent": "efc359a83c05f652",
+              "id": "79bd9d069ca1100b",
+              "parent": "fb72912e58eeb2a5",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 20829.443,
-              "endUs": 20984.001,
+              "startUs": 20866.971,
+              "endUs": 21071.55,
               "status": "ok",
               "attributes": {},
-              "links": [],
-              "source": "distilled"
-            },
-            {
-              "id": "8a23b4c4fb771c5c",
-              "parent": "ff3c817835476194",
-              "name": "distilled.read_stream",
-              "kind": "internal",
-              "sampled": true,
-              "startUs": 21054.752,
-              "endUs": 382177.744,
-              "status": "ok",
-              "attributes": {
-                "distilled.stream.member": "Body",
-                "distilled.stream.items": 3,
-                "distilled.stream.bytes": 35
-              },
               "links": [],
               "source": "distilled"
             }
@@ -3980,9 +3991,9 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-12398a787b8b2516c14bf951faf29080-43112521005aa4fe-01",
-              "b3": "12398a787b8b2516c14bf951faf29080-43112521005aa4fe-1-efc359a83c05f652",
-              "x-amzn-trace-id": "Root=1-12398a78-7b8b2516c14bf951faf29080;Parent=efc359a83c05f652;Sampled=1"
+              "traceparent": "00-bebb4e5f4b516a169d3b42d1f168c64e-7c28b3bff1473dab-01",
+              "b3": "bebb4e5f4b516a169d3b42d1f168c64e-7c28b3bff1473dab-1-fb72912e58eeb2a5",
+              "x-amzn-trace-id": "Root=1-bebb4e5f-4b516a169d3b42d1f168c64e;Parent=fb72912e58eeb2a5;Sampled=1"
             }
           ]
         }
@@ -3999,12 +4010,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "7c5974cf195d539b",
+              "id": "ff760c11367a8ebe",
               "name": "Lambda.Invoke",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 0,
+              "endUs": 96475.764,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Lambda/Invoke",
@@ -4027,8 +4038,8 @@
           "sent": ["{\"key\":\"a.png\"}"],
           "sentHeaders": [
             {
-              "x-amzn-trace-id": "Root=1-ddb95959-57f39ee2b3195272a88c3e98;Parent=7c5974cf195d539b;Sampled=1",
-              "x-amz-client-context": "eyJjdXN0b20iOnsidHJhY2VwYXJlbnQiOiIwMC1kZGI5NTk1OTU3ZjM5ZWUyYjMxOTUyNzJhODhjM2U5OC03YzU5NzRjZjE5NWQ1MzliLTAxIn19"
+              "x-amzn-trace-id": "Root=1-67fb5105-d8c09a4761c4b5bd9670ba5e;Parent=ff760c11367a8ebe;Sampled=1",
+              "x-amz-client-context": "eyJjdXN0b20iOnsidHJhY2VwYXJlbnQiOiIwMC02N2ZiNTEwNWQ4YzA5YTQ3NjFjNGI1YmQ5NjcwYmE1ZS1mZjc2MGMxMTM2N2E4ZWJlLTAxIn19"
             }
           ]
         },
@@ -4037,12 +4048,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "197a69b9a765111b",
+              "id": "5c9111cc1cadd5a7",
               "name": "Lambda.Invoke",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 0,
+              "endUs": 95821.8,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Lambda/Invoke",
@@ -4050,7 +4061,7 @@
                 "url.template": "/2015-03-31/functions/{FunctionName}/invocations",
                 "faas.invoked_provider": "aws",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 780,
+                "code.line.number": 783,
                 "code.column.number": 21,
                 "code.function.name": "scenarios",
                 "faas.invoked_name": "resize-image",
@@ -4066,13 +4077,13 @@
               "source": "distilled"
             },
             {
-              "id": "5babe9cb97e224d6",
-              "parent": "197a69b9a765111b",
+              "id": "5359f826493df40d",
+              "parent": "5c9111cc1cadd5a7",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 45.786,
-              "endUs": 96013.532,
+              "startUs": 41.231,
+              "endUs": 95820.605,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -4089,26 +4100,26 @@
               "source": "attempt"
             },
             {
-              "id": "301dc28e0721bfa1",
-              "parent": "5babe9cb97e224d6",
+              "id": "cfe6a2ef95b70a89",
+              "parent": "5359f826493df40d",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 64.207,
-              "endUs": 152.774,
+              "startUs": 58.351,
+              "endUs": 132.199,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "339a1609430238ef",
-              "parent": "5babe9cb97e224d6",
+              "id": "84aedfbdfc6a73da",
+              "parent": "5359f826493df40d",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 160.902,
-              "endUs": 273.809,
+              "startUs": 140,
+              "endUs": 264.366,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "lambda"
@@ -4117,13 +4128,13 @@
               "source": "distilled"
             },
             {
-              "id": "908e04b9e79211c1",
-              "parent": "5babe9cb97e224d6",
+              "id": "a6b29f791e9809e2",
+              "parent": "5359f826493df40d",
               "name": "POST",
               "kind": "client",
               "sampled": true,
-              "startUs": 291.469,
-              "endUs": 95655.334,
+              "startUs": 281.217,
+              "endUs": 95622.775,
               "status": "ok",
               "attributes": {
                 "http.request.method": "POST",
@@ -4138,13 +4149,13 @@
               "source": "effect-http"
             },
             {
-              "id": "2a4bc4b540821453",
-              "parent": "5babe9cb97e224d6",
+              "id": "5ba8a446bb6f9039",
+              "parent": "5359f826493df40d",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 95753.741,
-              "endUs": 96011.52,
+              "startUs": 95674.777,
+              "endUs": 95819.076,
               "status": "ok",
               "attributes": {},
               "links": [],
@@ -4154,10 +4165,10 @@
           "sent": ["{\"key\":\"a.png\"}"],
           "sentHeaders": [
             {
-              "traceparent": "00-9020edea962bd63ef632ebe03382d4a7-908e04b9e79211c1-01",
-              "b3": "9020edea962bd63ef632ebe03382d4a7-908e04b9e79211c1-1-5babe9cb97e224d6",
-              "x-amzn-trace-id": "Root=1-9020edea-962bd63ef632ebe03382d4a7;Parent=5babe9cb97e224d6;Sampled=1",
-              "x-amz-client-context": "eyJjdXN0b20iOnsidHJhY2VwYXJlbnQiOiIwMC05MDIwZWRlYTk2MmJkNjNlZjYzMmViZTAzMzgyZDRhNy0xOTdhNjliOWE3NjUxMTFiLTAxIn19"
+              "traceparent": "00-829e8a9735e9f102297c553c93a2e51e-a6b29f791e9809e2-01",
+              "b3": "829e8a9735e9f102297c553c93a2e51e-a6b29f791e9809e2-1-5359f826493df40d",
+              "x-amzn-trace-id": "Root=1-829e8a97-35e9f102297c553c93a2e51e;Parent=5359f826493df40d;Sampled=1",
+              "x-amz-client-context": "eyJjdXN0b20iOnsidHJhY2VwYXJlbnQiOiIwMC04MjllOGE5NzM1ZTlmMTAyMjk3YzU1M2M5M2EyZTUxZS01YzkxMTFjYzFjYWRkNWE3LTAxIn19"
             }
           ]
         }
@@ -4174,12 +4185,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "a6e11c1c262f8797",
+              "id": "5a31d822946530d8",
               "name": "EventBridge.PutEvents",
               "kind": "producer",
               "sampled": true,
               "startUs": 0,
-              "endUs": 15352.281,
+              "endUs": 15591.601,
               "status": "ok",
               "attributes": {
                 "rpc.method": "EventBridge/PutEvents",
@@ -4199,11 +4210,11 @@
             }
           ],
           "sent": [
-            "{\"Entries\":[{\"Source\":\"app.orders\",\"DetailType\":\"OrderPlaced\",\"Detail\":\"{\\\"id\\\":42}\",\"TraceHeader\":\"Root=1-eef88d08-eb3cfc8ae3d4aafe4b0e0f6b;Parent=a6e11c1c262f8797;Sampled=1\"}]}"
+            "{\"Entries\":[{\"Source\":\"app.orders\",\"DetailType\":\"OrderPlaced\",\"Detail\":\"{\\\"id\\\":42}\",\"TraceHeader\":\"Root=1-450f79d6-7b5a96ade911c3aea2441660;Parent=5a31d822946530d8;Sampled=1\"}]}"
           ],
           "sentHeaders": [
             {
-              "x-amzn-trace-id": "Root=1-eef88d08-eb3cfc8ae3d4aafe4b0e0f6b;Parent=a6e11c1c262f8797;Sampled=1"
+              "x-amzn-trace-id": "Root=1-450f79d6-7b5a96ade911c3aea2441660;Parent=5a31d822946530d8;Sampled=1"
             }
           ]
         },
@@ -4212,12 +4223,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "733a934945f093a1",
+              "id": "e5aee079e79ac8b0",
               "name": "EventBridge.PutEvents",
               "kind": "producer",
               "sampled": true,
               "startUs": 0,
-              "endUs": 14694.594,
+              "endUs": 14743.597,
               "status": "ok",
               "attributes": {
                 "rpc.method": "EventBridge/PutEvents",
@@ -4225,7 +4236,7 @@
                 "messaging.operation.name": "send",
                 "messaging.operation.type": "send",
                 "code.file.path": "benches/otel-lab/lab.ts",
-                "code.line.number": 803,
+                "code.line.number": 806,
                 "code.column.number": 26,
                 "code.function.name": "scenarios",
                 "messaging.batch.message_count": 1,
@@ -4240,13 +4251,13 @@
               "source": "distilled"
             },
             {
-              "id": "63c49aaafdd741b7",
-              "parent": "733a934945f093a1",
+              "id": "9d4da73e39e6e886",
+              "parent": "e5aee079e79ac8b0",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 31.489,
-              "endUs": 14689.471,
+              "startUs": 31.338,
+              "endUs": 14742.129,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -4262,26 +4273,26 @@
               "source": "attempt"
             },
             {
-              "id": "7557d27993279c2f",
-              "parent": "63c49aaafdd741b7",
+              "id": "62175f8727cbe83b",
+              "parent": "9d4da73e39e6e886",
               "name": "aws.serialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 43.76,
-              "endUs": 72.884,
+              "startUs": 41.502,
+              "endUs": 67.239,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "a6584a80f8a3499b",
-              "parent": "63c49aaafdd741b7",
+              "id": "ac26d7d3d8bda2a6",
+              "parent": "9d4da73e39e6e886",
               "name": "aws.endpoint_and_sign",
               "kind": "internal",
               "sampled": true,
-              "startUs": 81.324,
-              "endUs": 203.184,
+              "startUs": 77.251,
+              "endUs": 197.839,
               "status": "ok",
               "attributes": {
                 "aws.signing.name": "events"
@@ -4290,13 +4301,13 @@
               "source": "distilled"
             },
             {
-              "id": "b87cac4cf198b968",
-              "parent": "63c49aaafdd741b7",
+              "id": "f9ee4cba58442730",
+              "parent": "9d4da73e39e6e886",
               "name": "POST",
               "kind": "client",
               "sampled": true,
-              "startUs": 231.09,
-              "endUs": 14578.4,
+              "startUs": 217.101,
+              "endUs": 14612.231,
               "status": "ok",
               "attributes": {
                 "http.request.method": "POST",
@@ -4311,13 +4322,13 @@
               "source": "effect-http"
             },
             {
-              "id": "d5b4a11625606e10",
-              "parent": "63c49aaafdd741b7",
+              "id": "0fcf22f6e967c07c",
+              "parent": "9d4da73e39e6e886",
               "name": "aws.deserialize",
               "kind": "internal",
               "sampled": true,
-              "startUs": 14603.492,
-              "endUs": 14687.494,
+              "startUs": 14646.245,
+              "endUs": 14740.7,
               "status": "ok",
               "attributes": {},
               "links": [],
@@ -4325,13 +4336,13 @@
             }
           ],
           "sent": [
-            "{\"Entries\":[{\"Source\":\"app.orders\",\"DetailType\":\"OrderPlaced\",\"Detail\":\"{\\\"id\\\":42}\",\"TraceHeader\":\"Root=1-4d165d9b-231e209031b786bfe60781e9;Parent=733a934945f093a1;Sampled=1\"}]}"
+            "{\"Entries\":[{\"Source\":\"app.orders\",\"DetailType\":\"OrderPlaced\",\"Detail\":\"{\\\"id\\\":42}\",\"TraceHeader\":\"Root=1-e3bbbe5b-3d476495830c96bb5a6307c8;Parent=e5aee079e79ac8b0;Sampled=1\"}]}"
           ],
           "sentHeaders": [
             {
-              "traceparent": "00-4d165d9b231e209031b786bfe60781e9-b87cac4cf198b968-01",
-              "b3": "4d165d9b231e209031b786bfe60781e9-b87cac4cf198b968-1-63c49aaafdd741b7",
-              "x-amzn-trace-id": "Root=1-4d165d9b-231e209031b786bfe60781e9;Parent=63c49aaafdd741b7;Sampled=1"
+              "traceparent": "00-e3bbbe5b3d476495830c96bb5a6307c8-f9ee4cba58442730-01",
+              "b3": "e3bbbe5b3d476495830c96bb5a6307c8-f9ee4cba58442730-1-9d4da73e39e6e886",
+              "x-amzn-trace-id": "Root=1-e3bbbe5b-3d476495830c96bb5a6307c8;Parent=9d4da73e39e6e886;Sampled=1"
             }
           ]
         }
@@ -4348,12 +4359,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "0c564aca71e13311",
+              "id": "8f0f17f17dde2a16",
               "name": "Cloudflare.ListZones",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 15275.279,
+              "endUs": 15365.738,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Zones/ListZones",
@@ -4369,12 +4380,12 @@
               "source": "distilled"
             },
             {
-              "id": "e214534cef842472",
+              "id": "0dec87847001c51c",
               "name": "Cloudflare.ListZones",
               "kind": "client",
               "sampled": true,
-              "startUs": 15358.123,
-              "endUs": 30067.221,
+              "startUs": 15454.517,
+              "endUs": 30431.203,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Zones/ListZones",
@@ -4390,12 +4401,12 @@
               "source": "distilled"
             },
             {
-              "id": "36c6330ef488951d",
+              "id": "b3b7b9e2a195aa6c",
               "name": "Cloudflare.ListZones",
               "kind": "client",
               "sampled": true,
-              "startUs": 30136.651,
-              "endUs": 44804.316,
+              "startUs": 30528.351,
+              "endUs": 45227.964,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Zones/ListZones",
@@ -4414,13 +4425,13 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-bbd87e96e03c34fd9c37eb8ff55def12-0c564aca71e13311-01"
+              "traceparent": "00-b63a16a13c5680c68e3aaa08f98c9097-8f0f17f17dde2a16-01"
             },
             {
-              "traceparent": "00-042f76f3d2f7cb4e70b6534c34a7bd2d-e214534cef842472-01"
+              "traceparent": "00-5498254cec81938b3c5d0d08f3da8046-0dec87847001c51c-01"
             },
             {
-              "traceparent": "00-36c7387677bad55dfd2919784c910f8c-36c6330ef488951d-01"
+              "traceparent": "00-2c0448a34b26ce2e66cab6032444a613-b3b7b9e2a195aa6c-01"
             }
           ]
         },
@@ -4429,12 +4440,12 @@
           "ok": true,
           "spans": [
             {
-              "id": "6aacb43c06ac169b",
+              "id": "f8ddd142147e0291",
               "name": "Cloudflare.ListZones",
               "kind": "client",
               "sampled": true,
               "startUs": 0,
-              "endUs": 14575.99,
+              "endUs": 14734.862,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Zones/ListZones",
@@ -4450,13 +4461,13 @@
               "source": "distilled"
             },
             {
-              "id": "95a8b4d8c6eb19c7",
-              "parent": "6aacb43c06ac169b",
+              "id": "5e9db1c7f0af8523",
+              "parent": "f8ddd142147e0291",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 22.348,
-              "endUs": 14570.543,
+              "startUs": 16.744,
+              "endUs": 14733.351,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -4471,13 +4482,13 @@
               "source": "attempt"
             },
             {
-              "id": "25d878ed4b1d3f50",
-              "parent": "95a8b4d8c6eb19c7",
+              "id": "ae40b0001c29a285",
+              "parent": "5e9db1c7f0af8523",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 89.214,
-              "endUs": 14363.889,
+              "startUs": 66.201,
+              "endUs": 14466.936,
               "status": "ok",
               "attributes": {
                 "http.request.method": "GET",
@@ -4493,25 +4504,25 @@
               "source": "effect-http"
             },
             {
-              "id": "36f3cd87cd166577",
-              "parent": "95a8b4d8c6eb19c7",
+              "id": "1d9a57e2074c8e1d",
+              "parent": "5e9db1c7f0af8523",
               "name": "cloudflare.decode",
               "kind": "internal",
               "sampled": true,
-              "startUs": 14421.367,
-              "endUs": 14568.563,
+              "startUs": 14519.071,
+              "endUs": 14731.382,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "649add3e1ed91f6e",
+              "id": "fdc14dce49477b67",
               "name": "Cloudflare.ListZones",
               "kind": "client",
               "sampled": true,
-              "startUs": 14675.807,
-              "endUs": 29198.723,
+              "startUs": 14823.78,
+              "endUs": 29518.476,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Zones/ListZones",
@@ -4527,13 +4538,13 @@
               "source": "distilled"
             },
             {
-              "id": "a3bb77f0be63e891",
-              "parent": "649add3e1ed91f6e",
+              "id": "8d8435e8d4d505be",
+              "parent": "fdc14dce49477b67",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 14692.77,
-              "endUs": 29194.464,
+              "startUs": 14836.625,
+              "endUs": 29517.295,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -4548,13 +4559,13 @@
               "source": "attempt"
             },
             {
-              "id": "19b61c08703d7daf",
-              "parent": "a3bb77f0be63e891",
+              "id": "3018a6d2ee1cd615",
+              "parent": "8d8435e8d4d505be",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 14763.347,
-              "endUs": 29033.976,
+              "startUs": 14896.712,
+              "endUs": 29303.111,
               "status": "ok",
               "attributes": {
                 "http.request.method": "GET",
@@ -4570,25 +4581,25 @@
               "source": "effect-http"
             },
             {
-              "id": "0f8d7aeb8751ff2c",
-              "parent": "a3bb77f0be63e891",
+              "id": "2e4ae13572a98a2b",
+              "parent": "8d8435e8d4d505be",
               "name": "cloudflare.decode",
               "kind": "internal",
               "sampled": true,
-              "startUs": 29072.926,
-              "endUs": 29192.653,
+              "startUs": 29359.375,
+              "endUs": 29515.417,
               "status": "ok",
               "attributes": {},
               "links": [],
               "source": "distilled"
             },
             {
-              "id": "74eb0bf87d7db11d",
+              "id": "202886f987f833aa",
               "name": "Cloudflare.ListZones",
               "kind": "client",
               "sampled": true,
-              "startUs": 29258.801,
-              "endUs": 43889.593,
+              "startUs": 29616.175,
+              "endUs": 44097.166,
               "status": "ok",
               "attributes": {
                 "rpc.method": "Zones/ListZones",
@@ -4604,13 +4615,13 @@
               "source": "distilled"
             },
             {
-              "id": "d98ff708e5e37543",
-              "parent": "74eb0bf87d7db11d",
+              "id": "af2cdffd366302cc",
+              "parent": "202886f987f833aa",
               "name": "Attempt",
               "kind": "internal",
               "sampled": true,
-              "startUs": 29271.538,
-              "endUs": 43885.072,
+              "startUs": 29629.496,
+              "endUs": 44096.175,
               "status": "ok",
               "attributes": {
                 "distilled.attempt": 1,
@@ -4625,13 +4636,13 @@
               "source": "attempt"
             },
             {
-              "id": "5501d0d2219a1522",
-              "parent": "d98ff708e5e37543",
+              "id": "c8f8cea3ac5bdca5",
+              "parent": "af2cdffd366302cc",
               "name": "GET",
               "kind": "client",
               "sampled": true,
-              "startUs": 29319.148,
-              "endUs": 43710.149,
+              "startUs": 29690.853,
+              "endUs": 43931.58,
               "status": "ok",
               "attributes": {
                 "http.request.method": "GET",
@@ -4647,13 +4658,13 @@
               "source": "effect-http"
             },
             {
-              "id": "00607213990b63c8",
-              "parent": "d98ff708e5e37543",
+              "id": "506b53ef84b7e4a6",
+              "parent": "af2cdffd366302cc",
               "name": "cloudflare.decode",
               "kind": "internal",
               "sampled": true,
-              "startUs": 43757.818,
-              "endUs": 43883.394,
+              "startUs": 43977.863,
+              "endUs": 44094.362,
               "status": "ok",
               "attributes": {},
               "links": [],
@@ -4663,16 +4674,16 @@
           "sent": [],
           "sentHeaders": [
             {
-              "traceparent": "00-f1483e662dc6aa50497f0b2bb0a78da8-25d878ed4b1d3f50-01",
-              "b3": "f1483e662dc6aa50497f0b2bb0a78da8-25d878ed4b1d3f50-1-95a8b4d8c6eb19c7"
+              "traceparent": "00-6ff7f4fbed91b84782ccb8013fdce6a1-ae40b0001c29a285-01",
+              "b3": "6ff7f4fbed91b84782ccb8013fdce6a1-ae40b0001c29a285-1-5e9db1c7f0af8523"
             },
             {
-              "traceparent": "00-9bc637ea9335f2870ed6e60c5520ed91-19b61c08703d7daf-01",
-              "b3": "9bc637ea9335f2870ed6e60c5520ed91-19b61c08703d7daf-1-a3bb77f0be63e891"
+              "traceparent": "00-0476396c91b96b13fff094d4866d1dd0-3018a6d2ee1cd615-01",
+              "b3": "0476396c91b96b13fff094d4866d1dd0-3018a6d2ee1cd615-1-8d8435e8d4d505be"
             },
             {
-              "traceparent": "00-6119b211ea88c1f7c05b4a979dabc36e-5501d0d2219a1522-01",
-              "b3": "6119b211ea88c1f7c05b4a979dabc36e-5501d0d2219a1522-1-d98ff708e5e37543"
+              "traceparent": "00-1256879879f64b0bae911b8aff29d850-c8f8cea3ac5bdca5-01",
+              "b3": "1256879879f64b0bae911b8aff29d850-c8f8cea3ac5bdca5-1-af2cdffd366302cc"
             }
           ]
         }
@@ -4682,21 +4693,21 @@
   "cost": {
     "perCallUs": {
       "operation": {
-        "native": 18.321379999991525,
-        "recording": 21.576810000005935
+        "native": 18.839233333334658,
+        "recording": 21.30021000000852
       },
       "debug": {
-        "native": 26.704839999996086,
-        "recording": 40.008413333331795
+        "native": 28.20451999999932,
+        "recording": 33.31972333333397
       }
     },
     "callSite": {
-      "prototypeNs": 768.7415900000088,
+      "prototypeNs": 769.4111449999947,
       "newErrorNs": {
-        "3": 683.2948300000135,
-        "10": 886.0018500000115
+        "3": 682.3440699999993,
+        "10": 875.7481899999948
       },
-      "formatNs": 2112.6739999999704
+      "formatNs": 2154.55750000001
     }
   }
 }
