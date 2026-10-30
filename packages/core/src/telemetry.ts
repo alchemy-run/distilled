@@ -56,6 +56,12 @@ export interface DebugHooks {
   ) => Effect.Effect<A, E, R>;
   /** Try `n` (1-based) as its own `Attempt` span. */
   readonly attempt: <A, E, R>(base: Effect.Effect<A, E, R>, n: number) => Effect.Effect<A, E, R>;
+  /** The caller's read of a streamed output member, as a span under `parent`. */
+  readonly readStream: <A, E, R>(
+    stream: Stream.Stream<A, E, R>,
+    parent: Tracer.Span,
+    member: string,
+  ) => Stream.Stream<A, E, R>;
   /** Log each request and response line to stderr (`./debug.ts`). */
   readonly logRequests: boolean;
   /** OTel `code.*` attributes for the caller's line. */
@@ -716,7 +722,7 @@ const traceCall = <A, E, R>(
         }
         hooks?.onStart?.(span, { name: info.name, method: info.attributes["rpc.method"], input });
         const onEnd = hooks?.onEnd;
-        const ending = holdStreams(span, now);
+        const ending = holdStreams(span, now, debug);
         body = Effect.map(body, ending.hold);
         const call: Call = {
           span,
@@ -769,7 +775,7 @@ let unread: FinalizationRegistry<() => void> | undefined;
  * and the garbage collector never frees a registry target that its own
  * callback can reach.
  */
-const holdStreams = (span: Tracer.Span, now: () => bigint) => {
+const holdStreams = (span: Tracer.Span, now: () => bigint, debug: DebugHooks | undefined) => {
   let open = 0;
   let returned = false;
   let failure: Exit.Exit<unknown, unknown> | undefined;
@@ -794,7 +800,7 @@ const holdStreams = (span: Tracer.Span, now: () => bigint) => {
         fields[key] = Stream.onExit(
           Stream.suspend(() => {
             started = true;
-            return stream;
+            return debug === undefined ? stream : debug.readStream(stream, span, key);
           }),
           (exit) =>
             Effect.sync(() => {

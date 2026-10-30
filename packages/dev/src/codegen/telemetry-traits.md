@@ -269,7 +269,10 @@ reading fails the span and sets `error.type`; a caller that stops early
 (`Stream.take`) ends it with success. A stream the caller drops unread ends
 the span at the time the headers arrived, once the garbage collector frees
 it. `TelemetryHooks`' `onEnd` and the `rpc.client.call.duration` histogram
-still run when the call returns.
+still run when the call returns. With `TelemetryDebug.layer`, a
+`distilled.read_stream` span under the operation span covers the caller's
+read, with `distilled.stream.member`, `distilled.stream.items` and
+`distilled.stream.bytes`.
 
 ## Opt-in layers
 

@@ -716,7 +716,7 @@ const scenarios = (): Scenario[] => [
   {
     id: "bedrock-converse-stream",
     title: "Bedrock ConverseStream, 5 events",
-    what: "A streamed GenAI response. The headers arrive after 180 ms, the events over the next 400 ms. The operation span stays open until the caller has read the last event, so it covers the whole response.",
+    what: "A streamed GenAI response. The headers arrive after 180 ms, the events over the next 400 ms. The operation span stays open until the caller has read the last event, so it covers the whole response. Debug mode shows the read as distilled.read_stream, with the number of events.",
     code: `const { stream } = yield* Bedrock.converseStream({
   modelId: "anthropic.claude-sonnet",
   messages: [{ role: "user", content: [{ text: "hi" }] }],
@@ -744,7 +744,7 @@ yield* Stream.runCollect(stream);`,
   {
     id: "s3-get-stream",
     title: "S3 GetObject, body read in 3 parts",
-    what: "A streamed object body. The headers arrive after 20 ms, the body over the next 360 ms. The operation span ends when the caller has read the body. A read error would fail the span; a body the caller drops unread ends it at the headers.",
+    what: "A streamed object body. The headers arrive after 20 ms, the body over the next 360 ms. The operation span ends when the caller has read the body; debug mode shows that read as distilled.read_stream, with its bytes. A read error would fail the span; a body the caller drops unread ends it at the headers.",
     code: `const object = yield* S3.getObject({
   Bucket: "app-config",
   Key: "prod.json",

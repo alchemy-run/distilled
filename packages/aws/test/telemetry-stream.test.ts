@@ -5,6 +5,7 @@
  */
 import { setFlagsFromString } from "node:v8";
 import { runInNewContext } from "node:vm";
+import { TelemetryDebug } from "@distilled.cloud/core/telemetry-debug";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
@@ -130,6 +131,26 @@ describe("operation span of a streamed output", () => {
     const status = spans[0]!.status;
     expect(status._tag === "Ended" && Exit.isSuccess(status.exit)).toBe(true);
     expect(ms(spans[0]!)).toBeLessThan(5 * CHUNK_MS);
+  });
+
+  test("debug mode shows the read as its own span under the operation", async () => {
+    const { spans, exit } = await run(
+      Effect.flatMap(getObject, (out) => read(out.Body)).pipe(Effect.provide(TelemetryDebug.layer)),
+      http(3),
+    );
+    expect(Exit.isSuccess(exit)).toBe(true);
+    const op = spans.find((s) => s.name === "S3.GetObject")!;
+    const readSpan = spans.find((s) => s.name === "distilled.read_stream")!;
+    expect(readSpan.parent._tag === "Some" && readSpan.parent.value.spanId).toBe(op.spanId);
+    expect(Object.fromEntries(readSpan.attributes)).toMatchObject({
+      "distilled.stream.member": "Body",
+      "distilled.stream.items": 3,
+      "distilled.stream.bytes": 18,
+    });
+    expect(ms(readSpan)).toBeGreaterThanOrEqual(4 * CHUNK_MS - 5);
+    const opEnd = op.status._tag === "Ended" ? op.status.endTime : 0n;
+    const readEnd = readSpan.status._tag === "Ended" ? readSpan.status.endTime : 1n;
+    expect(readEnd <= opEnd).toBe(true);
   });
 
   test("a body the caller drops unread ends it at the headers, once collected", async () => {
