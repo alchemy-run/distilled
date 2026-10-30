@@ -118,6 +118,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
     [
       "github",
       "forgejo",
+      "linear",
       "temporal",
       "inngest",
       "trigger-dev",
@@ -152,6 +153,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   cloudflare: "workers r2 kv d1",
   github: "git repos actions",
   forgejo: "git gitea",
+  linear: "issues project management",
   auth0: "auth oidc",
   clerk: "auth users",
   workos: "auth sso",
