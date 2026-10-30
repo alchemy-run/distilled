@@ -58,6 +58,15 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+export class DestinationValidationFailed
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<DestinationValidationFailed>()("DestinationValidationFailed", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 400, message: { includes: "error validating destination" } }],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -1390,8 +1399,8 @@ export const createEdge: API.OperationMethod<
   CreateEdgeError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<CreateEdgeRequest>,
-  output: __S(97, __c24, 1) as any as S.Schema<CreateEdgeResponse>,
+  input: __S(136, __c34, 0) as any as S.Schema<CreateEdgeRequest>,
+  output: __S(137, __c34, 1) as any as S.Schema<CreateEdgeResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1399,7 +1408,7 @@ export const createEdge: API.OperationMethod<
   span: "CreateEdge",
 }));
 
-export type CreateJobForAccountError = CloudflareOpError;
+export type CreateJobForAccountError = DestinationValidationFailed | CloudflareOpError;
 /** Creates a new Logpush job for an account or zone. */
 export const createJobForAccount: API.OperationMethod<
   CreateJobForAccountRequest,
@@ -1407,16 +1416,16 @@ export const createJobForAccount: API.OperationMethod<
   CreateJobForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(132, __c33, 0) as any as S.Schema<CreateJobForAccountRequest>,
-  output: __S(140, __c35, 0) as any as S.Schema<CreateJobResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  input: __S(140, __c35, 0) as any as S.Schema<CreateJobForAccountRequest>,
+  output: __S(148, __c37, 0) as any as S.Schema<CreateJobResponse>,
+  errors: [DestinationValidationFailed, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateJobForAccount",
 }));
 
-export type CreateJobForZoneError = CloudflareOpError;
+export type CreateJobForZoneError = DestinationValidationFailed | CloudflareOpError;
 /** Creates a new Logpush job for an account or zone. */
 export const createJobForZone: API.OperationMethod<
   CreateJobForZoneRequest,
@@ -1424,9 +1433,9 @@ export const createJobForZone: API.OperationMethod<
   CreateJobForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(148, __c37, 0) as any as S.Schema<CreateJobForZoneRequest>,
-  output: __S(140, __c35, 0) as any as S.Schema<CreateJobResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  input: __S(156, __c39, 0) as any as S.Schema<CreateJobForZoneRequest>,
+  output: __S(148, __c37, 0) as any as S.Schema<CreateJobResponse>,
+  errors: [DestinationValidationFailed, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1441,8 +1450,8 @@ export const createOwnershipForAccount: API.OperationMethod<
   CreateOwnershipForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c38, 0) as any as S.Schema<CreateOwnershipForAccountRequest>,
-  output: __S(156, __c39, 0) as any as S.Schema<CreateOwnershipResponse>,
+  input: __S(160, __c40, 0) as any as S.Schema<CreateOwnershipForAccountRequest>,
+  output: __S(164, __c41, 0) as any as S.Schema<CreateOwnershipResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1458,8 +1467,8 @@ export const createOwnershipForZone: API.OperationMethod<
   CreateOwnershipForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c40, 0) as any as S.Schema<CreateOwnershipForZoneRequest>,
-  output: __S(156, __c39, 0) as any as S.Schema<CreateOwnershipResponse>,
+  input: __S(168, __c42, 0) as any as S.Schema<CreateOwnershipForZoneRequest>,
+  output: __S(164, __c41, 0) as any as S.Schema<CreateOwnershipResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1475,8 +1484,8 @@ export const createTransformer: API.OperationMethod<
   CreateTransformerError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(164, __c41, 0) as any as S.Schema<CreateTransformerRequest>,
-  output: __S(172, __c43, 0) as any as S.Schema<CreateTransformerResponse>,
+  input: __S(172, __c43, 0) as any as S.Schema<CreateTransformerRequest>,
+  output: __S(180, __c45, 0) as any as S.Schema<CreateTransformerResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1492,8 +1501,8 @@ export const deleteJobForAccount: API.OperationMethod<
   DeleteJobForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c44, 0) as any as S.Schema<DeleteJobForAccountRequest>,
-  output: __S(180, __c45, 0) as any as S.Schema<DeleteJobResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteJobForAccountRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<DeleteJobResponse>,
   errors: [JobNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1509,8 +1518,8 @@ export const deleteJobForZone: API.OperationMethod<
   DeleteJobForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteJobForZoneRequest>,
-  output: __S(180, __c45, 0) as any as S.Schema<DeleteJobResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<DeleteJobForZoneRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<DeleteJobResponse>,
   errors: [JobNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1526,8 +1535,8 @@ export const deleteTransformer: API.OperationMethod<
   DeleteTransformerError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<DeleteTransformerRequest>,
-  output: __S(180, __c45, 0) as any as S.Schema<DeleteTransformerResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<DeleteTransformerRequest>,
+  output: __S(4, __c1, 0) as any as S.Schema<DeleteTransformerResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1543,8 +1552,8 @@ export const destinationExistsValidateForAccount: API.OperationMethod<
   DestinationExistsValidateForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<DestinationExistsValidateForAccountRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<DestinationExistsValidateResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<DestinationExistsValidateForAccountRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<DestinationExistsValidateResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1560,8 +1569,8 @@ export const destinationExistsValidateForZone: API.OperationMethod<
   DestinationExistsValidateForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<DestinationExistsValidateForZoneRequest>,
-  output: __S(12, __c3, 0) as any as S.Schema<DestinationExistsValidateResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<DestinationExistsValidateForZoneRequest>,
+  output: __S(20, __c5, 0) as any as S.Schema<DestinationExistsValidateResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1577,8 +1586,8 @@ export const destinationValidateForAccount: API.OperationMethod<
   DestinationValidateForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<DestinationValidateForAccountRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<DestinationValidateResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<DestinationValidateForAccountRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<DestinationValidateResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1594,8 +1603,8 @@ export const destinationValidateForZone: API.OperationMethod<
   DestinationValidateForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<DestinationValidateForZoneRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<DestinationValidateResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<DestinationValidateForZoneRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<DestinationValidateResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1611,8 +1620,8 @@ export const getDatasetFieldForAccount: API.OperationMethod<
   GetDatasetFieldForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<GetDatasetFieldForAccountRequest>,
-  output: __S(37, __c9, 1) as any as S.Schema<GetDatasetFieldResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<GetDatasetFieldForAccountRequest>,
+  output: __S(45, __c11, 1) as any as S.Schema<GetDatasetFieldResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1628,8 +1637,8 @@ export const getDatasetFieldForZone: API.OperationMethod<
   GetDatasetFieldForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<GetDatasetFieldForZoneRequest>,
-  output: __S(37, __c9, 1) as any as S.Schema<GetDatasetFieldResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<GetDatasetFieldForZoneRequest>,
+  output: __S(45, __c11, 1) as any as S.Schema<GetDatasetFieldResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1647,8 +1656,8 @@ export const getDatasetJobForAccount: API.PaginatedOperationMethod<
   DatasetsJobsGetResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(44, __c11, 0) as any as S.Schema<GetDatasetJobForAccountRequest>,
-    output: __S(50, __c12, 2) as any as S.Schema<GetDatasetJobResponse>,
+    input: __S(52, __c13, 0) as any as S.Schema<GetDatasetJobForAccountRequest>,
+    output: __S(58, __c14, 2) as any as S.Schema<GetDatasetJobResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1669,8 +1678,8 @@ export const getDatasetJobForZone: API.PaginatedOperationMethod<
   DatasetsJobsGetResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(52, __c13, 0) as any as S.Schema<GetDatasetJobForZoneRequest>,
-    output: __S(50, __c12, 2) as any as S.Schema<GetDatasetJobResponse>,
+    input: __S(60, __c15, 0) as any as S.Schema<GetDatasetJobForZoneRequest>,
+    output: __S(58, __c14, 2) as any as S.Schema<GetDatasetJobResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1691,8 +1700,8 @@ export const getEdge: API.PaginatedOperationMethod<
   EdgeGetResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(56, __c14, 0) as any as S.Schema<GetEdgeRequest>,
-    output: __S(59, __c14, 3) as any as S.Schema<GetEdgeResponse>,
+    input: __S(64, __c16, 0) as any as S.Schema<GetEdgeRequest>,
+    output: __S(67, __c16, 3) as any as S.Schema<GetEdgeResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1711,8 +1720,8 @@ export const getJobForAccount: API.OperationMethod<
   GetJobForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<GetJobForAccountRequest>,
-  output: __S(140, __c35, 0) as any as S.Schema<GetJobResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<GetJobForAccountRequest>,
+  output: __S(148, __c37, 0) as any as S.Schema<GetJobResponse>,
   errors: [JobNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1728,8 +1737,8 @@ export const getJobForZone: API.OperationMethod<
   GetJobForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<GetJobForZoneRequest>,
-  output: __S(140, __c35, 0) as any as S.Schema<GetJobResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<GetJobForZoneRequest>,
+  output: __S(148, __c37, 0) as any as S.Schema<GetJobResponse>,
   errors: [JobNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1745,8 +1754,8 @@ export const getTransformer: API.OperationMethod<
   GetTransformerError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<GetTransformerRequest>,
-  output: __S(172, __c43, 0) as any as S.Schema<GetTransformerResponse>,
+  input: __S(76, __c19, 0) as any as S.Schema<GetTransformerRequest>,
+  output: __S(180, __c45, 0) as any as S.Schema<GetTransformerResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1762,8 +1771,8 @@ export const getTransformersContent: API.OperationMethod<
   GetTransformersContentError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<GetTransformersContentRequest>,
-  output: __S(73, __c18, 1) as any as S.Schema<GetTransformersContentResponse>,
+  input: __S(80, __c20, 0) as any as S.Schema<GetTransformersContentRequest>,
+  output: __S(81, __c20, 1) as any as S.Schema<GetTransformersContentResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1781,8 +1790,8 @@ export const listJobsForAccount: API.PaginatedOperationMethod<
   JobsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(76, __c19, 0) as any as S.Schema<ListJobsForAccountRequest>,
-    output: __S(50, __c12, 2) as any as S.Schema<ListJobsResponse>,
+    input: __S(84, __c21, 0) as any as S.Schema<ListJobsForAccountRequest>,
+    output: __S(58, __c14, 2) as any as S.Schema<ListJobsResponse>,
     errors: [Forbidden, NotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1803,8 +1812,8 @@ export const listJobsForZone: API.PaginatedOperationMethod<
   JobsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(80, __c20, 0) as any as S.Schema<ListJobsForZoneRequest>,
-    output: __S(50, __c12, 2) as any as S.Schema<ListJobsResponse>,
+    input: __S(88, __c22, 0) as any as S.Schema<ListJobsForZoneRequest>,
+    output: __S(58, __c14, 2) as any as S.Schema<ListJobsResponse>,
     errors: [Forbidden, NotFound, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -1823,8 +1832,8 @@ export const listTransformers: API.OperationMethod<
   ListTransformersError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(84, __c21, 0) as any as S.Schema<ListTransformersRequest>,
-  output: __S(87, __c21, 3) as any as S.Schema<ListTransformersResponse>,
+  input: __S(92, __c23, 0) as any as S.Schema<ListTransformersRequest>,
+  output: __S(95, __c23, 3) as any as S.Schema<ListTransformersResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1840,8 +1849,8 @@ export const listTransformersVersions: API.OperationMethod<
   ListTransformersVersionsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<ListTransformersVersionsRequest>,
-  output: __S(91, __c22, 3) as any as S.Schema<ListTransformersVersionsResponse>,
+  input: __S(96, __c24, 0) as any as S.Schema<ListTransformersVersionsRequest>,
+  output: __S(99, __c24, 3) as any as S.Schema<ListTransformersVersionsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1857,8 +1866,8 @@ export const originValidateForAccount: API.OperationMethod<
   OriginValidateForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<OriginValidateForAccountRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<OriginValidateResponse>,
+  input: __S(100, __c25, 0) as any as S.Schema<OriginValidateForAccountRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<OriginValidateResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1874,8 +1883,8 @@ export const originValidateForZone: API.OperationMethod<
   OriginValidateForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<OriginValidateForZoneRequest>,
-  output: __S(24, __c6, 0) as any as S.Schema<OriginValidateResponse>,
+  input: __S(104, __c26, 0) as any as S.Schema<OriginValidateForZoneRequest>,
+  output: __S(32, __c8, 0) as any as S.Schema<OriginValidateResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1891,8 +1900,8 @@ export const previewTransformer: API.OperationMethod<
   PreviewTransformerError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(105, __c26, 1) as any as S.Schema<PreviewTransformerRequest>,
-  output: __S(107, __c26, 3) as any as S.Schema<PreviewTransformerResponse>,
+  input: __S(109, __c27, 1) as any as S.Schema<PreviewTransformerRequest>,
+  output: __S(111, __c27, 3) as any as S.Schema<PreviewTransformerResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1900,7 +1909,7 @@ export const previewTransformer: API.OperationMethod<
   span: "PreviewTransformer",
 }));
 
-export type UpdateJobForAccountError = CloudflareOpError;
+export type UpdateJobForAccountError = DestinationValidationFailed | CloudflareOpError;
 /** Updates a Logpush job. */
 export const updateJobForAccount: API.OperationMethod<
   UpdateJobForAccountRequest,
@@ -1908,16 +1917,16 @@ export const updateJobForAccount: API.OperationMethod<
   UpdateJobForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<UpdateJobForAccountRequest>,
-  output: __S(140, __c35, 0) as any as S.Schema<UpdateJobResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  input: __S(112, __c28, 0) as any as S.Schema<UpdateJobForAccountRequest>,
+  output: __S(148, __c37, 0) as any as S.Schema<UpdateJobResponse>,
+  errors: [DestinationValidationFailed, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateJobForAccount",
 }));
 
-export type UpdateJobForZoneError = CloudflareOpError;
+export type UpdateJobForZoneError = DestinationValidationFailed | CloudflareOpError;
 /** Updates a Logpush job. */
 export const updateJobForZone: API.OperationMethod<
   UpdateJobForZoneRequest,
@@ -1925,9 +1934,9 @@ export const updateJobForZone: API.OperationMethod<
   UpdateJobForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c28, 0) as any as S.Schema<UpdateJobForZoneRequest>,
-  output: __S(140, __c35, 0) as any as S.Schema<UpdateJobResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  input: __S(116, __c29, 0) as any as S.Schema<UpdateJobForZoneRequest>,
+  output: __S(148, __c37, 0) as any as S.Schema<UpdateJobResponse>,
+  errors: [DestinationValidationFailed, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1942,8 +1951,8 @@ export const updateTransformer: API.OperationMethod<
   UpdateTransformerError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(116, __c29, 0) as any as S.Schema<UpdateTransformerRequest>,
-  output: __S(172, __c43, 0) as any as S.Schema<UpdateTransformerResponse>,
+  input: __S(120, __c30, 0) as any as S.Schema<UpdateTransformerRequest>,
+  output: __S(180, __c45, 0) as any as S.Schema<UpdateTransformerResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1959,8 +1968,8 @@ export const validateOwnershipForAccount: API.OperationMethod<
   ValidateOwnershipForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c30, 0) as any as S.Schema<ValidateOwnershipForAccountRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<ValidateOwnershipResponse>,
+  input: __S(124, __c31, 0) as any as S.Schema<ValidateOwnershipForAccountRequest>,
+  output: __S(128, __c32, 0) as any as S.Schema<ValidateOwnershipResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1976,8 +1985,8 @@ export const validateOwnershipForZone: API.OperationMethod<
   ValidateOwnershipForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c32, 0) as any as S.Schema<ValidateOwnershipForZoneRequest>,
-  output: __S(124, __c31, 0) as any as S.Schema<ValidateOwnershipResponse>,
+  input: __S(132, __c33, 0) as any as S.Schema<ValidateOwnershipForZoneRequest>,
+  output: __S(128, __c32, 0) as any as S.Schema<ValidateOwnershipResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1987,6 +1996,35 @@ export const validateOwnershipForZone: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          jobId: S.Number.pipe(T.Label("job_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "DELETE",
+              uri: "/accounts/{account_id}/logpush/jobs/{job_id}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "DeleteJobForAccountRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(S.Number)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "DeleteJobResponse" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2001,7 +2039,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteJobForZoneRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2020,7 +2058,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DeleteTransformerRequest" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2039,7 +2077,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DestinationExistsValidateForAccountRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2049,7 +2087,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DestinationExistsValidateResponse" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2068,7 +2106,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DestinationExistsValidateForZoneRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2087,7 +2125,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DestinationValidateForAccountRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2098,7 +2136,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DestinationValidateResponse" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2117,7 +2155,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DestinationValidateForZoneRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2136,17 +2174,17 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetDatasetFieldForAccountRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
     case 1:
       return S.suspend(() =>
-        __S(36, __c9, 0).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(44, __c11, 0).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetDatasetFieldResponse" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2165,7 +2203,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetDatasetFieldForZoneRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2184,7 +2222,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetDatasetJobForAccountRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2208,21 +2246,21 @@ function __c12(j: number): any {
           ),
           maxUploadRecords: S.optional(S.NullOr(S.Number).pipe(T.Body("max_upload_records"))),
           name: S.optional(S.NullOr(S.String)),
-          outputOptions: S.optional(S.NullOr(__S(137, __c34, 1)).pipe(T.Body("output_options"))),
+          outputOptions: S.optional(S.NullOr(__S(145, __c36, 1)).pipe(T.Body("output_options"))),
         }),
       ).annotate({ identifier: "DatasetsJobsGetResultItem" });
     case 1:
-      return S.Array(__S(48, __c12, 0));
+      return S.Array(__S(56, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: __S(49, __c12, 1).pipe(T.EnvelopePayload()),
+          result: __S(57, __c14, 1).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetDatasetJobResponse" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2241,7 +2279,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetDatasetJobForZoneRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2262,17 +2300,17 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "EdgeGetResultItem" });
     case 2:
-      return S.Array(__S(57, __c14, 1));
+      return S.Array(__S(65, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(58, __c14, 2).pipe(T.EnvelopePayload()),
+          result: __S(66, __c16, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetEdgeResponse" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2291,7 +2329,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetJobForAccountRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2304,7 +2342,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetJobForZoneRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2323,7 +2361,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetTransformerRequest" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2349,7 +2387,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetTransformersContentResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2361,7 +2399,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ListJobsForAccountRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2373,7 +2411,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ListJobsForZoneRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2393,7 +2431,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.Number)),
-          associatedJobs: S.optional(S.NullOr(__S(169, __c42, 1)).pipe(T.Body("associated_jobs"))),
+          associatedJobs: S.optional(S.NullOr(__S(177, __c44, 1)).pipe(T.Body("associated_jobs"))),
           createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
           dataset: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
@@ -2402,14 +2440,14 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "ListTransformersResultItem" });
     case 2:
-      return S.Array(__S(85, __c21, 1));
+      return S.Array(__S(93, __c23, 1));
     case 3:
       return S.suspend(() =>
-        __S(86, __c21, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(94, __c23, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListTransformersResponse" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2436,14 +2474,14 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "ListTransformersVersionsResultItem" });
     case 2:
-      return S.Array(__S(89, __c22, 1));
+      return S.Array(__S(97, __c24, 1));
     case 3:
       return S.suspend(() =>
-        __S(90, __c22, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(98, __c24, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListTransformersVersionsResponse" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2462,7 +2500,184 @@ function __c23(j: number): any {
       ).annotate({ identifier: "OriginValidateForAccountRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          zoneId: S.String.pipe(T.Label("zone_id")),
+          logpullOptions: S.String.pipe(T.Body("logpull_options")),
+        })
+          .pipe(
+            T.Http({ method: "POST", uri: "/zones/{zone_id}/logpush/validate/origin", code: 200 }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "OriginValidateForZoneRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          input: __S(108, __c27, 0),
+          sql: S.String,
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/logpush/transformers/preview",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "PreviewTransformerRequest" });
+    case 2:
+      return S.Array(__S(108, __c27, 0));
+    case 3:
+      return S.suspend(() =>
+        __S(110, __c27, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "PreviewTransformerResponse" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          jobId: S.Number.pipe(T.Label("job_id")),
+          destinationConf: S.optional(S.String.pipe(T.Body("destination_conf"))),
+          enabled: S.optional(S.Boolean),
+          filter: S.optional(S.String),
+          filterAttackTraffic: S.optional(S.Boolean.pipe(T.Body("filter_attack_traffic"))),
+          frequency: S.optional(S.String),
+          kind: S.optional(S.String),
+          logpullOptions: S.optional(S.String.pipe(T.Body("logpull_options"))),
+          maxUploadBytes: S.optional(S.Number.pipe(T.Body("max_upload_bytes"))),
+          maxUploadIntervalSeconds: S.optional(
+            S.Number.pipe(T.Body("max_upload_interval_seconds")),
+          ),
+          maxUploadRecords: S.optional(S.Number.pipe(T.Body("max_upload_records"))),
+          name: S.optional(S.String),
+          outputOptions: S.optional(__S(152, __c38, 0).pipe(T.Body("output_options"))),
+          ownershipChallenge: S.optional(S.String.pipe(T.Body("ownership_challenge"))),
+        })
+          .pipe(
+            T.Http({
+              method: "PUT",
+              uri: "/accounts/{account_id}/logpush/jobs/{job_id}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "UpdateJobForAccountRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          zoneId: S.String.pipe(T.Label("zone_id")),
+          jobId: S.Number.pipe(T.Label("job_id")),
+          destinationConf: S.optional(S.String.pipe(T.Body("destination_conf"))),
+          enabled: S.optional(S.Boolean),
+          filter: S.optional(S.String),
+          filterAttackTraffic: S.optional(S.Boolean.pipe(T.Body("filter_attack_traffic"))),
+          frequency: S.optional(S.String),
+          kind: S.optional(S.String),
+          logpullOptions: S.optional(S.String.pipe(T.Body("logpull_options"))),
+          maxUploadBytes: S.optional(S.Number.pipe(T.Body("max_upload_bytes"))),
+          maxUploadIntervalSeconds: S.optional(
+            S.Number.pipe(T.Body("max_upload_interval_seconds")),
+          ),
+          maxUploadRecords: S.optional(S.Number.pipe(T.Body("max_upload_records"))),
+          name: S.optional(S.String),
+          outputOptions: S.optional(__S(152, __c38, 0).pipe(T.Body("output_options"))),
+          ownershipChallenge: S.optional(S.String.pipe(T.Body("ownership_challenge"))),
+        })
+          .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/logpush/jobs/{job_id}", code: 200 }))
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "UpdateJobForZoneRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          transformerId: S.Number.pipe(T.Label("transformer_id")),
+          name: S.String,
+          code: S.optional(S.String),
+          description: S.optional(S.String),
+        })
+          .pipe(
+            T.Http({
+              method: "PUT",
+              uri: "/accounts/{account_id}/logpush/transformers/{transformer_id}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "UpdateTransformerRequest" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          destinationConf: S.String.pipe(T.Body("destination_conf")),
+          ownershipChallenge: S.String.pipe(T.Body("ownership_challenge")),
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/logpush/ownership/validate",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ValidateOwnershipForAccountRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          valid: S.optional(S.NullOr(S.Boolean)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ValidateOwnershipResponse" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          zoneId: S.String.pipe(T.Label("zone_id")),
+          destinationConf: S.String.pipe(T.Body("destination_conf")),
+          ownershipChallenge: S.String.pipe(T.Body("ownership_challenge")),
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/zones/{zone_id}/logpush/ownership/validate",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ValidateOwnershipForZoneRequest" });
+  }
+}
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2487,184 +2702,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CreateEdgeResponse" });
   }
 }
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          zoneId: S.String.pipe(T.Label("zone_id")),
-          logpullOptions: S.String.pipe(T.Body("logpull_options")),
-        })
-          .pipe(
-            T.Http({ method: "POST", uri: "/zones/{zone_id}/logpush/validate/origin", code: 200 }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "OriginValidateForZoneRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          input: __S(104, __c26, 0),
-          sql: S.String,
-        })
-          .pipe(
-            T.Http({
-              method: "POST",
-              uri: "/accounts/{account_id}/logpush/transformers/preview",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "PreviewTransformerRequest" });
-    case 2:
-      return S.Array(__S(104, __c26, 0));
-    case 3:
-      return S.suspend(() =>
-        __S(106, __c26, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "PreviewTransformerResponse" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          jobId: S.Number.pipe(T.Label("job_id")),
-          destinationConf: S.optional(S.String.pipe(T.Body("destination_conf"))),
-          enabled: S.optional(S.Boolean),
-          filter: S.optional(S.String),
-          filterAttackTraffic: S.optional(S.Boolean.pipe(T.Body("filter_attack_traffic"))),
-          frequency: S.optional(S.String),
-          kind: S.optional(S.String),
-          logpullOptions: S.optional(S.String.pipe(T.Body("logpull_options"))),
-          maxUploadBytes: S.optional(S.Number.pipe(T.Body("max_upload_bytes"))),
-          maxUploadIntervalSeconds: S.optional(
-            S.Number.pipe(T.Body("max_upload_interval_seconds")),
-          ),
-          maxUploadRecords: S.optional(S.Number.pipe(T.Body("max_upload_records"))),
-          name: S.optional(S.String),
-          outputOptions: S.optional(__S(144, __c36, 0).pipe(T.Body("output_options"))),
-          ownershipChallenge: S.optional(S.String.pipe(T.Body("ownership_challenge"))),
-        })
-          .pipe(
-            T.Http({
-              method: "PUT",
-              uri: "/accounts/{account_id}/logpush/jobs/{job_id}",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "UpdateJobForAccountRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          zoneId: S.String.pipe(T.Label("zone_id")),
-          jobId: S.Number.pipe(T.Label("job_id")),
-          destinationConf: S.optional(S.String.pipe(T.Body("destination_conf"))),
-          enabled: S.optional(S.Boolean),
-          filter: S.optional(S.String),
-          filterAttackTraffic: S.optional(S.Boolean.pipe(T.Body("filter_attack_traffic"))),
-          frequency: S.optional(S.String),
-          kind: S.optional(S.String),
-          logpullOptions: S.optional(S.String.pipe(T.Body("logpull_options"))),
-          maxUploadBytes: S.optional(S.Number.pipe(T.Body("max_upload_bytes"))),
-          maxUploadIntervalSeconds: S.optional(
-            S.Number.pipe(T.Body("max_upload_interval_seconds")),
-          ),
-          maxUploadRecords: S.optional(S.Number.pipe(T.Body("max_upload_records"))),
-          name: S.optional(S.String),
-          outputOptions: S.optional(__S(144, __c36, 0).pipe(T.Body("output_options"))),
-          ownershipChallenge: S.optional(S.String.pipe(T.Body("ownership_challenge"))),
-        })
-          .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/logpush/jobs/{job_id}", code: 200 }))
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "UpdateJobForZoneRequest" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          transformerId: S.Number.pipe(T.Label("transformer_id")),
-          name: S.String,
-          code: S.optional(S.String),
-          description: S.optional(S.String),
-        })
-          .pipe(
-            T.Http({
-              method: "PUT",
-              uri: "/accounts/{account_id}/logpush/transformers/{transformer_id}",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "UpdateTransformerRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          destinationConf: S.String.pipe(T.Body("destination_conf")),
-          ownershipChallenge: S.String.pipe(T.Body("ownership_challenge")),
-        })
-          .pipe(
-            T.Http({
-              method: "POST",
-              uri: "/accounts/{account_id}/logpush/ownership/validate",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "ValidateOwnershipForAccountRequest" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          valid: S.optional(S.NullOr(S.Boolean)),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "ValidateOwnershipResponse" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          zoneId: S.String.pipe(T.Label("zone_id")),
-          destinationConf: S.String.pipe(T.Body("destination_conf")),
-          ownershipChallenge: S.String.pipe(T.Body("ownership_challenge")),
-        })
-          .pipe(
-            T.Http({
-              method: "POST",
-              uri: "/zones/{zone_id}/logpush/ownership/validate",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "ValidateOwnershipForZoneRequest" });
-  }
-}
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2684,7 +2722,7 @@ function __c33(j: number): any {
           ),
           maxUploadRecords: S.optional(S.Number.pipe(T.Body("max_upload_records"))),
           name: S.optional(S.String),
-          outputOptions: S.optional(__S(144, __c36, 0).pipe(T.Body("output_options"))),
+          outputOptions: S.optional(__S(152, __c38, 0).pipe(T.Body("output_options"))),
           ownershipChallenge: S.optional(S.String.pipe(T.Body("ownership_challenge"))),
         })
           .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/logpush/jobs", code: 200 }))
@@ -2692,7 +2730,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateJobForAccountRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -2702,7 +2740,7 @@ function __c34(j: number): any {
           batchPrefix: S.optional(S.NullOr(S.String).pipe(T.Body("batch_prefix"))),
           batchSuffix: S.optional(S.NullOr(S.String).pipe(T.Body("batch_suffix"))),
           fieldDelimiter: S.optional(S.NullOr(S.String).pipe(T.Body("field_delimiter"))),
-          fieldNames: S.optional(S.NullOr(__S(136, __c34, 0)).pipe(T.Body("field_names"))),
+          fieldNames: S.optional(S.NullOr(__S(144, __c36, 0)).pipe(T.Body("field_names"))),
           mergeSubrequests: S.optional(S.NullOr(S.Boolean).pipe(T.Body("merge_subrequests"))),
           outputType: S.optional(S.NullOr(S.String).pipe(T.Body("output_type"))),
           recordDelimiter: S.optional(S.NullOr(S.String).pipe(T.Body("record_delimiter"))),
@@ -2716,7 +2754,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "JobsCreateResponseOutputOptions" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2740,12 +2778,12 @@ function __c35(j: number): any {
           ),
           maxUploadRecords: S.optional(S.NullOr(S.Number).pipe(T.Body("max_upload_records"))),
           name: S.optional(S.NullOr(S.String)),
-          outputOptions: S.optional(S.NullOr(__S(137, __c34, 1)).pipe(T.Body("output_options"))),
+          outputOptions: S.optional(S.NullOr(__S(145, __c36, 1)).pipe(T.Body("output_options"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateJobResponse" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2753,7 +2791,7 @@ function __c36(j: number): any {
           batchPrefix: S.optional(S.String.pipe(T.Body("batch_prefix"))),
           batchSuffix: S.optional(S.String.pipe(T.Body("batch_suffix"))),
           fieldDelimiter: S.optional(S.String.pipe(T.Body("field_delimiter"))),
-          fieldNames: S.optional(__S(136, __c34, 0).pipe(T.Body("field_names"))),
+          fieldNames: S.optional(__S(144, __c36, 0).pipe(T.Body("field_names"))),
           mergeSubrequests: S.optional(S.Boolean.pipe(T.Body("merge_subrequests"))),
           outputType: S.optional(S.String.pipe(T.Body("output_type"))),
           recordDelimiter: S.optional(S.String.pipe(T.Body("record_delimiter"))),
@@ -2767,7 +2805,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "JobsCreateRequestOutputOptions" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2787,7 +2825,7 @@ function __c37(j: number): any {
           ),
           maxUploadRecords: S.optional(S.Number.pipe(T.Body("max_upload_records"))),
           name: S.optional(S.String),
-          outputOptions: S.optional(__S(144, __c36, 0).pipe(T.Body("output_options"))),
+          outputOptions: S.optional(__S(152, __c38, 0).pipe(T.Body("output_options"))),
           ownershipChallenge: S.optional(S.String.pipe(T.Body("ownership_challenge"))),
         })
           .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/logpush/jobs", code: 200 }))
@@ -2795,7 +2833,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateJobForZoneRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2810,7 +2848,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CreateOwnershipForAccountRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2822,7 +2860,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CreateOwnershipResponse" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2835,7 +2873,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CreateOwnershipForZoneRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2856,7 +2894,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CreateTransformerRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2868,42 +2906,7 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "CreateTransformerResponseAssociatedJobsItem" });
     case 1:
-      return S.Array(__S(168, __c42, 0));
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.NullOr(S.Number)),
-          associatedJobs: S.optional(S.NullOr(__S(169, __c42, 1)).pipe(T.Body("associated_jobs"))),
-          createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
-          dataset: S.optional(S.NullOr(S.String)),
-          description: S.optional(S.NullOr(S.String)),
-          name: S.optional(S.NullOr(S.String)),
-          updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateTransformerResponse" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          jobId: S.Number.pipe(T.Label("job_id")),
-        })
-          .pipe(
-            T.Http({
-              method: "DELETE",
-              uri: "/accounts/{account_id}/logpush/jobs/{job_id}",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "DeleteJobForAccountRequest" });
+      return S.Array(__S(176, __c44, 0));
   }
 }
 function __c45(j: number): any {
@@ -2912,8 +2915,14 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.Number)),
+          associatedJobs: S.optional(S.NullOr(__S(177, __c44, 1)).pipe(T.Body("associated_jobs"))),
+          createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+          dataset: S.optional(S.NullOr(S.String)),
+          description: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.NullOr(S.String)),
+          updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "DeleteJobResponse" });
+      ).annotate({ identifier: "CreateTransformerResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

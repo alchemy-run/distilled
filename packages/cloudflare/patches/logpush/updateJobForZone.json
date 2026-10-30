@@ -25,6 +25,15 @@
       "op": "replace",
       "path": "/shapes/com.cloudflare.logpush#UpdateJobForZone/output/target",
       "value": "com.cloudflare.logpush#UpdateJobForZoneResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.logpush#UpdateJobForZone/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.logpush#DestinationValidationFailed"
+        }
+      ]
     }
   ]
 }

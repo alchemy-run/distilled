@@ -75,6 +75,32 @@
           ]
         }
       }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.logpush#DestinationValidationFailed",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "error validating destination"
+              }
+            }
+          ]
+        }
+      }
     }
   ]
 }
