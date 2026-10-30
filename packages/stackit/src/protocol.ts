@@ -218,7 +218,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
         }
 
         // Strict mode checks the mapped body against the output schema.
-        const body: unknown = nonJson ? text : (json ?? {});
+        const body: unknown = nonJson ? text : json === undefined ? {} : json;
         const mapped = yield* validateResponse(
           outputAst,
           mapKeys(outputAst, body, "decode"),

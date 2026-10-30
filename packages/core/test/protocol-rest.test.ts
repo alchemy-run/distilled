@@ -433,6 +433,19 @@ describe("makeRestProtocol success decoding", () => {
     expect(out).toEqual({});
   });
 
+  test("a 200 response whose body is JSON null returns null, in strict mode too", async () => {
+    const nullableOp = API.make(() => ({
+      input: ThingInput,
+      output: S.NullOr(S.Struct({ id: S.String })),
+      protocol: DefaultProtocol,
+    }));
+    const respond = fakeClient(() => json(null));
+    expect(await succeed(nullableOp({ id: "t1" }), respond, creds())).toBeNull();
+    expect(
+      await succeed(nullableOp({ id: "t1" }), respond, creds(), ResponseValidation.strict),
+    ).toBeNull();
+  });
+
   test("transformResponse runs on the parsed body before key mapping", async () => {
     const seen: Array<unknown> = [];
     const UnwrapProtocol = makeRestProtocol<Creds>({

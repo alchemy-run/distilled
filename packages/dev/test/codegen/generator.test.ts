@@ -254,3 +254,55 @@ describe("pagination over a bare-array response", () => {
     expect(code).toContain("resultInfo?: string | null;");
   });
 });
+
+describe("whole-body responses", () => {
+  test("a nullable response body becomes a `| null` output type", () => {
+    const { code } = generateService(
+      {
+        smithy: "2.0",
+        shapes: {
+          "com.example.raw#Example": {
+            type: "service",
+            version: "2024-01-01",
+            operations: [{ target: "com.example.raw#ListThings" }],
+          },
+          "com.example.raw#ListThings": {
+            type: "operation",
+            input: { target: "smithy.api#Unit" },
+            output: { target: "com.example.raw#ListThingsResponse" },
+            traits: { "smithy.api#http": { method: "GET", uri: "/things" } },
+          },
+          "com.example.raw#ListThingsResponse": {
+            type: "structure",
+            traits: { "smithy.api#output": {} },
+            members: {
+              body: {
+                target: "com.example.raw#Things",
+                traits: {
+                  "com.example.raw#rawResponse": {},
+                  "com.example.raw#nullable": {},
+                  "smithy.api#required": {},
+                },
+              },
+            },
+          },
+          "com.example.raw#Things": { type: "list", member: { target: "smithy.api#String" } },
+        },
+      },
+      {
+        ...spec,
+        nullableTrait: "com.example.raw#nullable",
+        extraBindings: [
+          {
+            trait: "com.example.raw#rawResponse",
+            binding: "rawResponse",
+            pipe: "T.RawResponse()",
+            rootPipe: "T.RawResponseRoot()",
+          },
+        ],
+      },
+    );
+    expect(code).toContain("export type ListThingsResponse = Things | null;");
+    expect(code).toContain("S.NullOr(Things).pipe(T.RawResponseRoot())");
+  });
+});

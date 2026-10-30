@@ -388,4 +388,13 @@ describe("Sprites success decoding", () => {
       expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
     }
   });
+
+  test("a 200 response whose body is JSON null returns null", async () => {
+    const result = await Effect.runPromise(
+      createOrganizationToken({ org: "decoder-test" }).pipe(
+        Effect.provide(respondWith(200, "null")),
+      ),
+    );
+    expect(result).toBeNull();
+  });
 });

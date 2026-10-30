@@ -9368,7 +9368,7 @@ export type GetDeploymentEventsResponseBodyItem =
   | GetDeploymentEventsResponseBodyItemCase1
   | GetDeploymentEventsResponseBodyItemCase2;
 export type GetDeploymentEventsResponseBodyList = Array<GetDeploymentEventsResponseBodyItem | null>;
-export type GetDeploymentEventsResponse = GetDeploymentEventsResponseBodyList;
+export type GetDeploymentEventsResponse = GetDeploymentEventsResponseBodyList | null;
 export interface GetDeploymentFileContentsRequest {
   /** The unique deployment identifier */
   id: string;
@@ -10146,7 +10146,7 @@ function __c0(j: number): any {
     case 1:
       return S.Array(/*@__PURE__*/ S.NullOr(S.Unknown));
     case 2:
-      return S.suspend(() => __S(1, __c0, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(1, __c0, 1)).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetDeploymentEventsResponse",
       });
   }

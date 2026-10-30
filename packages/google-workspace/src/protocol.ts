@@ -280,7 +280,7 @@ const decode = ({
     // schema.
     return yield* validateResponse(
       outputAst,
-      nonJson ? text : (json ?? {}),
+      nonJson ? text : json === undefined ? {} : json,
       (cause) => new GoogleWorkspaceParseError({ body: nonJson ? text : json, cause }),
     ).pipe(Effect.catch(fail));
   });

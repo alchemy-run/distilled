@@ -399,6 +399,11 @@ describe("success decoding", () => {
     }
   });
 
+  test("a 200 response whose body is JSON null returns null", async () => {
+    const { layer } = fakeGoogle(200, "null");
+    expect(await run(deleteProjectsSecrets({ name: "projects/p/secrets/s" }), layer)).toBeNull();
+  });
+
   test("strict validation fails a mismatched payload with GCPParseError", async () => {
     const { layer } = fakeGoogle(200, JSON.stringify({ name: 42 }));
     const error = await Effect.runPromise(

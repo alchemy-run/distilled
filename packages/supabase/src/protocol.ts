@@ -221,7 +221,7 @@ const decode = ({
     // verbatim (mapKeys handles arrays/scalars structurally either way).
     // Strict mode (core/response-validation) checks the mapped body against
     // the output schema.
-    const body: unknown = nonJson ? text : (json ?? {});
+    const body: unknown = nonJson ? text : json === undefined ? {} : json;
     const mapped = yield* validateResponse(
       outputAst,
       mapKeys(outputAst, body, "decode"),

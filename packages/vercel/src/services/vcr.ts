@@ -104,7 +104,7 @@ export interface ClearRepositoryPermissionsRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string;
 }
-export type ClearRepositoryPermissionsResponse = unknown;
+export type ClearRepositoryPermissionsResponse = unknown | null;
 export interface CreateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsRequest {
   /** Single Docker repository team slug component. */
   teamSlug: string;
@@ -117,7 +117,7 @@ export interface CreateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsReques
   /** Source repository to mount the blob from. */
   from?: string;
 }
-export type CreateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsResponse = unknown;
+export type CreateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsResponse = unknown | null;
 export interface CreateRepositoryRequest {
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
@@ -167,7 +167,7 @@ export interface DeleteBlobsUploadRequest {
   /** Blob upload session identifier. */
   uuid: string;
 }
-export type DeleteBlobsUploadResponse = unknown;
+export type DeleteBlobsUploadResponse = unknown | null;
 export interface DeleteManifestRequest {
   /** Single Docker repository team slug component. */
   teamSlug: string;
@@ -178,7 +178,7 @@ export interface DeleteManifestRequest {
   /** Content-addressable digest (algorithm:hex). */
   reference: string;
 }
-export type DeleteManifestResponse = unknown;
+export type DeleteManifestResponse = unknown | null;
 export interface DeleteRepositoryRequest {
   idOrName: string;
   /** Project ID or name (slug) within the authenticated team. IDs take precedence over names. Missing or empty values return HTTP 400. */
@@ -188,7 +188,7 @@ export interface DeleteRepositoryRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string;
 }
-export type DeleteRepositoryResponse = unknown;
+export type DeleteRepositoryResponse = unknown | null;
 export interface DeleteRepositoryImageRequest {
   idOrName: string;
   imageId: string;
@@ -199,7 +199,7 @@ export interface DeleteRepositoryImageRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string;
 }
-export type DeleteRepositoryImageResponse = unknown;
+export type DeleteRepositoryImageResponse = unknown | null;
 export interface GetBlobRequest {
   /** Single Docker repository team slug component. */
   teamSlug: string;
@@ -221,7 +221,7 @@ export interface GetBlobsUploadRequest {
   /** Blob upload session identifier. */
   uuid: string;
 }
-export type GetBlobsUploadResponse = unknown;
+export type GetBlobsUploadResponse = unknown | null;
 export interface GetManifestRequest {
   /** Single Docker repository team slug component. */
   teamSlug: string;
@@ -659,7 +659,7 @@ export interface RemoveRepositoryPermissionRequest {
   /** Slug of a team that is granted access to a repository. */
   teamSlug?: string;
 }
-export type RemoveRepositoryPermissionResponse = unknown;
+export type RemoveRepositoryPermissionResponse = unknown | null;
 export interface ReplaceByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidRequest {
   /** Single Docker repository team slug component. */
   teamSlug: string;
@@ -672,7 +672,9 @@ export interface ReplaceByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUui
   /** Content-addressable digest (algorithm:hex). */
   digest: string;
 }
-export type ReplaceByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidResponse = unknown;
+export type ReplaceByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidResponse =
+  | unknown
+  | null;
 export interface ReplaceByTeamSlugByProjectSlugByRepositoryNameManifestsByReferenceRequest {
   /** Single Docker repository team slug component. */
   teamSlug: string;
@@ -683,7 +685,9 @@ export interface ReplaceByTeamSlugByProjectSlugByRepositoryNameManifestsByRefere
   /** Manifest reference: a tag or digest. */
   reference: string;
 }
-export type ReplaceByTeamSlugByProjectSlugByRepositoryNameManifestsByReferenceResponse = unknown;
+export type ReplaceByTeamSlugByProjectSlugByRepositoryNameManifestsByReferenceResponse =
+  | unknown
+  | null;
 export interface UpdateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidRequest {
   /** Single Docker repository team slug component. */
   teamSlug: string;
@@ -694,7 +698,9 @@ export interface UpdateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuid
   /** Blob upload session identifier. */
   uuid: string;
 }
-export type UpdateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidResponse = unknown;
+export type UpdateByTeamSlugByProjectSlugByRepositoryNameBlobsUploadsByUuidResponse =
+  | unknown
+  | null;
 export type AddRepositoryPermissionError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Add a repository permission Grant a team access to a VCR repository. Sharing applies to the whole repository. */
 export const addRepositoryPermission: API.OperationMethod<
@@ -993,7 +999,7 @@ export const getRoot: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<GetRootRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<GetRootResponse>,
+  output: __S(49, __c12, 1) as any as S.Schema<GetRootResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -1468,6 +1474,10 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/", code: 200 })),
       ).annotate({ identifier: "GetRootRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetRootResponse",
+      });
   }
 }
 function __c13(j: number): any {
@@ -1788,7 +1798,7 @@ function __c26(j: number): any {
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(S.Unknown).pipe(T.RawResponseRoot())).annotate({
         identifier: "ClearRepositoryPermissionsResponse",
       });
   }

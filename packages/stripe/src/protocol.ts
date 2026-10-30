@@ -642,7 +642,7 @@ const decodeResponse = (
       if (nonJson && withholdBody) {
         return fail(new StripeParseError({ body: "[REDACTED]", cause: "Invalid JSON response" }));
       }
-      const body: unknown = nonJson ? text : (json ?? {});
+      const body: unknown = nonJson ? text : json === undefined ? {} : json;
       const mapped = mapsVerbatim(outputAst, "decode") ? body : mapKeys(outputAst, body, "decode");
       const cause = checkResponse(context, outputAst, mapped);
       if (cause !== undefined) {
