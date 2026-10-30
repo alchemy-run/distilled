@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
+import * as GitHub from "@alchemy.run/github";
 import * as Alchemy from "alchemy";
-import * as GitHub from "alchemy/GitHub";
 import * as Console from "effect/Console";
 import * as Effect from "effect/Effect";
 
