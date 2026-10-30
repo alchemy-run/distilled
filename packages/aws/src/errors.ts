@@ -1,4 +1,4 @@
-import type { InvalidInput } from "@distilled.cloud/core/invalid-input";
+import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as S from "@distilled.cloud/core/schema-lite-typed";
 import type { SourceError } from "effect/ConfigProvider";
 import type * as HttpClientError from "effect/http/HttpClientError";

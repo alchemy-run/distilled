@@ -5,7 +5,7 @@
  * based on Smithy HTTP trait annotations.
  */
 
-import { InvalidInput, invalidLabel } from "@distilled.cloud/core/invalid-input";
+import { InvalidInput, invalidLabel } from "@distilled.cloud/core/protocol-http";
 import type * as AST from "effect/SchemaAST";
 import type { Request } from "../client/request.ts";
 import {

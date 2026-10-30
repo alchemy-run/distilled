@@ -10,7 +10,7 @@
  * This is independently testable without making HTTP requests.
  */
 
-import { InvalidInput } from "@distilled.cloud/core/invalid-input";
+import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import type { ParseError } from "../errors.ts";
 import {

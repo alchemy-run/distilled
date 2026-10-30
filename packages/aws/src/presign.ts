@@ -1,4 +1,4 @@
-import type { InvalidInput } from "@distilled.cloud/core/invalid-input";
+import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import type { SourceError } from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";

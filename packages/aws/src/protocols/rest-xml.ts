@@ -4,7 +4,7 @@
  * https://smithy.io/2.0/aws/protocols/aws-restxml-protocol.html
  */
 
-import { InvalidInput } from "@distilled.cloud/core/invalid-input";
+import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";

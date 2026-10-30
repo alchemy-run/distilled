@@ -1,5 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
-import type { InvalidInput } from "@distilled.cloud/core/invalid-input";
+import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * AwsProtocol -- AWS's implementation of `@distilled.cloud/core`'s Protocol

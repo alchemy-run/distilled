@@ -143,9 +143,9 @@ export class GatewayTimeout
 // program loads) so they can fail with it without importing this module.
 export { ConfigError } from "./config.ts";
 
-// Defined with the label check so protocols can fail with it without
-// importing this module.
-export { InvalidInput } from "./invalid-input.ts";
+// Defined with the label check (`protocol-http.ts`), so protocols can fail
+// with it without importing every class in this module.
+export { InvalidInput } from "./protocol-http.ts";
 
 // ============================================================================
 // Error Maps

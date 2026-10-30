@@ -1,4 +1,4 @@
-import { InvalidInput } from "@distilled.cloud/core/invalid-input";
+import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import { failUnlessLenient } from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
 import { ParseError } from "../errors.ts";
