@@ -80,6 +80,9 @@
         },
         {
           "target": "com.cloudflare.workers#MtlsCertificateNotFound"
+        },
+        {
+          "target": "com.cloudflare.workers#UnknownWorkerEntrypoint"
         }
       ]
     }

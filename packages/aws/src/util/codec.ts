@@ -11,7 +11,8 @@
  *
  * `decode` is the reverse, for values a protocol read off the wire. Lenient
  * decoding never fails: a value that does not fit its schema is kept as
- * read, and the rest of the response still converts. Exact decoding throws
+ * read (wrapped in `Redacted` whole when its type can hold a sensitive
+ * value), and the rest of the response still converts. Exact decoding throws
  * on the first mismatch instead; `"closed"` exact decoding also throws on a
  * key the schema does not model (`ResponseValidation.strict`). Only members
  * the schema declares are kept.
@@ -19,11 +20,27 @@
 import { encodeKeysKey, type Node } from "@distilled.cloud/core/schema-lite-impl";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
+import type { Operation } from "../client/operation.ts";
 import { ParseError } from "../errors.ts";
 import { codecSymbol, isValidDate, type CodecKind } from "../lite.ts";
 import { toBase64 } from "./base64.ts";
 
-export class CodecError extends Error {}
+/** A value that does not fit its schema. */
+export class CodecError extends Error {
+  /** The ` at [key]` suffixes the failure gained on the way out, innermost first. */
+  path = "";
+  constructor(
+    /** What the schema expected, e.g. `string`. */
+    readonly expected: string,
+    actual: unknown,
+  ) {
+    super(`Expected ${expected}, got ${show(actual)}`);
+  }
+  /** The message without the value found, for a type that can hold a secret. */
+  get withheld(): string {
+    return `Expected ${this.expected}, got "[REDACTED]"${this.path}`;
+  }
+}
 
 const show = (u: unknown): string => {
   if (u === undefined) return "undefined";
@@ -35,12 +52,16 @@ const show = (u: unknown): string => {
 };
 
 const fail = (expected: string, actual: unknown): never => {
-  throw new CodecError(`Expected ${expected}, got ${show(actual)}`);
+  throw new CodecError(expected, actual);
 };
 
 /** Prefix a member's failure with its key, as Effect's issue paths did. */
 const within = (e: unknown, key: PropertyKey): unknown => {
-  if (e instanceof CodecError) e.message = `${e.message} at [${JSON.stringify(key)}]`;
+  if (e instanceof CodecError) {
+    const at = ` at [${JSON.stringify(key)}]`;
+    e.message += at;
+    e.path += at;
+  }
   return e;
 };
 
@@ -58,6 +79,8 @@ interface Shape {
   /** Keys the members take, so a record index skips them. */
   readonly wireKeys: ReadonlySet<string>;
   readonly typeKeys: ReadonlySet<string>;
+  /** Whether a member can hold a `sensitive` value; set by {@link holdsSensitive}. */
+  sensitive?: boolean;
 }
 
 const shapes = /*@__PURE__*/ new WeakMap<Node, Shape>();
@@ -95,6 +118,50 @@ const codecOf = (n: Node): CodecKind | undefined =>
 
 /** The wire-side node of a `sensitive` value. */
 const innerOf = (n: Node): Node => n.encoding![0]!.to;
+
+/**
+ * Whether a value of the type `n` can hold a `sensitive` value, at any
+ * depth. The answer is kept on each struct's shape, so a struct is searched
+ * once: `true` when the search finds a secret below it, `false` when a
+ * whole search from a type that holds no secret visited it.
+ */
+export const holdsSensitive = (n: Node): boolean => {
+  const visited: Shape[] = [];
+  const found = searchSensitive(n, new Set(), visited);
+  if (!found) for (const shape of visited) shape.sensitive = false;
+  return found;
+};
+
+const searchSensitive = (n: Node, seen: Set<Node>, visited: Shape[]): boolean => {
+  if (codecOf(n) === "sensitive") return true;
+  if (seen.has(n)) return false;
+  seen.add(n);
+  const any = (types: ReadonlyArray<Node> | undefined) =>
+    types !== undefined && types.some((t) => searchSensitive(t, seen, visited));
+  switch (n._tag) {
+    case "Suspend":
+      return searchSensitive(n.thunk!(), seen, visited);
+    case "Objects": {
+      const shape = shapeOf(n);
+      if (shape.sensitive !== undefined) return shape.sensitive;
+      visited.push(shape);
+      const found =
+        any(shape.members.map((m) => m.type)) || any(n.indexSignatures?.map((i) => i.type));
+      if (found) shape.sensitive = true;
+      return found;
+    }
+    case "Arrays":
+      return any(n.elements) || any(n.rest);
+    case "Union":
+      return any(n.types);
+    default:
+      return false;
+  }
+};
+
+/** `v` kept as read by a lenient decode: `Redacted` whole when `n` can hold a secret. */
+const asRead = (n: Node, v: unknown): unknown =>
+  v !== undefined && v !== null && holdsSensitive(n) ? Redacted.make(v) : v;
 
 /** Whether `v` is a value of a leaf type (anything for types this does not check). */
 const primitive = (n: Node, v: unknown): boolean => {
@@ -271,7 +338,9 @@ export const decode = (n: Node, v: unknown, exact: Exactness = false): unknown =
     case "Objects":
       return decodeObjects(n, v, exact);
     case "Arrays":
-      return Array.isArray(v) || exact ? convertArray(n, v, (t, x) => decode(t, x, exact)) : v;
+      return Array.isArray(v) || exact
+        ? convertArray(n, v, (t, x) => decode(t, x, exact))
+        : asRead(n, v);
     case "Union":
       return decodeUnion(n, v, exact);
     default:
@@ -302,7 +371,7 @@ const decodeCodec = (codec: CodecKind, n: Node, v: unknown, exact: Exactness): u
 };
 
 const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
-  if (!isRecord(v)) return exact ? fail("an object", v) : v;
+  if (!isRecord(v)) return exact ? fail("an object", v) : asRead(n, v);
   const shape = shapeOf(n);
   const out: Record<string, unknown> = {};
   for (const m of shape.members) {
@@ -331,12 +400,7 @@ const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
   else if (exact === "closed" && shape.members.length > 0)
     for (const key of Object.keys(v))
       if (!shape.wireKeys.has(key) && v[key] !== undefined)
-        throw within(
-          new CodecError(
-            `Expected no value (the schema does not model this key), got ${show(v[key])}`,
-          ),
-          key,
-        );
+        throw within(new CodecError("no value (the schema does not model this key)", v[key]), key);
   return out;
 };
 
@@ -359,10 +423,27 @@ const decodeUnion = (n: Node, v: unknown, exact: Exactness): unknown => {
   }
   // Lenient: convert as the first member that looks right, else keep as read.
   for (const t of types) if (fits(t, v, true)) return decode(t, v);
-  return v;
+  return asRead(n, v);
 };
 
 //#endregion
+
+/** The message of a failed decode, without the value it found when `withhold`. */
+export const decodeFailure = (e: unknown, withhold: boolean): string => {
+  if (withhold) return e instanceof CodecError ? e.withheld : "[REDACTED]";
+  return e instanceof Error ? e.message : String(e);
+};
+
+/** A 2xx body to quote in an error message: `[REDACTED]` when the output can hold a secret. */
+export const outputBody = (operation: Operation<any, any, any>, body: string): string =>
+  holdsSensitive(operation.output.ast) ? "[REDACTED]" : body;
+
+/**
+ * An error body to quote in an error message: `[REDACTED]` when one of the
+ * operation's declared errors can hold a secret.
+ */
+export const errorBody = (operation: Operation<any, any, any>, body: string): string =>
+  (operation.errors ?? []).some((e) => holdsSensitive(e.ast)) ? "[REDACTED]" : body;
 
 /** An operation input encoder for protocols: encode failures become `ParseError`. */
 export const inputEncoder =

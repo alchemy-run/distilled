@@ -260,6 +260,35 @@ describe("sensitive union responses", () => {
   });
 });
 
+describe("sensitive untyped members", () => {
+  const schema = S.Struct({
+    environment: S.NullOr(S.Unknown).pipe(SensitiveValue()),
+    config: S.NullOr(
+      S.Struct({ name: S.String, secret: S.NullOr(S.String).pipe(SensitiveValue()) }),
+    ).pipe(SensitiveValue()),
+  });
+
+  test("an untyped object is redacted whole; a typed struct is walked", () => {
+    const environment = { AWS_ACCESS_KEY_ID: "fixture-id", AWS_SECRET_ACCESS_KEY: "fixture-key" };
+    const wrapped = wrapSensitive(schema.ast, {
+      environment,
+      config: { name: "files", secret: "fixture-secret" },
+    }) as any;
+    expect(Redacted.isRedacted(wrapped.environment)).toBe(true);
+    expect(Redacted.value(wrapped.environment)).toEqual(environment);
+    expect(wrapped.config).toEqual({ name: "files", secret: Redacted.make("fixture-secret") });
+    expect(String(wrapped.environment)).not.toContain("fixture-key");
+    expect(wrapSensitive(schema.ast, wrapped)).toEqual(wrapped);
+  });
+
+  test("null stays null", () => {
+    expect(wrapSensitive(schema.ast, { environment: null, config: null })).toEqual({
+      environment: null,
+      config: null,
+    });
+  });
+});
+
 describe("UnionCases decoding", () => {
   const cases = [
     ["id", "type", "zoneName"],

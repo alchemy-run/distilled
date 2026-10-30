@@ -17,8 +17,7 @@ import {
   mapKeys,
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
 import { httpSymbol, querySymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
@@ -188,6 +187,7 @@ const decode = ({
     }
 
     let json: Record<string, unknown> | undefined;
+    let nonJson = false;
     if (text.trim().length > 0) {
       try {
         const parsed = JSON.parse(text);
@@ -196,6 +196,7 @@ const decode = ({
         }
       } catch {
         // non-JSON -- a binary success payload or an HTML error page
+        nonJson = true;
       }
     }
     const status = response.status;
@@ -286,24 +287,22 @@ const decode = ({
     // Successful non-JSON body: raw bytes (the analytics file download --
     // modeled as a Document output, so the bytes pass through verbatim).
     // Strict mode fails them for every other (struct) output.
-    if (json === undefined) {
-      return yield* validateResponse(
-        outputAst,
-        bytes,
-        (cause) => new SlackParseError({ body: text, cause }),
-      ).pipe(Effect.catch(fail));
-    }
-
+    //
     // 2xx envelope: the body IS the payload (`ok` rides along as a modeled
     // member). Wire->TS key mapping is schema-driven; sensitive members
     // (OAuth access/refresh tokens) wrap in Redacted. Strict mode checks the
     // mapped payload against the output schema first.
-    const mapped = yield* validateResponse(
+    //
+    // Either way, parse errors withhold a body that can hold a secret, and a
+    // body that is not JSON at all fails for such an output in every mode
+    // (core `validateSuccess`).
+    return yield* validateSuccess(
       outputAst,
-      mapKeys(outputAst, json, "decode"),
-      (cause) => new SlackParseError({ body: json, cause }),
+      json === undefined
+        ? { value: bytes, body: text, nonJson }
+        : { value: mapKeys(outputAst, json, "decode"), body: json, nonJson },
+      (info) => new SlackParseError(info),
     ).pipe(Effect.catch(fail));
-    return wrapSensitive(outputAst, mapped);
   });
 
 export const SlackProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(

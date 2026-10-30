@@ -691,6 +691,8 @@ export interface ReviewMitigationRequest {
   appeals?: MitigationsReviewRequestAppealsList;
   /** Counter-notice details supporting an appeal. */
   data?: MitigationsReviewRequestData;
+  /** Optional explanation for a "content_removed" appeal, such as how the content was removed. Not accepted for other appeal types. */
+  explanation?: string;
   /** The type of appeal being submitted. */
   type?: MitigationsReviewRequestType | (string & {});
 }
@@ -1302,6 +1304,7 @@ function __c12(j: number): any {
           reportId: S.String.pipe(T.Label("report_id")),
           appeals: S.optional(__S(97, __c12, 1)),
           data: S.optional(__S(98, __c12, 2)),
+          explanation: S.optional(S.String),
           type: S.optional(S.String),
         })
           .pipe(

@@ -135,11 +135,17 @@ export interface DisableR2DataCatalogRequest {
   bucketName: string;
 }
 export interface DisableR2DataCatalogResponse {}
+export interface EnableRequestCredential {
+  /** Provides the Cloudflare API token for accessing R2. */
+  token: string;
+}
 export interface EnableR2DataCatalogRequest {
   /** Use this to identify the account. */
   accountId: string;
   /** Specifies the R2 bucket name. */
   bucketName: string;
+  /** Contains request to store catalog credentials. */
+  credential?: EnableRequestCredential;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface EnableR2DataCatalogResponse {
@@ -287,6 +293,8 @@ export interface GetR2DataCatalogResponse {
   status: GetResponseStatus;
   /** Shows the credential configuration status. */
   credentialStatus?: GetResponseCredentialStatus | null;
+  /** Specifies the data-locality jurisdiction of the catalog. The first enable sets it, and it cannot change. Currently always `default`. */
+  jurisdiction?: string | null;
   /** Configures maintenance for the catalog. */
   maintenanceConfig?: GetResponseMaintenanceConfig | null;
 }
@@ -439,6 +447,8 @@ export interface ListResponseWarehousesItem {
   status: ListResponseWarehousesItemStatus;
   /** Shows the credential configuration status. */
   credentialStatus?: ListResponseWarehousesItemCredentialStatus | null;
+  /** Specifies the data-locality jurisdiction of the catalog. The first enable sets it, and it cannot change. Currently always `default`. */
+  jurisdiction?: string | null;
   /** Configures maintenance for the catalog. */
   maintenanceConfig?: ListResponseWarehousesItemMaintenanceConfig | null;
 }
@@ -655,8 +665,8 @@ export const enableR2DataCatalog: API.OperationMethod<
   EnableR2DataCatalogError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<EnableR2DataCatalogRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<EnableR2DataCatalogResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<EnableR2DataCatalogRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<EnableR2DataCatalogResponse>,
   errors: [NoSuchBucket, InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -870,8 +880,15 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          token: S.String,
+        }),
+      ).annotate({ identifier: "EnableRequestCredential" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
+          credential: S.optional(__S(0, __c0, 0)),
         })
           .pipe(
             T.Http({
@@ -882,7 +899,7 @@ function __c0(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "EnableR2DataCatalogRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -1040,6 +1057,7 @@ function __c6(j: number): any {
           name: S.String,
           status: S.String,
           credentialStatus: S.optional(S.NullOr(S.String).pipe(T.Body("credential_status"))),
+          jurisdiction: S.optional(S.NullOr(S.String)),
           maintenanceConfig: S.optional(
             S.NullOr(__S(16, __c2, 0)).pipe(T.Body("maintenance_config")),
           ),
@@ -1172,6 +1190,7 @@ function __c10(j: number): any {
           name: S.String,
           status: S.String,
           credentialStatus: S.optional(S.NullOr(S.String).pipe(T.Body("credential_status"))),
+          jurisdiction: S.optional(S.NullOr(S.String)),
           maintenanceConfig: S.optional(
             S.NullOr(__S(16, __c2, 0)).pipe(T.Body("maintenance_config")),
           ),

@@ -511,7 +511,8 @@
         },
         "errors": [
           { "target": "com.cloudflare.workers#PreviewNotFound" },
-          { "target": "com.cloudflare.workers#WorkerNotFound" }
+          { "target": "com.cloudflare.workers#WorkerNotFound" },
+          { "target": "com.cloudflare.workers#UnknownWorkerEntrypoint" }
         ],
         "traits": {
           "smithy.api#http": {

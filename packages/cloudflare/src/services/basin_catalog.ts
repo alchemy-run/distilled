@@ -68,11 +68,17 @@ export interface DisableRequest {
   bucketName: string;
 }
 export interface DisableResponse {}
+export interface EnableRequestCredential {
+  /** Provides the Cloudflare API token for accessing R2. */
+  token: string;
+}
 export interface EnableRequest {
   /** Use this to identify the account. */
   accountId: string;
   /** Specifies the R2 bucket name. */
   bucketName: string;
+  /** Contains request to store catalog credentials. */
+  credential?: EnableRequestCredential;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface EnableResponse {
@@ -126,6 +132,8 @@ export interface GetResponse {
   status: GetResponseStatus;
   /** Shows the credential configuration status. */
   credentialStatus?: GetResponseCredentialStatus | null;
+  /** Specifies the data-locality jurisdiction of the catalog. The first enable sets it, and it cannot change. Currently always `default`. */
+  jurisdiction?: string | null;
   /** Configures maintenance for the catalog. */
   maintenanceConfig?: GetResponseMaintenanceConfig | null;
 }
@@ -271,6 +279,8 @@ export interface ListResponseWarehousesItem {
   status: ListResponseWarehousesItemStatus;
   /** Shows the credential configuration status. */
   credentialStatus?: ListResponseWarehousesItemCredentialStatus | null;
+  /** Specifies the data-locality jurisdiction of the catalog. The first enable sets it, and it cannot change. Currently always `default`. */
+  jurisdiction?: string | null;
   /** Configures maintenance for the catalog. */
   maintenanceConfig?: ListResponseWarehousesItemMaintenanceConfig | null;
 }
@@ -565,8 +575,8 @@ export const enable: API.OperationMethod<
   EnableError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<EnableRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<EnableResponse>,
+  input: __S(65, __c8, 1) as any as S.Schema<EnableRequest>,
+  output: __S(66, __c8, 2) as any as S.Schema<EnableResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -885,8 +895,15 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          token: S.String,
+        }),
+      ).annotate({ identifier: "EnableRequestCredential" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           bucketName: S.String.pipe(T.Label("bucket_name")),
+          credential: S.optional(__S(64, __c8, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -895,7 +912,7 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EnableRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -960,6 +977,7 @@ function __c11(j: number): any {
           name: S.String,
           status: S.String,
           credentialStatus: S.optional(S.NullOr(S.String).pipe(T.Body("credential_status"))),
+          jurisdiction: S.optional(S.NullOr(S.String)),
           maintenanceConfig: S.optional(
             S.NullOr(__S(82, __c10, 2)).pipe(T.Body("maintenance_config")),
           ),

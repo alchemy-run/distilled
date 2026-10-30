@@ -1,3 +1,4 @@
+import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import type { SourceError } from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
@@ -6,10 +7,22 @@ import * as Credentials from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
 import * as Region from "./region.ts";
 import * as SigV4 from "./sigv4.ts";
-import { encodeGreedyLabel } from "./util/serialize-input.ts";
+import {
+  encodeGreedyLabel,
+  encodeLabel,
+  invalidAwsLabel,
+  invalidHostLabel,
+} from "./util/serialize-input.ts";
 
-/** Errors returned when resolving credentials or signing a URL. */
-export type PresignError = Credentials.CredentialsError | SourceError | SigV4.SigningError;
+/**
+ * Errors returned when resolving credentials or signing a URL, and the
+ * `InvalidInput` of an S3 bucket or key that would address another resource.
+ */
+export type PresignError =
+  | Credentials.CredentialsError
+  | SourceError
+  | SigV4.SigningError
+  | InvalidInput;
 
 /** `url` parsed, or the `InvalidSigningUrl` the signer would fail it with. */
 const parseUrl = (url: string): Effect.Effect<URL, SigV4.InvalidSigningUrl> =>
@@ -162,6 +175,11 @@ export interface PresignS3UrlOptions {
  * Pure client-side computation -- no AWS API call is made. The URL inherits
  * the IAM permissions of the identity resolved from the
  * {@link Credentials.Credentials} service.
+ *
+ * Fails with `InvalidInput`, before anything is signed, for a bucket or key
+ * that would address another resource: an empty value, a `.` or `..` bucket
+ * or key segment, or (without a custom endpoint) a bucket that is not
+ * plain host-name text.
  */
 export const presignS3Url: (
   options: PresignS3UrlOptions,
@@ -172,10 +190,17 @@ export const presignS3Url: (
       Effect.map(Option.getOrElse(() => Effect.undefined)),
     );
 
+    const invalid =
+      invalidAwsLabel("bucket", options.bucket, false) ??
+      invalidAwsLabel("key", options.key, true) ??
+      (!customEndpoint && encodeLabel(options.bucket) !== options.bucket
+        ? invalidHostLabel("bucket", options.bucket)
+        : undefined);
+    if (invalid !== undefined) return yield* invalid;
     const encodedKey = encodeGreedyLabel(options.key);
     const url = yield* parseUrl(
       customEndpoint
-        ? `${customEndpoint.replace(/\/+$/, "")}/${options.bucket}/${encodedKey}`
+        ? `${customEndpoint.replace(/\/+$/, "")}/${encodeLabel(options.bucket)}/${encodedKey}`
         : `https://${options.bucket}.s3.${region}.amazonaws.com/${encodedKey}`,
     );
     if (options.versionId !== undefined) {

@@ -233,4 +233,24 @@ describe("pagination over a bare-array response", () => {
       /PaginatedOperationMethod<\s*ListThingsRequest,\s*ListThingsResponse,\s*ListThingsError,\s*ExampleContext,\s*Thing\s*>/,
     );
   });
+
+  test("a profile that injects a page member keeps the struct form", () => {
+    const { code } = generateService(model, {
+      ...pageSpec,
+      paginationProfiles: {
+        link: {
+          strategy: "paginateLink",
+          itemsFallback: "",
+          syntheticOutputs: ["resultInfo"],
+          injectOutputMember: {
+            tsName: "resultInfo",
+            interfaceLines: ["  resultInfo?: string | null;"],
+            structLine: `  "resultInfo": S.optional(S.NullOr(S.String)),`,
+          },
+        },
+      },
+    });
+    expect(code).not.toContain("export type ListThingsResponse = ThingList;");
+    expect(code).toContain("resultInfo?: string | null;");
+  });
 });

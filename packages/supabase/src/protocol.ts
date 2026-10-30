@@ -12,8 +12,7 @@ import {
   mapKeys,
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
@@ -220,14 +219,14 @@ const decode = ({
     // mapping is schema-driven; `RawResponseRoot` responses are the body
     // verbatim (mapKeys handles arrays/scalars structurally either way).
     // Strict mode (core/response-validation) checks the mapped body against
-    // the output schema.
+    // the output schema, and parse errors withhold a body that can hold a
+    // secret (core `validateSuccess`).
     const body: unknown = nonJson ? text : (json ?? {});
-    const mapped = yield* validateResponse(
+    return yield* validateSuccess(
       outputAst,
-      mapKeys(outputAst, body, "decode"),
-      (cause) => new SupabaseParseError({ body: nonJson ? text : json, cause }),
+      { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
+      (info) => new SupabaseParseError(info),
     ).pipe(Effect.catch(fail));
-    return wrapSensitive(outputAst, mapped);
   });
 
 export const SupabaseProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(

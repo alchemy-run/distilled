@@ -1,4 +1,5 @@
 import * as crypto from "node:crypto";
+import { inspect } from "node:util";
 import { ConfigError } from "@distilled.cloud/core/errors";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Duration from "effect/Duration";
@@ -32,6 +33,7 @@ import {
 
 const BASE_URL = "https://cdp.test/platform";
 const KEY_ID = "organizations/org-1/apiKeys/key-1";
+const SECRET = "sentinel-secret-7f3a";
 
 interface Recorded {
   readonly method: string;
@@ -351,6 +353,29 @@ describe("Response decoding", () => {
       ),
     );
     expect(error).toBeInstanceOf(CoinbaseParseError);
+  });
+
+  const subscription = getWebhookSubscription({ subscriptionId: "sub-1" });
+
+  test("a body cut off mid-secret fails in both modes without exposing it", async () => {
+    for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
+      const error = await runError(
+        subscription.pipe(Effect.provide(mode)),
+        () => new Response(`{"secret":"${SECRET}`),
+      );
+      expect(error).toBeInstanceOf(CoinbaseParseError);
+      expect(error).toMatchObject({ body: "[REDACTED]" });
+      expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+    }
+  });
+
+  test("a strict mismatch with a sensitive output fails without exposing the body", async () => {
+    const error = await runError(subscription.pipe(Effect.provide(ResponseValidation.strict)), () =>
+      json({ secret: SECRET }),
+    );
+    expect(error).toBeInstanceOf(CoinbaseParseError);
+    expect(error).toMatchObject({ body: "[REDACTED]" });
+    expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
   });
 });
 

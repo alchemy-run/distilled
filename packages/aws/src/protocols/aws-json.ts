@@ -38,7 +38,7 @@ import {
   eventStreamWith,
 } from "../traits.ts";
 import { getEncodedPropertySignatures, getIdentifier } from "../util/ast.ts";
-import { inputEncoderSync } from "../util/codec.ts";
+import { errorBody, inputEncoderSync, outputBody } from "../util/codec.ts";
 import { extractJsonErrorCode, extractJsonErrorData, sanitizeErrorCode } from "../util/error.ts";
 import { readStreamAsText } from "../util/stream.ts";
 
@@ -126,7 +126,9 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): ProtocolImpl {
         } catch {
           // Lenient mode returns the body as read.
           return new Unreadable(
-            new ParseError({ message: `Failed to parse JSON body: ${bodyText}` }),
+            new ParseError({
+              message: `Failed to parse JSON body: ${outputBody(operation, bodyText)}`,
+            }),
             bodyText,
           );
         }
@@ -172,7 +174,7 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): ProtocolImpl {
             }
           } catch {
             return yield* new ParseError({
-              message: `Failed to parse error JSON body: ${bodyText}`,
+              message: `Failed to parse error JSON body: ${errorBody(operation, bodyText)}`,
             });
           }
         }
@@ -188,7 +190,7 @@ function createAwsJsonProtocol(version: "1.0" | "1.1"): ProtocolImpl {
 
         if (!rawErrorCode) {
           return yield* new ParseError({
-            message: `No error code found in response. Headers: ${JSON.stringify(response.headers)}, Body: ${bodyText}`,
+            message: `No error code found in response. Headers: ${JSON.stringify(response.headers)}, Body: ${errorBody(operation, bodyText)}`,
           });
         }
 

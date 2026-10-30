@@ -13,11 +13,10 @@ import {
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
 import {
-  unwrapRedactedDeep,
-  wrapSensitive,
   type RestErrorEnvelope,
+  unwrapRedactedDeep,
+  validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { httpSymbol } from "@distilled.cloud/core/trait";
 /**
@@ -217,14 +216,15 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
           );
         }
 
-        // Strict mode checks the mapped body against the output schema.
+        // Strict mode checks the mapped body against the output schema, and
+        // parse errors withhold a body that can hold a secret (core
+        // `validateSuccess`).
         const body: unknown = nonJson ? text : (json ?? {});
-        const mapped = yield* validateResponse(
+        return yield* validateSuccess(
           outputAst,
-          mapKeys(outputAst, body, "decode"),
-          (cause) => new StackitParseError({ body: nonJson ? text : json, cause }),
+          { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
+          (info) => new StackitParseError(info),
         ).pipe(Effect.catch(fail));
-        return wrapSensitive(outputAst, mapped);
       }),
   }),
 );
