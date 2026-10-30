@@ -259,6 +259,18 @@ this stops recording a label:
 }
 ```
 
+## Streamed outputs
+
+Not a trait: the runtime's rule for every SDK. When an operation's output
+holds a stream (a Smithy `@streaming` member: an S3 object body, a Bedrock
+event stream), its span stays open until the caller has read every stream
+to its end, so its duration covers the whole response. An error while
+reading fails the span and sets `error.type`; a caller that stops early
+(`Stream.take`) ends it with success. A stream the caller drops unread ends
+the span at the time the headers arrived, once the garbage collector frees
+it. `TelemetryHooks`' `onEnd` and the `rpc.client.call.duration` histogram
+still run when the call returns.
+
 ## Opt-in layers
 
 Not traits: what an app installs, each in its own module so programs that
