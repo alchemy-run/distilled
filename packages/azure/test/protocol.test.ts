@@ -1,3 +1,4 @@
+import { inspect } from "node:util";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
@@ -83,6 +84,8 @@ const runFlip = <A, E>(
   );
 
 const rg = { subscriptionId, resourceGroupName: "my-rg" };
+
+const SECRET = "sentinel-secret-7f3a";
 
 describe("request encoding", () => {
   test("sends Bearer auth and Accept: application/json", async () => {
@@ -385,5 +388,43 @@ describe("success decoding", () => {
       ),
     );
     expect(error).toBeInstanceOf(AzureParseError);
+  });
+
+  const regenerateKey = RegenerateConfigurationStoreKey({
+    subscriptionId,
+    resourceGroupName: "rg",
+    configStoreName: "store",
+    id: "k",
+  });
+
+  test("a body cut off mid-secret fails in both modes without exposing it", async () => {
+    for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
+      const { layer } = fakeArm(200, `{"id":"k","connectionString":"${SECRET}`);
+      const error = await runFlip(regenerateKey.pipe(Effect.provide(mode)), layer);
+      expect(error).toBeInstanceOf(AzureParseError);
+      expect(error).toMatchObject({ body: "[REDACTED]" });
+      expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+    }
+  });
+
+  test("a strict mismatch with a sensitive output fails without exposing the body", async () => {
+    const { layer } = fakeArm(200, JSON.stringify({ connectionString: SECRET, readOnly: "no" }));
+    const error = await runFlip(
+      regenerateKey.pipe(Effect.provide(ResponseValidation.strict)),
+      layer,
+    );
+    expect(error).toBeInstanceOf(AzureParseError);
+    expect(error).toMatchObject({ body: "[REDACTED]" });
+    expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+  });
+
+  test("a strict mismatch whose offending value is the secret fails without exposing it", async () => {
+    const { layer } = fakeArm(200, JSON.stringify({ connectionString: "c", readOnly: SECRET }));
+    const error = await runFlip(
+      regenerateKey.pipe(Effect.provide(ResponseValidation.strict)),
+      layer,
+    );
+    expect(error).toBeInstanceOf(AzureParseError);
+    expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
   });
 });

@@ -1,3 +1,4 @@
+import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as S from "@distilled.cloud/core/schema-lite-typed";
 import type { SourceError } from "effect/ConfigProvider";
 import type * as HttpClientError from "effect/http/HttpClientError";
@@ -239,11 +240,14 @@ export type CommonAwsError =
  * exists -- DNS, TLS, connection reset). Leaving it out made each generated
  * operation's declared type narrower than what it can actually fail with.
  * `SourceError` is a provided `ConfigProvider` that cannot read its source,
- * from `Region.fromEnv()` / `Endpoint.fromEnv()`.
+ * from `Region.fromEnv()` / `Endpoint.fromEnv()`. `InvalidInput` is a path
+ * or host label that would address another resource, refused before
+ * anything is signed.
  */
 export type CommonErrors =
   | UnknownAwsError
   | ParseError
+  | InvalidInput
   | CommonAwsError
   | EndpointError
   | NoMatchingRuleError

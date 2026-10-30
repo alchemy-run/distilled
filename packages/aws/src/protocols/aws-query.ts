@@ -41,7 +41,7 @@ import {
   isMapAST,
   isNumberAST,
 } from "../util/ast.ts";
-import { inputEncoderSync } from "../util/codec.ts";
+import { errorBody, inputEncoderSync } from "../util/codec.ts";
 import { sanitizeErrorCode } from "../util/error.ts";
 import { readStreamAsText } from "../util/stream.ts";
 import { extractXmlRoot, parseXml, readXml, unwrapArrayValue } from "../util/xml.ts";
@@ -155,7 +155,7 @@ export const awsQueryProtocol: ProtocolImpl = (operation: Operation): ProtocolHa
 
       if (!errorContent) {
         return yield* new ParseError({
-          message: `Could not find Error element in XML response: ${bodyText}`,
+          message: `Could not find Error element in XML response: ${errorBody(operation, bodyText)}`,
         });
       }
 
@@ -163,7 +163,7 @@ export const awsQueryProtocol: ProtocolImpl = (operation: Operation): ProtocolHa
       const rawErrorCode = errorContent.Code;
       if (typeof rawErrorCode !== "string") {
         return yield* new ParseError({
-          message: `No Code element found in error response: ${bodyText}`,
+          message: `No Code element found in error response: ${errorBody(operation, bodyText)}`,
         });
       }
 

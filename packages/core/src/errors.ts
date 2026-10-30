@@ -143,16 +143,9 @@ export class GatewayTimeout
 // program loads) so they can fail with it without importing this module.
 export { ConfigError } from "./config.ts";
 
-/**
- * The input cannot be sent: a path label whose value would address another
- * resource (`.` or `..`, which the URL parser resolves to the parent path).
- * Raised before anything is sent.
- */
-export class InvalidInput
-  extends /*@__PURE__*/ Schema.TaggedError<InvalidInput>()("InvalidInput", {
-    member: Schema.String,
-    message: Schema.String,
-  }).pipe(Category.withBadRequestError) {}
+// Defined with the label check (`protocol-http.ts`), so protocols can fail
+// with it without importing every class in this module.
+export { InvalidInput } from "./protocol-http.ts";
 
 // ============================================================================
 // Error Maps

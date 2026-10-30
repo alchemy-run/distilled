@@ -65,6 +65,9 @@
         },
         {
           "target": "com.cloudflare.workers_for_platforms#MtlsCertificateNotFound"
+        },
+        {
+          "target": "com.cloudflare.workers_for_platforms#UnknownWorkerEntrypoint"
         }
       ]
     }

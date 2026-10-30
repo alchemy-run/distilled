@@ -14,8 +14,7 @@ import {
   responseHeaderMembers,
   withResponseHeaders,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { httpSymbol } from "@distilled.cloud/core/trait";
 /**
@@ -295,18 +294,22 @@ const decode = ({
     // the body verbatim (mapKeys handles arrays/scalars structurally either
     // way). Strict mode (core/response-validation) checks the mapped body
     // against the output schema. Sensitive members are delivered as
-    // `Redacted`.
+    // `Redacted`, and parse errors withhold a body that can hold a secret
+    // (core `validateSuccess`).
     const body: unknown = nonJson ? text : (json ?? {});
-    const mapped = yield* validateResponse(
+    return yield* validateSuccess(
       outputAst,
-      withResponseHeaders(
-        responseHeaderMembers(outputAst),
-        mapKeys(outputAst, body, "decode"),
-        headers,
-      ),
-      (cause) => new AzureParseError({ body: nonJson ? text : json, cause }),
+      {
+        value: withResponseHeaders(
+          responseHeaderMembers(outputAst),
+          mapKeys(outputAst, body, "decode"),
+          headers,
+        ),
+        body: nonJson ? text : json,
+        nonJson,
+      },
+      (info) => new AzureParseError(info),
     ).pipe(Effect.catch(fail));
-    return wrapSensitive(outputAst, mapped);
   });
 
 export const AzureProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(

@@ -19,6 +19,8 @@
     "typecheck": "tsrs -p tsconfig.json"
   },
   "dependencies": {
+    "@alchemy.run/cloudflare": "catalog:",
+    "@alchemy.run/github": "catalog:",
     "@effect/platform-node": "catalog:",
     "@solidjs/meta": "0.29.4",
     "@solidjs/router": "1.0.0",
