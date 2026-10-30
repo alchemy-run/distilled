@@ -11,7 +11,7 @@ import * as Effect from "effect/Effect";
 import * as Ref from "effect/Ref";
 import type * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
-import { decode, fitsWire } from "../util/codec.ts";
+import { decode, decodeFailure, fitsWire, holdsSensitive } from "../util/codec.ts";
 import {
   decodeMessage,
   EventParseError,
@@ -236,9 +236,11 @@ export const transformEventStreamToUnion = (
  *
  * An event that matches no member of the union (`UnmodeledError`, an event
  * type newer than the schema) is passed through raw in every mode. A modeled
- * event that fails to decode is passed through raw in lenient mode and ends
- * the stream with {@link EventParseError} in the validating modes
- * (`ResponseValidation`, read from the consuming fiber).
+ * event that fails to decode goes through the lenient decode in lenient mode,
+ * so its sensitive members stay `Redacted`, and ends the stream with
+ * {@link EventParseError} in the validating modes (`ResponseValidation`,
+ * read from the consuming fiber), whose message leaves out the value it found
+ * when the union can hold a secret.
  */
 export const decodeEventStreamUnion = (
   eventStream: Stream.Stream<ParsedEvent, EventStreamParseError>,
@@ -250,7 +252,7 @@ export const decodeEventStreamUnion = (
     try {
       return decode(ast, event, true) as ParsedEvent;
     } catch {
-      return event;
+      return fitsWire(ast, event) ? (decode(ast, event) as ParsedEvent) : event;
     }
   });
   return Stream.unwrap(
@@ -264,7 +266,7 @@ export const decodeEventStreamUnion = (
               return fitsWire(ast, event)
                 ? Effect.fail(
                     new EventParseError({
-                      message: `Event does not match its schema: ${(error as Error).message}`,
+                      message: `Event does not match its schema: ${decodeFailure(error, holdsSensitive(ast))}`,
                     }),
                   )
                 : Effect.succeed(event);

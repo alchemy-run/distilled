@@ -1,3 +1,4 @@
+import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import { failUnlessLenient } from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
 import { ParseError } from "../errors.ts";
@@ -24,10 +25,11 @@ export interface DeserializedError {
 
 export interface ProtocolHandler {
   /**
-   * Serialize an input object into a request, without effects. Throws the
-   * `ParseError` an input that does not match the schema fails with.
+   * Serialize an input object into a request, without effects. Returns the
+   * `InvalidInput` of a path label that would address another resource, and
+   * throws the `ParseError` an input that does not match the schema fails with.
    */
-  readonly serialize: (input: unknown) => Request;
+  readonly serialize: (input: unknown) => Request | InvalidInput;
 
   /**
    * Deserialize a 2xx response whose body has been read as text, without
@@ -90,12 +92,16 @@ export const loadHandler = (
   handler: ProtocolHandler | LazyHandler,
 ): Effect.Effect<ProtocolHandler> => ("ready" in handler ? handler.ready : Effect.succeed(handler));
 
-/** `serialize` as an effect: a thrown `ParseError` fails, anything else dies. */
+/**
+ * `serialize` as an effect: a returned `InvalidInput` or a thrown
+ * `ParseError` fails, anything else thrown dies.
+ */
 export const serializeEffect =
-  (serialize: (input: unknown) => Request) =>
-  (input: unknown): Effect.Effect<Request, ParseError> => {
+  (serialize: (input: unknown) => Request | InvalidInput) =>
+  (input: unknown): Effect.Effect<Request, ParseError | InvalidInput> => {
     try {
-      return Effect.succeed(serialize(input));
+      const request = serialize(input);
+      return request instanceof InvalidInput ? Effect.fail(request) : Effect.succeed(request);
     } catch (e) {
       return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
     }
@@ -103,25 +109,35 @@ export const serializeEffect =
 
 /**
  * A 2xx response through the handler: `deserializeStream` for outputs
- * that stream, else the body (read as text) through `deserializeText`. An {@link Unreadable} body fails in strict mode and is returned as
- * read in lenient mode.
+ * that stream, else the body (read as text) through `deserializeText`,
+ * which may be {@link Unreadable}.
  */
-export const deserialize = (
+export const readResponse = (
   protocol: ProtocolHandler,
   response: Response,
 ): Effect.Effect<unknown, ParseError> => {
-  const fromText = (body: string): Effect.Effect<unknown, ParseError> => {
-    const result = protocol.deserializeText({ ...response, body });
-    return result instanceof Unreadable
-      ? failUnlessLenient(result.error, result.asRead)
-      : Effect.succeed(result);
-  };
+  const fromText = (body: string): Effect.Effect<unknown, ParseError> =>
+    Effect.succeed(protocol.deserializeText({ ...response, body }));
   const body = response.body;
   return (
     protocol.deserializeStream?.(response) ??
     (typeof body === "string" ? fromText(body) : Effect.flatMap(readStreamAsText(body), fromText))
   );
 };
+
+/**
+ * {@link readResponse}, with an {@link Unreadable} body failing in strict
+ * mode and returned as read in lenient mode.
+ */
+export const deserialize = (
+  protocol: ProtocolHandler,
+  response: Response,
+): Effect.Effect<unknown, ParseError> =>
+  Effect.flatMap(readResponse(protocol, response), (result) =>
+    result instanceof Unreadable
+      ? failUnlessLenient(result.error, result.asRead)
+      : Effect.succeed(result),
+  );
 
 /** The handler with effect-returning `serializeRequest` / `deserializeResponse`, for tests. */
 export const withEffects = (handler: ProtocolHandler) => ({

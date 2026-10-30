@@ -475,6 +475,8 @@ export interface CreateResponseDlpCase1 {
   policies: CreateResponseDlpCase1PoliciesList;
 }
 export type CreateResponseDlp = CreateResponseDlpCase0 | CreateResponseDlpCase1;
+export type CreateResponseFedrampLevel = "fedramp-medium" | "fedramp-high";
+export type CreateResponseFedrampMode = "prefer" | "require";
 export type CreateResponseGuardrailsPromptP1 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS1 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS10 = "FLAG" | "BLOCK";
@@ -606,6 +608,10 @@ export interface CreateAiGatewayResponse {
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
   byokOnly?: boolean | null;
   dlp?: CreateResponseDlp | null;
+  /** FedRAMP compliance level: fedramp-medium or fedramp-high. */
+  fedrampLevel?: CreateResponseFedrampLevel | null;
+  /** FedRAMP enforcement mode. "prefer" prioritizes compliant connectors but allows fallback. "require" strictly filters. */
+  fedrampMode?: CreateResponseFedrampMode | null;
   guardrails?: CreateResponseGuardrails | null;
   isDefault?: boolean | null;
   logClassification?: boolean | null;
@@ -1471,6 +1477,8 @@ export interface DeleteResponseDlpCase1 {
   policies: DeleteResponseDlpCase1PoliciesList;
 }
 export type DeleteResponseDlp = DeleteResponseDlpCase0 | DeleteResponseDlpCase1;
+export type DeleteResponseFedrampLevel = "fedramp-medium" | "fedramp-high";
+export type DeleteResponseFedrampMode = "prefer" | "require";
 export type DeleteResponseGuardrailsPromptP1 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS1 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS10 = "FLAG" | "BLOCK";
@@ -1601,6 +1609,10 @@ export interface DeleteAiGatewayResponse {
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
   byokOnly?: boolean | null;
   dlp?: DeleteResponseDlp | null;
+  /** FedRAMP compliance level: fedramp-medium or fedramp-high. */
+  fedrampLevel?: DeleteResponseFedrampLevel | null;
+  /** FedRAMP enforcement mode. "prefer" prioritizes compliant connectors but allows fallback. "require" strictly filters. */
+  fedrampMode?: DeleteResponseFedrampMode | null;
   guardrails?: DeleteResponseGuardrails | null;
   isDefault?: boolean | null;
   logClassification?: boolean | null;
@@ -1921,6 +1933,8 @@ export interface GetResponseDlpCase1 {
   policies: GetResponseDlpCase1PoliciesList;
 }
 export type GetResponseDlp = GetResponseDlpCase0 | GetResponseDlpCase1;
+export type GetResponseFedrampLevel = "fedramp-medium" | "fedramp-high";
+export type GetResponseFedrampMode = "prefer" | "require";
 export type GetResponseGuardrailsPromptP1 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS1 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS10 = "FLAG" | "BLOCK";
@@ -2051,6 +2065,10 @@ export interface GetAiGatewayResponse {
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
   byokOnly?: boolean | null;
   dlp?: GetResponseDlp | null;
+  /** FedRAMP compliance level: fedramp-medium or fedramp-high. */
+  fedrampLevel?: GetResponseFedrampLevel | null;
+  /** FedRAMP enforcement mode. "prefer" prioritizes compliant connectors but allows fallback. "require" strictly filters. */
+  fedrampMode?: GetResponseFedrampMode | null;
   guardrails?: GetResponseGuardrails | null;
   isDefault?: boolean | null;
   logClassification?: boolean | null;
@@ -2594,6 +2612,8 @@ export interface ListResultItemDlpCase1 {
   policies: ListResultItemDlpCase1PoliciesList;
 }
 export type ListResultItemDlp = ListResultItemDlpCase0 | ListResultItemDlpCase1;
+export type ListResultItemFedrampLevel = "fedramp-medium" | "fedramp-high";
+export type ListResultItemFedrampMode = "prefer" | "require";
 export type ListResultItemGuardrailsPromptP1 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS1 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS10 = "FLAG" | "BLOCK";
@@ -2723,6 +2743,10 @@ export interface ListResultItem {
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
   byokOnly?: boolean | null;
   dlp?: ListResultItemDlp | null;
+  /** FedRAMP compliance level: fedramp-medium or fedramp-high. */
+  fedrampLevel?: ListResultItemFedrampLevel | null;
+  /** FedRAMP enforcement mode. "prefer" prioritizes compliant connectors but allows fallback. "require" strictly filters. */
+  fedrampMode?: ListResultItemFedrampMode | null;
   guardrails?: ListResultItemGuardrails | null;
   isDefault?: boolean | null;
   logClassification?: boolean | null;
@@ -3574,6 +3598,8 @@ export interface UpdateResponseDlpCase1 {
   policies: UpdateResponseDlpCase1PoliciesList;
 }
 export type UpdateResponseDlp = UpdateResponseDlpCase0 | UpdateResponseDlpCase1;
+export type UpdateResponseFedrampLevel = "fedramp-medium" | "fedramp-high";
+export type UpdateResponseFedrampMode = "prefer" | "require";
 export type UpdateResponseGuardrailsPromptP1 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS1 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS10 = "FLAG" | "BLOCK";
@@ -3704,6 +3730,10 @@ export interface UpdateAiGatewayResponse {
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
   byokOnly?: boolean | null;
   dlp?: UpdateResponseDlp | null;
+  /** FedRAMP compliance level: fedramp-medium or fedramp-high. */
+  fedrampLevel?: UpdateResponseFedrampLevel | null;
+  /** FedRAMP enforcement mode. "prefer" prioritizes compliant connectors but allows fallback. "require" strictly filters. */
+  fedrampMode?: UpdateResponseFedrampMode | null;
   guardrails?: UpdateResponseGuardrails | null;
   isDefault?: boolean | null;
   logClassification?: boolean | null;
@@ -4891,6 +4921,8 @@ function __c0(j: number): any {
           authentication: S.optional(S.NullOr(S.Boolean)),
           byokOnly: S.optional(S.NullOr(S.Boolean).pipe(T.Body("byok_only"))),
           dlp: S.optional(S.NullOr(__S(10, __c0, 10))),
+          fedrampLevel: S.optional(S.NullOr(S.String).pipe(T.Body("fedramp_level"))),
+          fedrampMode: S.optional(S.NullOr(S.String).pipe(T.Body("fedramp_mode"))),
           guardrails: S.optional(S.NullOr(__S(37, __c2, 5))),
           isDefault: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_default"))),
           logClassification: S.optional(S.NullOr(S.Boolean).pipe(T.Body("log_classification"))),
@@ -5671,6 +5703,8 @@ function __c21(j: number): any {
           authentication: S.optional(S.NullOr(S.Boolean)),
           byokOnly: S.optional(S.NullOr(S.Boolean).pipe(T.Body("byok_only"))),
           dlp: S.optional(S.NullOr(__S(337, __c21, 1))),
+          fedrampLevel: S.optional(S.NullOr(S.String).pipe(T.Body("fedramp_level"))),
+          fedrampMode: S.optional(S.NullOr(S.String).pipe(T.Body("fedramp_mode"))),
           guardrails: S.optional(S.NullOr(__S(37, __c2, 5))),
           isDefault: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_default"))),
           logClassification: S.optional(S.NullOr(S.Boolean).pipe(T.Body("log_classification"))),
@@ -5999,6 +6033,8 @@ function __c31(j: number): any {
           authentication: S.optional(S.NullOr(S.Boolean)),
           byokOnly: S.optional(S.NullOr(S.Boolean).pipe(T.Body("byok_only"))),
           dlp: S.optional(S.NullOr(__S(497, __c31, 1))),
+          fedrampLevel: S.optional(S.NullOr(S.String).pipe(T.Body("fedramp_level"))),
+          fedrampMode: S.optional(S.NullOr(S.String).pipe(T.Body("fedramp_mode"))),
           guardrails: S.optional(S.NullOr(__S(37, __c2, 5))),
           isDefault: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_default"))),
           logClassification: S.optional(S.NullOr(S.Boolean).pipe(T.Body("log_classification"))),
@@ -6563,6 +6599,8 @@ function __c43(j: number): any {
           authentication: S.optional(S.NullOr(S.Boolean)),
           byokOnly: S.optional(S.NullOr(S.Boolean).pipe(T.Body("byok_only"))),
           dlp: S.optional(S.NullOr(__S(689, __c43, 1))),
+          fedrampLevel: S.optional(S.NullOr(S.String).pipe(T.Body("fedramp_level"))),
+          fedrampMode: S.optional(S.NullOr(S.String).pipe(T.Body("fedramp_mode"))),
           guardrails: S.optional(S.NullOr(__S(37, __c2, 5))),
           isDefault: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_default"))),
           logClassification: S.optional(S.NullOr(S.Boolean).pipe(T.Body("log_classification"))),
@@ -7354,6 +7392,8 @@ function __c58(j: number): any {
           authentication: S.optional(S.NullOr(S.Boolean)),
           byokOnly: S.optional(S.NullOr(S.Boolean).pipe(T.Body("byok_only"))),
           dlp: S.optional(S.NullOr(__S(935, __c58, 7))),
+          fedrampLevel: S.optional(S.NullOr(S.String).pipe(T.Body("fedramp_level"))),
+          fedrampMode: S.optional(S.NullOr(S.String).pipe(T.Body("fedramp_mode"))),
           guardrails: S.optional(S.NullOr(__S(37, __c2, 5))),
           isDefault: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_default"))),
           logClassification: S.optional(S.NullOr(S.Boolean).pipe(T.Body("log_classification"))),

@@ -65,8 +65,9 @@ export const sensitiveValueSymbol = /*@__PURE__*/ Symbol.for(
   "@distilled.cloud/core/sensitive-value",
 );
 /**
- * Marks a string member as sensitive (mirrors `smithy.api#sensitive`).
- * The REST protocol wraps decoded values in `Redacted` on the way out and
+ * Marks a string or untyped (`S.Unknown`) member as sensitive (mirrors
+ * `smithy.api#sensitive`). The REST protocol wraps decoded values in
+ * `Redacted` on the way out (an untyped value whole) and
  * accepts `string | Redacted<string>` on the way in (unwrapped before
  * serialization). Takes an ignored argument so generators can inline the
  * smithy trait value (`T.SensitiveValue({})`).
@@ -103,6 +104,16 @@ export const BinaryResponse = () => makeAnnotation(binaryResponseSymbol, true);
 export { unwrapRedactedDeep };
 
 /**
+ * A sensitive member's value that {@link wrapSensitive} wraps: a string, or
+ * any non-null value of an untyped (`S.Unknown`) member, such as a JSON
+ * scalar. A typed struct member is walked so its own sensitive members are
+ * wrapped and its type stays accurate.
+ */
+const isSecretValue = (prop: AST.PropertySignature, v: unknown): boolean =>
+  typeof v === "string" ||
+  (v !== null && !Redacted.isRedacted(v) && resolveNode(prop.type)._tag === "Unknown");
+
+/**
  * Walk a decoded (TS-named) value alongside its schema AST, wrapping members
  * marked {@link SensitiveValue} in `Redacted`. Keys the schema doesn't model
  * pass through verbatim.
@@ -131,7 +142,7 @@ export const wrapSensitive = (ast: AST.AST, value: unknown): unknown => {
       const prop = byName.get(k);
       if (!prop) {
         out[k] = v;
-      } else if (getPropAnn(prop, sensitiveValueSymbol) !== undefined && typeof v === "string") {
+      } else if (getPropAnn(prop, sensitiveValueSymbol) !== undefined && isSecretValue(prop, v)) {
         out[k] = Redacted.make(v);
       } else {
         out[k] = wrapSensitive(prop.type, v);

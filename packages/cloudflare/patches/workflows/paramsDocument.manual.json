@@ -1,0 +1,15 @@
+{
+  "description": "Instance params are any JSON value passed to the run as its payload — the docs wrongly type them as a string, which arrives as a string payload",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workflows#CreateInstanceRequest/members/params/target",
+      "value": "smithy.api#Document"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workflows#InstancesBulkRequestBodyItem/members/params/target",
+      "value": "smithy.api#Document"
+    }
+  ]
+}

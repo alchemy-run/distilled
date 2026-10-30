@@ -21,6 +21,7 @@ import {
   awsJson1_1Protocol as json11,
 } from "../../src/protocols/aws-json.ts";
 import { restJson1Protocol as restJson1 } from "../../src/protocols/rest-json.ts";
+import * as BedrockAgentRuntime from "../../src/services/bedrock-agent-runtime.ts";
 import * as BedrockRuntime from "../../src/services/bedrock-runtime.ts";
 import * as DataExchange from "../../src/services/dataexchange.ts";
 import * as DynamoDB from "../../src/services/dynamodb.ts";
@@ -1111,6 +1112,64 @@ describe("restJson1 response deserialization", () => {
     );
     expect(Redacted.value(events[0].PayloadChunk.Payload)).toEqual(bytes('{"partial":'));
     expect(events[1]).toEqual({ InvokeComplete: { LogResult: "bG9n" } });
+  });
+
+  test("Bedrock Agent InvokeAgent: an event that does not match its schema keeps flowing with its sensitive members Redacted", async () => {
+    const handler = restJson1Protocol(
+      op(BedrockAgentRuntime.invokeAgent.input, BedrockAgentRuntime.invokeAgent.output),
+    );
+    const frames = await Promise.all([
+      // `chunk.bytes` is a sensitive blob; `citations` should be a list.
+      eventFrame(
+        { ":message-type": "event", ":event-type": "chunk" },
+        JSON.stringify({ bytes: btoa("sentinel"), attribution: { citations: "not-a-list" } }),
+      ),
+      // An event the union does not model passes through as read.
+      eventFrame(
+        { ":message-type": "event", ":event-type": "somethingNew" },
+        JSON.stringify({ text: "kept" }),
+      ),
+    ]);
+    const result = (await run(
+      handler.deserializeResponse(
+        response(streamOf(frames), {
+          headers: { "content-type": "application/vnd.amazon.eventstream" },
+        }),
+      ),
+    )) as { completion: unknown };
+    const events = Array.from(
+      await run(Stream.runCollect(result.completion as Stream.Stream<any, Error>)),
+    );
+    expect(events).toHaveLength(2);
+    expect(Redacted.isRedacted(events[0].chunk.bytes)).toBe(true);
+    expect(Redacted.value(events[0].chunk.bytes)).toEqual(bytes("sentinel"));
+    expect(JSON.stringify(events[0])).not.toContain(btoa("sentinel"));
+    expect(events[1]).toEqual({ somethingNew: { text: "kept" } });
+  });
+
+  test("Bedrock Agent InvokeAgent: strict mode ends the stream on that event without quoting the value", async () => {
+    const handler = restJson1Protocol(
+      op(BedrockAgentRuntime.invokeAgent.input, BedrockAgentRuntime.invokeAgent.output),
+    );
+    const frame = await eventFrame(
+      { ":message-type": "event", ":event-type": "chunk" },
+      JSON.stringify({ bytes: btoa("sentinel"), attribution: { citations: "sentinel-citation" } }),
+    );
+    const result = (await runStrict(
+      handler.deserializeResponse(
+        response(streamOf([frame]), {
+          headers: { "content-type": "application/vnd.amazon.eventstream" },
+        }),
+      ),
+    )) as { completion: unknown };
+    const error = await flipStrict(
+      Stream.runCollect(result.completion as Stream.Stream<any, Error>),
+    );
+    expect(error).toMatchObject({
+      _tag: "EventParseError",
+      message:
+        'Event does not match its schema: Expected an array, got "[REDACTED]" at ["citations"] at ["attribution"] at ["chunk"]',
+    });
   });
 
   test("converts number and boolean header members and merges the JSON body", async () => {

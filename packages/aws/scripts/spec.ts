@@ -252,21 +252,29 @@ export const applyAwsSpecPatches = (
     return id;
   };
 
+  const addErrors = (opShape: any, additions: ReadonlyArray<string>) => {
+    if (additions.length === 0) return;
+    const existingTargets = new Set(
+      ((opShape.errors ?? []) as Array<{ target: string }>).map((e) => e.target),
+    );
+    opShape.errors = [
+      ...(opShape.errors ?? []),
+      ...additions.filter((t) => !existingTargets.has(t)).map((target) => ({ target })),
+    ];
+  };
+
   for (const [opKey, patch] of Object.entries(serviceSpec.operations ?? {})) {
-    const opShape = opShapeByExportName.get(opKey)!;
-    const additions = [
+    addErrors(opShapeByExportName.get(opKey)!, [
       ...(patch.errors ?? []).map(materializePatchedError),
       ...(patch.syntheticErrors ?? []).map(materializeSyntheticError),
-    ];
-    if (additions.length) {
-      const existingTargets = new Set(
-        ((opShape.errors ?? []) as Array<{ target: string }>).map((e) => e.target),
-      );
-      opShape.errors = [
-        ...(opShape.errors ?? []),
-        ...additions.filter((t) => !existingTargets.has(t)).map((target) => ({ target })),
-      ];
-    }
+    ]);
+  }
+
+  // After the per-operation patches, so an operation that already lists one
+  // of these errors keeps it in its place.
+  const everyOperation = (serviceSpec.allOperations?.errors ?? []).map(materializePatchedError);
+  for (const opShape of opShapeByExportName.values()) {
+    addErrors(opShape, everyOperation);
   }
 
   // After the operation patches so members can land on patch-born

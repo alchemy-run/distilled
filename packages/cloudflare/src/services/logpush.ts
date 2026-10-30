@@ -111,6 +111,7 @@ export interface CreateEdgeResponse {
 export type JobsCreateRequestDataset =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -219,6 +220,7 @@ export interface CreateJobForAccountRequest {
 export type JobsCreateResponseDataset =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -481,6 +483,7 @@ export interface DestinationValidateForZoneRequest {
 export type DatasetsFieldsGetRequestDatasetId =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -533,6 +536,7 @@ export interface GetDatasetFieldForZoneRequest {
 export type DatasetsJobsGetRequestDatasetId =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -577,6 +581,7 @@ export interface GetDatasetJobForAccountRequest {
 export type DatasetsJobsGetResultItemDataset =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -729,6 +734,7 @@ export interface GetJobForAccountRequest {
 export type JobsGetResponseDataset =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -899,6 +905,7 @@ export interface ListJobsForAccountRequest {
 export type JobsListResultItemDataset =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -1172,6 +1179,7 @@ export interface UpdateJobForAccountRequest {
 export type JobsUpdateResponseDataset =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"

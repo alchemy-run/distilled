@@ -1,0 +1,25 @@
+{
+  "description": "Since the 2026-10-29 docs, managed_request_headers and managed_response_headers in the managed transforms list/edit result are optional. The 2026-10-21 docs marked them required, and the API always returns both lists (exercised by the ManagedTransforms live tests). Restore required.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.managed_transforms#EditResult/members/managed_request_headers/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.managed_transforms#EditResult/members/managed_response_headers/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.managed_transforms#ListResult/members/managed_request_headers/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.managed_transforms#ListResult/members/managed_response_headers/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

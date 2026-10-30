@@ -1879,6 +1879,12 @@ export type EditThreatSignalsArticleResponseIndicatorExtractionStatus =
   | "failed"
   | "unknown";
 export type EditThreatSignalsArticleResponseMetadataMap = { [key: string]: unknown | undefined };
+export type EditThreatSignalsArticleResponseSeverity =
+  | "informational"
+  | "low"
+  | "medium"
+  | "high"
+  | "critical";
 export type EditThreatSignalsArticleResponseTagsItemAppliedBy = "ai" | "analyst" | "system";
 export interface EditThreatSignalsArticleResponseTagsItem {
   appliedBy: EditThreatSignalsArticleResponseTagsItemAppliedBy;
@@ -1903,6 +1909,8 @@ export interface EditThreatSignalsArticleResponse {
   publishedAt: string;
   read: boolean;
   readAt: string;
+  /** Beta. Intrinsic article severity band, from informational to critical, independent of any organisation or Priority Intelligence Requirement. Null when the account has no active Priority Intelligence Requirements, scoring has not completed, or a historic article has not entered an automatic rescore window. */
+  severity: EditThreatSignalsArticleResponseSeverity;
   sourceCount: number;
   /** Persisted enrichment summary. Null until enrichment produces a summary. */
   summary: string;
@@ -2393,6 +2401,29 @@ export type GetThreatSignalsArticleResponseIndicatorExtractionStatus =
   | "failed"
   | "unknown";
 export type GetThreatSignalsArticleResponseMetadataMap = { [key: string]: unknown | undefined };
+export type GetThreatSignalsArticleResponseRelevanceBand = "low" | "medium" | "high";
+export type GetThreatSignalsArticleResponseRelevancePirsItemBand = "low" | "medium" | "high";
+export interface GetThreatSignalsArticleResponseRelevancePirsItem {
+  /** Beta. How relevant the article is to a Priority Intelligence Requirement: high, medium, or low. Cloudflare may change the scores behind each band as relevance scoring is calibrated. */
+  band: GetThreatSignalsArticleResponseRelevancePirsItemBand;
+  pirId: string;
+}
+export type GetThreatSignalsArticleResponseRelevancePirsList =
+  Array<GetThreatSignalsArticleResponseRelevancePirsItem>;
+export interface GetThreatSignalsArticleResponseRelevance {
+  /** Beta. How relevant the article is to a Priority Intelligence Requirement: high, medium, or low. Cloudflare may change the scores behind each band as relevance scoring is calibrated. */
+  band: GetThreatSignalsArticleResponseRelevanceBand;
+  /** Beta. The pir_id requested from the article list, or otherwise the account's most relevant active PIR for this article. */
+  pirId: string;
+  /** Beta. Every active PIR the article was scored against, most relevant first. Draft and deleted PIRs are excluded. */
+  pirs: GetThreatSignalsArticleResponseRelevancePirsList;
+}
+export type GetThreatSignalsArticleResponseSeverity =
+  | "informational"
+  | "low"
+  | "medium"
+  | "high"
+  | "critical";
 export type GetThreatSignalsArticleResponseTagsItemAppliedBy = "ai" | "analyst" | "system";
 export interface GetThreatSignalsArticleResponseTagsItem {
   appliedBy: GetThreatSignalsArticleResponseTagsItemAppliedBy;
@@ -2417,6 +2448,10 @@ export interface GetThreatSignalsArticleResponse {
   publishedAt: string;
   read: boolean;
   readAt: string;
+  /** Beta. The article's relevance to the account's active Priority Intelligence Requirements. Null when the article has not been scored against them, including when the account has no active PIRs, or has not been scored against the requested pir_id. */
+  relevance: GetThreatSignalsArticleResponseRelevance;
+  /** Beta. Intrinsic article severity band, from informational to critical, independent of any organisation or Priority Intelligence Requirement. Null when the account has no active Priority Intelligence Requirements, scoring has not completed, or a historic article has not entered an automatic rescore window. */
+  severity: GetThreatSignalsArticleResponseSeverity;
   sourceCount: number;
   /** Persisted enrichment summary. Null until enrichment produces a summary. */
   summary: string;
@@ -2796,7 +2831,7 @@ export type ListThreatEventsAggregateRequestDatasetIdList = Array<string>;
 export interface ListThreatEventsAggregateRequest {
   /** Account ID. */
   accountId: string;
-  /** Column(s) to aggregate by - single column or comma-separated list (e.g., 'attacker', 'targetIndustry', 'attacker,targetIndustry') */
+  /** Column(s) to aggregate by - single column or comma-separated list (e.g., 'attacker', 'targetIndustry', 'attacker,targetIndustry'). With `tags`, an event counts once for each of its tags, in the bucket counts and in `total`, and events without tags count as `Unknown`; `tags` is not supported for analytics datasets. */
   aggregateBy: string;
   /** Dataset UUIDs to filter by, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets. If not provided, uses the default dataset. */
   datasetId?: ListThreatEventsAggregateRequestDatasetIdList;
@@ -3725,6 +3760,7 @@ export interface ListThreatEventTargetIndustriesResponse {
   type: string;
 }
 export type ListThreatSignalsArticlesRequestArticleIdList = Array<string>;
+export type ListThreatSignalsArticlesRequestMinRelevance = "low" | "medium" | "high";
 export type ListThreatSignalsArticlesRequestSourceType = "curated" | "custom";
 export type ListThreatSignalsArticlesRequestTagAppliedBy = "ai" | "analyst" | "system";
 export type ListThreatSignalsArticlesRequestTagCategoryIdList = Array<string>;
@@ -3745,8 +3781,12 @@ export interface ListThreatSignalsArticlesRequest {
   fetchedBefore?: string;
   /** When true on the first page, count matching articles and return an exact total. Defaults to false; cursor pages do not recalculate totals. */
   includeTotal?: boolean;
+  /** Beta. Return only articles at or above this relevance band for pir_id, or for any active PIR when pir_id is omitted. Excludes articles that have not been scored. */
+  minRelevance?: ListThreatSignalsArticlesRequestMinRelevance | (string & {});
   /** Number of articles per cursor page, from 1 to 100. Defaults to 20. */
   perPage?: number;
+  /** Beta. Active Priority Intelligence Requirement to report, filter, and sort relevance by. Omit to use each article's most relevant active PIR. Returns a 400 error unless the PIR is active. */
+  pirId?: string;
   /** Include articles published at or after this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC. */
   publishedAfter?: string;
   /** Include articles published at or before this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC. */
@@ -3755,7 +3795,7 @@ export interface ListThreatSignalsArticlesRequest {
   read?: boolean;
   /** NFC-normalized, trimmed literal substring filter on article titles; ASCII case-insensitive, from 1 to 500 characters. */
   search?: string;
-  /** Sort by fetched_at, published_at, or title. Prefix the field with - for descending order; defaults to -fetched_at. */
+  /** Sort by fetched_at, published_at, title, or relevance (beta). Prefix the field with - for descending order; defaults to -fetched_at. -relevance lists the most relevant articles first, by pir_id or by each article's most relevant active PIR, with unscored articles last. */
   sort?: string;
   /** Filter by curated or custom feed source. Omit to include both source types. */
   sourceType?: ListThreatSignalsArticlesRequestSourceType | (string & {});
@@ -3770,6 +3810,32 @@ export interface ListThreatSignalsArticlesRequest {
   /** Repeatable tag UUID filter. An article matches any selected tag. */
   tagId?: ListThreatSignalsArticlesRequestTagIdList;
 }
+export type ListThreatSignalsArticlesResponseArticlesItemRelevanceBand = "low" | "medium" | "high";
+export type ListThreatSignalsArticlesResponseArticlesItemRelevancePirsItemBand =
+  | "low"
+  | "medium"
+  | "high";
+export interface ListThreatSignalsArticlesResponseArticlesItemRelevancePirsItem {
+  /** Beta. How relevant the article is to a Priority Intelligence Requirement: high, medium, or low. Cloudflare may change the scores behind each band as relevance scoring is calibrated. */
+  band: ListThreatSignalsArticlesResponseArticlesItemRelevancePirsItemBand;
+  pirId: string;
+}
+export type ListThreatSignalsArticlesResponseArticlesItemRelevancePirsList =
+  Array<ListThreatSignalsArticlesResponseArticlesItemRelevancePirsItem>;
+export interface ListThreatSignalsArticlesResponseArticlesItemRelevance {
+  /** Beta. How relevant the article is to a Priority Intelligence Requirement: high, medium, or low. Cloudflare may change the scores behind each band as relevance scoring is calibrated. */
+  band: ListThreatSignalsArticlesResponseArticlesItemRelevanceBand;
+  /** Beta. The pir_id requested from the article list, or otherwise the account's most relevant active PIR for this article. */
+  pirId: string;
+  /** Beta. Every active PIR the article was scored against, most relevant first. Draft and deleted PIRs are excluded. */
+  pirs: ListThreatSignalsArticlesResponseArticlesItemRelevancePirsList;
+}
+export type ListThreatSignalsArticlesResponseArticlesItemSeverity =
+  | "informational"
+  | "low"
+  | "medium"
+  | "high"
+  | "critical";
 export type ListThreatSignalsArticlesResponseArticlesItemTagsItemAppliedBy =
   | "ai"
   | "analyst"
@@ -3795,6 +3861,10 @@ export interface ListThreatSignalsArticlesResponseArticlesItem {
   publishedAt: string;
   read: boolean;
   readAt: string;
+  /** Beta. The article's relevance to the account's active Priority Intelligence Requirements. Null when the article has not been scored against them, including when the account has no active PIRs, or has not been scored against the requested pir_id. */
+  relevance: ListThreatSignalsArticlesResponseArticlesItemRelevance;
+  /** Beta. Intrinsic article severity band, from informational to critical, independent of any organisation or Priority Intelligence Requirement. Null when the account has no active Priority Intelligence Requirements, scoring has not completed, or a historic article has not entered an automatic rescore window. */
+  severity: ListThreatSignalsArticlesResponseArticlesItemSeverity;
   /** Persisted enrichment summary. Null until enrichment produces a summary. */
   summary: string;
   tags: ListThreatSignalsArticlesResponseArticlesItemTagsList;
@@ -4509,7 +4579,7 @@ export interface UpdateThreatSignalsSkillsTagCategoryResponse {
   skillId: UpdateThreatSignalsSkillsTagCategoryResponseSkillId;
 }
 export type BulkCreateThreatEventsError = CloudflareOpError;
-/** The `datasetId` parameter must be defined. To list existing datasets (and their IDs) in your account, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint. */
+/** Creates multiple events in one dataset. `datasetId` is required; to find dataset IDs, use `threat-intel datasets list`. Set `includeCreatedEvents` to return the UUIDs of the created events. */
 export const bulkCreateThreatEvents: API.OperationMethod<
   BulkCreateThreatEventsRequest,
   BulkCreateThreatEventsResponse,
@@ -4606,8 +4676,8 @@ export const createRequestPriority: API.OperationMethod<
   CreateRequestPriorityError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<CreateRequestPriorityRequest>,
-  output: __S(1473, __c92, 1) as any as S.Schema<CreateRequestPriorityResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<CreateRequestPriorityRequest>,
+  output: __S(1489, __c93, 1) as any as S.Schema<CreateRequestPriorityResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -4623,8 +4693,8 @@ export const createScanConfig: API.OperationMethod<
   CreateScanConfigError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<CreateScanConfigRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<CreateScanConfigResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<CreateScanConfigRequest>,
+  output: __S(1728, __c108, 0) as any as S.Schema<CreateScanConfigResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -4633,15 +4703,15 @@ export const createScanConfig: API.OperationMethod<
 }));
 
 export type CreateThreatEventError = CloudflareOpError;
-/** To create a dataset, see the [`Create Dataset`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/create/) endpoint. When `datasetId` parameter is unspecified, it will be created in a default dataset named `Cloudforce One Threat Events`. */
+/** Creates an event. Without `datasetId`, the event is created in the default Cloudforce One Threat Events dataset. To create a dataset, use `threat-intel datasets create`. */
 export const createThreatEvent: API.OperationMethod<
   CreateThreatEventRequest,
   CreateThreatEventResponse,
   CreateThreatEventError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1921, __c120, 1) as any as S.Schema<CreateThreatEventRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<CreateThreatEventResponse>,
+  input: __S(1937, __c121, 1) as any as S.Schema<CreateThreatEventRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<CreateThreatEventResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -4650,15 +4720,15 @@ export const createThreatEvent: API.OperationMethod<
 }));
 
 export type CreateThreatEventCategoryError = CloudflareOpError;
-/** Creates a new threat event category in Cloudforce One for organizing and classifying threat events. */
+/** Creates an event category for classifying events. `name` and `killChain` are required. */
 export const createThreatEventCategory: API.OperationMethod<
   CreateThreatEventCategoryRequest,
   CreateThreatEventCategoryResponse,
   CreateThreatEventCategoryError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<CreateThreatEventCategoryRequest>,
-  output: __S(2144, __c134, 0) as any as S.Schema<CreateThreatEventCategoryResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<CreateThreatEventCategoryRequest>,
+  output: __S(2160, __c135, 0) as any as S.Schema<CreateThreatEventCategoryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -4667,7 +4737,7 @@ export const createThreatEventCategory: API.OperationMethod<
 }));
 
 export type CreateThreatEventDatasetError = CloudflareOpError;
-/** Creates a new threat event dataset in Cloudforce One for organizing related threat events. */
+/** Creates a dataset for grouping events. Set `isPublic` to true to let anyone search it; otherwise only the account can. */
 export const createThreatEventDataset: API.OperationMethod<
   CreateThreatEventDatasetRequest,
   CreateThreatEventDatasetResponse,
@@ -4684,7 +4754,7 @@ export const createThreatEventDataset: API.OperationMethod<
 }));
 
 export type CreateThreatEventEventTagError = CloudflareOpError;
-/** Adds a tag to a threat event in Cloudforce One for classification and filtering. */
+/** Legacy. Use `threat-intel tags relationships create` (`POST /events/tags/{tag_uuid}/relationships`) instead. */
 export const createThreatEventEventTag: API.OperationMethod<
   CreateThreatEventEventTagRequest,
   CreateThreatEventEventTagResponse,
@@ -4701,7 +4771,7 @@ export const createThreatEventEventTag: API.OperationMethod<
 }));
 
 export type CreateThreatEventsGraphqlError = CloudflareOpError;
-/** Execute GraphQL aggregations over threat events. Supports multi-dimensional group-bys, optional date range filtering, and multi-dataset aggregation. */
+/** Runs a GraphQL aggregation query over events. Supports grouping by multiple fields, date range filters, and aggregation across datasets. */
 export const createThreatEventsGraphql: API.OperationMethod<
   CreateThreatEventsGraphqlRequest,
   CreateThreatEventsGraphqlResponse,
@@ -4718,7 +4788,7 @@ export const createThreatEventsGraphql: API.OperationMethod<
 }));
 
 export type CreateThreatEventsQueryError = CloudflareOpError;
-/** Create a new saved event query for the account */
+/** Saves an event query under a unique `name`. `query_json` holds the query parameters as a JSON string. */
 export const createThreatEventsQuery: API.OperationMethod<
   CreateThreatEventsQueryRequest,
   CreateThreatEventsQueryResponse,
@@ -4735,7 +4805,7 @@ export const createThreatEventsQuery: API.OperationMethod<
 }));
 
 export type CreateThreatEventsTagsCategoryError = CloudflareOpError;
-/** Creates a new Source-of-Truth tag category for an account. */
+/** Creates a tag category. Use `schema` to define the custom fields its tags can have. */
 export const createThreatEventsTagsCategory: API.OperationMethod<
   CreateThreatEventsTagsCategoryRequest,
   CreateThreatEventsTagsCategoryResponse,
@@ -4752,7 +4822,7 @@ export const createThreatEventsTagsCategory: API.OperationMethod<
 }));
 
 export type CreateThreatEventTagError = CloudflareOpError;
-/** Creates an account-owned tag for threat events and returns its complete owner projection. */
+/** Creates a tag in the account and returns the complete tag. */
 export const createThreatEventTag: API.OperationMethod<
   CreateThreatEventTagRequest,
   CreateThreatEventTagResponse,
@@ -4905,7 +4975,7 @@ export const deleteScanConfig: API.OperationMethod<
 }));
 
 export type DeleteThreatEventCategoryError = CloudflareOpError;
-/** Deprecated; use DELETE /events/event-categories/by-id/{category_id}. Available through 2026-11-28. */
+/** Legacy. Use `threat-intel events categories delete` (`DELETE /events/event-categories/by-id/{category_id}`) instead. Available through 2026-11-28. */
 export const deleteThreatEventCategory: API.OperationMethod<
   DeleteThreatEventCategoryRequest,
   DeleteThreatEventCategoryResponse,
@@ -4922,7 +4992,7 @@ export const deleteThreatEventCategory: API.OperationMethod<
 }));
 
 export type DeleteThreatEventEventTagError = CloudflareOpError;
-/** Removes a tag from a threat event in Cloudforce One. */
+/** Legacy. Use `threat-intel tags relationships delete` (`DELETE /events/tags/{tag_uuid}/relationships/{rel_uuid}`) instead. */
 export const deleteThreatEventEventTag: API.OperationMethod<
   DeleteThreatEventEventTagRequest,
   DeleteThreatEventEventTagResponse,
@@ -4939,7 +5009,7 @@ export const deleteThreatEventEventTag: API.OperationMethod<
 }));
 
 export type DeleteThreatEventRelateError = CloudflareOpError;
-/** Removes a reference link between related threat events in Cloudforce One. */
+/** Legacy. Removes references created with `threat-intel events legacy references create`. Use `threat-intel events relationships` for new event links. */
 export const deleteThreatEventRelate: API.OperationMethod<
   DeleteThreatEventRelateRequest,
   DeleteThreatEventRelateResponse,
@@ -4956,7 +5026,7 @@ export const deleteThreatEventRelate: API.OperationMethod<
 }));
 
 export type DeleteThreatEventsDatasetError = CloudflareOpError;
-/** Soft-deletes a dataset given a datasetId. */
+/** Deletes a dataset. To see deleted datasets, use `threat-intel datasets list` with `includeDeleted`. */
 export const deleteThreatEventsDataset: API.OperationMethod<
   DeleteThreatEventsDatasetRequest,
   DeleteThreatEventsDatasetResponse,
@@ -4973,7 +5043,7 @@ export const deleteThreatEventsDataset: API.OperationMethod<
 }));
 
 export type DeleteThreatEventsQueryError = CloudflareOpError;
-/** Delete a saved event query by its ID */
+/** Deletes a saved event query by its ID. */
 export const deleteThreatEventsQuery: API.OperationMethod<
   DeleteThreatEventsQueryRequest,
   DeleteThreatEventsQueryResponse,
@@ -4990,7 +5060,7 @@ export const deleteThreatEventsQuery: API.OperationMethod<
 }));
 
 export type DeleteThreatEventsTagError = CloudflareOpError;
-/** Deletes a Source-of-Truth tag by UUID. */
+/** Deletes a tag by its UUID. */
 export const deleteThreatEventsTag: API.OperationMethod<
   DeleteThreatEventsTagRequest,
   DeleteThreatEventsTagResponse,
@@ -5007,7 +5077,7 @@ export const deleteThreatEventsTag: API.OperationMethod<
 }));
 
 export type DeleteThreatEventsTagsCategoryError = CloudflareOpError;
-/** Deprecated; use DELETE /events/tag-categories/{category_uuid}. Available through 2026-11-28. */
+/** Legacy. Use `threat-intel tags categories delete` (`DELETE /events/tag-categories/{category_uuid}`) instead. Available through 2026-11-28. */
 export const deleteThreatEventsTagsCategory: API.OperationMethod<
   DeleteThreatEventsTagsCategoryRequest,
   DeleteThreatEventsTagsCategoryResponse,
@@ -5075,7 +5145,7 @@ export const deleteThreatSignalsSkill: API.OperationMethod<
 }));
 
 export type EditThreatEventsQueryError = CloudflareOpError;
-/** Update an existing saved event query by its ID */
+/** Updates the given fields of a saved event query. */
 export const editThreatEventsQuery: API.OperationMethod<
   EditThreatEventsQueryRequest,
   EditThreatEventsQueryResponse,
@@ -5092,7 +5162,7 @@ export const editThreatEventsQuery: API.OperationMethod<
 }));
 
 export type EditThreatEventsTagError = CloudflareOpError;
-/** Updates an account-owned Source-of-Truth tag by UUID and returns its complete owner projection. */
+/** Updates the given fields of a tag and returns the complete tag. */
 export const editThreatEventsTag: API.OperationMethod<
   EditThreatEventsTagRequest,
   EditThreatEventsTagResponse,
@@ -5109,7 +5179,7 @@ export const editThreatEventsTag: API.OperationMethod<
 }));
 
 export type EditThreatEventsTagsCategoryError = CloudflareOpError;
-/** Deprecated; use PATCH /events/tag-categories/{category_uuid}. Available through 2026-11-28. */
+/** Legacy. Use `threat-intel tags categories update` (`PATCH /events/tag-categories/{category_uuid}`) instead. Available through 2026-11-28. */
 export const editThreatEventsTagsCategory: API.OperationMethod<
   EditThreatEventsTagsCategoryRequest,
   EditThreatEventsTagsCategoryResponse,
@@ -5134,7 +5204,7 @@ export const editThreatSignalsArticle: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<EditThreatSignalsArticleRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<EditThreatSignalsArticleResponse>,
+  output: __S(977, __c61, 1) as any as S.Schema<EditThreatSignalsArticleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5301,7 +5371,7 @@ export const getScanResult: API.OperationMethod<
 }));
 
 export type GetThreatEventError = CloudflareOpError;
-/** This Method is deprecated. Please use /events/dataset/:dataset_id/events/:event_id instead. */
+/** Legacy. Use `threat-intel events get` (`GET /events/dataset/{dataset_id}/events/{event_id}`) instead. */
 export const getThreatEvent: API.OperationMethod<
   GetThreatEventRequest,
   GetThreatEventResponse,
@@ -5309,7 +5379,7 @@ export const getThreatEvent: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<GetThreatEventRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<GetThreatEventResponse>,
+  output: __S(1953, __c122, 1) as any as S.Schema<GetThreatEventResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5318,7 +5388,7 @@ export const getThreatEvent: API.OperationMethod<
 }));
 
 export type GetThreatEventCategoryError = CloudflareOpError;
-/** Deprecated; use GET /events/event-categories/by-id/{category_id}. Available through 2026-11-28. */
+/** Legacy. Use `threat-intel events categories get` (`GET /events/event-categories/by-id/{category_id}`) instead. Available through 2026-11-28. */
 export const getThreatEventCategory: API.OperationMethod<
   GetThreatEventCategoryRequest,
   GetThreatEventCategoryResponse,
@@ -5326,7 +5396,7 @@ export const getThreatEventCategory: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<GetThreatEventCategoryRequest>,
-  output: __S(2144, __c134, 0) as any as S.Schema<GetThreatEventCategoryResponse>,
+  output: __S(2160, __c135, 0) as any as S.Schema<GetThreatEventCategoryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5335,7 +5405,7 @@ export const getThreatEventCategory: API.OperationMethod<
 }));
 
 export type GetThreatEventDatasetError = CloudflareOpError;
-/** Retrieves details for a specific threat event dataset. */
+/** Returns a dataset by its ID. */
 export const getThreatEventDataset: API.OperationMethod<
   GetThreatEventDatasetRequest,
   GetThreatEventDatasetResponse,
@@ -5352,7 +5422,7 @@ export const getThreatEventDataset: API.OperationMethod<
 }));
 
 export type GetThreatEventRawError = CloudflareOpError;
-/** Retrieves raw threat event data for a specific event in Cloudforce One. */
+/** Legacy. Returns raw data stored under a `raw_id`, which new events don't use. Use `threat-intel events raw get` (`GET /events/datasets/{dataset_id}/events/{event_id}/raw`) instead. */
 export const getThreatEventRaw: API.OperationMethod<
   GetThreatEventRawRequest,
   GetThreatEventRawResponse,
@@ -5369,7 +5439,7 @@ export const getThreatEventRaw: API.OperationMethod<
 }));
 
 export type GetThreatEventsDatasetsEventError = CloudflareOpError;
-/** Retrieves a specific event by its UUID. */
+/** Returns an event from a dataset by its UUID. */
 export const getThreatEventsDatasetsEvent: API.OperationMethod<
   GetThreatEventsDatasetsEventRequest,
   GetThreatEventsDatasetsEventResponse,
@@ -5377,7 +5447,7 @@ export const getThreatEventsDatasetsEvent: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<GetThreatEventsDatasetsEventRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<GetThreatEventsDatasetsEventResponse>,
+  output: __S(1953, __c122, 1) as any as S.Schema<GetThreatEventsDatasetsEventResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5386,7 +5456,7 @@ export const getThreatEventsDatasetsEvent: API.OperationMethod<
 }));
 
 export type GetThreatEventsIndicatorsByDatasetError = CloudflareOpError;
-/** Retrieves a specific indicator by its UUID. */
+/** Returns an indicator by its UUID. */
 export const getThreatEventsIndicatorsByDataset: API.OperationMethod<
   GetThreatEventsIndicatorsByDatasetRequest,
   GetThreatEventsIndicatorsByDatasetResponse,
@@ -5403,7 +5473,7 @@ export const getThreatEventsIndicatorsByDataset: API.OperationMethod<
 }));
 
 export type GetThreatEventsQueryError = CloudflareOpError;
-/** Retrieve a saved event query by its ID */
+/** Returns a saved event query by its ID. */
 export const getThreatEventsQuery: API.OperationMethod<
   GetThreatEventsQueryRequest,
   GetThreatEventsQueryResponse,
@@ -5420,7 +5490,7 @@ export const getThreatEventsQuery: API.OperationMethod<
 }));
 
 export type GetThreatSignalsArticleError = CloudflareOpError;
-/** Retrieves a Threat Signals article with its summary, tags and indicator status. */
+/** Retrieves a Threat Signals article with its summary, tags, indicator status and relevance to the account's Priority Intelligence Requirements. */
 export const getThreatSignalsArticle: API.OperationMethod<
   GetThreatSignalsArticleRequest,
   GetThreatSignalsArticleResponse,
@@ -5428,7 +5498,7 @@ export const getThreatSignalsArticle: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<GetThreatSignalsArticleRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<GetThreatSignalsArticleResponse>,
+  output: __S(1361, __c85, 1) as any as S.Schema<GetThreatSignalsArticleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5444,7 +5514,7 @@ export const getThreatSignalsArticlesContent: API.OperationMethod<
   GetThreatSignalsArticlesContentError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<GetThreatSignalsArticlesContentRequest>,
+  input: __S(1392, __c87, 0) as any as S.Schema<GetThreatSignalsArticlesContentRequest>,
   output: __S(624, __c39, 0) as any as S.Schema<GetThreatSignalsArticlesContentResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -5461,8 +5531,8 @@ export const getThreatSignalsArticlesSkillOutput: API.OperationMethod<
   GetThreatSignalsArticlesSkillOutputError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<GetThreatSignalsArticlesSkillOutputRequest>,
-  output: __S(1394, __c87, 2) as any as S.Schema<GetThreatSignalsArticlesSkillOutputResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<GetThreatSignalsArticlesSkillOutputRequest>,
+  output: __S(1410, __c88, 2) as any as S.Schema<GetThreatSignalsArticlesSkillOutputResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5478,7 +5548,7 @@ export const getThreatSignalsFeedsRaw: API.OperationMethod<
   GetThreatSignalsFeedsRawError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<GetThreatSignalsFeedsRawRequest>,
+  input: __S(1424, __c89, 0) as any as S.Schema<GetThreatSignalsFeedsRawRequest>,
   output: __S(624, __c39, 0) as any as S.Schema<GetThreatSignalsFeedsRawResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -5495,8 +5565,8 @@ export const getThreatSignalsFeedsSkill: API.OperationMethod<
   GetThreatSignalsFeedsSkillError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<GetThreatSignalsFeedsSkillRequest>,
-  output: __S(1425, __c89, 1) as any as S.Schema<GetThreatSignalsFeedsSkillResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<GetThreatSignalsFeedsSkillRequest>,
+  output: __S(1441, __c90, 1) as any as S.Schema<GetThreatSignalsFeedsSkillResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5512,7 +5582,7 @@ export const getThreatSignalsSkill: API.OperationMethod<
   GetThreatSignalsSkillError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<GetThreatSignalsSkillRequest>,
+  input: __S(1472, __c92, 0) as any as S.Schema<GetThreatSignalsSkillRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<GetThreatSignalsSkillResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -5529,8 +5599,8 @@ export const getThreatSignalsSkillsTagCategory: API.OperationMethod<
   GetThreatSignalsSkillsTagCategoryError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<GetThreatSignalsSkillsTagCategoryRequest>,
-  output: __S(1504, __c94, 0) as any as S.Schema<GetThreatSignalsSkillsTagCategoryResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<GetThreatSignalsSkillsTagCategoryRequest>,
+  output: __S(1520, __c95, 0) as any as S.Schema<GetThreatSignalsSkillsTagCategoryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5546,8 +5616,8 @@ export const listRequests: API.OperationMethod<
   ListRequestsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<ListRequestsRequest>,
-  output: __S(1523, __c95, 3) as any as S.Schema<ListRequestsResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<ListRequestsRequest>,
+  output: __S(1539, __c96, 3) as any as S.Schema<ListRequestsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5565,8 +5635,8 @@ export const listScanConfigs: API.PaginatedOperationMethod<
   ScansConfigListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1536, __c96, 0) as any as S.Schema<ListScanConfigsRequest>,
-    output: __S(1539, __c96, 3) as any as S.Schema<ListScanConfigsResponse>,
+    input: __S(1552, __c97, 0) as any as S.Schema<ListScanConfigsRequest>,
+    output: __S(1555, __c97, 3) as any as S.Schema<ListScanConfigsResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -5578,15 +5648,15 @@ export const listScanConfigs: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListThreatEventAttackersError = CloudflareOpError;
-/** Lists known threat attackers tracked in Cloudforce One threat intelligence. */
+/** Lists the attackers referenced by events in the datasets given by `datasetIds`, or in the default dataset when `datasetIds` is omitted. */
 export const listThreatEventAttackers: API.OperationMethod<
   ListThreatEventAttackersRequest,
   ListThreatEventAttackersResponse,
   ListThreatEventAttackersError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<ListThreatEventAttackersRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<ListThreatEventAttackersResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<ListThreatEventAttackersRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<ListThreatEventAttackersResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5595,15 +5665,15 @@ export const listThreatEventAttackers: API.OperationMethod<
 }));
 
 export type ListThreatEventCategoriesError = CloudflareOpError;
-/** Lists all threat event categories configured for classifying and organizing threat events. */
+/** Lists the event categories used by events in the datasets given by `datasetIds`, or in the default dataset when `datasetIds` is omitted. Dataset scope values are not supported. To list every category, use `threat-intel events categories catalog list`. */
 export const listThreatEventCategories: API.OperationMethod<
   ListThreatEventCategoriesRequest,
   ListThreatEventCategoriesResponse,
   ListThreatEventCategoriesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<ListThreatEventCategoriesRequest>,
-  output: __S(2144, __c134, 0) as any as S.Schema<ListThreatEventCategoriesResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<ListThreatEventCategoriesRequest>,
+  output: __S(2160, __c135, 0) as any as S.Schema<ListThreatEventCategoriesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5612,15 +5682,15 @@ export const listThreatEventCategories: API.OperationMethod<
 }));
 
 export type ListThreatEventCountriesError = CloudflareOpError;
-/** Lists countries referenced in Cloudforce One threat intelligence data. */
+/** Lists the countries used in threat intelligence data, such as attacker and target countries. */
 export const listThreatEventCountries: API.OperationMethod<
   ListThreatEventCountriesRequest,
   ListThreatEventCountriesResponse,
   ListThreatEventCountriesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<ListThreatEventCountriesRequest>,
-  output: __S(1619, __c101, 3) as any as S.Schema<ListThreatEventCountriesResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<ListThreatEventCountriesRequest>,
+  output: __S(1635, __c102, 3) as any as S.Schema<ListThreatEventCountriesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5629,15 +5699,15 @@ export const listThreatEventCountries: API.OperationMethod<
 }));
 
 export type ListThreatEventDatasetsError = CloudflareOpError;
-/** Lists all threat event datasets configured in Cloudforce One. */
+/** Lists the account's datasets. Set `includeDeleted` to include deleted datasets. */
 export const listThreatEventDatasets: API.OperationMethod<
   ListThreatEventDatasetsRequest,
   ListThreatEventDatasetsResponse,
   ListThreatEventDatasetsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<ListThreatEventDatasetsRequest>,
-  output: __S(1633, __c102, 1) as any as S.Schema<ListThreatEventDatasetsResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<ListThreatEventDatasetsRequest>,
+  output: __S(1649, __c103, 1) as any as S.Schema<ListThreatEventDatasetsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5653,8 +5723,8 @@ export const listThreatEventIndicatorTypes: API.OperationMethod<
   ListThreatEventIndicatorTypesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<ListThreatEventIndicatorTypesRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<ListThreatEventIndicatorTypesResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<ListThreatEventIndicatorTypesRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<ListThreatEventIndicatorTypesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5663,15 +5733,15 @@ export const listThreatEventIndicatorTypes: API.OperationMethod<
 }));
 
 export type ListThreatEventsError = CloudflareOpError;
-/** Use one standalone `datasetId` scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets and must be used alone. When `datasetId` is unspecified, events are listed from the default Cloudforce One Threat Events dataset. To list existing datasets, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint. */
+/** Lists events, with filters passed as query parameters. `datasetId` accepts dataset UUIDs or one scope value used alone: `all` (or `*`) and `operational` select the intelligence datasets you can read, and `analytics` selects the analytics datasets you can read. A scope value covers at most 50 datasets. Without `datasetId`, the default Cloudforce One Threat Events dataset is used. To send filters in a JSON body instead, use `threat-intel events search`. */
 export const listThreatEvents: API.OperationMethod<
   ListThreatEventsRequest,
   ListThreatEventsResponse,
   ListThreatEventsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<ListThreatEventsRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<ListThreatEventsResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<ListThreatEventsRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<ListThreatEventsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5680,15 +5750,15 @@ export const listThreatEvents: API.OperationMethod<
 }));
 
 export type ListThreatEventsAggregateError = CloudflareOpError;
-/** Aggregate threat events by one or more columns (e.g., attacker, targetIndustry) with optional date filtering and daily grouping. Supports multi-dimensional aggregation for cross-analysis. */
+/** Counts events grouped by one or more columns, such as `attacker` or `targetIndustry`. Optionally filter by date range and group the counts by day. */
 export const listThreatEventsAggregate: API.OperationMethod<
   ListThreatEventsAggregateRequest,
   ListThreatEventsAggregateResponse,
   ListThreatEventsAggregateError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<ListThreatEventsAggregateRequest>,
-  output: __S(1684, __c105, 4) as any as S.Schema<ListThreatEventsAggregateResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<ListThreatEventsAggregateRequest>,
+  output: __S(1700, __c106, 4) as any as S.Schema<ListThreatEventsAggregateResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5697,15 +5767,15 @@ export const listThreatEventsAggregate: API.OperationMethod<
 }));
 
 export type ListThreatEventsCategoriesCatalogError = CloudflareOpError;
-/** Lists categories */
+/** Lists every event category in the catalog, whether or not an event uses it. To list only the categories used in specific datasets, use `threat-intel events categories list`. */
 export const listThreatEventsCategoriesCatalog: API.OperationMethod<
   ListThreatEventsCategoriesCatalogRequest,
   ListThreatEventsCategoriesCatalogResponse,
   ListThreatEventsCategoriesCatalogError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<ListThreatEventsCategoriesCatalogRequest>,
-  output: __S(2144, __c134, 0) as any as S.Schema<ListThreatEventsCategoriesCatalogResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<ListThreatEventsCategoriesCatalogRequest>,
+  output: __S(2160, __c135, 0) as any as S.Schema<ListThreatEventsCategoriesCatalogResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5721,8 +5791,8 @@ export const listThreatEventsGraph: API.OperationMethod<
   ListThreatEventsGraphError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<ListThreatEventsGraphRequest>,
-  output: __S(1748, __c109, 4) as any as S.Schema<ListThreatEventsGraphResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<ListThreatEventsGraphRequest>,
+  output: __S(1764, __c110, 4) as any as S.Schema<ListThreatEventsGraphResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5731,15 +5801,15 @@ export const listThreatEventsGraph: API.OperationMethod<
 }));
 
 export type ListThreatEventsIndicatorsError = CloudflareOpError;
-/** Retrieves indicators across specified datasets, ordered by createdAt descending then UUID, dataset ID, and shard ID ascending. Use one standalone datasetIds scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). If no datasetIds are provided, uses the default dataset. */
+/** Lists indicators across datasets, newest first. `datasetIds` accepts dataset UUIDs or one scope value used alone: `all` (or `*`) and `operational` select the intelligence datasets you can read, and `analytics` selects the analytics datasets you can read. Without `datasetIds`, the default dataset is used. */
 export const listThreatEventsIndicators: API.OperationMethod<
   ListThreatEventsIndicatorsRequest,
   ListThreatEventsIndicatorsResponse,
   ListThreatEventsIndicatorsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<ListThreatEventsIndicatorsRequest>,
-  output: __S(1773, __c110, 13) as any as S.Schema<ListThreatEventsIndicatorsResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<ListThreatEventsIndicatorsRequest>,
+  output: __S(1789, __c111, 13) as any as S.Schema<ListThreatEventsIndicatorsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5755,8 +5825,8 @@ export const listThreatEventsIndicatorsAggregate: API.OperationMethod<
   ListThreatEventsIndicatorsAggregateError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<ListThreatEventsIndicatorsAggregateRequest>,
-  output: __S(1795, __c112, 3) as any as S.Schema<ListThreatEventsIndicatorsAggregateResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<ListThreatEventsIndicatorsAggregateRequest>,
+  output: __S(1811, __c113, 3) as any as S.Schema<ListThreatEventsIndicatorsAggregateResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5765,15 +5835,15 @@ export const listThreatEventsIndicatorsAggregate: API.OperationMethod<
 }));
 
 export type ListThreatEventsIndicatorsByDatasetError = CloudflareOpError;
-/** This method is deprecated. Please use /events/indicators to retrieve a paginated list of indicators. */
+/** Legacy. Use `threat-intel indicators list` (`GET /events/indicators`) instead. It supports multiple datasets and cursor pagination. */
 export const listThreatEventsIndicatorsByDataset: API.OperationMethod<
   ListThreatEventsIndicatorsByDatasetRequest,
   ListThreatEventsIndicatorsByDatasetResponse,
   ListThreatEventsIndicatorsByDatasetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<ListThreatEventsIndicatorsByDatasetRequest>,
-  output: __S(1810, __c113, 2) as any as S.Schema<ListThreatEventsIndicatorsByDatasetResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<ListThreatEventsIndicatorsByDatasetRequest>,
+  output: __S(1826, __c114, 2) as any as S.Schema<ListThreatEventsIndicatorsByDatasetResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5782,14 +5852,14 @@ export const listThreatEventsIndicatorsByDataset: API.OperationMethod<
 }));
 
 export type ListThreatEventsIndicatorsByDatasetTagsError = CloudflareOpError;
-/** Returns all mirrored tags from the indicator dataset (DO mirror table). No pagination. */
+/** Lists the tags applied to indicators in a dataset. Results are not paginated. */
 export const listThreatEventsIndicatorsByDatasetTags: API.OperationMethod<
   ListThreatEventsIndicatorsByDatasetTagsRequest,
   ListThreatEventsIndicatorsByDatasetTagsResponse,
   ListThreatEventsIndicatorsByDatasetTagsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<ListThreatEventsIndicatorsByDatasetTagsRequest>,
+  input: __S(1856, __c116, 0) as any as S.Schema<ListThreatEventsIndicatorsByDatasetTagsRequest>,
   output: __S(624, __c39, 0) as any as S.Schema<ListThreatEventsIndicatorsByDatasetTagsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -5799,15 +5869,15 @@ export const listThreatEventsIndicatorsByDatasetTags: API.OperationMethod<
 }));
 
 export type ListThreatEventsIndicatorsTypesError = CloudflareOpError;
-/** Lists indicator types across multiple datasets */
+/** Lists the indicator types used in the datasets given by `datasetIds`, which accepts dataset UUIDs or one scope value used alone. Without `datasetIds`, every dataset you can read is included, analytics datasets too. */
 export const listThreatEventsIndicatorsTypes: API.OperationMethod<
   ListThreatEventsIndicatorsTypesRequest,
   ListThreatEventsIndicatorsTypesResponse,
   ListThreatEventsIndicatorsTypesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<ListThreatEventsIndicatorsTypesRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<ListThreatEventsIndicatorsTypesResponse>,
+  input: __S(1872, __c117, 0) as any as S.Schema<ListThreatEventsIndicatorsTypesRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<ListThreatEventsIndicatorsTypesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5816,14 +5886,14 @@ export const listThreatEventsIndicatorsTypes: API.OperationMethod<
 }));
 
 export type ListThreatEventsQueriesError = CloudflareOpError;
-/** Retrieve all saved event queries for the account */
+/** Lists the account's saved event queries. */
 export const listThreatEventsQueries: API.OperationMethod<
   ListThreatEventsQueriesRequest,
   ListThreatEventsQueriesResponse,
   ListThreatEventsQueriesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<ListThreatEventsQueriesRequest>,
+  input: __S(1888, __c118, 0) as any as S.Schema<ListThreatEventsQueriesRequest>,
   output: __S(400, __c25, 0) as any as S.Schema<ListThreatEventsQueriesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -5833,15 +5903,15 @@ export const listThreatEventsQueries: API.OperationMethod<
 }));
 
 export type ListThreatEventsRelationshipsError = CloudflareOpError;
-/** Deprecated; use GET /events/by-id/{event_id}/relationships. Available through 2026-11-28. */
+/** Legacy. Use `threat-intel events relationships list` (`GET /events/by-id/{event_id}/relationships`) instead. Available through 2026-11-28. */
 export const listThreatEventsRelationships: API.OperationMethod<
   ListThreatEventsRelationshipsRequest,
   ListThreatEventsRelationshipsResponse,
   ListThreatEventsRelationshipsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<ListThreatEventsRelationshipsRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<ListThreatEventsRelationshipsResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<ListThreatEventsRelationshipsRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<ListThreatEventsRelationshipsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5850,15 +5920,15 @@ export const listThreatEventsRelationships: API.OperationMethod<
 }));
 
 export type ListThreatEventsTagsError = CloudflareOpError;
-/** Returns all Source-of-Truth tags for an account. Supports legacy free-text `search` on tag value and `categoryUuid` exact match, plus a structured `filters` JSON array for filtering by metadata fields (originCountryISO, actorCategory, motive, priority, etc.). The authenticated account owns these account-scoped tags and receives their complete owner projection. Country values may be passed as alpha-2, alpha-3, name, or common alias. Purple TLP remains CFONE-only. */
+/** Lists the account's tags. Use `search` to match tag values, `categoryUuid` to limit results to one category, and `filters` (a JSON array) to filter by fields such as `originCountryISO`, `actorCategory`, `motive`, or `priority`. Country filters accept alpha-2 or alpha-3 codes, names, or common aliases. Tags marked TLP:PURPLE are visible only to Cloudforce One. */
 export const listThreatEventsTags: API.OperationMethod<
   ListThreatEventsTagsRequest,
   ListThreatEventsTagsResponse,
   ListThreatEventsTagsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<ListThreatEventsTagsRequest>,
-  output: __S(1907, __c119, 3) as any as S.Schema<ListThreatEventsTagsResponse>,
+  input: __S(1920, __c120, 0) as any as S.Schema<ListThreatEventsTagsRequest>,
+  output: __S(1923, __c120, 3) as any as S.Schema<ListThreatEventsTagsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5867,15 +5937,15 @@ export const listThreatEventsTags: API.OperationMethod<
 }));
 
 export type ListThreatEventsTagsCategoriesError = CloudflareOpError;
-/** Returns all Source-of-Truth tag categories for an account. */
+/** Lists the account's tag categories. Use `search` to filter them. */
 export const listThreatEventsTagsCategories: API.OperationMethod<
   ListThreatEventsTagsCategoriesRequest,
   ListThreatEventsTagsCategoriesResponse,
   ListThreatEventsTagsCategoriesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<ListThreatEventsTagsCategoriesRequest>,
-  output: __S(1955, __c122, 3) as any as S.Schema<ListThreatEventsTagsCategoriesResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<ListThreatEventsTagsCategoriesRequest>,
+  output: __S(1971, __c123, 3) as any as S.Schema<ListThreatEventsTagsCategoriesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5884,15 +5954,15 @@ export const listThreatEventsTagsCategories: API.OperationMethod<
 }));
 
 export type ListThreatEventsTagsIndicatorsError = CloudflareOpError;
-/** Returns indicators associated with the provided tag UUID, with pagination. By default fans out across every intelligence (isAnalytics=false) indicator dataset the account can read; pass datasetIds to scope to dataset UUIDs or a scope value. Analytics datasets do not expose tag associations, so the analytics scope returns an empty result. */
+/** Lists the indicators that carry a tag, with pagination. By default, every intelligence dataset you can read is searched; use `datasetIds` to limit the search to specific datasets or a scope value. Analytics datasets don't store tag associations, so the `analytics` scope returns no results. */
 export const listThreatEventsTagsIndicators: API.OperationMethod<
   ListThreatEventsTagsIndicatorsRequest,
   ListThreatEventsTagsIndicatorsResponse,
   ListThreatEventsTagsIndicatorsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<ListThreatEventsTagsIndicatorsRequest>,
-  output: __S(1986, __c124, 2) as any as S.Schema<ListThreatEventsTagsIndicatorsResponse>,
+  input: __S(1984, __c124, 0) as any as S.Schema<ListThreatEventsTagsIndicatorsRequest>,
+  output: __S(2002, __c125, 2) as any as S.Schema<ListThreatEventsTagsIndicatorsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5908,8 +5978,8 @@ export const listThreatEventsTagsIndicatorsByDataset: API.OperationMethod<
   ListThreatEventsTagsIndicatorsByDatasetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<ListThreatEventsTagsIndicatorsByDatasetRequest>,
-  output: __S(1986, __c124, 2) as any as S.Schema<ListThreatEventsTagsIndicatorsByDatasetResponse>,
+  input: __S(2016, __c126, 0) as any as S.Schema<ListThreatEventsTagsIndicatorsByDatasetRequest>,
+  output: __S(2002, __c125, 2) as any as S.Schema<ListThreatEventsTagsIndicatorsByDatasetResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5918,15 +5988,19 @@ export const listThreatEventsTagsIndicatorsByDataset: API.OperationMethod<
 }));
 
 export type ListThreatEventsTargetIndustriesByDatasetError = CloudflareOpError;
-/** Lists all target industries for a specific dataset */
+/** Legacy. Use `threat-intel events target-industries list` (`GET /events/targetIndustries`) instead. */
 export const listThreatEventsTargetIndustriesByDataset: API.OperationMethod<
   ListThreatEventsTargetIndustriesByDatasetRequest,
   ListThreatEventsTargetIndustriesByDatasetResponse,
   ListThreatEventsTargetIndustriesByDatasetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<ListThreatEventsTargetIndustriesByDatasetRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<ListThreatEventsTargetIndustriesByDatasetResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<ListThreatEventsTargetIndustriesByDatasetRequest>,
+  output: __S(
+    1600,
+    __c100,
+    0,
+  ) as any as S.Schema<ListThreatEventsTargetIndustriesByDatasetResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5935,15 +6009,15 @@ export const listThreatEventsTargetIndustriesByDataset: API.OperationMethod<
 }));
 
 export type ListThreatEventsTargetIndustriesCatalogError = CloudflareOpError;
-/** Lists all target industries from industry map catalog */
+/** Lists every predefined target industry, whether or not an event uses it. To list only the industries used in specific datasets, use `threat-intel events target-industries list`. */
 export const listThreatEventsTargetIndustriesCatalog: API.OperationMethod<
   ListThreatEventsTargetIndustriesCatalogRequest,
   ListThreatEventsTargetIndustriesCatalogResponse,
   ListThreatEventsTargetIndustriesCatalogError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<ListThreatEventsTargetIndustriesCatalogRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<ListThreatEventsTargetIndustriesCatalogResponse>,
+  input: __S(2048, __c128, 0) as any as S.Schema<ListThreatEventsTargetIndustriesCatalogRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<ListThreatEventsTargetIndustriesCatalogResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5952,15 +6026,15 @@ export const listThreatEventsTargetIndustriesCatalog: API.OperationMethod<
 }));
 
 export type ListThreatEventTargetIndustriesError = CloudflareOpError;
-/** Retrieves the catalog of industry classifications used in Cloudforce One threat intelligence. */
+/** Lists the target industries referenced by events in the datasets given by `datasetIds`, or in the default dataset when `datasetIds` is omitted. To list every target industry, use `threat-intel events target-industries catalog list`. */
 export const listThreatEventTargetIndustries: API.OperationMethod<
   ListThreatEventTargetIndustriesRequest,
   ListThreatEventTargetIndustriesResponse,
   ListThreatEventTargetIndustriesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<ListThreatEventTargetIndustriesRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<ListThreatEventTargetIndustriesResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<ListThreatEventTargetIndustriesRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<ListThreatEventTargetIndustriesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5976,8 +6050,8 @@ export const listThreatSignalsArticles: API.OperationMethod<
   ListThreatSignalsArticlesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<ListThreatSignalsArticlesRequest>,
-  output: __S(2067, __c129, 3) as any as S.Schema<ListThreatSignalsArticlesResponse>,
+  input: __S(2080, __c130, 0) as any as S.Schema<ListThreatSignalsArticlesRequest>,
+  output: __S(2083, __c130, 3) as any as S.Schema<ListThreatSignalsArticlesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5993,8 +6067,8 @@ export const listThreatSignalsCategories: API.OperationMethod<
   ListThreatSignalsCategoriesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<ListThreatSignalsCategoriesRequest>,
-  output: __S(2083, __c130, 3) as any as S.Schema<ListThreatSignalsCategoriesResponse>,
+  input: __S(2096, __c131, 0) as any as S.Schema<ListThreatSignalsCategoriesRequest>,
+  output: __S(2099, __c131, 3) as any as S.Schema<ListThreatSignalsCategoriesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6010,8 +6084,8 @@ export const listThreatSignalsFeeds: API.OperationMethod<
   ListThreatSignalsFeedsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<ListThreatSignalsFeedsRequest>,
-  output: __S(2099, __c131, 3) as any as S.Schema<ListThreatSignalsFeedsResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<ListThreatSignalsFeedsRequest>,
+  output: __S(2115, __c132, 3) as any as S.Schema<ListThreatSignalsFeedsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6027,8 +6101,8 @@ export const listThreatSignalsIndicators: API.OperationMethod<
   ListThreatSignalsIndicatorsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<ListThreatSignalsIndicatorsRequest>,
-  output: __S(2116, __c132, 4) as any as S.Schema<ListThreatSignalsIndicatorsResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<ListThreatSignalsIndicatorsRequest>,
+  output: __S(2132, __c133, 4) as any as S.Schema<ListThreatSignalsIndicatorsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6044,8 +6118,8 @@ export const listThreatSignalsSkills: API.OperationMethod<
   ListThreatSignalsSkillsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<ListThreatSignalsSkillsRequest>,
-  output: __S(2161, __c135, 1) as any as S.Schema<ListThreatSignalsSkillsResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<ListThreatSignalsSkillsRequest>,
+  output: __S(2177, __c136, 1) as any as S.Schema<ListThreatSignalsSkillsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6061,8 +6135,8 @@ export const patchScanConfig: API.OperationMethod<
   PatchScanConfigError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<PatchScanConfigRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<PatchScanConfigResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<PatchScanConfigRequest>,
+  output: __S(1728, __c108, 0) as any as S.Schema<PatchScanConfigResponse>,
   errors: [ScanConfigNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6071,15 +6145,15 @@ export const patchScanConfig: API.OperationMethod<
 }));
 
 export type PatchThreatEventError = CloudflareOpError;
-/** Partially updates a threat event in Cloudforce One, modifying specific fields without replacing the entire event. */
+/** Updates the given fields of an event and leaves the other fields unchanged. `datasetId` is required. */
 export const patchThreatEvent: API.OperationMethod<
   PatchThreatEventRequest,
   PatchThreatEventResponse,
   PatchThreatEventError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2193, __c137, 1) as any as S.Schema<PatchThreatEventRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<PatchThreatEventResponse>,
+  input: __S(2209, __c138, 1) as any as S.Schema<PatchThreatEventRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<PatchThreatEventResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6088,15 +6162,15 @@ export const patchThreatEvent: API.OperationMethod<
 }));
 
 export type PatchThreatEventCategoryError = CloudflareOpError;
-/** Deprecated; use PATCH /events/event-categories/by-id/{category_id}. Available through 2026-11-28. */
+/** Legacy. Use `threat-intel events categories update` (`PATCH /events/event-categories/by-id/{category_id}`) instead. Available through 2026-11-28. */
 export const patchThreatEventCategory: API.OperationMethod<
   PatchThreatEventCategoryRequest,
   PatchThreatEventCategoryResponse,
   PatchThreatEventCategoryError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<PatchThreatEventCategoryRequest>,
-  output: __S(2144, __c134, 0) as any as S.Schema<PatchThreatEventCategoryResponse>,
+  input: __S(2224, __c139, 0) as any as S.Schema<PatchThreatEventCategoryRequest>,
+  output: __S(2160, __c135, 0) as any as S.Schema<PatchThreatEventCategoryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6105,14 +6179,14 @@ export const patchThreatEventCategory: API.OperationMethod<
 }));
 
 export type PatchThreatEventDatasetError = CloudflareOpError;
-/** Partially updates a threat event dataset in Cloudforce One, modifying specific fields without replacing the entire dataset configuration. */
+/** Updates a dataset's `name` and `isPublic` setting. Both fields are required. */
 export const patchThreatEventDataset: API.OperationMethod<
   PatchThreatEventDatasetRequest,
   PatchThreatEventDatasetResponse,
   PatchThreatEventDatasetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<PatchThreatEventDatasetRequest>,
+  input: __S(2240, __c140, 0) as any as S.Schema<PatchThreatEventDatasetRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<PatchThreatEventDatasetResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -6122,15 +6196,15 @@ export const patchThreatEventDataset: API.OperationMethod<
 }));
 
 export type PatchThreatEventRawError = CloudflareOpError;
-/** Partially updates raw threat event data in Cloudforce One, modifying specific fields of the event. */
+/** Legacy. Updates raw data stored under a `raw_id`, which new events don't use. There is no direct replacement. */
 export const patchThreatEventRaw: API.OperationMethod<
   PatchThreatEventRawRequest,
   PatchThreatEventRawResponse,
   PatchThreatEventRawError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<PatchThreatEventRawRequest>,
-  output: __S(2241, __c140, 1) as any as S.Schema<PatchThreatEventRawResponse>,
+  input: __S(2256, __c141, 0) as any as S.Schema<PatchThreatEventRawRequest>,
+  output: __S(2257, __c141, 1) as any as S.Schema<PatchThreatEventRawResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6146,8 +6220,8 @@ export const pollThreatSignalsFeed: API.OperationMethod<
   PollThreatSignalsFeedError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<PollThreatSignalsFeedRequest>,
-  output: __S(2259, __c141, 3) as any as S.Schema<PollThreatSignalsFeedResponse>,
+  input: __S(2272, __c142, 0) as any as S.Schema<PollThreatSignalsFeedRequest>,
+  output: __S(2275, __c142, 3) as any as S.Schema<PollThreatSignalsFeedResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6163,8 +6237,8 @@ export const quotaRequestPriority: API.OperationMethod<
   QuotaRequestPriorityError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<QuotaRequestPriorityRequest>,
-  output: __S(2288, __c143, 0) as any as S.Schema<QuotaRequestPriorityResponse>,
+  input: __S(2288, __c143, 0) as any as S.Schema<QuotaRequestPriorityRequest>,
+  output: __S(2304, __c144, 0) as any as S.Schema<QuotaRequestPriorityResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6173,15 +6247,15 @@ export const quotaRequestPriority: API.OperationMethod<
 }));
 
 export type RawThreatEventDatasetError = CloudflareOpError;
-/** Deprecated; use GET /events/datasets/{dataset_id}/events/{event_id}/raw. Available through 2026-11-28. */
+/** Legacy. Use `threat-intel events raw get` (`GET /events/datasets/{dataset_id}/events/{event_id}/raw`) instead. Available through 2026-11-28. */
 export const rawThreatEventDataset: API.OperationMethod<
   RawThreatEventDatasetRequest,
   RawThreatEventDatasetResponse,
   RawThreatEventDatasetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<RawThreatEventDatasetRequest>,
-  output: __S(2305, __c144, 1) as any as S.Schema<RawThreatEventDatasetResponse>,
+  input: __S(2320, __c145, 0) as any as S.Schema<RawThreatEventDatasetRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<RawThreatEventDatasetResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6197,8 +6271,8 @@ export const requestsConstants: API.OperationMethod<
   RequestsConstantsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<RequestsConstantsRequest>,
-  output: __S(2322, __c145, 2) as any as S.Schema<RequestsConstantsResponse>,
+  input: __S(2336, __c146, 0) as any as S.Schema<RequestsConstantsRequest>,
+  output: __S(2338, __c146, 2) as any as S.Schema<RequestsConstantsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6215,7 +6289,7 @@ export const requestsQuota: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<RequestsQuotaRequest>,
-  output: __S(2288, __c143, 0) as any as S.Schema<RequestsQuotaResponse>,
+  output: __S(2304, __c144, 0) as any as S.Schema<RequestsQuotaResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6258,7 +6332,7 @@ export const searchThreatSignal: API.OperationMethod<
 }));
 
 export type ThreatEventsBulkCreateRelationshipsError = CloudflareOpError;
-/** This method is deprecated. Please use `event_create_bulk` instead */
+/** Legacy. Use `threat-intel events bulk-create` (`POST /events/create/bulk`) and `threat-intel events relationships create` (`POST /events/relationships/create`) instead. */
 export const threatEventsBulkCreateRelationships: API.OperationMethod<
   ThreatEventsBulkCreateRelationshipsRequest,
   ThreatEventsBulkCreateRelationshipsResponse,
@@ -6419,7 +6493,7 @@ export const updateThreatSignalsSkillsTagCategory: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<UpdateThreatSignalsSkillsTagCategoryRequest>,
-  output: __S(1504, __c94, 0) as any as S.Schema<UpdateThreatSignalsSkillsTagCategoryResponse>,
+  output: __S(1520, __c95, 0) as any as S.Schema<UpdateThreatSignalsSkillsTagCategoryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7932,6 +8006,31 @@ function __c61(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "EditThreatSignalsArticleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          bulletPoints: __S(1008, __c63, 0).pipe(T.Body("bullet_points")),
+          contentR2Key: S.String.pipe(T.Body("content_r2_key")),
+          feedDisplayName: S.String.pipe(T.Body("feed_display_name")),
+          feedId: S.String.pipe(T.Body("feed_id")),
+          fetchedAt: S.String.pipe(T.Body("fetched_at")),
+          indicatorExtractionStatus: S.String.pipe(T.Body("indicator_extraction_status")),
+          link: S.String,
+          metadata: __S(64, __c4, 0),
+          publishedAt: S.String.pipe(T.Body("published_at")),
+          read: S.Boolean,
+          readAt: S.String.pipe(T.Body("read_at")),
+          severity: S.String,
+          sourceCount: S.Number.pipe(T.Body("source_count")),
+          summary: S.String,
+          summaryR2Key: S.String.pipe(T.Body("summary_r2_key")),
+          tags: __S(993, __c62, 1),
+          title: S.String,
+          skillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("skill_version"))),
+          tagSkillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("tag_skill_version"))),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "EditThreatSignalsArticleResponse" });
   }
 }
 function __c62(j: number): any {
@@ -7959,30 +8058,6 @@ function __c63(j: number): any {
           whoAffected: S.String.pipe(T.Body("who_affected")),
         }),
       ).annotate({ identifier: "EditThreatSignalsArticleResponseBulletPoints" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          bulletPoints: __S(1008, __c63, 0).pipe(T.Body("bullet_points")),
-          contentR2Key: S.String.pipe(T.Body("content_r2_key")),
-          feedDisplayName: S.String.pipe(T.Body("feed_display_name")),
-          feedId: S.String.pipe(T.Body("feed_id")),
-          fetchedAt: S.String.pipe(T.Body("fetched_at")),
-          indicatorExtractionStatus: S.String.pipe(T.Body("indicator_extraction_status")),
-          link: S.String,
-          metadata: __S(64, __c4, 0),
-          publishedAt: S.String.pipe(T.Body("published_at")),
-          read: S.Boolean,
-          readAt: S.String.pipe(T.Body("read_at")),
-          sourceCount: S.Number.pipe(T.Body("source_count")),
-          summary: S.String,
-          summaryR2Key: S.String.pipe(T.Body("summary_r2_key")),
-          tags: __S(993, __c62, 1),
-          title: S.String,
-          skillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("skill_version"))),
-          tagSkillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("tag_skill_version"))),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "EditThreatSignalsArticleResponse" });
   }
 }
 function __c64(j: number): any {
@@ -8503,9 +8578,56 @@ function __c85(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetThreatSignalsArticleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          bulletPoints: __S(1008, __c63, 0).pipe(T.Body("bullet_points")),
+          contentR2Key: S.String.pipe(T.Body("content_r2_key")),
+          feedDisplayName: S.String.pipe(T.Body("feed_display_name")),
+          feedId: S.String.pipe(T.Body("feed_id")),
+          fetchedAt: S.String.pipe(T.Body("fetched_at")),
+          indicatorExtractionStatus: S.String.pipe(T.Body("indicator_extraction_status")),
+          link: S.String,
+          metadata: __S(64, __c4, 0),
+          publishedAt: S.String.pipe(T.Body("published_at")),
+          read: S.Boolean,
+          readAt: S.String.pipe(T.Body("read_at")),
+          relevance: __S(1378, __c86, 2),
+          severity: S.String,
+          sourceCount: S.Number.pipe(T.Body("source_count")),
+          summary: S.String,
+          summaryR2Key: S.String.pipe(T.Body("summary_r2_key")),
+          tags: __S(993, __c62, 1),
+          title: S.String,
+          skillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("skill_version"))),
+          tagSkillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("tag_skill_version"))),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetThreatSignalsArticleResponse" });
   }
 }
 function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          band: S.String,
+          pirId: S.String.pipe(T.Body("pir_id")),
+        }),
+      ).annotate({ identifier: "GetThreatSignalsArticleResponseRelevancePirsItem" });
+    case 1:
+      return S.Array(__S(1376, __c86, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          band: S.String,
+          pirId: S.String.pipe(T.Body("pir_id")),
+          pirs: __S(1377, __c86, 1),
+        }),
+      ).annotate({ identifier: "GetThreatSignalsArticleResponseRelevance" });
+  }
+}
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8525,7 +8647,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GetThreatSignalsArticlesContentRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8549,7 +8671,7 @@ function __c87(j: number): any {
       return S.suspend(() =>
         S.Struct({
           articleId: S.String.pipe(T.Body("article_id")),
-          customOutput: __S(1393, __c87, 1).pipe(T.Body("custom_output")),
+          customOutput: __S(1409, __c88, 1).pipe(T.Body("custom_output")),
           customOutputParseStatus: S.String.pipe(T.Body("custom_output_parse_status")),
           customOutputValidationStatus: S.String.pipe(T.Body("custom_output_validation_status")),
           customSkillVersion: S.String.pipe(T.Body("custom_skill_version")),
@@ -8559,7 +8681,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "GetThreatSignalsArticlesSkillOutputResponse" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8579,7 +8701,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "GetThreatSignalsFeedsRawRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8600,12 +8722,12 @@ function __c89(j: number): any {
       return S.suspend(() =>
         S.Struct({
           feedId: S.String.pipe(T.Body("feed_id")),
-          skills: __S(1441, __c90, 1),
+          skills: __S(1457, __c91, 1),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetThreatSignalsFeedsSkillResponse" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8623,10 +8745,10 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "GetThreatSignalsFeedsSkillResponseSkillsItem" });
     case 1:
-      return S.Array(__S(1440, __c90, 0));
+      return S.Array(__S(1456, __c91, 0));
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8645,7 +8767,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "GetThreatSignalsSkillRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8679,7 +8801,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "CreateRequestPriorityResponse" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8698,7 +8820,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "GetThreatSignalsSkillsTagCategoryRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8709,7 +8831,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "GetThreatSignalsSkillsTagCategoryResponse" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8753,14 +8875,14 @@ function __c95(j: number): any {
         }),
       ).annotate({ identifier: "ListRequestsResultItem" });
     case 2:
-      return S.Array(__S(1521, __c95, 1));
+      return S.Array(__S(1537, __c96, 1));
     case 3:
       return S.suspend(() =>
-        __S(1522, __c95, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(1538, __c96, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListRequestsResponse" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8787,17 +8909,17 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "ScansConfigListResultItem" });
     case 2:
-      return S.Array(__S(1537, __c96, 1));
+      return S.Array(__S(1553, __c97, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(1538, __c96, 2).pipe(T.EnvelopePayload()),
+          result: __S(1554, __c97, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListScanConfigsResponse" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8816,7 +8938,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "ListThreatEventAttackersRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8826,18 +8948,18 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ThreatEventsAttackersListResponseItems" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1568, __c98, 0),
+          items: __S(1584, __c99, 0),
           type: S.String,
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventAttackersResponse" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8856,7 +8978,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ListThreatEventCategoriesRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8881,14 +9003,14 @@ function __c101(j: number): any {
         }),
       ).annotate({ identifier: "ThreatEventsCountriesListResultItem" });
     case 2:
-      return S.Array(__S(1617, __c101, 1));
+      return S.Array(__S(1633, __c102, 1));
     case 3:
       return S.suspend(() =>
-        __S(1618, __c101, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(1634, __c102, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventCountriesResponse" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8918,7 +9040,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "ListThreatEventDatasetsResponse" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8936,7 +9058,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "ListThreatEventIndicatorTypesRequest" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8965,7 +9087,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "ListThreatEventsRequest" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8995,7 +9117,7 @@ function __c105(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatEventsAggregateResponseAggregationsItem" });
     case 2:
-      return S.Array(__S(1681, __c105, 1));
+      return S.Array(__S(1697, __c106, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9007,14 +9129,14 @@ function __c105(j: number): any {
       return S.suspend(() =>
         S.Struct({
           aggregateBy: S.String,
-          aggregations: __S(1682, __c105, 2),
+          aggregations: __S(1698, __c106, 2),
           total: S.Number,
-          dateRange: S.optional(S.NullOr(__S(1683, __c105, 3))),
+          dateRange: S.optional(S.NullOr(__S(1699, __c106, 3))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsAggregateResponse" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9035,7 +9157,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "CreateScanConfigRequest" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9049,7 +9171,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "CreateScanConfigResponse" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9067,7 +9189,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ListThreatEventsCategoriesCatalogRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9106,20 +9228,20 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatEventsGraphResponseEdgesItem" });
     case 2:
-      return S.Array(__S(1745, __c109, 1));
+      return S.Array(__S(1761, __c110, 1));
     case 3:
       return S.Array(__S(64, __c4, 0));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          edges: __S(1746, __c109, 2),
+          edges: __S(1762, __c110, 2),
           node: __S(64, __c4, 0),
-          nodes: __S(1747, __c109, 3),
+          nodes: __S(1763, __c110, 3),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsGraphResponse" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9155,7 +9277,7 @@ function __c110(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1568, __c98, 0),
+          items: __S(1584, __c99, 0),
           type: S.String,
         }),
       ).annotate({
@@ -9165,8 +9287,8 @@ function __c110(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          datasetId: __S(1568, __c98, 0),
-          shardId: __S(1568, __c98, 0),
+          datasetId: __S(1584, __c99, 0),
+          shardId: __S(1584, __c99, 0),
         }),
       ).annotate({
         identifier:
@@ -9175,7 +9297,7 @@ function __c110(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(1762, __c110, 2),
+          properties: __S(1778, __c111, 2),
           type: S.String,
         }),
       ).annotate({
@@ -9185,7 +9307,7 @@ function __c110(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1763, __c110, 3),
+          items: __S(1779, __c111, 3),
           type: S.String,
         }),
       ).annotate({
@@ -9195,10 +9317,10 @@ function __c110(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          complete: __S(1568, __c98, 0),
-          failedDatasets: __S(1761, __c110, 1),
-          failedShards: __S(1764, __c110, 4),
-          warnings: __S(1761, __c110, 1),
+          complete: __S(1584, __c99, 0),
+          failedDatasets: __S(1777, __c111, 1),
+          failedShards: __S(1780, __c111, 4),
+          warnings: __S(1777, __c111, 1),
         }),
       ).annotate({
         identifier: "ListThreatEventsIndicatorsResponsePropertiesCompletenessProperties",
@@ -9206,14 +9328,14 @@ function __c110(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(1765, __c110, 5),
+          properties: __S(1781, __c111, 5),
           type: S.String,
         }),
       ).annotate({ identifier: "ListThreatEventsIndicatorsResponsePropertiesCompleteness" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1778, __c111, 2),
+          items: __S(1794, __c112, 2),
           type: S.String,
         }),
       ).annotate({ identifier: "ListThreatEventsIndicatorsResponsePropertiesIndicators" });
@@ -9239,13 +9361,13 @@ function __c110(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          count: __S(1568, __c98, 0),
-          cursor: __S(1768, __c110, 8),
-          hasMore: __S(1769, __c110, 9).pipe(T.Body("has_more")),
-          page: __S(1568, __c98, 0),
-          perPage: __S(1568, __c98, 0).pipe(T.Body("per_page")),
-          totalCount: __S(1768, __c110, 8).pipe(T.Body("total_count")),
-          totalCountIsExact: __S(1769, __c110, 9).pipe(T.Body("total_count_is_exact")),
+          count: __S(1584, __c99, 0),
+          cursor: __S(1784, __c111, 8),
+          hasMore: __S(1785, __c111, 9).pipe(T.Body("has_more")),
+          page: __S(1584, __c99, 0),
+          perPage: __S(1584, __c99, 0).pipe(T.Body("per_page")),
+          totalCount: __S(1784, __c111, 8).pipe(T.Body("total_count")),
+          totalCountIsExact: __S(1785, __c111, 9).pipe(T.Body("total_count_is_exact")),
         }),
       ).annotate({
         identifier: "ListThreatEventsIndicatorsResponsePropertiesPaginationProperties",
@@ -9253,28 +9375,28 @@ function __c110(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(1770, __c110, 10),
+          properties: __S(1786, __c111, 10),
           type: S.String,
         }),
       ).annotate({ identifier: "ListThreatEventsIndicatorsResponsePropertiesPagination" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          completeness: __S(1766, __c110, 6),
-          indicators: __S(1767, __c110, 7),
-          pagination: __S(1771, __c110, 11),
+          completeness: __S(1782, __c111, 6),
+          indicators: __S(1783, __c111, 7),
+          pagination: __S(1787, __c111, 11),
         }),
       ).annotate({ identifier: "ListThreatEventsIndicatorsResponseProperties" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(1772, __c110, 12),
+          properties: __S(1788, __c111, 12),
           type: S.String,
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsIndicatorsResponse" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9288,13 +9410,13 @@ function __c111(j: number): any {
         identifier: "ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsSourcesItem",
       });
     case 1:
-      return S.Array(__S(1776, __c111, 0));
+      return S.Array(__S(1792, __c112, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.String,
           indicatorType: S.String,
-          sources: __S(1777, __c111, 1),
+          sources: __S(1793, __c112, 1),
           updatedAt: S.String,
           uuid: S.String,
           value: S.String,
@@ -9307,7 +9429,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "ListThreatEventsIndicatorsResponsePropertiesIndicatorsItems" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9339,19 +9461,19 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatEventsIndicatorsAggregateResponseAggregationsItem" });
     case 2:
-      return S.Array(__S(1793, __c112, 1));
+      return S.Array(__S(1809, __c113, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           aggregateBy: S.String,
-          aggregations: __S(1794, __c112, 2),
+          aggregations: __S(1810, __c113, 2),
           failedDatasets: S.Number,
           total: S.Number,
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsIndicatorsAggregateResponse" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9374,17 +9496,17 @@ function __c113(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsIndicatorsByDatasetRequest" });
     case 1:
-      return S.Array(__S(1778, __c111, 2));
+      return S.Array(__S(1794, __c112, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          indicators: __S(1809, __c113, 1),
-          pagination: __S(1824, __c114, 0),
+          indicators: __S(1825, __c114, 1),
+          pagination: __S(1840, __c115, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsIndicatorsByDatasetResponse" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9397,7 +9519,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "ListThreatEventsIndicatorsByDatasetResponsePagination" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9416,7 +9538,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "ListThreatEventsIndicatorsByDatasetTagsRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9435,7 +9557,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "ListThreatEventsIndicatorsTypesRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9453,7 +9575,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "ListThreatEventsQueriesRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9480,7 +9602,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ListThreatEventsRelationshipsRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9563,17 +9685,17 @@ function __c119(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatEventsTagsResponseTagsItem" });
     case 2:
-      return S.Array(__S(1905, __c119, 1));
+      return S.Array(__S(1921, __c120, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pagination: __S(1824, __c114, 0),
-          tags: __S(1906, __c119, 2),
+          pagination: __S(1840, __c115, 0),
+          tags: __S(1922, __c120, 2),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsTagsResponse" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9600,7 +9722,7 @@ function __c120(j: number): any {
           indicators: S.optional(__S(50, __c3, 2)),
           indicatorType: S.optional(S.String),
           insight: S.optional(S.String),
-          source: S.optional(__S(1920, __c120, 0)),
+          source: S.optional(__S(1936, __c121, 0)),
           tags: S.optional(__S(32, __c2, 0)),
           targetCountry: S.optional(S.String),
           targetIndustry: S.optional(S.String),
@@ -9616,7 +9738,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "CreateThreatEventRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
@@ -9641,9 +9763,9 @@ function __c121(j: number): any {
           numReferences: S.Number,
           rawId: S.String,
           referenced: __S(32, __c2, 0),
-          referencedIds: __S(1936, __c121, 0),
+          referencedIds: __S(1952, __c122, 0),
           references: __S(32, __c2, 0),
-          referencesIds: __S(1936, __c121, 0),
+          referencesIds: __S(1952, __c122, 0),
           tags: __S(32, __c2, 0),
           targetCountry: S.String,
           targetCountryAlpha3: S.String,
@@ -9656,7 +9778,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "CreateThreatEventResponse" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9685,16 +9807,16 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatEventsTagsCategoriesResponseCategoriesItem" });
     case 2:
-      return S.Array(__S(1953, __c122, 1));
+      return S.Array(__S(1969, __c123, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          categories: __S(1954, __c122, 2),
+          categories: __S(1970, __c123, 2),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsTagsCategoriesResponse" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9719,7 +9841,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "ListThreatEventsTagsIndicatorsRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9737,17 +9859,17 @@ function __c124(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatEventsTagsIndicatorsResponseIndicatorsItem" });
     case 1:
-      return S.Array(__S(1984, __c124, 0));
+      return S.Array(__S(2000, __c125, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          indicators: __S(1985, __c124, 1),
-          pagination: __S(1824, __c114, 0),
+          indicators: __S(2001, __c125, 1),
+          pagination: __S(1840, __c115, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsTagsIndicatorsResponse" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9772,7 +9894,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ListThreatEventsTagsIndicatorsByDatasetRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9791,7 +9913,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "ListThreatEventsTargetIndustriesByDatasetRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9809,7 +9931,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ListThreatEventsTargetIndustriesCatalogRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9828,7 +9950,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "ListThreatEventTargetIndustriesRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9841,7 +9963,9 @@ function __c129(j: number): any {
           fetchedAfter: S.optional(S.String.pipe(T.Query("fetched_after"))),
           fetchedBefore: S.optional(S.String.pipe(T.Query("fetched_before"))),
           includeTotal: S.optional(S.Boolean.pipe(T.Query("include_total"))),
+          minRelevance: S.optional(S.String.pipe(T.Query("min_relevance"))),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+          pirId: S.optional(S.String.pipe(T.Query("pir_id"))),
           publishedAfter: S.optional(S.String.pipe(T.Query("published_after"))),
           publishedBefore: S.optional(S.String.pipe(T.Query("published_before"))),
           read: S.optional(S.Boolean.pipe(T.Query())),
@@ -9876,17 +10000,19 @@ function __c129(j: number): any {
           publishedAt: S.String.pipe(T.Body("published_at")),
           read: S.Boolean,
           readAt: S.String.pipe(T.Body("read_at")),
+          relevance: __S(1378, __c86, 2),
+          severity: S.String,
           summary: S.String,
           tags: __S(993, __c62, 1),
           title: S.String,
         }),
       ).annotate({ identifier: "ListThreatSignalsArticlesResponseArticlesItem" });
     case 2:
-      return S.Array(__S(2065, __c129, 1));
+      return S.Array(__S(2081, __c130, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          articles: __S(2066, __c129, 2),
+          articles: __S(2082, __c130, 2),
           hasMore: S.Boolean.pipe(T.Body("has_more")),
           nextCursor: S.String.pipe(T.Body("next_cursor")),
           totalCount: S.Number.pipe(T.Body("total_count")),
@@ -9895,7 +10021,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "ListThreatSignalsArticlesResponse" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9920,16 +10046,16 @@ function __c130(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatSignalsCategoriesResponseCategoriesItem" });
     case 2:
-      return S.Array(__S(2081, __c130, 1));
+      return S.Array(__S(2097, __c131, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          categories: __S(2082, __c130, 2),
+          categories: __S(2098, __c131, 2),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatSignalsCategoriesResponse" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9974,14 +10100,14 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatSignalsFeedsResponseFeedsItem" });
     case 2:
-      return S.Array(__S(2097, __c131, 1));
+      return S.Array(__S(2113, __c132, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           customFeedCount: S.Number.pipe(T.Body("custom_feed_count")),
           customFeedLimit: S.Number.pipe(T.Body("custom_feed_limit")),
-          feeds: __S(2098, __c131, 2),
+          feeds: __S(2114, __c132, 2),
           page: S.Number,
           perPage: S.Number.pipe(T.Body("per_page")),
           totalCount: S.Number.pipe(T.Body("total_count")),
@@ -9989,7 +10115,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "ListThreatSignalsFeedsResponse" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10026,7 +10152,7 @@ function __c132(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatSignalsIndicatorsResponseIndicatorsItem" });
     case 2:
-      return S.Array(__S(2113, __c132, 1));
+      return S.Array(__S(2129, __c133, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10042,13 +10168,13 @@ function __c132(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          indicators: __S(2114, __c132, 2),
-          pagination: __S(2115, __c132, 3),
+          indicators: __S(2130, __c133, 2),
+          pagination: __S(2131, __c133, 3),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatSignalsIndicatorsResponse" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10071,7 +10197,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "CreateThreatEventCategoryRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10086,7 +10212,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "CreateThreatEventCategoryResponse" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10111,13 +10237,13 @@ function __c135(j: number): any {
           customSkillsAvailable: S.Boolean.pipe(T.Body("custom_skills_available")),
           page: S.Number,
           perPage: S.Number.pipe(T.Body("per_page")),
-          skills: __S(1441, __c90, 1),
+          skills: __S(1457, __c91, 1),
           totalCount: S.Number.pipe(T.Body("total_count")),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatSignalsSkillsResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10139,7 +10265,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "PatchScanConfigRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10164,7 +10290,7 @@ function __c137(j: number): any {
           indicator: S.optional(S.String),
           indicatorType: S.optional(S.String),
           insight: S.optional(S.String),
-          raw: S.optional(__S(2192, __c137, 0)),
+          raw: S.optional(__S(2208, __c138, 0)),
           targetCountry: S.optional(S.String),
           targetIndustry: S.optional(S.String),
           tlp: S.optional(S.String),
@@ -10180,7 +10306,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "PatchThreatEventRequest" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10204,7 +10330,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "PatchThreatEventCategoryRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10225,7 +10351,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "PatchThreatEventDatasetRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10255,7 +10381,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "PatchThreatEventRawResponse" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10282,18 +10408,18 @@ function __c141(j: number): any {
         }),
       ).annotate({ identifier: "PollThreatSignalsFeedResponseFeedsItem" });
     case 2:
-      return S.Array(__S(2257, __c141, 1));
+      return S.Array(__S(2273, __c142, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           errors: S.Number,
-          feeds: __S(2258, __c141, 2),
+          feeds: __S(2274, __c142, 2),
           triggered: S.Number,
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PollThreatSignalsFeedResponse" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10311,7 +10437,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "QuotaRequestPriorityRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10326,7 +10452,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "QuotaRequestPriorityResponse" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10357,7 +10483,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "RawThreatEventDatasetResponse" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10378,9 +10504,9 @@ function __c145(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          priority: S.optional(S.NullOr(__S(2321, __c145, 1))),
-          status: S.optional(S.NullOr(__S(2321, __c145, 1))),
-          tlp: S.optional(S.NullOr(__S(2321, __c145, 1))),
+          priority: S.optional(S.NullOr(__S(2337, __c146, 1))),
+          status: S.optional(S.NullOr(__S(2337, __c146, 1))),
+          tlp: S.optional(S.NullOr(__S(2337, __c146, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "RequestsConstantsResponse" });
   }

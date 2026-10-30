@@ -175,7 +175,7 @@ export interface PatchRegionalServicePrefixBindingResponse {
   regionKey: string;
 }
 export type CreateRegionalServicePrefixBindingError = CloudflareOpError;
-/** Create a DLS prefix binding */
+/** Bind a CIDR from a BYOIP prefix to a region. This requires the **IP Prefixes Write** permission in addition to **DLS Write**, because the binding is created against a BYOIP prefix in Addressing. */
 export const createRegionalServicePrefixBinding: API.OperationMethod<
   CreateRegionalServicePrefixBindingRequest,
   CreateRegionalServicePrefixBindingResponse,
@@ -192,7 +192,7 @@ export const createRegionalServicePrefixBinding: API.OperationMethod<
 }));
 
 export type DeleteRegionalServicePrefixBindingError = CloudflareOpError;
-/** Delete a DLS prefix binding */
+/** Delete a BYOIP prefix binding. Like creating a binding, this requires **IP Prefixes Write** in addition to **DLS Write**. */
 export const deleteRegionalServicePrefixBinding: API.OperationMethod<
   DeleteRegionalServicePrefixBindingRequest,
   DeleteRegionalServicePrefixBindingResponse,
@@ -209,7 +209,7 @@ export const deleteRegionalServicePrefixBinding: API.OperationMethod<
 }));
 
 export type GetRegionError = CloudflareOpError;
-/** Get a DLS region */
+/** Retrieve a single DLS region (managed or custom) by ID or region key. */
 export const getRegion: API.OperationMethod<
   GetRegionRequest,
   GetRegionResponse,
@@ -226,7 +226,7 @@ export const getRegion: API.OperationMethod<
 }));
 
 export type GetRegionalServicePrefixBindingError = CloudflareOpError;
-/** Get a DLS prefix binding */
+/** Retrieve a single BYOIP prefix binding by ID. */
 export const getRegionalServicePrefixBinding: API.OperationMethod<
   GetRegionalServicePrefixBindingRequest,
   GetRegionalServicePrefixBindingResponse,
@@ -243,7 +243,7 @@ export const getRegionalServicePrefixBinding: API.OperationMethod<
 }));
 
 export type ListRegionalServicePrefixBindingsError = CloudflareOpError;
-/** List DLS prefix bindings for an account */
+/** List the BYOIP prefix bindings configured for an account. */
 export const listRegionalServicePrefixBindings: API.PaginatedOperationMethod<
   ListRegionalServicePrefixBindingsRequest,
   ListRegionalServicePrefixBindingsResponse,
@@ -271,7 +271,7 @@ export const listRegionalServicePrefixBindings: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListRegionsError = CloudflareOpError;
-/** List DLS regions for an account */
+/** List the DLS regions (managed and custom) available to an account. */
 export const listRegions: API.PaginatedOperationMethod<
   ListRegionsRequest,
   ListRegionsResponse,
@@ -299,7 +299,7 @@ export const listRegions: API.PaginatedOperationMethod<
 ) as any;
 
 export type PatchRegionalServicePrefixBindingError = CloudflareOpError;
-/** Update a DLS prefix binding */
+/** Update the region of an existing BYOIP prefix binding. Like creating a binding, this requires **IP Prefixes Write** in addition to **DLS Write**. */
 export const patchRegionalServicePrefixBinding: API.OperationMethod<
   PatchRegionalServicePrefixBindingRequest,
   PatchRegionalServicePrefixBindingResponse,
