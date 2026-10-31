@@ -8,7 +8,7 @@ import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 import { describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
-import { makeRestProtocol, SensitiveValue } from "../src/protocol-rest.ts";
+import { makeRestProtocol, SensitiveValue, validateSuccess } from "../src/protocol-rest.ts";
 import * as ResponseValidation from "../src/response-validation.ts";
 
 class TestParseError extends Schema.TaggedError<TestParseError>()("TestParseError", {
@@ -242,5 +242,69 @@ describe("makeRestProtocol with sensitive output members", () => {
       expect(Redacted.isRedacted(token) && Redacted.value(token)).toBe(SECRET);
       expect(exposesSecret(result)).toBe(false);
     }
+  });
+});
+
+describe("validateSuccess (hand-written protocols)", () => {
+  const SECRET = "sentinel-secret-7f3a";
+  const Secret = Schema.Struct({ id: Schema.String, token: Schema.String.pipe(SensitiveValue()) });
+  const check = (
+    outputAst: Schema.Top["ast"],
+    read: { value: unknown; body: unknown; nonJson: boolean },
+    mode: Layer.Layer<never>,
+  ) =>
+    run(
+      validateSuccess(outputAst, read, (info) => new TestParseError(info)),
+      mode,
+    );
+  const exposesSecret = (result: unknown) => inspect(result, { depth: Infinity }).includes(SECRET);
+
+  test("an output without sensitive members keeps today's behaviour", async () => {
+    const text = "not json";
+    const lenient = await check(
+      Output.ast,
+      { value: text, body: text, nonJson: true },
+      ResponseValidation.lenient,
+    );
+    expect(lenient).toMatchObject({ _tag: "Success", success: text });
+    const strict = await check(
+      Output.ast,
+      { value: {}, body: { raw: 1 }, nonJson: false },
+      ResponseValidation.strict,
+    );
+    expect(strict).toMatchObject({ failure: { body: { raw: 1 } } });
+  });
+
+  test("a non-JSON body for a sensitive output fails in both modes without the body", async () => {
+    const text = `{"id":"a","token":"${SECRET}"`;
+    for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
+      const result = await check(Secret.ast, { value: text, body: text, nonJson: true }, mode);
+      expect(result).toMatchObject({
+        failure: { body: "[REDACTED]", cause: "Invalid JSON response" },
+      });
+      expect(exposesSecret(result)).toBe(false);
+    }
+  });
+
+  test("a strict mismatch withholds the body and the value found", async () => {
+    const json = { id: 1, token: SECRET };
+    const result = await check(
+      Secret.ast,
+      { value: json, body: json, nonJson: false },
+      ResponseValidation.strict,
+    );
+    expect(result).toMatchObject({ failure: { body: "[REDACTED]" } });
+    expect(exposesSecret(result)).toBe(false);
+  });
+
+  test("a match comes back with the sensitive member redacted", async () => {
+    const json = { id: "a", token: SECRET };
+    const result = await check(
+      Secret.ast,
+      { value: json, body: json, nonJson: false },
+      ResponseValidation.strict,
+    );
+    const { token } = Result.getOrThrow(result) as { token: unknown };
+    expect(Redacted.isRedacted(token) && Redacted.value(token)).toBe(SECRET);
   });
 });

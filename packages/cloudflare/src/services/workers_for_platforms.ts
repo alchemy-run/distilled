@@ -225,6 +225,15 @@ export class ServiceBindingNotFound
     [{ code: 10144 }],
   ) {}
 
+export class UnknownWorkerEntrypoint
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<UnknownWorkerEntrypoint>()("UnknownWorkerEntrypoint", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 10375 }],
+  ) {}
+
 export class VectorizeIndexNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<VectorizeIndexNotFound>()("VectorizeIndexNotFound", {
@@ -6143,6 +6152,7 @@ export type PutDispatchNamespaceScriptError =
   | HyperdriveConfigNotFound
   | VectorizeIndexNotFound
   | MtlsCertificateNotFound
+  | UnknownWorkerEntrypoint
   | CloudflareOpError;
 /** Upload a Workers for Platforms script module to a dispatch namespace. You can find more about the multipart metadata on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/. */
 export const putDispatchNamespaceScript: API.OperationMethod<
@@ -6166,6 +6176,7 @@ export const putDispatchNamespaceScript: API.OperationMethod<
     HyperdriveConfigNotFound,
     VectorizeIndexNotFound,
     MtlsCertificateNotFound,
+    UnknownWorkerEntrypoint,
     CloudflareRateLimited,
     CloudflareError,
   ],

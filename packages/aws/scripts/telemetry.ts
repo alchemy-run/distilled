@@ -252,6 +252,10 @@ export const awsTelemetry = (sdkId: string): TelemetryOptions => {
             "gen_ai.operation.name": "chat",
             ...(name === "ConverseStream" ? { "gen_ai.request.stream": true } : {}),
           },
+          // A GenAI span ends when the response is fully received.
+          ...(name === "ConverseStream"
+            ? { stream: { member: "stream", firstChunk: "gen_ai.response.time_to_first_chunk" } }
+            : {}),
         };
       }
       if ((service === "EventBridge" || service === "CloudWatchEvents") && name === "PutEvents") {

@@ -10,6 +10,7 @@
  * This is independently testable without making HTTP requests.
  */
 
+import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import type { ParseError } from "../errors.ts";
 import {
@@ -28,21 +29,25 @@ import type { Request } from "./request.ts";
  * (checksums, streaming bodies) and adds the common headers.
  *
  * Operations without middleware or a streaming payload build the request
- * synchronously: the builder returns it directly and throws the
+ * synchronously: the builder returns it directly, returns a failed effect
+ * for a path label that would address another resource, and throws the
  * `ParseError` of an input that does not match the schema. Other
  * operations return an effect.
  */
 export const makeRequestBuilder = (
   operation: Operation,
   protocol: ProtocolHandler,
-): ((input: unknown) => Request | Effect.Effect<Request, ParseError>) => {
+): ((input: unknown) => Request | Effect.Effect<Request, ParseError | InvalidInput>) => {
   const inputSchema = operation.input;
   const middleware = getMiddleware(inputSchema.ast);
   const idempotencyTokenProps = findIdempotencyTokenProps(inputSchema);
   const serialize = (input: unknown) =>
     protocol.serialize(fillIdempotencyTokens(input, idempotencyTokenProps));
   if (!middleware.length && !getStreamingPayloadInfo(inputSchema.ast).hasStreamingPayload) {
-    return (input) => withUserAgent(serialize(input));
+    return (input) => {
+      const request = serialize(input);
+      return request instanceof InvalidInput ? Effect.fail(request) : withUserAgent(request);
+    };
   }
 
   // Buffers streaming bodies without Content-Length to compute the length

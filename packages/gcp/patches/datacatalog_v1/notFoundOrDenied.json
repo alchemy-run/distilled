@@ -1,0 +1,180 @@
+{
+  "description": "Type Data Catalog's 403 'No permission to \u2026 or it does not exist' on entry group, entry and tag operations. It surfaced as a plain Forbidden, indistinguishable from a real denial, so a caller couldn't tell a missing resource from a missing grant.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "Data Catalog answers a missing entry group, entry or tag and a denied permission alike, with HTTP 403 PERMISSION_DENIED: \"No permission to delete Entry \\\"...\\\" or it does not exist.\" Verified live 2026-10-29 with a caller holding datacatalog.entries.delete.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "or it does not exist"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#CreateProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#CreateProjectsLocationsEntryGroupsEntriesTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#CreateProjectsLocationsEntryGroupsTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsEntryGroups/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsEntryGroupsEntriesTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsEntryGroupsTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetProjectsLocationsEntryGroups/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ImportProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsEntryGroupsEntriesTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsEntryGroupsTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ModifyEntryContactsProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ModifyEntryOverviewProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsEntryGroups/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsEntryGroupsEntriesTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsEntryGroupsTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ReconcileProjectsLocationsEntryGroupsEntriesTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#StarProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#UnstarProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogNotFoundOrDenied"
+      }
+    }
+  ]
+}

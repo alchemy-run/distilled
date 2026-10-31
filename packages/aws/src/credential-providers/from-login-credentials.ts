@@ -271,9 +271,8 @@ const refresh = (
       withDpop(proof),
       withHttpClient,
       Effect.flatMap((response) => {
-        // The payload-bound `tokenOutput` member is not re-wrapped when the
-        // response is decoded, so the operation resolves with the payload
-        // itself; accept either shape.
+        // `tokenOutput` is the payload; a body that is not a token response
+        // can leave it missing, and the checks below reject that.
         const output = response.tokenOutput ?? response;
         // Lenient response validation passes a malformed body through as read.
         const accessToken = output.accessToken as Partial<typeof output.accessToken> | undefined;

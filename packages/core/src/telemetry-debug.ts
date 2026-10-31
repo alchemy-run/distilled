@@ -12,8 +12,8 @@
  *
  *   - one `Attempt` span per try, with Effect's HTTP span under it;
  *   - INTERNAL spans at trace level `Debug` for first-call setup,
- *     serialize, sign, deserialize and backoff sleeps
- *     (`Tracer.MinimumTraceLevel` can drop them);
+ *     serialize, sign, deserialize, backoff sleeps and the caller's read
+ *     of a streamed output (`Tracer.MinimumTraceLevel` can drop them);
  *
  * and carries the caller's `code.*` attributes.
  *
@@ -28,8 +28,11 @@
  * Response lines carry up to 400 characters of the body, which can hold
  * secrets the API returns.
  */
+import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import * as Layer from "effect/Layer";
+import * as Stream from "effect/Stream";
 import * as Tracer from "effect/Tracer";
 import { Debug, type DebugHooks, OperationSpan, tagOf } from "./telemetry.ts";
 
@@ -56,6 +59,44 @@ const attempt: DebugHooks["attempt"] = (base, n) =>
     );
   });
 
+/**
+ * `distilled.read_stream`: from the caller's first pull on a streamed
+ * output member (an S3 object body, a Bedrock event stream) to its end,
+ * with the member's name and how many items (and bytes) it carried. It
+ * fills the operation span's time after the response headers arrive.
+ */
+const readStream: DebugHooks["readStream"] = (stream, parent, member) =>
+  Stream.unwrap(
+    Effect.map(
+      Effect.makeSpan("distilled.read_stream", {
+        parent,
+        level: "Debug",
+        attributes: { "distilled.stream.member": member },
+      }),
+      (span) => {
+        let items = 0;
+        let bytes = 0;
+        const counted = Stream.map(stream, (item) => {
+          items++;
+          if (item instanceof Uint8Array) bytes += item.byteLength;
+          return item;
+        });
+        return Stream.onExit(counted, (exit) =>
+          Effect.clockWith((clock) =>
+            Effect.sync(() => {
+              span.attribute("distilled.stream.items", items);
+              if (bytes > 0) span.attribute("distilled.stream.bytes", bytes);
+              if (Exit.isFailure(exit) && !Cause.hasInterruptsOnly(exit.cause)) {
+                span.attribute("error.type", tagOf(Cause.squash(exit.cause)));
+              }
+              span.end(clock.currentTimeNanosUnsafe(), exit);
+            }),
+          ),
+        );
+      },
+    ),
+  );
+
 const LOCATION = /\(?((?:file:\/\/)?[^\s()]+):(\d+):(\d+)\)?$/;
 
 /** OTel `code.*` attributes for the caller's line. */
@@ -81,6 +122,7 @@ const layerWith = (options: Options = {}): Layer.Layer<never> =>
   Layer.succeed(Debug, {
     phase,
     attempt,
+    readStream,
     callSite,
     logRequests: options.logRequests === true,
   }) as Layer.Layer<never>;

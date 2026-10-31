@@ -1,0 +1,69 @@
+{
+  "description": "Remove v1 AgentService: it doesn't serve v1. Observed live 2026-09-29 and 2026-10-29: every v1 agents call answers 400 'This API version is not supported by AgentService. Please use the v1beta1 version.' The discovery document still lists the methods; aiplatform_v1beta1 serves them.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#CreateProjectsLocationsAgents"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#CreateProjectsLocationsAgentsRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsAgents"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsAgentsRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetIamPolicyProjectsLocationsAgents"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetIamPolicyProjectsLocationsAgentsRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsAgents"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsAgentsRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsAgents"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsAgentsRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#PatchProjectsLocationsAgents"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#PatchProjectsLocationsAgentsRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#SetIamPolicyProjectsLocationsAgents"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#SetIamPolicyProjectsLocationsAgentsRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#TestIamPermissionsProjectsLocationsAgents"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.gcp.aiplatform_v1#TestIamPermissionsProjectsLocationsAgentsRequest"
+    }
+  ]
+}

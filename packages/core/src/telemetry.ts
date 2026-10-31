@@ -37,6 +37,7 @@ import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Redacted from "effect/Redacted";
 import * as References from "effect/References";
 import type * as AST from "effect/SchemaAST";
+import type * as Stream from "effect/Stream";
 import * as Tracer from "effect/Tracer";
 import { getAnn, getProps } from "./annotations.ts";
 
@@ -54,6 +55,12 @@ export interface DebugHooks {
   ) => Effect.Effect<A, E, R>;
   /** Try `n` (1-based) as its own `Attempt` span. */
   readonly attempt: <A, E, R>(base: Effect.Effect<A, E, R>, n: number) => Effect.Effect<A, E, R>;
+  /** The caller's read of a streamed output member, as a span under `parent`. */
+  readonly readStream: <A, E, R>(
+    stream: Stream.Stream<A, E, R>,
+    parent: Tracer.Span,
+    member: string,
+  ) => Stream.Stream<A, E, R>;
   /** Log each request and response line to stderr (`./debug.ts`). */
   readonly logRequests: boolean;
   /** OTel `code.*` attributes for the caller's line. */
@@ -149,6 +156,20 @@ export interface ServiceTelemetry {
 /** A span name for one call from its input attributes; undefined keeps the trait's `name`. */
 export type SpanRename = (attributes: Readonly<Record<string, unknown>>) => string | undefined;
 
+/**
+ * Runs an operation call in its span and keeps the span open after the call
+ * returns, until the caller has read a streamed output member (the trait's
+ * `stream`; built by `./telemetry-stream.ts`). Every other operation uses
+ * `Effect.useSpan`, which ends the span on return.
+ */
+export type SpanHold = <A, E, R>(
+  fiber: Fiber.Fiber<unknown, unknown>,
+  name: string,
+  options: Tracer.SpanOptionsNoTrace,
+  debug: DebugHooks | undefined,
+  inSpan: (span: Tracer.Span) => Effect.Effect<A, E, R>,
+) => Effect.Effect<A, E, R>;
+
 /** Read trace context back from an operation's messages (the trait's `extract`). */
 export interface MessageExtract {
   /** The input asking the service to return the trace context. */
@@ -189,6 +210,8 @@ export interface SpanConfig {
   /** Write the span's trace context into the request's messages. */
   readonly inject?: (span: Tracer.Span, input: unknown) => unknown;
   readonly extract?: MessageExtract;
+  /** Keep the span open until the caller has read a streamed output member. */
+  readonly hold?: SpanHold;
 }
 
 /** One operation's span facts, built once per operation. */
@@ -208,6 +231,7 @@ export interface OperationInfo {
   readonly rename: SpanRename | undefined;
   readonly inject: SpanConfig["inject"];
   readonly extract: MessageExtract | undefined;
+  readonly hold: SpanHold | undefined;
 }
 
 const isScalar = (value: unknown): value is string | number | boolean =>
@@ -337,6 +361,7 @@ export const operationInfo = (
     rename: span?.rename,
     inject: span?.inject,
     extract: span?.extract,
+    hold: span?.hold,
   };
 };
 
@@ -646,6 +671,10 @@ const withFailureFrame = <A, E, R>(
  *                attempt) and of distilled's internal spans.
  *
  * Failures set `error.type` to the error's tag; Effect sets the status.
+ * An operation whose trait names a streamed output member (`stream`:
+ * Bedrock ConverseStream) keeps the span open until the caller has read
+ * that stream (`./telemetry-stream.ts`); every other span ends when the
+ * call returns, after the response headers.
  */
 export const operationSpan = <A, E, R>(
   fiber: Fiber.Fiber<unknown, unknown>,
@@ -684,57 +713,55 @@ const traceCall = <A, E, R>(
       : { ...info.attributes };
   readRules(info.input, input, (key, value) => (attributes[key] = value));
   const hooks = fiber.getRef(Hooks);
-  const traced = Effect.useSpan(
-    info.rename?.(attributes) ?? info.name,
-    { kind: info.kind, attributes },
-    (span) => {
-      const extract = info.extract;
-      let sent = info.inject === undefined ? input : info.inject(span, input);
-      if (extract !== undefined) sent = extract.request(sent);
-      let body = Effect.tapError(run(sent), (error) =>
-        Effect.sync(() => span.attribute("error.type", tagOf(error))),
+  const inSpan = (span: Tracer.Span): Effect.Effect<A, E, R> => {
+    const extract = info.extract;
+    let sent = info.inject === undefined ? input : info.inject(span, input);
+    if (extract !== undefined) sent = extract.request(sent);
+    let body = Effect.tapError(run(sent), (error) =>
+      Effect.sync(() => span.attribute("error.type", tagOf(error))),
+    );
+    if (extract !== undefined || info.output.length > 0) {
+      body = Effect.tap(body, (output) =>
+        Effect.sync(() => {
+          readRules(info.output, output, (key, value) => span.attribute(key, value));
+          if (extract !== undefined) {
+            const links = extract.links(output);
+            if (links.length > 0) span.addLinks(links);
+          }
+        }),
       );
-      if (extract !== undefined || info.output.length > 0) {
-        body = Effect.tap(body, (output) =>
-          Effect.sync(() => {
-            readRules(info.output, output, (key, value) => span.attribute(key, value));
-            if (extract !== undefined) {
-              const links = extract.links(output);
-              if (links.length > 0) span.addLinks(links);
-            }
-          }),
-        );
+    }
+    if (hooks !== undefined) {
+      hooks.onStart?.(span, { name: info.name, method: info.attributes["rpc.method"], input });
+      const onEnd = hooks.onEnd;
+      if (onEnd !== undefined) {
+        body = Effect.onExit(body, (exit) => Effect.sync(() => onEnd(span, exit)));
       }
-      if (hooks !== undefined) {
-        hooks.onStart?.(span, { name: info.name, method: info.attributes["rpc.method"], input });
-        const onEnd = hooks.onEnd;
-        if (onEnd !== undefined) {
-          body = Effect.onExit(body, (exit) => Effect.sync(() => onEnd(span, exit)));
-        }
-      }
-      const call: Call = {
-        span,
-        info,
-        attempt: undefined,
-        retryErrors: [],
-        retryDelayMs: 0,
-      };
-      if (debug !== undefined) {
-        // ParentSpan directly: withParentSpan would also push a name-only
-        // stack frame, printed twice next to the failure frame.
-        return Effect.updateContext(body, (context: Context.Context<any>) =>
-          Context.add(Context.add(context, OperationSpan, call), Tracer.ParentSpan, span),
-        );
-      }
+    }
+    const call: Call = {
+      span,
+      info,
+      attempt: undefined,
+      retryErrors: [],
+      retryDelayMs: 0,
+    };
+    if (debug !== undefined) {
+      // ParentSpan directly: withParentSpan would also push a name-only
+      // stack frame, printed twice next to the failure frame.
       return Effect.updateContext(body, (context: Context.Context<any>) =>
-        Context.add(
-          Context.add(context, OperationSpan, call),
-          HttpClient.TracerDisabledWhen,
-          always,
-        ),
+        Context.add(Context.add(context, OperationSpan, call), Tracer.ParentSpan, span),
       );
-    },
-  ) as Effect.Effect<A, E, R>;
+    }
+    return Effect.updateContext(body, (context: Context.Context<any>) =>
+      Context.add(Context.add(context, OperationSpan, call), HttpClient.TracerDisabledWhen, always),
+    );
+  };
+  const name = info.rename?.(attributes) ?? info.name;
+  const options = { kind: info.kind, attributes };
+  const traced =
+    info.hold === undefined
+      ? Effect.useSpan(name, options, inSpan)
+      : info.hold(fiber, name, options, debug, inSpan);
   return withFailureFrame(traced, info.name, callSite);
 };
 

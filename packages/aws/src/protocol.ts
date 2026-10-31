@@ -1,4 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
+import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * AwsProtocol -- AWS's implementation of `@distilled.cloud/core`'s Protocol
@@ -57,6 +58,7 @@ import * as Endpoint from "./endpoint.ts";
 import { EndpointError, ParseError } from "./errors.ts";
 import * as Region from "./region.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
+import { isValidHostLabel } from "./rules-engine/standard-functions.ts";
 import * as SigV4 from "./sigv4.ts";
 import {
   type AwsAuthSigv2Trait,
@@ -68,6 +70,7 @@ import {
   isStreamingType,
 } from "./traits.ts";
 import { getIdentifier, getPropertySignatures } from "./util/ast.ts";
+import { invalidHostLabel } from "./util/serialize-input.ts";
 
 /**
  * Context (requirements) shared by every generated AWS operation.
@@ -259,11 +262,18 @@ const toHttpRequest = (
   // Apply the Smithy `smithy.api#endpoint` hostPrefix (e.g. "sync-" for
   // Step Functions StartSyncExecution -> sync-states.{region}). Skipped for
   // custom endpoints, matching official AWS SDK behavior. Labels of the
-  // form {memberName} are substituted from the operation input.
+  // form {memberName} are substituted from the operation input; a value that
+  // is not a host name ("attacker.invalid/") would move the request to
+  // another host, so it fails with InvalidInput before anything is signed.
   if (prepared.hostPrefix !== undefined && !customEndpoint) {
-    const resolvedPrefix = prepared.hostPrefix.replace(/\{(\w+)\}/g, (_, member: string) =>
-      String((input as Record<string, unknown>)?.[member] ?? ""),
-    );
+    let resolvedPrefix = prepared.hostPrefix;
+    for (const [label, member = ""] of prepared.hostPrefix.matchAll(/\{(\w+)\}/g)) {
+      const value = String((input as Record<string, unknown>)?.[member] ?? "");
+      if (!isValidHostLabel(value, true)) {
+        return Effect.fail(invalidHostLabel(member, value));
+      }
+      resolvedPrefix = resolvedPrefix.replace(label, value);
+    }
     // The endpoint rules engine may already have baked the same label into
     // the host (e.g. S3 Control resolves `{AccountId}.s3-control.{region}`
     // from the AccountId context param, and the operations ALSO carry the
@@ -470,7 +480,7 @@ const stampRetryAfter = (error: unknown): unknown => {
  * outputs that are read as text. Missing parts run as effects.
  */
 interface Plan {
-  readonly build: (input: unknown) => Request | Effect.Effect<Request, ParseError>;
+  readonly build: (input: unknown) => Request | Effect.Effect<Request, ParseError | InvalidInput>;
   readonly decodeText:
     | ((context: Context.Context<any>, response: Response, text: string) => Decoded)
     | undefined;
@@ -583,7 +593,7 @@ const encodeWith = <A>(
       send,
     );
   }
-  let request: Request | Effect.Effect<Request, ParseError>;
+  let request: Request | Effect.Effect<Request, ParseError | InvalidInput>;
   try {
     request = plan.build(input);
   } catch (e) {

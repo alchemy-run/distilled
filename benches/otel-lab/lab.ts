@@ -17,6 +17,8 @@ import * as AwsCredentials from "@distilled.cloud/aws/Credentials";
 import * as DynamoDB from "@distilled.cloud/aws/dynamodb";
 import * as AwsEndpoint from "@distilled.cloud/aws/Endpoint";
 import * as EventBridge from "@distilled.cloud/aws/eventbridge";
+import { encodeEvent } from "@distilled.cloud/aws/eventstream/codec";
+import { serializeInputEvent } from "@distilled.cloud/aws/eventstream/serializer";
 import * as Lambda from "@distilled.cloud/aws/lambda";
 import * as Region from "@distilled.cloud/aws/Region";
 import * as S3 from "@distilled.cloud/aws/s3";
@@ -68,7 +70,24 @@ interface Canned {
   readonly body: string;
   /** Simulated network time. */
   readonly ms?: number;
+  /** A streamed body instead of `body`: each part `ms` after the last, then the end. */
+  readonly parts?: ReadonlyArray<{ readonly ms: number; readonly bytes: string | Uint8Array }>;
 }
+
+/** A response body that sends `parts` with their delays. */
+const streamed = (parts: NonNullable<Canned["parts"]>) => {
+  let i = 0;
+  return new ReadableStream<Uint8Array>({
+    async pull(controller) {
+      const part = parts[i++];
+      if (part === undefined) return controller.close();
+      await new Promise((resolve) => setTimeout(resolve, part.ms));
+      controller.enqueue(
+        typeof part.bytes === "string" ? new TextEncoder().encode(part.bytes) : part.bytes,
+      );
+    },
+  });
+};
 
 /**
  * Every request body the mocked HttpClient received, for scenarios that
@@ -106,7 +125,7 @@ const scripted = (responses: ReadonlyArray<Canned>) => {
       const respond = Effect.sync(() =>
         HttpClientResponse.fromWeb(
           request,
-          new Response(r.body, {
+          new Response(r.parts ? streamed(r.parts) : r.body, {
             status: r.status ?? 200,
             headers: r.headers ?? { "content-type": "application/json" },
           }),
@@ -240,6 +259,28 @@ interface Scenario {
 const deployConfig = Effect.fn("deployConfig")(function* (key: string) {
   const object = yield* S3.getObject({ Bucket: "app-config", Key: key });
   return object.ContentLength;
+});
+
+/** Bedrock ConverseStream's events in the event-stream wire format. */
+const converseEvents = await Promise.all(
+  [
+    { messageStart: { role: "assistant" } },
+    { contentBlockDelta: { contentBlockIndex: 0, delta: { text: "hel" } } },
+    { contentBlockDelta: { contentBlockIndex: 0, delta: { text: "lo" } } },
+    { messageStop: { stopReason: "end_turn" } },
+    {
+      metadata: {
+        usage: { inputTokens: 12, outputTokens: 5, totalTokens: 17 },
+        metrics: { latencyMs: 560 },
+      },
+    },
+  ].map((event) => Effect.runPromise(encodeEvent(serializeInputEvent(event)))),
+);
+
+// The caller reads an S3 object body in its own traced function.
+const loadConfig = Effect.fn("loadConfig")(function* () {
+  const object = yield* S3.getObject({ Bucket: "app-config", Key: "prod.json" });
+  return yield* Stream.mkString(Stream.decodeText(object.Body as Stream.Stream<Uint8Array>));
 });
 
 const scenarios = (): Scenario[] => [
@@ -675,6 +716,59 @@ const scenarios = (): Scenario[] => [
           usage: { inputTokens: 12, outputTokens: 5, totalTokens: 17 },
           metrics: { latencyMs: 410 },
         }),
+      },
+    ],
+  },
+  {
+    id: "bedrock-converse-stream",
+    title: "Bedrock ConverseStream, 5 events",
+    what: "A streamed GenAI response. The headers arrive after 180 ms, the events over the next 400 ms. A GenAI span ends when the response is fully received (GenAI conventions; the OpenTelemetry AWS SDK instrumentations do the same), so the operation span stays open until the caller has read the last event, and gen_ai.response.time_to_first_chunk records when the first event arrived. Debug mode shows the read as distilled.read_stream.",
+    code: `const { stream } = yield* Bedrock.converseStream({
+  modelId: "anthropic.claude-sonnet",
+  messages: [{ role: "user", content: [{ text: "hi" }] }],
+});
+yield* Stream.runCollect(stream);`,
+    program: Effect.flatMap(
+      Bedrock.converseStream({
+        modelId: "anthropic.claude-sonnet",
+        messages: [{ role: "user", content: [{ text: "hi" }] }],
+      } as never),
+      (out) => Stream.runCollect(out.stream as Stream.Stream<unknown>),
+    ) as never,
+    http: [
+      {
+        ms: 180,
+        headers: {
+          "content-type": "application/vnd.amazon.eventstream",
+          "x-amzn-requestid": "BRS1",
+        },
+        body: "",
+        parts: converseEvents.map((bytes) => ({ ms: 80, bytes })),
+      },
+    ],
+  },
+  {
+    id: "s3-get-stream",
+    title: "S3 GetObject, body read in 3 parts",
+    what: "A streamed object body, read inside the caller's own Effect.fn. The headers arrive after 20 ms, the body over the next 360 ms. The operation span ends at the headers, as in the OpenTelemetry AWS SDK instrumentations and the HTTP client span conventions; the caller's loadConfig span covers the read.",
+    code: `const loadConfig = Effect.fn("loadConfig")(function* () {
+  const object = yield* S3.getObject({
+    Bucket: "app-config",
+    Key: "prod.json",
+  });
+  return yield* object.Body.pipe(Stream.decodeText, Stream.mkString);
+});`,
+    program: loadConfig() as never,
+    http: [
+      {
+        ms: 20,
+        headers: {
+          "content-type": "application/json",
+          "content-length": "35",
+          "x-amz-request-id": "4442587FB7D0A2F9",
+        },
+        body: "",
+        parts: ['{"region":', '"us-east-1",', '"replicas":3}'].map((bytes) => ({ ms: 120, bytes })),
       },
     ],
   },

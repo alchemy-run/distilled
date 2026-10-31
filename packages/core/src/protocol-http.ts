@@ -14,9 +14,10 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
  */
 import type * as AST from "effect/SchemaAST";
 import { getAnn, getProps } from "./annotations.ts";
+import * as Category from "./category.ts";
 import { debugHttp } from "./debug.ts";
-import { InvalidInput } from "./errors.ts";
 import { isOpaqueValue } from "./plain-values.ts";
+import * as Schema from "./schema-lite-typed.ts";
 import { restoreStack, suppressStack } from "./telemetry.ts";
 import {
   bodySymbol,
@@ -590,6 +591,17 @@ export const makeRequest = (
     Headers.fromInput(headers),
     HttpBody.empty,
   );
+
+/**
+ * The input cannot be sent: a path label whose value would address another
+ * resource (`.` or `..`, which the URL parser resolves to the parent path).
+ * Raised before anything is sent.
+ */
+export class InvalidInput
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidInput>()("InvalidInput", {
+    member: Schema.String,
+    message: Schema.String,
+  }).pipe(Category.withBadRequestError) {}
 
 /**
  * The refusal for a path label value that would address another resource,

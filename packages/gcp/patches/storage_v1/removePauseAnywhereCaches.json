@@ -1,0 +1,7 @@
+{
+  "description": "Remove anywhereCaches.pause: Google deprecated it. Observed live 2026-10-28: every call answers 503 'The Cache Pause feature has been deprecated and is no longer supported.', which reads as a transient outage, so callers retry it until they time out. The discovery document still lists the method.",
+  "patches": [
+    { "op": "remove", "path": "/shapes/com.gcp.storage_v1#PauseAnywhereCaches" },
+    { "op": "remove", "path": "/shapes/com.gcp.storage_v1#PauseAnywhereCachesRequest" }
+  ]
+}

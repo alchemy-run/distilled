@@ -2,6 +2,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import * as TxName from "@distilled.cloud/core/telemetry-name-template";
+import * as TxStream from "@distilled.cloud/core/telemetry-stream";
 import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as redacted from "effect/Redacted";
@@ -2131,6 +2132,10 @@ export const converseStream: API.OperationMethod<
       guardrailConfig: [{ name: "aws.bedrock.guardrail.id", field: "guardrailIdentifier" }],
     },
     rename: TxName.nameTemplate("chat {gen_ai.request.model}"),
+    hold: TxStream.holdForStream({
+      member: "stream",
+      firstChunk: "gen_ai.response.time_to_first_chunk",
+    }),
   },
 }));
 

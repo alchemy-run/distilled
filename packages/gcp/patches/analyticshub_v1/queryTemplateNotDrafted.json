@@ -1,0 +1,26 @@
+{
+  "description": "Type Analytics Hub's 400 for deleting a query template that left the DRAFTED state. Observed live 2026-10-29: after submit or approve, delete answers 400 'QueryTemplate must be in DRAFTED state to be deleted.' It surfaced as an out-of-union BadRequest. Such a template is removed only with its data exchange.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#QueryTemplateNotDrafted",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The query template was submitted or approved, so it can't be deleted on its own (HTTP 400: 'QueryTemplate must be in DRAFTED state to be deleted'). Deleting its data exchange removes it.",
+          "com.gcp.protocols#errorMatchers": [
+            { "status": 400, "message": { "includes": "must be in DRAFTED state to be deleted" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.analyticshub_v1#DeleteProjectsLocationsDataExchangesQueryTemplates/errors/-",
+      "value": { "target": "com.gcp.analyticshub_v1#QueryTemplateNotDrafted" }
+    }
+  ]
+}

@@ -7,7 +7,11 @@ import {
   type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import { buildRequest, mapKeys, matchTypedError } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
+import {
+  hasSensitiveMember,
+  unwrapRedactedDeep,
+  wrapSensitive,
+} from "@distilled.cloud/core/protocol-rest";
 /**
  * ZeroSslProtocol -- hand-written.
  *
@@ -87,11 +91,14 @@ const decode = ({
       try: () => (text.trim().length > 0 ? JSON.parse(text) : {}),
       catch: () => parseError("Invalid JSON response"),
     }).pipe(
-      // A non-JSON 2xx fails unless lenient; lenient returns the text.
+      // A non-JSON 2xx fails unless lenient, and in every mode for an output
+      // with sensitive members; otherwise lenient returns the text.
       Effect.catchTag("ZeroSslParseError", (error) =>
         status >= 400
           ? Effect.succeed(undefined)
-          : failUnlessLenient<unknown, typeof error>(error, text),
+          : hasSensitiveMember(outputAst)
+            ? Effect.fail(error)
+            : failUnlessLenient<unknown, typeof error>(error, text),
       ),
     );
     const envelope = (isObject(json) ? json : {}) as ErrorEnvelope;
