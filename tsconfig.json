@@ -521,6 +521,12 @@
       "path": "./packages/slack/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/rivet/tsconfig.json"
+    },
+    {
+      "path": "./packages/rivet/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/s2/tsconfig.json"
     },
     {

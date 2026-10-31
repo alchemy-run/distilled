@@ -110,6 +110,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "remote" },
   { package: "render" },
   { package: "resend" },
+  { package: "rivet" },
   { package: "s2" },
   { package: "sentry" },
   // Slack publishes no OpenAPI document; the mirror snapshots the JSON twins
