@@ -390,6 +390,23 @@ describe("makeRestProtocol raw request bodies", () => {
     const request = await send(untypedUpload({ body: new Blob(["<p>"], { type: "text/html" }) }));
     expect(request.headers.get("content-type")).toBe("text/html");
   });
+
+  test("a JSON body is sent under the Content-Type member, else as application/json", async () => {
+    // Shaped like a Kubernetes patch: the patch type is the Content-Type.
+    const patch = op(
+      S.Struct({
+        body: S.Unknown.pipe(T.HttpBody()),
+        contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+      }).pipe(T.Http({ method: "PATCH", uri: "/things" })),
+    );
+    const merge = await send(
+      patch({ body: { spec: { replicas: 3 } }, contentType: "application/merge-patch+json" }),
+    );
+    expect(merge.headers.get("content-type")).toBe("application/merge-patch+json");
+    expect(await merge.text()).toBe('{"spec":{"replicas":3}}');
+    const plain = await send(patch({ body: { spec: { replicas: 3 } } }));
+    expect(plain.headers.get("content-type")).toBe("application/json");
+  });
 });
 
 // =============================================================================

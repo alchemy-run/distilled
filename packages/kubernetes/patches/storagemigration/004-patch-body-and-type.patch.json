@@ -1,0 +1,137 @@
+{
+  "description": "The spec types every PATCH body as io.k8s.apimachinery.pkg.apis.meta.v1.Patch, a bare object, which convert drops, and names the patch types only in `consumes`. Patch operations had no body member, and a patch passed as extra keys went out as application/json, which the API server refuses with 415 Unsupported Media Type (kube-apiserver v1.36.2, 2026-10-29). Each patch operation gets a required `body` document and a required `contentType` header that names the patch type, as client-go does. application/apply-patch+cbor is left out: it needs a body of CBOR bytes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#PatchType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "APPLICATION_JSON_PATCH_JSON": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "application/json-patch+json"
+            }
+          },
+          "APPLICATION_MERGE_PATCH_JSON": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "application/merge-patch+json"
+            }
+          },
+          "APPLICATION_STRATEGIC_MERGE_PATCH_JSON": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "application/strategic-merge-patch+json"
+            }
+          },
+          "APPLICATION_APPLY_PATCH_YAML": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "application/apply-patch+yaml"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "How the server applies a PATCH body."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#PatchStoragemigrationV1StorageVersionMigrationRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.storagemigration#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#PatchStoragemigrationV1StorageVersionMigrationRequest/members/body",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#PatchStoragemigrationV1StorageVersionMigrationStatusRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.storagemigration#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#PatchStoragemigrationV1StorageVersionMigrationStatusRequest/members/body",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#PatchStoragemigrationV1beta1StorageVersionMigrationRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.storagemigration#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#PatchStoragemigrationV1beta1StorageVersionMigrationRequest/members/body",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#PatchStoragemigrationV1beta1StorageVersionMigrationStatusRequest/members/contentType",
+      "value": {
+        "target": "com.kubernetes.storagemigration#PatchType",
+        "traits": {
+          "smithy.api#httpHeader": "Content-Type",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storagemigration#PatchStoragemigrationV1beta1StorageVersionMigrationStatusRequest/members/body",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch."
+        }
+      }
+    }
+  ]
+}

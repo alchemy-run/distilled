@@ -826,7 +826,8 @@ const requestOrInvalid = ({
     // Binary payloads (Blob / ArrayBuffer / Uint8Array) send verbatim
     // (raw object uploads). With a bodyMediaType, the member is a
     // preserialized payload (string / bytes) sent verbatim; otherwise it's
-    // JSON.
+    // JSON, under the Content-Type member when set (e.g. Kubernetes'
+    // application/merge-patch+json).
     //
     // `setBody` overwrites the Content-Type header with the body's media
     // type (and removes it when that is undefined), so the body carries the
@@ -848,7 +849,7 @@ const requestOrInvalid = ({
           : HttpBody.uint8Array(rawBody as Uint8Array, mediaType),
       );
     }
-    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(rawBody));
+    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(rawBody, memberContentType));
   }
   if (
     // A GET/HEAD sends a body only when body members actually carry values.
