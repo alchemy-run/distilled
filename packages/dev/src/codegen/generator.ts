@@ -10,7 +10,12 @@ import {
   suspendConst,
 } from "./emit.ts";
 import { orderIndex, reachableFrom, shapeDeps, topoOrder, type ShapeMap } from "./graph.ts";
-import { ADDITIONAL_PROPERTIES_TRAIT, memberBases, smithyWireName } from "./members.ts";
+import {
+  ADDITIONAL_PROPERTIES_TRAIT,
+  memberBases,
+  smithyWireName,
+  VERBATIM_TRAIT,
+} from "./members.ts";
 /**
  * The generic smithy→SDK service generator (dev-time only).
  *
@@ -689,6 +694,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         .filter(([trait]) => info.traits[trait] !== undefined)
         .map(([trait, builder]) => `${builder}(${JSON.stringify(info.traits[trait])})`),
       ...(STRING_ENCODED_TRAIT in info.traits ? ["T.StringEncoded()"] : []),
+      ...(VERBATIM_TRAIT in info.traits ? ["T.Verbatim()"] : []),
       ...(spec.memberExtraPipes?.(info) ?? []),
     ]);
 
@@ -1035,9 +1041,24 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         );
       } else if (spec.unionStyle === "opaque-cases") {
         const disc = unionDiscriminator(caseTargets);
+        const verbatim = caseTargets.map((t) => {
+          const cd = shapes[t];
+          return cd?.type === "structure"
+            ? memberInfos(cd)
+                .filter((mi) => VERBATIM_TRAIT in mi.traits)
+                .map((mi) => mi.tsName)
+            : [];
+        });
+        const args = [
+          JSON.stringify(caseKeys),
+          ...(disc || verbatim.some((keys) => keys.length > 0)
+            ? [disc ? JSON.stringify(disc) : "undefined"]
+            : []),
+          ...(verbatim.some((keys) => keys.length > 0) ? [JSON.stringify(verbatim)] : []),
+        ];
         out.push(
           `export type ${name} = ${caseTargets.map((t) => tsRefAt(t, id)).join(" | ") || "unknown"};`,
-          `export const ${name} = ${pure}S.Unknown.pipe(T.UnionCases(${JSON.stringify(caseKeys)}${disc ? `, ${JSON.stringify(disc)}` : ""}));\n`,
+          `export const ${name} = ${pure}S.Unknown.pipe(T.UnionCases(${args.join(", ")}));\n`,
         );
       } else {
         throw new Error(`no union emission configured for shape ${id} — set unionStyle or union`);

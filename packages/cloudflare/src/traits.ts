@@ -26,6 +26,7 @@ export {
   HttpBody,
   FormDataFile,
   StringEncoded,
+  Verbatim,
   KeyDictionary,
   UnionCases,
   applyErrorMatchers,

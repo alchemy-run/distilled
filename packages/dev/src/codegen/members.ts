@@ -15,6 +15,13 @@ import { oneLine } from "./naming.ts";
  */
 export const ADDITIONAL_PROPERTIES_TRAIT = "com.distilled.openapi#additionalProperties";
 
+/**
+ * Member-level marker: the value is the caller's own JSON, sent and returned
+ * with its keys as written. The generator emits `T.Verbatim()` on the member
+ * and lists it on `T.UnionCases` for every opaque union case that holds it.
+ */
+export const VERBATIM_TRAIT = "distilled.protocols#verbatim";
+
 export interface MemberBase {
   /** Original smithy member name. */
   readonly name: string;

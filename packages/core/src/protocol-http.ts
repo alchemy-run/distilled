@@ -33,6 +33,7 @@ import {
   querySymbol,
   stringEncodedSymbol,
   unionCasesSymbol,
+  verbatimSymbol,
   type ErrorMatcher,
   type ErrorTextMatcher,
   type HttpTrait,
@@ -137,6 +138,20 @@ export { isOpaqueValue };
  * may list several wire spellings; encode uses the first (canonical) one and
  * decode maps every listed spelling back to the TS name.
  */
+const dictionaryRenames = (
+  dict: KeyDictionaryEntries,
+  direction: "encode" | "decode",
+): Record<string, string> =>
+  direction === "decode"
+    ? Object.fromEntries(
+        Object.entries(dict).flatMap(([ts, wire]) =>
+          typeof wire === "string" ? [[wire, ts] as const] : wire.map((w) => [w, ts] as const),
+        ),
+      )
+    : Object.fromEntries(
+        Object.entries(dict).map(([ts, wire]) => [ts, typeof wire === "string" ? wire : wire[0]!]),
+      );
+
 export const mapKeysByDictionary = (
   dict: KeyDictionaryEntries,
   value: unknown,
@@ -148,19 +163,7 @@ export const mapKeysByDictionary = (
   if (Array.isArray(value)) {
     return value.map((v) => mapKeysByDictionary(dict, v, direction));
   }
-  const rename: Record<string, string> =
-    direction === "decode"
-      ? Object.fromEntries(
-          Object.entries(dict).flatMap(([ts, wire]) =>
-            typeof wire === "string" ? [[wire, ts] as const] : wire.map((w) => [w, ts] as const),
-          ),
-        )
-      : Object.fromEntries(
-          Object.entries(dict).map(([ts, wire]) => [
-            ts,
-            typeof wire === "string" ? wire : wire[0]!,
-          ]),
-        );
+  const rename = dictionaryRenames(dict, direction);
   const out: Record<string, unknown> = {};
   for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
     if (v === undefined) continue;
@@ -261,26 +264,36 @@ export const mapKeys = (
   // active case is the one that best EXPLAINS the value: most present,
   // non-null keys covered, minus present keys the case cannot explain (ties
   // break by coverage, then declaration order).
+  //
+  // Encode takes this path only for a union declaring verbatim members:
+  // the case it picks says which members keep their keys.
   const unionCases = getAnn(ast, unionCasesSymbol) as
     | {
         readonly cases: ReadonlyArray<ReadonlyArray<string>>;
         readonly discriminator?: UnionDiscriminator;
+        readonly verbatim?: ReadonlyArray<ReadonlyArray<string>>;
       }
     | undefined;
-  if (unionCases && direction === "decode" && !Array.isArray(value)) {
-    const obj = (dict ? mapKeysByDictionary(dict, value, "decode") : value) as Record<
-      string,
-      unknown
-    >;
+  if (
+    unionCases &&
+    (direction === "decode" || unionCases.verbatim !== undefined) &&
+    !Array.isArray(value)
+  ) {
+    // Top-level keys in TS names, values still as given.
+    const rename = dict ? dictionaryRenames(dict, direction) : {};
+    const obj: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
+      obj[direction === "decode" ? (rename[k] ?? k) : k] = v;
+    }
     const present = Object.keys(obj).filter((k) => obj[k] !== undefined && obj[k] !== null);
     const disc = unionCases.discriminator;
     const tag = disc ? obj[disc.key] : undefined;
     const tagged = typeof tag === "string" ? disc!.values.indexOf(tag) : -1;
-    let best: { keys: ReadonlyArray<string>; score: number; matched: number } | undefined;
+    let best: { index: number; score: number; matched: number } | undefined;
     if (tagged >= 0) {
-      best = { keys: unionCases.cases[tagged]!, score: 0, matched: 0 };
+      best = { index: tagged, score: 0, matched: 0 };
     } else {
-      for (const keys of unionCases.cases) {
+      unionCases.cases.forEach((keys, index) => {
         const set = new Set(keys);
         let matched = 0;
         let excess = 0;
@@ -293,16 +306,24 @@ export const mapKeys = (
           matched > 0 &&
           (!best || score > best.score || (score === best.score && matched > best.matched))
         ) {
-          best = { keys, score, matched };
+          best = { index, score, matched };
         }
+      });
+    }
+    const verbatim = new Set(best ? (unionCases.verbatim?.[best.index] ?? []) : []);
+    const mapValue = (k: string, v: unknown) =>
+      verbatim.has(k) || !dict ? v : mapKeysByDictionary(dict, v, direction);
+    const out: Record<string, unknown> = {};
+    if (direction === "encode") {
+      for (const [k, v] of Object.entries(obj)) {
+        if (v !== undefined) out[rename[k] ?? k] = mapValue(k, v);
+      }
+    } else {
+      for (const k of best ? unionCases.cases[best.index]! : Object.keys(obj)) {
+        out[k] = mapValue(k, obj[k]);
       }
     }
-    if (best) {
-      const out: Record<string, unknown> = {};
-      for (const k of best.keys) out[k] = obj[k];
-      return out;
-    }
-    return obj;
+    return out;
   }
 
   const node = resolveNode(ast);
@@ -371,8 +392,9 @@ export const mapKeys = (
       // A `StringEncoded()` member nested in a body struct (e.g. Azure's
       // `hardwareProfile.dynamicMemoryEnabled`) stringifies here -- the
       // top-level pass in `buildRequest` only sees the outermost member.
-      out[to] =
-        direction === "encode" && hasPropAnn(p, stringEncodedSymbol)
+      out[to] = hasPropAnn(p, verbatimSymbol)
+        ? v
+        : direction === "encode" && hasPropAnn(p, stringEncodedSymbol)
           ? stringEncode(v)
           : mapKeys(p.type, v, direction, dict);
     }
@@ -563,7 +585,9 @@ const planFor = (inputAst: AST.AST): RequestPlan => {
       preserve: typeof preserve === "string" ? preserve : undefined,
       greedy,
       stringEncoded: hasPropAnn(prop, stringEncodedSymbol),
-      verbatim: rootDict === undefined && mapsVerbatim(prop.type, "encode"),
+      verbatim:
+        hasPropAnn(prop, verbatimSymbol) ||
+        (rootDict === undefined && mapsVerbatim(prop.type, "encode")),
     });
   }
   plan = { http, rootDict, members, known, hasBodyMembers };
