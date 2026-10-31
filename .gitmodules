@@ -438,3 +438,8 @@ path = packages/celld/specs/spec-mirror-celld
 url = https://github.com/distilled-mirror/spec-mirror-celld.git
 ignore = dirty
 shallow = true
+[submodule "packages/entire/specs/spec-mirror-entire"]
+	path = packages/entire/specs/spec-mirror-entire
+	url = https://github.com/distilled-mirror/spec-mirror-entire.git
+	ignore = dirty
+	shallow = true

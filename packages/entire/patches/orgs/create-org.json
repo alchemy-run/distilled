@@ -1,0 +1,65 @@
+{
+  "description": "Type createOrg's 409s: the account's org-creation limit (`organization creation limit reached`) and an invalid name (400), which is otherwise indistinguishable from a name conflict.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.entire.core.orgs#OrgCreationLimitReached",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The account has reached its organization creation limit (HTTP 409).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "message": {
+                "includes": "organization creation limit reached"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.entire.core.orgs#OrgNameInvalid",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The name is not a valid org name: lowercase letters, digits, `.` and `-` (HTTP 400).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "invalid org name"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.entire.core.orgs#CreateOrg/errors",
+      "value": [
+        {
+          "target": "com.entire.core.orgs#OrgCreationLimitReached"
+        },
+        {
+          "target": "com.entire.core.orgs#OrgNameInvalid"
+        }
+      ]
+    }
+  ]
+}

@@ -118,6 +118,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
     [
       "github",
       "forgejo",
+      "entire",
       "temporal",
       "inngest",
       "trigger-dev",
@@ -197,6 +198,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   "expo-eas": "react native builds",
   "google-workspace": "gmail drive calendar",
   notion: "docs wiki pages databases blocks",
+  entire: "git forge agents sessions trails checkpoints",
   porkbun: "domains dns",
   hetzner: "servers",
   ovh: "servers",
