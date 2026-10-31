@@ -40,6 +40,7 @@ import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
 import * as HttpBody from "effect/http/HttpBody";
 import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
@@ -55,7 +56,7 @@ import { type Decoded, makeResponseParser, makeSuccessDecoder } from "./client/r
 import type { Response } from "./client/response.ts";
 import * as Credentials from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
-import { EndpointError, ParseError } from "./errors.ts";
+import { EndpointError, EndpointNotFound, isHostNotFound, ParseError } from "./errors.ts";
 import * as Region from "./region.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
 import { isValidHostLabel } from "./rules-engine/standard-functions.ts";
@@ -655,6 +656,38 @@ const decodeWith = (
 };
 
 /**
+ * `client.execute`, with a host that DNS says does not exist failing as
+ * {@link EndpointNotFound} rather than a transport error the retry policy
+ * would retry.
+ */
+const execute = (
+  prepared: Prepared,
+  context: Context.Context<any>,
+  client: HttpClient.HttpClient,
+  request: HttpClientRequest.HttpClientRequest,
+) =>
+  Effect.catchIf(
+    Telemetry.execute(context, client, request),
+    (error) =>
+      HttpClientError.isHttpClientError(error) &&
+      error.reason._tag === "TransportError" &&
+      isHostNotFound(error.reason.cause),
+    () => {
+      const hostname = new URL(request.url).hostname;
+      const service = prepared.serviceSdkId;
+      return Effect.fail(
+        new EndpointNotFound({
+          service,
+          hostname,
+          message:
+            `${service ?? "The service"} has no endpoint at ${hostname}: the host does not exist in DNS. ` +
+            "The service may not be available in this region or partition, or the endpoint is misconfigured.",
+        }),
+      );
+    },
+  );
+
+/**
  * One operation call on the calling fiber: encode -> one `client.execute`
  * -> decode. The operation's plan is compiled on its first call (the
  * protocol implementation loads then).
@@ -666,7 +699,7 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
     const run = (plan: Plan) => {
       const client = Context.get(context, HttpClient.HttpClient);
       return encodeWith(prepared, plan, fiber as unknown as Fiber, input, (request) =>
-        Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+        Effect.flatMap(execute(prepared, context, client, request), (response) =>
           Telemetry.phase(
             context,
             "aws.deserialize",

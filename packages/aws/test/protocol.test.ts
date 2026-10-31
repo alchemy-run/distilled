@@ -9,11 +9,14 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import * as Schedule from "effect/Schedule";
 import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
+import * as Category from "../src/category.ts";
 import * as Credentials from "../src/credentials.browser.ts";
 import * as Endpoint from "../src/endpoint.ts";
 import { AwsProtocol } from "../src/protocol.ts";
@@ -22,6 +25,7 @@ import * as DynamoDB from "../src/services/dynamodb.ts";
 import * as EC2 from "../src/services/ec2.ts";
 import * as KMS from "../src/services/kms.ts";
 import * as Lambda from "../src/services/lambda.ts";
+import * as Route53Domains from "../src/services/route-53-domains.ts";
 import * as S3 from "../src/services/s3.ts";
 import * as STS from "../src/services/sts.ts";
 
@@ -299,4 +303,81 @@ describe("S3 InvalidAccessKeyId", () => {
       expect((exit as { value: { _tag: string } }).value._tag).toBe("InvalidAccessKeyId");
     });
   }
+});
+
+describe("EndpointNotFound", () => {
+  /** How each runtime's fetch rejects a host that DNS says does not exist. */
+  const notFound = (hostname: string) => ({
+    bun: Object.assign(new TypeError(`getaddrinfo ENOTFOUND ${hostname}`), {
+      code: "ENOTFOUND",
+      errno: 4,
+    }),
+    node: new TypeError("fetch failed", {
+      cause: Object.assign(new Error(`getaddrinfo ENOTFOUND ${hostname}`), {
+        code: "ENOTFOUND",
+        syscall: "getaddrinfo",
+        hostname,
+      }),
+    }),
+  });
+
+  /** Runs `listDomains` in `eusc-de-east-1` against fetch failing with `cause`. */
+  const listDomains = async (cause: unknown) => {
+    let attempts = 0;
+    const client = HttpClient.make((request) =>
+      Effect.suspend(() => {
+        attempts++;
+        return Effect.fail(
+          new HttpClientError.HttpClientError({
+            reason: new HttpClientError.TransportError({ request, cause }),
+          }),
+        );
+      }),
+    );
+    const error = await Effect.runPromise(
+      Effect.flip(Route53Domains.listDomains({})).pipe(
+        Retry.policy({ while: Category.isTransientError, schedule: Schedule.recurs(3) }),
+        Effect.provide(
+          Layer.mergeAll(
+            Credentials.fromCredentials(
+              {
+                accessKeyId: Redacted.make("AKIDEXAMPLE"),
+                secretAccessKey: Redacted.make("secret"),
+              },
+              "eusc-de-east-1",
+            ),
+            Layer.succeed(HttpClient.HttpClient, client),
+          ),
+        ),
+      ),
+    );
+    return { error, attempts };
+  };
+
+  for (const [runtime, cause] of Object.entries(
+    notFound("route53domains.eusc-de-east-1.amazonaws.eu"),
+  )) {
+    test(`a host DNS does not know fails once, typed, under ${runtime}`, async () => {
+      const { error, attempts } = await listDomains(cause);
+      expect(attempts).toBe(1);
+      expect(error).toMatchObject({
+        _tag: "EndpointNotFound",
+        service: "Route 53 Domains",
+        hostname: "route53domains.eusc-de-east-1.amazonaws.eu",
+      });
+      expect((error as { message: string }).message).toContain(
+        "route53domains.eusc-de-east-1.amazonaws.eu",
+      );
+    });
+  }
+
+  test("a temporary resolver failure is still retried", async () => {
+    const { error, attempts } = await listDomains(
+      Object.assign(new TypeError("getaddrinfo EAI_AGAIN route53domains.us-east-1.amazonaws.com"), {
+        code: "EAI_AGAIN",
+      }),
+    );
+    expect(attempts).toBe(4);
+    expect((error as { _tag: string })._tag).toBe("HttpClientError");
+  });
 });

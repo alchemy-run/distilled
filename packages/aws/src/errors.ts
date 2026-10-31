@@ -179,6 +179,34 @@ export class EndpointError
     message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
   }).pipe(Category.withConfigurationError) {}
 
+/**
+ * The endpoint's host name does not exist in DNS (`ENOTFOUND`): the service
+ * has no endpoint in this region or partition, or a custom endpoint names a
+ * host that does not exist. The resolver's answer is authoritative, so the
+ * call is not retried. A temporary resolver failure (`EAI_AGAIN`) stays a
+ * retried transport error.
+ */
+export class EndpointNotFound
+  extends /*@__PURE__*/ S.TaggedError<EndpointNotFound>()("EndpointNotFound", {
+    message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+    /** The AWS service SDK ID (e.g., "Route 53 Domains") */
+    service: /*@__PURE__*/ S.optional(S.String),
+    /** The host name that does not resolve. */
+    hostname: S.String,
+  }).pipe(Category.withConfigurationError) {}
+
+/**
+ * Whether a fetch failure is DNS reporting that the host does not exist: Bun
+ * sets `code: "ENOTFOUND"` on the error, Node on its `cause`.
+ */
+export const isHostNotFound = (err: unknown): boolean => {
+  for (let e = err, depth = 0; typeof e === "object" && e !== null && depth < 4; depth++) {
+    if ((e as { code?: unknown }).code === "ENOTFOUND") return true;
+    e = (e as { cause?: unknown }).cause;
+  }
+  return false;
+};
+
 /** Error when no rule matches in the ruleset */
 export class NoMatchingRuleError
   extends /*@__PURE__*/ S.TaggedError<NoMatchingRuleError>()("NoMatchingRuleError", {
@@ -250,6 +278,7 @@ export type CommonErrors =
   | InvalidInput
   | CommonAwsError
   | EndpointError
+  | EndpointNotFound
   | NoMatchingRuleError
   | SigV4.SigningError
   | Credentials.CredentialsError
