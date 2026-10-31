@@ -438,3 +438,8 @@ path = packages/celld/specs/spec-mirror-celld
 url = https://github.com/distilled-mirror/spec-mirror-celld.git
 ignore = dirty
 shallow = true
+[submodule "packages/proxmox/specs/spec-mirror-proxmox"]
+	path = packages/proxmox/specs/spec-mirror-proxmox
+	url = https://github.com/distilled-mirror/spec-mirror-proxmox.git
+	ignore = dirty
+	shallow = true
