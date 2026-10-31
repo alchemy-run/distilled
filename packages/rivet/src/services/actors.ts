@@ -26,6 +26,15 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** A storage command timed out inside the control plane (its outcome may be unknown): answered while the control plane is still forming or under load. Retry after a short delay. */
+export class CommandDeadlineElapsed
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CommandDeadlineElapsed>()("CommandDeadlineElapsed", {
+      message: S.String,
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 400, message: { includes: "command deadline elapsed" } }],
+  ) {}
+
 /** The control plane's storage refused the command (`depot.overloaded`) -- answered while the storage layer is still starting or under load. Retry after a short delay. */
 export class StorageOverloaded
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -167,7 +176,7 @@ export interface SleepActorRequest {
   namespace?: string;
 }
 export type SleepActorResponse = unknown;
-export type CreateActorError = StorageOverloaded | RivetOpError;
+export type CreateActorError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
 /** Creates an actor and waits until its record exists. Fails if a live actor with the same name and key exists. */
 export const createActor: API.OperationMethod<
   CreateActorRequest,
@@ -177,14 +186,14 @@ export const createActor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateActorRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ActorsCreateResponse>,
-  errors: [StorageOverloaded, UnknownRivetError],
+  errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateActor",
 }));
 
-export type DeleteActorError = StorageOverloaded | RivetOpError;
+export type DeleteActorError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
 /** Destroys an actor. */
 export const deleteActor: API.OperationMethod<
   DeleteActorRequest,
@@ -194,14 +203,14 @@ export const deleteActor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<DeleteActorRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<DeleteActorResponse>,
-  errors: [StorageOverloaded, UnknownRivetError],
+  errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteActor",
 }));
 
-export type GetActorError = StorageOverloaded | RivetOpError;
+export type GetActorError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
 /** Returns one live actor. */
 export const getActor: API.OperationMethod<
   GetActorRequest,
@@ -211,14 +220,14 @@ export const getActor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetActorRequest>,
   output: __S(41, __c5, 1) as any as S.Schema<ActorsGetResponse>,
-  errors: [StorageOverloaded, UnknownRivetError],
+  errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetActor",
 }));
 
-export type GetOrCreateActorError = StorageOverloaded | RivetOpError;
+export type GetOrCreateActorError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
 /** Returns the live actor with the given name and key, or creates it. Waking a sleeping actor is part of the lookup. Without a key, a new actor is always created. */
 export const getOrCreateActor: API.OperationMethod<
   GetOrCreateActorRequest,
@@ -228,14 +237,14 @@ export const getOrCreateActor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<GetOrCreateActorRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ActorsGetOrCreateResponse>,
-  errors: [StorageOverloaded, UnknownRivetError],
+  errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrCreateActor",
 }));
 
-export type ListActorNamesError = StorageOverloaded | RivetOpError;
+export type ListActorNamesError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
 /** Lists the actor names that the namespace's connected nodes accept. */
 export const listActorNames: API.OperationMethod<
   ListActorNamesRequest,
@@ -245,14 +254,14 @@ export const listActorNames: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ListActorNamesRequest>,
   output: __S(60, __c7, 4) as any as S.Schema<ActorsListNamesResponse>,
-  errors: [StorageOverloaded, UnknownRivetError],
+  errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListActorNames",
 }));
 
-export type ListActorsError = StorageOverloaded | RivetOpError;
+export type ListActorsError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
 /** Lists actors by IDs, by name and key, or by name. Only a listing by name is paginated. */
 export const listActors: API.PaginatedOperationMethod<
   ListActorsRequest,
@@ -264,7 +273,7 @@ export const listActors: API.PaginatedOperationMethod<
   () => ({
     input: __S(64, __c8, 0) as any as S.Schema<ListActorsRequest>,
     output: __S(67, __c8, 3) as any as S.Schema<ActorsListResponse>,
-    errors: [StorageOverloaded, UnknownRivetError],
+    errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
     protocol: RivetProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -280,7 +289,7 @@ export const listActors: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
-export type RescheduleActorError = StorageOverloaded | RivetOpError;
+export type RescheduleActorError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
 /** Moves an actor to a new allocation. A running or stopping actor is stopped and allocated again, and a sleeping actor is allocated now. An actor that is still starting, or is destroyed, is left as is. The request body is ignored. */
 export const rescheduleActor: API.OperationMethod<
   RescheduleActorRequest,
@@ -290,14 +299,14 @@ export const rescheduleActor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<RescheduleActorRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<RescheduleActorResponse>,
-  errors: [StorageOverloaded, UnknownRivetError],
+  errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RescheduleActor",
 }));
 
-export type SleepActorError = StorageOverloaded | RivetOpError;
+export type SleepActorError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
 /** Puts an actor to sleep. The request body is ignored. */
 export const sleepActor: API.OperationMethod<
   SleepActorRequest,
@@ -307,7 +316,7 @@ export const sleepActor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<SleepActorRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<SleepActorResponse>,
-  errors: [StorageOverloaded, UnknownRivetError],
+  errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

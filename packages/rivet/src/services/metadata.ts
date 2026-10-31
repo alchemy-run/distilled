@@ -24,6 +24,15 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** A storage command timed out inside the control plane (its outcome may be unknown): answered while the control plane is still forming or under load. Retry after a short delay. */
+export class CommandDeadlineElapsed
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CommandDeadlineElapsed>()("CommandDeadlineElapsed", {
+      message: S.String,
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 400, message: { includes: "command deadline elapsed" } }],
+  ) {}
+
 /** The control plane's storage refused the command (`depot.overloaded`) -- answered while the storage layer is still starting or under load. Retry after a short delay. */
 export class StorageOverloaded
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -54,7 +63,7 @@ export interface MetadataGetResponse {
   /** Actor names the default namespace's connected nodes accept. Only present for requests made with the admin token. */
   actorNames?: MetadataGetResponseActorNamesMap;
 }
-export type GetMetadataError = StorageOverloaded | RivetOpError;
+export type GetMetadataError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
 /** Returns the runtime and version of the control plane. Requests with the admin token also receive the actor names served by the default namespace. */
 export const getMetadata: API.OperationMethod<
   GetMetadataRequest,
@@ -64,7 +73,7 @@ export const getMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetMetadataRequest>,
   output: __S(4, __c0, 4) as any as S.Schema<MetadataGetResponse>,
-  errors: [StorageOverloaded, UnknownRivetError],
+  errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

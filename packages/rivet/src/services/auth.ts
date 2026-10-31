@@ -25,6 +25,15 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** A storage command timed out inside the control plane (its outcome may be unknown): answered while the control plane is still forming or under load. Retry after a short delay. */
+export class CommandDeadlineElapsed
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CommandDeadlineElapsed>()("CommandDeadlineElapsed", {
+      message: S.String,
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 400, message: { includes: "command deadline elapsed" } }],
+  ) {}
+
 /** The namespace the token is scoped to does not exist (`namespace.not_found`). */
 export class NamespaceNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -102,7 +111,11 @@ export interface AuthTokenInspectResponse {
   /** When the token expires, in Unix milliseconds. */
   expires_ts: number;
 }
-export type CreateAuthTokenError = NamespaceNotFound | StorageOverloaded | RivetOpError;
+export type CreateAuthTokenError =
+  | NamespaceNotFound
+  | StorageOverloaded
+  | CommandDeadlineElapsed
+  | RivetOpError;
 /** Issues a namespace-scoped JWT. Requires the admin token, even when the deployment allows unauthenticated requests. */
 export const createAuthToken: API.OperationMethod<
   CreateAuthTokenRequest,
@@ -112,14 +125,14 @@ export const createAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateAuthTokenRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<AuthTokenCreateResponse>,
-  errors: [NamespaceNotFound, StorageOverloaded, UnknownRivetError],
+  errors: [NamespaceNotFound, StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAuthToken",
 }));
 
-export type InspectAuthTokenError = StorageOverloaded | RivetOpError;
+export type InspectAuthTokenError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
 /** Returns the namespace, subject, grants and lifetime of the JWT that authenticates the request. */
 export const inspectAuthToken: API.OperationMethod<
   InspectAuthTokenRequest,
@@ -129,7 +142,7 @@ export const inspectAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<InspectAuthTokenRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<AuthTokenInspectResponse>,
-  errors: [StorageOverloaded, UnknownRivetError],
+  errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -26,6 +26,15 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** A storage command timed out inside the control plane (its outcome may be unknown): answered while the control plane is still forming or under load. Retry after a short delay. */
+export class CommandDeadlineElapsed
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CommandDeadlineElapsed>()("CommandDeadlineElapsed", {
+      message: S.String,
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 400, message: { includes: "command deadline elapsed" } }],
+  ) {}
+
 /** The namespace does not exist (`namespace.not_found`). */
 export class NamespaceNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -163,6 +172,7 @@ export type DeletePoolError =
   | NamespaceNotFound
   | PoolNodesConnected
   | StorageOverloaded
+  | CommandDeadlineElapsed
   | RivetOpError;
 /** Deletes a node pool. Fails while any node of the pool is connected. */
 export const deletePool: API.OperationMethod<
@@ -178,6 +188,7 @@ export const deletePool: API.OperationMethod<
     NamespaceNotFound,
     PoolNodesConnected,
     StorageOverloaded,
+    CommandDeadlineElapsed,
     UnknownRivetError,
   ],
   protocol: RivetProtocol,
@@ -186,7 +197,12 @@ export const deletePool: API.OperationMethod<
   span: "DeletePool",
 }));
 
-export type GetPoolError = PoolNotFound | NamespaceNotFound | StorageOverloaded | RivetOpError;
+export type GetPoolError =
+  | PoolNotFound
+  | NamespaceNotFound
+  | StorageOverloaded
+  | CommandDeadlineElapsed
+  | RivetOpError;
 /** Returns a node pool's configuration. */
 export const getPool: API.OperationMethod<
   GetPoolRequest,
@@ -196,7 +212,13 @@ export const getPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<GetPoolRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<PoolResponse>,
-  errors: [PoolNotFound, NamespaceNotFound, StorageOverloaded, UnknownRivetError],
+  errors: [
+    PoolNotFound,
+    NamespaceNotFound,
+    StorageOverloaded,
+    CommandDeadlineElapsed,
+    UnknownRivetError,
+  ],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -207,6 +229,7 @@ export type ListPoolNodesError =
   | PoolNotFound
   | NamespaceNotFound
   | StorageOverloaded
+  | CommandDeadlineElapsed
   | RivetOpError;
 /** Lists a page of the pool's live nodes in node key order. A node is listed while its heartbeat is recent enough for it to receive actors. */
 export const listPoolNodes: API.PaginatedOperationMethod<
@@ -219,7 +242,13 @@ export const listPoolNodes: API.PaginatedOperationMethod<
   () => ({
     input: __S(16, __c4, 0) as any as S.Schema<ListPoolNodesRequest>,
     output: __S(19, __c4, 3) as any as S.Schema<PoolsListNodesResponse>,
-    errors: [PoolNotFound, NamespaceNotFound, StorageOverloaded, UnknownRivetError],
+    errors: [
+      PoolNotFound,
+      NamespaceNotFound,
+      StorageOverloaded,
+      CommandDeadlineElapsed,
+      UnknownRivetError,
+    ],
     protocol: RivetProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -235,7 +264,11 @@ export const listPoolNodes: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
-export type ListPoolsError = NamespaceNotFound | StorageOverloaded | RivetOpError;
+export type ListPoolsError =
+  | NamespaceNotFound
+  | StorageOverloaded
+  | CommandDeadlineElapsed
+  | RivetOpError;
 /** Lists a page of the namespace's configured node pools, ordered by name. A pool is listed once it is configured, whether or not any node is connected. */
 export const listPools: API.PaginatedOperationMethod<
   ListPoolsRequest,
@@ -247,7 +280,7 @@ export const listPools: API.PaginatedOperationMethod<
   () => ({
     input: __S(24, __c6, 0) as any as S.Schema<ListPoolsRequest>,
     output: __S(26, __c6, 2) as any as S.Schema<PoolsListResponse>,
-    errors: [NamespaceNotFound, StorageOverloaded, UnknownRivetError],
+    errors: [NamespaceNotFound, StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
     protocol: RivetProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -263,7 +296,11 @@ export const listPools: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
-export type UpsertPoolError = NamespaceNotFound | StorageOverloaded | RivetOpError;
+export type UpsertPoolError =
+  | NamespaceNotFound
+  | StorageOverloaded
+  | CommandDeadlineElapsed
+  | RivetOpError;
 /** Creates or replaces a node pool's configuration. Omitted fields take their defaults. Nodes pick up the new configuration on their next connection. */
 export const upsertPool: API.OperationMethod<
   UpsertPoolRequest,
@@ -273,7 +310,7 @@ export const upsertPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<UpsertPoolRequest>,
   output: __S(12, __c3, 0) as any as S.Schema<PoolResponse>,
-  errors: [NamespaceNotFound, StorageOverloaded, UnknownRivetError],
+  errors: [NamespaceNotFound, StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
