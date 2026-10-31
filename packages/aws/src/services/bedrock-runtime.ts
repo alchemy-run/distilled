@@ -2135,6 +2135,25 @@ export const converseStream: API.OperationMethod<
     hold: TxStream.holdForStream({
       member: "stream",
       firstChunk: "gen_ai.response.time_to_first_chunk",
+      events: {
+        metadata: [
+          { name: "gen_ai.usage.input_tokens", field: "usage.inputTokens" },
+          { name: "gen_ai.usage.output_tokens", field: "usage.outputTokens" },
+          {
+            name: "gen_ai.usage.cache_read.input_tokens",
+            field: "usage.cacheReadInputTokens",
+            transform: "nonZero",
+          },
+          {
+            name: "gen_ai.usage.cache_write.input_tokens",
+            field: "usage.cacheWriteInputTokens",
+            transform: "nonZero",
+          },
+        ],
+        messageStop: [
+          { name: "gen_ai.response.finish_reasons", field: "stopReason", transform: "list" },
+        ],
+      },
     }),
   },
 }));

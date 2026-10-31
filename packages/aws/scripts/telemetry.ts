@@ -31,6 +31,28 @@ type Row = readonly [
 /** Bedrock's chat operations (GenAI semantic conventions). */
 const CHAT = ["Converse", "ConverseStream"];
 
+/**
+ * `ConverseStream`'s usage and finish reason, which `Converse` returns in
+ * its output (`OUTPUT_MEMBERS`), arrive as events in the stream.
+ */
+const CONVERSE_STREAM_EVENTS: Readonly<Record<string, ReadonlyArray<AttributeRule>>> = {
+  metadata: [
+    { name: "gen_ai.usage.input_tokens", field: "usage.inputTokens" },
+    { name: "gen_ai.usage.output_tokens", field: "usage.outputTokens" },
+    {
+      name: "gen_ai.usage.cache_read.input_tokens",
+      field: "usage.cacheReadInputTokens",
+      transform: "nonZero",
+    },
+    {
+      name: "gen_ai.usage.cache_write.input_tokens",
+      field: "usage.cacheWriteInputTokens",
+      transform: "nonZero",
+    },
+  ],
+  messageStop: [{ name: "gen_ai.response.finish_reasons", field: "stopReason", transform: "list" }],
+};
+
 const MEMBERS: Readonly<Record<string, ReadonlyArray<Row>>> = {
   S3: [
     ["Bucket", "aws.s3.bucket"],
@@ -254,7 +276,13 @@ export const awsTelemetry = (sdkId: string): TelemetryOptions => {
           },
           // A GenAI span ends when the response is fully received.
           ...(name === "ConverseStream"
-            ? { stream: { member: "stream", firstChunk: "gen_ai.response.time_to_first_chunk" } }
+            ? {
+                stream: {
+                  member: "stream",
+                  firstChunk: "gen_ai.response.time_to_first_chunk",
+                  events: CONVERSE_STREAM_EVENTS,
+                },
+              }
             : {}),
         };
       }
