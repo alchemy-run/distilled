@@ -7500,6 +7500,11 @@ export interface GoogleCloudAiplatformV1RagVectorDbConfigVertexVectorSearch {
   /** The resource name of the Index. Format: `projects/{project}/locations/{location}/indexes/{index}` */
   index?: string;
 }
+/** The config for the RAG-managed Vertex Vector Search 2.0. */
+export interface GoogleCloudAiplatformV1RagVectorDbConfigRagManagedVertexVectorSearch {
+  /** Output only. The resource name of the Vector Search 2.0 Collection that RAG created for the corpus. Format: `projects/{project}/locations/{location}/collections/{collection_id}` */
+  collectionName?: string;
+}
 /** Config for the Vector DB to use for RAG. */
 export interface GoogleCloudAiplatformV1RagVectorDbConfig {
   /** Optional. Immutable. The embedding model config of the Vector DB. */
@@ -7512,6 +7517,8 @@ export interface GoogleCloudAiplatformV1RagVectorDbConfig {
   ragManagedDb?: GoogleCloudAiplatformV1RagVectorDbConfigRagManagedDb;
   /** The config for the Vertex Vector Search. */
   vertexVectorSearch?: GoogleCloudAiplatformV1RagVectorDbConfigVertexVectorSearch;
+  /** The config for the RAG-managed Vertex Vector Search 2.0. */
+  ragManagedVertexVectorSearch?: GoogleCloudAiplatformV1RagVectorDbConfigRagManagedVertexVectorSearch;
 }
 /** Config for the Vertex AI Search. */
 export interface GoogleCloudAiplatformV1VertexAiSearchConfig {
@@ -33394,7 +33401,7 @@ export const getProjectsLocationsRagCorpora: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27168, __c849, 0) as any as S.Schema<GetProjectsLocationsRagCorporaRequest>,
-  output: __S(11528, __c360, 8) as any as S.Schema<GoogleCloudAiplatformV1RagCorpus>,
+  output: __S(11529, __c360, 9) as any as S.Schema<GoogleCloudAiplatformV1RagCorpus>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -54903,7 +54910,7 @@ function __c358(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(11528, __c360, 8).pipe(T.HttpBody())),
+          body: S.optional(__S(11529, __c360, 9).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -54973,26 +54980,35 @@ function __c360(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
+          collectionName: S.optional(S.String),
+        }),
+      ).annotate({
+        identifier: "GoogleCloudAiplatformV1RagVectorDbConfigRagManagedVertexVectorSearch",
+      });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           ragEmbeddingModelConfig: S.optional(__S(11521, __c360, 1)),
           apiAuth: S.optional(__S(6496, __c203, 0)),
           pinecone: S.optional(__S(11522, __c360, 2)),
           ragManagedDb: S.optional(__S(11524, __c360, 4)),
           vertexVectorSearch: S.optional(__S(11525, __c360, 5)),
+          ragManagedVertexVectorSearch: S.optional(__S(11526, __c360, 6)),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1RagVectorDbConfig" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           servingConfig: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudAiplatformV1VertexAiSearchConfig" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          vectorDbConfig: S.optional(__S(11526, __c360, 6)),
+          vectorDbConfig: S.optional(__S(11527, __c360, 7)),
           description: S.optional(S.String),
           name: S.optional(S.String),
-          vertexAiSearchConfig: S.optional(__S(11527, __c360, 7)),
+          vertexAiSearchConfig: S.optional(__S(11528, __c360, 8)),
           createTime: S.optional(S.String),
           displayName: S.optional(S.String),
           encryptionSpec: S.optional(__S(7104, __c222, 0)),
@@ -70751,7 +70767,7 @@ function __c1088(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsLocationsRagCorporaRequest" });
     case 1:
-      return S.Array(__S(11528, __c360, 8));
+      return S.Array(__S(11529, __c360, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -73176,7 +73192,7 @@ function __c1208(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(11528, __c360, 8).pipe(T.HttpBody())),
+          body: S.optional(__S(11529, __c360, 9).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
