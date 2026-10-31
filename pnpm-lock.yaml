@@ -1588,6 +1588,22 @@ importers:
         specifier: 'catalog:'
         version: 26.6.5
 
+  packages/rivet:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.0.5
+    devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
+
   packages/s2:
     dependencies:
       '@distilled.cloud/core':
