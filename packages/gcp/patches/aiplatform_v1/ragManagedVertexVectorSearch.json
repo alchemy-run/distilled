@@ -1,0 +1,33 @@
+{
+  "description": "Model RagVectorDbConfig.ragManagedVertexVectorSearch in v1. Observed live 2026-10-30: a corpus created while RAG Engine is serverless is backed by RAG_MANAGED_VERTEX_VECTOR_SEARCH, but the v1 discovery document only has the field in v1beta1. Without it the response drops the backend, and a patch that echoes the corpus's vector config sends nothing, which the API reads as a change to RAG_MANAGED_DB ('The vector db type is immutable').",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GoogleCloudAiplatformV1RagVectorDbConfigRagManagedVertexVectorSearch",
+      "value": {
+        "type": "structure",
+        "members": {
+          "collectionName": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. The resource name of the Vector Search 2.0 Collection that RAG created for the corpus. Format: `projects/{project}/locations/{location}/collections/{collection_id}`"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The config for the RAG-managed Vertex Vector Search 2.0."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GoogleCloudAiplatformV1RagVectorDbConfig/members/ragManagedVertexVectorSearch",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#GoogleCloudAiplatformV1RagVectorDbConfigRagManagedVertexVectorSearch",
+        "traits": {
+          "smithy.api#documentation": "The config for the RAG-managed Vertex Vector Search 2.0."
+        }
+      }
+    }
+  ]
+}
