@@ -1,0 +1,397 @@
+{
+  "source": "GET /openapi/v2 from kube-apiserver v1.36.2 with external-snapshotter v8.7.0 CRDs installed, reduced to the snapshot.storage.k8s.io operations",
+  "operations": {
+    "DELETE /apis/snapshot.storage.k8s.io/v1/namespaces/{namespace}/volumesnapshots": {
+      "operationId": "deleteSnapshotStorageV1CollectionNamespacedVolumeSnapshot",
+      "parameters": [
+        "path:namespace",
+        "query:allowWatchBookmarks",
+        "query:continue",
+        "query:fieldSelector",
+        "query:labelSelector",
+        "query:limit",
+        "query:pretty",
+        "query:resourceVersion",
+        "query:resourceVersionMatch",
+        "query:sendInitialEvents",
+        "query:shardSelector",
+        "query:timeoutSeconds",
+        "query:watch"
+      ],
+      "response": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+    },
+    "DELETE /apis/snapshot.storage.k8s.io/v1/namespaces/{namespace}/volumesnapshots/{name}": {
+      "operationId": "deleteSnapshotStorageV1NamespacedVolumeSnapshot",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions",
+        "path:name",
+        "path:namespace",
+        "query:dryRun",
+        "query:gracePeriodSeconds",
+        "query:ignoreStoreReadErrorWithClusterBreakingPotential",
+        "query:orphanDependents",
+        "query:pretty",
+        "query:propagationPolicy"
+      ],
+      "response": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+    },
+    "DELETE /apis/snapshot.storage.k8s.io/v1/volumesnapshotclasses": {
+      "operationId": "deleteSnapshotStorageV1CollectionVolumeSnapshotClass",
+      "parameters": [
+        "query:allowWatchBookmarks",
+        "query:continue",
+        "query:fieldSelector",
+        "query:labelSelector",
+        "query:limit",
+        "query:pretty",
+        "query:resourceVersion",
+        "query:resourceVersionMatch",
+        "query:sendInitialEvents",
+        "query:shardSelector",
+        "query:timeoutSeconds",
+        "query:watch"
+      ],
+      "response": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+    },
+    "DELETE /apis/snapshot.storage.k8s.io/v1/volumesnapshotclasses/{name}": {
+      "operationId": "deleteSnapshotStorageV1VolumeSnapshotClass",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions",
+        "path:name",
+        "query:dryRun",
+        "query:gracePeriodSeconds",
+        "query:ignoreStoreReadErrorWithClusterBreakingPotential",
+        "query:orphanDependents",
+        "query:pretty",
+        "query:propagationPolicy"
+      ],
+      "response": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+    },
+    "DELETE /apis/snapshot.storage.k8s.io/v1/volumesnapshotcontents": {
+      "operationId": "deleteSnapshotStorageV1CollectionVolumeSnapshotContent",
+      "parameters": [
+        "query:allowWatchBookmarks",
+        "query:continue",
+        "query:fieldSelector",
+        "query:labelSelector",
+        "query:limit",
+        "query:pretty",
+        "query:resourceVersion",
+        "query:resourceVersionMatch",
+        "query:sendInitialEvents",
+        "query:shardSelector",
+        "query:timeoutSeconds",
+        "query:watch"
+      ],
+      "response": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+    },
+    "DELETE /apis/snapshot.storage.k8s.io/v1/volumesnapshotcontents/{name}": {
+      "operationId": "deleteSnapshotStorageV1VolumeSnapshotContent",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions",
+        "path:name",
+        "query:dryRun",
+        "query:gracePeriodSeconds",
+        "query:ignoreStoreReadErrorWithClusterBreakingPotential",
+        "query:orphanDependents",
+        "query:pretty",
+        "query:propagationPolicy"
+      ],
+      "response": "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Status"
+    },
+    "GET /apis/snapshot.storage.k8s.io/v1/namespaces/{namespace}/volumesnapshots": {
+      "operationId": "listSnapshotStorageV1NamespacedVolumeSnapshot",
+      "parameters": [
+        "path:namespace",
+        "query:allowWatchBookmarks",
+        "query:continue",
+        "query:fieldSelector",
+        "query:labelSelector",
+        "query:limit",
+        "query:pretty",
+        "query:resourceVersion",
+        "query:resourceVersionMatch",
+        "query:sendInitialEvents",
+        "query:shardSelector",
+        "query:timeoutSeconds",
+        "query:watch"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotList"
+    },
+    "GET /apis/snapshot.storage.k8s.io/v1/namespaces/{namespace}/volumesnapshots/{name}": {
+      "operationId": "readSnapshotStorageV1NamespacedVolumeSnapshot",
+      "parameters": ["path:name", "path:namespace", "query:pretty", "query:resourceVersion"],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshot"
+    },
+    "GET /apis/snapshot.storage.k8s.io/v1/namespaces/{namespace}/volumesnapshots/{name}/status": {
+      "operationId": "readSnapshotStorageV1NamespacedVolumeSnapshotStatus",
+      "parameters": ["path:name", "path:namespace", "query:pretty", "query:resourceVersion"],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshot"
+    },
+    "GET /apis/snapshot.storage.k8s.io/v1/volumesnapshotclasses": {
+      "operationId": "listSnapshotStorageV1VolumeSnapshotClass",
+      "parameters": [
+        "query:allowWatchBookmarks",
+        "query:continue",
+        "query:fieldSelector",
+        "query:labelSelector",
+        "query:limit",
+        "query:pretty",
+        "query:resourceVersion",
+        "query:resourceVersionMatch",
+        "query:sendInitialEvents",
+        "query:shardSelector",
+        "query:timeoutSeconds",
+        "query:watch"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotClassList"
+    },
+    "GET /apis/snapshot.storage.k8s.io/v1/volumesnapshotclasses/{name}": {
+      "operationId": "readSnapshotStorageV1VolumeSnapshotClass",
+      "parameters": ["path:name", "query:pretty", "query:resourceVersion"],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotClass"
+    },
+    "GET /apis/snapshot.storage.k8s.io/v1/volumesnapshotcontents": {
+      "operationId": "listSnapshotStorageV1VolumeSnapshotContent",
+      "parameters": [
+        "query:allowWatchBookmarks",
+        "query:continue",
+        "query:fieldSelector",
+        "query:labelSelector",
+        "query:limit",
+        "query:pretty",
+        "query:resourceVersion",
+        "query:resourceVersionMatch",
+        "query:sendInitialEvents",
+        "query:shardSelector",
+        "query:timeoutSeconds",
+        "query:watch"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotContentList"
+    },
+    "GET /apis/snapshot.storage.k8s.io/v1/volumesnapshotcontents/{name}": {
+      "operationId": "readSnapshotStorageV1VolumeSnapshotContent",
+      "parameters": ["path:name", "query:pretty", "query:resourceVersion"],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotContent"
+    },
+    "GET /apis/snapshot.storage.k8s.io/v1/volumesnapshotcontents/{name}/status": {
+      "operationId": "readSnapshotStorageV1VolumeSnapshotContentStatus",
+      "parameters": ["path:name", "query:pretty", "query:resourceVersion"],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotContent"
+    },
+    "GET /apis/snapshot.storage.k8s.io/v1/volumesnapshots": {
+      "operationId": "listSnapshotStorageV1VolumeSnapshotForAllNamespaces",
+      "parameters": [
+        "query:allowWatchBookmarks",
+        "query:continue",
+        "query:fieldSelector",
+        "query:labelSelector",
+        "query:limit",
+        "query:pretty",
+        "query:resourceVersion",
+        "query:resourceVersionMatch",
+        "query:sendInitialEvents",
+        "query:shardSelector",
+        "query:timeoutSeconds",
+        "query:watch"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotList"
+    },
+    "PATCH /apis/snapshot.storage.k8s.io/v1/namespaces/{namespace}/volumesnapshots/{name}": {
+      "operationId": "patchSnapshotStorageV1NamespacedVolumeSnapshot",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Patch",
+        "path:name",
+        "path:namespace",
+        "query:dryRun",
+        "query:fieldManager",
+        "query:fieldValidation",
+        "query:force",
+        "query:pretty"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshot",
+      "consumes": [
+        "application/json-patch+json",
+        "application/merge-patch+json",
+        "application/apply-patch+yaml"
+      ]
+    },
+    "PATCH /apis/snapshot.storage.k8s.io/v1/namespaces/{namespace}/volumesnapshots/{name}/status": {
+      "operationId": "patchSnapshotStorageV1NamespacedVolumeSnapshotStatus",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Patch",
+        "path:name",
+        "path:namespace",
+        "query:dryRun",
+        "query:fieldManager",
+        "query:fieldValidation",
+        "query:force",
+        "query:pretty"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshot",
+      "consumes": [
+        "application/json-patch+json",
+        "application/merge-patch+json",
+        "application/apply-patch+yaml"
+      ]
+    },
+    "PATCH /apis/snapshot.storage.k8s.io/v1/volumesnapshotclasses/{name}": {
+      "operationId": "patchSnapshotStorageV1VolumeSnapshotClass",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Patch",
+        "path:name",
+        "query:dryRun",
+        "query:fieldManager",
+        "query:fieldValidation",
+        "query:force",
+        "query:pretty"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotClass",
+      "consumes": [
+        "application/json-patch+json",
+        "application/merge-patch+json",
+        "application/apply-patch+yaml"
+      ]
+    },
+    "PATCH /apis/snapshot.storage.k8s.io/v1/volumesnapshotcontents/{name}": {
+      "operationId": "patchSnapshotStorageV1VolumeSnapshotContent",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Patch",
+        "path:name",
+        "query:dryRun",
+        "query:fieldManager",
+        "query:fieldValidation",
+        "query:force",
+        "query:pretty"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotContent",
+      "consumes": [
+        "application/json-patch+json",
+        "application/merge-patch+json",
+        "application/apply-patch+yaml"
+      ]
+    },
+    "PATCH /apis/snapshot.storage.k8s.io/v1/volumesnapshotcontents/{name}/status": {
+      "operationId": "patchSnapshotStorageV1VolumeSnapshotContentStatus",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.Patch",
+        "path:name",
+        "query:dryRun",
+        "query:fieldManager",
+        "query:fieldValidation",
+        "query:force",
+        "query:pretty"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotContent",
+      "consumes": [
+        "application/json-patch+json",
+        "application/merge-patch+json",
+        "application/apply-patch+yaml"
+      ]
+    },
+    "POST /apis/snapshot.storage.k8s.io/v1/namespaces/{namespace}/volumesnapshots": {
+      "operationId": "createSnapshotStorageV1NamespacedVolumeSnapshot",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshot",
+        "path:namespace",
+        "query:dryRun",
+        "query:fieldManager",
+        "query:fieldValidation",
+        "query:pretty"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshot"
+    },
+    "POST /apis/snapshot.storage.k8s.io/v1/volumesnapshotclasses": {
+      "operationId": "createSnapshotStorageV1VolumeSnapshotClass",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotClass",
+        "query:dryRun",
+        "query:fieldManager",
+        "query:fieldValidation",
+        "query:pretty"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotClass"
+    },
+    "POST /apis/snapshot.storage.k8s.io/v1/volumesnapshotcontents": {
+      "operationId": "createSnapshotStorageV1VolumeSnapshotContent",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotContent",
+        "query:dryRun",
+        "query:fieldManager",
+        "query:fieldValidation",
+        "query:pretty"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotContent"
+    },
+    "PUT /apis/snapshot.storage.k8s.io/v1/namespaces/{namespace}/volumesnapshots/{name}": {
+      "operationId": "replaceSnapshotStorageV1NamespacedVolumeSnapshot",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshot",
+        "path:name",
+        "path:namespace",
+        "query:dryRun",
+        "query:fieldManager",
+        "query:fieldValidation",
+        "query:pretty"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshot"
+    },
+    "PUT /apis/snapshot.storage.k8s.io/v1/namespaces/{namespace}/volumesnapshots/{name}/status": {
+      "operationId": "replaceSnapshotStorageV1NamespacedVolumeSnapshotStatus",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshot",
+        "path:name",
+        "path:namespace",
+        "query:dryRun",
+        "query:fieldManager",
+        "query:fieldValidation",
+        "query:pretty"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshot"
+    },
+    "PUT /apis/snapshot.storage.k8s.io/v1/volumesnapshotclasses/{name}": {
+      "operationId": "replaceSnapshotStorageV1VolumeSnapshotClass",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotClass",
+        "path:name",
+        "query:dryRun",
+        "query:fieldManager",
+        "query:fieldValidation",
+        "query:pretty"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotClass"
+    },
+    "PUT /apis/snapshot.storage.k8s.io/v1/volumesnapshotcontents/{name}": {
+      "operationId": "replaceSnapshotStorageV1VolumeSnapshotContent",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotContent",
+        "path:name",
+        "query:dryRun",
+        "query:fieldManager",
+        "query:fieldValidation",
+        "query:pretty"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotContent"
+    },
+    "PUT /apis/snapshot.storage.k8s.io/v1/volumesnapshotcontents/{name}/status": {
+      "operationId": "replaceSnapshotStorageV1VolumeSnapshotContentStatus",
+      "parameters": [
+        "body:body=#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotContent",
+        "path:name",
+        "query:dryRun",
+        "query:fieldManager",
+        "query:fieldValidation",
+        "query:pretty"
+      ],
+      "response": "#/definitions/io.k8s.storage.snapshot.v1.VolumeSnapshotContent"
+    }
+  },
+  "definitions": [
+    "io.k8s.storage.snapshot.v1.VolumeSnapshot",
+    "io.k8s.storage.snapshot.v1.VolumeSnapshotClass",
+    "io.k8s.storage.snapshot.v1.VolumeSnapshotClassList",
+    "io.k8s.storage.snapshot.v1.VolumeSnapshotContent",
+    "io.k8s.storage.snapshot.v1.VolumeSnapshotContentList",
+    "io.k8s.storage.snapshot.v1.VolumeSnapshotList"
+  ]
+}

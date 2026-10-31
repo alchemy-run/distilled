@@ -20,5 +20,6 @@ export * as policy from "./policy.ts";
 export * as rbac_authorization from "./rbac_authorization.ts";
 export * as resource from "./resource.ts";
 export * as scheduling from "./scheduling.ts";
+export * as snapshot_storage from "./snapshot_storage.ts";
 export * as storage from "./storage.ts";
 export * as storagemigration from "./storagemigration.ts";

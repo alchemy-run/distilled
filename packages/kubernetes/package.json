@@ -93,13 +93,14 @@
   },
   "devDependencies": {
     "@distilled.cloud/dev": "workspace:*",
-    "@types/node": "catalog:"
+    "@types/node": "catalog:",
+    "yaml": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-25",
+    "generatedAt": "2026-10-29",
     "specUpdatedAt": "2026-09-29"
   }
 }
