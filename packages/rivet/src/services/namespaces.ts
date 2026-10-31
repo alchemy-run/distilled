@@ -34,6 +34,15 @@ export class NamespaceAlreadyExists
     [{ status: 409, headers: { "x-rivet-error": "namespace.name_not_unique" } }],
   ) {}
 
+/** The control plane's storage refused the command (`depot.overloaded`) -- answered while the storage layer is still starting or under load. Retry after a short delay. */
+export class StorageOverloaded
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<StorageOverloaded>()("StorageOverloaded", {
+      message: S.String,
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 400, headers: { "x-rivet-error": "depot.overloaded" } }],
+  ) {}
+
 export interface CreateNamespaceRequest {
   /** Immutable namespace name. A DNS label of 1 to 63 lowercase letters, digits and hyphens. */
   name: string;
@@ -64,7 +73,7 @@ export interface NamespaceListResponse {
   namespaces: NamespaceListResponseNamespacesList;
   pagination: Pagination;
 }
-export type CreateNamespaceError = NamespaceAlreadyExists | RivetOpError;
+export type CreateNamespaceError = NamespaceAlreadyExists | StorageOverloaded | RivetOpError;
 /** Creates a namespace. Requires the admin token. */
 export const createNamespace: API.OperationMethod<
   CreateNamespaceRequest,
@@ -74,14 +83,14 @@ export const createNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateNamespaceRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<NamespacesCreateResponse>,
-  errors: [NamespaceAlreadyExists, UnknownRivetError],
+  errors: [NamespaceAlreadyExists, StorageOverloaded, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateNamespace",
 }));
 
-export type ListNamespacesError = RivetOpError;
+export type ListNamespacesError = StorageOverloaded | RivetOpError;
 /** Lists namespaces in name order, or looks up one namespace by name. Requires the admin token. */
 export const listNamespaces: API.PaginatedOperationMethod<
   ListNamespacesRequest,
@@ -93,7 +102,7 @@ export const listNamespaces: API.PaginatedOperationMethod<
   () => ({
     input: __S(8, __c2, 0) as any as S.Schema<ListNamespacesRequest>,
     output: __S(11, __c2, 3) as any as S.Schema<NamespaceListResponse>,
-    errors: [UnknownRivetError],
+    errors: [StorageOverloaded, UnknownRivetError],
     protocol: RivetProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,

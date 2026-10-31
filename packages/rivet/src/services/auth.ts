@@ -34,6 +34,15 @@ export class NamespaceNotFound
     [{ status: 404, headers: { "x-rivet-error": "namespace.not_found" } }],
   ) {}
 
+/** The control plane's storage refused the command (`depot.overloaded`) -- answered while the storage layer is still starting or under load. Retry after a short delay. */
+export class StorageOverloaded
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<StorageOverloaded>()("StorageOverloaded", {
+      message: S.String,
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 400, headers: { "x-rivet-error": "depot.overloaded" } }],
+  ) {}
+
 /** Resource type a grant applies to. */
 export type AuthResourceKind =
   | "namespace"
@@ -93,7 +102,7 @@ export interface AuthTokenInspectResponse {
   /** When the token expires, in Unix milliseconds. */
   expires_ts: number;
 }
-export type CreateAuthTokenError = NamespaceNotFound | RivetOpError;
+export type CreateAuthTokenError = NamespaceNotFound | StorageOverloaded | RivetOpError;
 /** Issues a namespace-scoped JWT. Requires the admin token, even when the deployment allows unauthenticated requests. */
 export const createAuthToken: API.OperationMethod<
   CreateAuthTokenRequest,
@@ -103,14 +112,14 @@ export const createAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateAuthTokenRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<AuthTokenCreateResponse>,
-  errors: [NamespaceNotFound, UnknownRivetError],
+  errors: [NamespaceNotFound, StorageOverloaded, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAuthToken",
 }));
 
-export type InspectAuthTokenError = RivetOpError;
+export type InspectAuthTokenError = StorageOverloaded | RivetOpError;
 /** Returns the namespace, subject, grants and lifetime of the JWT that authenticates the request. */
 export const inspectAuthToken: API.OperationMethod<
   InspectAuthTokenRequest,
@@ -120,7 +129,7 @@ export const inspectAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<InspectAuthTokenRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<AuthTokenInspectResponse>,
-  errors: [UnknownRivetError],
+  errors: [StorageOverloaded, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
