@@ -1,0 +1,825 @@
+{
+  "description": "Shapes and errors that more than one API area uses. The spec declares no errors, so every failure surfaced as a bare status class or UnknownResendError. Each class here matches Resend's machine-readable `name` (core's matcher `code` is numeric, so the name is matched as `body: {\"/name\": ...}`), with the status and, where one name covers several cases, the message, from Resend's error reference (api-reference/errors) and a live run (2026-10-29): the auth and validation errors every operation gets, idempotency, the sending quota, sender and recipient errors, and the not-founds of resources several areas address. The quota errors carry no httpError, so they get no throttling category and the default retry policy does not wait out a quota that resets at midnight; rate_limit_exceeded stays core's retried TooManyRequests. Each area file attaches these to its operations. Response members are narrowed to what Resend returns: required where resend-node, the maintained official SDK, declares them non-optional and every live response (2026-10-29) carried them, and nullable where resend-node allows null or a live response held null. That applies here to attachments (sent and received mail) and contact listings (contacts and segments).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#MissingApiKey",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "No `Authorization` header (401 `missing_api_key`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 401,
+              "body": {
+                "/name": "missing_api_key"
+              }
+            }
+          ],
+          "smithy.api#httpError": 401
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InvalidApiKey",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The API key does not exist, was deleted or is malformed (`validation_error`, \"API key is invalid\": 400, or 401 from the sending endpoints).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "API key is invalid"
+              }
+            },
+            {
+              "status": 401,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "API key is invalid"
+              }
+            }
+          ],
+          "smithy.api#httpError": 401
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RestrictedApiKey",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "A sending-only API key called an endpoint that needs full access (401 `restricted_api_key`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 401,
+              "body": {
+                "/name": "restricted_api_key"
+              }
+            }
+          ],
+          "smithy.api#httpError": 401
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InactiveApiKey",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The API key is not active (403 `restricted_api_key`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/name": "restricted_api_key"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SuspendedApiKey",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The API key is suspended (403 `suspended_api_key`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/name": "suspended_api_key"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InvalidPermission",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "An OAuth access token lacks a scope the endpoint needs (403 `invalid_permission`), or a permission value is not one Resend accepts (422).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/name": "invalid_permission"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ValidationError",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "Resend rejected the request (`validation_error`); `message` says which field. More specific errors cover the cases worth handling.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/name": "validation_error"
+              }
+            }
+          ],
+          "smithy.api#httpError": 422
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#MissingRequiredField",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The request body lacks a required field (422 `missing_required_field`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/name": "missing_required_field"
+              }
+            }
+          ],
+          "smithy.api#httpError": 422
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#MissingRequiredParameter",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The request lacks a required parameter (422 `missing_required_parameter`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/name": "missing_required_parameter"
+              }
+            }
+          ],
+          "smithy.api#httpError": 422
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InvalidParameter",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "A parameter is malformed, such as an id that is not a UUID (`invalid_parameter`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/name": "invalid_parameter"
+              }
+            }
+          ],
+          "smithy.api#httpError": 422
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ResourceLocked",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "Another request is already updating this resource (409 `resource_locked`). Retried by default.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/name": "resource_locked"
+              }
+            }
+          ],
+          "smithy.api#httpError": 409,
+          "smithy.api#retryable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DailyQuotaExceeded",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The team's daily sending quota is used up (429 `daily_quota_exceeded`). It resets at midnight UTC, so it is not retried.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 429,
+              "body": {
+                "/name": "daily_quota_exceeded"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#MonthlyQuotaExceeded",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The team's monthly sending quota is used up (429 `monthly_quota_exceeded`). Not retried.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 429,
+              "body": {
+                "/name": "monthly_quota_exceeded"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#UnverifiedSender",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The `from` domain is not a verified domain of the team (403 `validation_error`), including `resend.dev` for broadcasts.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "is not verified"
+              }
+            },
+            {
+              "status": 403,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "cannot be sent from resend.dev"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TestingRecipientOnly",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "Without a verified domain, Resend sends only to the account's own address and its test addresses (`delivered@resend.dev`, ...): 403, or 422 for a domain such as `example.com`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "You can only send testing emails"
+              }
+            },
+            {
+              "status": 422,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "Please use our testing email address"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InvalidAttachment",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "An attachment has neither `content` nor `path` (422 `invalid_attachment`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "body": {
+                "/name": "invalid_attachment"
+              }
+            }
+          ],
+          "smithy.api#httpError": 422
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InvalidIdempotencyKey",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The Idempotency-Key is empty or longer than 256 characters (400 `invalid_idempotency_key`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/name": "invalid_idempotency_key"
+              }
+            }
+          ],
+          "smithy.api#httpError": 400
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#IdempotencyKeyReused",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The Idempotency-Key was used in the last 24 hours with a different body (409 `invalid_idempotent_request`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/name": "invalid_idempotent_request"
+              }
+            }
+          ],
+          "smithy.api#httpError": 409
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#IdempotentRequestInProgress",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "Another request with the same Idempotency-Key is in progress (409 `concurrent_idempotent_requests`). Retried by default.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/name": "concurrent_idempotent_requests"
+              }
+            }
+          ],
+          "smithy.api#httpError": 409,
+          "smithy.api#retryable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "A resource with this unique name or key already exists (409 `invalid_parameter`, \"There is already a ...\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/name": "invalid_parameter"
+              }
+            }
+          ],
+          "smithy.api#httpError": 409
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#PaginationCursorNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The `after` or `before` cursor names an object that does not exist (404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "pagination cursor"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The email does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Email not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AttachmentNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The attachment does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Attachment not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SegmentNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The segment does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Audience not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The event does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Event not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListAttachmentsResponseDataItem/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListAttachmentsResponseDataItem/members/content_type/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListAttachmentsResponseDataItem/members/content_disposition/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListAttachmentsResponseDataItem/members/download_url/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListAttachmentsResponseDataItem/members/expires_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListAttachmentsResponseDataItem/members/size/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RetrievedAttachment/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RetrievedAttachment/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RetrievedAttachment/members/content_type/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RetrievedAttachment/members/content_disposition/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RetrievedAttachment/members/download_url/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RetrievedAttachment/members/expires_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RetrievedAttachment/members/size/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListAttachmentsResponse/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListAttachmentsResponse/members/has_more/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListAttachmentsResponse/members/data/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListContactsResponseSuccess/members/object/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListContactsResponseSuccess/members/has_more/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListContactsResponseSuccess/members/data/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListContactsResponseSuccessDataItem/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListContactsResponseSuccessDataItem/members/email/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListContactsResponseSuccessDataItem/members/first_name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListContactsResponseSuccessDataItem/members/last_name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListContactsResponseSuccessDataItem/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListContactsResponseSuccessDataItem/members/unsubscribed/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

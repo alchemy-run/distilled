@@ -9,7 +9,7 @@
  * ```ts
  * import * as Resend from "@distilled.cloud/resend";
  *
- * const emails = yield* Resend.Services.resend.getEmails({});
+ * const emails = yield* Resend.Services.resend.listEmails({});
  * ```
  */
 export * from "./credentials.ts";
@@ -19,8 +19,7 @@ export { ResendProtocol, type ResendOpError, type ResendOpContext } from "./prot
 export { paginateResend } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";
-// Operations (and their request/response types) are importable straight off
-// the package root. The OpenAPI document does not declare per-status error
-// bodies, so typed error classes are not generated -- failures ride
-// ResendOpError / the shared HTTP-status map.
+export * as Webhooks from "./webhooks.ts";
+// Operations, their request/response types and their typed errors (patched
+// in from patches/, one file per API area) are importable straight off the package root.
 export * from "./services/resend.ts";

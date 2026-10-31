@@ -1,7 +1,7 @@
 # spec-mirror-resend
 
-A git mirror of Resend's [OpenAPI spec](https://resend.com/openapi.json) and
-the markdown docs listed from [docs/llms.txt](https://resend.com/docs/llms.txt).
+A git mirror of Resend's [OpenAPI spec](https://github.com/resend/resend-openapi)
+and the markdown docs listed from [docs/llms.txt](https://resend.com/docs/llms.txt).
 The spec is fetched and committed as a JSON file so the repo serves as a
 versioned snapshot.
 
