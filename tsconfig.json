@@ -136,6 +136,13 @@
       "path": "./packages/neon/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/netbird/tsconfig.json"
+    },
+    { "path": "./packages/netbird/tsconfig.test.json" },
+    {
+      "path": "./packages/netbird/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/planetscale/tsconfig.json"
     },
     {

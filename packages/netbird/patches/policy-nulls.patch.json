@@ -1,0 +1,35 @@
+{
+  "description": "Policy responses send null where the description declares arrays. A rule whose source or destination is a single peer (sourceResource or destinationResource) returns `sources: null` or `destinations: null`: read-only export of a NetBird Cloud account on 2026-10-31, and self-hosted NetBird 0.82.0. Self-hosted 0.82.0 returns `source_posture_checks: null` for a policy without posture checks.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/io.netbird.api#PolicyRule/members/sources/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/io.netbird.api#PolicyRule/members/destinations/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/io.netbird.api#Policy/members/source_posture_checks/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/io.netbird.api#GetApiPoliciesPolicyIdResponse/members/source_posture_checks/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/io.netbird.api#PostApiPoliciesResponse/members/source_posture_checks/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/io.netbird.api#PutApiPoliciesPolicyIdResponse/members/source_posture_checks/traits/com.distilled.openapi#nullable",
+      "value": {}
+    }
+  ]
+}
