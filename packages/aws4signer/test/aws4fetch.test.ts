@@ -8,6 +8,7 @@ import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
+import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
@@ -231,6 +232,9 @@ describe("Signer.presign", () => {
 });
 
 /** An HttpClient that answers 200 and records the request it was asked to send. */
+const sentUrl = (request: HttpClientRequest.HttpClientRequest) =>
+  Option.getOrThrow(HttpClientRequest.toUrl(request)).toString();
+
 const recording = () => {
   const sent: Array<HttpClientRequest.HttpClientRequest> = [];
   const client = HttpClient.make((request) => {
@@ -272,7 +276,7 @@ describe("AwsClient", () => {
       body,
       aws: { datetime },
     });
-    expect(ours.url).toBe(theirs.url);
+    expect(sentUrl(ours)).toBe(theirs.url);
     expect(ours.headers.authorization).toBe(theirs.headers.get("authorization"));
   });
 
@@ -307,10 +311,34 @@ describe("AwsClient", () => {
         .pipe(AwsClient.sign({ credentials, signQuery: true }))
         .get("https://bucket.s3.us-east-1.amazonaws.com/k", { urlParams: { "x-id": "GetObject" } }),
     );
-    const url = new URL(sent[0]!.url);
+    const url = new URL(sentUrl(sent[0]!));
     expect(url.searchParams.get("x-id")).toBe("GetObject");
     expect(url.searchParams.get("X-Amz-Signature")).toMatch(/^[0-9a-f]{64}$/);
     expect(sent[0]!.headers.authorization).toBeUndefined();
+  });
+
+  test("sends each query parameter once", async () => {
+    for (const signQuery of [false, true]) {
+      const { client, sent } = recording();
+      await Effect.runPromise(
+        client
+          .pipe(AwsClient.sign({ credentials, service: "s3", region: "auto", signQuery }))
+          .get("https://t3.storage.dev/b", { urlParams: { "list-type": "2", prefix: "a/b" } }),
+      );
+      const url = new URL(sentUrl(sent[0]!));
+      expect(url.searchParams.getAll("list-type")).toEqual(["2"]);
+      expect(url.searchParams.getAll("prefix")).toEqual(["a/b"]);
+    }
+  });
+
+  test("sends a header-signed query string exactly as signed", async () => {
+    const { client, sent } = recording();
+    await Effect.runPromise(
+      client
+        .pipe(AwsClient.sign({ credentials, service: "s3", region: "auto" }))
+        .execute(HttpClientRequest.get("https://t3.storage.dev/b?list-type=2&prefix=a%20b%2Fc")),
+    );
+    expect(sentUrl(sent[0]!)).toBe("https://t3.storage.dev/b?list-type=2&prefix=a%20b%2Fc");
   });
 
   test("a stream body needs X-Amz-Content-Sha256 outside S3", async () => {
