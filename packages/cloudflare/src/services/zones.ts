@@ -170,6 +170,15 @@ export class ZoneHoldsRequireEnterprise
     [{ code: 1005, message: { includes: "Zone holds are only available on Enterprise zones" } }],
   ) {}
 
+export class ZoneQuotaExceeded
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ZoneQuotaExceeded>()("ZoneQuotaExceeded", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 400, message: { includes: "zone quota" } }],
+  ) {}
+
 export interface EnvironmentsCreateRequestEnvironmentsItemPosition {
   after?: string;
   before?: string;
@@ -6277,6 +6286,7 @@ export type CreateZoneError =
   | InvalidDomain
   | DomainNotRegistered
   | SubdomainNotAllowed
+  | ZoneQuotaExceeded
   | CloudflareOpError;
 /** Creates a new zone (domain) in your Cloudflare account. The zone is created in a pending state and must be activated by updating your domain's nameservers to point to Cloudflare, or by completing the verification process for partial (CNAME) setups. */
 export const createZone: API.OperationMethod<
@@ -6293,6 +6303,7 @@ export const createZone: API.OperationMethod<
     InvalidDomain,
     DomainNotRegistered,
     SubdomainNotAllowed,
+    ZoneQuotaExceeded,
     CloudflareRateLimited,
     CloudflareError,
   ],
