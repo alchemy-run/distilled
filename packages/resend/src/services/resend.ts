@@ -248,8 +248,6 @@ export interface CreateBroadcastRequest {
   name?: string;
   /** Unique identifier of the segment this broadcast will be sent to. */
   segment_id: string;
-  /** Use `segment_id` instead. Unique identifier of the segment this broadcast will be sent to. */
-  audience_id?: string;
   /** The email address of the sender. */
   from: string;
   /** The subject line of the email. */
@@ -308,8 +306,6 @@ export interface CreateContactRequest {
   segments?: CreateContactRequestSegmentsList;
   /** Array of topic subscriptions for the contact. */
   topics?: CreateContactRequestTopicsList;
-  /** Unique identifier of the audience to which the contact belongs. */
-  audience_id?: string;
 }
 export interface CreateContactResponseSuccess {
   /** Type of the response object. */
@@ -338,9 +334,9 @@ export interface CreateContactImportResponseSuccess {
   id?: string;
 }
 /** The property type. */
-export type CreateContactPropertyRequestType = "string" | "number";
+export type CreateContactPropertyRequestType = "string" | "number" | "boolean";
 /** The default value to use when the property is not set for a contact. Must match the type specified in the type field. */
-export type CreateContactPropertyRequestFallbackValue = string | number;
+export type CreateContactPropertyRequestFallbackValue = string | number | boolean;
 export interface CreateContactPropertyRequest {
   /** The property key. Max length is 50 characters. Only alphanumeric characters and underscores are allowed. */
   key: string;
@@ -539,6 +535,8 @@ export interface CreateEmailRequestTemplate {
   /** Template variables object with key/value pairs. */
   variables?: CreateEmailRequestTemplateVariablesMap;
 }
+/** Custom headers to add to the email, from header name to value. */
+export type EmailHeadersMap = { [key: string]: string | undefined };
 export interface Attachment {
   /** Content of an attached file. */
   content?: string;
@@ -580,7 +578,7 @@ export interface CreateEmailRequest {
   text?: string;
   template?: CreateEmailRequestTemplate;
   /** Custom headers to add to the email. */
-  headers?: unknown;
+  headers?: EmailHeadersMap;
   /** Schedule email to be sent later. The date should be in ISO 8601 format. */
   scheduled_at?: string;
   attachments?: CreateEmailRequestAttachmentsList;
@@ -636,7 +634,7 @@ export interface SendEmailRequest {
   text?: string;
   template?: SendEmailRequestTemplate;
   /** Custom headers to add to the email. */
-  headers?: unknown;
+  headers?: EmailHeadersMap;
   /** Schedule email to be sent later. The date should be in ISO 8601 format. */
   scheduled_at?: string;
   attachments?: SendEmailRequestAttachmentsList;
@@ -645,10 +643,13 @@ export interface SendEmailRequest {
   topic_id?: string;
 }
 export type CreateEmailBatchRequestBodyList = Array<SendEmailRequest>;
+export type BatchValidation = "strict" | "permissive";
 export interface CreateEmailBatchRequest {
   /** A unique identifier for the request to ensure emails are only sent once. [Learn more](https://resend.com/docs/dashboard/emails/idempotency-keys) */
   idempotencyKey?: string;
   body?: CreateEmailBatchRequestBodyList;
+  /** `strict` (the default) rejects the whole batch when any email is invalid; `permissive` sends the valid ones and lists the rest in `errors`. */
+  batchValidation?: BatchValidation | (string & {});
 }
 export interface CreateBatchEmailsResponseDataItem {
   /** The ID of the sent email. */
@@ -658,11 +659,15 @@ export type CreateBatchEmailsResponseDataList = Array<CreateBatchEmailsResponseD
 export interface CreateBatchEmailsResponse {
   data?: CreateBatchEmailsResponseDataList;
 }
+/** The type of a key in a custom event's payload. */
+export type EventSchemaType = "string" | "number" | "boolean" | "date";
+/** A flat map from payload key to its type. */
+export type EventSchemaMap = { [key: string]: EventSchemaType | (string & {}) | undefined };
 export interface CreateEventRequest {
   /** The name of the event. Cannot start with the reserved `resend:` prefix. */
   name: string;
   /** An optional flat key/type map defining the event payload schema. Supported types are `string`, `number`, `boolean`, and `date`. */
-  schema?: unknown | null;
+  schema?: EventSchemaMap | null;
 }
 export interface CreateEventResponse {
   /** Type of the response object. */
@@ -753,8 +758,6 @@ export interface CreateInboxLabelResponseSuccess {
 export interface CreateSegmentRequest {
   /** The name of the segment. */
   name: string;
-  /** The ID of the audience this segment belongs to. */
-  audience_id?: string;
   /** Filter conditions for the segment. */
   filter?: unknown;
 }
@@ -1339,7 +1342,7 @@ export interface GetContactPropertyRequest {
   id: string;
 }
 /** The default value when the property is not set for a contact. */
-export type GetContactPropertyResponseSuccessFallbackValue = string | number;
+export type GetContactPropertyResponseSuccessFallbackValue = string | number | boolean;
 export interface GetContactPropertyResponseSuccess {
   /** The object type. */
   object?: string;
@@ -1607,7 +1610,7 @@ export interface Event {
   /** The event name. */
   name?: string;
   /** A flat key/type map defining the event payload schema. Supported types are `string`, `number`, `boolean`, and `date`. */
-  schema?: unknown | null;
+  schema?: EventSchemaMap | null;
   /** The date and time the event was created. */
   created_at?: string;
   /** The date and time the event was last updated. */
@@ -2378,7 +2381,7 @@ export interface ListContactPropertiesRequest {
   before?: string;
 }
 /** The default value when the property is not set for a contact. */
-export type ListContactPropertiesResponseSuccessDataItemFallbackValue = string | number;
+export type ListContactPropertiesResponseSuccessDataItemFallbackValue = string | number | boolean;
 export interface ListContactPropertiesResponseSuccessDataItem {
   /** Unique identifier for the contact property. */
   id?: string;
@@ -2688,7 +2691,7 @@ export interface EventSummary {
   /** The event name. */
   name?: string;
   /** A flat key/type map defining the event payload schema. Supported types are `string`, `number`, `boolean`, and `date`. */
-  schema?: unknown | null;
+  schema?: EventSchemaMap | null;
   /** The date and time the event was created. */
   created_at?: string;
   /** The date and time the event was last updated. */
@@ -3523,8 +3526,6 @@ export interface UpdateBroadcastRequest {
   id: string;
   /** Name of the broadcast. */
   name?: string;
-  /** Use `segment_id` instead. Unique identifier of the audience this broadcast will be sent to. */
-  audience_id?: string;
   /** Unique identifier of the segment this broadcast will be sent to. */
   segment_id?: string;
   /** The email address of the sender. */
@@ -3571,7 +3572,7 @@ export interface UpdateContactResponseSuccess {
   id?: string;
 }
 /** The default value to use when the property is not set for a contact. Must match the type of the property. */
-export type UpdateContactPropertyRequestFallbackValue = string | number;
+export type UpdateContactPropertyRequestFallbackValue = string | number | boolean;
 export interface UpdateContactPropertyRequest {
   /** The Contact Property ID. */
   id: string;
@@ -3655,6 +3656,8 @@ export interface UpdateDomainResponseSuccess {
 export interface UpdateEmailRequest {
   /** The ID of the email. */
   email_id: string;
+  /** When to send the email instead: ISO 8601, or natural language such as `in 1 hour`. */
+  scheduled_at: string;
 }
 export interface UpdateEmailOptions {
   /** Schedule email to be sent later. The date should be in ISO 8601 format. */
@@ -3664,7 +3667,7 @@ export interface UpdateEventRequest {
   /** The event ID (UUID) or event name. */
   identifier: string;
   /** A flat key/type map defining the event payload schema. Set to `null` to clear the schema. Supported types are `string`, `number`, `boolean`, and `date`. */
-  schema: unknown | null;
+  schema: EventSchemaMap | null;
 }
 export interface UpdateEventResponse {
   /** Type of the response object. */
@@ -3919,8 +3922,8 @@ export const batchAddSuppressions: API.OperationMethod<
   BatchAddSuppressionsError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<BatchAddSuppressionsRequest>,
-  output: __S(978, __c61, 2) as any as S.Schema<BatchAddSuppressionsResponseSuccess>,
+  input: __S(1008, __c63, 0) as any as S.Schema<BatchAddSuppressionsRequest>,
+  output: __S(1010, __c63, 2) as any as S.Schema<BatchAddSuppressionsResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -3936,8 +3939,8 @@ export const batchDeleteSuppressions: API.OperationMethod<
   BatchDeleteSuppressionsError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<BatchDeleteSuppressionsRequest>,
-  output: __S(1202, __c75, 2) as any as S.Schema<BatchRemoveSuppressionsResponseSuccess>,
+  input: __S(1232, __c77, 0) as any as S.Schema<BatchDeleteSuppressionsRequest>,
+  output: __S(1234, __c77, 2) as any as S.Schema<BatchRemoveSuppressionsResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -3953,8 +3956,8 @@ export const cancelBroadcast: API.OperationMethod<
   CancelBroadcastError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<CancelBroadcastRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<CancelBroadcastResponseSuccess>,
+  input: __S(1440, __c90, 0) as any as S.Schema<CancelBroadcastRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<CancelBroadcastResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -3970,8 +3973,8 @@ export const cancelEmail: API.OperationMethod<
   CancelEmailError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<CancelEmailRequest>,
-  output: __S(1648, __c103, 0) as any as S.Schema<Email>,
+  input: __S(1664, __c104, 0) as any as S.Schema<CancelEmailRequest>,
+  output: __S(1680, __c105, 0) as any as S.Schema<Email>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -3987,8 +3990,8 @@ export const createApiKey: API.OperationMethod<
   CreateApiKeyError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<CreateApiKeyRequest>,
-  output: __S(1889, __c118, 1) as any as S.Schema<CreateApiKeyResponse>,
+  input: __S(1920, __c120, 0) as any as S.Schema<CreateApiKeyRequest>,
+  output: __S(1921, __c120, 1) as any as S.Schema<CreateApiKeyResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4004,7 +4007,7 @@ export const createAutomation: API.OperationMethod<
   CreateAutomationError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<CreateAutomationRequest>,
+  input: __S(2144, __c134, 0) as any as S.Schema<CreateAutomationRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<CreateAutomationResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
@@ -4021,8 +4024,8 @@ export const createBroadcast: API.OperationMethod<
   CreateBroadcastError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<CreateBroadcastRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<CreateBroadcastResponseSuccess>,
+  input: __S(2352, __c147, 0) as any as S.Schema<CreateBroadcastRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<CreateBroadcastResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4038,7 +4041,7 @@ export const createContact: API.OperationMethod<
   CreateContactError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<CreateContactRequest>,
+  input: __S(2560, __c160, 0) as any as S.Schema<CreateContactRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<CreateContactResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
@@ -4073,7 +4076,7 @@ export const createContactProperty: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<CreateContactPropertyRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<CreateContactPropertyResponseSuccess>,
+  output: __S(1456, __c91, 0) as any as S.Schema<CreateContactPropertyResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4124,7 +4127,7 @@ export const createEmail: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(818, __c51, 2) as any as S.Schema<CreateEmailRequest>,
-  output: __S(2576, __c161, 0) as any as S.Schema<SendEmailResponse>,
+  output: __S(2608, __c163, 0) as any as S.Schema<SendEmailResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4140,8 +4143,8 @@ export const createEmailBatch: API.OperationMethod<
   CreateEmailBatchError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(868, __c54, 4) as any as S.Schema<CreateEmailBatchRequest>,
-  output: __S(869, __c54, 5) as any as S.Schema<CreateBatchEmailsResponse>,
+  input: __S(884, __c55, 4) as any as S.Schema<CreateEmailBatchRequest>,
+  output: __S(885, __c55, 5) as any as S.Schema<CreateBatchEmailsResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4157,7 +4160,7 @@ export const createEvent: API.OperationMethod<
   CreateEventError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<CreateEventRequest>,
+  input: __S(896, __c56, 0) as any as S.Schema<CreateEventRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<CreateEventResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
@@ -4174,8 +4177,8 @@ export const createInbox: API.OperationMethod<
   CreateInboxError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<CreateInboxRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<CreateInboxResponseSuccess>,
+  input: __S(928, __c58, 0) as any as S.Schema<CreateInboxRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CreateInboxResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4191,8 +4194,8 @@ export const createInboxDraft: API.OperationMethod<
   CreateInboxDraftError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<CreateInboxDraftRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<CreateInboxDraftResponseSuccess>,
+  input: __S(960, __c60, 0) as any as S.Schema<CreateInboxDraftRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CreateInboxDraftResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4208,8 +4211,8 @@ export const createInboxLabel: API.OperationMethod<
   CreateInboxLabelError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<CreateInboxLabelRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<CreateInboxLabelResponseSuccess>,
+  input: __S(992, __c62, 0) as any as S.Schema<CreateInboxLabelRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CreateInboxLabelResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4225,8 +4228,8 @@ export const createSegment: API.OperationMethod<
   CreateSegmentError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<CreateSegmentRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<CreateSegmentResponseSuccess>,
+  input: __S(1024, __c64, 0) as any as S.Schema<CreateSegmentRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<CreateSegmentResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4242,8 +4245,8 @@ export const createTemplate: API.OperationMethod<
   CreateTemplateError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<CreateTemplateRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<CreateTemplateResponseSuccess>,
+  input: __S(1040, __c65, 0) as any as S.Schema<CreateTemplateRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<CreateTemplateResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4259,8 +4262,8 @@ export const createTopic: API.OperationMethod<
   CreateTopicError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<CreateTopicRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<CreateTopicResponseSuccess>,
+  input: __S(1072, __c67, 0) as any as S.Schema<CreateTopicRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<CreateTopicResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4276,8 +4279,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<CreateWebhookResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(1104, __c69, 0) as any as S.Schema<CreateWebhookResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4293,8 +4296,8 @@ export const deleteApiKey: API.OperationMethod<
   DeleteApiKeyError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<DeleteApiKeyRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<DeleteApiKeyResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<DeleteApiKeyRequest>,
+  output: __S(1248, __c78, 0) as any as S.Schema<DeleteApiKeyResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4310,8 +4313,8 @@ export const deleteAutomation: API.OperationMethod<
   DeleteAutomationError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<DeleteAutomationRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<DeleteAutomationResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<DeleteAutomationRequest>,
+  output: __S(1248, __c78, 0) as any as S.Schema<DeleteAutomationResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4327,8 +4330,8 @@ export const deleteBroadcast: API.OperationMethod<
   DeleteBroadcastError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<DeleteBroadcastRequest>,
-  output: __S(1136, __c71, 0) as any as S.Schema<RemoveBroadcastResponseSuccess>,
+  input: __S(1152, __c72, 0) as any as S.Schema<DeleteBroadcastRequest>,
+  output: __S(1168, __c73, 0) as any as S.Schema<RemoveBroadcastResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4344,8 +4347,8 @@ export const deleteContact: API.OperationMethod<
   DeleteContactError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<DeleteContactRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<RemoveContactResponseSuccess>,
+  input: __S(1184, __c74, 0) as any as S.Schema<DeleteContactRequest>,
+  output: __S(1248, __c78, 0) as any as S.Schema<RemoveContactResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4361,8 +4364,8 @@ export const deleteContactProperty: API.OperationMethod<
   DeleteContactPropertyError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<DeleteContactPropertyRequest>,
-  output: __S(1136, __c71, 0) as any as S.Schema<RemoveContactPropertyResponseSuccess>,
+  input: __S(1200, __c75, 0) as any as S.Schema<DeleteContactPropertyRequest>,
+  output: __S(1168, __c73, 0) as any as S.Schema<RemoveContactPropertyResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4378,8 +4381,8 @@ export const deleteContactSegment: API.OperationMethod<
   DeleteContactSegmentError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<DeleteContactSegmentRequest>,
-  output: __S(1185, __c74, 1) as any as S.Schema<RemoveContactFromSegmentResponseSuccess>,
+  input: __S(1216, __c76, 0) as any as S.Schema<DeleteContactSegmentRequest>,
+  output: __S(1217, __c76, 1) as any as S.Schema<RemoveContactFromSegmentResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4395,8 +4398,8 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<DeleteDomainRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<DeleteDomainResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<DeleteDomainRequest>,
+  output: __S(1248, __c78, 0) as any as S.Schema<DeleteDomainResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4412,8 +4415,8 @@ export const deleteEvent: API.OperationMethod<
   DeleteEventError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<DeleteEventRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<RemoveEventResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<DeleteEventRequest>,
+  output: __S(1248, __c78, 0) as any as S.Schema<RemoveEventResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4429,8 +4432,8 @@ export const deleteInbox: API.OperationMethod<
   DeleteInboxError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<DeleteInboxRequest>,
-  output: __S(1280, __c80, 0) as any as S.Schema<RemoveInboxResponseSuccess>,
+  input: __S(1296, __c81, 0) as any as S.Schema<DeleteInboxRequest>,
+  output: __S(1312, __c82, 0) as any as S.Schema<RemoveInboxResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4446,8 +4449,8 @@ export const deleteInboxDraft: API.OperationMethod<
   DeleteInboxDraftError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<DeleteInboxDraftRequest>,
-  output: __S(1280, __c80, 0) as any as S.Schema<RemoveInboxDraftResponseSuccess>,
+  input: __S(1328, __c83, 0) as any as S.Schema<DeleteInboxDraftRequest>,
+  output: __S(1312, __c82, 0) as any as S.Schema<RemoveInboxDraftResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4463,8 +4466,8 @@ export const deleteInboxLabel: API.OperationMethod<
   DeleteInboxLabelError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<DeleteInboxLabelRequest>,
-  output: __S(1280, __c80, 0) as any as S.Schema<RemoveInboxLabelResponseSuccess>,
+  input: __S(1344, __c84, 0) as any as S.Schema<DeleteInboxLabelRequest>,
+  output: __S(1312, __c82, 0) as any as S.Schema<RemoveInboxLabelResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4480,8 +4483,8 @@ export const deleteInboxThread: API.OperationMethod<
   DeleteInboxThreadError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<DeleteInboxThreadRequest>,
-  output: __S(1280, __c80, 0) as any as S.Schema<RemoveInboxThreadResponseSuccess>,
+  input: __S(1360, __c85, 0) as any as S.Schema<DeleteInboxThreadRequest>,
+  output: __S(1312, __c82, 0) as any as S.Schema<RemoveInboxThreadResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4497,7 +4500,7 @@ export const deleteInboxThreadLabel: API.OperationMethod<
   DeleteInboxThreadLabelError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<DeleteInboxThreadLabelRequest>,
+  input: __S(1376, __c86, 0) as any as S.Schema<DeleteInboxThreadLabelRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<InboxThreadLabelList>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
@@ -4514,8 +4517,8 @@ export const deleteSegment: API.OperationMethod<
   DeleteSegmentError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<DeleteSegmentRequest>,
-  output: __S(1136, __c71, 0) as any as S.Schema<RemoveSegmentResponseSuccess>,
+  input: __S(1392, __c87, 0) as any as S.Schema<DeleteSegmentRequest>,
+  output: __S(1168, __c73, 0) as any as S.Schema<RemoveSegmentResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4531,8 +4534,8 @@ export const deleteSuppression: API.OperationMethod<
   DeleteSuppressionError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<DeleteSuppressionRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<RemoveSuppressionResponseSuccess>,
+  input: __S(1408, __c88, 0) as any as S.Schema<DeleteSuppressionRequest>,
+  output: __S(1248, __c78, 0) as any as S.Schema<RemoveSuppressionResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4548,8 +4551,8 @@ export const deleteTemplate: API.OperationMethod<
   DeleteTemplateError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<DeleteTemplateRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<RemoveTemplateResponseSuccess>,
+  input: __S(1424, __c89, 0) as any as S.Schema<DeleteTemplateRequest>,
+  output: __S(1248, __c78, 0) as any as S.Schema<RemoveTemplateResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4565,8 +4568,8 @@ export const deleteTopic: API.OperationMethod<
   DeleteTopicError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<DeleteTopicRequest>,
-  output: __S(1136, __c71, 0) as any as S.Schema<RemoveTopicResponseSuccess>,
+  input: __S(1472, __c92, 0) as any as S.Schema<DeleteTopicRequest>,
+  output: __S(1168, __c73, 0) as any as S.Schema<RemoveTopicResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4582,8 +4585,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(1216, __c76, 0) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(1248, __c78, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4599,7 +4602,7 @@ export const duplicateAutomation: API.OperationMethod<
   DuplicateAutomationError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<DuplicateAutomationRequest>,
+  input: __S(1504, __c94, 0) as any as S.Schema<DuplicateAutomationRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<DuplicateAutomationResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
@@ -4616,8 +4619,8 @@ export const duplicateBroadcast: API.OperationMethod<
   DuplicateBroadcastError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<DuplicateBroadcastRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<DuplicateBroadcastResponseSuccess>,
+  input: __S(1520, __c95, 0) as any as S.Schema<DuplicateBroadcastRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<DuplicateBroadcastResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4633,8 +4636,8 @@ export const duplicateTemplate: API.OperationMethod<
   DuplicateTemplateError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<DuplicateTemplateRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<DuplicateTemplateResponseSuccess>,
+  input: __S(1536, __c96, 0) as any as S.Schema<DuplicateTemplateRequest>,
+  output: __S(1456, __c91, 0) as any as S.Schema<DuplicateTemplateResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4650,8 +4653,8 @@ export const forwardInboxThreadEmail: API.OperationMethod<
   ForwardInboxThreadEmailError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<ForwardInboxThreadEmailRequest>,
-  output: __S(1537, __c96, 1) as any as S.Schema<ForwardInboxThreadEmailResponseSuccess>,
+  input: __S(1552, __c97, 0) as any as S.Schema<ForwardInboxThreadEmailRequest>,
+  output: __S(1568, __c98, 0) as any as S.Schema<ForwardInboxThreadEmailResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4667,8 +4670,8 @@ export const getAutomation: API.OperationMethod<
   GetAutomationError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<GetAutomationRequest>,
-  output: __S(1555, __c97, 3) as any as S.Schema<Automation>,
+  input: __S(1584, __c99, 0) as any as S.Schema<GetAutomationRequest>,
+  output: __S(1587, __c99, 3) as any as S.Schema<Automation>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4684,8 +4687,8 @@ export const getAutomationRun: API.OperationMethod<
   GetAutomationRunError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<GetAutomationRunRequest>,
-  output: __S(1571, __c98, 3) as any as S.Schema<AutomationRun>,
+  input: __S(1600, __c100, 0) as any as S.Schema<GetAutomationRunRequest>,
+  output: __S(1603, __c100, 3) as any as S.Schema<AutomationRun>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4701,8 +4704,8 @@ export const getBroadcast: API.OperationMethod<
   GetBroadcastError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<GetBroadcastRequest>,
-  output: __S(1585, __c99, 1) as any as S.Schema<GetBroadcastResponseSuccess>,
+  input: __S(1616, __c101, 0) as any as S.Schema<GetBroadcastRequest>,
+  output: __S(1617, __c101, 1) as any as S.Schema<GetBroadcastResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4718,8 +4721,8 @@ export const getContact: API.OperationMethod<
   GetContactError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<GetContactRequest>,
-  output: __S(1601, __c100, 1) as any as S.Schema<GetContactResponseSuccess>,
+  input: __S(1632, __c102, 0) as any as S.Schema<GetContactRequest>,
+  output: __S(1633, __c102, 1) as any as S.Schema<GetContactResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4735,8 +4738,8 @@ export const getContactImport: API.OperationMethod<
   GetContactImportError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<GetContactImportRequest>,
-  output: __S(1681, __c105, 1) as any as S.Schema<GetContactImportResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<GetContactImportRequest>,
+  output: __S(1713, __c107, 1) as any as S.Schema<GetContactImportResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4752,8 +4755,8 @@ export const getContactProperty: API.OperationMethod<
   GetContactPropertyError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<GetContactPropertyRequest>,
-  output: __S(1697, __c106, 1) as any as S.Schema<GetContactPropertyResponseSuccess>,
+  input: __S(1728, __c108, 0) as any as S.Schema<GetContactPropertyRequest>,
+  output: __S(1729, __c108, 1) as any as S.Schema<GetContactPropertyResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4769,8 +4772,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(1713, __c107, 1) as any as S.Schema<Domain>,
+  input: __S(1744, __c109, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(1745, __c109, 1) as any as S.Schema<Domain>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4786,7 +4789,7 @@ export const getDomainClaim: API.OperationMethod<
   GetDomainClaimError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<GetDomainClaimRequest>,
+  input: __S(1760, __c110, 0) as any as S.Schema<GetDomainClaimRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<DomainClaim>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
@@ -4799,8 +4802,8 @@ export type GetEmailError = ResendOpError;
 /** Retrieve a single email */
 export const getEmail: API.OperationMethod<GetEmailRequest, Email, GetEmailError, ResendOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1744, __c109, 0) as any as S.Schema<GetEmailRequest>,
-    output: __S(1648, __c103, 0) as any as S.Schema<Email>,
+    input: __S(1776, __c111, 0) as any as S.Schema<GetEmailRequest>,
+    output: __S(1680, __c105, 0) as any as S.Schema<Email>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -4816,8 +4819,8 @@ export const getEmailAttachment: API.OperationMethod<
   GetEmailAttachmentError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<GetEmailAttachmentRequest>,
-  output: __S(1776, __c111, 0) as any as S.Schema<RetrievedAttachment>,
+  input: __S(1792, __c112, 0) as any as S.Schema<GetEmailAttachmentRequest>,
+  output: __S(1808, __c113, 0) as any as S.Schema<RetrievedAttachment>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4833,8 +4836,8 @@ export const getEmailMetrics: API.OperationMethod<
   GetEmailMetricsError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<GetEmailMetricsRequest>,
-  output: __S(1796, __c112, 4) as any as S.Schema<GetEmailsMetricsResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<GetEmailMetricsRequest>,
+  output: __S(1828, __c114, 4) as any as S.Schema<GetEmailsMetricsResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4850,8 +4853,8 @@ export const getEmailReceiving: API.OperationMethod<
   GetEmailReceivingError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<GetEmailReceivingRequest>,
-  output: __S(1825, __c114, 1) as any as S.Schema<GetReceivedEmailResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<GetEmailReceivingRequest>,
+  output: __S(1857, __c116, 1) as any as S.Schema<GetReceivedEmailResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4867,8 +4870,8 @@ export const getEmailReceivingAttachment: API.OperationMethod<
   GetEmailReceivingAttachmentError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<GetEmailReceivingAttachmentRequest>,
-  output: __S(1776, __c111, 0) as any as S.Schema<RetrievedAttachment>,
+  input: __S(1888, __c118, 0) as any as S.Schema<GetEmailReceivingAttachmentRequest>,
+  output: __S(1808, __c113, 0) as any as S.Schema<RetrievedAttachment>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4880,8 +4883,8 @@ export type GetEventError = ResendOpError;
 /** Retrieve a single event */
 export const getEvent: API.OperationMethod<GetEventRequest, Event, GetEventError, ResendOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1872, __c117, 0) as any as S.Schema<GetEventRequest>,
-    output: __S(1873, __c117, 1) as any as S.Schema<Event>,
+    input: __S(1904, __c119, 0) as any as S.Schema<GetEventRequest>,
+    output: __S(1905, __c119, 1) as any as S.Schema<Event>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -4893,8 +4896,8 @@ export type GetInboxError = ResendOpError;
 /** Retrieve a single inbox by ID or email address */
 export const getInbox: API.OperationMethod<GetInboxRequest, Inbox, GetInboxError, ResendOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1904, __c119, 0) as any as S.Schema<GetInboxRequest>,
-    output: __S(1905, __c119, 1) as any as S.Schema<Inbox>,
+    input: __S(1936, __c121, 0) as any as S.Schema<GetInboxRequest>,
+    output: __S(1937, __c121, 1) as any as S.Schema<Inbox>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -4910,8 +4913,8 @@ export const getInboxAgent: API.OperationMethod<
   GetInboxAgentError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<GetInboxAgentRequest>,
-  output: __S(1921, __c120, 1) as any as S.Schema<InboxAgent>,
+  input: __S(1952, __c122, 0) as any as S.Schema<GetInboxAgentRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<InboxAgent>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4927,8 +4930,8 @@ export const getInboxDraft: API.OperationMethod<
   GetInboxDraftError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<GetInboxDraftRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<InboxDraft>,
+  input: __S(1968, __c123, 0) as any as S.Schema<GetInboxDraftRequest>,
+  output: __S(1969, __c123, 1) as any as S.Schema<InboxDraft>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4944,8 +4947,8 @@ export const getInboxThread: API.OperationMethod<
   GetInboxThreadError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<GetInboxThreadRequest>,
-  output: __S(1984, __c124, 0) as any as S.Schema<InboxThreadSummary>,
+  input: __S(2000, __c125, 0) as any as S.Schema<GetInboxThreadRequest>,
+  output: __S(2016, __c126, 0) as any as S.Schema<InboxThreadSummary>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4961,8 +4964,8 @@ export const getInboxThreadEmail: API.OperationMethod<
   GetInboxThreadEmailError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<GetInboxThreadEmailRequest>,
-  output: __S(2018, __c126, 2) as any as S.Schema<InboxThreadEmail>,
+  input: __S(2032, __c127, 0) as any as S.Schema<GetInboxThreadEmailRequest>,
+  output: __S(2050, __c128, 2) as any as S.Schema<InboxThreadEmail>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4974,8 +4977,8 @@ export type GetLogError = ResendOpError;
 /** Retrieve a single log */
 export const getLog: API.OperationMethod<GetLogRequest, Log, GetLogError, ResendOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2032, __c127, 0) as any as S.Schema<GetLogRequest>,
-    output: __S(2033, __c127, 1) as any as S.Schema<Log>,
+    input: __S(2064, __c129, 0) as any as S.Schema<GetLogRequest>,
+    output: __S(2065, __c129, 1) as any as S.Schema<Log>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -4991,8 +4994,8 @@ export const getSegment: API.OperationMethod<
   GetSegmentError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<GetSegmentRequest>,
-  output: __S(2049, __c128, 1) as any as S.Schema<GetSegmentResponseSuccess>,
+  input: __S(2080, __c130, 0) as any as S.Schema<GetSegmentRequest>,
+  output: __S(2081, __c130, 1) as any as S.Schema<GetSegmentResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -5008,8 +5011,8 @@ export const getSuppression: API.OperationMethod<
   GetSuppressionError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<GetSuppressionRequest>,
-  output: __S(2065, __c129, 1) as any as S.Schema<GetSuppressionResponseSuccess>,
+  input: __S(2096, __c131, 0) as any as S.Schema<GetSuppressionRequest>,
+  output: __S(2097, __c131, 1) as any as S.Schema<GetSuppressionResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -5025,8 +5028,8 @@ export const getTemplate: API.OperationMethod<
   GetTemplateError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<GetTemplateRequest>,
-  output: __S(2083, __c130, 3) as any as S.Schema<Template>,
+  input: __S(2112, __c132, 0) as any as S.Schema<GetTemplateRequest>,
+  output: __S(2115, __c132, 3) as any as S.Schema<Template>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -5042,8 +5045,8 @@ export const getTopic: API.OperationMethod<
   GetTopicError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<GetTopicRequest>,
-  output: __S(2097, __c131, 1) as any as S.Schema<GetTopicResponseSuccess>,
+  input: __S(2128, __c133, 0) as any as S.Schema<GetTopicRequest>,
+  output: __S(2129, __c133, 1) as any as S.Schema<GetTopicResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -5059,8 +5062,8 @@ export const getUsage: API.OperationMethod<
   GetUsageError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<GetUsageRequest>,
-  output: __S(2170, __c135, 10) as any as S.Schema<GetUsageResponseSuccess>,
+  input: __S(2192, __c137, 0) as any as S.Schema<GetUsageRequest>,
+  output: __S(2202, __c137, 10) as any as S.Schema<GetUsageResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -5076,8 +5079,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<GetWebhookResponse>,
+  input: __S(2208, __c138, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(2209, __c138, 1) as any as S.Schema<GetWebhookResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -5093,8 +5096,8 @@ export const getWebhookEvent: API.OperationMethod<
   GetWebhookEventError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<GetWebhookEventRequest>,
-  output: __S(2193, __c137, 1) as any as S.Schema<GetWebhookEventResponse>,
+  input: __S(2224, __c139, 0) as any as S.Schema<GetWebhookEventRequest>,
+  output: __S(2225, __c139, 1) as any as S.Schema<GetWebhookEventResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -5112,8 +5115,8 @@ export const listApiKeys: API.PaginatedOperationMethod<
   ApiKey
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2208, __c138, 0) as any as S.Schema<ListApiKeysRequest>,
-    output: __S(2211, __c138, 3) as any as S.Schema<ListApiKeysResponse>,
+    input: __S(2240, __c140, 0) as any as S.Schema<ListApiKeysRequest>,
+    output: __S(2243, __c140, 3) as any as S.Schema<ListApiKeysResponse>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5140,8 +5143,8 @@ export const listAutomationRuns: API.PaginatedOperationMethod<
   AutomationRunListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2224, __c139, 0) as any as S.Schema<ListAutomationRunsRequest>,
-    output: __S(2227, __c139, 3) as any as S.Schema<ListAutomationRunsResponse>,
+    input: __S(2256, __c141, 0) as any as S.Schema<ListAutomationRunsRequest>,
+    output: __S(2259, __c141, 3) as any as S.Schema<ListAutomationRunsResponse>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5168,8 +5171,8 @@ export const listAutomations: API.PaginatedOperationMethod<
   AutomationListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2240, __c140, 0) as any as S.Schema<ListAutomationsRequest>,
-    output: __S(2243, __c140, 3) as any as S.Schema<ListAutomationsResponse>,
+    input: __S(2272, __c142, 0) as any as S.Schema<ListAutomationsRequest>,
+    output: __S(2275, __c142, 3) as any as S.Schema<ListAutomationsResponse>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5196,8 +5199,8 @@ export const listBroadcastClickedLinks: API.PaginatedOperationMethod<
   ListBroadcastClickedLinksResponseSuccessDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2256, __c141, 0) as any as S.Schema<ListBroadcastClickedLinksRequest>,
-    output: __S(2259, __c141, 3) as any as S.Schema<ListBroadcastClickedLinksResponseSuccess>,
+    input: __S(2288, __c143, 0) as any as S.Schema<ListBroadcastClickedLinksRequest>,
+    output: __S(2291, __c143, 3) as any as S.Schema<ListBroadcastClickedLinksResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5224,8 +5227,8 @@ export const listBroadcastRecipients: API.PaginatedOperationMethod<
   ListBroadcastRecipientsResponseSuccessDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2272, __c142, 0) as any as S.Schema<ListBroadcastRecipientsRequest>,
-    output: __S(2277, __c142, 5) as any as S.Schema<ListBroadcastRecipientsResponseSuccess>,
+    input: __S(2304, __c144, 0) as any as S.Schema<ListBroadcastRecipientsRequest>,
+    output: __S(2309, __c144, 5) as any as S.Schema<ListBroadcastRecipientsResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5252,8 +5255,8 @@ export const listBroadcasts: API.PaginatedOperationMethod<
   ListBroadcastsResponseSuccessDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2288, __c143, 0) as any as S.Schema<ListBroadcastsRequest>,
-    output: __S(2291, __c143, 3) as any as S.Schema<ListBroadcastsResponseSuccess>,
+    input: __S(2320, __c145, 0) as any as S.Schema<ListBroadcastsRequest>,
+    output: __S(2323, __c145, 3) as any as S.Schema<ListBroadcastsResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5280,8 +5283,8 @@ export const listContactImports: API.PaginatedOperationMethod<
   ContactImport
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2304, __c144, 0) as any as S.Schema<ListContactImportsRequest>,
-    output: __S(2306, __c144, 2) as any as S.Schema<ListContactImportsResponseSuccess>,
+    input: __S(2336, __c146, 0) as any as S.Schema<ListContactImportsRequest>,
+    output: __S(2338, __c146, 2) as any as S.Schema<ListContactImportsResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5308,8 +5311,8 @@ export const listContactProperties: API.PaginatedOperationMethod<
   ListContactPropertiesResponseSuccessDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2336, __c146, 0) as any as S.Schema<ListContactPropertiesRequest>,
-    output: __S(2339, __c146, 3) as any as S.Schema<ListContactPropertiesResponseSuccess>,
+    input: __S(2368, __c148, 0) as any as S.Schema<ListContactPropertiesRequest>,
+    output: __S(2371, __c148, 3) as any as S.Schema<ListContactPropertiesResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5336,8 +5339,8 @@ export const listContacts: API.PaginatedOperationMethod<
   ListContactsResponseSuccessDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2352, __c147, 0) as any as S.Schema<ListContactsRequest>,
-    output: __S(2370, __c148, 2) as any as S.Schema<ListContactsResponseSuccess>,
+    input: __S(2384, __c149, 0) as any as S.Schema<ListContactsRequest>,
+    output: __S(2402, __c150, 2) as any as S.Schema<ListContactsResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5364,8 +5367,8 @@ export const listContactSegments: API.PaginatedOperationMethod<
   ListContactSegmentsResponseSuccessDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2384, __c149, 0) as any as S.Schema<ListContactSegmentsRequest>,
-    output: __S(2387, __c149, 3) as any as S.Schema<ListContactSegmentsResponseSuccess>,
+    input: __S(2416, __c151, 0) as any as S.Schema<ListContactSegmentsRequest>,
+    output: __S(2419, __c151, 3) as any as S.Schema<ListContactSegmentsResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5392,8 +5395,8 @@ export const listContactTopics: API.PaginatedOperationMethod<
   GetContactTopicsResponseSuccessDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2400, __c150, 0) as any as S.Schema<ListContactTopicsRequest>,
-    output: __S(2403, __c150, 3) as any as S.Schema<GetContactTopicsResponseSuccess>,
+    input: __S(2432, __c152, 0) as any as S.Schema<ListContactTopicsRequest>,
+    output: __S(2435, __c152, 3) as any as S.Schema<GetContactTopicsResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5420,8 +5423,8 @@ export const listDomains: API.PaginatedOperationMethod<
   ListDomainsItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2416, __c151, 0) as any as S.Schema<ListDomainsRequest>,
-    output: __S(2419, __c151, 3) as any as S.Schema<ListDomainsResponse>,
+    input: __S(2448, __c153, 0) as any as S.Schema<ListDomainsRequest>,
+    output: __S(2451, __c153, 3) as any as S.Schema<ListDomainsResponse>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5448,8 +5451,8 @@ export const listEmailAttachments: API.PaginatedOperationMethod<
   ListAttachmentsResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2432, __c152, 0) as any as S.Schema<ListEmailAttachmentsRequest>,
-    output: __S(2450, __c153, 2) as any as S.Schema<ListAttachmentsResponse>,
+    input: __S(2464, __c154, 0) as any as S.Schema<ListEmailAttachmentsRequest>,
+    output: __S(2482, __c155, 2) as any as S.Schema<ListAttachmentsResponse>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5476,8 +5479,8 @@ export const listEmailReceiving: API.PaginatedOperationMethod<
   ListReceivedEmailsResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2464, __c154, 0) as any as S.Schema<ListEmailReceivingRequest>,
-    output: __S(2467, __c154, 3) as any as S.Schema<ListReceivedEmailsResponse>,
+    input: __S(2496, __c156, 0) as any as S.Schema<ListEmailReceivingRequest>,
+    output: __S(2499, __c156, 3) as any as S.Schema<ListReceivedEmailsResponse>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5504,8 +5507,8 @@ export const listEmailReceivingAttachments: API.PaginatedOperationMethod<
   ListAttachmentsResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2480, __c155, 0) as any as S.Schema<ListEmailReceivingAttachmentsRequest>,
-    output: __S(2450, __c153, 2) as any as S.Schema<ListAttachmentsResponse>,
+    input: __S(2512, __c157, 0) as any as S.Schema<ListEmailReceivingAttachmentsRequest>,
+    output: __S(2482, __c155, 2) as any as S.Schema<ListAttachmentsResponse>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5532,8 +5535,8 @@ export const listEmails: API.PaginatedOperationMethod<
   Email
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2496, __c156, 0) as any as S.Schema<ListEmailsRequest>,
-    output: __S(2498, __c156, 2) as any as S.Schema<ListEmailsResponse>,
+    input: __S(2528, __c158, 0) as any as S.Schema<ListEmailsRequest>,
+    output: __S(2530, __c158, 2) as any as S.Schema<ListEmailsResponse>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5560,8 +5563,8 @@ export const listEvents: API.PaginatedOperationMethod<
   EventSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2512, __c157, 0) as any as S.Schema<ListEventsRequest>,
-    output: __S(2515, __c157, 3) as any as S.Schema<ListEventsResponse>,
+    input: __S(2544, __c159, 0) as any as S.Schema<ListEventsRequest>,
+    output: __S(2547, __c159, 3) as any as S.Schema<ListEventsResponse>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5588,8 +5591,8 @@ export const listInboxDrafts: API.PaginatedOperationMethod<
   InboxDraftListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2608, __c163, 0) as any as S.Schema<ListInboxDraftsRequest>,
-    output: __S(2611, __c163, 3) as any as S.Schema<ListInboxDraftsResponseSuccess>,
+    input: __S(2640, __c165, 0) as any as S.Schema<ListInboxDraftsRequest>,
+    output: __S(2643, __c165, 3) as any as S.Schema<ListInboxDraftsResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5616,8 +5619,8 @@ export const listInboxes: API.PaginatedOperationMethod<
   ListInboxesResponseSuccessDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2624, __c164, 0) as any as S.Schema<ListInboxesRequest>,
-    output: __S(2627, __c164, 3) as any as S.Schema<ListInboxesResponseSuccess>,
+    input: __S(2656, __c166, 0) as any as S.Schema<ListInboxesRequest>,
+    output: __S(2659, __c166, 3) as any as S.Schema<ListInboxesResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5642,8 +5645,8 @@ export const listInboxLabels: API.OperationMethod<
   ListInboxLabelsError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<ListInboxLabelsRequest>,
-  output: __S(2643, __c165, 3) as any as S.Schema<ListInboxLabelsResponseSuccess>,
+  input: __S(2672, __c167, 0) as any as S.Schema<ListInboxLabelsRequest>,
+  output: __S(2675, __c167, 3) as any as S.Schema<ListInboxLabelsResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -5661,8 +5664,8 @@ export const listInboxThreadEmails: API.PaginatedOperationMethod<
   InboxThreadEmail
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2656, __c166, 0) as any as S.Schema<ListInboxThreadEmailsRequest>,
-    output: __S(2658, __c166, 2) as any as S.Schema<ListInboxThreadEmailsResponseSuccess>,
+    input: __S(2688, __c168, 0) as any as S.Schema<ListInboxThreadEmailsRequest>,
+    output: __S(2690, __c168, 2) as any as S.Schema<ListInboxThreadEmailsResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5689,8 +5692,8 @@ export const listInboxThreads: API.PaginatedOperationMethod<
   InboxThread
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2672, __c167, 0) as any as S.Schema<ListInboxThreadsRequest>,
-    output: __S(2675, __c167, 3) as any as S.Schema<ListInboxThreadsResponseSuccess>,
+    input: __S(2704, __c169, 0) as any as S.Schema<ListInboxThreadsRequest>,
+    output: __S(2707, __c169, 3) as any as S.Schema<ListInboxThreadsResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5717,8 +5720,8 @@ export const listLogs: API.PaginatedOperationMethod<
   LogSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2688, __c168, 0) as any as S.Schema<ListLogsRequest>,
-    output: __S(2691, __c168, 3) as any as S.Schema<ListLogsResponse>,
+    input: __S(2720, __c170, 0) as any as S.Schema<ListLogsRequest>,
+    output: __S(2723, __c170, 3) as any as S.Schema<ListLogsResponse>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5745,8 +5748,8 @@ export const listOauthGrants: API.PaginatedOperationMethod<
   OAuthGrant
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2704, __c169, 0) as any as S.Schema<ListOauthGrantsRequest>,
-    output: __S(2708, __c169, 4) as any as S.Schema<ListOAuthGrantsResponse>,
+    input: __S(2736, __c171, 0) as any as S.Schema<ListOauthGrantsRequest>,
+    output: __S(2740, __c171, 4) as any as S.Schema<ListOAuthGrantsResponse>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5773,8 +5776,8 @@ export const listSegmentContacts: API.PaginatedOperationMethod<
   ListContactsResponseSuccessDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2720, __c170, 0) as any as S.Schema<ListSegmentContactsRequest>,
-    output: __S(2370, __c148, 2) as any as S.Schema<ListContactsResponseSuccess>,
+    input: __S(2752, __c172, 0) as any as S.Schema<ListSegmentContactsRequest>,
+    output: __S(2402, __c150, 2) as any as S.Schema<ListContactsResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5801,8 +5804,8 @@ export const listSegments: API.PaginatedOperationMethod<
   ListSegmentsResponseSuccessDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2736, __c171, 0) as any as S.Schema<ListSegmentsRequest>,
-    output: __S(2739, __c171, 3) as any as S.Schema<ListSegmentsResponseSuccess>,
+    input: __S(2768, __c173, 0) as any as S.Schema<ListSegmentsRequest>,
+    output: __S(2771, __c173, 3) as any as S.Schema<ListSegmentsResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5829,8 +5832,8 @@ export const listSuppressions: API.PaginatedOperationMethod<
   ListSuppressionsResponseSuccessDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(2752, __c172, 0) as any as S.Schema<ListSuppressionsRequest>,
-    output: __S(2755, __c172, 3) as any as S.Schema<ListSuppressionsResponseSuccess>,
+    input: __S(2784, __c174, 0) as any as S.Schema<ListSuppressionsRequest>,
+    output: __S(2787, __c174, 3) as any as S.Schema<ListSuppressionsResponseSuccess>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -5996,7 +5999,7 @@ export const publishTemplate: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<PublishTemplateRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<PublishTemplateResponseSuccess>,
+  output: __S(1456, __c91, 0) as any as S.Schema<PublishTemplateResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6030,7 +6033,7 @@ export const replyInboxThreadEmail: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ReplyInboxThreadEmailRequest>,
-  output: __S(1537, __c96, 1) as any as S.Schema<ReplyInboxThreadEmailResponseSuccess>,
+  output: __S(1568, __c98, 0) as any as S.Schema<ReplyInboxThreadEmailResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6064,7 +6067,7 @@ export const rotateWebhookSigningSecret: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<RotateWebhookSigningSecretRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<RotateWebhookSigningSecretResponse>,
+  output: __S(1104, __c69, 0) as any as S.Schema<RotateWebhookSigningSecretResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6109,7 +6112,7 @@ export const sendBroadcast: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<SendBroadcastRequest>,
-  output: __S(2576, __c161, 0) as any as S.Schema<SendBroadcastResponseSuccess>,
+  output: __S(2608, __c163, 0) as any as S.Schema<SendBroadcastResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6143,7 +6146,7 @@ export const sendInboxDraft: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<SendInboxDraftRequest>,
-  output: __S(1537, __c96, 1) as any as S.Schema<SendInboxDraftResponseSuccess>,
+  output: __S(1568, __c98, 0) as any as S.Schema<SendInboxDraftResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6245,7 +6248,7 @@ export const updateBroadcast: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<UpdateBroadcastRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<UpdateBroadcastResponseSuccess>,
+  output: __S(1456, __c91, 0) as any as S.Schema<UpdateBroadcastResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6279,7 +6282,7 @@ export const updateContactProperty: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<UpdateContactPropertyRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<UpdateContactPropertyResponseSuccess>,
+  output: __S(1456, __c91, 0) as any as S.Schema<UpdateContactPropertyResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6330,7 +6333,7 @@ export const updateDomain: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<UpdateDomainRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<UpdateDomainResponseSuccess>,
+  output: __S(1456, __c91, 0) as any as S.Schema<UpdateDomainResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6381,7 +6384,7 @@ export const updateInbox: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<UpdateInboxRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<UpdateInboxResponseSuccess>,
+  output: __S(944, __c59, 0) as any as S.Schema<UpdateInboxResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6398,7 +6401,7 @@ export const updateInboxAgent: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<UpdateInboxAgentRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<UpdateInboxAgentResponseSuccess>,
+  output: __S(944, __c59, 0) as any as S.Schema<UpdateInboxAgentResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6415,7 +6418,7 @@ export const updateInboxDraft: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<UpdateInboxDraftRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<UpdateInboxDraftResponseSuccess>,
+  output: __S(944, __c59, 0) as any as S.Schema<UpdateInboxDraftResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6432,7 +6435,7 @@ export const updateInboxLabel: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<UpdateInboxLabelRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<UpdateInboxLabelResponseSuccess>,
+  output: __S(944, __c59, 0) as any as S.Schema<UpdateInboxLabelResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6449,7 +6452,7 @@ export const updateInboxThread: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<UpdateInboxThreadRequest>,
-  output: __S(1984, __c124, 0) as any as S.Schema<InboxThreadSummary>,
+  output: __S(2016, __c126, 0) as any as S.Schema<InboxThreadSummary>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6466,7 +6469,7 @@ export const updateSegment: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<UpdateSegmentRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<UpdateSegmentResponseSuccess>,
+  output: __S(1456, __c91, 0) as any as S.Schema<UpdateSegmentResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6483,7 +6486,7 @@ export const updateTemplate: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<UpdateTemplateRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<UpdateTemplateResponseSuccess>,
+  output: __S(1456, __c91, 0) as any as S.Schema<UpdateTemplateResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6500,7 +6503,7 @@ export const updateTopic: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<UpdateTopicRequest>,
-  output: __S(1424, __c89, 0) as any as S.Schema<UpdateTopicResponseSuccess>,
+  output: __S(1456, __c91, 0) as any as S.Schema<UpdateTopicResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6857,7 +6860,7 @@ function __c14(j: number): any {
           subject: S.optional(S.String),
           reply_all: S.optional(S.Boolean),
           attachments: S.optional(S.NullOr(__S(849, __c53, 1))),
-          headers: S.optional(S.NullOr(__S(1536, __c96, 0))),
+          headers: S.optional(S.NullOr(__S(864, __c54, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6929,7 +6932,7 @@ function __c18(j: number): any {
           has_attachment: S.optional(S.Boolean.pipe(T.Query())),
           start_date: S.optional(S.String.pipe(T.Query())),
           end_date: S.optional(S.String.pipe(T.Query())),
-          folders: S.optional(__S(1808, __c113, 0).pipe(T.Query())),
+          folders: S.optional(__S(1840, __c115, 0).pipe(T.Query())),
           labels: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           read: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -6987,7 +6990,7 @@ function __c20(j: number): any {
           event: S.String,
           contact_id: S.optional(S.String),
           email: S.optional(S.String),
-          payload: S.optional(__S(1616, __c101, 0)),
+          payload: S.optional(__S(1648, __c103, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/events/send", code: 200 })),
       ).annotate({ identifier: "SendEventRequest" });
     case 1:
@@ -7002,7 +7005,7 @@ function __c21(j: number): any {
           inbox_id: S.String.pipe(T.Label()),
           draft_id: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          headers: S.optional(S.NullOr(__S(1536, __c96, 0))),
+          headers: S.optional(S.NullOr(__S(864, __c54, 0))),
         }).pipe(
           T.Http({ method: "POST", uri: "/inboxes/{inbox_id}/drafts/{draft_id}/send", code: 200 }),
         ),
@@ -7083,8 +7086,8 @@ function __c26(j: number): any {
           automation_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           status: S.optional(S.String),
-          steps: S.optional(__S(2129, __c133, 1)),
-          connections: S.optional(__S(2145, __c134, 1)),
+          steps: S.optional(__S(2161, __c135, 1)),
+          connections: S.optional(__S(2177, __c136, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/automations/{automation_id}", code: 200 })),
       ).annotate({ identifier: "UpdateAutomationRequest" });
   }
@@ -7096,7 +7099,6 @@ function __c27(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          audience_id: S.optional(S.String),
           segment_id: S.optional(S.String),
           from: S.optional(S.String),
           subject: S.optional(S.String),
@@ -7180,7 +7182,7 @@ function __c31(j: number): any {
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           unsubscribed: S.optional(S.Boolean),
-          properties: S.optional(__S(2544, __c159, 0)),
+          properties: S.optional(__S(2576, __c161, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/contacts/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateContactRequest" });
   }
@@ -7227,7 +7229,7 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           contact_id: S.String.pipe(T.Label()),
-          topics: __S(2561, __c160, 1),
+          topics: __S(2593, __c162, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PATCH", uri: "/contacts/{contact_id}/topics", code: 200 })),
       ).annotate({ identifier: "UpdateContactTopicsRequest" });
     case 1:
@@ -7235,7 +7237,7 @@ function __c34(j: number): any {
         S.Struct({
           object: S.optional(S.String),
           contact_id: S.optional(S.String),
-          topics: S.optional(__S(2561, __c160, 1)),
+          topics: S.optional(__S(2593, __c162, 1)),
         }),
       ).annotate({ identifier: "UpdateContactTopicsResponseSuccess" });
   }
@@ -7261,6 +7263,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           email_id: S.String.pipe(T.Label()),
+          scheduled_at: S.String,
         }).pipe(T.Http({ method: "PATCH", uri: "/emails/{email_id}", code: 200 })),
       ).annotate({ identifier: "UpdateEmailRequest" });
     case 1:
@@ -7277,7 +7280,7 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           identifier: S.String.pipe(T.Label()),
-          schema: S.NullOr(S.Unknown),
+          schema: S.NullOr(__S(912, __c57, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/events/{identifier}", code: 200 })),
       ).annotate({ identifier: "UpdateEventRequest" });
   }
@@ -7302,7 +7305,7 @@ function __c39(j: number): any {
           inbox_id: S.String.pipe(T.Label()),
           instructions: S.optional(S.NullOr(S.String)),
           tone: S.optional(S.NullOr(S.String)),
-          actions: S.optional(__S(1808, __c113, 0)),
+          actions: S.optional(__S(1840, __c115, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/inboxes/{inbox_id}/agent", code: 200 })),
       ).annotate({ identifier: "UpdateInboxAgentRequest" });
   }
@@ -7320,7 +7323,7 @@ function __c40(j: number): any {
           subject: S.optional(S.NullOr(S.String)),
           html: S.optional(S.NullOr(S.String)),
           text: S.optional(S.NullOr(S.String)),
-          attachments: S.optional(S.NullOr(__S(945, __c59, 1))),
+          attachments: S.optional(S.NullOr(__S(977, __c61, 1))),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/inboxes/{inbox_id}/drafts/{draft_id}", code: 200 }),
         ),
@@ -7425,7 +7428,7 @@ function __c46(j: number): any {
           reply_to: S.optional(__S(16, __c1, 0)),
           html: S.optional(S.String),
           text: S.optional(S.String),
-          variables: S.optional(__S(1025, __c64, 1)),
+          variables: S.optional(__S(1057, __c66, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/templates/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateTemplateRequest" });
   }
@@ -7500,7 +7503,7 @@ function __c51(j: number): any {
           html: S.optional(S.String),
           text: S.optional(S.String),
           template: S.optional(__S(817, __c51, 1)),
-          headers: S.optional(S.Unknown),
+          headers: S.optional(__S(864, __c54, 0)),
           scheduled_at: S.optional(S.String),
           attachments: S.optional(__S(849, __c53, 1)),
           tags: S.optional(__S(833, __c52, 1)),
@@ -7541,12 +7544,18 @@ function __c53(j: number): any {
 function __c54(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          variables: S.optional(__S(864, __c54, 0)),
+          variables: S.optional(__S(880, __c55, 0)),
         }),
       ).annotate({ identifier: "SendEmailRequestTemplate" });
     case 2:
@@ -7560,8 +7569,8 @@ function __c54(j: number): any {
           reply_to: S.optional(S.Unknown),
           html: S.optional(S.String),
           text: S.optional(S.String),
-          template: S.optional(__S(865, __c54, 1)),
-          headers: S.optional(S.Unknown),
+          template: S.optional(__S(881, __c55, 1)),
+          headers: S.optional(__S(864, __c54, 0)),
           scheduled_at: S.optional(S.String),
           attachments: S.optional(__S(849, __c53, 1)),
           tags: S.optional(__S(833, __c52, 1)),
@@ -7569,34 +7578,41 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "SendEmailRequest" });
     case 3:
-      return S.Array(__S(866, __c54, 2));
+      return S.Array(__S(882, __c55, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          body: S.optional(__S(867, __c54, 3).pipe(T.HttpBody())),
+          body: S.optional(__S(883, __c55, 3).pipe(T.HttpBody())),
+          batchValidation: S.optional(S.String.pipe(T.Header("x-batch-validation"))),
         }).pipe(T.Http({ method: "POST", uri: "/emails/batch", code: 200 })),
       ).annotate({ identifier: "CreateEmailBatchRequest" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(2592, __c162, 0)),
+          data: S.optional(__S(2624, __c164, 0)),
         }),
       ).annotate({ identifier: "CreateBatchEmailsResponse" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          schema: S.optional(S.NullOr(S.Unknown)),
+          schema: S.optional(S.NullOr(__S(912, __c57, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/events", code: 200 })),
       ).annotate({ identifier: "CreateEventRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7609,7 +7625,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "CreateInboxRequest" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7620,7 +7636,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CreateInboxResponseSuccess" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7633,14 +7649,14 @@ function __c58(j: number): any {
           subject: S.optional(S.NullOr(S.String)),
           html: S.optional(S.NullOr(S.String)),
           text: S.optional(S.NullOr(S.String)),
-          attachments: S.optional(S.NullOr(__S(945, __c59, 1))),
+          attachments: S.optional(S.NullOr(__S(977, __c61, 1))),
           thread_id: S.optional(S.String),
           reply_to_email_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/inboxes/{inbox_id}/drafts", code: 200 })),
       ).annotate({ identifier: "CreateInboxDraftRequest" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7651,10 +7667,10 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "InboxDraftAttachmentInput" });
     case 1:
-      return S.Array(__S(944, __c59, 0));
+      return S.Array(__S(976, __c61, 0));
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7666,7 +7682,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "CreateInboxLabelRequest" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7679,24 +7695,23 @@ function __c61(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(977, __c61, 1)),
+          data: S.optional(__S(1009, __c63, 1)),
         }),
       ).annotate({ identifier: "BatchAddSuppressionsResponseSuccess" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          audience_id: S.optional(S.String),
           filter: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/segments", code: 200 })),
       ).annotate({ identifier: "CreateSegmentRequest" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7708,12 +7723,12 @@ function __c63(j: number): any {
           reply_to: S.optional(__S(16, __c1, 0)),
           html: S.String,
           text: S.optional(S.String),
-          variables: S.optional(__S(1025, __c64, 1)),
+          variables: S.optional(__S(1057, __c66, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/templates", code: 200 })),
       ).annotate({ identifier: "CreateTemplateRequest" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7724,10 +7739,10 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "TemplateVariableInput" });
     case 1:
-      return S.Array(__S(1024, __c64, 0));
+      return S.Array(__S(1056, __c66, 0));
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7740,7 +7755,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CreateTopicRequest" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7751,7 +7766,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7763,7 +7778,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CreateWebhookResponse" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7773,7 +7788,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "DeleteApiKeyRequest" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7783,7 +7798,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "DeleteAutomationRequest" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7793,7 +7808,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "DeleteBroadcastRequest" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7805,7 +7820,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "RemoveBroadcastResponseSuccess" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7815,7 +7830,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "DeleteContactRequest" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7825,7 +7840,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "DeleteContactPropertyRequest" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7851,7 +7866,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "RemoveContactFromSegmentResponseSuccess" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7861,16 +7876,16 @@ function __c75(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/suppressions/batch/remove", code: 200 })),
       ).annotate({ identifier: "BatchDeleteSuppressionsRequest" });
     case 1:
-      return S.Array(__S(1216, __c76, 0));
+      return S.Array(__S(1248, __c78, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(1201, __c75, 1)),
+          data: S.optional(__S(1233, __c77, 1)),
         }),
       ).annotate({ identifier: "BatchRemoveSuppressionsResponseSuccess" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7882,7 +7897,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "BatchRemoveSuppressionsResponseSuccessDataItem" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7892,7 +7907,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "DeleteDomainRequest" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7902,7 +7917,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "DeleteEventRequest" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7912,7 +7927,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "DeleteInboxRequest" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7924,7 +7939,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "RemoveInboxResponseSuccess" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7937,7 +7952,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "DeleteInboxDraftRequest" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7950,7 +7965,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "DeleteInboxLabelRequest" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7963,7 +7978,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "DeleteInboxThreadRequest" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7981,7 +7996,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "DeleteInboxThreadLabelRequest" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7991,7 +8006,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "DeleteSegmentRequest" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8001,7 +8016,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "DeleteSuppressionRequest" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8011,7 +8026,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DeleteTemplateRequest" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8021,7 +8036,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "CancelBroadcastRequest" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8032,7 +8047,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "CancelBroadcastResponseSuccess" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8042,7 +8057,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "DeleteTopicRequest" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8052,7 +8067,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8064,7 +8079,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DuplicateAutomationRequest" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8074,7 +8089,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DuplicateBroadcastRequest" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8084,7 +8099,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "DuplicateTemplateRequest" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8100,7 +8115,7 @@ function __c95(j: number): any {
           text: S.optional(S.String),
           subject: S.optional(S.String),
           attachments: S.optional(S.NullOr(__S(849, __c53, 1))),
-          headers: S.optional(S.NullOr(__S(1536, __c96, 0))),
+          headers: S.optional(S.NullOr(__S(864, __c54, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8111,11 +8126,9 @@ function __c95(j: number): any {
       ).annotate({ identifier: "ForwardInboxThreadEmailRequest" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -8123,7 +8136,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "ForwardInboxThreadEmailResponseSuccess" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8140,7 +8153,7 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "AutomationStepResponse" });
     case 2:
-      return S.Array(__S(1553, __c97, 1));
+      return S.Array(__S(1585, __c99, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8150,13 +8163,13 @@ function __c97(j: number): any {
           status: S.optional(S.String),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          steps: S.optional(__S(1554, __c97, 2)),
-          connections: S.optional(__S(2145, __c134, 1)),
+          steps: S.optional(__S(1586, __c99, 2)),
+          connections: S.optional(__S(2177, __c136, 1)),
         }),
       ).annotate({ identifier: "Automation" });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8181,7 +8194,7 @@ function __c98(j: number): any {
         }),
       ).annotate({ identifier: "AutomationRunStep" });
     case 2:
-      return S.Array(__S(1569, __c98, 1));
+      return S.Array(__S(1601, __c100, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8191,12 +8204,12 @@ function __c98(j: number): any {
           started_at: S.optional(S.NullOr(S.String)),
           completed_at: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
-          steps: S.optional(__S(1570, __c98, 2)),
+          steps: S.optional(__S(1602, __c100, 2)),
         }),
       ).annotate({ identifier: "AutomationRun" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8226,7 +8239,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "GetBroadcastResponseSuccess" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8244,18 +8257,18 @@ function __c100(j: number): any {
           last_name: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
           unsubscribed: S.optional(S.Boolean),
-          properties: S.optional(__S(1616, __c101, 0)),
+          properties: S.optional(__S(1648, __c103, 0)),
         }),
       ).annotate({ identifier: "GetContactResponseSuccess" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8265,7 +8278,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "CancelEmailRequest" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8287,7 +8300,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "Email" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8297,7 +8310,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "GetContactImportRequest" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8317,12 +8330,12 @@ function __c105(j: number): any {
           status: S.optional(S.String),
           created_at: S.optional(S.String),
           completed_at: S.optional(S.NullOr(S.String)),
-          counts: S.optional(__S(1680, __c105, 0)),
+          counts: S.optional(__S(1712, __c107, 0)),
         }),
       ).annotate({ identifier: "GetContactImportResponse" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8343,7 +8356,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "GetContactPropertyResponseSuccess" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8369,7 +8382,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "Domain" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8379,7 +8392,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "GetDomainClaimRequest" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8389,7 +8402,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GetEmailRequest" });
   }
 }
-function __c110(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8406,7 +8419,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "GetEmailAttachmentRequest" });
   }
 }
-function __c111(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8424,7 +8437,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "RetrievedAttachment" });
   }
 }
-function __c112(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8433,8 +8446,8 @@ function __c112(j: number): any {
           end_date: S.optional(S.String.pipe(T.Query())),
           timezone: S.optional(S.String.pipe(T.Query())),
           granularity: S.optional(S.String.pipe(T.Query())),
-          metrics: S.optional(__S(1808, __c113, 0).pipe(T.Query())),
-          dimensions: S.optional(__S(1808, __c113, 0).pipe(T.Query())),
+          metrics: S.optional(__S(1840, __c115, 0).pipe(T.Query())),
+          dimensions: S.optional(__S(1840, __c115, 0).pipe(T.Query())),
           domain_id: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           email_id: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           broadcast_id: S.optional(__S(16, __c1, 0).pipe(T.Query())),
@@ -8457,7 +8470,7 @@ function __c112(j: number): any {
         ),
       ).annotate({ identifier: "EmailMetricsDataRow" });
     case 3:
-      return S.Array(__S(1794, __c112, 2));
+      return S.Array(__S(1826, __c114, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -8465,21 +8478,21 @@ function __c112(j: number): any {
           start_date: S.optional(S.String),
           end_date: S.optional(S.String),
           metrics: S.optional(__S(16, __c1, 0)),
-          dimensions: S.optional(__S(1808, __c113, 0)),
+          dimensions: S.optional(__S(1840, __c115, 0)),
           granularity: S.optional(S.String),
-          totals: S.optional(__S(1793, __c112, 1)),
-          data: S.optional(__S(1795, __c112, 3)),
+          totals: S.optional(__S(1825, __c114, 1)),
+          data: S.optional(__S(1827, __c114, 3)),
         }),
       ).annotate({ identifier: "GetEmailsMetricsResponse" });
   }
 }
-function __c113(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c114(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8504,12 +8517,12 @@ function __c114(j: number): any {
           text: S.optional(S.NullOr(S.String)),
           headers: S.optional(S.NullOr(S.Unknown)),
           created_at: S.optional(S.String),
-          attachments: S.optional(__S(1841, __c115, 1)),
+          attachments: S.optional(__S(1873, __c117, 1)),
         }),
       ).annotate({ identifier: "GetReceivedEmailResponse" });
   }
 }
-function __c115(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8523,10 +8536,10 @@ function __c115(j: number): any {
         }),
       ).annotate({ identifier: "GetReceivedEmailResponseAttachmentsItem" });
     case 1:
-      return S.Array(__S(1840, __c115, 0));
+      return S.Array(__S(1872, __c117, 0));
   }
 }
-function __c116(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8543,7 +8556,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetEmailReceivingAttachmentRequest" });
   }
 }
-function __c117(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8557,14 +8570,14 @@ function __c117(j: number): any {
           object: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          schema: S.optional(S.NullOr(S.Unknown)),
+          schema: S.optional(S.NullOr(__S(912, __c57, 0))),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Event" });
   }
 }
-function __c118(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8583,7 +8596,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "CreateApiKeyResponse" });
   }
 }
-function __c119(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8610,7 +8623,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "Inbox" });
   }
 }
-function __c120(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8624,12 +8637,12 @@ function __c120(j: number): any {
           object: S.String,
           instructions: S.NullOr(S.String),
           tone: S.NullOr(S.String),
-          actions: __S(1808, __c113, 0),
+          actions: __S(1840, __c115, 0),
         }),
       ).annotate({ identifier: "InboxAgent" });
   }
 }
-function __c121(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8655,12 +8668,12 @@ function __c121(j: number): any {
           email_id: S.NullOr(S.String),
           created_at: S.String,
           updated_at: S.String,
-          attachments: __S(1953, __c122, 1),
+          attachments: __S(1985, __c124, 1),
         }),
       ).annotate({ identifier: "InboxDraft" });
   }
 }
-function __c122(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8672,10 +8685,10 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "InboxDraftAttachment" });
     case 1:
-      return S.Array(__S(1952, __c122, 0));
+      return S.Array(__S(1984, __c124, 0));
   }
 }
-function __c123(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8688,7 +8701,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetInboxThreadRequest" });
   }
 }
-function __c124(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8703,7 +8716,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "InboxThreadSummary" });
   }
 }
-function __c125(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8721,7 +8734,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetInboxThreadEmailRequest" });
   }
 }
-function __c126(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8732,7 +8745,7 @@ function __c126(j: number): any {
         }),
       ).annotate({ identifier: "InboxThreadEmailAttachment" });
     case 1:
-      return S.Array(__S(2016, __c126, 0));
+      return S.Array(__S(2048, __c128, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8747,14 +8760,14 @@ function __c126(j: number): any {
           message_id: S.NullOr(S.String),
           html: S.NullOr(S.String),
           text: S.NullOr(S.String),
-          attachments: __S(2017, __c126, 1),
+          attachments: __S(2049, __c128, 1),
           read: S.Boolean,
           received_at: S.String,
         }),
       ).annotate({ identifier: "InboxThreadEmail" });
   }
 }
-function __c127(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8778,7 +8791,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "Log" });
   }
 }
-function __c128(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8799,7 +8812,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "GetSegmentResponseSuccess" });
   }
 }
-function __c129(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8820,7 +8833,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "GetSuppressionResponseSuccess" });
   }
 }
-function __c130(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8840,7 +8853,7 @@ function __c130(j: number): any {
         }),
       ).annotate({ identifier: "TemplateVariable" });
     case 2:
-      return S.Array(__S(2081, __c130, 1));
+      return S.Array(__S(2113, __c132, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8854,7 +8867,7 @@ function __c130(j: number): any {
           reply_to: S.optional(S.NullOr(__S(16, __c1, 0))),
           html: S.optional(S.String),
           text: S.optional(S.String),
-          variables: S.optional(__S(2082, __c130, 2)),
+          variables: S.optional(__S(2114, __c132, 2)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           status: S.optional(S.String),
@@ -8864,7 +8877,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "Template" });
   }
 }
-function __c131(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8886,20 +8899,20 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetTopicResponseSuccess" });
   }
 }
-function __c132(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           status: S.optional(S.String),
-          steps: __S(2129, __c133, 1),
-          connections: __S(2145, __c134, 1),
+          steps: __S(2161, __c135, 1),
+          connections: __S(2177, __c136, 1),
         }).pipe(T.Http({ method: "POST", uri: "/automations", code: 200 })),
       ).annotate({ identifier: "CreateAutomationRequest" });
   }
 }
-function __c133(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8910,10 +8923,10 @@ function __c133(j: number): any {
         }),
       ).annotate({ identifier: "AutomationStep" });
     case 1:
-      return S.Array(__S(2128, __c133, 0));
+      return S.Array(__S(2160, __c135, 0));
   }
 }
-function __c134(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8924,10 +8937,10 @@ function __c134(j: number): any {
         }),
       ).annotate({ identifier: "AutomationConnection" });
     case 1:
-      return S.Array(__S(2144, __c134, 0));
+      return S.Array(__S(2176, __c136, 0));
   }
 }
-function __c135(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8956,8 +8969,8 @@ function __c135(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          daily: S.optional(__S(2161, __c135, 1)),
-          monthly: S.optional(__S(2162, __c135, 2)),
+          daily: S.optional(__S(2193, __c137, 1)),
+          monthly: S.optional(__S(2194, __c137, 2)),
         }),
       ).annotate({ identifier: "GetUsageResponseSuccessEmails" });
     case 4:
@@ -9008,19 +9021,19 @@ function __c135(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          emails: S.optional(__S(2163, __c135, 3)),
-          contacts: S.optional(__S(2164, __c135, 4)),
-          segments: S.optional(__S(2165, __c135, 5)),
-          broadcasts: S.optional(__S(2166, __c135, 6)),
-          ai_credits: S.optional(__S(2167, __c135, 7)),
-          automation_runs: S.optional(__S(2168, __c135, 8)),
-          domains: S.optional(__S(2165, __c135, 5)),
-          rate_limit: S.optional(__S(2169, __c135, 9)),
+          emails: S.optional(__S(2195, __c137, 3)),
+          contacts: S.optional(__S(2196, __c137, 4)),
+          segments: S.optional(__S(2197, __c137, 5)),
+          broadcasts: S.optional(__S(2198, __c137, 6)),
+          ai_credits: S.optional(__S(2199, __c137, 7)),
+          automation_runs: S.optional(__S(2200, __c137, 8)),
+          domains: S.optional(__S(2197, __c137, 5)),
+          rate_limit: S.optional(__S(2201, __c137, 9)),
         }),
       ).annotate({ identifier: "GetUsageResponseSuccess" });
   }
 }
-function __c136(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9042,7 +9055,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetWebhookResponse" });
   }
 }
-function __c137(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9067,7 +9080,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "GetWebhookEventResponse" });
   }
 }
-function __c138(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9087,18 +9100,18 @@ function __c138(j: number): any {
         }),
       ).annotate({ identifier: "ApiKey" });
     case 2:
-      return S.Array(__S(2209, __c138, 1));
+      return S.Array(__S(2241, __c140, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2210, __c138, 2),
+          data: __S(2242, __c140, 2),
         }),
       ).annotate({ identifier: "ListApiKeysResponse" });
   }
 }
-function __c139(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9121,18 +9134,18 @@ function __c139(j: number): any {
         }),
       ).annotate({ identifier: "AutomationRunListItem" });
     case 2:
-      return S.Array(__S(2225, __c139, 1));
+      return S.Array(__S(2257, __c141, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2226, __c139, 2),
+          data: __S(2258, __c141, 2),
         }),
       ).annotate({ identifier: "ListAutomationRunsResponse" });
   }
 }
-function __c140(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9154,18 +9167,18 @@ function __c140(j: number): any {
         }),
       ).annotate({ identifier: "AutomationListItem" });
     case 2:
-      return S.Array(__S(2241, __c140, 1));
+      return S.Array(__S(2273, __c142, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2242, __c140, 2),
+          data: __S(2274, __c142, 2),
         }),
       ).annotate({ identifier: "ListAutomationsResponse" });
   }
 }
-function __c141(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9186,18 +9199,18 @@ function __c141(j: number): any {
         }),
       ).annotate({ identifier: "ListBroadcastClickedLinksResponseSuccessDataItem" });
     case 2:
-      return S.Array(__S(2257, __c141, 1));
+      return S.Array(__S(2289, __c143, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2258, __c141, 2),
+          data: __S(2290, __c143, 2),
         }),
       ).annotate({ identifier: "ListBroadcastClickedLinksResponseSuccess" });
   }
 }
-function __c142(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9219,7 +9232,7 @@ function __c142(j: number): any {
         }),
       ).annotate({ identifier: "ListBroadcastRecipientsResponseSuccessDataItemClickedLinksItem" });
     case 2:
-      return S.Array(__S(2273, __c142, 1));
+      return S.Array(__S(2305, __c144, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9228,22 +9241,22 @@ function __c142(j: number): any {
           email: S.optional(S.String),
           count: S.optional(S.Number),
           bounce_type: S.optional(S.String),
-          clicked_links: S.optional(__S(2274, __c142, 2)),
+          clicked_links: S.optional(__S(2306, __c144, 2)),
         }),
       ).annotate({ identifier: "ListBroadcastRecipientsResponseSuccessDataItem" });
     case 4:
-      return S.Array(__S(2275, __c142, 3));
+      return S.Array(__S(2307, __c144, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2276, __c142, 4),
+          data: __S(2308, __c144, 4),
         }),
       ).annotate({ identifier: "ListBroadcastRecipientsResponseSuccess" });
   }
 }
-function __c143(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9268,18 +9281,18 @@ function __c143(j: number): any {
         }),
       ).annotate({ identifier: "ListBroadcastsResponseSuccessDataItem" });
     case 2:
-      return S.Array(__S(2289, __c143, 1));
+      return S.Array(__S(2321, __c145, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2290, __c143, 2),
+          data: __S(2322, __c145, 2),
         }),
       ).annotate({ identifier: "ListBroadcastsResponseSuccess" });
   }
 }
-function __c144(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9291,25 +9304,24 @@ function __c144(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/contacts/imports", code: 200 })),
       ).annotate({ identifier: "ListContactImportsRequest" });
     case 1:
-      return S.Array(__S(1681, __c105, 1));
+      return S.Array(__S(1713, __c107, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2305, __c144, 1),
+          data: __S(2337, __c146, 1),
         }),
       ).annotate({ identifier: "ListContactImportsResponseSuccess" });
   }
 }
-function __c145(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           segment_id: S.String,
-          audience_id: S.optional(S.String),
           from: S.String,
           subject: S.String,
           reply_to: S.optional(__S(16, __c1, 0)),
@@ -9323,7 +9335,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "CreateBroadcastRequest" });
   }
 }
-function __c146(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9344,18 +9356,18 @@ function __c146(j: number): any {
         }),
       ).annotate({ identifier: "ListContactPropertiesResponseSuccessDataItem" });
     case 2:
-      return S.Array(__S(2337, __c146, 1));
+      return S.Array(__S(2369, __c148, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2338, __c146, 2),
+          data: __S(2370, __c148, 2),
         }),
       ).annotate({ identifier: "ListContactPropertiesResponseSuccess" });
   }
 }
-function __c147(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9367,7 +9379,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "ListContactsRequest" });
   }
 }
-function __c148(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9381,18 +9393,18 @@ function __c148(j: number): any {
         }),
       ).annotate({ identifier: "ListContactsResponseSuccessDataItem" });
     case 1:
-      return S.Array(__S(2368, __c148, 0));
+      return S.Array(__S(2400, __c150, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2369, __c148, 1),
+          data: __S(2401, __c150, 1),
         }),
       ).annotate({ identifier: "ListContactsResponseSuccess" });
   }
 }
-function __c149(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9412,18 +9424,18 @@ function __c149(j: number): any {
         }),
       ).annotate({ identifier: "ListContactSegmentsResponseSuccessDataItem" });
     case 2:
-      return S.Array(__S(2385, __c149, 1));
+      return S.Array(__S(2417, __c151, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2386, __c149, 2),
+          data: __S(2418, __c151, 2),
         }),
       ).annotate({ identifier: "ListContactSegmentsResponseSuccess" });
   }
 }
-function __c150(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9444,18 +9456,18 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "GetContactTopicsResponseSuccessDataItem" });
     case 2:
-      return S.Array(__S(2401, __c150, 1));
+      return S.Array(__S(2433, __c152, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2402, __c150, 2),
+          data: __S(2434, __c152, 2),
         }),
       ).annotate({ identifier: "GetContactTopicsResponseSuccess" });
   }
 }
-function __c151(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9479,18 +9491,18 @@ function __c151(j: number): any {
         }),
       ).annotate({ identifier: "ListDomainsItem" });
     case 2:
-      return S.Array(__S(2417, __c151, 1));
+      return S.Array(__S(2449, __c153, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2418, __c151, 2),
+          data: __S(2450, __c153, 2),
         }),
       ).annotate({ identifier: "ListDomainsResponse" });
   }
 }
-function __c152(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9503,7 +9515,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "ListEmailAttachmentsRequest" });
   }
 }
-function __c153(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9519,18 +9531,18 @@ function __c153(j: number): any {
         }),
       ).annotate({ identifier: "ListAttachmentsResponseDataItem" });
     case 1:
-      return S.Array(__S(2448, __c153, 0));
+      return S.Array(__S(2480, __c155, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2449, __c153, 1),
+          data: __S(2481, __c155, 1),
         }),
       ).annotate({ identifier: "ListAttachmentsResponse" });
   }
 }
-function __c154(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9552,22 +9564,22 @@ function __c154(j: number): any {
           cc: S.optional(S.NullOr(__S(16, __c1, 0))),
           reply_to: S.optional(S.NullOr(__S(16, __c1, 0))),
           created_at: S.optional(S.String),
-          attachments: S.optional(__S(1841, __c115, 1)),
+          attachments: S.optional(__S(1873, __c117, 1)),
         }),
       ).annotate({ identifier: "ListReceivedEmailsResponseDataItem" });
     case 2:
-      return S.Array(__S(2465, __c154, 1));
+      return S.Array(__S(2497, __c156, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2466, __c154, 2),
+          data: __S(2498, __c156, 2),
         }),
       ).annotate({ identifier: "ListReceivedEmailsResponse" });
   }
 }
-function __c155(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9582,7 +9594,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "ListEmailReceivingAttachmentsRequest" });
   }
 }
-function __c156(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9593,18 +9605,18 @@ function __c156(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/emails", code: 200 })),
       ).annotate({ identifier: "ListEmailsRequest" });
     case 1:
-      return S.Array(__S(1648, __c103, 0));
+      return S.Array(__S(1680, __c105, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2497, __c156, 1),
+          data: __S(2529, __c158, 1),
         }),
       ).annotate({ identifier: "ListEmailsResponse" });
   }
 }
-function __c157(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9619,24 +9631,24 @@ function __c157(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          schema: S.optional(S.NullOr(S.Unknown)),
+          schema: S.optional(S.NullOr(__S(912, __c57, 0))),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "EventSummary" });
     case 2:
-      return S.Array(__S(2513, __c157, 1));
+      return S.Array(__S(2545, __c159, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2514, __c157, 2),
+          data: __S(2546, __c159, 2),
         }),
       ).annotate({ identifier: "ListEventsResponse" });
   }
 }
-function __c158(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9645,21 +9657,20 @@ function __c158(j: number): any {
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           unsubscribed: S.optional(S.Boolean),
-          properties: S.optional(__S(2544, __c159, 0)),
-          segments: S.optional(__S(2592, __c162, 0)),
-          topics: S.optional(__S(2561, __c160, 1)),
-          audience_id: S.optional(S.String),
+          properties: S.optional(__S(2576, __c161, 0)),
+          segments: S.optional(__S(2624, __c164, 0)),
+          topics: S.optional(__S(2593, __c162, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/contacts", code: 200 })),
       ).annotate({ identifier: "CreateContactRequest" });
   }
 }
-function __c159(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
   }
 }
-function __c160(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9669,10 +9680,10 @@ function __c160(j: number): any {
         }),
       ).annotate({ identifier: "CreateContactRequestTopicsItem" });
     case 1:
-      return S.Array(__S(2560, __c160, 0));
+      return S.Array(__S(2592, __c162, 0));
   }
 }
-function __c161(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9682,13 +9693,13 @@ function __c161(j: number): any {
       ).annotate({ identifier: "CreateContactRequestSegmentsItem" });
   }
 }
-function __c162(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2576, __c161, 0));
+      return S.Array(__S(2608, __c163, 0));
   }
 }
-function __c163(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9712,22 +9723,22 @@ function __c163(j: number): any {
           thread_id: S.NullOr(S.String),
           reply_to_email_id: S.NullOr(S.String),
           updated_at: S.String,
-          attachments: __S(1953, __c122, 1),
+          attachments: __S(1985, __c124, 1),
         }),
       ).annotate({ identifier: "InboxDraftListItem" });
     case 2:
-      return S.Array(__S(2609, __c163, 1));
+      return S.Array(__S(2641, __c165, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
           has_more: S.Boolean,
-          data: __S(2610, __c163, 2),
+          data: __S(2642, __c165, 2),
         }),
       ).annotate({ identifier: "ListInboxDraftsResponseSuccess" });
   }
 }
-function __c164(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9751,18 +9762,18 @@ function __c164(j: number): any {
         }),
       ).annotate({ identifier: "ListInboxesResponseSuccessDataItem" });
     case 2:
-      return S.Array(__S(2625, __c164, 1));
+      return S.Array(__S(2657, __c166, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
           has_more: S.Boolean,
-          data: __S(2626, __c164, 2),
+          data: __S(2658, __c166, 2),
         }),
       ).annotate({ identifier: "ListInboxesResponseSuccess" });
   }
 }
-function __c165(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9780,17 +9791,17 @@ function __c165(j: number): any {
         }),
       ).annotate({ identifier: "InboxLabel" });
     case 2:
-      return S.Array(__S(2641, __c165, 1));
+      return S.Array(__S(2673, __c167, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(2642, __c165, 2),
+          data: __S(2674, __c167, 2),
         }),
       ).annotate({ identifier: "ListInboxLabelsResponseSuccess" });
   }
 }
-function __c166(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9809,24 +9820,24 @@ function __c166(j: number): any {
         ),
       ).annotate({ identifier: "ListInboxThreadEmailsRequest" });
     case 1:
-      return S.Array(__S(2018, __c126, 2));
+      return S.Array(__S(2050, __c128, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
           has_more: S.Boolean,
-          data: __S(2657, __c166, 1),
+          data: __S(2689, __c168, 1),
         }),
       ).annotate({ identifier: "ListInboxThreadEmailsResponseSuccess" });
   }
 }
-function __c167(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           inbox_id: S.String.pipe(T.Label()),
-          folders: S.optional(__S(1808, __c113, 0).pipe(T.Query())),
+          folders: S.optional(__S(1840, __c115, 0).pipe(T.Query())),
           labels: S.optional(__S(16, __c1, 0).pipe(T.Query())),
           read: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
@@ -9853,18 +9864,18 @@ function __c167(j: number): any {
         }),
       ).annotate({ identifier: "InboxThread" });
     case 2:
-      return S.Array(__S(2673, __c167, 1));
+      return S.Array(__S(2705, __c169, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
           has_more: S.Boolean,
-          data: __S(2674, __c167, 2),
+          data: __S(2706, __c169, 2),
         }),
       ).annotate({ identifier: "ListInboxThreadsResponseSuccess" });
   }
 }
-function __c168(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9886,18 +9897,18 @@ function __c168(j: number): any {
         }),
       ).annotate({ identifier: "LogSummary" });
     case 2:
-      return S.Array(__S(2689, __c168, 1));
+      return S.Array(__S(2721, __c170, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2690, __c168, 2),
+          data: __S(2722, __c170, 2),
         }),
       ).annotate({ identifier: "ListLogsResponse" });
   }
 }
-function __c169(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9923,22 +9934,22 @@ function __c169(j: number): any {
           created_at: S.optional(S.String),
           revoked_at: S.optional(S.NullOr(S.String)),
           revoked_reason: S.optional(S.NullOr(S.String)),
-          client: S.optional(__S(2705, __c169, 1)),
+          client: S.optional(__S(2737, __c171, 1)),
         }),
       ).annotate({ identifier: "OAuthGrant" });
     case 3:
-      return S.Array(__S(2706, __c169, 2));
+      return S.Array(__S(2738, __c171, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2707, __c169, 3),
+          data: __S(2739, __c171, 3),
         }),
       ).annotate({ identifier: "ListOAuthGrantsResponse" });
   }
 }
-function __c170(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9951,7 +9962,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "ListSegmentContactsRequest" });
   }
 }
-function __c171(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9971,18 +9982,18 @@ function __c171(j: number): any {
         }),
       ).annotate({ identifier: "ListSegmentsResponseSuccessDataItem" });
     case 2:
-      return S.Array(__S(2737, __c171, 1));
+      return S.Array(__S(2769, __c173, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2738, __c171, 2),
+          data: __S(2770, __c173, 2),
         }),
       ).annotate({ identifier: "ListSegmentsResponseSuccess" });
   }
 }
-function __c172(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10004,13 +10015,13 @@ function __c172(j: number): any {
         }),
       ).annotate({ identifier: "ListSuppressionsResponseSuccessDataItem" });
     case 2:
-      return S.Array(__S(2753, __c172, 1));
+      return S.Array(__S(2785, __c174, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
           has_more: S.optional(S.Boolean),
-          data: __S(2754, __c172, 2),
+          data: __S(2786, __c174, 2),
         }),
       ).annotate({ identifier: "ListSuppressionsResponseSuccess" });
   }

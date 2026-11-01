@@ -1,0 +1,205 @@
+{
+  "description": "Match request shapes to what Resend accepts. Audiences became Segments and the spec marks `audience_id` deprecated; it is removed from createBroadcast, updateBroadcast, createContact and createSegment, where `segment_id` replaces it. updateContactTopics takes the topic list as the bare JSON body, as resend-node sends it (the spec's `{ topics: [...] }` is refused with 422). updateEmail takes `scheduled_at` in the body; the spec declares no body, so the SDK could not reschedule. createEmailBatch takes the `x-batch-validation` header (`strict`, the default, or `permissive`).\n\nContact properties can be booleans. The spec lists only `string` and `number` for createContactProperty's `type` and types `fallback_value` as a string or number, but Resend accepts `boolean`: a request with `type: \"date\"` was refused with 422 \"The `type` field must be one of \\\"string\\\", \\\"number\\\", or \\\"boolean\\\".\" (live, 2026-10-29). A fallback value must match the property's type, so `fallback_value` also takes a boolean on createContactProperty and updateContactProperty and comes back as one from getContactProperty and listContactProperties.\n\nA custom event's `schema` is a flat map from payload key to type, one of `string`, `number`, `boolean` or `date`. The spec says so in prose but types `schema` as an untyped document on createEvent, updateEvent, getEvent and listEvents. resend-node (`src/events/interfaces/event.ts`, `EventSchemaMap = Record<string, EventSchemaType>`) and Resend's custom events docs give the same four types. All four now target EventSchemaMap; nullability is unchanged.\n\nAn email's custom `headers` are a map from header name to string value. The spec types `headers` as an untyped document on createEmail and on each createEmailBatch item. resend-node (`src/emails/interfaces/create-email-options.interface.ts`) sends `headers?: Record<string, string>`, as the inbox send operations in this spec already type theirs. Both now target EmailHeadersMap.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.resend.api#BroadcastsCreateRequest/members/audience_id"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.resend.api#BroadcastsUpdateRequest/members/audience_id"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.resend.api#ContactsCreateRequest/members/audience_id"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsUpdateTopicsRequest/members/topics/traits/smithy.api#httpPayload",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsUpdateRequest/members/scheduled_at",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "When to send the email instead: ISO 8601, or natural language such as `in 1 hour`.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsSendBatchRequest/members/batchValidation",
+      "value": {
+        "target": "com.resend.api#BatchValidation",
+        "traits": {
+          "smithy.api#httpHeader": "x-batch-validation",
+          "smithy.api#documentation": "`strict` (the default) rejects the whole batch when any email is invalid; `permissive` sends the valid ones and lists the rest in `errors`."
+        }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.resend.api#SegmentsCreateRequest/members/audience_id"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BatchValidation",
+      "value": {
+        "type": "enum",
+        "members": {
+          "STRICT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "strict"
+            }
+          },
+          "PERMISSIVE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "permissive"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertiesCreateRequestType/members/BOOLEAN",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "boolean"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertiesCreateRequestFallbackValue/members/Case2",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertiesUpdateRequestFallbackValue/members/Case2",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetContactPropertyResponseSuccessFallbackValue/members/Case2",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ListContactPropertiesResponseSuccessDataItemFallbackValue/members/Case2",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventSchemaType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "STRING": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "string"
+            }
+          },
+          "NUMBER": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "number"
+            }
+          },
+          "BOOLEAN": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "boolean"
+            }
+          },
+          "DATE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "date"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The type of a key in a custom event's payload."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventSchemaMap",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.resend.api#EventSchemaType"
+        },
+        "traits": {
+          "smithy.api#documentation": "A flat map from payload key to its type."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.resend.api#EventsCreateRequest/members/schema/target",
+      "value": "com.resend.api#EventSchemaMap"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.resend.api#EventsUpdateRequest/members/schema/target",
+      "value": "com.resend.api#EventSchemaMap"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.resend.api#Event/members/schema/target",
+      "value": "com.resend.api#EventSchemaMap"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.resend.api#EventSummary/members/schema/target",
+      "value": "com.resend.api#EventSchemaMap"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailHeadersMap",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#String"
+        },
+        "traits": {
+          "smithy.api#documentation": "Custom headers to add to the email, from header name to value."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.resend.api#EmailsSendRequest/members/headers/target",
+      "value": "com.resend.api#EmailHeadersMap"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.resend.api#SendEmailRequest/members/headers/target",
+      "value": "com.resend.api#EmailHeadersMap"
+    }
+  ]
+}
