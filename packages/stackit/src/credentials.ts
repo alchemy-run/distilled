@@ -3,12 +3,33 @@
  *
  * The `Credentials` service resolves `{ token, region }` per request; the
  * protocol layer formats the `Authorization: Bearer <token>` header from it
- * and rewrites each operation's spec `servers` URL for the region. The token
- * is a STACKIT service-account access token -- the same value the official
- * Go SDK, CLI and Terraform provider read from
- * `STACKIT_SERVICE_ACCOUNT_TOKEN`. Key-file exchange
- * (`STACKIT_SERVICE_ACCOUNT_KEY_PATH`) is not modelled: mint the token
- * outside the SDK.
+ * and rewrites each operation's spec `servers` URL for the region.
+ *
+ * Two ways to get the token, matching the official Go SDK
+ * (`stackit-sdk-go/core/auth` and `core/clients/key_flow.go`):
+ *
+ *   * **Service-account key flow** (the supported one). A key file created
+ *     for a service account holds `credentials.{kid, iss, sub, aud}` and,
+ *     for STACKIT-generated key pairs, the RSA `privateKey`. The SDK signs a
+ *     one-hour RS512 assertion JWT with it and exchanges that at the token
+ *     endpoint (`grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer`)
+ *     for a short-lived access token. The access token is cached and a new
+ *     assertion is minted five minutes before it expires (refresh tokens are
+ *     deprecated upstream and never used); concurrent requests share one
+ *     exchange. Signing uses WebCrypto, so it runs on Node, Bun, Workers and
+ *     Lambda. See {@link fromServiceAccountKey}.
+ *   * **A ready-made access token** -- {@link credentials} or
+ *     `STACKIT_SERVICE_ACCOUNT_TOKEN`. STACKIT has retired long-lived
+ *     service-account access tokens; this remains for tokens minted
+ *     elsewhere.
+ *
+ * {@link CredentialsFromEnv} reads, in order: `STACKIT_SERVICE_ACCOUNT_KEY_PATH`
+ * (a key file) or `STACKIT_SERVICE_ACCOUNT_KEY` (its JSON), with the private
+ * key overridden by `STACKIT_PRIVATE_KEY_PATH` / `STACKIT_PRIVATE_KEY`; else
+ * `STACKIT_SERVICE_ACCOUNT_TOKEN`. `STACKIT_TOKEN_BASEURL` overrides the
+ * token endpoint (full URL), ahead of the key's `credentials.tokenEndpoint`
+ * and the default `https://service-account.api.stackit.cloud/token`.
+ * Token exchange failures surface on the operation as `ConfigError`.
  *
  * Each STACKIT product has its own host (`iaas.api.eu01.stackit.cloud`,
  * `ske.api.eu01.stackit.cloud`, ...). The per-operation host is baked into
@@ -18,13 +39,26 @@
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import * as Clock from "effect/Clock";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as FileSystem from "effect/FileSystem";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
+import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Layer from "effect/Layer";
+import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
+import * as Semaphore from "effect/Semaphore";
 
 /** STACKIT's primary public region (Schwarz IT / Germany). */
 export const DEFAULT_REGION = "eu01";
+
+/** The service-account token endpoint the Go SDK defaults to. */
+export const DEFAULT_TOKEN_URL = "https://service-account.api.stackit.cloud/token";
+
+/** Mint a new access token this long before the cached one expires. */
+export const REFRESH_WINDOW_MS = 5 * 60 * 1000;
 
 export interface Config {
   readonly token: Redacted.Redacted<string>;
@@ -43,32 +77,608 @@ export class Credentials
     "StackitCredentials",
   ) {}
 
+//#region Service-account key
+
+/** The `credentials` object of a STACKIT service-account key file. */
+export interface ServiceAccountKeyCredentials {
+  /** Key id, sent as the assertion's `kid` header. */
+  readonly kid: string;
+  /** Assertion issuer (the service account's email). */
+  readonly iss: string;
+  /** Assertion subject (the service account's id). */
+  readonly sub: string;
+  /** Assertion audience. */
+  readonly aud: string;
+  /**
+   * The RSA private key (PEM, PKCS #8 or PKCS #1). Present only for key
+   * pairs STACKIT generated; a key created from a user-provided public key
+   * has none, and the private key must be supplied separately.
+   */
+  readonly privateKey?: Redacted.Redacted<string>;
+  /** Token endpoint the key was issued for. */
+  readonly tokenEndpoint?: string;
+}
+
+/**
+ * A STACKIT service-account key file, as `stackit service-account key
+ * create` or the portal writes it. Parse one with
+ * {@link parseServiceAccountKey}; the private key is kept redacted.
+ */
+export interface ServiceAccountKey {
+  readonly id?: string;
+  readonly publicKey?: string;
+  readonly createdAt?: string;
+  readonly validUntil?: string;
+  readonly keyType?: string;
+  readonly keyOrigin?: string;
+  readonly keyAlgorithm?: string;
+  readonly active?: boolean;
+  readonly credentials: ServiceAccountKeyCredentials;
+}
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+const optionalString = (record: Record<string, unknown>, name: string): string | undefined =>
+  typeof record[name] === "string" ? (record[name] as string) : undefined;
+
+const keyError = (message: string, key?: string) =>
+  new ConfigError({ message: `STACKIT service-account key: ${message}`, key });
+
+const decodeServiceAccountKey = (
+  json: string,
+  source?: string,
+): Effect.Effect<ServiceAccountKey, ConfigError> =>
+  Effect.suspend(() => {
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(json);
+    } catch {
+      // The cause can quote key material, so it is not attached.
+      return Effect.fail(
+        keyError(
+          json.trimStart().startsWith("-----BEGIN")
+            ? "expected the key file's JSON, got a PEM private key (pass that as the private key instead)"
+            : "not valid JSON",
+          source,
+        ),
+      );
+    }
+    if (!isRecord(parsed)) return Effect.fail(keyError("expected a JSON object", source));
+    const credentials = parsed.credentials;
+    if (!isRecord(credentials)) {
+      return Effect.fail(keyError("missing the `credentials` object", source));
+    }
+    const missing = ["kid", "iss", "sub", "aud"].filter(
+      (name) => typeof credentials[name] !== "string" || credentials[name] === "",
+    );
+    if (missing.length > 0) {
+      return Effect.fail(
+        keyError(`\`credentials\` is missing ${missing.map((m) => `\`${m}\``).join(", ")}`, source),
+      );
+    }
+    const privateKey = optionalString(credentials, "privateKey");
+    const tokenEndpoint = optionalString(credentials, "tokenEndpoint");
+    return Effect.succeed<ServiceAccountKey>({
+      id: optionalString(parsed, "id"),
+      publicKey: optionalString(parsed, "publicKey"),
+      createdAt: optionalString(parsed, "createdAt"),
+      validUntil: optionalString(parsed, "validUntil"),
+      keyType: optionalString(parsed, "keyType"),
+      keyOrigin: optionalString(parsed, "keyOrigin"),
+      keyAlgorithm: optionalString(parsed, "keyAlgorithm"),
+      active: typeof parsed.active === "boolean" ? parsed.active : undefined,
+      credentials: {
+        kid: credentials.kid as string,
+        iss: credentials.iss as string,
+        sub: credentials.sub as string,
+        aud: credentials.aud as string,
+        privateKey: privateKey ? Redacted.make(privateKey) : undefined,
+        tokenEndpoint: tokenEndpoint || undefined,
+      },
+    });
+  });
+
+/**
+ * Parse a service-account key file's JSON. Fails with `ConfigError` when it
+ * is not JSON or lacks `credentials.{kid, iss, sub, aud}`.
+ */
+export const parseServiceAccountKey = (
+  json: string,
+): Effect.Effect<ServiceAccountKey, ConfigError> => decodeServiceAccountKey(json);
+
+//#endregion
+
+//#region Assertion signing (WebCrypto)
+
+const encoder = /*@__PURE__*/ new TextEncoder();
+
+const base64url = (input: Uint8Array | string): string => {
+  const bytes = typeof input === "string" ? encoder.encode(input) : input;
+  let binary = "";
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+};
+
+const base64Decode = (input: string): Uint8Array => {
+  const b64 = input.replace(/-/g, "+").replace(/_/g, "/");
+  const padded = b64 + "=".repeat((4 - (b64.length % 4)) % 4);
+  return Uint8Array.from(atob(padded), (c) => c.charCodeAt(0));
+};
+
+/** DER length octets. */
+const derLength = (n: number): number[] =>
+  n < 0x80
+    ? [n]
+    : n < 0x100
+      ? [0x81, n]
+      : n < 0x10000
+        ? [0x82, n >> 8, n & 0xff]
+        : [0x83, n >> 16, (n >> 8) & 0xff, n & 0xff];
+
+/** `AlgorithmIdentifier { rsaEncryption, NULL }`. */
+const RSA_ALGORITHM_ID = [
+  0x30, 0x0d, 0x06, 0x09, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0x0d, 0x01, 0x01, 0x01, 0x05, 0x00,
+];
+
+/** Wrap a PKCS #1 `RSAPrivateKey` into a PKCS #8 `PrivateKeyInfo`. */
+const pkcs1ToPkcs8 = (pkcs1: Uint8Array): Uint8Array => {
+  const head = [0x02, 0x01, 0x00, ...RSA_ALGORITHM_ID, 0x04, ...derLength(pkcs1.length)];
+  const prefix = [0x30, ...derLength(head.length + pkcs1.length), ...head];
+  const out = new Uint8Array(prefix.length + pkcs1.length);
+  out.set(prefix, 0);
+  out.set(pkcs1, prefix.length);
+  return out;
+};
+
+/** PKCS #8 DER from a PEM (PKCS #8 or PKCS #1; literal `\n` escapes allowed). */
+const pemToPkcs8 = (pem: string): Uint8Array | undefined => {
+  const text = pem.replace(/\\n/g, "\n");
+  const match = /-----BEGIN (RSA )?PRIVATE KEY-----([\s\S]*?)-----END \1?PRIVATE KEY-----/.exec(
+    text,
+  );
+  if (!match) return undefined;
+  const der = base64Decode(match[2]!.replace(/\s+/g, ""));
+  return match[1] ? pkcs1ToPkcs8(der) : der;
+};
+
+const RS512 = { name: "RSASSA-PKCS1-v1_5", hash: "SHA-512" } as const;
+
+const importSigningKey = (
+  privateKey: Redacted.Redacted<string>,
+  keyName: string,
+): Effect.Effect<CryptoKey, ConfigError> =>
+  Effect.tryPromise({
+    try: async () => {
+      const der = pemToPkcs8(Redacted.value(privateKey));
+      if (!der) throw new Error("not a PEM private key");
+      return crypto.subtle.importKey("pkcs8", der as Uint8Array<ArrayBuffer>, RS512, false, [
+        "sign",
+      ]);
+    },
+    // The cause can quote key material, so it is not attached.
+    catch: () =>
+      keyError(
+        `could not import the private key of ${keyName}; it must be an RSA key in PEM form (BEGIN PRIVATE KEY or BEGIN RSA PRIVATE KEY)`,
+      ),
+  });
+
+/** Sign the assertion JWT the token endpoint exchanges for an access token. */
+const signAssertion = (
+  signingKey: CryptoKey,
+  key: ServiceAccountKey,
+  nowMs: number,
+  jti: string,
+): Effect.Effect<string, ConfigError> =>
+  Effect.tryPromise({
+    try: async () => {
+      const { kid, iss, sub, aud } = key.credentials;
+      const iat = Math.floor(nowMs / 1000);
+      const header = { alg: "RS512", typ: "JWT", kid };
+      const claims = { iss, sub, aud, jti, iat, exp: iat + 3600 };
+      const signingInput = `${base64url(JSON.stringify(header))}.${base64url(JSON.stringify(claims))}`;
+      const signature = await crypto.subtle.sign(RS512, signingKey, encoder.encode(signingInput));
+      return `${signingInput}.${base64url(new Uint8Array(signature))}`;
+    },
+    catch: () => keyError(`could not sign the assertion for ${key.credentials.iss}`),
+  });
+
+/** A JWT's `exp` in epoch milliseconds, read without verifying it. */
+const jwtExpiry = (jwt: string): number | undefined => {
+  try {
+    const payload = JSON.parse(new TextDecoder().decode(base64Decode(jwt.split(".")[1] ?? "")));
+    return isRecord(payload) && typeof payload.exp === "number" ? payload.exp * 1000 : undefined;
+  } catch {
+    return undefined;
+  }
+};
+
+//#endregion
+
+//#region Token exchange
+
+interface CachedToken {
+  readonly token: Redacted.Redacted<string>;
+  /** Epoch milliseconds. */
+  readonly expiresAt: number;
+}
+
+interface KeyFlowOptions {
+  readonly key: ServiceAccountKey;
+  /** Overrides `key.credentials.privateKey`. */
+  readonly privateKey?: Redacted.Redacted<string>;
+  /** Resolved before each exchange. */
+  readonly tokenUrl: Effect.Effect<string, ConfigError>;
+}
+
+const truncate = (text: string, max = 300) =>
+  text.length > max ? `${text.slice(0, max)}...` : text;
+
+/** The OAuth error from a token endpoint response body, for the message. */
+const describeTokenError = (text: string): string => {
+  try {
+    const body: unknown = JSON.parse(text);
+    if (isRecord(body)) {
+      const parts = [body.error, body.error_description, body.message].filter(
+        (p): p is string => typeof p === "string" && p !== "",
+      );
+      if (parts.length > 0) return truncate(parts.join(": "));
+    }
+  } catch {
+    // not JSON -- fall through to the raw body
+  }
+  return truncate(text.trim());
+};
+
+/**
+ * The key flow: an access token, minted from the key when the cached one is
+ * within {@link REFRESH_WINDOW_MS} of expiry. One exchange at a time;
+ * requests that arrive during it wait and reuse its token.
+ */
+const makeKeyFlow = (
+  options: KeyFlowOptions,
+): Effect.Effect<Redacted.Redacted<string>, ConfigError, HttpClient.HttpClient> => {
+  const lock = Semaphore.makeUnsafe(1);
+  const keyName = options.key.id ?? options.key.credentials.kid;
+  let cached: CachedToken | undefined;
+  let signingKey: CryptoKey | undefined;
+
+  const resolveSigningKey = Effect.suspend(() => {
+    if (signingKey) return Effect.succeed(signingKey);
+    const privateKey = options.privateKey ?? options.key.credentials.privateKey;
+    if (!privateKey) {
+      return Effect.fail(
+        keyError(
+          `${keyName} carries no private key (a user-provided key pair); supply the private key explicitly`,
+        ),
+      );
+    }
+    return importSigningKey(privateKey, keyName).pipe(
+      Effect.tap((imported) =>
+        Effect.sync(() => {
+          signingKey = imported;
+        }),
+      ),
+    );
+  });
+
+  const exchange = Effect.gen(function* () {
+    const client = yield* HttpClient.HttpClient;
+    const tokenUrl = yield* options.tokenUrl;
+    const cryptoKey = yield* resolveSigningKey;
+    const issuedAt = yield* Clock.currentTimeMillis;
+    const jti = yield* Effect.sync(() => crypto.randomUUID());
+    const assertion = yield* signAssertion(cryptoKey, options.key, issuedAt, jti);
+    const step = `STACKIT token exchange at ${tokenUrl}`;
+
+    const response = yield* client
+      .execute(
+        HttpClientRequest.post(tokenUrl).pipe(
+          HttpClientRequest.acceptJson,
+          HttpClientRequest.bodyUrlParams({
+            grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+            assertion,
+          }),
+        ),
+      )
+      .pipe(
+        Effect.mapError(
+          (error) => new ConfigError({ message: `${step} failed: ${error.message}` }),
+        ),
+      );
+    const text = yield* response.text.pipe(
+      Effect.mapError((error) => new ConfigError({ message: `${step} failed: ${error.message}` })),
+    );
+    if (response.status < 200 || response.status >= 300) {
+      const detail = describeTokenError(text);
+      const hint = /Key with kid .*? was not found/.test(text)
+        ? " (check that the key is valid and the token endpoint is right for it)"
+        : "";
+      return yield* Effect.fail(
+        new ConfigError({
+          message: `${step} failed with HTTP ${response.status}: ${detail}${hint}`,
+        }),
+      );
+    }
+
+    let body: unknown;
+    try {
+      body = JSON.parse(text);
+    } catch {
+      return yield* Effect.fail(new ConfigError({ message: `${step} returned a non-JSON body` }));
+    }
+    if (!isRecord(body) || typeof body.access_token !== "string" || body.access_token === "") {
+      return yield* Effect.fail(
+        new ConfigError({ message: `${step} returned no \`access_token\`` }),
+      );
+    }
+    const accessToken = body.access_token;
+    // STACKIT access tokens are JWTs: their `exp` is authoritative (the Go
+    // SDK reads only that). `expires_in` is the fallback; with neither, the
+    // token is not reused.
+    const expiresAt =
+      jwtExpiry(accessToken) ??
+      (typeof body.expires_in === "number" ? issuedAt + body.expires_in * 1000 : issuedAt);
+    return { token: Redacted.make(accessToken), expiresAt } satisfies CachedToken;
+  });
+
+  const fresh = (now: number) => cached !== undefined && now < cached.expiresAt - REFRESH_WINDOW_MS;
+
+  const fromCache = <E, R>(
+    orElse: Effect.Effect<Redacted.Redacted<string>, E, R>,
+  ): Effect.Effect<Redacted.Redacted<string>, E, R> =>
+    Effect.flatMap(Clock.currentTimeMillis, (now) =>
+      fresh(now) ? Effect.succeed(cached!.token) : orElse,
+    );
+
+  return fromCache(
+    Semaphore.withPermit(
+      lock,
+      fromCache(
+        exchange.pipe(
+          Effect.map((token) => {
+            cached = token;
+            return token.token;
+          }),
+        ),
+      ),
+    ),
+  );
+};
+
+/** The token endpoint: `STACKIT_TOKEN_BASEURL` > the key's > the default. */
+const tokenUrlFromEnv = (key: ServiceAccountKey): Effect.Effect<string, ConfigError> =>
+  EffectConfig.option(EffectConfig.String("STACKIT_TOKEN_BASEURL")).pipe(
+    Effect.mapError(
+      () =>
+        new ConfigError({
+          message: "Could not read STACKIT_TOKEN_BASEURL",
+          key: "STACKIT_TOKEN_BASEURL",
+        }),
+    ),
+    Effect.map(
+      (env) =>
+        Option.getOrUndefined(Option.filter(env, (url) => url !== "")) ??
+        key.credentials.tokenEndpoint ??
+        DEFAULT_TOKEN_URL,
+    ),
+  );
+
+/**
+ * Credentials from a service-account key: each request uses a cached access
+ * token, exchanged for a fresh one five minutes before it expires. The layer
+ * does no I/O; a failed exchange surfaces on the operation as `ConfigError`.
+ *
+ * The token endpoint is `tokenUrl`, else `STACKIT_TOKEN_BASEURL`, else the
+ * key's `credentials.tokenEndpoint`, else
+ * `https://service-account.api.stackit.cloud/token`. `privateKey` overrides
+ * the key's embedded one and is required for user-provided key pairs.
+ *
+ * The token cache belongs to the returned layer value, so build it once and
+ * share it rather than calling this per request.
+ */
+export const fromServiceAccountKey = (config: {
+  readonly key: ServiceAccountKey;
+  readonly privateKey?: Redacted.Redacted<string>;
+  readonly region?: string;
+  readonly apiBaseUrl?: string;
+  readonly tokenUrl?: string;
+}): Layer.Layer<Credentials, never, HttpClient.HttpClient> => {
+  const flow = makeKeyFlow({
+    key: config.key,
+    privateKey: config.privateKey,
+    tokenUrl:
+      config.tokenUrl !== undefined && config.tokenUrl !== ""
+        ? Effect.succeed(config.tokenUrl)
+        : tokenUrlFromEnv(config.key),
+  });
+  const region = config.region ?? DEFAULT_REGION;
+  return Layer.effect(
+    Credentials,
+    Effect.gen(function* () {
+      const client = yield* HttpClient.HttpClient;
+      return flow.pipe(
+        Effect.provideService(HttpClient.HttpClient, client),
+        Effect.map((token): Config => ({ token, region, apiBaseUrl: config.apiBaseUrl })),
+      );
+    }),
+  );
+};
+
+//#endregion
+
+//#region Environment
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
-  // `STACKIT_SERVICE_ACCOUNT_TOKEN` / `STACKIT_REGION` are what the
-  // official Go SDK, CLI and Terraform provider read.
-  token: /*@__PURE__*/ EffectConfig.String("STACKIT_SERVICE_ACCOUNT_TOKEN"),
+  // The variables the official Go SDK, CLI and Terraform provider read.
+  keyPath: /*@__PURE__*/ EffectConfig.option(
+    /*@__PURE__*/ EffectConfig.String("STACKIT_SERVICE_ACCOUNT_KEY_PATH"),
+  ),
+  key: /*@__PURE__*/ EffectConfig.option(
+    /*@__PURE__*/ EffectConfig.String("STACKIT_SERVICE_ACCOUNT_KEY"),
+  ),
+  privateKeyPath: /*@__PURE__*/ EffectConfig.option(
+    /*@__PURE__*/ EffectConfig.String("STACKIT_PRIVATE_KEY_PATH"),
+  ),
+  privateKey: /*@__PURE__*/ EffectConfig.option(
+    /*@__PURE__*/ EffectConfig.String("STACKIT_PRIVATE_KEY"),
+  ),
+  token: /*@__PURE__*/ EffectConfig.option(
+    /*@__PURE__*/ EffectConfig.String("STACKIT_SERVICE_ACCOUNT_TOKEN"),
+  ),
   region: /*@__PURE__*/ EffectConfig.String("STACKIT_REGION").pipe(
     /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_REGION),
   ),
-  apiBaseUrl: /*@__PURE__*/ EffectConfig.String("STACKIT_API_BASE_URL").pipe(EffectConfig.option),
+  apiBaseUrl: /*@__PURE__*/ EffectConfig.option(
+    /*@__PURE__*/ EffectConfig.String("STACKIT_API_BASE_URL"),
+  ),
 });
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
-  Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () =>
+const nonEmpty = (value: Option.Option<string>): string | undefined => {
+  const v = Option.getOrUndefined(value);
+  return v === undefined || v === "" ? undefined : v;
+};
+
+interface NodeFsPromises {
+  readonly readFile: (path: string, encoding: "utf8") => Promise<string>;
+}
+
+/**
+ * Read a file named by environment variable `env`: through the fiber's
+ * `FileSystem` when one is provided, else `node:fs` where the runtime has it.
+ */
+const readEnvFile = (path: string, env: string): Effect.Effect<string, ConfigError> => {
+  const failed = () => new ConfigError({ message: `Could not read ${env} file ${path}`, key: env });
+  return Effect.flatMap(Effect.serviceOption(FileSystem.FileSystem), (fs) => {
+    if (Option.isSome(fs)) return Effect.mapError(fs.value.readFileString(path), failed);
+    const nodeFs = (
+      globalThis as { process?: { getBuiltinModule?: (id: string) => unknown } }
+    ).process?.getBuiltinModule?.("node:fs/promises") as NodeFsPromises | undefined;
+    if (!nodeFs) {
+      return Effect.fail(
         new ConfigError({
-          message: "STACKIT_SERVICE_ACCOUNT_TOKEN environment variable is required",
+          message: `${env} needs a file system; provide a FileSystem layer or set the file's contents instead`,
+          key: env,
         }),
-    ),
-    /*@__PURE__*/ Effect.map(({ token, region, apiBaseUrl }) => ({
-      token: Redacted.make(token),
-      region,
-      apiBaseUrl: apiBaseUrl._tag === "Some" ? apiBaseUrl.value : undefined,
-    })),
+      );
+    }
+    return Effect.tryPromise({ try: () => nodeFs.readFile(path, "utf8"), catch: failed });
+  });
+};
+
+/** Run with the fiber's `HttpClient` (an operation always has one), else `fetch`. */
+const withHttpClient = <A, E>(
+  effect: Effect.Effect<A, E, HttpClient.HttpClient>,
+): Effect.Effect<A, E> =>
+  Effect.flatMap(Effect.serviceOption(HttpClient.HttpClient), (client) =>
+    Option.isSome(client)
+      ? Effect.provideService(effect, HttpClient.HttpClient, client.value)
+      : Effect.provide(effect, FetchHttpClient.layer),
+  );
+
+type EnvValues = Effect.Success<typeof envConfig>;
+
+// The key flow built from the environment, shared by every build of
+// `CredentialsFromEnv` (like the Go SDK's process-wide client) and rebuilt
+// when the key variables change.
+let envFlow:
+  | {
+      readonly fingerprint: string;
+      readonly flow: Effect.Effect<Redacted.Redacted<string>, ConfigError, HttpClient.HttpClient>;
+    }
+  | undefined;
+let envFlowLock: Semaphore.Semaphore | undefined;
+
+const keyFlowFromEnv = (env: EnvValues) => {
+  const keyPath = nonEmpty(env.keyPath);
+  const keyJson = nonEmpty(env.key);
+  const privateKeyPath = nonEmpty(env.privateKeyPath);
+  const privateKey = nonEmpty(env.privateKey);
+  const fingerprint = JSON.stringify([
+    keyPath,
+    keyPath ? undefined : keyJson,
+    privateKeyPath,
+    privateKey,
+  ]);
+  const build = Effect.gen(function* () {
+    const json =
+      keyPath !== undefined
+        ? yield* readEnvFile(keyPath, "STACKIT_SERVICE_ACCOUNT_KEY_PATH")
+        : keyJson!;
+    const key = yield* decodeServiceAccountKey(
+      json,
+      keyPath !== undefined ? "STACKIT_SERVICE_ACCOUNT_KEY_PATH" : "STACKIT_SERVICE_ACCOUNT_KEY",
+    );
+    const explicitPrivateKey =
+      privateKeyPath !== undefined
+        ? yield* readEnvFile(privateKeyPath, "STACKIT_PRIVATE_KEY_PATH")
+        : privateKey;
+    const flow = makeKeyFlow({
+      key,
+      privateKey: explicitPrivateKey !== undefined ? Redacted.make(explicitPrivateKey) : undefined,
+      tokenUrl: tokenUrlFromEnv(key),
+    });
+    envFlow = { fingerprint, flow };
+    return flow;
+  });
+  return Effect.suspend(() => {
+    if (envFlow?.fingerprint === fingerprint) return Effect.succeed(envFlow.flow);
+    envFlowLock ??= Semaphore.makeUnsafe(1);
+    return Semaphore.withPermit(
+      envFlowLock,
+      Effect.suspend(() =>
+        envFlow?.fingerprint === fingerprint ? Effect.succeed(envFlow.flow) : build,
+      ),
+    );
+  });
+};
+
+const missingCredentials = () =>
+  new ConfigError({
+    message:
+      "STACKIT credentials are required: set STACKIT_SERVICE_ACCOUNT_KEY_PATH (or STACKIT_SERVICE_ACCOUNT_KEY), or STACKIT_SERVICE_ACCOUNT_TOKEN",
+    key: "STACKIT_SERVICE_ACCOUNT_KEY_PATH",
+  });
+
+// A plain chain rather than `Effect.gen`: the token path runs on every
+// request and stays a synchronous read of the environment.
+const resolveFromEnv: Effect.Effect<Config, ConfigError> = /*@__PURE__*/ envConfig.pipe(
+  /*@__PURE__*/ Effect.mapError(
+    () => new ConfigError({ message: "Could not read the STACKIT environment" }),
   ),
+  /*@__PURE__*/ Effect.flatMap((env): Effect.Effect<Config, ConfigError> => {
+    const region = env.region;
+    const apiBaseUrl = Option.getOrUndefined(env.apiBaseUrl);
+    if (nonEmpty(env.keyPath) !== undefined || nonEmpty(env.key) !== undefined) {
+      return keyFlowFromEnv(env).pipe(
+        Effect.flatMap(withHttpClient),
+        Effect.map((token) => ({ token, region, apiBaseUrl })),
+      );
+    }
+    const token = nonEmpty(env.token);
+    return token !== undefined
+      ? Effect.succeed({ token: Redacted.make(token), region, apiBaseUrl })
+      : Effect.fail(missingCredentials());
+  }),
 );
+
+/**
+ * Credentials from the environment: the service-account key flow when
+ * `STACKIT_SERVICE_ACCOUNT_KEY_PATH` or `STACKIT_SERVICE_ACCOUNT_KEY` is set
+ * (private key overridable with `STACKIT_PRIVATE_KEY_PATH` /
+ * `STACKIT_PRIVATE_KEY`, token endpoint with `STACKIT_TOKEN_BASEURL`), else
+ * `STACKIT_SERVICE_ACCOUNT_TOKEN`. `STACKIT_REGION` (default `eu01`) and
+ * `STACKIT_API_BASE_URL` apply to both. Read per request, so a provided
+ * `ConfigProvider` is honored. The key flow uses the operation's
+ * `HttpClient` and, for `*_PATH` variables, a provided `FileSystem` or
+ * `node:fs`.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
+  Credentials,
+  resolveFromEnv,
+);
+
+//#endregion
 
 /** Convenience layer from a redacted token + optional region / base URL. */
 export const credentials = (config: {
