@@ -31,48 +31,35 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
-      ),
-      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  )
-{
-  declare readonly body?: GenericJsonResponse | string;
-}
+  ) {}
+
+export class CustomDomainCnameMissing
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CustomDomainCnameMissing>()("CustomDomainCnameMissing", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ body: { "/details/0/key": "CUSTOM_DOMAIN_CNAME_MISSING" } }],
+  ) {}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
-      ),
-      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  )
-{
-  declare readonly body?: GenericJsonResponse | string;
-}
+  ) {}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
-      ),
-      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  )
-{
-  declare readonly body?: GenericJsonResponse | string;
-}
+  ) {}
 
 export type HttpBackendCreateGeofencingValueList = Array<string>;
 /** An object mapping multiple alternative origins to country codes. Any request from one of those country codes will route to the alternative origin. Do note that country codes may only be used once. You cannot have a country be assigned to multiple alternative origins. */
@@ -85,9 +72,9 @@ export type HttpBackendCreateOriginRequestHeadersMap = { [key: string]: string |
 export type HttpBackendCreateType = "http";
 export interface HttpBackendCreate {
   /** An object mapping multiple alternative origins to country codes. Any request from one of those country codes will route to the alternative origin. Do note that country codes may only be used once. You cannot have a country be assigned to multiple alternative origins. */
-  geofencing?: HttpBackendCreateGeofencingMap | undefined;
+  geofencing?: HttpBackendCreateGeofencingMap;
   /** Headers that will be sent with every request to the configured origin. **WARNING**: Do not store sensitive values in the headers. The configuration is stored as plain text. */
-  originRequestHeaders?: HttpBackendCreateOriginRequestHeadersMap | undefined;
+  originRequestHeaders?: HttpBackendCreateOriginRequestHeadersMap;
   /** The origin of the content that should be made available through the CDN. Note that the path and query parameters are ignored. Ports are allowed. If no protocol is provided, `https` is assumed. So `www.example.com:1234/somePath?q=123` is normalized to `https://www.example.com:1234` */
   originUrl: string;
   /** Defines the type of content origin. For this schema, it must be set to `http`. */
@@ -121,11 +108,11 @@ export type CacheConfigCreateQueryStringVaryParametersList = Array<string>;
 /** Groups the cache options that influence how the CDN builds its cache key on distribution creation. **Cache cardinality warning:** enabling query-string vary produces one cache entry per unique query-string combination (**unbounded** when `queryStringVaryParameters` is empty). Each entry in `cacheKeyHeaders` multiplies the number of cache variants by the number of distinct values observed for that header. Use these settings sparingly. `queryStringVaryParameters` is stored independently of `queryStringVaryEnabled` so that this feature can be toggled on and off without losing the configured allowlist. Only `queryStringVaryEnabled` gates whether the parameter allowlist actually varies the cache. **Optimizer interaction:** when the Optimizer is enabled, the CDN automatically enables query-string vary for image responses regardless of this setting. */
 export interface CacheConfigCreate {
   /** HTTP request header names whose values participate in the cache key. Each entry multiplies the number of cache variants by the number of distinct values observed for that header. */
-  cacheKeyHeaders?: CacheConfigCreateCacheKeyHeadersList | undefined;
+  cacheKeyHeaders?: CacheConfigCreateCacheKeyHeadersList;
   /** When true, the CDN varies its cache by the request query string. If `queryStringVaryParameters` is empty, every unique query-string combination produces its own cache entry; if non-empty, only the listed parameters influence the cache key. */
-  queryStringVaryEnabled?: boolean | undefined;
+  queryStringVaryEnabled?: boolean;
   /** Allowlist of query-string parameter names that participate in the cache key when `queryStringVaryEnabled` is true. Ignored while `queryStringVaryEnabled` is false, but still stored so it can be re-activated without losing the list. */
-  queryStringVaryParameters?: CacheConfigCreateQueryStringVaryParametersList | undefined;
+  queryStringVaryParameters?: CacheConfigCreateQueryStringVaryParametersList;
 }
 /** Labels are key-value string pairs that can be attached to a distribution. */
 export type CreateDistributionRequestLabelsMap = { [key: string]: string | undefined };
@@ -150,7 +137,7 @@ export type OtlpLogSinkBearerCredentialsType = "bearer";
 /** Bearer token authentication credentials for OTLP. */
 export interface OtlpLogSinkBearerCredentials {
   /** The bearer token used to authenticate against your OTLP endpoint. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Defines bearer token authentication. */
   type: OtlpLogSinkBearerCredentialsType;
 }
@@ -191,7 +178,7 @@ export type MatchCondition = "ANY" | "ALL" | "NONE";
 export type MatcherValuesList = Array<string>;
 /** A matcher containing a list of string values to compare against the request path. */
 export interface Matcher {
-  valueMatchCondition?: MatchCondition | (string & {}) | undefined;
+  valueMatchCondition?: MatchCondition | (string & {});
   /** A list of glob patterns to match against the request path. At least one value is required. Examples: "/shop/*" or "*\/img/*" */
   values: MatcherValuesList;
 }
@@ -202,12 +189,12 @@ export type RedirectRuleStatusCode = 301 | 302 | 303 | 307 | 308;
 /** A single redirect rule defining a source pattern and a target URL. */
 export interface RedirectRule {
   /** An optional description for the redirect rule. */
-  description?: string | undefined;
+  description?: string;
   /** A toggle to enable or disable the redirect rule. */
-  enabled?: boolean | undefined;
+  enabled?: boolean;
   /** A list of matchers that define when this rule should apply. At least one matcher is required. */
   matchers: RedirectRuleMatchersList;
-  ruleMatchCondition?: MatchCondition | (string & {}) | undefined;
+  ruleMatchCondition?: MatchCondition | (string & {});
   /** The HTTP status code for the redirect. Must be one of 301, 302, 303, 307, or 308. */
   statusCode: RedirectRuleStatusCode | (number & {});
   /** The target URL to redirect to. Must be a valid URI. */
@@ -218,7 +205,7 @@ export type RedirectConfigRulesList = Array<RedirectRule>;
 /** A wrapper for a list of redirect rules that allows for redirect settings on a distribution. */
 export interface RedirectConfig {
   /** A list of redirect rules. The order of rules matters for evaluation. */
-  rules?: RedirectConfigRulesList | undefined;
+  rules?: RedirectConfigRulesList;
 }
 /** The following regions exist: - `EU` - Europe - `US` - United States / North America - `AF` - Africa - `SA` - South America - `ASIA` - Asia and Oceania */
 export type Region = "EU" | "US" | "AF" | "SA" | "ASIA";
@@ -263,30 +250,30 @@ export type WafType = "FREE" | "PREMIUM";
 /** Configuration of the WAF of a distribution A WAF Config always contains a WAF Mode and Type. If a WAF was never enabled, most of the properties are not present. To **enable** the WAF for your Distribution, you must set the `mode` to `ENABLED` or `LOG_ONLY`. This causes the other properties to be populated. ## Rules There are 9 properties used to control which Rules are enabled, disabled or set to Log-Only. These properties can be grouped in 3 groups of 3. Each of these groups varies in specificity: Rules are more specific than Rule Groups, which in turn are more specific than Collections. More specific definitions override more generic definitions. ### Collections - `enabledRuleCollectionIds` - `disabledRuleCollectionIds` - `logOnlyRuleCollectionIds` These are the least specific selectors. As of 2025, only two collections exist: - `@builtin/crs/response`, containing all Rules regarding Responses - `@builtin/crs/request`, containing all Rules regarding Requests More collections may be added in the future ### Rule Groups - `enabledRuleGroupIds` - `disabledRuleGroupIds` - `logOnlyRuleGroupIds` These are more specific than Collections and will override their selector. You can find all available Rule Groups by calling the `ListWafCollections` Operation. ### Rules - `enabledRuleIds` - `disabledRuleIds` - `logOnlyRuleGds` Being the most specific selectors, these will override both Collection and Rule Group selectors. You can find all available Rule Groups by calling the `ListWafCollections` Operation. ### TIP: Review resolved config If you call `GetDistribution` with `?withWafStatus=true`, you get back a resolved WAF Rules Config which contains a `waf` property which you can inspect to see why a Rule is either enabled, disabled or logOnly. */
 export interface WafConfig {
   /** This whitelist restricts which HTTP methods the distribution accepts. Requests using non-whitelisted methods are blocked by the WAF before reaching the origin. Common methods: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`, `HEAD`, `OPTIONS`, `CONNECT`, `TRACE` Validation ensures: 1. At least one method is allowed 2. No duplicate methods (e.g., `GET` appearing twice) 3. Each method is valid per HTTP standards */
-  allowedHttpMethods?: WafConfigAllowedHttpMethodsList | undefined;
-  allowedHttpVersions?: WafConfigAllowedHttpVersionsList | undefined;
+  allowedHttpMethods?: WafConfigAllowedHttpMethodsList;
+  allowedHttpVersions?: WafConfigAllowedHttpVersionsList;
   /** This allow list restricts which Content-Type headers are accepted in request bodies. Format: Must be `type/subtype` with no spaces. Common content types: - `application/json` - `application/x-www-form-urlencoded` - `multipart/form-data` - `text/html` - `text/plain` - `application/xml` */
-  allowedRequestContentTypes?: WafConfigAllowedRequestContentTypesList | undefined;
+  allowedRequestContentTypes?: WafConfigAllowedRequestContentTypesList;
   /** Ids of WAF Collections to mark as disabled */
-  disabledRuleCollectionIds?: WafConfigDisabledRuleCollectionIdsList | undefined;
+  disabledRuleCollectionIds?: WafConfigDisabledRuleCollectionIdsList;
   /** Ids of WAF Rule Groups to mark as disabled */
-  disabledRuleGroupIds?: WafConfigDisabledRuleGroupIdsList | undefined;
+  disabledRuleGroupIds?: WafConfigDisabledRuleGroupIdsList;
   /** Ids of WAF Rules that are **explicitly** disabled for this distribution. */
-  disabledRuleIds?: WafConfigDisabledRuleIdsList | undefined;
+  disabledRuleIds?: WafConfigDisabledRuleIdsList;
   /** Ids of WAF Collections to mark as enabled */
-  enabledRuleCollectionIds?: WafConfigEnabledRuleCollectionIdsList | undefined;
+  enabledRuleCollectionIds?: WafConfigEnabledRuleCollectionIdsList;
   /** Ids of WAF Rule Groups to mark as enabled */
-  enabledRuleGroupIds?: WafConfigEnabledRuleGroupIdsList | undefined;
+  enabledRuleGroupIds?: WafConfigEnabledRuleGroupIdsList;
   /** Ids of the WAF rules that are **explicitly** enabled for this distribution. If this rule is in a disabled / log Only RuleGroup or Collection, it will be enabled regardless as `enabledRuleIds` overrides those in specificity. Do note that rules can also be enabled because a Rulegroup or Collection is enabled. **DO NOT** use this property to find all active rules. Instead, pass `?withWafStatus=true` as a query parameter to `GetDistribution` or `ListDistributions`. This will expose the `waf` Property on distribution Level. From there you can `$.waf.enabledRules.map(e => e.id)` to get a list of all enabled rules. */
   enabledRuleIds: WafConfigEnabledRuleIdsList;
   /** Ids of WAF Collections to mark as log Only. */
-  logOnlyRuleCollectionIds?: WafConfigLogOnlyRuleCollectionIdsList | undefined;
+  logOnlyRuleCollectionIds?: WafConfigLogOnlyRuleCollectionIdsList;
   /** Ids of WAF Rule Groups to mark as log Only. */
-  logOnlyRuleGroupIds?: WafConfigLogOnlyRuleGroupIdsList | undefined;
+  logOnlyRuleGroupIds?: WafConfigLogOnlyRuleGroupIdsList;
   /** Ids of WAF Rules that are **explicitly** marked as Log Only for this distribution. */
-  logOnlyRuleIds?: WafConfigLogOnlyRuleIdsList | undefined;
+  logOnlyRuleIds?: WafConfigLogOnlyRuleIdsList;
   mode: WafMode | (string & {});
-  paranoiaLevel?: WafParanoiaLevel | (string & {}) | undefined;
+  paranoiaLevel?: WafParanoiaLevel | (string & {});
   type: WafType | (string & {});
 }
 export interface CreateDistributionRequest {
@@ -295,29 +282,29 @@ export interface CreateDistributionRequest {
   /** Configuration for the content origin backend. */
   backend: CreateDistributionRequestBackend;
   /** Restricts access to your content based on country. We use the ISO 3166-1 alpha-2 standard for country codes (e.g., DE, ES, GB). This setting blocks users from the specified countries. */
-  blockedCountries?: CreateDistributionRequestBlockedCountriesList | undefined;
+  blockedCountries?: CreateDistributionRequestBlockedCountriesList;
   /** Restricts access to your content by specifying a list of blocked IPv4 addresses. This feature enhances security and privacy by preventing these addresses from accessing your distribution. */
-  blockedIps?: CreateDistributionRequestBlockedIpsList | undefined;
-  cacheConfig?: CacheConfigCreate | undefined;
+  blockedIps?: CreateDistributionRequestBlockedIpsList;
+  cacheConfig?: CacheConfigCreate;
   /** Sets the default cache duration for the distribution. The default cache duration is applied when a 'Cache-Control' header is not presented in the origin's response. We use ISO8601 duration format for cache duration (e.g. P1DT2H30M) */
-  defaultCacheDuration?: string | undefined;
+  defaultCacheDuration?: string;
   /** Enabling this allows the 'Host' header to be passed through to the origin. */
-  forwardHostHeader?: boolean | undefined;
+  forwardHostHeader?: boolean;
   /** While optional, it is greatly encouraged to provide an `intentId`. This is used to deduplicate requests. If multiple POST-Requests with the same `intentId` for a given `projectId` are received, all but the first request are dropped. */
-  intentId?: string | undefined;
+  intentId?: string;
   /** Labels are key-value string pairs that can be attached to a distribution. */
-  labels?: CreateDistributionRequestLabelsMap | undefined;
-  logSink?: CreateDistributionRequestLogSink | undefined;
+  labels?: CreateDistributionRequestLabelsMap;
+  logSink?: CreateDistributionRequestLogSink;
   /** Sets the monthly limit of bandwidth in bytes that the pullzone is allowed to use. */
-  monthlyLimitBytes?: number | undefined;
-  optimizer?: Optimizer | undefined;
-  redirects?: RedirectConfig | undefined;
+  monthlyLimitBytes?: number;
+  optimizer?: Optimizer;
+  redirects?: RedirectConfig;
   /** Define in which regions you would like your content to be cached. */
   regions: CreateDistributionRequestRegionsList;
   /** Enable this to prevent origin-level cookies from being forwarded to the end user. */
-  stripResponseCookies?: boolean | undefined;
-  tls?: TlsConfig | undefined;
-  waf?: WafConfig | undefined;
+  stripResponseCookies?: boolean;
+  tls?: TlsConfig;
+  waf?: WafConfig;
 }
 export type HttpBackendGeofencingValueList = Array<string>;
 /** An object mapping multiple alternative origins to country codes. Any request from one of those country codes will route to the alternative origin. Do note that country codes may only be used once. You cannot have a country be assigned to multiple alternative origins. */
@@ -394,16 +381,16 @@ export interface Config {
   blockedIps: ConfigBlockedIpsList;
   cacheConfig: CacheConfig;
   /** Sets the default cache duration for the distribution. The default cache duration is applied when a 'Cache-Control' header is not presented in the origin's response. We use ISO8601 duration format for cache duration (e.g. P1DT2H30M) */
-  defaultCacheDuration?: string | null | undefined;
+  defaultCacheDuration?: string | null;
   /** Enabling this allows the 'Host' header to be passed through to the origin. */
   forwardHostHeader: boolean;
   /** Labels are key-value string pairs that can be attached to a distribution. */
-  labels?: ConfigLabelsMap | undefined;
-  logSink?: ConfigLogSink | undefined;
+  labels?: ConfigLabelsMap;
+  logSink?: ConfigLogSink;
   /** Sets the monthly limit of bandwidth in bytes that the pullzone is allowed to use. */
-  monthlyLimitBytes?: number | null | undefined;
-  optimizer?: Optimizer | undefined;
-  redirects?: RedirectConfig | undefined;
+  monthlyLimitBytes?: number | null;
+  optimizer?: Optimizer;
+  redirects?: RedirectConfig;
   regions: ConfigRegionsList;
   /** Enable this to prevent origin-level cookies from being forwarded to the end user. */
   stripResponseCookies: boolean;
@@ -421,7 +408,7 @@ export type StatusErrorKey =
   | "EXTERNAL_QUOTA_REACHED";
 export interface StatusError {
   /** A german translation string corresponding to the error key. Note that we do not guarantee german translations are present. */
-  de?: string | undefined;
+  de?: string;
   /** An english translation string corresponding to the error key. An english translation key is always present. */
   en: string;
   /** An enum value that describes a Status Error. */
@@ -437,7 +424,7 @@ export type DomainType = "managed" | "custom";
 export interface Domain {
   certificateType: DomainCertificateType;
   /** This object is present if the custom domain has errors. */
-  errors?: DomainErrorsList | undefined;
+  errors?: DomainErrorsList;
   /** The domain. If this is a custom domain, you can call the GetCustomDomain Endpoint */
   name: string;
   status: DomainStatus;
@@ -505,7 +492,7 @@ export interface Distribution {
   createdAt: string;
   domains: DistributionDomainsList;
   /** This object may be present if, and only if the distribution has encountered an error state. */
-  errors?: DistributionErrorsList | undefined;
+  errors?: DistributionErrorsList;
   id: string;
   projectId: string;
   /** - `CREATING`: The distribution was just created. All the relevant resources are created in the background. Once fully reconciled, this switches to `ACTIVE`. If there are any issues, the status changes to `ERROR`. You can look at the `errors` array to get more infos. - `ACTIVE`: The usual state. The desired configuration is synced, there are no errors - `UPDATING`: The state when there is a discrepancy between the desired and actual configuration state. This occurs right after an update. Will switch to `ACTIVE` or `ERROR`, depending on if synchronizing succeeds or not. - `DELETING`: The state right after a delete request was received. The distribution will stay in this status until all resources have been successfully removed, or until we encounter an `ERROR` state. **NOTE:** You can keep fetching the distribution while it is deleting. After successful deletion, trying to get a distribution will return a 404 Not Found response - `ERROR`: The error state. Look at the `errors` array for more info. */
@@ -513,7 +500,7 @@ export interface Distribution {
   /** RFC3339 string which returns the last time the distribution configuration was modified. */
   updatedAt: string;
   /** For this property to be present two pre-conditions must be met: - the WAF was enabled at least once - the query parameter ?withWafStatus is truthy This property contains the waf Status. At this point in time, this contains all resolved rules. Rules are split into 3 groups: - enabledRules - logOnlyRules - disabledRules **Do note that the global waf mode (Disabled, LogOnly, Enabled) is *NOT* reflected in this list!** */
-  waf?: DistributionWaf | undefined;
+  waf?: DistributionWaf;
 }
 export interface CreateDistributionResponse {
   distribution: Distribution;
@@ -523,31 +510,31 @@ export interface DeleteCustomDomainRequest {
   projectId: string;
   distributionId: string;
   domain: string;
-  intentId?: string | undefined;
+  intentId?: string;
 }
 /** This object is present if the custom domain has errors. */
 export type CustomDomainErrorsList = Array<StatusError>;
 /** Definition of a custom domain */
 export interface CustomDomain {
   /** This object is present if the custom domain has errors. */
-  errors?: CustomDomainErrorsList | undefined;
+  errors?: CustomDomainErrorsList;
   /** The domain. Can be used as input for the GetCustomDomain endpoint */
   name: string;
   status: DomainStatus;
 }
 /** Returns the custom domain that was deleted while the deletion has not completed yet. After the deletion was successful the response will be empty. */
 export interface DeleteCustomDomainResponse {
-  customDomain?: CustomDomain | undefined;
+  customDomain?: CustomDomain;
 }
 export interface DeleteDistributionRequest {
   /** Your STACKIT Project Id */
   projectId: string;
   distributionId: string;
   /** While optional, it is greatly encouraged to provide an `intentId`. This is used to deduplicate requests. If multiple DELETE-Requests with the same `intentId` are received, all but the first request are dropped. */
-  intentId?: string | undefined;
+  intentId?: string;
 }
 export interface DeleteDistributionResponse {
-  distribution?: Distribution | undefined;
+  distribution?: Distribution;
 }
 export interface FindCachePathsRequest {
   /** Your STACKIT Project Id */
@@ -568,7 +555,7 @@ export interface GetCacheInfoRequest {
   /** Your STACKIT Project Id */
   projectId: string;
   distributionId: string;
-  purgePath?: string | undefined;
+  purgePath?: string;
 }
 export type GetCacheInfoResponseHistoryEntryType = "full" | "granular";
 export interface GetCacheInfoResponseHistoryEntry {
@@ -611,7 +598,7 @@ export interface GetDistributionRequest {
   projectId: string;
   distributionId: string;
   /** If set, the top level of a distribution contains a `waf` property, which defines the status of the waf. This includes a list of all resolved rules. */
-  withWafStatus?: boolean | undefined;
+  withWafStatus?: boolean;
 }
 export interface GetDistributionResponse {
   distribution: Distribution;
@@ -634,26 +621,26 @@ export interface GetLogsRequest {
   /** Your CDN distribution Id */
   distributionId: string;
   /** the start of the time range for which logs should be returned */
-  from?: string | undefined;
+  from?: string;
   /** the end of the time range for which logs should be returned. If not specified, "now" is used. */
-  to?: string | undefined;
+  to?: string;
   /** Quantifies how many log entries should be returned on this page. Must be a natural number between 1 and 1000 (inclusive) */
-  pageSize?: number | undefined;
+  pageSize?: number;
   /** Identifier is returned by the previous response and is used to request the next page. As the `pageIdentifier` encodes an element, inserts during pagination will *not* shift the result. So a scenario like: - Start listing first page - Insert new element - Start listing second page will *never* result in an element from the first page to get "pushed" to the second page, like it could occur with basic limit + offset pagination. The identifier should be treated as an opaque string and never modified. Only pass values returned by the API. */
-  pageIdentifier?: string | undefined;
+  pageIdentifier?: string;
   /** Sorts the log messages by a specific field. Defaults to `timestamp`. Supported sort options: - `timestamp` - `dataCenterRegion` - `requestCountryCode` - `statusCode` - `cacheHit` - `size` - `path` - `host` */
-  sortBy?: GetLogsRequestSortBy | (string & {}) | undefined;
-  sortOrder?: GetLogsRequestSortOrder | (string & {}) | undefined;
+  sortBy?: GetLogsRequestSortBy | (string & {});
+  sortOrder?: GetLogsRequestSortOrder | (string & {});
   /** If this is set then only log entries with the chosen WAF rule action/outcome are returned. Specifically, if `ALLOWED` then all requests with no violation are returned. If `BLOCKED` then those where a WAF rule blocked a request and if `LOGGED` then only those requests where the WAF violation was only logged but the request not blocked */
-  wafAction?: WAFRuleAction | (string & {}) | undefined;
+  wafAction?: WAFRuleAction | (string & {});
   /** Filters by the CDN data center region that served the request. Can be combined with other filters */
-  dataCenterRegion?: string | undefined;
+  dataCenterRegion?: string;
   /** Filters by the originating country of the user request. Can be combined with other filters */
-  requestCountryCode?: string | undefined;
+  requestCountryCode?: string;
   /** Filters by the HTTP status code returned to the client. Can be combined with other filters */
-  statusCode?: number | undefined;
+  statusCode?: number;
   /** Filters based on whether the request was served from the CDN cache. Can be combined with other filters */
-  cacheHit?: boolean | undefined;
+  cacheHit?: boolean;
 }
 export type WAFViolationRequestHeadersMap = { [key: string]: string | undefined };
 /** Information about a violated WAF rule in case the WAF is enabled and a rule was triggered (either in BLOCK or LOG_ONLY mode) */
@@ -680,12 +667,12 @@ export interface DistributionLogsRecord {
   size: number;
   statusCode: number;
   timestamp: string;
-  wafViolation?: WAFViolation | undefined;
+  wafViolation?: WAFViolation;
 }
 export type GetLogsResponseLogsList = Array<DistributionLogsRecord>;
 export interface GetLogsResponse {
   logs: GetLogsResponseLogsList;
-  nextPageIdentifier?: string | undefined;
+  nextPageIdentifier?: string;
 }
 export interface GetLogsSearchFiltersRequest {
   /** Your STACKIT Project ID. */
@@ -693,7 +680,7 @@ export interface GetLogsSearchFiltersRequest {
   /** Your CDN distribution ID. */
   distributionId: string;
   /** Optional search string. Will search the **values** for the text input. */
-  filter?: string | undefined;
+  filter?: string;
 }
 export type GetLogsSearchFiltersResponseCacheItem = "HIT" | "MISS";
 export type GetLogsSearchFiltersResponseCacheList = Array<GetLogsSearchFiltersResponseCacheItem>;
@@ -740,9 +727,9 @@ export interface GetStatisticsRequest {
   /** the start of the time range for which statistics should be returned */
   from: string;
   /** the end of the time range for which statistics should be returned. If not specified, the end of the current time interval is used, e.g. next day for daily, next month for monthly, and so on. */
-  to?: string | undefined;
+  to?: string;
   /** Over which interval should statistics be aggregated? defaults to hourly resolution **NOTE**: Intervals are grouped in buckets that start and end based on a day in UTC+0 time. So for the `daily` interval, the group starts (inclusive) and ends (exclusive) at `00:00Z` */
-  interval?: GetStatisticsRequestInterval | (string & {}) | undefined;
+  interval?: GetStatisticsRequestInterval | (string & {});
 }
 export interface DistributionStatisticsRecordEntry {
   /** Number of cached requests that were served */
@@ -790,19 +777,19 @@ export interface ListDistributionsRequest {
   /** Your STACKIT Project Id */
   projectId: string;
   /** Quantifies how many distributions should be returned on this page. Must be a natural number between 1 and 100 (inclusive) */
-  pageSize?: number | undefined;
+  pageSize?: number;
   /** If set, the top level of a distribution contains a `waf` property, which defines the status of the waf. This includes a list of all resolved rules. */
-  withWafStatus?: boolean | undefined;
+  withWafStatus?: boolean;
   /** Identifier is returned by the previous response and is used to request the next page. As the `pageIdentifier` encodes an element, inserts during pagination will *not* shift the result. So a scenario like: - Start listing first page - Insert new element - Start listing second page will *never* result in an element from the first page to get "pushed" to the second page, like it could occur with basic limit + offset pagination. The identifier should be treated as an opaque string and never modified. Only pass values returned by the API. */
-  pageIdentifier?: string | undefined;
+  pageIdentifier?: string;
   /** The following sort options exist. We default to `createdAt` - `id` - Sort by distribution Id using String comparison - `updatedAt` - Sort by when the distribution configuration was last modified, for example by changing the regions or response headers - `createdAt` - Sort by when the distribution was initially created. - `originUrl` - Sort by originUrl using String comparison - `status` - Sort by distribution status, using String comparison - `originUrlRelated` - The originUrl is segmented and reversed before sorting. E.g. `www.example.com` is converted to `com.example.www` for sorting. This way, distributions pointing to the same domain trees are grouped next to each other. */
-  sortBy?: ListDistributionsRequestSortBy | (string & {}) | undefined;
-  sortOrder?: ListDistributionsRequestSortOrder | (string & {}) | undefined;
+  sortBy?: ListDistributionsRequestSortBy | (string & {});
+  sortOrder?: ListDistributionsRequestSortOrder | (string & {});
 }
 export type ListDistributionsResponseDistributionsList = Array<Distribution>;
 export interface ListDistributionsResponse {
   distributions: ListDistributionsResponseDistributionsList;
-  nextPageIdentifier?: string | undefined;
+  nextPageIdentifier?: string;
 }
 export interface ListWafCollectionsRequest {
   /** Your STACKIT Project Id */
@@ -812,7 +799,7 @@ export interface ListWafCollectionsRequest {
 export type LocalizedString = { [key: string]: string | undefined };
 export interface WafRule {
   /** Optional CoreRuleSet rule Id in case this is a CRS rule */
-  code?: string | undefined;
+  code?: string;
   description: LocalizedString;
   id: string;
 }
@@ -844,11 +831,11 @@ export type HttpBackendPatchType = "http";
 /** A partial HTTP Backend */
 export interface HttpBackendPatch {
   /** An object mapping multiple alternative origins to country codes. Any request from one of those country codes will route to the alternative origin. Do note that country codes may only be used once. You cannot have a country be assigned to multiple alternative origins. */
-  geofencing?: HttpBackendPatchGeofencingMap | undefined;
+  geofencing?: HttpBackendPatchGeofencingMap;
   /** Headers that will be sent with every request to the configured origin. **WARNING**: Do not store sensitive values in the headers. The configuration is stored as plain text. */
-  originRequestHeaders?: HttpBackendPatchOriginRequestHeadersMap | undefined;
+  originRequestHeaders?: HttpBackendPatchOriginRequestHeadersMap;
   /** The origin of the content that should be made available through the CDN. Note that the path and query parameters are ignored. Ports are allowed. If no protocol is provided, `https` is assumed. So `www.example.com:1234/somePath?q=123` is normalized to `https://www.example.com:1234` */
-  originUrl?: string | undefined;
+  originUrl?: string;
   /** Defines the type of content origin. For this schema, it must be set to `http`. */
   type: HttpBackendPatchType;
 }
@@ -856,10 +843,10 @@ export interface HttpBackendPatch {
 export type BucketBackendPatchType = "bucket";
 export interface BucketBackendPatch {
   /** The fully qualified URL of your cloud storage bucket (for example, `https://s3.eu-central-1.amazonaws.com/my-bucket`). */
-  bucketUrl?: string | undefined;
-  credentials?: BucketCredentials | undefined;
+  bucketUrl?: string;
+  credentials?: BucketCredentials;
   /** The cloud provider region where your storage bucket is located (for example, `us-west-1` for AWS or `eu01` for STACKIT). */
-  region?: string | undefined;
+  region?: string;
   /** Defines the type of content origin. For this schema, it must be set to `bucket`. */
   type: BucketBackendPatchType;
 }
@@ -875,20 +862,20 @@ export type CacheConfigPatchQueryStringVaryParametersList = Array<string>;
 /** PATCH variant of `CacheConfig`. Follows the standard PATCH conventions for this API: - Field omitted from the request: current value is left unchanged. - Array field sent as `[]`: current list is cleared. - `queryStringVaryEnabled` is a plain boolean (non-nullable); omit it to leave unchanged. `queryStringVaryParameters` is stored independently of `queryStringVaryEnabled`. Sending a non-empty `queryStringVaryParameters` together with `queryStringVaryEnabled=false` is accepted: the list is persisted for later re-activation but does not affect the cache while the flag is false. */
 export interface CacheConfigPatch {
   /** HTTP request header names that participate in the cache key. Omit to leave unchanged; send `[]` to clear. */
-  cacheKeyHeaders?: CacheConfigPatchCacheKeyHeadersList | undefined;
+  cacheKeyHeaders?: CacheConfigPatchCacheKeyHeadersList;
   /** When true, the CDN varies its cache by the request query string. Omit to leave unchanged. */
-  queryStringVaryEnabled?: boolean | undefined;
+  queryStringVaryEnabled?: boolean;
   /** Allowlist of query-string parameter names. Omit to leave unchanged; send `[]` to clear. */
-  queryStringVaryParameters?: CacheConfigPatchQueryStringVaryParametersList | undefined;
+  queryStringVaryParameters?: CacheConfigPatchQueryStringVaryParametersList;
 }
 /** Labels are key-value string pairs that can be attached to a distribution. JSON Merge Patch is supported, meaning setting a key to null will remove it. */
 export type ConfigPatchLabelsMap = { [key: string]: string | null | undefined };
 /** Defines the type of the log sink. For Grafana Loki, this must be set to `loki`. */
 export type LokiLogSinkPatchType = "loki";
 export interface LokiLogSinkPatch {
-  credentials?: LokiLogSinkCredentials | undefined;
+  credentials?: LokiLogSinkCredentials;
   /** The fully qualified URL where the CDN should push logs to your Loki instance (for example, `https://loki.example.com/loki/api/v1/push`). */
-  pushUrl?: string | undefined;
+  pushUrl?: string;
   /** Defines the type of the log sink. For Grafana Loki, this must be set to `loki`. */
   type: LokiLogSinkPatchType;
 }
@@ -900,23 +887,23 @@ export type OtlpLogSinkPatchCredentials =
 export type OtlpLogSinkPatchType = "otlp";
 export interface OtlpLogSinkPatch {
   /** The authentication credentials required for the CDN to push logs to your OTLP endpoint. */
-  credentials?: OtlpLogSinkPatchCredentials | undefined;
+  credentials?: OtlpLogSinkPatchCredentials;
   /** The fully qualified URL where the CDN should push logs to your OTLP endpoint (for example, `https://otlp.example.com/otlp/v1/logs`). */
-  pushUrl?: string | undefined;
+  pushUrl?: string;
   /** Defines the type of the log sink. */
   type: OtlpLogSinkPatchType;
 }
 export type ConfigPatchLogSink = LokiLogSinkPatch | OtlpLogSinkPatch;
 export interface OptimizerPatch {
-  enabled?: boolean | undefined;
+  enabled?: boolean;
 }
 export type ConfigPatchRegionsList = Array<Region | (string & {})>;
 /** Configuration for TLS protocol versions. Note: Enabling older TLS versions (1.0, 1.1) is generally discouraged for security reasons. */
 export interface TlsConfigPatch {
   /** If set to true, the distribution will accept connections using TLS 1.0. */
-  enableTls10?: boolean | undefined;
+  enableTls10?: boolean;
   /** If set to true, the distribution will accept connections using TLS 1.1. */
-  enableTls11?: boolean | undefined;
+  enableTls11?: boolean;
 }
 export type WafConfigPatchAllowedHttpMethodsList = Array<string>;
 export type WafConfigPatchAllowedHttpVersionsList = Array<string>;
@@ -941,62 +928,62 @@ export type WafConfigPatchLogOnlyRuleGroupIdsList = Array<string>;
 export type WafConfigPatchLogOnlyRuleIdsList = Array<string>;
 /** Modify the WAF Configuration ## WAF Rules You can modify the set of enabled, disabled and log-only Rules by modifying these 9 properties: - enabledRuleIds - disabledRuleIds - logOnlyRuleIds - enabledRuleGroupIds - disabledRuleGroupIds - logOnlyRuleGroupIds - enabledRuleCollectionIds - disabledRuleCollectionIds - logOnlyRuleCollectionIds Please inquire the `WafConfig` Description on how the effective configuration is determined. For patching, if an ID is already used in one of the properties, it will be removed (and effectively moved) to the new property. If patching multiple properties with the same ID (e.g. writing `@builtin/crs/response` to `logOnlyRuleCollectionIds` and `enabledRuleCollectionIds`), the request will be rejected with a 400. */
 export interface WafConfigPatch {
-  allowedHttpMethods?: WafConfigPatchAllowedHttpMethodsList | undefined;
-  allowedHttpVersions?: WafConfigPatchAllowedHttpVersionsList | undefined;
-  allowedRequestContentTypes?: WafConfigPatchAllowedRequestContentTypesList | undefined;
+  allowedHttpMethods?: WafConfigPatchAllowedHttpMethodsList;
+  allowedHttpVersions?: WafConfigPatchAllowedHttpVersionsList;
+  allowedRequestContentTypes?: WafConfigPatchAllowedRequestContentTypesList;
   /** Ids of WAF Collections to mark as disabled */
-  disabledRuleCollectionIds?: WafConfigPatchDisabledRuleCollectionIdsList | undefined;
+  disabledRuleCollectionIds?: WafConfigPatchDisabledRuleCollectionIdsList;
   /** Ids of WAF Rule Groups to mark as disabled */
-  disabledRuleGroupIds?: WafConfigPatchDisabledRuleGroupIdsList | undefined;
+  disabledRuleGroupIds?: WafConfigPatchDisabledRuleGroupIdsList;
   /** Ids of WAF Rules that are **explicitly** disabled for this distribution. */
-  disabledRuleIds?: WafConfigPatchDisabledRuleIdsList | undefined;
+  disabledRuleIds?: WafConfigPatchDisabledRuleIdsList;
   /** Ids of WAF Collections to mark as enabled */
-  enabledRuleCollectionIds?: WafConfigPatchEnabledRuleCollectionIdsList | undefined;
+  enabledRuleCollectionIds?: WafConfigPatchEnabledRuleCollectionIdsList;
   /** Ids of WAF Rule Groups to mark as enabled */
-  enabledRuleGroupIds?: WafConfigPatchEnabledRuleGroupIdsList | undefined;
+  enabledRuleGroupIds?: WafConfigPatchEnabledRuleGroupIdsList;
   /** Ids of WAF Rules that are **explicitly** enabled for this distribution. */
-  enabledRuleIds?: WafConfigPatchEnabledRuleIdsList | undefined;
+  enabledRuleIds?: WafConfigPatchEnabledRuleIdsList;
   /** Ids of WAF Collections to mark as log Only. */
-  logOnlyRuleCollectionIds?: WafConfigPatchLogOnlyRuleCollectionIdsList | undefined;
+  logOnlyRuleCollectionIds?: WafConfigPatchLogOnlyRuleCollectionIdsList;
   /** Ids of WAF Rule Groups to mark as log Only. */
-  logOnlyRuleGroupIds?: WafConfigPatchLogOnlyRuleGroupIdsList | undefined;
+  logOnlyRuleGroupIds?: WafConfigPatchLogOnlyRuleGroupIdsList;
   /** Ids of WAF Rules that are **explicitly** marked as Log Only for this distribution. */
-  logOnlyRuleIds?: WafConfigPatchLogOnlyRuleIdsList | undefined;
-  mode?: WafMode | (string & {}) | undefined;
-  paranoiaLevel?: WafParanoiaLevel | (string & {}) | undefined;
-  type?: WafType | (string & {}) | undefined;
+  logOnlyRuleIds?: WafConfigPatchLogOnlyRuleIdsList;
+  mode?: WafMode | (string & {});
+  paranoiaLevel?: WafParanoiaLevel | (string & {});
+  type?: WafType | (string & {});
 }
 export interface ConfigPatch {
-  backend?: ConfigPatchBackend | undefined;
+  backend?: ConfigPatchBackend;
   /** Restricts access to your content based on country. We use the ISO 3166-1 alpha-2 standard for country codes (e.g., DE, ES, GB). This setting blocks users from the specified countries. */
-  blockedCountries?: ConfigPatchBlockedCountriesList | undefined;
+  blockedCountries?: ConfigPatchBlockedCountriesList;
   /** Restricts access to your content by specifying a list of blocked IPv4 addresses. This feature enhances security and privacy by preventing these addresses from accessing your distribution. */
-  blockedIps?: ConfigPatchBlockedIpsList | undefined;
-  cacheConfig?: CacheConfigPatch | undefined;
+  blockedIps?: ConfigPatchBlockedIpsList;
+  cacheConfig?: CacheConfigPatch;
   /** Sets the default cache duration for the distribution. The default cache duration is applied when a 'Cache-Control' header is not presented in the origin's response. We use ISO8601 duration format for cache duration (e.g. P1DT2H30M) */
-  defaultCacheDuration?: string | null | undefined;
+  defaultCacheDuration?: string | null;
   /** Enabling this allows the 'Host' header to be passed through to the origin. */
-  forwardHostHeader?: boolean | undefined;
+  forwardHostHeader?: boolean;
   /** Labels are key-value string pairs that can be attached to a distribution. JSON Merge Patch is supported, meaning setting a key to null will remove it. */
-  labels?: ConfigPatchLabelsMap | undefined;
-  logSink?: ConfigPatchLogSink | null | undefined;
+  labels?: ConfigPatchLabelsMap;
+  logSink?: ConfigPatchLogSink | null;
   /** Sets the monthly limit of bandwidth in bytes that the pullzone is allowed to use. */
-  monthlyLimitBytes?: number | null | undefined;
-  optimizer?: OptimizerPatch | undefined;
-  redirects?: RedirectConfig | undefined;
-  regions?: ConfigPatchRegionsList | undefined;
+  monthlyLimitBytes?: number | null;
+  optimizer?: OptimizerPatch;
+  redirects?: RedirectConfig;
+  regions?: ConfigPatchRegionsList;
   /** Enable this to prevent origin-level cookies from being forwarded to the end user. */
-  stripResponseCookies?: boolean | undefined;
-  tls?: TlsConfigPatch | undefined;
-  waf?: WafConfigPatch | undefined;
+  stripResponseCookies?: boolean;
+  tls?: TlsConfigPatch;
+  waf?: WafConfigPatch;
 }
 export interface PatchDistributionRequest {
   /** Your STACKIT Project Id */
   projectId: string;
   distributionId: string;
-  config?: ConfigPatch | undefined;
+  config?: ConfigPatch;
   /** While optional, it is greatly encouraged to provide an `intentId`. This is used to deduplicate requests. If multiple modifying requests with the same `intentId` for a given `projectId` are received, all but the first request are dropped. */
-  intentId?: string | undefined;
+  intentId?: string;
 }
 export interface PatchDistributionResponse {
   distribution: Distribution;
@@ -1006,7 +993,7 @@ export interface PurgeCacheRequest {
   projectId: string;
   distributionId: string;
   /** Defines an optional path. If this is set, a granular purge is done. If missing, the entire cache is invalidated. During a granular cache purge, only the provided path is purged. Please do not that for example `/some/path` and `/some/path.txt` are considered different paths. */
-  path?: string | undefined;
+  path?: string;
 }
 export type PurgeCacheResponse2 = unknown;
 /** This is returned when no custom certificate is used. We provision and manage a Let's Encrypt Certificate for you */
@@ -1016,9 +1003,9 @@ export interface PutCustomDomainCustomCertificate {
   /** base64-encoded PEM-encoded certificate */
   certificate: string;
   /** base64-encoded PEM encoded key */
-  key: string;
+  key: string | Redacted.Redacted<string>;
   /** When adding a new custom domain, we do a check to verify that your Domain points to the managed domain via a CNAME or ALIAS. If this is not the case, the call would usually reject. This additional property is an escape hatch to this functionality. It's useful for when you are migrating onto STACKIT CDN. It allows you to migrate without downtime. By providing a custom certificate with `skipDnsCheck` set to `true`, we will not check the Record for correctness. Then, once the CDN is set up, you can change the CNAME Record on your DNS and update the Custom Domain entry to disable this check, or switch to a managed certificate. This field is optional. If not set, the check is **not** skipped. */
-  skipDnsCheck?: boolean | undefined;
+  skipDnsCheck?: boolean;
   type: string;
 }
 /** Pass a custom certificate to be served by the CDN when calling the custom domain. Will use a managed certificate when omitted */
@@ -1031,9 +1018,9 @@ export interface PutCustomDomainRequest {
   distributionId: string;
   domain: string;
   /** Pass a custom certificate to be served by the CDN when calling the custom domain. Will use a managed certificate when omitted */
-  certificate?: PutCustomDomainRequestCertificate | undefined;
+  certificate?: PutCustomDomainRequestCertificate;
   /** While optional, it is greatly encouraged to provide an `intentId`. This is used to deduplicate requests. If multiple modifying Requests with the same `intentId` for a given `projectId` are received, all but the first request are dropped. */
-  intentId?: string | undefined;
+  intentId?: string;
 }
 /** Pass a custom certificate to be served by the CDN when calling the custom domain. Will use a managed certificate when omitted */
 export type PutCustomDomainResponseCertificate =
@@ -1041,29 +1028,8 @@ export type PutCustomDomainResponseCertificate =
   | GetCustomDomainCustomCertificate;
 export interface PutCustomDomainResponse {
   /** Pass a custom certificate to be served by the CDN when calling the custom domain. Will use a managed certificate when omitted */
-  certificate?: PutCustomDomainResponseCertificate | undefined;
+  certificate?: PutCustomDomainResponseCertificate;
   customDomain: CustomDomain;
-}
-export type ErrorDetailsKey =
-  | "UNKNOWN"
-  | "CUSTOM_DOMAIN_CNAME_MISSING"
-  | "INVALID_ARGUMENT"
-  | "LOG_SINK_INSTANCE_UNAVAILABLE";
-export interface ErrorDetails {
-  /** German description of the error */
-  de?: string | undefined;
-  /** English description of the error */
-  en: string;
-  /** Optional field in the request this error detail refers to */
-  field?: string | undefined;
-  key: ErrorDetailsKey;
-}
-/** Listing of issues with your request */
-export type GenericJsonResponseDetailsList = Array<ErrorDetails>;
-export interface GenericJsonResponse {
-  /** Listing of issues with your request */
-  details?: GenericJsonResponseDetailsList | undefined;
-  message: string;
 }
 export type CreateDistributionError = BadRequest | UnprocessableEntity | StackitOpError;
 /** Create new distribution CreateDistribution will create a new CDN distribution */
@@ -1074,7 +1040,7 @@ export const createDistribution: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<CreateDistributionRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<CreateDistributionResponse>,
+  output: __S(160, __c10, 0) as any as S.Schema<CreateDistributionResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1082,7 +1048,7 @@ export const createDistribution: API.OperationMethod<
   span: "CreateDistribution",
 }));
 
-export type DeleteCustomDomainError = UnprocessableEntity | StackitOpError;
+export type DeleteCustomDomainError = UnprocessableEntity | NotFound | StackitOpError;
 /** Delete a custom domain Removes a custom domain */
 export const deleteCustomDomain: API.OperationMethod<
   DeleteCustomDomainRequest,
@@ -1092,7 +1058,7 @@ export const deleteCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<DeleteCustomDomainRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<DeleteCustomDomainResponse>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  errors: [UnprocessableEntity, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1175,8 +1141,8 @@ export const getDistribution: API.OperationMethod<
   GetDistributionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetDistributionRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<GetDistributionResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetDistributionRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<GetDistributionResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1278,7 +1244,7 @@ export const patchDistribution: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(101, __c6, 5) as any as S.Schema<PatchDistributionRequest>,
-  output: __S(240, __c15, 0) as any as S.Schema<PatchDistributionResponse>,
+  output: __S(160, __c10, 0) as any as S.Schema<PatchDistributionResponse>,
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1303,7 +1269,7 @@ export const purgeCache: API.OperationMethod<
   span: "PurgeCache",
 }));
 
-export type PutCustomDomainError = UnprocessableEntity | StackitOpError;
+export type PutCustomDomainError = CustomDomainCnameMissing | UnprocessableEntity | StackitOpError;
 /** Create or update a custom domain Creates a new custom domain. If it already exists, this will overwrite the previous custom domain's properties. */
 export const putCustomDomain: API.OperationMethod<
   PutCustomDomainRequest,
@@ -1313,7 +1279,7 @@ export const putCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<PutCustomDomainRequest>,
   output: __S(129, __c8, 1) as any as S.Schema<PutCustomDomainResponse>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  errors: [CustomDomainCnameMissing, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1326,21 +1292,18 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          de: S.optional(S.String),
-          en: S.String,
-          field: S.optional(S.String),
-          key: S.String,
-        }),
-      ).annotate({ identifier: "ErrorDetails" });
-    case 1:
-      return S.Array(__S(0, __c0, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          details: S.optional(__S(1, __c0, 1)),
-          message: S.String,
-        }),
-      ).annotate({ identifier: "GenericJsonResponse" });
+          projectId: S.String.pipe(T.Label()),
+          distributionId: S.String.pipe(T.Label()),
+          withWafStatus: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/projects/{projectId}/distributions/{distributionId}",
+            code: 200,
+            baseUrl: "https://cdn.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "GetDistributionRequest" });
   }
 }
 function __c1(j: number): any {
@@ -1377,7 +1340,7 @@ function __c1(j: number): any {
           asn: S.String,
           message: S.String,
           method: S.String,
-          requestHeaders: __S(192, __c12, 0),
+          requestHeaders: __S(208, __c13, 0),
           ruleId: S.String,
         }),
       ).annotate({ identifier: "WAFViolation" });
@@ -1448,9 +1411,9 @@ function __c2(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          cache: __S(209, __c13, 1),
+          cache: __S(225, __c14, 1),
           dataCenter: __S(35, __c2, 3),
-          remoteCountry: __S(208, __c13, 0),
+          remoteCountry: __S(224, __c14, 0),
           status: __S(36, __c2, 4),
         }),
       ).annotate({ identifier: "GetLogsSearchFiltersResponse" });
@@ -1535,7 +1498,7 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListDistributionsRequest" });
     case 1:
-      return S.Array(__S(239, __c14, 15));
+      return S.Array(__S(255, __c15, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1564,7 +1527,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
-          description: __S(192, __c12, 0),
+          description: __S(208, __c13, 0),
           id: S.String,
         }),
       ).annotate({ identifier: "WafRule" });
@@ -1573,8 +1536,8 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          description: __S(192, __c12, 0),
-          name: __S(192, __c12, 0),
+          description: __S(208, __c13, 0),
+          name: __S(208, __c13, 0),
           rules: __S(82, __c5, 2),
         }),
       ).annotate({ identifier: "WafRuleGroup" });
@@ -1585,7 +1548,7 @@ function __c5(j: number): any {
         S.Struct({
           groups: __S(84, __c5, 4),
           id: S.String,
-          name: __S(192, __c12, 0),
+          name: __S(208, __c13, 0),
         }),
       ).annotate({ identifier: "WafRuleCollection" });
     case 6:
@@ -1618,18 +1581,18 @@ function __c6(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          allowedHttpMethods: S.optional(__S(208, __c13, 0)),
-          allowedHttpVersions: S.optional(__S(208, __c13, 0)),
-          allowedRequestContentTypes: S.optional(__S(208, __c13, 0)),
-          disabledRuleCollectionIds: S.optional(__S(208, __c13, 0)),
-          disabledRuleGroupIds: S.optional(__S(208, __c13, 0)),
-          disabledRuleIds: S.optional(__S(208, __c13, 0)),
-          enabledRuleCollectionIds: S.optional(__S(208, __c13, 0)),
-          enabledRuleGroupIds: S.optional(__S(208, __c13, 0)),
-          enabledRuleIds: S.optional(__S(208, __c13, 0)),
-          logOnlyRuleCollectionIds: S.optional(__S(208, __c13, 0)),
-          logOnlyRuleGroupIds: S.optional(__S(208, __c13, 0)),
-          logOnlyRuleIds: S.optional(__S(208, __c13, 0)),
+          allowedHttpMethods: S.optional(__S(224, __c14, 0)),
+          allowedHttpVersions: S.optional(__S(224, __c14, 0)),
+          allowedRequestContentTypes: S.optional(__S(224, __c14, 0)),
+          disabledRuleCollectionIds: S.optional(__S(224, __c14, 0)),
+          disabledRuleGroupIds: S.optional(__S(224, __c14, 0)),
+          disabledRuleIds: S.optional(__S(224, __c14, 0)),
+          enabledRuleCollectionIds: S.optional(__S(224, __c14, 0)),
+          enabledRuleGroupIds: S.optional(__S(224, __c14, 0)),
+          enabledRuleIds: S.optional(__S(224, __c14, 0)),
+          logOnlyRuleCollectionIds: S.optional(__S(224, __c14, 0)),
+          logOnlyRuleGroupIds: S.optional(__S(224, __c14, 0)),
+          logOnlyRuleIds: S.optional(__S(224, __c14, 0)),
           mode: S.optional(S.String),
           paranoiaLevel: S.optional(S.String),
           type: S.optional(S.String),
@@ -1639,17 +1602,17 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           backend: S.optional(S.Unknown),
-          blockedCountries: S.optional(__S(208, __c13, 0)),
-          blockedIps: S.optional(__S(208, __c13, 0)),
-          cacheConfig: S.optional(__S(160, __c10, 0)),
+          blockedCountries: S.optional(__S(224, __c14, 0)),
+          blockedIps: S.optional(__S(224, __c14, 0)),
+          cacheConfig: S.optional(__S(176, __c11, 0)),
           defaultCacheDuration: S.optional(S.NullOr(S.String)),
           forwardHostHeader: S.optional(S.Boolean),
           labels: S.optional(__S(96, __c6, 0)),
           logSink: S.optional(S.NullOr(S.Unknown)),
           monthlyLimitBytes: S.optional(S.NullOr(S.Number)),
           optimizer: S.optional(__S(97, __c6, 1)),
-          redirects: S.optional(__S(229, __c14, 5)),
-          regions: S.optional(__S(209, __c13, 1)),
+          redirects: S.optional(__S(245, __c15, 5)),
+          regions: S.optional(__S(225, __c14, 1)),
           stripResponseCookies: S.optional(S.Boolean),
           tls: S.optional(__S(98, __c6, 2)),
           waf: S.optional(__S(99, __c6, 3)),
@@ -1731,21 +1694,21 @@ function __c9(j: number): any {
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           backend: S.Unknown,
-          blockedCountries: S.optional(__S(208, __c13, 0)),
-          blockedIps: S.optional(__S(208, __c13, 0)),
-          cacheConfig: S.optional(__S(160, __c10, 0)),
+          blockedCountries: S.optional(__S(224, __c14, 0)),
+          blockedIps: S.optional(__S(224, __c14, 0)),
+          cacheConfig: S.optional(__S(176, __c11, 0)),
           defaultCacheDuration: S.optional(S.String),
           forwardHostHeader: S.optional(S.Boolean),
           intentId: S.optional(S.String),
-          labels: S.optional(__S(192, __c12, 0)),
+          labels: S.optional(__S(208, __c13, 0)),
           logSink: S.optional(S.Unknown),
           monthlyLimitBytes: S.optional(S.Number),
-          optimizer: S.optional(__S(224, __c14, 0)),
-          redirects: S.optional(__S(229, __c14, 5)),
-          regions: __S(209, __c13, 1),
+          optimizer: S.optional(__S(240, __c15, 0)),
+          redirects: S.optional(__S(245, __c15, 5)),
+          regions: __S(225, __c14, 1),
           stripResponseCookies: S.optional(S.Boolean),
-          tls: S.optional(__S(230, __c14, 6)),
-          waf: S.optional(__S(231, __c14, 7)),
+          tls: S.optional(__S(246, __c15, 6)),
+          waf: S.optional(__S(247, __c15, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1762,14 +1725,24 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cacheKeyHeaders: S.optional(__S(208, __c13, 0)),
+          distribution: __S(255, __c15, 15),
+        }),
+      ).annotate({ identifier: "CreateDistributionResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cacheKeyHeaders: S.optional(__S(224, __c14, 0)),
           queryStringVaryEnabled: S.optional(S.Boolean),
-          queryStringVaryParameters: S.optional(__S(208, __c13, 0)),
+          queryStringVaryParameters: S.optional(__S(224, __c14, 0)),
         }),
       ).annotate({ identifier: "CacheConfigCreate" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1780,16 +1753,16 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "StatusError" });
     case 1:
-      return S.Array(__S(176, __c11, 0));
+      return S.Array(__S(192, __c12, 0));
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1797,7 +1770,7 @@ function __c13(j: number): any {
       return S.Array(S.String);
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1809,28 +1782,28 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           valueMatchCondition: S.optional(S.String),
-          values: __S(208, __c13, 0),
+          values: __S(224, __c14, 0),
         }),
       ).annotate({ identifier: "Matcher" });
     case 2:
-      return S.Array(__S(225, __c14, 1));
+      return S.Array(__S(241, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          matchers: __S(226, __c14, 2),
+          matchers: __S(242, __c15, 2),
           ruleMatchCondition: S.optional(S.String),
           statusCode: S.Number,
           targetUrl: S.String,
         }),
       ).annotate({ identifier: "RedirectRule" });
     case 4:
-      return S.Array(__S(227, __c14, 3));
+      return S.Array(__S(243, __c15, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(228, __c14, 4)),
+          rules: S.optional(__S(244, __c15, 4)),
         }),
       ).annotate({ identifier: "RedirectConfig" });
     case 6:
@@ -1843,18 +1816,18 @@ function __c14(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          allowedHttpMethods: S.optional(__S(208, __c13, 0)),
-          allowedHttpVersions: S.optional(__S(208, __c13, 0)),
-          allowedRequestContentTypes: S.optional(__S(208, __c13, 0)),
-          disabledRuleCollectionIds: S.optional(__S(208, __c13, 0)),
-          disabledRuleGroupIds: S.optional(__S(208, __c13, 0)),
-          disabledRuleIds: S.optional(__S(208, __c13, 0)),
-          enabledRuleCollectionIds: S.optional(__S(208, __c13, 0)),
-          enabledRuleGroupIds: S.optional(__S(208, __c13, 0)),
-          enabledRuleIds: __S(208, __c13, 0),
-          logOnlyRuleCollectionIds: S.optional(__S(208, __c13, 0)),
-          logOnlyRuleGroupIds: S.optional(__S(208, __c13, 0)),
-          logOnlyRuleIds: S.optional(__S(208, __c13, 0)),
+          allowedHttpMethods: S.optional(__S(224, __c14, 0)),
+          allowedHttpVersions: S.optional(__S(224, __c14, 0)),
+          allowedRequestContentTypes: S.optional(__S(224, __c14, 0)),
+          disabledRuleCollectionIds: S.optional(__S(224, __c14, 0)),
+          disabledRuleGroupIds: S.optional(__S(224, __c14, 0)),
+          disabledRuleIds: S.optional(__S(224, __c14, 0)),
+          enabledRuleCollectionIds: S.optional(__S(224, __c14, 0)),
+          enabledRuleGroupIds: S.optional(__S(224, __c14, 0)),
+          enabledRuleIds: __S(224, __c14, 0),
+          logOnlyRuleCollectionIds: S.optional(__S(224, __c14, 0)),
+          logOnlyRuleGroupIds: S.optional(__S(224, __c14, 0)),
+          logOnlyRuleIds: S.optional(__S(224, __c14, 0)),
           mode: S.String,
           paranoiaLevel: S.optional(S.String),
           type: S.String,
@@ -1863,43 +1836,43 @@ function __c14(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          cacheKeyHeaders: __S(208, __c13, 0),
+          cacheKeyHeaders: __S(224, __c14, 0),
           queryStringVaryEnabled: S.Boolean,
-          queryStringVaryParameters: __S(208, __c13, 0),
+          queryStringVaryParameters: __S(224, __c14, 0),
         }),
       ).annotate({ identifier: "CacheConfig" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           backend: S.Unknown,
-          blockedCountries: __S(208, __c13, 0),
-          blockedIps: __S(208, __c13, 0),
-          cacheConfig: __S(232, __c14, 8),
+          blockedCountries: __S(224, __c14, 0),
+          blockedIps: __S(224, __c14, 0),
+          cacheConfig: __S(248, __c15, 8),
           defaultCacheDuration: S.optional(S.NullOr(S.String)),
           forwardHostHeader: S.Boolean,
-          labels: S.optional(__S(192, __c12, 0)),
+          labels: S.optional(__S(208, __c13, 0)),
           logSink: S.optional(S.Unknown),
           monthlyLimitBytes: S.optional(S.NullOr(S.Number)),
-          optimizer: S.optional(__S(224, __c14, 0)),
-          redirects: S.optional(__S(229, __c14, 5)),
-          regions: __S(209, __c13, 1),
+          optimizer: S.optional(__S(240, __c15, 0)),
+          redirects: S.optional(__S(245, __c15, 5)),
+          regions: __S(225, __c14, 1),
           stripResponseCookies: S.Boolean,
-          tls: __S(230, __c14, 6),
-          waf: __S(231, __c14, 7),
+          tls: __S(246, __c15, 6),
+          waf: __S(247, __c15, 7),
         }),
       ).annotate({ identifier: "Config" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           certificateType: S.String,
-          errors: S.optional(__S(177, __c11, 1)),
+          errors: S.optional(__S(193, __c12, 1)),
           name: S.String,
           status: S.String,
           type: S.String,
         }),
       ).annotate({ identifier: "Domain" });
     case 11:
-      return S.Array(__S(234, __c14, 10));
+      return S.Array(__S(250, __c15, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -1908,39 +1881,29 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "WafStatusRuleBlock" });
     case 13:
-      return S.Array(__S(236, __c14, 12));
+      return S.Array(__S(252, __c15, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          disabledRules: __S(237, __c14, 13),
-          enabledRules: __S(237, __c14, 13),
-          logOnlyRules: __S(237, __c14, 13),
+          disabledRules: __S(253, __c15, 13),
+          enabledRules: __S(253, __c15, 13),
+          logOnlyRules: __S(253, __c15, 13),
         }),
       ).annotate({ identifier: "DistributionWaf" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          config: __S(233, __c14, 9),
+          config: __S(249, __c15, 9),
           createdAt: S.String,
-          domains: __S(235, __c14, 11),
-          errors: S.optional(__S(177, __c11, 1)),
+          domains: __S(251, __c15, 11),
+          errors: S.optional(__S(193, __c12, 1)),
           id: S.String,
           projectId: S.String,
           status: S.String,
           updatedAt: S.String,
-          waf: S.optional(__S(238, __c14, 14)),
+          waf: S.optional(__S(254, __c15, 14)),
         }),
       ).annotate({ identifier: "Distribution" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          distribution: __S(239, __c14, 15),
-        }),
-      ).annotate({ identifier: "CreateDistributionResponse" });
   }
 }
 function __c16(j: number): any {
@@ -1974,7 +1937,7 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(177, __c11, 1)),
+          errors: S.optional(__S(193, __c12, 1)),
           name: S.String,
           status: S.String,
         }),
@@ -2001,7 +1964,7 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          distribution: S.optional(__S(239, __c14, 15)),
+          distribution: S.optional(__S(255, __c15, 15)),
         }),
       ).annotate({ identifier: "DeleteDistributionResponse" });
   }
@@ -2098,25 +2061,6 @@ function __c21(j: number): any {
           customDomain: __S(272, __c17, 0),
         }),
       ).annotate({ identifier: "GetCustomDomainResponse" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          distributionId: S.String.pipe(T.Label()),
-          withWafStatus: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/distributions/{distributionId}",
-            code: 200,
-            baseUrl: "https://cdn.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "GetDistributionRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

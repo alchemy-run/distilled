@@ -1,0 +1,15 @@
+{
+  "description": "Two write-only secrets are typed as plain strings. PutCustomDomainCustomCertificate.key is the private key of a custom certificate and OtlpLogSinkBearerCredentials.token is a bearer token. The spec tags both `x-go-type: secret.Secret`, like BucketCredentials and the log sink passwords that convert already marks sensitive, and STACKIT's Terraform provider marks the private key Sensitive (stackitcloud/terraform-provider-stackit, stackit/internal/services/cdn/customdomain/resource.go, read 2026-11-01).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.cdn#PutCustomDomainCustomCertificate/members/key/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.cdn#OtlpLogSinkBearerCredentials/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

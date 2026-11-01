@@ -1,0 +1,12 @@
+{
+  "description": "The mongodb_flex spec documents only 200, 400, 401 and 500 on GetInstance, so a missing instance is untyped and read/delete can't tell missing from failed. The wire answers 404: STACKIT's own Terraform provider treats `http.StatusNotFound` from GetInstance as gone and removes the resource from state (stackitcloud/terraform-provider-stackit, stackit/internal/services/mongodbflex/instance/resource.go, Read, read 2026-11-01). No live probe.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.mongodb_flex#GetInstance/errors/-",
+      "value": {
+        "target": "com.stackit.mongodb_flex#NotFound"
+      }
+    }
+  ]
+}

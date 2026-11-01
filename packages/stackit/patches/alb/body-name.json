@@ -1,0 +1,27 @@
+{
+  "description": "UpdateLoadBalancer and UpdateTargetPool declare a body property `name` that shares its name with the `{name}` path parameter (the load balancer), so conversion keeps only the path label and callers cannot send the body field. The spec declares both as writable (UpdateLoadBalancerPayload.name, UpdateTargetPoolPayload.name), and STACKIT's Terraform provider sends the load balancer's (stackitcloud/terraform-provider-stackit, stackit/internal/services/alb/applicationloadbalancer/resource.go, toUpdatePayload, read 2026-11-01). Add the body field as `bodyName`, on the wire as `name`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.alb#UpdateLoadBalancerRequest/members/bodyName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#jsonName": "name",
+          "smithy.api#documentation": "Application Load Balancer name in the request body. Not changeable after creation: send the same value as the path's `name`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.alb#UpdateTargetPoolRequest/members/bodyName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#jsonName": "name",
+          "smithy.api#documentation": "Target pool name in the request body. A target pool cannot be renamed: send the same value as the path's `targetPoolName`."
+        }
+      }
+    }
+  ]
+}

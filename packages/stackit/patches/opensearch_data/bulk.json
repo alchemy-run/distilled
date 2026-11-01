@@ -1,0 +1,22 @@
+{
+  "description": "OpenSearch's `_bulk` takes newline-delimited JSON, ending in a newline: the source spec describes it as an array under `application/x-ndjson`, and a JSON array is what the API refuses. The request carries one preserialized `body` string under that media type; `opensearchBulkBody` in `src/opensearch.ts` builds it. Checked against opensearchproject/opensearch:2 (OpenSearch 2.19.7), read 2026-11-01.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.opensearch_data#Bulk/traits/smithy.api#http/bodyMediaType",
+      "value": "application/x-ndjson"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.opensearch_data#BulkRequest/members/body",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The actions as newline-delimited JSON, ending in a newline. Build it with `opensearchBulkBody`."
+        }
+      }
+    }
+  ]
+}

@@ -31,48 +31,27 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
-      ),
-      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  )
-{
-  declare readonly body?: Error | string;
-}
+  ) {}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
-      ),
-      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  )
-{
-  declare readonly body?: Error | string;
-}
+  ) {}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
-      ),
-      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  )
-{
-  declare readonly body?: Error | string;
-}
+  ) {}
 
 export type CloneInstanceRequestRegion = "eu01" | "eu02";
 export interface CloneInstanceRequest {
@@ -82,22 +61,24 @@ export interface CloneInstanceRequest {
   region: CloneInstanceRequestRegion | (string & {});
   /** instance id */
   instanceId: string;
-  timestamp?: string | undefined;
+  timestamp?: string;
+  /** Instance the clone is applied to, in the request body. The path's `instanceId` is the instance holding the backups. Use the same id to apply it to that instance. */
+  targetInstanceId: string;
 }
 export interface CloneInstanceResponse {
-  instanceId?: string | undefined;
+  instanceId?: string;
 }
 export type CreateInstanceRequestRegion = "eu01" | "eu02";
 export type ACLItemsList = Array<string>;
 export interface ACL {
-  items?: ACLItemsList | undefined;
+  items?: ACLItemsList;
 }
 /** Labels field is not certain/clear */
 export type CreateInstanceRequestLabelsMap = { [key: string]: string | undefined };
 export type CreateInstanceRequestOptionsMap = { [key: string]: string | undefined };
 export interface Storage {
-  class?: string | undefined;
-  size?: number | undefined;
+  class?: string;
+  size?: number;
 }
 export interface CreateInstanceRequest {
   /** project id */
@@ -109,7 +90,7 @@ export interface CreateInstanceRequest {
   backupSchedule: string;
   flavorId: string;
   /** Labels field is not certain/clear */
-  labels?: CreateInstanceRequestLabelsMap | undefined;
+  labels?: CreateInstanceRequestLabelsMap;
   name: string;
   options: CreateInstanceRequestOptionsMap;
   replicas: number;
@@ -117,7 +98,7 @@ export interface CreateInstanceRequest {
   version: string;
 }
 export interface CreateInstanceResponse {
-  id?: string | undefined;
+  id?: string;
 }
 export type CreateUserRequestRegion = "eu01" | "eu02";
 /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
@@ -132,23 +113,23 @@ export interface CreateUserRequest {
   database: string;
   /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
   roles: CreateUserRequestRolesList;
-  username?: string | undefined;
+  username?: string;
 }
 /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
 export type UserRolesList = Array<string>;
 export interface User {
-  database?: string | undefined;
-  host?: string | undefined;
-  id?: string | undefined;
-  password?: string | Redacted.Redacted<string> | undefined;
-  port?: number | undefined;
+  database?: string;
+  host?: string;
+  id?: string;
+  password?: string | Redacted.Redacted<string>;
+  port?: number;
   /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
-  roles?: UserRolesList | undefined;
-  uri?: string | undefined;
-  username?: string | undefined;
+  roles?: UserRolesList;
+  uri?: string | Redacted.Redacted<string>;
+  username?: string;
 }
 export interface CreateUserResponse {
-  item?: User | undefined;
+  item?: User;
 }
 export type DeleteInstanceRequestRegion = "eu01" | "eu02";
 export interface DeleteInstanceRequest {
@@ -186,17 +167,17 @@ export interface GetBackupRequest {
 export type BackupLabelsList = Array<string>;
 export type BackupOptionsMap = { [key: string]: string | undefined };
 export interface Backup {
-  endTime?: string | undefined;
-  error?: string | undefined;
-  id?: string | undefined;
-  labels?: BackupLabelsList | undefined;
-  name?: string | undefined;
-  options?: BackupOptionsMap | undefined;
-  size?: number | undefined;
-  startTime?: string | undefined;
+  endTime?: string;
+  error?: string;
+  id?: string;
+  labels?: BackupLabelsList;
+  name?: string;
+  options?: BackupOptionsMap;
+  size?: number;
+  startTime?: string;
 }
 export interface GetBackupResponse {
-  item?: Backup | undefined;
+  item?: Backup;
 }
 export type GetInstanceRequestRegion = "eu01" | "eu02";
 export interface GetInstanceRequest {
@@ -208,29 +189,29 @@ export interface GetInstanceRequest {
   instanceId: string;
 }
 export interface Flavor {
-  cpu?: number | undefined;
-  description?: string | undefined;
-  id?: string | undefined;
-  memory?: number | undefined;
+  cpu?: number;
+  description?: string;
+  id?: string;
+  memory?: number;
 }
 export type InstanceOptionsMap = { [key: string]: string | undefined };
 /** The current status of the instance. */
 export type InstanceStatus = "READY" | "PENDING" | "PROCESSING" | "FAILED" | "UNKNOWN";
 export interface Instance {
-  acl?: ACL | undefined;
-  backupSchedule?: string | undefined;
-  flavor?: Flavor | undefined;
-  id?: string | undefined;
-  name?: string | undefined;
-  options?: InstanceOptionsMap | undefined;
-  replicas?: number | undefined;
+  acl?: ACL;
+  backupSchedule?: string;
+  flavor?: Flavor;
+  id?: string;
+  name?: string;
+  options?: InstanceOptionsMap;
+  replicas?: number;
   /** The current status of the instance. */
-  status?: InstanceStatus | undefined;
-  storage?: Storage | undefined;
-  version?: string | undefined;
+  status?: InstanceStatus;
+  storage?: Storage;
+  version?: string;
 }
 export interface InstanceResponse {
-  item?: Instance | undefined;
+  item?: Instance;
 }
 export type GetUserRequestRegion = "eu01" | "eu02";
 export interface GetUserRequest {
@@ -246,16 +227,16 @@ export interface GetUserRequest {
 /** The roles defined for a user. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
 export type InstanceResponseUserRolesList = Array<string>;
 export interface InstanceResponseUser {
-  database?: string | undefined;
-  host?: string | undefined;
-  id?: string | undefined;
-  port?: number | undefined;
+  database?: string;
+  host?: string;
+  id?: string;
+  port?: number;
   /** The roles defined for a user. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
-  roles?: InstanceResponseUserRolesList | undefined;
-  username?: string | undefined;
+  roles?: InstanceResponseUserRolesList;
+  username?: string;
 }
 export interface GetUserResponse {
-  item?: InstanceResponseUser | undefined;
+  item?: InstanceResponseUser;
 }
 export type ListAdvisorSlowQueriesRequestRegion = "eu01" | "eu02";
 export interface ListAdvisorSlowQueriesRequest {
@@ -268,15 +249,15 @@ export interface ListAdvisorSlowQueriesRequest {
 }
 export interface SlowQuery {
   /** The raw log line pertaining to the slow query. */
-  line?: string | undefined;
+  line?: string;
   /** The namespace in which the slow query ran. */
-  namespace?: string | undefined;
+  namespace?: string;
 }
 /** A list of documents with information about slow queries as detected by the Performance Advisor. */
 export type HandlersInstancesSlowQueriesResponseSlowQueriesList = Array<SlowQuery>;
 export interface HandlersInstancesSlowQueriesResponse {
   /** A list of documents with information about slow queries as detected by the Performance Advisor. */
-  slowQueries?: HandlersInstancesSlowQueriesResponseSlowQueriesList | undefined;
+  slowQueries?: HandlersInstancesSlowQueriesResponseSlowQueriesList;
 }
 export type ListBackupsRequestRegion = "eu01" | "eu02";
 export interface ListBackupsRequest {
@@ -289,8 +270,8 @@ export interface ListBackupsRequest {
 }
 export type ListBackupsResponseItemsList = Array<Backup>;
 export interface ListBackupsResponse {
-  count?: number | undefined;
-  items?: ListBackupsResponseItemsList | undefined;
+  count?: number;
+  items?: ListBackupsResponseItemsList;
 }
 export type ListFlavorsRequestRegion = "eu01" | "eu02";
 export interface ListFlavorsRequest {
@@ -301,15 +282,15 @@ export interface ListFlavorsRequest {
 }
 export type InstanceFlavorCategoriesList = Array<string>;
 export interface InstanceFlavor {
-  categories?: InstanceFlavorCategoriesList | undefined;
-  cpu?: number | undefined;
-  description?: string | undefined;
-  id?: string | undefined;
-  memory?: number | undefined;
+  categories?: InstanceFlavorCategoriesList;
+  cpu?: number;
+  description?: string;
+  id?: string;
+  memory?: number;
 }
 export type ListFlavorsResponseFlavorsList = Array<InstanceFlavor>;
 export interface ListFlavorsResponse {
-  flavors?: ListFlavorsResponseFlavorsList | undefined;
+  flavors?: ListFlavorsResponseFlavorsList;
 }
 export type ListInstancesRequestRegion = "eu01" | "eu02";
 export interface ListInstancesRequest {
@@ -323,15 +304,15 @@ export interface ListInstancesRequest {
 /** The current status of the instance. */
 export type InstanceListInstanceStatus = "READY" | "PENDING" | "PROCESSING" | "FAILED" | "UNKNOWN";
 export interface InstanceListInstance {
-  id?: string | undefined;
-  name?: string | undefined;
+  id?: string;
+  name?: string;
   /** The current status of the instance. */
-  status?: InstanceListInstanceStatus | undefined;
+  status?: InstanceListInstanceStatus;
 }
 export type ListInstancesResponseItemsList = Array<InstanceListInstance>;
 export interface ListInstancesResponse {
-  count?: number | undefined;
-  items?: ListInstancesResponseItemsList | undefined;
+  count?: number;
+  items?: ListInstancesResponseItemsList;
 }
 export type ListMetricsRequestRegion = "eu01" | "eu02";
 export interface ListMetricsRequest {
@@ -346,30 +327,30 @@ export interface ListMetricsRequest {
   /** granularity */
   granularity: string;
   /** period */
-  period?: string | undefined;
+  period?: string;
   /** period start */
-  start?: string | undefined;
+  start?: string;
   /** period end */
-  end?: string | undefined;
+  end?: string;
 }
 export interface DataPoint {
-  timestamp?: string | undefined;
-  value?: number | undefined;
+  timestamp?: string;
+  value?: number;
 }
 export type HostMetricDatapointsList = Array<DataPoint>;
 export interface HostMetric {
-  datapoints?: HostMetricDatapointsList | undefined;
-  name?: string | undefined;
-  units?: string | undefined;
+  datapoints?: HostMetricDatapointsList;
+  name?: string;
+  units?: string;
 }
 export type HostHostMetricsList = Array<HostMetric>;
 export interface Host {
-  hostMetrics?: HostHostMetricsList | undefined;
-  id?: string | undefined;
+  hostMetrics?: HostHostMetricsList;
+  id?: string;
 }
 export type ListMetricsResponseHostsList = Array<Host>;
 export interface ListMetricsResponse {
-  hosts?: ListMetricsResponseHostsList | undefined;
+  hosts?: ListMetricsResponseHostsList;
 }
 export type ListRestoreJobsRequestRegion = "eu01" | "eu02";
 export interface ListRestoreJobsRequest {
@@ -381,15 +362,15 @@ export interface ListRestoreJobsRequest {
   instanceId: string;
 }
 export interface RestoreInstanceStatus {
-  backupID?: string | undefined;
-  date?: string | undefined;
-  id?: string | undefined;
-  instanceId?: string | undefined;
-  status?: string | undefined;
+  backupID?: string;
+  date?: string;
+  id?: string;
+  instanceId?: string;
+  status?: string;
 }
 export type ListRestoreJobsResponseItemsList = Array<RestoreInstanceStatus>;
 export interface ListRestoreJobsResponse {
-  items?: ListRestoreJobsResponseItemsList | undefined;
+  items?: ListRestoreJobsResponseItemsList;
 }
 export type ListStoragesRequestRegion = "eu01" | "eu02";
 export interface ListStoragesRequest {
@@ -402,12 +383,12 @@ export interface ListStoragesRequest {
 }
 export type ListStoragesResponseStorageClassesList = Array<string>;
 export interface StorageRange {
-  max?: number | undefined;
-  min?: number | undefined;
+  max?: number;
+  min?: number;
 }
 export interface ListStoragesResponse {
-  storageClasses?: ListStoragesResponseStorageClassesList | undefined;
-  storageRange?: StorageRange | undefined;
+  storageClasses?: ListStoragesResponseStorageClassesList;
+  storageRange?: StorageRange;
 }
 export type ListSuggestedIndexesRequestRegion = "eu01" | "eu02";
 export interface ListSuggestedIndexesRequest {
@@ -422,37 +403,37 @@ export interface ListSuggestedIndexesRequest {
 export type MongodbatlasOperationPredicatesList = Array<unknown>;
 export interface MongodbatlasStats {
   /** Duration in milliseconds of the query. */
-  ms?: number | undefined;
+  ms?: number;
   /** Number of results returned by the query. */
-  nReturned?: number | undefined;
+  nReturned?: number;
   /** Number of documents read by the query. */
-  nScanned?: number | undefined;
+  nScanned?: number;
   /** Query timestamp, in seconds since epoch. */
-  ts?: number | undefined;
+  ts?: number;
 }
 export interface MongodbatlasOperation {
   /** Documents containing the search criteria used by the query. */
-  predicates?: MongodbatlasOperationPredicatesList | undefined;
+  predicates?: MongodbatlasOperationPredicatesList;
   /** Raw log line produced by the query. */
-  raw?: string | undefined;
+  raw?: string;
   /** Query statistics. */
-  stats?: MongodbatlasStats | undefined;
+  stats?: MongodbatlasStats;
 }
 /** It represents documents with specific information and log lines for individual queries. */
 export type ShapeOperationsList = Array<MongodbatlasOperation>;
 export interface Shape {
   /** Average duration in milliseconds for the queries examined that match this shape. */
-  avgMs?: number | undefined;
+  avgMs?: number;
   /** Number of queries examined that match this shape. */
-  count?: number | undefined;
+  count?: number;
   /** Unique id for this shape. Exists only for the duration of the API request. */
-  id?: string | undefined;
+  id?: string;
   /** Average number of documents read for every document returned by the query. */
-  inefficiencyScore?: number | undefined;
+  inefficiencyScore?: number;
   /** The namespace in which the slow query ran. */
-  namespace?: string | undefined;
+  namespace?: string;
   /** It represents documents with specific information and log lines for individual queries. */
-  operations?: ShapeOperationsList | undefined;
+  operations?: ShapeOperationsList;
 }
 /** Documents with information about the query shapes that are served by the suggested indexes. */
 export type HandlersInstancesSuggestedIndexesResponseShapesList = Array<Shape>;
@@ -463,23 +444,23 @@ export type SuggestedIndexIndexItemMap = { [key: string]: number | undefined };
 export type SuggestedIndexIndexList = Array<SuggestedIndexIndexItemMap>;
 export interface SuggestedIndex {
   /** Unique id for this suggested index. */
-  id?: string | undefined;
+  id?: string;
   /** List of unique identifiers which correspond the query shapes in this response which pertain to this suggested index. */
-  impact?: SuggestedIndexImpactList | undefined;
+  impact?: SuggestedIndexImpactList;
   /** Array of documents that specifies a key in the index and its sort order, ascending or descending. */
-  index?: SuggestedIndexIndexList | undefined;
+  index?: SuggestedIndexIndexList;
   /** Namespace of the suggested index. */
-  namespace?: string | undefined;
+  namespace?: string;
   /** Estimated percentage performance improvement that the suggested index would provide. */
-  weight?: number | undefined;
+  weight?: number;
 }
 /** Documents with information about the indexes suggested by the Performance Advisor. */
 export type HandlersInstancesSuggestedIndexesResponseSuggestedIndexesList = Array<SuggestedIndex>;
 export interface HandlersInstancesSuggestedIndexesResponse {
   /** Documents with information about the query shapes that are served by the suggested indexes. */
-  shapes?: HandlersInstancesSuggestedIndexesResponseShapesList | undefined;
+  shapes?: HandlersInstancesSuggestedIndexesResponseShapesList;
   /** Documents with information about the indexes suggested by the Performance Advisor. */
-  suggestedIndexes?: HandlersInstancesSuggestedIndexesResponseSuggestedIndexesList | undefined;
+  suggestedIndexes?: HandlersInstancesSuggestedIndexesResponseSuggestedIndexesList;
 }
 export type ListUsersRequestRegion = "eu01" | "eu02";
 export interface ListUsersRequest {
@@ -491,13 +472,13 @@ export interface ListUsersRequest {
   instanceId: string;
 }
 export interface ListUser {
-  id?: string | undefined;
-  username?: string | undefined;
+  id?: string;
+  username?: string;
 }
 export type ListUsersResponseItemsList = Array<ListUser>;
 export interface ListUsersResponse {
-  count?: number | undefined;
-  items?: ListUsersResponseItemsList | undefined;
+  count?: number;
+  items?: ListUsersResponseItemsList;
 }
 export type ListVersionsRequestRegion = "eu01" | "eu02";
 export interface ListVersionsRequest {
@@ -508,7 +489,7 @@ export interface ListVersionsRequest {
 }
 export type ListVersionsResponseVersionsList = Array<string>;
 export interface ListVersionsResponse {
-  versions?: ListVersionsResponseVersionsList | undefined;
+  versions?: ListVersionsResponseVersionsList;
 }
 export type PartialUpdateInstanceRequestRegion = "eu01" | "eu02";
 /** Labels field is not certain/clear */
@@ -516,8 +497,8 @@ export type PartialUpdateInstanceRequestLabelsMap = { [key: string]: string | un
 export type PartialUpdateInstanceRequestOptionsMap = { [key: string]: string | undefined };
 export interface StorageUpdate {
   /** DEPRECATED: Starting November 2026, the API will reject requests that attempt to modify the storage class. */
-  class?: string | undefined;
-  size?: number | undefined;
+  class?: string;
+  size?: number;
 }
 export interface PartialUpdateInstanceRequest {
   /** project id */
@@ -526,19 +507,19 @@ export interface PartialUpdateInstanceRequest {
   region: PartialUpdateInstanceRequestRegion | (string & {});
   /** instance id */
   instanceId: string;
-  acl?: ACL | undefined;
-  backupSchedule?: string | undefined;
-  flavorId?: string | undefined;
+  acl?: ACL;
+  backupSchedule?: string;
+  flavorId?: string;
   /** Labels field is not certain/clear */
-  labels?: PartialUpdateInstanceRequestLabelsMap | undefined;
-  name?: string | undefined;
-  options?: PartialUpdateInstanceRequestOptionsMap | undefined;
-  replicas?: number | undefined;
-  storage?: StorageUpdate | undefined;
-  version?: string | undefined;
+  labels?: PartialUpdateInstanceRequestLabelsMap;
+  name?: string;
+  options?: PartialUpdateInstanceRequestOptionsMap;
+  replicas?: number;
+  storage?: StorageUpdate;
+  version?: string;
 }
 export interface UpdateInstanceResponse {
-  item?: Instance | undefined;
+  item?: Instance;
 }
 export type PartialUpdateUserRequestRegion = "eu01" | "eu02";
 /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
@@ -552,9 +533,9 @@ export interface PartialUpdateUserRequest {
   instanceId: string;
   /** user id */
   userId: string;
-  database?: string | undefined;
+  database?: string;
   /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
-  roles?: PartialUpdateUserRequestRolesList | undefined;
+  roles?: PartialUpdateUserRequestRolesList;
 }
 export interface PartialUpdateUserResponse {}
 export type ResetUserRequestRegion = "eu01" | "eu02";
@@ -577,9 +558,11 @@ export interface RestoreInstanceRequest {
   /** instance id */
   instanceId: string;
   backupId: string;
+  /** Instance the backup is restored to, in the request body. The path's `instanceId` is the instance holding the backup. Use the same id to restore it in place. */
+  targetInstanceId: string;
 }
 export interface RestoreInstanceResponse {
-  item?: RestoreInstanceStatus | undefined;
+  item?: RestoreInstanceStatus;
 }
 export type UpdateBackupScheduleRequestRegion = "eu01" | "eu02";
 export interface UpdateBackupScheduleRequest {
@@ -589,20 +572,20 @@ export interface UpdateBackupScheduleRequest {
   region: UpdateBackupScheduleRequestRegion | (string & {});
   /** instance id */
   instanceId: string;
-  backupSchedule?: string | undefined;
-  dailySnapshotRetentionDays?: number | undefined;
-  monthlySnapshotRetentionMonths?: number | undefined;
-  pointInTimeWindowHours?: number | undefined;
-  snapshotRetentionDays?: number | undefined;
-  weeklySnapshotRetentionWeeks?: number | undefined;
+  backupSchedule?: string;
+  dailySnapshotRetentionDays?: number;
+  monthlySnapshotRetentionMonths?: number;
+  pointInTimeWindowHours?: number;
+  snapshotRetentionDays?: number;
+  weeklySnapshotRetentionWeeks?: number;
 }
 export interface BackupSchedule {
-  backupSchedule?: string | undefined;
-  dailySnapshotRetentionDays?: number | undefined;
-  monthlySnapshotRetentionMonths?: number | undefined;
-  pointInTimeWindowHours?: number | undefined;
-  snapshotRetentionDays?: number | undefined;
-  weeklySnapshotRetentionWeeks?: number | undefined;
+  backupSchedule?: string;
+  dailySnapshotRetentionDays?: number;
+  monthlySnapshotRetentionMonths?: number;
+  pointInTimeWindowHours?: number;
+  snapshotRetentionDays?: number;
+  weeklySnapshotRetentionWeeks?: number;
 }
 export type UpdateInstanceRequestRegion = "eu01" | "eu02";
 /** Labels field is not certain/clear */
@@ -619,7 +602,7 @@ export interface UpdateInstanceRequest {
   backupSchedule: string;
   flavorId: string;
   /** Labels field is not certain/clear */
-  labels?: UpdateInstanceRequestLabelsMap | undefined;
+  labels?: UpdateInstanceRequestLabelsMap;
   name: string;
   options: UpdateInstanceRequestOptionsMap;
   replicas: number;
@@ -643,14 +626,6 @@ export interface UpdateUserRequest {
   roles: UpdateUserRequestRolesList;
 }
 export interface UpdateUserResponse {}
-export type ErrorFieldsValueList = Array<string>;
-export type ErrorFieldsMap = { [key: string]: ErrorFieldsValueList | undefined };
-export interface Error {
-  code?: number | undefined;
-  fields?: ErrorFieldsMap | undefined;
-  message?: string | undefined;
-  type?: string | undefined;
-}
 export type CloneInstanceError = BadRequest | NotFound | StackitOpError;
 /** Clone instance Clone an instance via PIT restore<br/> Note that the Timestamp is a RFC3339 standard and uses by default UTC time format<br/> As an example a valid timestamp look like "2023-04-20T15:05:15Z" */
 export const cloneInstance: API.OperationMethod<
@@ -659,8 +634,8 @@ export const cloneInstance: API.OperationMethod<
   CloneInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<CloneInstanceRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<CloneInstanceResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<CloneInstanceRequest>,
+  output: __S(305, __c19, 1) as any as S.Schema<CloneInstanceResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -676,8 +651,8 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(337, __c21, 1) as any as S.Schema<CreateInstanceResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(321, __c20, 1) as any as S.Schema<CreateInstanceResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -753,7 +728,7 @@ export const getBackup: API.OperationMethod<
   span: "GetBackup",
 }));
 
-export type GetInstanceError = BadRequest | StackitOpError;
+export type GetInstanceError = BadRequest | NotFound | StackitOpError;
 /** Get instance gets information of an instance */
 export const getInstance: API.OperationMethod<
   GetInstanceRequest,
@@ -763,7 +738,7 @@ export const getInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<GetInstanceRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<InstanceResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -778,8 +753,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<GetUserResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<GetUserResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -795,8 +770,8 @@ export const listAdvisorSlowQueries: API.OperationMethod<
   ListAdvisorSlowQueriesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<ListAdvisorSlowQueriesRequest>,
-  output: __S(35, __c2, 3) as any as S.Schema<HandlersInstancesSlowQueriesResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<ListAdvisorSlowQueriesRequest>,
+  output: __S(19, __c1, 3) as any as S.Schema<HandlersInstancesSlowQueriesResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -812,8 +787,8 @@ export const listBackups: API.OperationMethod<
   ListBackupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<ListBackupsRequest>,
-  output: __S(50, __c3, 2) as any as S.Schema<ListBackupsResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<ListBackupsRequest>,
+  output: __S(34, __c2, 2) as any as S.Schema<ListBackupsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -829,8 +804,8 @@ export const listFlavors: API.OperationMethod<
   ListFlavorsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<ListFlavorsRequest>,
-  output: __S(67, __c4, 3) as any as S.Schema<ListFlavorsResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<ListFlavorsRequest>,
+  output: __S(51, __c3, 3) as any as S.Schema<ListFlavorsResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -846,8 +821,8 @@ export const listInstances: API.OperationMethod<
   ListInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListInstancesRequest>,
-  output: __S(83, __c5, 3) as any as S.Schema<ListInstancesResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<ListInstancesRequest>,
+  output: __S(67, __c4, 3) as any as S.Schema<ListInstancesResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -863,8 +838,8 @@ export const listMetrics: API.OperationMethod<
   ListMetricsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ListMetricsRequest>,
-  output: __S(103, __c6, 7) as any as S.Schema<ListMetricsResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<ListMetricsRequest>,
+  output: __S(87, __c5, 7) as any as S.Schema<ListMetricsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -880,8 +855,8 @@ export const listRestoreJobs: API.OperationMethod<
   ListRestoreJobsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ListRestoreJobsRequest>,
-  output: __S(114, __c7, 2) as any as S.Schema<ListRestoreJobsResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListRestoreJobsRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<ListRestoreJobsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -897,8 +872,8 @@ export const listStorages: API.OperationMethod<
   ListStoragesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ListStoragesRequest>,
-  output: __S(146, __c9, 2) as any as S.Schema<ListStoragesResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<ListStoragesRequest>,
+  output: __S(130, __c8, 2) as any as S.Schema<ListStoragesResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -914,8 +889,8 @@ export const listSuggestedIndexes: API.OperationMethod<
   ListSuggestedIndexesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ListSuggestedIndexesRequest>,
-  output: __S(171, __c10, 11) as any as S.Schema<HandlersInstancesSuggestedIndexesResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<ListSuggestedIndexesRequest>,
+  output: __S(155, __c9, 11) as any as S.Schema<HandlersInstancesSuggestedIndexesResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -931,8 +906,8 @@ export const listUsers: API.OperationMethod<
   ListUsersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(179, __c11, 3) as any as S.Schema<ListUsersResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(163, __c10, 3) as any as S.Schema<ListUsersResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -948,8 +923,8 @@ export const listVersions: API.OperationMethod<
   ListVersionsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ListVersionsRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<ListVersionsResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<ListVersionsRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<ListVersionsResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -965,7 +940,7 @@ export const partialUpdateInstance: API.OperationMethod<
   PartialUpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<PartialUpdateInstanceRequest>,
+  input: __S(192, __c12, 0) as any as S.Schema<PartialUpdateInstanceRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<UpdateInstanceResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
@@ -982,7 +957,7 @@ export const partialUpdateUser: API.OperationMethod<
   PartialUpdateUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<PartialUpdateUserRequest>,
+  input: __S(208, __c13, 0) as any as S.Schema<PartialUpdateUserRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<PartialUpdateUserResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
@@ -999,7 +974,7 @@ export const resetUser: API.OperationMethod<
   ResetUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ResetUserRequest>,
+  input: __S(224, __c14, 0) as any as S.Schema<ResetUserRequest>,
   output: __S(400, __c25, 0) as any as S.Schema<User>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
@@ -1016,8 +991,8 @@ export const restoreInstance: API.OperationMethod<
   RestoreInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<RestoreInstanceRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<RestoreInstanceResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<RestoreInstanceRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<RestoreInstanceResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1033,8 +1008,8 @@ export const updateBackupSchedule: API.OperationMethod<
   UpdateBackupScheduleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<UpdateBackupScheduleRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<BackupSchedule>,
+  input: __S(256, __c16, 0) as any as S.Schema<UpdateBackupScheduleRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<BackupSchedule>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1050,7 +1025,7 @@ export const updateInstance: API.OperationMethod<
   UpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<UpdateInstanceRequest>,
+  input: __S(272, __c17, 0) as any as S.Schema<UpdateInstanceRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<UpdateInstanceResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
@@ -1067,7 +1042,7 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<UpdateUserRequest>,
+  input: __S(288, __c18, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(432, __c27, 0) as any as S.Schema<UpdateUserResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
@@ -1078,23 +1053,6 @@ export const updateUser: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-    case 1:
-      return S.Record(S.String, __S(0, __c0, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.Number),
-          fields: S.optional(__S(1, __c0, 1)),
-          message: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Error" });
-  }
-}
-function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1119,19 +1077,19 @@ function __c1(j: number): any {
           host: S.optional(S.String),
           id: S.optional(S.String),
           port: S.optional(S.Number),
-          roles: S.optional(__S(0, __c0, 0)),
+          roles: S.optional(__S(336, __c21, 0)),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceResponseUser" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          item: S.optional(__S(17, __c1, 1)),
+          item: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "GetUserResponse" });
   }
 }
-function __c2(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1156,16 +1114,16 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "SlowQuery" });
     case 2:
-      return S.Array(__S(33, __c2, 1));
+      return S.Array(__S(17, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          slowQueries: S.optional(__S(34, __c2, 2)),
+          slowQueries: S.optional(__S(18, __c1, 2)),
         }),
       ).annotate({ identifier: "HandlersInstancesSlowQueriesResponse" });
   }
 }
-function __c3(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1188,12 +1146,12 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          items: S.optional(__S(49, __c3, 1)),
+          items: S.optional(__S(33, __c2, 1)),
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1212,7 +1170,7 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(__S(0, __c0, 0)),
+          categories: S.optional(__S(336, __c21, 0)),
           cpu: S.optional(S.Number),
           description: S.optional(S.String),
           id: S.optional(S.String),
@@ -1220,16 +1178,16 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "InstanceFlavor" });
     case 2:
-      return S.Array(__S(65, __c4, 1));
+      return S.Array(__S(49, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          flavors: S.optional(__S(66, __c4, 2)),
+          flavors: S.optional(__S(50, __c3, 2)),
         }),
       ).annotate({ identifier: "ListFlavorsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1255,17 +1213,17 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "InstanceListInstance" });
     case 2:
-      return S.Array(__S(81, __c5, 1));
+      return S.Array(__S(65, __c4, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          items: S.optional(__S(82, __c5, 2)),
+          items: S.optional(__S(66, __c4, 2)),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1295,35 +1253,35 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "DataPoint" });
     case 2:
-      return S.Array(__S(97, __c6, 1));
+      return S.Array(__S(81, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          datapoints: S.optional(__S(98, __c6, 2)),
+          datapoints: S.optional(__S(82, __c5, 2)),
           name: S.optional(S.String),
           units: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostMetric" });
     case 4:
-      return S.Array(__S(99, __c6, 3));
+      return S.Array(__S(83, __c5, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          hostMetrics: S.optional(__S(100, __c6, 4)),
+          hostMetrics: S.optional(__S(84, __c5, 4)),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "Host" });
     case 6:
-      return S.Array(__S(101, __c6, 5));
+      return S.Array(__S(85, __c5, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          hosts: S.optional(__S(102, __c6, 6)),
+          hosts: S.optional(__S(86, __c5, 6)),
         }),
       ).annotate({ identifier: "ListMetricsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1341,16 +1299,16 @@ function __c7(j: number): any {
         ),
       ).annotate({ identifier: "ListRestoreJobsRequest" });
     case 1:
-      return S.Array(__S(128, __c8, 0));
+      return S.Array(__S(112, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(113, __c7, 1)),
+          items: S.optional(__S(97, __c6, 1)),
         }),
       ).annotate({ identifier: "ListRestoreJobsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1364,7 +1322,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "RestoreInstanceStatus" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1391,13 +1349,13 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          storageClasses: S.optional(__S(0, __c0, 0)),
-          storageRange: S.optional(__S(145, __c9, 1)),
+          storageClasses: S.optional(__S(336, __c21, 0)),
+          storageRange: S.optional(__S(129, __c8, 1)),
         }),
       ).annotate({ identifier: "ListStoragesResponse" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1428,13 +1386,13 @@ function __c10(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          predicates: S.optional(__S(161, __c10, 1)),
+          predicates: S.optional(__S(145, __c9, 1)),
           raw: S.optional(S.String),
-          stats: S.optional(__S(162, __c10, 2)),
+          stats: S.optional(__S(146, __c9, 2)),
         }),
       ).annotate({ identifier: "MongodbatlasOperation" });
     case 4:
-      return S.Array(__S(163, __c10, 3));
+      return S.Array(__S(147, __c9, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1443,37 +1401,37 @@ function __c10(j: number): any {
           id: S.optional(S.String),
           inefficiencyScore: S.optional(S.Number),
           namespace: S.optional(S.String),
-          operations: S.optional(__S(164, __c10, 4)),
+          operations: S.optional(__S(148, __c9, 4)),
         }),
       ).annotate({ identifier: "Shape" });
     case 6:
-      return S.Array(__S(165, __c10, 5));
+      return S.Array(__S(149, __c9, 5));
     case 7:
       return S.Record(S.String, S.Number);
     case 8:
-      return S.Array(__S(167, __c10, 7));
+      return S.Array(__S(151, __c9, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          impact: S.optional(__S(0, __c0, 0)),
-          index: S.optional(__S(168, __c10, 8)),
+          impact: S.optional(__S(336, __c21, 0)),
+          index: S.optional(__S(152, __c9, 8)),
           namespace: S.optional(S.String),
           weight: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SuggestedIndex" });
     case 10:
-      return S.Array(__S(169, __c10, 9));
+      return S.Array(__S(153, __c9, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          shapes: S.optional(__S(166, __c10, 6)),
-          suggestedIndexes: S.optional(__S(170, __c10, 10)),
+          shapes: S.optional(__S(150, __c9, 6)),
+          suggestedIndexes: S.optional(__S(154, __c9, 10)),
         }),
       ).annotate({ identifier: "HandlersInstancesSuggestedIndexesResponse" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1498,17 +1456,17 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "ListUser" });
     case 2:
-      return S.Array(__S(177, __c11, 1));
+      return S.Array(__S(161, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
-          items: S.optional(__S(178, __c11, 2)),
+          items: S.optional(__S(162, __c10, 2)),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1527,12 +1485,12 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          versions: S.optional(__S(0, __c0, 0)),
+          versions: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "ListVersionsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1560,7 +1518,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "PartialUpdateInstanceRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1570,7 +1528,7 @@ function __c14(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           database: S.optional(S.String),
-          roles: S.optional(__S(0, __c0, 0)),
+          roles: S.optional(__S(336, __c21, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1582,7 +1540,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "PartialUpdateUserRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1602,7 +1560,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ResetUserRequest" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1611,6 +1569,7 @@ function __c16(j: number): any {
           region: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           backupId: S.String,
+          targetInstanceId: S.String.pipe(T.Body("instanceId")),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1623,12 +1582,12 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          item: S.optional(__S(128, __c8, 0)),
+          item: S.optional(__S(112, __c7, 0)),
         }),
       ).annotate({ identifier: "RestoreInstanceResponse" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1664,7 +1623,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "BackupSchedule" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1692,7 +1651,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "UpdateInstanceRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1702,7 +1661,7 @@ function __c19(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           database: S.String,
-          roles: __S(0, __c0, 0),
+          roles: __S(336, __c21, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1714,7 +1673,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1723,6 +1682,7 @@ function __c20(j: number): any {
           region: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           timestamp: S.optional(S.String),
+          targetInstanceId: S.String.pipe(T.Body("instanceId")),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1740,7 +1700,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CloneInstanceResponse" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1773,6 +1733,12 @@ function __c21(j: number): any {
       ).annotate({ identifier: "CreateInstanceResponse" });
   }
 }
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
 function __c22(j: number): any {
   switch (j) {
     case 0:
@@ -1784,7 +1750,7 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(0, __c0, 0)),
+          items: S.optional(__S(336, __c21, 0)),
         }),
       ).annotate({ identifier: "ACL" });
     case 1:
@@ -1805,7 +1771,7 @@ function __c24(j: number): any {
           region: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           database: S.String,
-          roles: __S(0, __c0, 0),
+          roles: __S(336, __c21, 0),
           username: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1834,8 +1800,8 @@ function __c25(j: number): any {
           id: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           port: S.optional(S.Number),
-          roles: S.optional(__S(0, __c0, 0)),
-          uri: S.optional(S.String),
+          roles: S.optional(__S(336, __c21, 0)),
+          uri: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "User" });
@@ -1920,7 +1886,7 @@ function __c30(j: number): any {
           endTime: S.optional(S.String),
           error: S.optional(S.String),
           id: S.optional(S.String),
-          labels: S.optional(__S(0, __c0, 0)),
+          labels: S.optional(__S(336, __c21, 0)),
           name: S.optional(S.String),
           options: S.optional(__S(352, __c22, 0)),
           size: S.optional(S.Number),

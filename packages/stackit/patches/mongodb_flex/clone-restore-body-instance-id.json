@@ -1,0 +1,29 @@
+{
+  "description": "CloneInstancePayload and RestoreInstancePayload both require a body property `instanceId` that shares its name with the `{instanceId}` path parameter, so conversion keeps only the path label and callers cannot send the required body field. The two ids differ: STACKIT's CLI (stackitcloud/stackit-cli, internal/cmd/mongodbflex/backup/restore/restore.go, read 2026-11-01) puts the instance holding the backup in the path and sends the target instance in the body (`--backup-instance-id`, 'Instance ID of the target instance to restore the backup to', defaulting to the path's instance). Add the body field as `targetInstanceId`, on the wire as `instanceId`, required as the spec has it. No live probe.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.mongodb_flex#CloneInstanceRequest/members/targetInstanceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#jsonName": "instanceId",
+          "smithy.api#documentation": "Instance the clone is applied to, in the request body. The path's `instanceId` is the instance holding the backups. Use the same id to apply it to that instance."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.mongodb_flex#RestoreInstanceRequest/members/targetInstanceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#jsonName": "instanceId",
+          "smithy.api#documentation": "Instance the backup is restored to, in the request body. The path's `instanceId` is the instance holding the backup. Use the same id to restore it in place."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,1305 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "RabbitMQ Management HTTP API (queues, exchanges, bindings, publishing)",
+    "version": "4.4.0",
+    "description": "Written by hand from RabbitMQ's published reference, which is an HTML page and has no OpenAPI document (rabbitmq-server v4.4.0, deps/rabbitmq_management/priv/www/api/index.html, read 2026-11-01). Trimmed to the messaging objects a client works with: no users, permissions, policies, or node and definition endpoints. Response fields and the status and body of each error come from running those requests against the rabbitmq:4-management image (RabbitMQ 4.4.0), read 2026-11-01. STACKIT's own broker has not been probed; which versions it offers and what its credential roles allow is unknown."
+  },
+  "servers": [
+    {
+      "url": "https://rabbitmq.example.invalid"
+    }
+  ],
+  "paths": {
+    "/api/overview": {
+      "get": {
+        "operationId": "GetOverview",
+        "summary": "What the broker runs: versions, cluster name, totals.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Overview"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/queues/{vhost}": {
+      "get": {
+        "operationId": "ListQueues",
+        "summary": "The queues of a virtual host.",
+        "parameters": [
+          {
+            "name": "vhost",
+            "in": "path",
+            "required": true,
+            "description": "Virtual host. The default one is `/`, sent encoded.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Queue"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such virtual host, queue, exchange or binding, as `{ error: \"not_found\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/queues/{vhost}/{queue}": {
+      "get": {
+        "operationId": "GetQueue",
+        "summary": "A queue: its settings, and its message and consumer counts once the broker has sampled them.",
+        "parameters": [
+          {
+            "name": "vhost",
+            "in": "path",
+            "required": true,
+            "description": "Virtual host. The default one is `/`, sent encoded.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "queue",
+            "in": "path",
+            "required": true,
+            "description": "Queue name.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Queue"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such virtual host, queue, exchange or binding, as `{ error: \"not_found\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "PutQueue",
+        "summary": "Declare a queue. Declaring it again with the same settings changes nothing; different settings answer 400.",
+        "parameters": [
+          {
+            "name": "vhost",
+            "in": "path",
+            "required": true,
+            "description": "Virtual host. The default one is `/`, sent encoded.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "queue",
+            "in": "path",
+            "required": true,
+            "description": "Queue name.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created."
+          },
+          "204": {
+            "description": "Already there, or done."
+          },
+          "400": {
+            "description": "The broker rejected the request, as `{ error, reason }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such virtual host, queue, exchange or binding, as `{ error: \"not_found\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PutQueueRequest"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteQueue",
+        "summary": "Delete a queue and the messages in it.",
+        "parameters": [
+          {
+            "name": "vhost",
+            "in": "path",
+            "required": true,
+            "description": "Virtual host. The default one is `/`, sent encoded.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "queue",
+            "in": "path",
+            "required": true,
+            "description": "Queue name.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Done."
+          },
+          "400": {
+            "description": "The broker rejected the request, as `{ error, reason }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such virtual host, queue, exchange or binding, as `{ error: \"not_found\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/queues/{vhost}/{queue}/contents": {
+      "delete": {
+        "operationId": "PurgeQueue",
+        "summary": "Drop every ready message of a queue.",
+        "parameters": [
+          {
+            "name": "vhost",
+            "in": "path",
+            "required": true,
+            "description": "Virtual host. The default one is `/`, sent encoded.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "queue",
+            "in": "path",
+            "required": true,
+            "description": "Queue name.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Done."
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such virtual host, queue, exchange or binding, as `{ error: \"not_found\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/queues/{vhost}/{queue}/get": {
+      "post": {
+        "operationId": "GetMessages",
+        "summary": "Fetch messages from a queue. RabbitMQ documents this as a diagnostics tool without reliable delivery, not a way to consume.",
+        "parameters": [
+          {
+            "name": "vhost",
+            "in": "path",
+            "required": true,
+            "description": "Virtual host. The default one is `/`, sent encoded.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "queue",
+            "in": "path",
+            "required": true,
+            "description": "Queue name.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Message"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The broker rejected the request, as `{ error, reason }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such virtual host, queue, exchange or binding, as `{ error: \"not_found\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetMessagesRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/queues/{vhost}/{queue}/bindings": {
+      "get": {
+        "operationId": "ListQueueBindings",
+        "summary": "The bindings of a queue, including the default exchange's implicit one.",
+        "parameters": [
+          {
+            "name": "vhost",
+            "in": "path",
+            "required": true,
+            "description": "Virtual host. The default one is `/`, sent encoded.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "queue",
+            "in": "path",
+            "required": true,
+            "description": "Queue name.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QueueBinding"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such virtual host, queue, exchange or binding, as `{ error: \"not_found\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/exchanges/{vhost}": {
+      "get": {
+        "operationId": "ListExchanges",
+        "summary": "The exchanges of a virtual host.",
+        "parameters": [
+          {
+            "name": "vhost",
+            "in": "path",
+            "required": true,
+            "description": "Virtual host. The default one is `/`, sent encoded.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Exchange"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such virtual host, queue, exchange or binding, as `{ error: \"not_found\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/exchanges/{vhost}/{exchange}": {
+      "get": {
+        "operationId": "GetExchange",
+        "summary": "An exchange.",
+        "parameters": [
+          {
+            "name": "vhost",
+            "in": "path",
+            "required": true,
+            "description": "Virtual host. The default one is `/`, sent encoded.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exchange",
+            "in": "path",
+            "required": true,
+            "description": "Exchange name. The default exchange is `amq.default`.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Exchange"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such virtual host, queue, exchange or binding, as `{ error: \"not_found\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "PutExchange",
+        "summary": "Declare an exchange. Declaring it again with the same settings changes nothing; different settings answer 400.",
+        "parameters": [
+          {
+            "name": "vhost",
+            "in": "path",
+            "required": true,
+            "description": "Virtual host. The default one is `/`, sent encoded.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exchange",
+            "in": "path",
+            "required": true,
+            "description": "Exchange name. The default exchange is `amq.default`.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created."
+          },
+          "204": {
+            "description": "Already there, or done."
+          },
+          "400": {
+            "description": "The broker rejected the request, as `{ error, reason }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such virtual host, queue, exchange or binding, as `{ error: \"not_found\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PutExchangeRequest"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteExchange",
+        "summary": "Delete an exchange.",
+        "parameters": [
+          {
+            "name": "vhost",
+            "in": "path",
+            "required": true,
+            "description": "Virtual host. The default one is `/`, sent encoded.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exchange",
+            "in": "path",
+            "required": true,
+            "description": "Exchange name. The default exchange is `amq.default`.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Done."
+          },
+          "400": {
+            "description": "The broker rejected the request, as `{ error, reason }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such virtual host, queue, exchange or binding, as `{ error: \"not_found\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/exchanges/{vhost}/{exchange}/publish": {
+      "post": {
+        "operationId": "PublishMessage",
+        "summary": "Publish one message to an exchange. `routed` says whether at least one queue took it.",
+        "parameters": [
+          {
+            "name": "vhost",
+            "in": "path",
+            "required": true,
+            "description": "Virtual host. The default one is `/`, sent encoded.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exchange",
+            "in": "path",
+            "required": true,
+            "description": "Exchange name. The default exchange is `amq.default`.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublishMessageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The broker rejected the request, as `{ error, reason }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such virtual host, queue, exchange or binding, as `{ error: \"not_found\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublishMessageRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bindings/{vhost}/e/{exchange}/q/{queue}": {
+      "post": {
+        "operationId": "CreateQueueBinding",
+        "summary": "Bind a queue to an exchange.",
+        "parameters": [
+          {
+            "name": "vhost",
+            "in": "path",
+            "required": true,
+            "description": "Virtual host. The default one is `/`, sent encoded.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exchange",
+            "in": "path",
+            "required": true,
+            "description": "Exchange name. The default exchange is `amq.default`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "queue",
+            "in": "path",
+            "required": true,
+            "description": "Queue name.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created."
+          },
+          "400": {
+            "description": "The broker rejected the request, as `{ error, reason }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such virtual host, queue, exchange or binding, as `{ error: \"not_found\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQueueBindingRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bindings/{vhost}/e/{exchange}/q/{queue}/{propertiesKey}": {
+      "delete": {
+        "operationId": "DeleteQueueBinding",
+        "summary": "Remove a binding, named by the `properties_key` a listing reports.",
+        "parameters": [
+          {
+            "name": "vhost",
+            "in": "path",
+            "required": true,
+            "description": "Virtual host. The default one is `/`, sent encoded.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "exchange",
+            "in": "path",
+            "required": true,
+            "description": "Exchange name. The default exchange is `amq.default`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "queue",
+            "in": "path",
+            "required": true,
+            "description": "Queue name.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "propertiesKey",
+            "in": "path",
+            "required": true,
+            "description": "The binding's `properties_key`.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Done."
+          },
+          "401": {
+            "description": "Wrong credentials, as `{ error: \"not_authorized\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No such virtual host, queue, exchange or binding, as `{ error: \"not_found\" }`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BadRequest": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": ["message"]
+      },
+      "Unauthorized": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": ["message"]
+      },
+      "NotFound": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": ["message"]
+      },
+      "Overview": {
+        "type": "object",
+        "properties": {
+          "cluster_name": {
+            "type": "string"
+          },
+          "product_name": {
+            "type": "string"
+          },
+          "product_version": {
+            "type": "string"
+          },
+          "rabbitmq_version": {
+            "type": "string"
+          },
+          "management_version": {
+            "type": "string"
+          },
+          "erlang_version": {
+            "type": "string"
+          },
+          "object_totals": {
+            "$ref": "#/components/schemas/ObjectTotals"
+          },
+          "queue_totals": {
+            "$ref": "#/components/schemas/QueueTotals"
+          }
+        }
+      },
+      "ObjectTotals": {
+        "type": "object",
+        "properties": {
+          "channels": {
+            "type": "integer"
+          },
+          "connections": {
+            "type": "integer"
+          },
+          "consumers": {
+            "type": "integer"
+          },
+          "exchanges": {
+            "type": "integer"
+          },
+          "queues": {
+            "type": "integer"
+          }
+        }
+      },
+      "QueueTotals": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": "integer"
+          },
+          "messages_ready": {
+            "type": "integer"
+          },
+          "messages_unacknowledged": {
+            "type": "integer"
+          }
+        }
+      },
+      "Queue": {
+        "type": "object",
+        "required": ["name", "vhost"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "vhost": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "`classic`, `quorum` or `stream`."
+          },
+          "state": {
+            "type": "string"
+          },
+          "node": {
+            "type": "string"
+          },
+          "durable": {
+            "type": "boolean"
+          },
+          "auto_delete": {
+            "type": "boolean"
+          },
+          "exclusive": {
+            "type": "boolean"
+          },
+          "arguments": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "messages": {
+            "type": "integer",
+            "description": "Absent until the broker's first stats sample of the queue."
+          },
+          "messages_ready": {
+            "type": "integer"
+          },
+          "messages_unacknowledged": {
+            "type": "integer"
+          },
+          "consumers": {
+            "type": "integer"
+          }
+        }
+      },
+      "PutQueueRequest": {
+        "type": "object",
+        "properties": {
+          "durable": {
+            "type": "boolean"
+          },
+          "auto_delete": {
+            "type": "boolean"
+          },
+          "arguments": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "GetMessagesRequest": {
+        "type": "object",
+        "required": ["count", "ackmode", "encoding"],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Most messages to fetch. Fewer come back if the queue can't provide them immediately."
+          },
+          "ackmode": {
+            "type": "string",
+            "enum": [
+              "ack_requeue_true",
+              "reject_requeue_true",
+              "ack_requeue_false",
+              "reject_requeue_false"
+            ],
+            "description": "`*_requeue_true` puts the messages back; `*_requeue_false` removes them."
+          },
+          "encoding": {
+            "type": "string",
+            "enum": ["auto", "base64"],
+            "description": "`auto` returns the payload as a string when it is valid UTF-8, else as base64."
+          },
+          "truncate": {
+            "type": "integer",
+            "description": "Cut payloads larger than this many bytes."
+          }
+        }
+      },
+      "Message": {
+        "type": "object",
+        "required": [
+          "payload",
+          "payload_encoding",
+          "payload_bytes",
+          "redelivered",
+          "exchange",
+          "routing_key",
+          "message_count",
+          "properties"
+        ],
+        "properties": {
+          "payload": {
+            "type": "string"
+          },
+          "payload_encoding": {
+            "type": "string",
+            "enum": ["string", "base64"]
+          },
+          "payload_bytes": {
+            "type": "integer"
+          },
+          "redelivered": {
+            "type": "boolean"
+          },
+          "exchange": {
+            "type": "string"
+          },
+          "routing_key": {
+            "type": "string"
+          },
+          "message_count": {
+            "type": "integer",
+            "description": "Messages left in the queue after this one."
+          },
+          "properties": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "QueueBinding": {
+        "type": "object",
+        "required": [
+          "source",
+          "vhost",
+          "destination",
+          "destination_type",
+          "routing_key",
+          "properties_key"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "description": "Exchange; empty for the default exchange."
+          },
+          "vhost": {
+            "type": "string"
+          },
+          "destination": {
+            "type": "string"
+          },
+          "destination_type": {
+            "type": "string"
+          },
+          "routing_key": {
+            "type": "string"
+          },
+          "arguments": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "properties_key": {
+            "type": "string",
+            "description": "Names this binding on delete."
+          }
+        }
+      },
+      "Exchange": {
+        "type": "object",
+        "required": ["name", "vhost", "type"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Empty for the default exchange."
+          },
+          "vhost": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "durable": {
+            "type": "boolean"
+          },
+          "auto_delete": {
+            "type": "boolean"
+          },
+          "internal": {
+            "type": "boolean"
+          },
+          "arguments": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "PutExchangeRequest": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "`direct`, `fanout`, `topic`, `headers`, or a plugin's type."
+          },
+          "durable": {
+            "type": "boolean"
+          },
+          "auto_delete": {
+            "type": "boolean"
+          },
+          "internal": {
+            "type": "boolean"
+          },
+          "arguments": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      },
+      "PublishMessageRequest": {
+        "type": "object",
+        "required": ["properties", "routing_key", "payload", "payload_encoding"],
+        "properties": {
+          "properties": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "routing_key": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "string"
+          },
+          "payload_encoding": {
+            "type": "string",
+            "enum": ["string", "base64"]
+          }
+        }
+      },
+      "PublishMessageResponse": {
+        "type": "object",
+        "required": ["routed"],
+        "properties": {
+          "routed": {
+            "type": "boolean",
+            "description": "Whether at least one queue took the message."
+          }
+        }
+      },
+      "CreateQueueBindingRequest": {
+        "type": "object",
+        "properties": {
+          "routing_key": {
+            "type": "string"
+          },
+          "arguments": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "description": "The sqlserverflex spec gives the schema of one flavor the operation id `ListFlavors`, and the response of the restore-job list the operation id `ListCurrentRunningRestoreJobs`. The schemas take the shape ids first, so convert suffixes the operations (`listFlavors2`, `listCurrentRunningRestoreJobs2`), which `operationNames` can't undo because the id stays taken. Move each schema to a free id and each operation onto the freed one. Naming only: nothing about the wire changes.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.stackit.sqlserverflex#ListFlavors",
+      "path": "/shapes/com.stackit.sqlserverflex#ListFlavorsItem"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.stackit.sqlserverflex#ListFlavors2",
+      "path": "/shapes/com.stackit.sqlserverflex#ListFlavors"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.stackit.sqlserverflex#ListCurrentRunningRestoreJobs",
+      "path": "/shapes/com.stackit.sqlserverflex#ListCurrentRunningRestoreJobsResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.stackit.sqlserverflex#ListCurrentRunningRestoreJobs2",
+      "path": "/shapes/com.stackit.sqlserverflex#ListCurrentRunningRestoreJobs"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.sqlserverflex#ListCurrentRunningRestoreJobs/output/target",
+      "value": "com.stackit.sqlserverflex#ListCurrentRunningRestoreJobsResponse"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.sqlserverflex#ListFlavorsResponseFlavorsList/member/target",
+      "value": "com.stackit.sqlserverflex#ListFlavorsItem"
+    }
+  ]
+}

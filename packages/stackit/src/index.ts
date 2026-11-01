@@ -26,12 +26,18 @@ export * from "./errors.ts";
 export * as T from "./traits.ts";
 export {
   HarborProtocol,
+  OpenSearchProtocol,
+  RabbitMQManagementProtocol,
   StackitProtocol,
   VaultLoginProtocol,
   VaultProtocol,
   applyRegion,
   type HarborOpContext,
   type HarborOpError,
+  type OpenSearchOpContext,
+  type OpenSearchOpError,
+  type RabbitMQManagementOpContext,
+  type RabbitMQManagementOpError,
   type VaultLoginContext,
   type VaultOpContext,
   type VaultOpError,
@@ -40,4 +46,5 @@ export {
 } from "./protocol.ts";
 export { paginateByTotalPages } from "./pagination.ts";
 export * as Retry from "./retry.ts";
+export * from "./opensearch.ts";
 export * from "./vault.ts";

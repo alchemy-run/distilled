@@ -1,0 +1,86 @@
+{
+  "description": "The source spec models 404 and 409 only as a generic 4XX. Bodies observed against opensearchproject/opensearch:2 (OpenSearch 2.19.7), read 2026-11-01: a missing document on GET answers 404 `{ found: false }`, on DELETE 404 `{ result: \"not_found\" }`; a missing index answers 404 `{ error: { type: \"index_not_found_exception\" } }`; a failed `if_seq_no` or `op_type=create` answers 409 `{ error: { type: \"version_conflict_engine_exception\" } }`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.opensearch_data#IndexNotFound",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            { "status": 404, "body": { "/error/type": "index_not_found_exception" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.opensearch_data#DocumentNotFound",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            { "status": 404, "body": { "/found": false } },
+            { "status": 404, "body": { "/result": "not_found" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.opensearch_data#VersionConflict",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [
+            { "status": 409, "body": { "/error/type": "version_conflict_engine_exception" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.opensearch_data#Search/errors/-",
+      "value": { "target": "com.stackit.opensearch_data#IndexNotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.opensearch_data#GetDocument/errors/-",
+      "value": { "target": "com.stackit.opensearch_data#IndexNotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.opensearch_data#GetDocument/errors/-",
+      "value": { "target": "com.stackit.opensearch_data#DocumentNotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.opensearch_data#DeleteDocument/errors/-",
+      "value": { "target": "com.stackit.opensearch_data#IndexNotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.opensearch_data#DeleteDocument/errors/-",
+      "value": { "target": "com.stackit.opensearch_data#DocumentNotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.opensearch_data#DeleteDocument/errors/-",
+      "value": { "target": "com.stackit.opensearch_data#VersionConflict" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.opensearch_data#IndexDocument/errors/-",
+      "value": { "target": "com.stackit.opensearch_data#VersionConflict" }
+    }
+  ]
+}
