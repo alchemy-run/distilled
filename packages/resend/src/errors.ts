@@ -44,3 +44,27 @@ export class ResendParseError
     body: Schema.Unknown,
     cause: Schema.Unknown,
   }).pipe(Category.withParseError) {}
+
+/**
+ * Resend webhook signature verification failed: a signature header is
+ * missing or malformed, the timestamp is outside the tolerance window, or no
+ * signature matches the raw request payload.
+ */
+export class ResendWebhookSignatureError
+  extends /*@__PURE__*/ Schema.TaggedError<ResendWebhookSignatureError>()(
+    "ResendWebhookSignatureError",
+    {
+      message: Schema.String,
+      cause: /*@__PURE__*/ Schema.optional(Schema.Unknown),
+    },
+  ).pipe(Category.withAuthError) {}
+
+/** Resend webhook payload JSON parsing failed after signature verification. */
+export class ResendWebhookPayloadParseError
+  extends /*@__PURE__*/ Schema.TaggedError<ResendWebhookPayloadParseError>()(
+    "ResendWebhookPayloadParseError",
+    {
+      message: Schema.String,
+      cause: /*@__PURE__*/ Schema.optional(Schema.Unknown),
+    },
+  ).pipe(Category.withParseError) {}
