@@ -120,53 +120,11 @@ export interface CancelEmailRequest {
   /** The ID of the email. */
   email_id: string;
 }
-export type EmailToList = Array<string>;
-/** The email addresses of the blind carbon copy recipients. */
-export type EmailBccList = Array<string>;
-/** The email addresses of the carbon copy recipients. */
-export type EmailCcList = Array<string>;
-/** The email addresses to which replies should be sent. */
-export type EmailReplyToList = Array<string>;
-/** The status of the email. */
-export type EmailLastEvent =
-  | "bounced"
-  | "canceled"
-  | "clicked"
-  | "complained"
-  | "delivered"
-  | "delivery_delayed"
-  | "failed"
-  | "opened"
-  | "queued"
-  | "scheduled"
-  | "sent"
-  | "suppressed";
-export interface Email {
-  /** The type of object. */
+export interface UpdateEmailResponseSuccess {
+  /** The object type, `email`. */
   object?: string;
-  /** The ID of the email. */
+  /** The ID of the updated email. */
   id?: string;
-  /** The Message-ID header value of the email. */
-  message_id?: string;
-  to?: EmailToList;
-  /** The email address of the sender. */
-  from?: string;
-  /** The date and time the email was created. */
-  created_at?: string;
-  /** The subject line of the email. */
-  subject?: string;
-  /** The HTML body of the email. */
-  html?: string;
-  /** The plain text body of the email. */
-  text?: string;
-  /** The email addresses of the blind carbon copy recipients. */
-  bcc?: EmailBccList;
-  /** The email addresses of the carbon copy recipients. */
-  cc?: EmailCcList;
-  /** The email addresses to which replies should be sent. */
-  reply_to?: EmailReplyToList;
-  /** The status of the email. */
-  last_event?: EmailLastEvent;
 }
 /** The API key can have full access to Resend's API or be only restricted to send emails. * full_access - Can create, delete, get, and update any resource. * sending_access - Can only send emails. */
 export type CreateApiKeyRequestPermission = "full_access" | "sending_access";
@@ -183,6 +141,8 @@ export interface CreateApiKeyResponse {
   id?: string;
   /** The token of the API key. */
   token?: string | Redacted.Redacted<string>;
+  /** The object type, `api_key`. */
+  object?: string;
 }
 /** The initial status of the automation. Defaults to `disabled`. */
 export type CreateAutomationRequestStatus = "enabled" | "disabled";
@@ -438,6 +398,8 @@ export interface CreateDomainResponse {
   click_tracking?: boolean;
   /** The subdomain used for click and open tracking. */
   tracking_subdomain?: string;
+  /** The object type, `domain`. */
+  object: string;
 }
 /** The region where emails will be sent from. Possible values are us-east-1 | eu-west-1 | sa-east-1 | ap-northeast-1 */
 export type CreateDomainClaimRequestRegion =
@@ -766,6 +728,8 @@ export interface CreateSegmentResponseSuccess {
   id?: string;
   /** The object type of the response. */
   object?: string;
+  /** The name of the segment. */
+  name?: string;
 }
 /** Reply-to email addresses. */
 export type CreateTemplateRequestReplyToList = Array<string>;
@@ -890,10 +854,10 @@ export interface DeleteContactRequest {
 export interface RemoveContactResponseSuccess {
   /** Type of the response object. */
   object?: string;
-  /** Unique identifier for the removed contact. */
-  id?: string;
   /** Indicates whether the contact was successfully deleted. */
   deleted?: boolean;
+  /** The ID of the deleted contact. */
+  contact?: string;
 }
 export interface DeleteContactPropertyRequest {
   /** The Contact Property ID. */
@@ -916,12 +880,12 @@ export interface DeleteContactSegmentRequest {
 export interface RemoveContactFromSegmentResponseSuccess {
   /** The object type. */
   object?: string;
-  /** The ID of the contact. */
-  contact_id?: string;
-  /** The ID of the segment. */
-  segment_id?: string;
   /** Indicates whether the contact was successfully removed from the segment. */
   deleted?: boolean;
+  /** The ID of the contact. */
+  id?: string;
+  /** The ID of the segment (still named for audiences on the wire). */
+  audienceId?: string;
 }
 export interface DeleteDomainRequest {
   /** The ID of the domain. */
@@ -1281,6 +1245,8 @@ export interface GetBroadcastResponseSuccess {
   html?: string | null;
   /** The topic ID that the broadcast is scoped to. */
   topic_id?: string | null;
+  /** The object type, `broadcast`. */
+  object: string;
 }
 export interface GetContactRequest {
   /** The Contact ID or email address. */
@@ -1400,6 +1366,67 @@ export interface GetEmailRequest {
   /** The ID of the email. */
   email_id: string;
 }
+export type EmailToList = Array<string>;
+/** The email addresses of the blind carbon copy recipients. */
+export type EmailBccList = Array<string>;
+/** The email addresses of the carbon copy recipients. */
+export type EmailCcList = Array<string>;
+/** The email addresses to which replies should be sent. */
+export type EmailReplyToList = Array<string>;
+/** The status of the email. */
+export type EmailLastEvent =
+  | "bounced"
+  | "canceled"
+  | "clicked"
+  | "complained"
+  | "delivered"
+  | "delivery_delayed"
+  | "failed"
+  | "opened"
+  | "queued"
+  | "scheduled"
+  | "sent"
+  | "suppressed";
+export interface EmailTag {
+  /** The tag name. */
+  name: string;
+  /** The tag value. */
+  value: string;
+}
+export type EmailTagsList = Array<EmailTag>;
+export interface Email {
+  /** The type of object. */
+  object?: string;
+  /** The ID of the email. */
+  id?: string;
+  /** The Message-ID header value of the email. */
+  message_id?: string;
+  to?: EmailToList;
+  /** The email address of the sender. */
+  from?: string;
+  /** The date and time the email was created. */
+  created_at?: string;
+  /** The subject line of the email. */
+  subject?: string;
+  /** The HTML body of the email. */
+  html?: string;
+  /** The plain text body of the email. */
+  text?: string;
+  /** The email addresses of the blind carbon copy recipients. */
+  bcc?: EmailBccList;
+  /** The email addresses of the carbon copy recipients. */
+  cc?: EmailCcList;
+  /** The email addresses to which replies should be sent. */
+  reply_to?: EmailReplyToList;
+  /** The status of the email. */
+  last_event?: EmailLastEvent;
+  /** When the email is scheduled to be sent, or null when it was sent immediately. */
+  scheduled_at?: string | null;
+  /** The topic the email was sent under, if any. */
+  topic_id?: string | null;
+  /** Tags attached when the email was sent. Returned by getEmail, not by listEmails. */
+  tags?: EmailTagsList;
+}
 export interface GetEmailAttachmentRequest {
   /** The ID of the email. */
   email_id: string;
@@ -1505,6 +1532,50 @@ export interface EmailMetricsDataRow {
   broadcast_id?: string;
   /** Present when `broadcast` is in `dimensions`. */
   broadcast_name?: string;
+  /** The `received` metric for this row. Present when it is among the requested metrics. */
+  received?: number;
+  /** The `delivered` metric for this row. Present when it is among the requested metrics. */
+  delivered?: number;
+  /** The `complained` metric for this row. Present when it is among the requested metrics. */
+  complained?: number;
+  /** The `suppressed` metric for this row. Present when it is among the requested metrics. */
+  suppressed?: number;
+  /** The `bounced` metric for this row. Present when it is among the requested metrics. */
+  bounced?: number;
+  /** The `bounced_transient` metric for this row. Present when it is among the requested metrics. */
+  bounced_transient?: number;
+  /** The `bounced_permanent` metric for this row. Present when it is among the requested metrics. */
+  bounced_permanent?: number;
+  /** The `bounced_undetermined` metric for this row. Present when it is among the requested metrics. */
+  bounced_undetermined?: number;
+  /** The `opened` metric for this row. Present when it is among the requested metrics. */
+  opened?: number;
+  /** The `clicked` metric for this row. Present when it is among the requested metrics. */
+  clicked?: number;
+  /** The `unsubscribed` metric for this row. Present when it is among the requested metrics. */
+  unsubscribed?: number;
+  /** The `delivery_delayed` metric for this row. Present when it is among the requested metrics. */
+  delivery_delayed?: number;
+  /** The `failed` metric for this row. Present when it is among the requested metrics. */
+  failed?: number;
+  /** The `sent` metric for this row. Present when it is among the requested metrics. */
+  sent?: number;
+  /** The `unique_opened` metric for this row. Present when it is among the requested metrics. */
+  unique_opened?: number;
+  /** The `unique_clicked` metric for this row. Present when it is among the requested metrics. */
+  unique_clicked?: number;
+  /** The `delivery_rate` metric for this row. Present when it is among the requested metrics. */
+  delivery_rate?: number;
+  /** The `open_rate` metric for this row. Present when it is among the requested metrics. */
+  open_rate?: number;
+  /** The `click_rate` metric for this row. Present when it is among the requested metrics. */
+  click_rate?: number;
+  /** The `bounce_rate` metric for this row. Present when it is among the requested metrics. */
+  bounce_rate?: number;
+  /** The `complaint_rate` metric for this row. Present when it is among the requested metrics. */
+  complaint_rate?: number;
+  /** The `unsubscribe_rate` metric for this row. Present when it is among the requested metrics. */
+  unsubscribe_rate?: number;
   [key: string]: unknown;
 }
 /** One row per unique combination of the requested `dimensions`. Omitted when `dimensions` is empty. */
@@ -1560,6 +1631,24 @@ export interface GetReceivedEmailResponseAttachmentsItem {
 /** Array of attachments. */
 export type GetReceivedEmailResponseAttachmentsList =
   Array<GetReceivedEmailResponseAttachmentsItem>;
+/** How inline images appear in `html`: as base64 `data:` URIs, or as the original `cid:` references. */
+export type ReceivedEmailHtmlFormat = "data_uri" | "cid";
+/** The sender authentication results Resend recorded on receipt. */
+export interface ReceivedEmailAuthentication {
+  /** The SPF result, such as `pass`. */
+  spf: string;
+  /** The DKIM result, such as `pass`. */
+  dkim: string;
+  /** The DMARC result, such as `pass`. */
+  dmarc: string;
+}
+/** Where to download the raw message. */
+export interface ReceivedEmailRaw {
+  /** A signed link to the raw message (.eml). */
+  download_url: string;
+  /** When the link expires. */
+  expires_at: string;
+}
 export interface GetReceivedEmailResponse {
   /** The type of object. */
   object?: string;
@@ -1591,6 +1680,12 @@ export interface GetReceivedEmailResponse {
   created_at?: string;
   /** Array of attachments. */
   attachments?: GetReceivedEmailResponseAttachmentsList;
+  /** How inline images appear in `html`. */
+  html_format?: ReceivedEmailHtmlFormat;
+  /** The SPF, DKIM and DMARC results. */
+  authentication?: ReceivedEmailAuthentication | null;
+  /** Where to download the raw message. */
+  raw?: ReceivedEmailRaw | null;
 }
 export interface GetEmailReceivingAttachmentRequest {
   /** The ID of the received email. */
@@ -2065,6 +2160,8 @@ export interface GetWebhookRequest {
 }
 /** Array of event types subscribed to. */
 export type GetWebhookResponseEventsList = Array<string>;
+/** The status of the webhook. */
+export type WebhookStatus = "enabled" | "disabled";
 export interface GetWebhookResponse {
   /** The type of object. */
   object?: string;
@@ -2075,7 +2172,7 @@ export interface GetWebhookResponse {
   /** Array of event types subscribed to. */
   events?: GetWebhookResponseEventsList | null;
   /** The status of the webhook. */
-  status?: string;
+  status?: WebhookStatus;
   /** Timestamp indicating when the webhook was created. */
   created_at?: string;
   /** The secret key used to verify webhook payloads. */
@@ -2487,6 +2584,8 @@ export interface GetContactTopicsResponseSuccessDataItem {
   description?: string;
   /** The subscription status for this topic. */
   subscription?: GetContactTopicsResponseSuccessDataItemSubscription;
+  /** When the topic was created. */
+  created_at?: string;
 }
 /** Array containing topic subscriptions for this contact. */
 export type GetContactTopicsResponseSuccessDataList =
@@ -3215,7 +3314,7 @@ export interface ListWebhooksResponseDataItem {
   /** Array of event types subscribed to. */
   events?: ListWebhooksResponseDataItemEventsList | null;
   /** The status of the webhook. */
-  status?: string;
+  status?: WebhookStatus;
   /** Timestamp indicating when the webhook was created. */
   created_at?: string;
 }
@@ -3417,6 +3516,8 @@ export interface SendBroadcastRequest {
 export interface SendBroadcastResponseSuccess {
   /** The ID of the broadcast. */
   id?: string;
+  /** The object type, `broadcast`. */
+  object: string;
 }
 /** An optional payload of key/value pairs to include with the event. */
 export type SendEventRequestPayloadMap = { [key: string]: unknown | undefined };
@@ -3430,7 +3531,12 @@ export interface SendEventRequest {
   /** An optional payload of key/value pairs to include with the event. */
   payload?: SendEventRequestPayloadMap;
 }
-export interface SendEventResponse {}
+export interface SendEventResponse {
+  /** Type of the response object. */
+  object?: string;
+  /** The name of the event that was sent. */
+  event?: string;
+}
 /** Custom headers to add to the email. The `In-Reply-To`, `References` and `Reply-To` headers are set by Resend and cannot be set here. Sending one of them, in any letter case, returns a 422. Header names cannot be empty, and names and values cannot contain line breaks or null characters, or the request returns a 422. `null` means no custom headers. */
 export type SendInboxDraftRequestHeadersMap = { [key: string]: string | undefined };
 export interface SendInboxDraftRequest {
@@ -3595,9 +3701,9 @@ export interface AddContactToSegmentResponseSuccess {
   /** The object type. */
   object?: string;
   /** The ID of the contact. */
-  contact_id?: string;
-  /** The ID of the segment. */
-  segment_id?: string;
+  id?: string;
+  /** The ID of the segment (still named for audiences on the wire). */
+  audienceId?: string;
 }
 /** The subscription status (opt_in or opt_out). */
 export type UpdateContactTopicsRequestTopicsItemSubscription = "opt_in" | "opt_out";
@@ -3613,24 +3719,11 @@ export interface UpdateContactTopicsRequest {
   contact_id: string;
   topics: UpdateContactTopicsRequestTopicsList;
 }
-/** The subscription status. */
-export type UpdateContactTopicsResponseSuccessTopicsItemSubscription = "opt_in" | "opt_out";
-export interface UpdateContactTopicsResponseSuccessTopicsItem {
-  /** The ID of the topic. */
-  id?: string;
-  /** The subscription status. */
-  subscription?: UpdateContactTopicsResponseSuccessTopicsItemSubscription;
-}
-/** Array of updated topic subscriptions. */
-export type UpdateContactTopicsResponseSuccessTopicsList =
-  Array<UpdateContactTopicsResponseSuccessTopicsItem>;
 export interface UpdateContactTopicsResponseSuccess {
   /** The object type. */
   object?: string;
   /** The ID of the contact. */
-  contact_id?: string;
-  /** Array of updated topic subscriptions. */
-  topics?: UpdateContactTopicsResponseSuccessTopicsList;
+  id: string;
 }
 /** enforced | opportunistic. */
 export type UpdateDomainRequestTls = "opportunistic" | "enforced";
@@ -3658,10 +3751,6 @@ export interface UpdateEmailRequest {
   email_id: string;
   /** When to send the email instead: ISO 8601, or natural language such as `in 1 hour`. */
   scheduled_at: string;
-}
-export interface UpdateEmailOptions {
-  /** Schedule email to be sent later. The date should be in ISO 8601 format. */
-  scheduled_at?: string;
 }
 export interface UpdateEventRequest {
   /** The event ID (UUID) or event name. */
@@ -3969,12 +4058,12 @@ export type CancelEmailError = ResendOpError;
 /** Cancel the schedule of the e-mail. */
 export const cancelEmail: API.OperationMethod<
   CancelEmailRequest,
-  Email,
+  UpdateEmailResponseSuccess,
   CancelEmailError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<CancelEmailRequest>,
-  output: __S(1680, __c105, 0) as any as S.Schema<Email>,
+  output: __S(80, __c5, 0) as any as S.Schema<UpdateEmailResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4229,7 +4318,7 @@ export const createSegment: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<CreateSegmentRequest>,
-  output: __S(1456, __c91, 0) as any as S.Schema<CreateSegmentResponseSuccess>,
+  output: __S(1025, __c64, 1) as any as S.Schema<CreateSegmentResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4348,7 +4437,7 @@ export const deleteContact: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<DeleteContactRequest>,
-  output: __S(1248, __c78, 0) as any as S.Schema<RemoveContactResponseSuccess>,
+  output: __S(1185, __c74, 1) as any as S.Schema<RemoveContactResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4738,8 +4827,8 @@ export const getContactImport: API.OperationMethod<
   GetContactImportError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<GetContactImportRequest>,
-  output: __S(1713, __c107, 1) as any as S.Schema<GetContactImportResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<GetContactImportRequest>,
+  output: __S(1697, __c106, 1) as any as S.Schema<GetContactImportResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4755,8 +4844,8 @@ export const getContactProperty: API.OperationMethod<
   GetContactPropertyError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<GetContactPropertyRequest>,
-  output: __S(1729, __c108, 1) as any as S.Schema<GetContactPropertyResponseSuccess>,
+  input: __S(1712, __c107, 0) as any as S.Schema<GetContactPropertyRequest>,
+  output: __S(1713, __c107, 1) as any as S.Schema<GetContactPropertyResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4772,8 +4861,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(1745, __c109, 1) as any as S.Schema<Domain>,
+  input: __S(1728, __c108, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(1729, __c108, 1) as any as S.Schema<Domain>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -4789,7 +4878,7 @@ export const getDomainClaim: API.OperationMethod<
   GetDomainClaimError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<GetDomainClaimRequest>,
+  input: __S(1744, __c109, 0) as any as S.Schema<GetDomainClaimRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<DomainClaim>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
@@ -4802,8 +4891,8 @@ export type GetEmailError = ResendOpError;
 /** Retrieve a single email */
 export const getEmail: API.OperationMethod<GetEmailRequest, Email, GetEmailError, ResendOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1776, __c111, 0) as any as S.Schema<GetEmailRequest>,
-    output: __S(1680, __c105, 0) as any as S.Schema<Email>,
+    input: __S(1760, __c110, 0) as any as S.Schema<GetEmailRequest>,
+    output: __S(1778, __c111, 2) as any as S.Schema<Email>,
     errors: [UnknownResendError],
     protocol: ResendProtocol,
     retry: Retry.Retry,
@@ -4854,7 +4943,7 @@ export const getEmailReceiving: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<GetEmailReceivingRequest>,
-  output: __S(1857, __c116, 1) as any as S.Schema<GetReceivedEmailResponse>,
+  output: __S(1859, __c116, 3) as any as S.Schema<GetReceivedEmailResponse>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6112,7 +6201,7 @@ export const sendBroadcast: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<SendBroadcastRequest>,
-  output: __S(2608, __c163, 0) as any as S.Schema<SendBroadcastResponseSuccess>,
+  output: __S(305, __c19, 1) as any as S.Schema<SendBroadcastResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6345,12 +6434,12 @@ export type UpdateEmailError = ResendOpError;
 /** Update a single email */
 export const updateEmail: API.OperationMethod<
   UpdateEmailRequest,
-  UpdateEmailOptions,
+  UpdateEmailResponseSuccess,
   UpdateEmailError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<UpdateEmailRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<UpdateEmailOptions>,
+  output: __S(80, __c5, 0) as any as S.Schema<UpdateEmailResponseSuccess>,
   errors: [UnknownResendError],
   protocol: ResendProtocol,
   retry: Retry.Retry,
@@ -6980,6 +7069,13 @@ function __c19(j: number): any {
           scheduled_at: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/broadcasts/{id}/send", code: 200 })),
       ).annotate({ identifier: "SendBroadcastRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          object: S.String,
+        }),
+      ).annotate({ identifier: "SendBroadcastResponseSuccess" });
   }
 }
 function __c20(j: number): any {
@@ -6994,7 +7090,12 @@ function __c20(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/events/send", code: 200 })),
       ).annotate({ identifier: "SendEventRequest" });
     case 1:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "SendEventResponse" });
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          event: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SendEventResponse" });
   }
 }
 function __c21(j: number): any {
@@ -7139,6 +7240,7 @@ function __c28(j: number): any {
           open_tracking: S.optional(S.Boolean),
           click_tracking: S.optional(S.Boolean),
           tracking_subdomain: S.optional(S.String),
+          object: S.String,
         }),
       ).annotate({ identifier: "CreateDomainResponse" });
   }
@@ -7217,8 +7319,8 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          contact_id: S.optional(S.String),
-          segment_id: S.optional(S.String),
+          id: S.optional(S.String),
+          audienceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AddContactToSegmentResponseSuccess" });
   }
@@ -7236,8 +7338,7 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          contact_id: S.optional(S.String),
-          topics: S.optional(__S(2593, __c162, 1)),
+          id: S.String,
         }),
       ).annotate({ identifier: "UpdateContactTopicsResponseSuccess" });
   }
@@ -7266,12 +7367,6 @@ function __c36(j: number): any {
           scheduled_at: S.String,
         }).pipe(T.Http({ method: "PATCH", uri: "/emails/{email_id}", code: 200 })),
       ).annotate({ identifier: "UpdateEmailRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          scheduled_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UpdateEmailOptions" });
   }
 }
 function __c37(j: number): any {
@@ -7709,6 +7804,14 @@ function __c64(j: number): any {
           filter: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/segments", code: 200 })),
       ).annotate({ identifier: "CreateSegmentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          object: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateSegmentResponseSuccess" });
   }
 }
 function __c65(j: number): any {
@@ -7828,6 +7931,14 @@ function __c74(j: number): any {
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "DELETE", uri: "/contacts/{id}", code: 200 })),
       ).annotate({ identifier: "DeleteContactRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          deleted: S.optional(S.Boolean),
+          contact: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RemoveContactResponseSuccess" });
   }
 }
 function __c75(j: number): any {
@@ -7859,9 +7970,9 @@ function __c76(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.optional(S.String),
-          contact_id: S.optional(S.String),
-          segment_id: S.optional(S.String),
           deleted: S.optional(S.Boolean),
+          id: S.optional(S.String),
+          audienceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RemoveContactFromSegmentResponseSuccess" });
   }
@@ -8235,6 +8346,7 @@ function __c101(j: number): any {
           text: S.optional(S.NullOr(S.String)),
           html: S.optional(S.NullOr(S.String)),
           topic_id: S.optional(S.NullOr(S.String)),
+          object: S.String,
         }),
       ).annotate({ identifier: "GetBroadcastResponseSuccess" });
   }
@@ -8283,34 +8395,12 @@ function __c105(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          object: S.optional(S.String),
-          id: S.optional(S.String),
-          message_id: S.optional(S.String),
-          to: S.optional(__S(16, __c1, 0)),
-          from: S.optional(S.String),
-          created_at: S.optional(S.String),
-          subject: S.optional(S.String),
-          html: S.optional(S.String),
-          text: S.optional(S.String),
-          bcc: S.optional(__S(16, __c1, 0)),
-          cc: S.optional(__S(16, __c1, 0)),
-          reply_to: S.optional(__S(16, __c1, 0)),
-          last_event: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Email" });
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/contacts/imports/{id}", code: 200 })),
       ).annotate({ identifier: "GetContactImportRequest" });
   }
 }
-function __c107(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8330,12 +8420,12 @@ function __c107(j: number): any {
           status: S.optional(S.String),
           created_at: S.optional(S.String),
           completed_at: S.optional(S.NullOr(S.String)),
-          counts: S.optional(__S(1712, __c107, 0)),
+          counts: S.optional(__S(1696, __c106, 0)),
         }),
       ).annotate({ identifier: "GetContactImportResponse" });
   }
 }
-function __c108(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8356,7 +8446,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "GetContactPropertyResponseSuccess" });
   }
 }
-function __c109(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8382,7 +8472,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "Domain" });
   }
 }
-function __c110(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8392,7 +8482,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "GetDomainClaimRequest" });
   }
 }
-function __c111(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8400,6 +8490,40 @@ function __c111(j: number): any {
           email_id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/emails/{email_id}", code: 200 })),
       ).annotate({ identifier: "GetEmailRequest" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          value: S.String,
+        }),
+      ).annotate({ identifier: "EmailTag" });
+    case 1:
+      return S.Array(__S(1776, __c111, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          object: S.optional(S.String),
+          id: S.optional(S.String),
+          message_id: S.optional(S.String),
+          to: S.optional(__S(16, __c1, 0)),
+          from: S.optional(S.String),
+          created_at: S.optional(S.String),
+          subject: S.optional(S.String),
+          html: S.optional(S.String),
+          text: S.optional(S.String),
+          bcc: S.optional(__S(16, __c1, 0)),
+          cc: S.optional(__S(16, __c1, 0)),
+          reply_to: S.optional(__S(16, __c1, 0)),
+          last_event: S.optional(S.String),
+          scheduled_at: S.optional(S.NullOr(S.String)),
+          topic_id: S.optional(S.NullOr(S.String)),
+          tags: S.optional(__S(1777, __c111, 1)),
+        }),
+      ).annotate({ identifier: "Email" });
   }
 }
 function __c112(j: number): any {
@@ -8465,6 +8589,28 @@ function __c114(j: number): any {
             email_id: S.optional(S.String),
             broadcast_id: S.optional(S.String),
             broadcast_name: S.optional(S.String),
+            received: S.optional(S.Number),
+            delivered: S.optional(S.Number),
+            complained: S.optional(S.Number),
+            suppressed: S.optional(S.Number),
+            bounced: S.optional(S.Number),
+            bounced_transient: S.optional(S.Number),
+            bounced_permanent: S.optional(S.Number),
+            bounced_undetermined: S.optional(S.Number),
+            opened: S.optional(S.Number),
+            clicked: S.optional(S.Number),
+            unsubscribed: S.optional(S.Number),
+            delivery_delayed: S.optional(S.Number),
+            failed: S.optional(S.Number),
+            sent: S.optional(S.Number),
+            unique_opened: S.optional(S.Number),
+            unique_clicked: S.optional(S.Number),
+            delivery_rate: S.optional(S.Number),
+            open_rate: S.optional(S.Number),
+            click_rate: S.optional(S.Number),
+            bounce_rate: S.optional(S.Number),
+            complaint_rate: S.optional(S.Number),
+            unsubscribe_rate: S.optional(S.Number),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -8503,6 +8649,21 @@ function __c116(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          spf: S.String,
+          dkim: S.String,
+          dmarc: S.String,
+        }),
+      ).annotate({ identifier: "ReceivedEmailAuthentication" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          download_url: S.String,
+          expires_at: S.String,
+        }),
+      ).annotate({ identifier: "ReceivedEmailRaw" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           object: S.optional(S.String),
           id: S.optional(S.String),
           to: S.optional(__S(16, __c1, 0)),
@@ -8518,6 +8679,9 @@ function __c116(j: number): any {
           headers: S.optional(S.NullOr(S.Unknown)),
           created_at: S.optional(S.String),
           attachments: S.optional(__S(1873, __c117, 1)),
+          html_format: S.optional(S.String),
+          authentication: S.optional(S.NullOr(__S(1857, __c116, 1))),
+          raw: S.optional(S.NullOr(__S(1858, __c116, 2))),
         }),
       ).annotate({ identifier: "GetReceivedEmailResponse" });
   }
@@ -8592,6 +8756,7 @@ function __c120(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          object: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateApiKeyResponse" });
   }
@@ -9304,7 +9469,7 @@ function __c146(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/contacts/imports", code: 200 })),
       ).annotate({ identifier: "ListContactImportsRequest" });
     case 1:
-      return S.Array(__S(1713, __c107, 1));
+      return S.Array(__S(1697, __c106, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9453,6 +9618,7 @@ function __c152(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           subscription: S.optional(S.String),
+          created_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetContactTopicsResponseSuccessDataItem" });
     case 2:
@@ -9605,7 +9771,7 @@ function __c158(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/emails", code: 200 })),
       ).annotate({ identifier: "ListEmailsRequest" });
     case 1:
-      return S.Array(__S(1680, __c105, 0));
+      return S.Array(__S(1778, __c111, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
