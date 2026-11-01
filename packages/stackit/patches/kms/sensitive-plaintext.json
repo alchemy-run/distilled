@@ -1,0 +1,20 @@
+{
+  "description": "The KMS spec declares plaintext and key material as plain strings, so they would print in logs, spans and error causes. By the spec's own field docs, EncryptRequest.data is 'the data that has to be encrypted', DecryptedData.data is 'the decrypted data', and ImportKeyRequest.wrappedKey is 'the wrapped key material that has to be imported' (specs/kms.json, EncryptPayload, decryptedData, ImportKeyPayload; no change on the wire). Mark all three sensitive so callers get Redacted values. Ciphertext, signatures and public keys stay plain.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.kms#EncryptRequest/members/data/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.kms#DecryptedData/members/data/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.kms#ImportKeyRequest/members/wrappedKey/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

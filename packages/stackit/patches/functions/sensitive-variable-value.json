@@ -1,0 +1,10 @@
+{
+  "description": "A revision variable's `value` is a plain string in the spec, but it carries whatever the deployer put in the environment, and Alchemy puts a host's service-account key there. The spec's own text says a secret should use `vault_reference` instead, and its format is undocumented, so `value` is what callers have: GET /v1/projects/{projectId}/functions/{functionId}/revisions/{revisionId} returns it verbatim (Functions spec, RevisionVariable). Marked sensitive so a logged revision doesn't print it. Nothing on the wire changes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.functions#RevisionVariable/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

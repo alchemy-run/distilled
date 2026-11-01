@@ -1,0 +1,172 @@
+{
+  "description": "The postgres_flex spec (v3) documents 423 and 412 on these operations (`responses.423`: 'Locked: The instance is not yet ready to perform this operation', example type INSTANCE_NOT_READY_ERROR; `responses.412`: 'Precondition Failed', example type FAILED_PRECONDITION_ERROR), but convert drops both statuses because the model has no error shape for them, so they surface as UnknownStackitError. STACKIT's own Terraform provider (stackitcloud/terraform-provider-stackit, stackit/internal/services/postgresflex/user/resource.go and database/resource.go, read 2026-11-01) retries http.StatusLocked on create, update and delete of users and databases. No live probe: the operations and statuses come from the spec, not from a guess at the wire.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#InstanceLocked",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 423,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 423
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#PreconditionFailed",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 412,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 412
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#CreateDatabase/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#DeleteDatabase/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#PartialUpdateDatabase/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#UpdateDatabase/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#CreateUser/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#DeleteUser/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#PartialUpdateUser/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#UpdateUser/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#ResetUserPassword/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#PartialUpdateInstance/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#UpdateInstance/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#DeleteInstance/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#PreconditionFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#PartialUpdateInstance/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#PreconditionFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#UpdateInstance/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#PreconditionFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#CreateUser/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#PreconditionFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#PartialUpdateUser/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#PreconditionFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.postgres_flex#UpdateUser/errors/-",
+      "value": {
+        "target": "com.stackit.postgres_flex#PreconditionFailed"
+      }
+    }
+  ]
+}

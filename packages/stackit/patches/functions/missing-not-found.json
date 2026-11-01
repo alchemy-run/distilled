@@ -1,0 +1,57 @@
+{
+  "description": "The functions spec (v1alpha) declares only a generic `4XX` on every operation, so a missing function, revision or pull credential surfaces as UnknownStackitError and callers can't tell it from other failures. The API answers 404 for a missing revision: STACKIT's Go SDK (stackitcloud/stackit-sdk-go, services/functions/v1alphaapi/wait/wait.go, read 2026-11-01) sets `DeleteHttpErrorStatusCodes: [http.StatusNotFound]` in `CreateRevisionWaitHandler`, which polls GetRevision. The spec defines a shared `notFound` response ('Not found. The resource has not been found.') that no operation references. No live probe: GetFunction, DeleteFunction, DeleteRevision, GetPullCredential and DeletePullCredential are typed by analogy with GetRevision, on the same API and the same `notFound` response.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.functions#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": { "target": "smithy.api#Integer" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [{ "status": 404 }]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.functions#GetFunction/errors",
+      "before": "traits",
+      "value": [{ "target": "com.stackit.functions#NotFound" }]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.functions#DeleteFunction/errors",
+      "before": "traits",
+      "value": [{ "target": "com.stackit.functions#NotFound" }]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.functions#GetRevision/errors",
+      "before": "traits",
+      "value": [{ "target": "com.stackit.functions#NotFound" }]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.functions#DeleteRevision/errors",
+      "before": "traits",
+      "value": [{ "target": "com.stackit.functions#NotFound" }]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.functions#GetPullCredential/errors",
+      "before": "traits",
+      "value": [{ "target": "com.stackit.functions#NotFound" }]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.functions#DeletePullCredential/errors",
+      "before": "traits",
+      "value": [{ "target": "com.stackit.functions#NotFound" }]
+    }
+  ]
+}

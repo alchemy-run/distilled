@@ -1,0 +1,2347 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Harbor API",
+    "description": "These APIs provide services for manipulating Harbor project.",
+    "version": "2.0",
+    "x-harbor-release": "v2.15.4"
+  },
+  "basePath": "/api/v2.0",
+  "schemes": ["https"],
+  "produces": ["application/json"],
+  "consumes": ["application/json"],
+  "securityDefinitions": {
+    "basic": {
+      "type": "basic"
+    }
+  },
+  "security": [
+    {
+      "basic": []
+    },
+    {}
+  ],
+  "paths": {
+    "/projects/{project_name_or_id}": {
+      "get": {
+        "summary": "Return specific project detail information",
+        "description": "This endpoint returns specific project information by project ID.",
+        "tags": ["project"],
+        "operationId": "getProject",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/isResourceName"
+          },
+          {
+            "$ref": "#/parameters/projectNameOrId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return matched project information.",
+            "schema": {
+              "$ref": "#/definitions/Project"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      }
+    },
+    "/projects/{project_name}/repositories": {
+      "get": {
+        "summary": "List repositories",
+        "description": "List repositories of the specified project",
+        "tags": ["repository"],
+        "operationId": "listRepositories",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/projectName"
+          },
+          {
+            "$ref": "#/parameters/query"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/pageSize"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-Total-Count": {
+                "description": "The total count of repositories",
+                "type": "integer"
+              },
+              "Link": {
+                "description": "Link refers to the previous page and next page",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Repository"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      }
+    },
+    "/projects/{project_name}/repositories/{repository_name}": {
+      "get": {
+        "summary": "Get repository",
+        "description": "Get the repository specified by name",
+        "tags": ["repository"],
+        "operationId": "getRepository",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/projectName"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Repository"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update repository",
+        "description": "Update the repository specified by name",
+        "tags": ["repository"],
+        "operationId": "updateRepository",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/projectName"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          },
+          {
+            "name": "repository",
+            "in": "body",
+            "description": "The JSON object of repository.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Repository"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200"
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete repository",
+        "description": "Delete the repository specified by name",
+        "tags": ["repository"],
+        "operationId": "deleteRepository",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/projectName"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200"
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      }
+    },
+    "/projects/{project_name}/repositories/{repository_name}/artifacts": {
+      "get": {
+        "summary": "List artifacts",
+        "description": "List artifacts under the specific project and repository. Except the basic properties, the other supported queries in \"q\" includes \"tags=*\" to list only tagged artifacts, \"tags=nil\" to list only untagged artifacts, \"tags=~v\" to list artifacts whose tag fuzzy matches \"v\", \"tags=v\" to list artifact whose tag exactly matches \"v\", \"labels=(id1, id2)\" to list artifacts that both labels with id1 and id2 are added to",
+        "tags": ["artifact"],
+        "operationId": "listArtifacts",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/projectName"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          },
+          {
+            "$ref": "#/parameters/query"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/pageSize"
+          },
+          {
+            "$ref": "#/parameters/acceptVulnerabilities"
+          },
+          {
+            "name": "with_tag",
+            "in": "query",
+            "description": "Specify whether the tags are included inside the returning artifacts",
+            "type": "boolean",
+            "required": false,
+            "default": true
+          },
+          {
+            "name": "with_label",
+            "in": "query",
+            "description": "Specify whether the labels are included inside the returning artifacts",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          },
+          {
+            "name": "with_scan_overview",
+            "in": "query",
+            "description": "Specify whether the scan overview is included inside the returning artifacts",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          },
+          {
+            "name": "with_sbom_overview",
+            "in": "query",
+            "description": "Specify whether the SBOM overview is included in returning artifacts, when this option is true, the SBOM overview will be included in the response",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          },
+          {
+            "name": "with_immutable_status",
+            "in": "query",
+            "description": "Specify whether the immutable status is included inside the tags of the returning artifacts. Only works when setting \"with_immutable_status=true\"",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          },
+          {
+            "name": "with_accessory",
+            "in": "query",
+            "description": "Specify whether the accessories are included of the returning artifacts. Only works when setting \"with_accessory=true\"",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-Total-Count": {
+                "description": "The total count of artifacts",
+                "type": "integer"
+              },
+              "Link": {
+                "description": "Link refers to the previous page and next page",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Artifact"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      }
+    },
+    "/projects/{project_name}/repositories/{repository_name}/artifacts/{reference}": {
+      "get": {
+        "summary": "Get the specific artifact",
+        "description": "Get the artifact specified by the reference under the project and repository. The reference can be digest or tag.",
+        "tags": ["artifact"],
+        "operationId": "getArtifact",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/projectName"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          },
+          {
+            "$ref": "#/parameters/reference"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/pageSize"
+          },
+          {
+            "$ref": "#/parameters/acceptVulnerabilities"
+          },
+          {
+            "name": "with_tag",
+            "in": "query",
+            "description": "Specify whether the tags are inclued inside the returning artifacts",
+            "type": "boolean",
+            "required": false,
+            "default": true
+          },
+          {
+            "name": "with_label",
+            "in": "query",
+            "description": "Specify whether the labels are inclued inside the returning artifacts",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          },
+          {
+            "name": "with_scan_overview",
+            "in": "query",
+            "description": "Specify whether the scan overview is inclued inside the returning artifacts",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          },
+          {
+            "name": "with_sbom_overview",
+            "in": "query",
+            "description": "Specify whether the SBOM overview is included in returning artifact, when this option is true, the SBOM overview will be included in the response",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          },
+          {
+            "name": "with_accessory",
+            "in": "query",
+            "description": "Specify whether the accessories are included of the returning artifacts.",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          },
+          {
+            "name": "with_signature",
+            "in": "query",
+            "description": "Specify whether the signature is inclued inside the returning artifacts",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          },
+          {
+            "name": "with_immutable_status",
+            "in": "query",
+            "description": "Specify whether the immutable status is inclued inside the tags of the returning artifacts.",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Artifact"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete the specific artifact",
+        "description": "Delete the artifact specified by the reference under the project and repository. The reference can be digest or tag",
+        "tags": ["artifact"],
+        "operationId": "deleteArtifact",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/projectName"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          },
+          {
+            "$ref": "#/parameters/reference"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      }
+    },
+    "/projects/{project_name}/repositories/{repository_name}/artifacts/{reference}/scan": {
+      "post": {
+        "summary": "Scan the artifact",
+        "description": "Scan the specified artifact",
+        "tags": ["scan"],
+        "operationId": "scanArtifact",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/projectName"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          },
+          {
+            "$ref": "#/parameters/reference"
+          },
+          {
+            "name": "scanType",
+            "in": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/ScanType"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "$ref": "#/responses/202"
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "422": {
+            "$ref": "#/responses/422"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      }
+    },
+    "/projects/{project_name}/repositories/{repository_name}/artifacts/{reference}/scan/stop": {
+      "post": {
+        "summary": "Cancelling a scan job for a particular artifact",
+        "description": "Cancelling a scan job for a particular artifact",
+        "tags": ["scan"],
+        "operationId": "stopScanArtifact",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/projectName"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          },
+          {
+            "$ref": "#/parameters/reference"
+          },
+          {
+            "name": "scanType",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ScanType"
+            },
+            "description": "The scan type: Vulnerabilities, SBOM"
+          }
+        ],
+        "responses": {
+          "202": {
+            "$ref": "#/responses/202"
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "422": {
+            "$ref": "#/responses/422"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      }
+    },
+    "/projects/{project_name}/repositories/{repository_name}/artifacts/{reference}/scan/{report_id}/log": {
+      "get": {
+        "summary": "Get the log of the scan report",
+        "description": "Get the log of the scan report",
+        "tags": ["scan"],
+        "operationId": "getReportLog",
+        "produces": ["text/plain"],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/projectName"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          },
+          {
+            "$ref": "#/parameters/reference"
+          },
+          {
+            "name": "report_id",
+            "type": "string",
+            "in": "path",
+            "required": true,
+            "description": "The report id to get the log"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully get scan log file",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      }
+    },
+    "/projects/{project_name}/repositories/{repository_name}/artifacts/{reference}/tags": {
+      "post": {
+        "summary": "Create tag",
+        "description": "Create a tag for the specified artifact",
+        "tags": ["artifact"],
+        "operationId": "createTag",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/projectName"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          },
+          {
+            "$ref": "#/parameters/reference"
+          },
+          {
+            "name": "tag",
+            "in": "body",
+            "description": "The JSON object of tag.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewTag"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "$ref": "#/responses/201"
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "405": {
+            "$ref": "#/responses/405"
+          },
+          "409": {
+            "$ref": "#/responses/409"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      },
+      "get": {
+        "summary": "List tags",
+        "description": "List tags of the specific artifact",
+        "tags": ["artifact"],
+        "operationId": "listTags",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/projectName"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          },
+          {
+            "$ref": "#/parameters/reference"
+          },
+          {
+            "$ref": "#/parameters/query"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/pageSize"
+          },
+          {
+            "name": "with_immutable_status",
+            "in": "query",
+            "description": "Specify whether the immutable status is included inside the returning tags",
+            "type": "boolean",
+            "required": false,
+            "default": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-Total-Count": {
+                "description": "The total count of tags",
+                "type": "integer"
+              },
+              "Link": {
+                "description": "Link refers to the previous page and next page",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Tag"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      }
+    },
+    "/projects/{project_name}/repositories/{repository_name}/artifacts/{reference}/tags/{tag_name}": {
+      "delete": {
+        "summary": "Delete tag",
+        "description": "Delete the tag of the specified artifact",
+        "tags": ["artifact"],
+        "operationId": "deleteTag",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/projectName"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          },
+          {
+            "$ref": "#/parameters/reference"
+          },
+          {
+            "$ref": "#/parameters/tagName"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      }
+    },
+    "/projects/{project_name}/repositories/{repository_name}/artifacts/{reference}/additions/vulnerabilities": {
+      "get": {
+        "summary": "Get the vulnerabilities addition of the specific artifact",
+        "description": "Get the vulnerabilities addition of the artifact specified by the reference under the project and repository.",
+        "tags": ["artifact"],
+        "operationId": "getVulnerabilitiesAddition",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/projectName"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          },
+          {
+            "$ref": "#/parameters/reference"
+          },
+          {
+            "$ref": "#/parameters/acceptVulnerabilities"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "Content-Type": {
+                "description": "The content type of the vulnerabilities addition",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      }
+    },
+    "/robots": {
+      "get": {
+        "summary": "Get robot account",
+        "description": "List the robot accounts with the specified level and project.",
+        "tags": ["robot"],
+        "operationId": "ListRobot",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/query"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/pageSize"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-Total-Count": {
+                "description": "The total count of robot accounts",
+                "type": "integer"
+              },
+              "Link": {
+                "description": "Link refers to the previous page and next page",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Robot"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a robot account",
+        "description": "Create a robot account",
+        "tags": ["robot"],
+        "operationId": "CreateRobot",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "name": "robot",
+            "in": "body",
+            "description": "The JSON object of a robot account.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RobotCreate"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "X-Request-Id": {
+                "description": "The ID of the corresponding request for the response",
+                "type": "string"
+              },
+              "Location": {
+                "description": "The location of the resource",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/RobotCreated"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      }
+    },
+    "/robots/{robot_id}": {
+      "get": {
+        "summary": "Get a robot account",
+        "description": "This endpoint returns specific robot account information by robot ID.",
+        "tags": ["robot"],
+        "operationId": "GetRobotByID",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/robotId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return matched robot information.",
+            "schema": {
+              "$ref": "#/definitions/Robot"
+            }
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a robot account",
+        "description": "This endpoint updates specific robot account information by robot ID.",
+        "tags": ["robot"],
+        "operationId": "UpdateRobot",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/robotId"
+          },
+          {
+            "name": "robot",
+            "in": "body",
+            "description": "The JSON object of a robot account.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Robot"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200"
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "409": {
+            "$ref": "#/responses/409"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Refresh the robot secret",
+        "description": "Refresh the robot secret",
+        "tags": ["robot"],
+        "operationId": "RefreshSec",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/robotId"
+          },
+          {
+            "name": "robotSec",
+            "description": "The JSON object of a robot account.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RobotSec"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return refreshed robot sec.",
+            "schema": {
+              "$ref": "#/definitions/RobotSec"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a robot account",
+        "description": "This endpoint deletes specific robot account information by robot ID.",
+        "tags": ["robot"],
+        "operationId": "DeleteRobot",
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestId"
+          },
+          {
+            "$ref": "#/parameters/robotId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/200"
+          },
+          "400": {
+            "$ref": "#/responses/400"
+          },
+          "401": {
+            "$ref": "#/responses/401"
+          },
+          "403": {
+            "$ref": "#/responses/403"
+          },
+          "404": {
+            "$ref": "#/responses/404"
+          },
+          "500": {
+            "$ref": "#/responses/500"
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "requestId": {
+      "name": "X-Request-Id",
+      "description": "An unique ID for the request",
+      "in": "header",
+      "type": "string",
+      "required": false,
+      "minLength": 1
+    },
+    "isResourceName": {
+      "name": "X-Is-Resource-Name",
+      "description": "The flag to indicate whether the parameter which supports both name and id in the path is the name of the resource. When the X-Is-Resource-Name is false and the parameter can be converted to an integer, the parameter will be as an id, otherwise, it will be as a name.",
+      "in": "header",
+      "type": "boolean",
+      "required": false,
+      "default": false
+    },
+    "projectNameOrId": {
+      "name": "project_name_or_id",
+      "in": "path",
+      "description": "The name or id of the project",
+      "required": true,
+      "type": "string"
+    },
+    "projectName": {
+      "name": "project_name",
+      "in": "path",
+      "description": "The name of the project",
+      "required": true,
+      "type": "string"
+    },
+    "query": {
+      "name": "q",
+      "description": "Query string to query resources. Supported query patterns are \"exact match(k=v)\", \"fuzzy match(k=~v)\", \"range(k=[min~max])\", \"list with union releationship(k={v1 v2 v3})\" and \"list with intersetion relationship(k=(v1 v2 v3))\". The value of range and list can be string(enclosed by \" or '), integer or time(in format \"2020-04-09 02:36:00\"). All of these query patterns should be put in the query string \"q=xxx\" and splitted by \",\". e.g. q=k1=v1,k2=~v2,k3=[min~max]",
+      "in": "query",
+      "type": "string",
+      "required": false
+    },
+    "sort": {
+      "name": "sort",
+      "description": "Sort the resource list in ascending or descending order. e.g. sort by field1 in ascending order and field2 in descending order with \"sort=field1,-field2\"",
+      "in": "query",
+      "type": "string",
+      "required": false
+    },
+    "page": {
+      "name": "page",
+      "in": "query",
+      "type": "integer",
+      "format": "int64",
+      "required": false,
+      "description": "The page number",
+      "default": 1
+    },
+    "pageSize": {
+      "name": "page_size",
+      "in": "query",
+      "type": "integer",
+      "format": "int64",
+      "required": false,
+      "description": "The size of per page",
+      "default": 10,
+      "maximum": 100
+    },
+    "repositoryName": {
+      "name": "repository_name",
+      "in": "path",
+      "description": "The name of the repository. If it contains slash, encode it twice over with URL encoding. e.g. a/b -> a%2Fb -> a%252Fb",
+      "required": true,
+      "type": "string"
+    },
+    "acceptVulnerabilities": {
+      "name": "X-Accept-Vulnerabilities",
+      "in": "header",
+      "type": "string",
+      "default": "application/vnd.security.vulnerability.report; version=1.1, application/vnd.scanner.adapter.vuln.report.harbor+json; version=1.0",
+      "description": "A comma-separated lists of MIME types for the scan report or scan summary. The first mime type will be used when the report found for it.\nCurrently the mime type supports 'application/vnd.scanner.adapter.vuln.report.harbor+json; version=1.0' and 'application/vnd.security.vulnerability.report; version=1.1'"
+    },
+    "reference": {
+      "name": "reference",
+      "in": "path",
+      "description": "The reference of the artifact, can be digest or tag",
+      "required": true,
+      "type": "string"
+    },
+    "tagName": {
+      "name": "tag_name",
+      "in": "path",
+      "description": "The name of the tag",
+      "required": true,
+      "type": "string"
+    },
+    "robotId": {
+      "name": "robot_id",
+      "in": "path",
+      "description": "Robot ID",
+      "required": true,
+      "type": "integer"
+    }
+  },
+  "responses": {
+    "200": {
+      "description": "Success",
+      "headers": {
+        "X-Request-Id": {
+          "description": "The ID of the corresponding request for the response",
+          "type": "string"
+        }
+      }
+    },
+    "201": {
+      "description": "Created",
+      "headers": {
+        "X-Request-Id": {
+          "description": "The ID of the corresponding request for the response",
+          "type": "string"
+        },
+        "Location": {
+          "description": "The location of the resource",
+          "type": "string"
+        }
+      }
+    },
+    "202": {
+      "description": "Accepted",
+      "headers": {
+        "X-Request-Id": {
+          "description": "The ID of the corresponding request for the response",
+          "type": "string"
+        }
+      }
+    },
+    "400": {
+      "description": "Bad request",
+      "headers": {
+        "X-Request-Id": {
+          "description": "The ID of the corresponding request for the response",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/Errors"
+      }
+    },
+    "401": {
+      "description": "Unauthorized",
+      "headers": {
+        "X-Request-Id": {
+          "description": "The ID of the corresponding request for the response",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/Errors"
+      }
+    },
+    "403": {
+      "description": "Forbidden",
+      "headers": {
+        "X-Request-Id": {
+          "description": "The ID of the corresponding request for the response",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/Errors"
+      }
+    },
+    "404": {
+      "description": "Not found",
+      "headers": {
+        "X-Request-Id": {
+          "description": "The ID of the corresponding request for the response",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/Errors"
+      }
+    },
+    "405": {
+      "description": "Method not allowed",
+      "headers": {
+        "X-Request-Id": {
+          "description": "The ID of the corresponding request for the response",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/Errors"
+      }
+    },
+    "409": {
+      "description": "Conflict",
+      "headers": {
+        "X-Request-Id": {
+          "description": "The ID of the corresponding request for the response",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/Errors"
+      }
+    },
+    "422": {
+      "description": "Unsupported Type",
+      "headers": {
+        "X-Request-Id": {
+          "description": "The ID of the corresponding request for the response",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/Errors"
+      }
+    },
+    "500": {
+      "description": "Internal server error",
+      "headers": {
+        "X-Request-Id": {
+          "description": "The ID of the corresponding request for the response",
+          "type": "string"
+        }
+      },
+      "schema": {
+        "$ref": "#/definitions/Errors"
+      }
+    }
+  },
+  "definitions": {
+    "Project": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Project ID"
+        },
+        "owner_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The owner ID of the project always means the creator of the project."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the project."
+        },
+        "registry_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The ID of referenced registry when the project is a proxy cache project."
+        },
+        "creation_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The creation time of the project."
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The update time of the project."
+        },
+        "deleted": {
+          "type": "boolean",
+          "description": "A deletion mark of the project."
+        },
+        "owner_name": {
+          "type": "string",
+          "description": "The owner name of the project."
+        },
+        "togglable": {
+          "type": "boolean",
+          "description": "Correspond to the UI about whether the project's publicity is  updatable (for UI)"
+        },
+        "current_user_role_id": {
+          "type": "integer",
+          "description": "The role ID with highest permission of the current user who triggered the API (for UI).  This attribute is deprecated and will be removed in future versions."
+        },
+        "current_user_role_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": "The list of role ID of the current user who triggered the API (for UI)"
+        },
+        "repo_count": {
+          "type": "integer",
+          "description": "The number of the repositories under this project.",
+          "x-omitempty": false
+        },
+        "metadata": {
+          "description": "The metadata of the project.",
+          "$ref": "#/definitions/ProjectMetadata"
+        },
+        "cve_allowlist": {
+          "description": "The CVE allowlist of this project.",
+          "$ref": "#/definitions/CVEAllowlist"
+        }
+      }
+    },
+    "Repository": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The ID of the repository"
+        },
+        "project_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The ID of the project that the repository belongs to"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the repository"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the repository"
+        },
+        "artifact_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The count of the artifacts inside the repository",
+          "x-omitempty": false
+        },
+        "pull_count": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The count that the artifact inside the repository pulled",
+          "x-omitempty": false
+        },
+        "creation_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The creation time of the repository",
+          "x-nullable": true,
+          "x-omitempty": true
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The update time of the repository"
+        }
+      }
+    },
+    "Artifact": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The ID of the artifact"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the artifact, e.g. image, chart, etc"
+        },
+        "media_type": {
+          "type": "string",
+          "description": "The media type of the artifact"
+        },
+        "manifest_media_type": {
+          "type": "string",
+          "description": "The manifest media type of the artifact"
+        },
+        "artifact_type": {
+          "type": "string",
+          "description": "The artifact_type in the manifest of the artifact"
+        },
+        "project_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The ID of the project that the artifact belongs to"
+        },
+        "repository_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The ID of the repository that the artifact belongs to"
+        },
+        "repository_name": {
+          "type": "string",
+          "description": "The name of the repository that the artifact belongs to"
+        },
+        "digest": {
+          "type": "string",
+          "description": "The digest of the artifact"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The size of the artifact"
+        },
+        "icon": {
+          "type": "string",
+          "description": "The digest of the icon"
+        },
+        "push_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The push time of the artifact"
+        },
+        "pull_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The latest pull time of the artifact"
+        },
+        "extra_attrs": {
+          "$ref": "#/definitions/ExtraAttrs"
+        },
+        "annotations": {
+          "$ref": "#/definitions/Annotations"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Reference"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Tag"
+          }
+        },
+        "addition_links": {
+          "$ref": "#/definitions/AdditionLinks"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Label"
+          }
+        },
+        "scan_overview": {
+          "$ref": "#/definitions/ScanOverview",
+          "description": "The overview of the scan result."
+        },
+        "sbom_overview": {
+          "$ref": "#/definitions/SBOMOverview",
+          "description": "The overview of the generating SBOM progress"
+        },
+        "accessories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Accessory",
+            "description": "The accessory of the artifact."
+          }
+        }
+      }
+    },
+    "ScanType": {
+      "type": "object",
+      "properties": {
+        "scan_type": {
+          "type": "string",
+          "description": "The scan type for the scan request. Two options are currently supported, vulnerability and sbom",
+          "enum": ["vulnerability", "sbom"]
+        }
+      }
+    },
+    "NewTag": {
+      "type": "object",
+      "description": "The request body for creating a tag",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "x-nullable": false,
+          "description": "The name of the tag"
+        }
+      }
+    },
+    "Tag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The ID of the tag"
+        },
+        "repository_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The ID of the repository that the tag belongs to"
+        },
+        "artifact_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The ID of the artifact that the tag attached to"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the tag"
+        },
+        "push_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The push time of the tag"
+        },
+        "pull_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The latest pull time of the tag"
+        },
+        "immutable": {
+          "type": "boolean",
+          "x-omitempty": false,
+          "description": "The immutable status of the tag"
+        }
+      }
+    },
+    "Robot": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The ID of the robot"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the robot"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the robot"
+        },
+        "secret": {
+          "type": "string",
+          "description": "The secret of the robot"
+        },
+        "level": {
+          "type": "string",
+          "description": "The level of the robot, project or system"
+        },
+        "duration": {
+          "type": "integer",
+          "x-nullable": true,
+          "format": "int64",
+          "description": "The duration of the robot in days, duration must be either -1(Never) or a positive integer"
+        },
+        "editable": {
+          "type": "boolean",
+          "x-omitempty": false,
+          "description": "The editable status of the robot"
+        },
+        "disable": {
+          "type": "boolean",
+          "x-omitempty": false,
+          "description": "The disable status of the robot"
+        },
+        "expires_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The expiration date of the robot"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RobotPermission"
+          }
+        },
+        "creator_type": {
+          "type": "string",
+          "description": "The type of the robot creator, like local(harbor_user) or robot."
+        },
+        "creator_ref": {
+          "type": "integer",
+          "description": "The reference of the robot creator, like the id of harbor user."
+        },
+        "creation_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The creation time of the robot."
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The update time of the robot."
+        }
+      }
+    },
+    "RobotCreate": {
+      "type": "object",
+      "description": "The request for robot account creation.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the robot"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the robot"
+        },
+        "secret": {
+          "type": "string",
+          "description": "The secret of the robot"
+        },
+        "level": {
+          "type": "string",
+          "description": "The level of the robot, project or system"
+        },
+        "disable": {
+          "type": "boolean",
+          "description": "The disable status of the robot"
+        },
+        "duration": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The duration of the robot in days, duration must be either -1(Never) or a positive integer"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RobotPermission"
+          }
+        }
+      }
+    },
+    "RobotCreated": {
+      "type": "object",
+      "description": "The response for robot account creation.",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The ID of the robot"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the robot"
+        },
+        "secret": {
+          "type": "string",
+          "description": "The secret of the robot"
+        },
+        "creation_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The creation time of the robot."
+        },
+        "expires_at": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The expiration date of the robot"
+        }
+      }
+    },
+    "RobotSec": {
+      "type": "object",
+      "description": "The response for refresh/update robot account secret.",
+      "properties": {
+        "secret": {
+          "type": "string",
+          "description": "The secret of the robot"
+        }
+      }
+    },
+    "ProjectMetadata": {
+      "type": "object",
+      "properties": {
+        "public": {
+          "type": "string",
+          "description": "The public status of the project. The valid values are \"true\", \"false\"."
+        },
+        "enable_content_trust": {
+          "type": "string",
+          "description": "Whether content trust is enabled or not. If it is enabled, user can't pull unsigned images from this project. The valid values are \"true\", \"false\".",
+          "x-nullable": true
+        },
+        "enable_content_trust_cosign": {
+          "type": "string",
+          "description": "Whether cosign content trust is enabled or not. If it is enabled, user can't pull images without cosign signature from this project. The valid values are \"true\", \"false\".",
+          "x-nullable": true
+        },
+        "prevent_vul": {
+          "type": "string",
+          "description": "Whether prevent the vulnerable images from running. The valid values are \"true\", \"false\".",
+          "x-nullable": true
+        },
+        "severity": {
+          "type": "string",
+          "description": "If the vulnerability is high than severity defined here, the images can't be pulled. The valid values are \"none\", \"low\", \"medium\", \"high\", \"critical\".",
+          "x-nullable": true
+        },
+        "auto_scan": {
+          "type": "string",
+          "description": "Whether scan images automatically when pushing. The valid values are \"true\", \"false\".",
+          "x-nullable": true
+        },
+        "auto_sbom_generation": {
+          "type": "string",
+          "description": "Whether generating SBOM automatically when pushing a subject artifact. The valid values are \"true\", \"false\".",
+          "x-nullable": true
+        },
+        "reuse_sys_cve_allowlist": {
+          "type": "string",
+          "description": "Whether this project reuse the system level CVE allowlist as the allowlist of its own. The valid values are \"true\", \"false\".\nIf it is set to \"true\" the actual allowlist associate with this project, if any, will be ignored.",
+          "x-nullable": true
+        },
+        "retention_id": {
+          "type": "string",
+          "description": "The ID of the tag retention policy for the project",
+          "x-nullable": true
+        },
+        "proxy_speed_kb": {
+          "type": "string",
+          "description": "The bandwidth limit of proxy cache, in Kbps (kilobits per second). It limits the communication between Harbor and the upstream registry, not the client and the Harbor.",
+          "x-nullable": true
+        },
+        "max_upstream_conn": {
+          "type": "string",
+          "description": "The max connection per artifact to the upstream registry in current proxy cache project, if it is -1, no limit to upstream registry connections",
+          "x-nullable": true
+        },
+        "proxy_cache_local_on_not_found": {
+          "type": "string",
+          "description": "Whether to serve images from local cache when they are removed from the upstream registry. The valid values are \"true\", \"false\".",
+          "x-nullable": true
+        }
+      }
+    },
+    "CVEAllowlist": {
+      "type": "object",
+      "description": "The CVE Allowlist for system or project",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "ID of the allowlist"
+        },
+        "project_id": {
+          "type": "integer",
+          "description": "ID of the project which the allowlist belongs to.  For system level allowlist this attribute is zero."
+        },
+        "expires_at": {
+          "type": "integer",
+          "description": "the time for expiration of the allowlist, in the form of seconds since epoch.  This is an optional attribute, if it's not set the CVE allowlist does not expire.",
+          "x-nullable": true
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CVEAllowlistItem"
+          }
+        },
+        "creation_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The creation time of the allowlist."
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The update time of the allowlist."
+        }
+      }
+    },
+    "Errors": {
+      "description": "The error array that describe the errors got during the handling of request",
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
+    "ExtraAttrs": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "Annotations": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "Reference": {
+      "type": "object",
+      "properties": {
+        "parent_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The parent ID of the reference"
+        },
+        "child_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The child ID of the reference"
+        },
+        "child_digest": {
+          "type": "string",
+          "description": "The digest of the child artifact"
+        },
+        "platform": {
+          "$ref": "#/definitions/Platform"
+        },
+        "annotations": {
+          "$ref": "#/definitions/Annotations"
+        },
+        "urls": {
+          "type": "array",
+          "description": "The download URLs",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "AdditionLinks": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/AdditionLink"
+      }
+    },
+    "Label": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The ID of the label"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name the label"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description the label"
+        },
+        "color": {
+          "type": "string",
+          "description": "The color the label"
+        },
+        "scope": {
+          "type": "string",
+          "description": "The scope the label"
+        },
+        "project_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The ID of project that the label belongs to"
+        },
+        "creation_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The creation time the label"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The update time of the label"
+        }
+      }
+    },
+    "ScanOverview": {
+      "type": "object",
+      "description": "The scan overview attached in the metadata of tag",
+      "additionalProperties": {
+        "$ref": "#/definitions/NativeReportSummary"
+      }
+    },
+    "SBOMOverview": {
+      "type": "object",
+      "description": "The generate SBOM overview information",
+      "properties": {
+        "start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The start time of the generating sbom report task",
+          "example": "2006-01-02T14:04:05Z"
+        },
+        "end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end time of the generating sbom report task",
+          "example": "2006-01-02T15:04:05Z"
+        },
+        "scan_status": {
+          "type": "string",
+          "description": "The status of the generating SBOM task"
+        },
+        "sbom_digest": {
+          "type": "string",
+          "description": "The digest of the generated SBOM accessory"
+        },
+        "report_id": {
+          "type": "string",
+          "description": "id of the native scan report",
+          "example": "5f62c830-f996-11e9-957f-0242c0a89008"
+        },
+        "duration": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Time in seconds required to create the report",
+          "example": 300
+        },
+        "scanner": {
+          "$ref": "#/definitions/Scanner"
+        }
+      }
+    },
+    "Accessory": {
+      "type": "object",
+      "description": "The accessory of the artifact",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The ID of the accessory"
+        },
+        "artifact_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The artifact id of the accessory",
+          "x-omitempty": false
+        },
+        "subject_artifact_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Going to be deprecated, use repo and digest for insteand. The subject artifact id of the accessory."
+        },
+        "subject_artifact_digest": {
+          "type": "string",
+          "description": "The subject artifact digest of the accessory",
+          "x-omitempty": false
+        },
+        "subject_artifact_repo": {
+          "type": "string",
+          "description": "The subject artifact repository name of the accessory",
+          "x-omitempty": false
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The artifact size of the accessory",
+          "x-omitempty": false
+        },
+        "digest": {
+          "type": "string",
+          "description": "The artifact digest of the accessory",
+          "x-omitempty": false
+        },
+        "type": {
+          "type": "string",
+          "description": "The artifact size of the accessory",
+          "x-omitempty": false
+        },
+        "icon": {
+          "type": "string",
+          "description": "The icon of the accessory",
+          "x-omitempty": false
+        },
+        "creation_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The creation time of the accessory"
+        }
+      }
+    },
+    "RobotPermission": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "The kind of the permission"
+        },
+        "namespace": {
+          "type": "string",
+          "description": "The namespace of the permission"
+        },
+        "access": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Access"
+          }
+        }
+      }
+    },
+    "CVEAllowlistItem": {
+      "type": "object",
+      "description": "The item in CVE allowlist",
+      "properties": {
+        "cve_id": {
+          "type": "string",
+          "description": "The ID of the CVE, such as \"CVE-2019-10164\""
+        }
+      }
+    },
+    "Error": {
+      "description": "a model for all the error response coming from harbor",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "The error code"
+        },
+        "message": {
+          "type": "string",
+          "description": "The error message"
+        }
+      }
+    },
+    "Platform": {
+      "type": "object",
+      "properties": {
+        "architecture": {
+          "type": "string",
+          "description": "The architecture that the artifact applys to"
+        },
+        "os": {
+          "type": "string",
+          "description": "The OS that the artifact applys to"
+        },
+        "'os.version'": {
+          "type": "string",
+          "description": "The version of the OS that the artifact applys to"
+        },
+        "'os.features'": {
+          "type": "array",
+          "description": "The features of the OS that the artifact applys to",
+          "items": {
+            "type": "string"
+          }
+        },
+        "variant": {
+          "type": "string",
+          "description": "The variant of the CPU"
+        }
+      }
+    },
+    "AdditionLink": {
+      "type": "object",
+      "properties": {
+        "href": {
+          "type": "string",
+          "description": "The link of the addition"
+        },
+        "absolute": {
+          "type": "boolean",
+          "x-omitempty": false,
+          "description": "Determine whether the link is an absolute URL or not"
+        }
+      }
+    },
+    "NativeReportSummary": {
+      "type": "object",
+      "description": "The summary for the native report",
+      "properties": {
+        "report_id": {
+          "type": "string",
+          "description": "id of the native scan report",
+          "example": "5f62c830-f996-11e9-957f-0242c0a89008"
+        },
+        "scan_status": {
+          "type": "string",
+          "description": "The status of the report generating process",
+          "example": "Success"
+        },
+        "severity": {
+          "type": "string",
+          "description": "The overall severity",
+          "example": "High"
+        },
+        "duration": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The seconds spent for generating the report",
+          "example": 300
+        },
+        "summary": {
+          "$ref": "#/definitions/VulnerabilitySummary"
+        },
+        "start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The start time of the scan process that generating report",
+          "example": "2006-01-02T14:04:05Z"
+        },
+        "end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end time of the scan process that generating report",
+          "example": "2006-01-02T15:04:05Z"
+        },
+        "complete_percent": {
+          "type": "integer",
+          "description": "The complete percent of the scanning which value is between 0 and 100",
+          "example": 100
+        },
+        "scanner": {
+          "$ref": "#/definitions/Scanner"
+        }
+      }
+    },
+    "Scanner": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the scanner",
+          "example": "Trivy"
+        },
+        "vendor": {
+          "type": "string",
+          "description": "Name of the scanner provider",
+          "example": "Aqua Security"
+        },
+        "version": {
+          "type": "string",
+          "description": "Version of the scanner adapter",
+          "example": "v0.9.1"
+        }
+      }
+    },
+    "Access": {
+      "type": "object",
+      "properties": {
+        "resource": {
+          "type": "string",
+          "description": "The resource of the access. Possible resources are listed here for system and project level https://github.com/goharbor/harbor/blob/main/src/common/rbac/const.go"
+        },
+        "action": {
+          "type": "string",
+          "description": "The action of the access. Possible actions are *, pull, push, create, read, update, delete, list, operate, scanner-pull and stop."
+        },
+        "effect": {
+          "type": "string",
+          "description": "The effect of the access"
+        }
+      }
+    },
+    "VulnerabilitySummary": {
+      "type": "object",
+      "description": "VulnerabilitySummary contains the total number of the foun d vulnerabilities number and numbers of each severity level.\n",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int",
+          "description": "The total number of the found vulnerabilities",
+          "example": 500,
+          "x-omitempty": false
+        },
+        "fixable": {
+          "type": "integer",
+          "format": "int",
+          "description": "The number of the fixable vulnerabilities",
+          "example": 100,
+          "x-omitempty": false
+        },
+        "summary": {
+          "type": "object",
+          "description": "Numbers of the vulnerabilities with different severity",
+          "additionalProperties": {
+            "type": "integer",
+            "format": "int",
+            "example": 10
+          },
+          "example": {
+            "Critical": 5,
+            "High": 5
+          },
+          "x-omitempty": false
+        }
+      }
+    }
+  }
+}
