@@ -14,7 +14,7 @@ import * as Telemetry from "@distilled.cloud/core/telemetry";
  *            input schema's protocol trait) -> annotation middleware
  *            (checksums, streaming bodies) -> endpoint resolution (custom
  *            Endpoint service, compiled Smithy endpoint rules, or the
- *            `https://{service}.{region}.amazonaws.com` fallback) -> SigV4
+ *            `https://{service}.{region}.{dnsSuffix}` fallback) -> SigV4
  *            signing with per-request lazy Credentials/Region.
  *
  *   decode:  wire-family deserializer -> event-stream parsing -> output schema
@@ -55,6 +55,7 @@ import * as Credentials from "./credentials-service.ts";
 import * as Endpoint from "./endpoint.ts";
 import { EndpointError, ParseError } from "./errors.ts";
 import * as Region from "./region.ts";
+import { dnsSuffix } from "./rules-engine/aws-functions.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
 import { isValidHostLabel } from "./rules-engine/standard-functions.ts";
 import * as SigV4 from "./sigv4.ts";
@@ -254,7 +255,7 @@ const toHttpRequest = (
     }
   } else {
     // Fallback to static endpoint
-    endpoint = `https://${serviceName}.${region}.amazonaws.com`;
+    endpoint = `https://${serviceName}.${region}.${dnsSuffix(region)}`;
   }
 
   // Apply the Smithy `smithy.api#endpoint` hostPrefix (e.g. "sync-" for

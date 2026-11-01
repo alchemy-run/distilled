@@ -65,6 +65,13 @@ export function partition(region: RulesValue): PartitionInfo | undefined {
   return defaultPartition ? toPartitionInfo(defaultPartition.outputs) : undefined;
 }
 
+/**
+ * The DNS suffix of the partition a region belongs to: `amazonaws.com` in
+ * `aws`, `amazonaws.eu` in `aws-eusc`, `amazonaws.com.cn` in `aws-cn`.
+ */
+export const dnsSuffix = (region: string): string =>
+  partition(region)?.dnsSuffix ?? "amazonaws.com";
+
 let knownRegions: Map<string, string> | undefined;
 
 /**
