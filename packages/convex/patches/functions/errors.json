@@ -1,0 +1,38 @@
+{
+  "description": "POST /function is an admin route the spec doesn't mark as one: observed 2026-11-01, it answers 403 BadDeployKey with no token and 200 with `Convex <token>`. The functions protocol sends no token, so the call fails with this tag. Use query, mutation or action.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.functions#BadDeployKey",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "BadDeployKey"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.functions#PublicFunctionPost/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.convex.functions#BadDeployKey"
+        }
+      ]
+    }
+  ]
+}

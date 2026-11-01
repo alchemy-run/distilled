@@ -26,6 +26,14 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+export class AuditLogsTooOld
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AuditLogsTooOld>()("AuditLogsTooOld", {
+      message: S.String,
+    }).pipe(C.withAuthError),
+    [{ body: { "/code": "AuditLogsTooOld" } }],
+  ) {}
+
 export class AuthConfigMissingEnvironmentVariable
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<AuthConfigMissingEnvironmentVariable>()(
@@ -1247,6 +1255,7 @@ export const listActiveSyncs: API.OperationMethod<
 }));
 
 export type ListAuditLogEventsError =
+  | AuditLogsTooOld
   | MalformedAccessToken
   | BadDeployKey
   | OperationNotPermitted
@@ -1262,7 +1271,7 @@ export const listAuditLogEvents: API.PaginatedOperationMethod<
   () => ({
     input: __S(160, __c20, 0) as any as S.Schema<ListAuditLogEventsRequest>,
     output: __S(163, __c20, 3) as any as S.Schema<ListDeploymentAuditLogEventsResponse>,
-    errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+    errors: [AuditLogsTooOld, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
     protocol: ConvexDeploymentProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
