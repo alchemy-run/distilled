@@ -506,6 +506,8 @@ export interface UpdateLoadBalancerRequest {
   targetPools?: UpdateLoadBalancerRequestTargetPoolsList;
   /** Application Load Balancer resource version. Must be empty or unset for creating Application Load Balancers, non-empty for updating. Semantics: While retrieving, this is the current version of this Application Load Balancer resource that changes during updates. On updates this field specified the Application Load Balancer version you calculated your update for instead of the future version to enable concurrency safe updates. Update calls will then report the new version in their result as you would see with a Application Load Balancer retrieval call later. There exist no total order of the version, so you can only compare it for equality, but not for less/greater than another version. Since the creation of Application Load Balancer is always intended to create the first version of it, there should be no existing version. That's why this field must by empty of not present in that case. */
   version?: string;
+  /** Application Load Balancer name in the request body. Not changeable after creation: send the same value as the path's `name`. */
+  bodyName?: string;
 }
 /** List of all targets which will be used in the pool. Limited to 250. */
 export type UpdateTargetPoolRequestTargetsList = Array<Target>;
@@ -520,6 +522,8 @@ export interface UpdateTargetPoolRequest {
   /** List of all targets which will be used in the pool. Limited to 250. */
   targets?: UpdateTargetPoolRequestTargetsList;
   tlsConfig?: TlsConfig;
+  /** Target pool name in the request body. A target pool cannot be renamed: send the same value as the path's `targetPoolName`. */
+  bodyName?: string;
 }
 export type CreateCredentialsError = BadRequest | Forbidden | StackitOpError;
 /** Create credentials for observability of the Application Load Balancer Created credentials can be stored and used for the load balancer observability. For example, when using STACKIT Observability, credentials first must be created for that STACKIT Observability instance (by using their API or the STACKIT Portal) and then can be provided to the load balancer by storing them with this endpoint. */
@@ -572,7 +576,7 @@ export const deleteCredentials: API.OperationMethod<
   span: "DeleteCredentials",
 }));
 
-export type DeleteLoadBalancerError = BadRequest | Forbidden | StackitOpError;
+export type DeleteLoadBalancerError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Delete a given load balancer in a project. Deletes the specified Application Load Balancer. */
 export const deleteLoadBalancer: API.OperationMethod<
   DeleteLoadBalancerRequest,
@@ -582,7 +586,7 @@ export const deleteLoadBalancer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<DeleteLoadBalancerRequest>,
   output: __S(448, __c14, 0) as any as S.Schema<DeleteLoadBalancerResponse2>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -902,6 +906,7 @@ function __c5(j: number): any {
           planId: S.optional(S.String),
           targetPools: S.optional(__S(372, __c11, 20)),
           version: S.optional(S.String),
+          bodyName: S.optional(S.String.pipe(T.Body("name"))),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -926,6 +931,7 @@ function __c6(j: number): any {
           targetPort: S.optional(S.Number),
           targets: S.optional(__S(389, __c12, 5)),
           tlsConfig: S.optional(__S(385, __c12, 1)),
+          bodyName: S.optional(S.String.pipe(T.Body("name"))),
         }).pipe(
           T.Http({
             method: "PUT",

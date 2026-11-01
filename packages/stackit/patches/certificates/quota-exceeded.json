@@ -1,0 +1,23 @@
+{
+  "description": "CreateCertificate's 429 is not rate limiting: the spec documents it as `maximum number of certificates is reached - please contact support to increase it`, and GetQuota says the limit only changes through a service request. As the status-mapped TooManyRequests it is retried as throttling. Typed so a caller sees the quota failure at once; httpError 400 keeps it out of the retryable category, as `AuthenticationLocked` does in secrets_manager_kv.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.certificates#CertificateQuotaExceeded",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [{ "status": 429 }]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.certificates#CreateCertificate/errors/-",
+      "value": { "target": "com.stackit.certificates#CertificateQuotaExceeded" }
+    }
+  ]
+}

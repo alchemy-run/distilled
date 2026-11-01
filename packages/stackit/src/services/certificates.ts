@@ -35,6 +35,14 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+export class CertificateQuotaExceeded
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CertificateQuotaExceeded>()("CertificateQuotaExceeded", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 429 }],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -180,7 +188,11 @@ export interface ListCertificatesResponse {
   /** Continue token from the ListCertificatesResponse with Limit option */
   nextPageId?: string;
 }
-export type CreateCertificateError = BadRequest | Forbidden | StackitOpError;
+export type CreateCertificateError =
+  | BadRequest
+  | Forbidden
+  | CertificateQuotaExceeded
+  | StackitOpError;
 /** Store a TLS certificate in a project. CreateCertificate will store a TLS certificate in a project. */
 export const createCertificate: API.OperationMethod<
   CreateCertificateRequest,
@@ -190,7 +202,7 @@ export const createCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateCertificateRequest>,
   output: __S(14, __c1, 6) as any as S.Schema<GetCertificateResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden, CertificateQuotaExceeded, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

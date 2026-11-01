@@ -56,6 +56,18 @@ const spec: SdkSpec = {
   memberTraitPipes: {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
+  // A binary download (a patch points the operation's output at a structure with
+  // one raw `body` blob): the response IS the bytes, read without text decoding.
+  shapeOverride: ({ name, def }) =>
+    def.type === "structure" &&
+    Object.keys(def.members ?? {}).length === 1 &&
+    def.members?.body?.target === "smithy.api#Blob" &&
+    RAW_RESPONSE_TRAIT in (def.members.body.traits ?? {})
+      ? [
+          `export type ${name} = Uint8Array;`,
+          `export const ${name} = /*@__PURE__*/ S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as any as S.Schema<${name}>;`,
+        ]
+      : undefined,
   memberTsType: (m) =>
     SENSITIVE_TRAIT in m.traits
       ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
@@ -144,6 +156,43 @@ const vaultSpec: SdkSpec = {
 const isVaultModel = (model: { readonly shapes?: Record<string, unknown> }): boolean =>
   Object.keys(model.shapes ?? {}).some((id) => id.startsWith("com.stackit.secrets_manager_kv#"));
 
+/**
+ * RabbitMQ's management API (`rabbitmq_management`) takes the Basic auth of a
+ * `rabbitmq` credential rather than a STACKIT token. See
+ * `RabbitMQManagementProtocol`.
+ */
+const rabbitmqManagementSpec: SdkSpec = {
+  ...spec,
+  operationDecl: {
+    contextType: "RabbitMQManagementOpContext",
+    commonErrorType: "RabbitMQManagementOpError",
+    commonErrorClasses: ["UnknownStackitError"],
+    protocol: "RabbitMQManagementProtocol",
+    retry: "Retry.Retry",
+  },
+};
+
+const isRabbitMQManagementModel = (model: { readonly shapes?: Record<string, unknown> }): boolean =>
+  Object.keys(model.shapes ?? {}).some((id) => id.startsWith("com.stackit.rabbitmq_management#"));
+
+/**
+ * OpenSearch's REST API (`opensearch_data`) takes the Basic auth of an `opensearch` or
+ * `logme` credential rather than a STACKIT token. See `OpenSearchProtocol`.
+ */
+const opensearchDataSpec: SdkSpec = {
+  ...spec,
+  operationDecl: {
+    contextType: "OpenSearchOpContext",
+    commonErrorType: "OpenSearchOpError",
+    commonErrorClasses: ["UnknownStackitError"],
+    protocol: "OpenSearchProtocol",
+    retry: "Retry.Retry",
+  },
+};
+
+const isOpenSearchDataModel = (model: { readonly shapes?: Record<string, unknown> }): boolean =>
+  Object.keys(model.shapes ?? {}).some((id) => id.startsWith("com.stackit.opensearch_data#"));
+
 runGeneratorCli({
   description: "Generate the STACKIT Effect SDK from the Smithy models",
   convert: () => import("./convert.ts"),
@@ -151,5 +200,14 @@ runGeneratorCli({
   patchesDir: false,
   barrelExportName: camel,
   continueOnModelError: true,
-  spec: (model) => (isVaultModel(model) ? vaultSpec : isHarborModel(model) ? harborSpec : spec),
+  spec: (model) =>
+    isOpenSearchDataModel(model)
+      ? opensearchDataSpec
+      : isVaultModel(model)
+        ? vaultSpec
+        : isHarborModel(model)
+          ? harborSpec
+          : isRabbitMQManagementModel(model)
+            ? rabbitmqManagementSpec
+            : spec,
 });

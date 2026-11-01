@@ -34,6 +34,12 @@
       "worker": "./src/errors.ts",
       "default": "./lib/errors.js"
     },
+    "./OpenSearch": {
+      "types": "./lib/opensearch.d.ts",
+      "bun": "./src/opensearch.ts",
+      "worker": "./src/opensearch.ts",
+      "default": "./lib/opensearch.js"
+    },
     "./Pagination": {
       "types": "./lib/pagination.d.ts",
       "bun": "./src/pagination.ts",

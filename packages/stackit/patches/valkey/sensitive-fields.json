@@ -1,0 +1,29 @@
+{
+  "description": "The valkey spec leaves these fields as plain strings. `uri` on Credentials and CredentialsResponse is the connection URI holding the password: STACKIT's Terraform provider marks it Sensitive (stackit/internal/services/valkey/credential/resource.go, read 2026-11-01). `encryption_key` on the backups config is, by its name, the key that encrypts backups. `metrics_prefix` on InstanceParameters: the spec's own description says it may hold an API key. No live probe: no credentials exist for this account.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.valkey#Credentials/members/uri/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.valkey#CredentialsResponse/members/uri/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.valkey#UpdateBackupsConfigRequest/members/encryption_key/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.valkey#InstanceParameters/members/metrics_prefix/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

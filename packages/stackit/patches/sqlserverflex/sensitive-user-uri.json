@@ -1,0 +1,15 @@
+{
+  "description": "`uri` on CreateUserResponse and ResetUserResponse is 'the connection string for the user to the instance' (spec, user.uri), answered next to the `password` member convert already marks. A connection string for a just-issued login can hold its password, so it would print in logs, spans and error causes. The spec's example (`jdbc:sqlserver//user@localhost`) shows no password, and no live response has been read, so this is the cautious direction: nothing changes on the wire, callers just get a Redacted value.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#CreateUserResponse/members/uri/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#ResetUserResponse/members/uri/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

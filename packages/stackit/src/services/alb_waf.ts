@@ -510,7 +510,7 @@ export const createWAF: API.OperationMethod<
   span: "CreateWAF",
 }));
 
-export type DeleteCustomRuleGroupError = BadRequest | Forbidden | StackitOpError;
+export type DeleteCustomRuleGroupError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Delete a CRG configuration To delete a custom rule group configuration this endpoint is used, but it is only possible to delete it if no WAF configuration is referencing it. */
 export const deleteCustomRuleGroup: API.OperationMethod<
   DeleteCustomRuleGroupRequest,
@@ -520,7 +520,7 @@ export const deleteCustomRuleGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<DeleteCustomRuleGroupRequest>,
   output: __S(160, __c20, 0) as any as S.Schema<DeleteCustomRuleGroupResponse2>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -1,0 +1,10 @@
+{
+  "description": "The ALB spec documents no 404 on DeleteLoadBalancer, but the API returns 404 for a load balancer that does not exist: STACKIT's own Terraform provider (stackitcloud/terraform-provider-stackit, stackit/internal/services/alb/applicationloadbalancer/resource.go, Delete, read 2026-11-01) treats http.StatusNotFound as already deleted. Type it as the model's NotFound so callers can tell a missing load balancer from other failures.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.alb#DeleteLoadBalancer/errors/-",
+      "value": { "target": "com.stackit.alb#NotFound" }
+    }
+  ]
+}

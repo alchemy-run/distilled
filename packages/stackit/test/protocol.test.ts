@@ -13,6 +13,7 @@ import { applyRegion } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
 import { listServers } from "../src/services/iaas.ts";
 import { getAccessToken } from "../src/services/logs.ts";
+import { downloadBackup } from "../src/services/mariadb.ts";
 import {
   BadRequest,
   Conflict,
@@ -328,5 +329,34 @@ describe("success decoding", () => {
     expect(error).toBeInstanceOf(StackitParseError);
     expect(error).toMatchObject({ body: "[REDACTED]" });
     expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+  });
+});
+
+describe("binary downloads", () => {
+  const request = {
+    projectId,
+    regionId: "eu01",
+    instanceId: "instance-1",
+    backupId: 7,
+  };
+
+  test("returns the bytes of a binary response untouched", async () => {
+    // Not valid UTF-8, so a round trip through text would change them.
+    const bytes = new Uint8Array([0xff, 0xfe, 0x00, 0x80, 0x41]);
+    const layer = Layer.succeed(
+      HttpClient.HttpClient,
+      HttpClient.make((incoming) =>
+        Effect.succeed(HttpClientResponse.fromWeb(incoming, new Response(bytes, { status: 200 }))),
+      ),
+    );
+    const archive = await run(downloadBackup(request), layer);
+    expect(archive).toBeInstanceOf(Uint8Array);
+    expect([...archive]).toEqual([...bytes]);
+  });
+
+  test("still fails a binary operation with its typed error", async () => {
+    const { layer } = fakeStackit(404, '{"error":"not-found","description":"no backup"}');
+    const error = await runFlip(downloadBackup(request), layer);
+    expect(error).toMatchObject({ _tag: "NotFound" });
   });
 });

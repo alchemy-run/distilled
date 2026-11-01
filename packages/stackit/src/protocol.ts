@@ -13,6 +13,7 @@ import {
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
 import {
+  binaryResponseSymbol,
   makeRestProtocol,
   type RestErrorEnvelope,
   type RestErrorInfo,
@@ -48,7 +49,11 @@ import {
   Credentials,
   type Config,
   HarborCredentials,
+  OpenSearchCredentials,
+  type OpenSearchConfig,
   type HarborConfig,
+  RabbitMQManagementCredentials,
+  type RabbitMQManagementConfig,
   VaultCredentials,
   type VaultConfig,
   VaultEndpoint,
@@ -150,6 +155,11 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
       readonly errors: ReadonlyArray<unknown>;
     }) =>
       Effect.gen(function* () {
+        // A binary download: the bytes, without decoding them as text.
+        if (response.status < 300 && getAnn(outputAst, binaryResponseSymbol) !== undefined) {
+          const bytes = yield* response.arrayBuffer.pipe(Effect.catch(fail));
+          return new Uint8Array(bytes);
+        }
         const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
         if (debugHttp()) {
           console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
@@ -335,3 +345,90 @@ export const VaultLoginProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeR
     parseError: vaultParseError,
   },
 );
+
+/** Error channel shared by every generated `rabbitmq_management` operation. */
+export type RabbitMQManagementOpError = StackitOpError;
+
+/** Context (requirements) shared by every generated `rabbitmq_management` operation. */
+export type RabbitMQManagementOpContext = RabbitMQManagementCredentials | HttpClient.HttpClient;
+
+/** The broker's failures are `{ "error": "not_found", "reason": "..." }`. */
+const rabbitmqManagementErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
+  if (body === null || typeof body !== "object") return undefined;
+  const { error, reason } = body as Record<string, unknown>;
+  if (typeof error !== "string" && typeof reason !== "string") return undefined;
+  return {
+    code: typeof error === "string" ? error : undefined,
+    message: typeof reason === "string" ? reason : undefined,
+  };
+};
+
+/**
+ * RabbitMQManagementProtocol -- the shared REST protocol instantiated for RabbitMQ's
+ * management API (`rabbitmq_management`), which a STACKIT RabbitMQ instance serves
+ * on a credential's `http_api_uri`. HTTP Basic with the credential's user.
+ */
+export const RabbitMQManagementProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<RabbitMQManagementConfig>({
+    credentials: /*@__PURE__*/ Effect.flatMap(RabbitMQManagementCredentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiUrl,
+    // No `Accept`: the broker answers 406 to `application/json` on routes that only
+    // provide another type, such as a queue's `/contents`.
+    headers: (creds) => ({
+      Authorization: `Basic ${btoa(`${creds.username}:${Redacted.value(creds.password)}`)}`,
+    }),
+    errorEnvelope: rabbitmqManagementErrorEnvelope,
+    unknownError: ({ code, message, body }) =>
+      new UnknownStackitError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
+  });
+
+/** Error channel shared by every generated `opensearch_data` operation. */
+export type OpenSearchOpError = StackitOpError;
+
+/** Context (requirements) shared by every generated `opensearch_data` operation. */
+export type OpenSearchOpContext = OpenSearchCredentials | HttpClient.HttpClient;
+
+/**
+ * OpenSearch's failures are `{ "error": { "type": "...", "reason": "..." }, "status": 404 }`.
+ * The security plugin can answer with `error` as a plain string or with `message` alone.
+ */
+const opensearchErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
+  if (body === null || typeof body !== "object") return undefined;
+  const { error, message } = body as Record<string, unknown>;
+  if (typeof error === "string") return { message: error };
+  if (error !== null && typeof error === "object") {
+    const { type, reason } = error as Record<string, unknown>;
+    return {
+      code: typeof type === "string" ? type : undefined,
+      message: typeof reason === "string" ? reason : undefined,
+    };
+  }
+  return typeof message === "string" ? { message } : undefined;
+};
+
+/**
+ * OpenSearchProtocol -- the shared REST protocol instantiated for OpenSearch's REST
+ * API (`opensearch_data`), which STACKIT OpenSearch and LogMe instances serve on a
+ * credential's URI. HTTP Basic with the credential's user.
+ */
+export const OpenSearchProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<OpenSearchConfig>({
+    credentials: /*@__PURE__*/ Effect.flatMap(OpenSearchCredentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiUrl,
+    headers: (creds) => ({
+      Authorization: `Basic ${btoa(`${creds.username}:${Redacted.value(creds.password)}`)}`,
+    }),
+    errorEnvelope: opensearchErrorEnvelope,
+    unknownError: ({ code, message, body }) =>
+      new UnknownStackitError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
+  });

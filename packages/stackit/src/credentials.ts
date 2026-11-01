@@ -781,3 +781,78 @@ export class VaultEndpoint
   extends /*@__PURE__*/ Context.Service<VaultEndpoint, string>()("StackitVaultEndpoint") {}
 
 //#endregion
+
+//#region RabbitMQ management API (RabbitMQ data plane)
+
+export interface RabbitMQManagementConfig {
+  /** Root the API's `/api/...` routes hang off, with no user or password in it. */
+  readonly apiUrl: string;
+  /** Basic-auth user: a credential's `username`. */
+  readonly username: string;
+  /** Basic-auth password: a credential's `password`. */
+  readonly password: Redacted.Redacted<string>;
+}
+
+/**
+ * What `rabbitmq_management` operations sign with: the broker takes the Basic auth
+ * of a `rabbitmq` credential, not a STACKIT access token, so this is its own service
+ * rather than {@link Credentials}.
+ */
+export class RabbitMQManagementCredentials
+  extends /*@__PURE__*/ Context.Service<
+    RabbitMQManagementCredentials,
+    Effect.Effect<RabbitMQManagementConfig, ConfigError>
+  >()("StackitRabbitMQManagementCredentials") {}
+
+/**
+ * The API root for a credential's `http_api_uri`: a bare host gets `https://`, any
+ * user and password are dropped, and so is a trailing `/api`, because the operations'
+ * routes carry it. Returns `undefined` for something that isn't a URL.
+ */
+export const rabbitmqManagementApiUrl = (httpApiUri: string): string | undefined => {
+  const withScheme = /^https?:\/\//.test(httpApiUri) ? httpApiUri : `https://${httpApiUri}`;
+  if (!URL.canParse(withScheme)) return undefined;
+  const url = new URL(withScheme);
+  return `${url.origin}${url.pathname.replace(/\/+$/, "").replace(/\/api$/, "")}`;
+};
+
+/**
+ * The `RabbitMQManagementCredentials` value for one credential. The URI can hold the
+ * password, so a failure doesn't quote it.
+ */
+export const rabbitmqManagementCredentialsOf = (config: {
+  readonly httpApiUri: string;
+  readonly username: string;
+  readonly password: Redacted.Redacted<string>;
+}): Effect.Effect<RabbitMQManagementConfig, ConfigError> => {
+  const apiUrl = rabbitmqManagementApiUrl(config.httpApiUri);
+  return apiUrl === undefined
+    ? Effect.fail(new ConfigError({ message: "A RabbitMQ credential's http_api_uri is not a URL" }))
+    : Effect.succeed({ apiUrl, username: config.username, password: config.password });
+};
+
+//#endregion
+
+//#region OpenSearch REST API (OpenSearch and LogMe data plane)
+
+export interface OpenSearchConfig {
+  /** Root of the REST API, with no user or password in it. */
+  readonly apiUrl: string;
+  /** Basic-auth user: a credential's `username`. */
+  readonly username: string;
+  /** Basic-auth password: a credential's `password`. */
+  readonly password: Redacted.Redacted<string>;
+}
+
+/**
+ * What `opensearch_data` operations sign with: an instance takes the Basic auth of an
+ * `opensearch` or `logme` credential, not a STACKIT access token, so this is its own
+ * service rather than {@link Credentials}.
+ */
+export class OpenSearchCredentials
+  extends /*@__PURE__*/ Context.Service<
+    OpenSearchCredentials,
+    Effect.Effect<OpenSearchConfig, ConfigError>
+  >()("StackitOpenSearchCredentials") {}
+
+//#endregion

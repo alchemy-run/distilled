@@ -212,6 +212,28 @@ await runOpenApiConvert({
         serviceName: "SecretsManagerKv",
       },
     },
+    // RabbitMQ's management API, the HTTP data plane of `rabbitmq`: written by hand
+    // from its published HTML reference (see the file's `info`). No host is stamped:
+    // each credential's URL is part of `RabbitMQManagementCredentials`.
+    {
+      name: "rabbitmq_management",
+      specPath: path.join(root, "manual-specs", "rabbitmq_management.json"),
+      options: {
+        namespace: "com.stackit.rabbitmq_management",
+        serviceName: "RabbitmqManagement",
+      },
+    },
+    // OpenSearch's REST API, the data plane of `opensearch` and `logme`: trimmed by hand
+    // from its published OpenAPI document (see the file's `info`). No host is stamped:
+    // each credential's URL is part of `OpenSearchCredentials`.
+    {
+      name: "opensearch_data",
+      specPath: path.join(root, "manual-specs", "opensearch_data.json"),
+      options: {
+        namespace: "com.stackit.opensearch_data",
+        serviceName: "OpensearchData",
+      },
+    },
   ],
   patchesDir: "patches",
   finalize: false,

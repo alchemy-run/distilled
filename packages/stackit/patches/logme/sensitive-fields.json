@@ -1,0 +1,36 @@
+{
+  "description": "The logme spec leaves these fields as plain strings. `uri` on Credentials and CredentialsResponse is the connection URI holding the password: STACKIT's Terraform provider marks it Sensitive (docs/resources/logme_credential.md, read 2026-11-01). `encryption_key` on the backups config is, by its name, the key that encrypts backups. `metrics_prefix` on InstanceParameters: the spec's own description says it may hold an API key. `syslog_drain_url` on Credentials is an unverified format: a drain URL of this kind can carry the user and password, so it gets the same treatment. Nothing on the wire changes. No live probe: no credentials exist for this account.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.logme#Credentials/members/uri/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.logme#CredentialsResponse/members/uri/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.logme#UpdateBackupsConfigRequest/members/encryption_key/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.logme#InstanceParameters/members/metrics_prefix/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.logme#Credentials/members/syslog_drain_url/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    }
+  ]
+}
