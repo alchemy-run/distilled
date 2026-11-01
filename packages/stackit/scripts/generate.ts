@@ -284,6 +284,119 @@ const isObservabilityDataModel = (model: { readonly shapes?: Record<string, unkn
       id.startsWith("com.stackit.observability_prometheus#"),
   );
 
+/**
+ * The Cloud Foundry v3 API (`cloud_foundry`) takes a UAA access token rather than a STACKIT
+ * token, and its discovery and login sign with nothing. See `CloudFoundryProtocol`.
+ */
+const cloudFoundrySpec: SdkSpec = {
+  ...spec,
+  operationDecl: {
+    contextType: "CloudFoundryOpContext",
+    commonErrorType: "CloudFoundryOpError",
+    commonErrorClasses: ["UnknownStackitError"],
+    protocol: "CloudFoundryProtocol",
+    retry: "Retry.Retry",
+    overrides: ({ exportName }) =>
+      exportName === "getApiRoot"
+        ? { protocol: "CloudFoundryRootProtocol", contextType: "CloudFoundryRootContext" }
+        : exportName === "requestToken"
+          ? { protocol: "CloudFoundryLoginProtocol", contextType: "CloudFoundryRootContext" }
+          : undefined,
+  },
+  postProcess: (code) =>
+    (spec.postProcess?.(code) ?? code).replace(
+      "  CloudFoundryProtocol,\n",
+      "  CloudFoundryLoginProtocol,\n  CloudFoundryProtocol,\n  CloudFoundryRootProtocol,\n  type CloudFoundryRootContext,\n",
+    ),
+};
+
+const isCloudFoundryModel = (model: { readonly shapes?: Record<string, unknown> }): boolean =>
+  Object.keys(model.shapes ?? {}).some((id) => id.startsWith("com.stackit.cloud_foundry#"));
+
+/**
+ * Forgejo's REST API (`git_forgejo`) takes a Forgejo access token or a user's password from
+ * one Git instance rather than a STACKIT token. See `ForgejoProtocol`.
+ */
+const gitForgejoSpec: SdkSpec = {
+  ...spec,
+  operationDecl: {
+    contextType: "ForgejoOpContext",
+    commonErrorType: "ForgejoOpError",
+    commonErrorClasses: ["UnknownStackitError"],
+    protocol: "ForgejoProtocol",
+    retry: "Retry.Retry",
+  },
+};
+
+const isGitForgejoModel = (model: { readonly shapes?: Record<string, unknown> }): boolean =>
+  Object.keys(model.shapes ?? {}).some((id) => id.startsWith("com.stackit.git_forgejo#"));
+
+/**
+ * The inference API (`model_serving_inference`) takes a `model_serving` auth token rather than a
+ * STACKIT token, and `streamChatCompletion` answers server-sent events. Its output is a stream
+ * of the chunks, which no schema can describe. See `ModelServingInferenceStreamProtocol`.
+ */
+const modelServingInferenceSpec: SdkSpec = {
+  ...spec,
+  shapeOverride: (ctx) =>
+    ctx.name === "ChatCompletionEvents"
+      ? [
+          `export interface ChatCompletionEvents { readonly events: Stream.Stream<ChatCompletionChunk, ModelServingInferenceOpError>; }`,
+          `export const ChatCompletionEvents = /*@__PURE__*/ S.Any as any as S.Schema<ChatCompletionEvents>;`,
+        ]
+      : spec.shapeOverride?.(ctx),
+  operationDecl: {
+    contextType: "ModelServingInferenceOpContext",
+    commonErrorType: "ModelServingInferenceOpError",
+    commonErrorClasses: ["UnknownStackitError"],
+    protocol: "ModelServingInferenceProtocol",
+    retry: "Retry.Retry",
+    overrides: ({ exportName }) =>
+      exportName === "streamChatCompletion"
+        ? { protocol: "ModelServingInferenceStreamProtocol" }
+        : undefined,
+  },
+  postProcess: (code) =>
+    (spec.postProcess?.(code) ?? code)
+      .replace(
+        "  ModelServingInferenceProtocol,\n",
+        "  ModelServingInferenceProtocol,\n  ModelServingInferenceStreamProtocol,\n",
+      )
+      .replace(
+        `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+        `import * as S from "@distilled.cloud/core/schema-lite";\nimport type * as Stream from "effect/Stream";\n`,
+      ),
+};
+
+const isModelServingInferenceModel = (model: {
+  readonly shapes?: Record<string, unknown>;
+}): boolean =>
+  Object.keys(model.shapes ?? {}).some((id) =>
+    id.startsWith("com.stackit.model_serving_inference#"),
+  );
+
+/**
+ * MLflow's tracking API (`model_experiments_mlflow`) takes an instance's tracking token rather
+ * than a STACKIT token. See `MlflowProtocol`.
+ */
+const modelExperimentsMlflowSpec: SdkSpec = {
+  ...spec,
+  operationDecl: {
+    contextType: "MlflowOpContext",
+    commonErrorType: "MlflowOpError",
+    commonErrorClasses: ["UnknownStackitError"],
+    protocol: "MlflowProtocol",
+    retry: "Retry.Retry",
+  },
+};
+
+const isModelExperimentsMlflowModel = (model: {
+  readonly shapes?: Record<string, unknown>;
+}): boolean =>
+  Object.keys(model.shapes ?? {}).some((id) =>
+    id.startsWith("com.stackit.model_experiments_mlflow#"),
+  );
+
 runGeneratorCli({
   description: "Generate the STACKIT Effect SDK from the Smithy models",
   convert: () => import("./convert.ts"),
@@ -292,21 +405,29 @@ runGeneratorCli({
   barrelExportName: camel,
   continueOnModelError: true,
   spec: (model) =>
-    isObservabilityDataModel(model)
-      ? observabilityDataSpec
-      : isWorkflowsAirflowModel(model)
-        ? workflowsAirflowSpec
-        : isDremioRestModel(model)
-          ? dremioRestSpec
-          : isLogsLokiModel(model)
-            ? logsLokiSpec
-            : isOpenSearchDataModel(model)
-              ? opensearchDataSpec
-              : isVaultModel(model)
-                ? vaultSpec
-                : isHarborModel(model)
-                  ? harborSpec
-                  : isRabbitMQManagementModel(model)
-                    ? rabbitmqManagementSpec
-                    : spec,
+    isModelServingInferenceModel(model)
+      ? modelServingInferenceSpec
+      : isModelExperimentsMlflowModel(model)
+        ? modelExperimentsMlflowSpec
+        : isGitForgejoModel(model)
+          ? gitForgejoSpec
+          : isCloudFoundryModel(model)
+            ? cloudFoundrySpec
+            : isObservabilityDataModel(model)
+              ? observabilityDataSpec
+              : isWorkflowsAirflowModel(model)
+                ? workflowsAirflowSpec
+                : isDremioRestModel(model)
+                  ? dremioRestSpec
+                  : isLogsLokiModel(model)
+                    ? logsLokiSpec
+                    : isOpenSearchDataModel(model)
+                      ? opensearchDataSpec
+                      : isVaultModel(model)
+                        ? vaultSpec
+                        : isHarborModel(model)
+                          ? harborSpec
+                          : isRabbitMQManagementModel(model)
+                            ? rabbitmqManagementSpec
+                            : spec,
 });

@@ -38,6 +38,8 @@ import { httpSymbol } from "@distilled.cloud/core/trait";
  * routes against a version-less host.
  */
 import * as Effect from "effect/Effect";
+import * as Base64 from "effect/encoding/Base64";
+import * as Sse from "effect/encoding/Sse";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
@@ -45,15 +47,25 @@ import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
+import * as Stream from "effect/Stream";
 import {
+  CloudFoundryCredentials,
+  type CloudFoundryConfig,
+  CloudFoundryEndpoint,
   Credentials,
   type Config,
   DremioCredentials,
   type DremioConfig,
   DremioEndpoint,
+  ForgejoCredentials,
+  type ForgejoConfig,
   HarborCredentials,
   LokiCredentials,
   type LokiConfig,
+  MlflowCredentials,
+  type MlflowConfig,
+  ModelServingInferenceCredentials,
+  type ModelServingInferenceConfig,
   ObservabilityDataCredentials,
   type ObservabilityDataConfig,
   OpenSearchCredentials,
@@ -108,9 +120,19 @@ export const applyRegion = (specUrl: string, region: string): string => {
   return specUrl.replaceAll("{region}", value);
 };
 
+/**
+ * The value of a Basic `Authorization` header. RFC 7617 sends the UTF-8 bytes where the server
+ * says so, and `btoa` takes Latin-1 only: it throws on `€`, and sends `ä` as a byte no UTF-8 server
+ * reads as that letter.
+ */
+const basicCredentials = (username: string, password: Redacted.Redacted<string>): string =>
+  Base64.encode(new TextEncoder().encode(`${username}:${Redacted.value(password)}`));
+
 const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   if (body === null || typeof body !== "object") return undefined;
   const b = body as Record<string, unknown>;
+  // `automation` nests it: `{ "error": { "code": 404, "status": "NOT_FOUND", "message": "..." } }`.
+  if (b.error !== null && typeof b.error === "object") return errorEnvelope(b.error);
   const message = typeof b.message === "string" ? b.message : undefined;
   const code =
     typeof b.error === "string"
@@ -281,6 +303,94 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
   }),
 );
 
+const trimSlash = (url: string) => url.replace(/\/+$/, "");
+
+/** Error channel shared by every generated `cloud_foundry` operation. */
+export type CloudFoundryOpError = StackitOpError;
+
+/** Context (requirements) of the `cloud_foundry` operations that take a token. */
+export type CloudFoundryOpContext = CloudFoundryCredentials | HttpClient.HttpClient;
+
+/** Context (requirements) of `cloud_foundry`'s discovery and login, which take none. */
+export type CloudFoundryRootContext = CloudFoundryEndpoint | HttpClient.HttpClient;
+
+/**
+ * Cloud Controller failures are `{ "errors": [{ "code": 10010, "title": "CF-ResourceNotFound",
+ * "detail": "..." }] }`, and UAA's are `{ "error": "invalid_grant", "error_description": "..." }`.
+ */
+const cloudFoundryErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
+  if (body === null || typeof body !== "object") return undefined;
+  const { errors, error, error_description } = body as Record<string, unknown>;
+  if (Array.isArray(errors) && errors.length > 0) {
+    const first = errors[0] as Record<string, unknown> | null;
+    const parts = [first?.title, first?.detail].filter(
+      (part): part is string => typeof part === "string" && part !== "",
+    );
+    return {
+      code: typeof first?.code === "number" ? first.code : undefined,
+      message: parts.length === 0 ? undefined : parts.join(": "),
+    };
+  }
+  if (typeof error === "string") {
+    return {
+      code: error,
+      message: typeof error_description === "string" ? error_description : error,
+    };
+  }
+  return undefined;
+};
+
+const cloudFoundryUnknownError = ({ code, message, body }: RestErrorInfo) =>
+  new UnknownStackitError({
+    code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+    message,
+    body,
+  });
+
+const cloudFoundryParseError = ({ body, cause }: RestParseErrorInfo) =>
+  new StackitParseError({ body, cause });
+
+/**
+ * CloudFoundryProtocol -- the shared REST protocol instantiated for the Cloud Foundry v3 API
+ * (`cloud_foundry`), which a STACKIT Cloud Foundry platform serves on its `apiUrl`. Auth is a
+ * UAA access token from {@link CloudFoundryCredentials}: never a STACKIT one.
+ */
+export const CloudFoundryProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<CloudFoundryConfig>({
+    credentials: /*@__PURE__*/ Effect.flatMap(CloudFoundryCredentials, (resolve) => resolve),
+    baseUrl: (creds) => trimSlash(creds.apiUrl),
+    headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.token)}` }),
+    errorEnvelope: cloudFoundryErrorEnvelope,
+    unknownError: cloudFoundryUnknownError,
+    parseError: cloudFoundryParseError,
+  });
+
+/** {@link CloudFoundryProtocol} for the API root, which sends nothing to sign with. */
+export const CloudFoundryRootProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<string>({
+    credentials: /*@__PURE__*/ Effect.map(CloudFoundryEndpoint, (url) => url),
+    baseUrl: (url) => trimSlash(url),
+    headers: () => ({}),
+    errorEnvelope: cloudFoundryErrorEnvelope,
+    unknownError: cloudFoundryUnknownError,
+    parseError: cloudFoundryParseError,
+  });
+
+/**
+ * {@link CloudFoundryProtocol} for UAA's token endpoint, on the `login` link of the API root.
+ * `cf:` is the public client `cf` with its empty secret, as the CF CLI sends it. It answers JSON
+ * only when asked for it.
+ */
+export const CloudFoundryLoginProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<string>({
+    credentials: /*@__PURE__*/ Effect.map(CloudFoundryEndpoint, (url) => url),
+    baseUrl: (url) => trimSlash(url),
+    headers: () => ({ Authorization: `Basic ${btoa("cf:")}`, Accept: "application/json" }),
+    errorEnvelope: cloudFoundryErrorEnvelope,
+    unknownError: cloudFoundryUnknownError,
+    parseError: cloudFoundryParseError,
+  });
+
 /** Error channel shared by every generated `registry_harbor` operation. */
 export type HarborOpError = StackitOpError;
 
@@ -313,7 +423,7 @@ export const HarborProtocol: Layer.Layer<API.Protocol> =
     credentials: /*@__PURE__*/ Effect.flatMap(HarborCredentials, (resolve) => resolve),
     baseUrl: (creds) => creds.apiBaseUrl,
     headers: (creds) => ({
-      Authorization: `Basic ${btoa(`${creds.username}:${Redacted.value(creds.secret)}`)}`,
+      Authorization: `Basic ${basicCredentials(creds.username, creds.secret)}`,
       Accept: "application/json",
     }),
     errorEnvelope: harborErrorEnvelope,
@@ -352,8 +462,6 @@ const vaultUnknownError = ({ code, message, body }: RestErrorInfo) =>
 
 const vaultParseError = ({ body, cause }: RestParseErrorInfo) =>
   new StackitParseError({ body, cause });
-
-const trimSlash = (url: string) => url.replace(/\/+$/, "");
 
 /**
  * VaultProtocol -- the shared REST protocol instantiated for HashiCorp Vault's
@@ -412,7 +520,7 @@ export const RabbitMQManagementProtocol: Layer.Layer<API.Protocol> =
     // No `Accept`: the broker answers 406 to `application/json` on routes that only
     // provide another type, such as a queue's `/contents`.
     headers: (creds) => ({
-      Authorization: `Basic ${btoa(`${creds.username}:${Redacted.value(creds.password)}`)}`,
+      Authorization: `Basic ${basicCredentials(creds.username, creds.password)}`,
     }),
     errorEnvelope: rabbitmqManagementErrorEnvelope,
     unknownError: ({ code, message, body }) =>
@@ -454,7 +562,7 @@ export const ObservabilityDataProtocol: Layer.Layer<API.Protocol> =
     credentials: /*@__PURE__*/ Effect.flatMap(ObservabilityDataCredentials, (resolve) => resolve),
     baseUrl: (creds) => creds.apiUrl,
     headers: (creds) => ({
-      Authorization: `Basic ${btoa(`${creds.username}:${Redacted.value(creds.password)}`)}`,
+      Authorization: `Basic ${basicCredentials(creds.username, creds.password)}`,
     }),
     errorEnvelope: observabilityDataErrorEnvelope,
     unknownError: ({ code, message, body }) =>
@@ -571,6 +679,38 @@ export const WorkflowsAirflowProtocol: Layer.Layer<API.Protocol> =
     parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
   });
 
+/** Error channel shared by every generated `git_forgejo` operation. */
+export type ForgejoOpError = StackitOpError;
+
+/** Context (requirements) shared by every generated `git_forgejo` operation. */
+export type ForgejoOpContext = ForgejoCredentials | HttpClient.HttpClient;
+
+/**
+ * ForgejoProtocol -- the shared REST protocol instantiated for Forgejo's REST API
+ * (`git_forgejo`), which a STACKIT Git instance serves under its URL. Failures are
+ * `{ "message": "...", "url": "..." }`, which STACKIT's own envelope reads.
+ */
+export const ForgejoProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<ForgejoConfig>({
+    credentials: /*@__PURE__*/ Effect.flatMap(ForgejoCredentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiUrl,
+    headers: (creds) => ({
+      Authorization:
+        "token" in creds
+          ? `token ${Redacted.value(creds.token)}`
+          : `Basic ${basicCredentials(creds.username, creds.password)}`,
+      Accept: "application/json",
+    }),
+    errorEnvelope: (body) => errorEnvelope(body),
+    unknownError: ({ code, message, body }) =>
+      new UnknownStackitError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
+  });
+
 /** Error channel shared by every generated `opensearch_data` operation. */
 export type OpenSearchOpError = StackitOpError;
 
@@ -605,7 +745,7 @@ export const OpenSearchProtocol: Layer.Layer<API.Protocol> =
     credentials: /*@__PURE__*/ Effect.flatMap(OpenSearchCredentials, (resolve) => resolve),
     baseUrl: (creds) => creds.apiUrl,
     headers: (creds) => ({
-      Authorization: `Basic ${btoa(`${creds.username}:${Redacted.value(creds.password)}`)}`,
+      Authorization: `Basic ${basicCredentials(creds.username, creds.password)}`,
     }),
     errorEnvelope: opensearchErrorEnvelope,
     unknownError: ({ code, message, body }) =>
@@ -639,7 +779,7 @@ export const LokiProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPro
     Authorization:
       "token" in creds
         ? `Bearer ${Redacted.value(creds.token)}`
-        : `Basic ${btoa(`${creds.username}:${Redacted.value(creds.password)}`)}`,
+        : `Basic ${basicCredentials(creds.username, creds.password)}`,
   }),
   errorEnvelope: (body) => errorEnvelope(body),
   unknownError: ({ code, message, body }) =>
@@ -650,3 +790,201 @@ export const LokiProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPro
     }),
   parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
 });
+
+/** Error channel shared by every generated `model_serving_inference` operation. */
+export type ModelServingInferenceOpError = StackitOpError;
+
+/** Context (requirements) shared by every generated `model_serving_inference` operation. */
+export type ModelServingInferenceOpContext =
+  | ModelServingInferenceCredentials
+  | HttpClient.HttpClient;
+
+/**
+ * OpenAI's failures are `{ "error": { "message": "...", "type": "...", "code": ... } }`. Other
+ * OpenAI-compatible servers answer `{ "object": "error", "message": "..." }`, and STACKIT's own
+ * APIs `{ "message": "..." }`. STACKIT documents none of them for this API, so all three are read.
+ */
+const modelServingErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
+  if (body === null || typeof body !== "object") return undefined;
+  const { error, message } = body as Record<string, unknown>;
+  if (typeof error === "string") return { message: error };
+  if (error !== null && typeof error === "object") {
+    const nested = error as Record<string, unknown>;
+    const code = nested.code ?? nested.type;
+    return {
+      code: typeof code === "string" || typeof code === "number" ? code : undefined,
+      message: typeof nested.message === "string" ? nested.message : undefined,
+    };
+  }
+  return typeof message === "string" ? { message } : undefined;
+};
+
+/**
+ * ModelServingInferenceProtocol -- the shared REST protocol instantiated for the OpenAI-compatible
+ * API (`model_serving_inference`) of STACKIT AI Model Serving. Bearer auth with a `model_serving`
+ * auth token, never a STACKIT access token.
+ */
+export const ModelServingInferenceProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<ModelServingInferenceConfig>({
+    credentials: /*@__PURE__*/ Effect.flatMap(
+      ModelServingInferenceCredentials,
+      (resolve) => resolve,
+    ),
+    baseUrl: (creds) => creds.apiUrl,
+    headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.token)}` }),
+    errorEnvelope: modelServingErrorEnvelope,
+    unknownError: ({ code, message, body }) =>
+      new UnknownStackitError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
+  });
+
+/**
+ * One event's data as a chunk, or the failure a server reported in the stream. STACKIT publishes no
+ * document for this API, so what isn't an object fails, and a chunk with no `choices`, or a choice
+ * with no `delta`, reads as an empty one.
+ */
+const inferenceChunk = (
+  data: string,
+): Effect.Effect<unknown, StackitParseError | UnknownStackitError> =>
+  Effect.try({
+    try: () => JSON.parse(data) as unknown,
+    catch: (cause) => new StackitParseError({ body: data, cause }),
+  }).pipe(
+    Effect.flatMap((chunk) => {
+      if (chunk === null || typeof chunk !== "object" || Array.isArray(chunk)) {
+        return Effect.fail(
+          new StackitParseError({
+            body: data,
+            cause: new Error("The inference API sent a stream event that isn't an object"),
+          }),
+        );
+      }
+      const fields = chunk as Record<string, unknown>;
+      if (fields.error == null && fields.object !== "error") {
+        const choices = Array.isArray(fields.choices) ? (fields.choices as unknown[]) : [];
+        return Effect.succeed({
+          ...fields,
+          choices: choices.map((choice) => {
+            const value = (choice ?? {}) as Record<string, unknown>;
+            return { ...value, delta: value.delta ?? {} };
+          }),
+        });
+      }
+      const envelope = modelServingErrorEnvelope(chunk);
+      return Effect.fail(
+        new UnknownStackitError({
+          code: envelope?.code === undefined ? undefined : String(envelope.code),
+          message: envelope?.message ?? "The inference API reported an error in its stream",
+          body: chunk,
+        }),
+      );
+    }),
+  );
+
+/**
+ * A chat completion's server-sent events as chunks, up to `[DONE]`. Bytes are read as the caller
+ * reads the stream. A body that ends with neither `[DONE]` nor a finish reason was cut off, and
+ * fails rather than passing for a short reply.
+ */
+const inferenceChunks = (
+  response: HttpClientResponse.HttpClientResponse,
+): Stream.Stream<unknown, ModelServingInferenceOpError> =>
+  Stream.suspend(() => {
+    let complete = false;
+    const chunks = response.stream.pipe(
+      Stream.decodeText(),
+      Stream.pipeThroughChannel(Sse.decode<HttpClientError.HttpClientError, unknown>()),
+      Stream.mapError((error) =>
+        error._tag === "SseError" || error._tag === "Retry"
+          ? new StackitParseError({ body: undefined, cause: error })
+          : error,
+      ),
+      Stream.takeWhile((event) => {
+        if (event.data !== "[DONE]") return true;
+        complete = true;
+        return false;
+      }),
+      Stream.filter((event) => event.data !== ""),
+      Stream.mapEffect((event) => inferenceChunk(event.data)),
+      Stream.tap((chunk) =>
+        Effect.sync(() => {
+          const { choices } = chunk as { readonly choices?: ReadonlyArray<any> };
+          if (choices?.some((choice) => choice?.finish_reason != null)) complete = true;
+        }),
+      ),
+    );
+    return Stream.concat(
+      chunks,
+      Stream.suspend(() =>
+        complete
+          ? Stream.empty
+          : Stream.fail(
+              new StackitParseError({
+                body: undefined,
+                cause: new Error("The inference API's stream ended without a finish reason"),
+              }),
+            ),
+      ),
+    );
+  });
+
+/**
+ * {@link ModelServingInferenceProtocol} for `streamChatCompletion`: it always asks for server-sent
+ * events, and answers `{ events }` while the body is still arriving. Failures before the first
+ * event are the operation's typed errors, as on `createChatCompletion`.
+ */
+export const ModelServingInferenceStreamProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ Layer.effect(
+    API.Protocol,
+    /*@__PURE__*/ Effect.map(API.Protocol, (base) =>
+      API.Protocol.of({
+        encode: (args) =>
+          base.encode({ ...args, input: { ...(args.input as object), stream: true } }),
+        decode: (args) =>
+          args.response.status >= 200 && args.response.status < 300
+            ? Effect.succeed({ events: inferenceChunks(args.response) })
+            : base.decode(args),
+      }),
+    ),
+  ).pipe(/*@__PURE__*/ Layer.provide(ModelServingInferenceProtocol));
+
+/** Error channel shared by every generated `model_experiments_mlflow` operation. */
+export type MlflowOpError = StackitOpError;
+
+/** Context (requirements) shared by every generated `model_experiments_mlflow` operation. */
+export type MlflowOpContext = MlflowCredentials | HttpClient.HttpClient;
+
+/** MLflow's failures are `{ "error_code": "RESOURCE_DOES_NOT_EXIST", "message": "..." }`. */
+const mlflowErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
+  if (body === null || typeof body !== "object") return undefined;
+  const { error_code, message } = body as Record<string, unknown>;
+  if (typeof error_code !== "string" && typeof message !== "string") return undefined;
+  return {
+    code: typeof error_code === "string" ? error_code : undefined,
+    message: typeof message === "string" ? message : undefined,
+  };
+};
+
+/**
+ * MlflowProtocol -- the shared REST protocol instantiated for MLflow's tracking API
+ * (`model_experiments_mlflow`), which a STACKIT AI Model Experiments instance serves on its `url`.
+ * Bearer auth with one of the instance's tracking tokens, never a STACKIT access token.
+ */
+export const MlflowProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<MlflowConfig>({
+    credentials: /*@__PURE__*/ Effect.flatMap(MlflowCredentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiUrl,
+    headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.token)}` }),
+    errorEnvelope: mlflowErrorEnvelope,
+    unknownError: ({ code, message, body }) =>
+      new UnknownStackitError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
+  });

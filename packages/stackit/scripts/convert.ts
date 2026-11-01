@@ -165,6 +165,33 @@ const dropHarborRequestId = (spec: any): void => {
 };
 
 /**
+ * STACKIT Git names the responses of `ListInstances` and `ListFlavors` after the
+ * operations, so the operations come out as `listInstances2` and `listFlavors2`. Their
+ * schemas move out of the way.
+ */
+const renameGitListSchemas = (spec: any): void => {
+  const schemas = spec.components.schemas;
+  const moved: Record<string, string> = {
+    ListInstances: "InstanceList",
+    ListFlavors: "FlavorList",
+  };
+  for (const [from, to] of Object.entries(moved)) {
+    schemas[to] = schemas[from];
+    delete schemas[from];
+  }
+  const text = JSON.stringify(spec.paths).replace(
+    /#\/components\/schemas\/(ListInstances|ListFlavors)"/g,
+    (_, name: string) => `#/components/schemas/${moved[name]}"`,
+  );
+  spec.paths = JSON.parse(text);
+};
+
+/** Spec fixes a product needs before it converts, by slug. */
+const SPEC_PREPROCESS: Record<string, (spec: any) => void> = {
+  git: renameGitListSchemas,
+};
+
+/**
  * Operation names the verbNoun rewrite gets wrong, per product. `RetrieveZone`
  * (POST `.../zones/{zoneId}/retrieve`, queue a secondary zone's transfer)
  * would alias `retrieve` to `get` and collide with `GetZone`, as `getZone2`.
@@ -182,6 +209,7 @@ await runOpenApiConvert({
       return {
         name: slug,
         specPath: `specs/spec-mirror-stackit/specs/${entry.output}`,
+        preprocess: SPEC_PREPROCESS[slug],
         options: {
           namespace: `com.stackit.${slug}`,
           serviceName: toPascal(slug),
@@ -245,6 +273,25 @@ await runOpenApiConvert({
         serviceName: "OpensearchData",
       },
     },
+    // Forgejo's REST API, the data plane of `git`: its published Swagger document, trimmed by a
+    // script (see the file's `info`). No host is stamped: each instance's URL is part of
+    // `ForgejoCredentials`.
+    {
+      name: "git_forgejo",
+      specPath: path.join(root, "manual-specs", "git_forgejo.json"),
+      options: {
+        namespace: "com.stackit.git_forgejo",
+        serviceName: "GitForgejo",
+        operationNames: {
+          userGetCurrent: "getCurrentUser",
+          repoGet: "getRepository",
+          repoEdit: "updateRepository",
+          repoDelete: "deleteRepository",
+          createCurrentUserRepo: "createCurrentUserRepository",
+          createOrgRepo: "createOrgRepository",
+        },
+      },
+    },
     // Grafana Loki's push and query API, the data plane of `logs`: written by hand from
     // its published reference (see the file's `info`). No host is stamped: each
     // instance's URL is part of `LokiCredentials`.
@@ -292,6 +339,39 @@ await runOpenApiConvert({
       options: {
         namespace: "com.stackit.observability_prometheus",
         serviceName: "ObservabilityPrometheus",
+      },
+    },
+    // The Cloud Foundry v3 API and UAA's token endpoint, the data plane of `scf`: the document in
+    // `cloudfoundry/cloud_controller_ng`, trimmed by a script (see the file's `info`). No host is
+    // stamped: each platform's `apiUrl` is part of `CloudFoundryCredentials`.
+    {
+      name: "cloud_foundry",
+      specPath: path.join(root, "manual-specs", "cloud_foundry.json"),
+      options: {
+        namespace: "com.stackit.cloud_foundry",
+        serviceName: "CloudFoundry",
+      },
+    },
+    // The OpenAI-compatible inference API of `model_serving`: written by hand from STACKIT's docs
+    // and OpenAI's reference (see the file's `info`). No host is stamped: it is part of
+    // `ModelServingInferenceCredentials`.
+    {
+      name: "model_serving_inference",
+      specPath: path.join(root, "manual-specs", "model_serving_inference.json"),
+      options: {
+        namespace: "com.stackit.model_serving_inference",
+        serviceName: "ModelServingInference",
+      },
+    },
+    // MLflow's tracking REST API, the data plane of `model_experiments`: written by hand from its
+    // published reference (see the file's `info`). No host is stamped: each instance's URL is part
+    // of `MlflowCredentials`.
+    {
+      name: "model_experiments_mlflow",
+      specPath: path.join(root, "manual-specs", "model_experiments_mlflow.json"),
+      options: {
+        namespace: "com.stackit.model_experiments_mlflow",
+        serviceName: "ModelExperimentsMlflow",
       },
     },
     // Pub/Sub's data plane: the OpenAPI document in `stackitcloud/pubsub-sdk-go`, with the

@@ -25,9 +25,16 @@ export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
 export {
+  CloudFoundryLoginProtocol,
+  CloudFoundryProtocol,
+  CloudFoundryRootProtocol,
   DremioLoginProtocol,
   DremioProtocol,
+  ForgejoProtocol,
   HarborProtocol,
+  MlflowProtocol,
+  ModelServingInferenceProtocol,
+  ModelServingInferenceStreamProtocol,
   ObservabilityDataProtocol,
   OpenSearchProtocol,
   RabbitMQManagementProtocol,
@@ -36,11 +43,20 @@ export {
   VaultProtocol,
   WorkflowsAirflowProtocol,
   applyRegion,
+  type CloudFoundryOpContext,
+  type CloudFoundryOpError,
+  type CloudFoundryRootContext,
   type DremioLoginContext,
   type DremioOpContext,
   type DremioOpError,
+  type ForgejoOpContext,
+  type ForgejoOpError,
   type HarborOpContext,
   type HarborOpError,
+  type MlflowOpContext,
+  type MlflowOpError,
+  type ModelServingInferenceOpContext,
+  type ModelServingInferenceOpError,
   type ObservabilityDataOpContext,
   type ObservabilityDataOpError,
   type OpenSearchOpContext,
@@ -58,7 +74,9 @@ export {
 export { paginateByTotalPages } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * from "./services/index.ts";
+export * from "./cloud-foundry.ts";
 export * from "./dremio.ts";
+export * from "./forgejo.ts";
 export * from "./opensearch.ts";
 export * from "./vault.ts";
 export * from "./workflows-airflow.ts";

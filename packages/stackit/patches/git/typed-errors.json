@@ -1,0 +1,20 @@
+{
+  "description": "The spec declares 404 on GET-sibling operations of the same routes but leaves it off these. GetAuthentication has no 404 although PatchAuthentication and DeleteAuthentication declare one on the same path, and ListAuthentication and GetUsers have none although every other operation under /instances/{instanceId} declares that a missing instance is a 404 (GetInstance, DeleteUser, GetRunner, CreateAuthentication). Not confirmed on the wire: no credentials exist yet. Typed so a read can tell a missing authentication source from a failed call.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git#GetAuthentication/errors/-",
+      "value": { "target": "com.stackit.git#NotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git#ListAuthentication/errors/-",
+      "value": { "target": "com.stackit.git#NotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git#GetUsers/errors/-",
+      "value": { "target": "com.stackit.git#NotFound" }
+    }
+  ]
+}

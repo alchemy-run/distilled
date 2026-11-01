@@ -310,7 +310,7 @@ export const disableServiceResource: API.OperationMethod<
   span: "DisableServiceResource",
 }));
 
-export type EnableServiceResourceError = BadRequest | NotFound | StackitOpError;
+export type EnableServiceResourceError = BadRequest | NotFound | Conflict | StackitOpError;
 /** enable update service */
 export const enableServiceResource: API.OperationMethod<
   EnableServiceResourceRequest,
@@ -320,7 +320,7 @@ export const enableServiceResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<EnableServiceResourceRequest>,
   output: __S(40, __c10, 0) as any as S.Schema<EnableServiceResourceResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

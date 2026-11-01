@@ -68,7 +68,7 @@ export interface ContainerEnvVar {
   key: string;
   origin?: ContainerEnvVarType | (string & {});
   /** Environment variable value. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 /** Environment variables exposed to the container. */
 export type ContainerEnvironmentVariablesList = Array<ContainerEnvVar>;
@@ -133,7 +133,7 @@ export interface ApplicationCustomRuleSecretMapping {
   /** Secret parameter name. */
   parameter: string;
   /** Environment secret name. */
-  secret: string | Redacted.Redacted<string>;
+  secret: string;
 }
 /** Secret mappings for the scaler. */
 export type ApplicationCustomScaleRuleSecretsMappingList =
@@ -531,7 +531,7 @@ export interface EnvironmentSecret {
   /** Last update timestamp of this registry entry. */
   updatedAt?: string;
   /** Secret value. Omit or set to null to keep the existing value unchanged. */
-  value?: string;
+  value?: string | Redacted.Redacted<string>;
 }
 /** The collection of configured secrets. */
 export type EnvironmentSecretsVaultSecretsList = Array<EnvironmentSecret>;
@@ -592,7 +592,7 @@ export interface EnvironmentSecretInput {
   /** Secret key. */
   key: string;
   /** Secret value. Omit or set to null to keep the existing value unchanged. */
-  value?: string;
+  value?: string | Redacted.Redacted<string>;
 }
 /** The collection of configured secrets. */
 export type UpdateEnvironmentSecretsRequestSecretsList = Array<EnvironmentSecretInput>;
@@ -1074,7 +1074,7 @@ function __c8(j: number): any {
           region: S.optional(S.String),
           status: S.optional(__S(130, __c4, 2)),
           updatedAt: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "EnvironmentSecret" });
     case 1:
@@ -1166,7 +1166,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key: S.String,
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "EnvironmentSecretInput" });
     case 1:
@@ -1251,7 +1251,7 @@ function __c15(j: number): any {
         S.Struct({
           key: S.String,
           origin: S.optional(S.String),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ContainerEnvVar" });
     case 2:
@@ -1312,7 +1312,7 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parameter: S.String,
-          secret: S.String.pipe(T.SensitiveValue({})),
+          secret: S.String,
         }),
       ).annotate({ identifier: "ApplicationCustomRuleSecretMapping" });
     case 12:

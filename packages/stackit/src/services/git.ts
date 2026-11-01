@@ -277,7 +277,6 @@ export interface GetUserRequest {
   /** Instance User identifier. */
   username: string;
 }
-export interface GetUserResponse {}
 export interface GetUsersRequest {
   /** Project identifier. */
   projectId: string;
@@ -327,19 +326,19 @@ export interface Flavor {
   /** SAP article number. */
   sku: string;
 }
-export type ListFlavorsFlavorsList = Array<Flavor>;
+export type FlavorListFlavorsList = Array<Flavor>;
 /** A list of STACKIT Git Flavors. */
-export interface ListFlavors {
-  flavors: ListFlavorsFlavorsList;
+export interface FlavorList {
+  flavors: FlavorListFlavorsList;
 }
 export interface ListInstancesRequest {
   /** Project identifier. */
   projectId: string;
 }
-export type ListInstancesInstancesList = Array<Instance>;
+export type InstanceListInstancesList = Array<Instance>;
 /** A list of STACKIT Git instances. */
-export interface ListInstances {
-  instances: ListInstancesInstancesList;
+export interface InstanceList {
+  instances: InstanceListInstancesList;
 }
 export interface ListRunnerFamiliesRequest {
   /** Project identifier. */
@@ -572,7 +571,7 @@ export const deleteUser: API.OperationMethod<
   span: "DeleteUser",
 }));
 
-export type GetAuthenticationError = BadRequest | StackitOpError;
+export type GetAuthenticationError = BadRequest | NotFound | StackitOpError;
 /** Get authentication provider Get authentication provider */
 export const getAuthentication: API.OperationMethod<
   GetAuthenticationRequest,
@@ -582,7 +581,7 @@ export const getAuthentication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<GetAuthenticationRequest>,
   output: __S(60, __c15, 0) as any as S.Schema<Authentication>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -625,22 +624,18 @@ export const getRunner: API.OperationMethod<
 
 export type GetUserError = BadRequest | NotFound | StackitOpError;
 /** Get Instance User information. Retrieves information about a STACKIT Git instance User. */
-export const getUser: API.OperationMethod<
-  GetUserRequest,
-  GetUserResponse,
-  GetUserError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<GetUserResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
-  protocol: StackitProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetUser",
-}));
+export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, StackitOpContext> =
+  /*@__PURE__*/ API.make(() => ({
+    input: __S(16, __c4, 0) as any as S.Schema<GetUserRequest>,
+    output: __S(88, __c22, 0) as any as S.Schema<User>,
+    errors: [BadRequest, NotFound, UnknownStackitError],
+    protocol: StackitProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetUser",
+  }));
 
-export type GetUsersError = BadRequest | StackitOpError;
+export type GetUsersError = BadRequest | NotFound | StackitOpError;
 /** Get instance Users. Lists STACKIT Git Users within an instance. Supports pagination via the optional `page` query parameter. Each page returns up to 50 users. */
 export const getUsers: API.OperationMethod<
   GetUsersRequest,
@@ -650,14 +645,14 @@ export const getUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<GetUsersRequest>,
   output: __S(22, __c5, 2) as any as S.Schema<ListUsers>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetUsers",
 }));
 
-export type ListAuthenticationError = BadRequest | StackitOpError;
+export type ListAuthenticationError = BadRequest | NotFound | StackitOpError;
 /** List authentication sources Lists all authentication sources belonging to a specific instance */
 export const listAuthentication: API.OperationMethod<
   ListAuthenticationRequest,
@@ -667,45 +662,45 @@ export const listAuthentication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<ListAuthenticationRequest>,
   output: __S(26, __c6, 2) as any as S.Schema<AuthenticationList>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAuthentication",
 }));
 
-export type ListFlavors2Error = BadRequest | NotFound | StackitOpError;
+export type ListFlavorsError = BadRequest | NotFound | StackitOpError;
 /** Returns the details for the given STACKIT Git flavors. Provides detailed information about possible Git Flavors. */
-export const listFlavors2: API.OperationMethod<
+export const listFlavors: API.OperationMethod<
   ListFlavorsRequest,
-  ListFlavors,
-  ListFlavors2Error,
+  FlavorList,
+  ListFlavorsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ListFlavorsRequest>,
-  output: __S(31, __c7, 3) as any as S.Schema<ListFlavors>,
+  output: __S(31, __c7, 3) as any as S.Schema<FlavorList>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "ListFlavors2",
+  span: "ListFlavors",
 }));
 
-export type ListInstances2Error = BadRequest | StackitOpError;
+export type ListInstancesError = BadRequest | StackitOpError;
 /** List Instances. Lists all STACKIT Git instances within a project. */
-export const listInstances2: API.OperationMethod<
+export const listInstances: API.OperationMethod<
   ListInstancesRequest,
-  ListInstances,
-  ListInstances2Error,
+  InstanceList,
+  ListInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ListInstancesRequest>,
-  output: __S(34, __c8, 2) as any as S.Schema<ListInstances>,
+  output: __S(34, __c8, 2) as any as S.Schema<InstanceList>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "ListInstances2",
+  span: "ListInstances",
 }));
 
 export type ListRunnerFamiliesError = BadRequest | NotFound | StackitOpError;
@@ -975,7 +970,7 @@ function __c7(j: number): any {
         S.Struct({
           flavors: __S(30, __c7, 2),
         }),
-      ).annotate({ identifier: "ListFlavors" });
+      ).annotate({ identifier: "FlavorList" });
   }
 }
 function __c8(j: number): any {
@@ -1000,7 +995,7 @@ function __c8(j: number): any {
         S.Struct({
           instances: __S(33, __c8, 1),
         }),
-      ).annotate({ identifier: "ListInstances" });
+      ).annotate({ identifier: "InstanceList" });
   }
 }
 function __c9(j: number): any {

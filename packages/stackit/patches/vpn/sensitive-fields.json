@@ -1,0 +1,10 @@
+{
+  "description": "TunnelConfiguration.preSharedKey is the IPsec tunnel's shared secret, but the spec only tags it `writeOnly`, so the SDK types it as a plain string. The spec's own text says it is `omitted in every response`, and STACKIT's Terraform provider marks `pre_shared_key` Sensitive and offers a write-only variant (stackitcloud/terraform-provider-stackit, stackit/internal/services/vpn/connection/resource.go, read 2026-11-01). No live probe: this changes how the value is typed and logged, not what goes on the wire.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.vpn#TunnelConfiguration/members/preSharedKey/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

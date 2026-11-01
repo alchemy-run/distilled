@@ -5,8 +5,8 @@
  * protocol layer formats the `Authorization: Bearer <token>` header from it
  * and rewrites each operation's spec `servers` URL for the region.
  *
- * Two ways to get the token, matching the official Go SDK
- * (`stackit-sdk-go/core/auth` and `core/clients/key_flow.go`):
+ * Three ways to get the token; the key flow and a ready-made token match the
+ * official Go SDK (`stackit-sdk-go/core/auth` and `core/clients/key_flow.go`):
  *
  *   * **Service-account key flow** (the supported one). A key file created
  *     for a service account holds `credentials.{kid, iss, sub, aud}` and,
@@ -18,6 +18,8 @@
  *     deprecated upstream and never used); concurrent requests share one
  *     exchange. Signing uses WebCrypto, so it runs on Node, Bun, Workers and
  *     Lambda. See {@link fromServiceAccountKey}.
+ *   * **A server's attached service account** -- {@link fromServerMetadata}, for
+ *     code running on a STACKIT server: no key, just the metadata API.
  *   * **A ready-made access token** -- {@link credentials} or
  *     `STACKIT_SERVICE_ACCOUNT_TOKEN`. STACKIT has retired long-lived
  *     service-account access tokens; this remains for tokens minted
@@ -50,6 +52,7 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
+import * as Schedule from "effect/Schedule";
 import { makeRefreshGate } from "./refresh-gate.ts";
 
 /** STACKIT's primary public region (Schwarz IT / Germany). */
@@ -508,6 +511,135 @@ export const fromServiceAccountKey = (config: {
 
 //#endregion
 
+//#region Server metadata
+
+/**
+ * The metadata API's list of a server's service accounts. It answers only from
+ * inside a STACKIT server.
+ */
+export const SERVER_METADATA_URL = "http://169.254.169.254/stackit/v1/service-accounts";
+
+/** STACKIT documents metadata requests taking up to 30 seconds. */
+const METADATA_ATTEMPT_TIMEOUT = "35 seconds";
+
+const metadataError = (detail: string) =>
+  new ConfigError({ message: `STACKIT server metadata API: ${detail}` });
+
+/** A JSON object from the metadata API. A failure never quotes the body: it can hold a token. */
+const getMetadataObject = (
+  url: string,
+): Effect.Effect<Record<string, unknown>, ConfigError, HttpClient.HttpClient> =>
+  Effect.gen(function* () {
+    const client = yield* HttpClient.HttpClient;
+    const response = yield* client
+      .execute(HttpClientRequest.get(url).pipe(HttpClientRequest.acceptJson))
+      .pipe(
+        Effect.mapError((error) => metadataError(`request failed: ${error.message}`)),
+        Effect.timeoutOrElse({
+          duration: METADATA_ATTEMPT_TIMEOUT,
+          orElse: () => Effect.fail(metadataError(`no answer within ${METADATA_ATTEMPT_TIMEOUT}`)),
+        }),
+      );
+    if (response.status !== 200) {
+      return yield* Effect.fail(metadataError(`answered with HTTP ${response.status}`));
+    }
+    const text = yield* response.text.pipe(
+      Effect.mapError((error) => metadataError(`reading the answer failed: ${error.message}`)),
+    );
+    let body: unknown;
+    try {
+      body = JSON.parse(text);
+    } catch {
+      return yield* Effect.fail(metadataError("the answer is not JSON"));
+    }
+    if (!isRecord(body)) return yield* Effect.fail(metadataError("the answer is not an object"));
+    return body;
+  }).pipe(Effect.retry({ schedule: Schedule.spaced("1 second"), times: 2 }));
+
+/**
+ * Credentials of a service account attached to the STACKIT server this process
+ * runs on: `GET /stackit/v1/service-accounts/{mail}/token` on the metadata API,
+ * which answers `{ "token": "..." }`. No key is stored on the server.
+ *
+ * Without `serviceAccountEmail`, the first account in the server's list is used.
+ * STACKIT documents these tokens as short-lived without saying how short: a token
+ * is reused until five minutes before the `exp` it carries, and one without a
+ * readable `exp` isn't reused. The layer does no I/O; a failure surfaces on the
+ * operation as `ConfigError`. Requires an attachment
+ * (`addServiceAccountToServer`, or `serviceAccountMails` at creation).
+ *
+ * @see https://docs.stackit.cloud/products/iaas-api/how-tos/use-service-accounts-via-the-iaas-api/
+ */
+export const fromServerMetadata = (
+  config: {
+    readonly serviceAccountEmail?: string;
+    readonly region?: string;
+    readonly apiBaseUrl?: string;
+    readonly metadataUrl?: string;
+  } = {},
+): Layer.Layer<Credentials, never, HttpClient.HttpClient> => {
+  const metadataUrl = config.metadataUrl ?? SERVER_METADATA_URL;
+  const region = config.region ?? DEFAULT_REGION;
+  // A caller waits at most this long for a refresh another one is running.
+  const withClaim = makeRefreshGate({ claimBudgetMs: 2 * 40_000 });
+  let email = config.serviceAccountEmail;
+  let cached: CachedToken | undefined;
+
+  const resolveEmail = Effect.suspend(() =>
+    email !== undefined
+      ? Effect.succeed(email)
+      : getMetadataObject(metadataUrl).pipe(
+          Effect.flatMap((body) => {
+            const mails = body.serviceAccountMails;
+            const first = Array.isArray(mails) ? mails[0] : undefined;
+            if (typeof first !== "string" || first === "") {
+              return Effect.fail(metadataError("no service account is attached to this server"));
+            }
+            email = first;
+            return Effect.succeed(first);
+          }),
+        ),
+  );
+
+  const fetchToken = resolveEmail.pipe(
+    Effect.flatMap((mail) => getMetadataObject(`${metadataUrl}/${encodeURIComponent(mail)}/token`)),
+    Effect.flatMap((body) => {
+      const token = body.token;
+      if (typeof token !== "string" || token === "") {
+        return Effect.fail(metadataError("the answer holds no `token`"));
+      }
+      return Clock.currentTimeMillis.pipe(
+        Effect.map((now) => {
+          cached = { token: Redacted.make(token), expiresAt: jwtExpiry(token) ?? now };
+          return cached.token;
+        }),
+      );
+    }),
+  );
+
+  const fromCache = <E, R>(orElse: Effect.Effect<Redacted.Redacted<string>, E, R>) =>
+    Effect.flatMap(Clock.currentTimeMillis, (now) =>
+      cached !== undefined && now < cached.expiresAt - REFRESH_WINDOW_MS
+        ? Effect.succeed(cached.token)
+        : orElse,
+    );
+
+  const token = fromCache(withClaim(fromCache(fetchToken)));
+
+  return Layer.effect(
+    Credentials,
+    Effect.gen(function* () {
+      const client = yield* HttpClient.HttpClient;
+      return token.pipe(
+        Effect.provideService(HttpClient.HttpClient, client),
+        Effect.map((value): Config => ({ token: value, region, apiBaseUrl: config.apiBaseUrl })),
+      );
+    }),
+  );
+};
+
+//#endregion
+
 //#region Environment
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
@@ -752,6 +884,37 @@ export const harborCredentials = (config: {
 
 //#endregion
 
+//#region Cloud Foundry (`scf` data plane)
+
+export interface CloudFoundryConfig {
+  /** A platform's `apiUrl`, e.g. `https://api.system.01.cf.eu01.stackit.cloud`. */
+  readonly apiUrl: string;
+  /** A UAA access token, sent as `Authorization: Bearer`. */
+  readonly token: Redacted.Redacted<string>;
+}
+
+/**
+ * What `cloud_foundry` operations sign with: the Cloud Controller takes UAA access tokens rather
+ * than STACKIT ones, so this is its own service rather than {@link Credentials}.
+ * `@distilled.cloud/stackit/CloudFoundry` builds it from a user's name and password.
+ */
+export class CloudFoundryCredentials
+  extends /*@__PURE__*/ Context.Service<
+    CloudFoundryCredentials,
+    Effect.Effect<CloudFoundryConfig, ConfigError>
+  >()("StackitCloudFoundryCredentials") {}
+
+/**
+ * The URL `cloud_foundry`'s discovery and login go to. They have no token to sign with, so they
+ * read this service instead of {@link CloudFoundryCredentials}.
+ */
+export class CloudFoundryEndpoint
+  extends /*@__PURE__*/ Context.Service<CloudFoundryEndpoint, string>()(
+    "StackitCloudFoundryEndpoint",
+  ) {}
+
+//#endregion
+
 //#region Vault (Secrets Manager data plane)
 
 export interface VaultConfig {
@@ -940,6 +1103,40 @@ export const observabilityDataCredentialsOf = (config: {
 
 //#endregion
 
+//#region Forgejo REST API (STACKIT Git data plane)
+
+/** How a call signs in to a Git instance's Forgejo API. */
+export type ForgejoAuth =
+  | {
+      /** A Forgejo access token, sent as `Authorization: token <token>`. */
+      readonly token: Redacted.Redacted<string>;
+    }
+  | {
+      /** A Forgejo user, for HTTP Basic. */
+      readonly username: string;
+      /** That user's password. */
+      readonly password: Redacted.Redacted<string>;
+    };
+
+/** One identity on one Git instance. */
+export type ForgejoConfig = ForgejoAuth & {
+  /** Root of the REST API, `<instance url>/api/v1`. */
+  readonly apiUrl: string;
+};
+
+/**
+ * What `git_forgejo` operations sign with: an instance's Forgejo takes its own users and
+ * tokens, not a STACKIT access token, so this is its own service rather than
+ * {@link Credentials}. `@distilled.cloud/stackit/Forgejo` builds the value.
+ */
+export class ForgejoCredentials
+  extends /*@__PURE__*/ Context.Service<
+    ForgejoCredentials,
+    Effect.Effect<ForgejoConfig, ConfigError>
+  >()("StackitForgejoCredentials") {}
+
+//#endregion
+
 //#region Dremio REST API (Dremio data plane)
 
 export interface DremioConfig {
@@ -1012,5 +1209,108 @@ export class OpenSearchCredentials
     OpenSearchCredentials,
     Effect.Effect<OpenSearchConfig, ConfigError>
   >()("StackitOpenSearchCredentials") {}
+
+//#endregion
+
+//#region AI Model Serving inference API (`model_serving` data plane)
+
+export interface ModelServingInferenceConfig {
+  /** Root of the API, without the `/v1` the routes carry. */
+  readonly apiUrl: string;
+  /** A `model_serving` auth token, sent as `Authorization: Bearer`. */
+  readonly token: Redacted.Redacted<string>;
+}
+
+/**
+ * What `model_serving_inference` operations sign with: a `model_serving` auth token, not a
+ * STACKIT access token, so this is its own service rather than {@link Credentials}.
+ */
+export class ModelServingInferenceCredentials
+  extends /*@__PURE__*/ Context.Service<
+    ModelServingInferenceCredentials,
+    Effect.Effect<ModelServingInferenceConfig, ConfigError>
+  >()("StackitModelServingInferenceCredentials") {}
+
+/**
+ * The inference API's root in a region. STACKIT documents it for `eu01`; the same shape in another
+ * region is an inference from the host's name. Returns `undefined` for a region that isn't one
+ * DNS label, which could otherwise point the token at another server.
+ */
+export const modelServingInferenceApiUrl = (region: string): string | undefined =>
+  /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(region)
+    ? `https://api.openai-compat.model-serving.${region}.onstackit.cloud`
+    : undefined;
+
+/**
+ * The `ModelServingInferenceCredentials` value for one auth token. A token Alchemy holds no value
+ * for, on an adopted resource, fails here rather than on the wire.
+ */
+export const modelServingInferenceCredentialsOf = (config: {
+  readonly region: string;
+  readonly token: Redacted.Redacted<string> | undefined;
+}): Effect.Effect<ModelServingInferenceConfig, ConfigError> => {
+  const apiUrl = modelServingInferenceApiUrl(config.region);
+  if (apiUrl === undefined) {
+    return Effect.fail(new ConfigError({ message: "A model serving region is not a DNS label" }));
+  }
+  if (config.token === undefined) {
+    return Effect.fail(
+      new ConfigError({ message: "This model serving token has no known value: create a new one" }),
+    );
+  }
+  return Effect.succeed({ apiUrl, token: config.token });
+};
+
+//#endregion
+
+//#region MLflow tracking API (`model_experiments` data plane)
+
+export interface MlflowConfig {
+  /** An instance's `url` without a trailing slash, which the `/api/2.0/mlflow` routes hang off. */
+  readonly apiUrl: string;
+  /** One of the instance's tracking tokens, sent as `Authorization: Bearer`. */
+  readonly token: Redacted.Redacted<string>;
+}
+
+/**
+ * What `model_experiments_mlflow` operations sign with: a tracking token scoped to one instance,
+ * not a STACKIT access token, so this is its own service rather than {@link Credentials}.
+ */
+export class MlflowCredentials
+  extends /*@__PURE__*/ Context.Service<
+    MlflowCredentials,
+    Effect.Effect<MlflowConfig, ConfigError>
+  >()("StackitMlflowCredentials") {}
+
+/**
+ * The `MlflowCredentials` value for one token on one instance. A token Alchemy holds no value
+ * for, on an adopted resource, fails here rather than on the wire. A bare host gets `https://`,
+ * and any user and password are dropped, so they can't leak into an error.
+ */
+export const mlflowCredentialsOf = (config: {
+  readonly instanceUrl: string;
+  readonly token: Redacted.Redacted<string> | undefined;
+}): Effect.Effect<MlflowConfig, ConfigError> => {
+  const withScheme = /^https?:\/\//.test(config.instanceUrl)
+    ? config.instanceUrl
+    : `https://${config.instanceUrl}`;
+  if (!URL.canParse(withScheme)) {
+    return Effect.fail(
+      new ConfigError({ message: "A Model Experiments instance's url is not a URL" }),
+    );
+  }
+  if (config.token === undefined) {
+    return Effect.fail(
+      new ConfigError({
+        message: "This Model Experiments token has no known value: create a new one",
+      }),
+    );
+  }
+  const url = new URL(withScheme);
+  return Effect.succeed({
+    apiUrl: `${url.origin}${url.pathname.replace(/\/+$/, "")}`,
+    token: config.token,
+  });
+};
 
 //#endregion

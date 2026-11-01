@@ -1,0 +1,38 @@
+{
+  "description": "ListOrganizations, ListSpaces and ListPlatforms take `page` and `perPage` and answer `pagination.totalPages` beside `resources` (spec, read 2026-11-01). The converter's detection expects `pageSize` and a top-level `totalPages`, so none got a paginated surface, and a caller reading one page would miss organizations.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.scf#ListOrganizations/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "pagination.totalPages",
+        "items": "resources",
+        "pageSize": "perPage"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.scf#ListSpaces/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "pagination.totalPages",
+        "items": "resources",
+        "pageSize": "perPage"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.scf#ListPlatforms/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "pagination.totalPages",
+        "items": "resources",
+        "pageSize": "perPage"
+      }
+    }
+  ]
+}

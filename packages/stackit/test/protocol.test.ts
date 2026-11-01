@@ -11,6 +11,7 @@ import { Credentials, credentials } from "../src/credentials.ts";
 import { StackitParseError, UnknownStackitError } from "../src/errors.ts";
 import { applyRegion } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
+import { getVolumeAutomation } from "../src/services/automation.ts";
 import { listServers } from "../src/services/iaas.ts";
 import { getAccessToken } from "../src/services/logs.ts";
 import { downloadBackup } from "../src/services/mariadb.ts";
@@ -358,5 +359,23 @@ describe("binary downloads", () => {
     const { layer } = fakeStackit(404, '{"error":"not-found","description":"no backup"}');
     const error = await runFlip(downloadBackup(request), layer);
     expect(error).toMatchObject({ _tag: "NotFound" });
+  });
+});
+
+describe("nested error envelope", () => {
+  test("surfaces the code and message of `automation`'s `{ error: { ... } }`", async () => {
+    const { layer } = fakeStackit(
+      404,
+      '{"error":{"code":404,"status":"NOT_FOUND","message":"The requested resource could not be found."}}',
+    );
+    const error = await runFlip(
+      getVolumeAutomation({ projectId: "p", region: "eu01", automationId: "a" }),
+      layer,
+    );
+    expect(error).toMatchObject({
+      _tag: "NotFound",
+      code: 404,
+      message: "The requested resource could not be found.",
+    });
   });
 });

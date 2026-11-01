@@ -1,0 +1,20 @@
+{
+  "description": "Not a fault in any upstream: STACKIT publishes no document for this API, and OpenAI's own document puts streaming and plain answers on one operation. `POST /v1/chat/completions` with `stream: true` answers server-sent events, which needs its own operation here, and OpenAPI can't hold two operations on one method and path. The manual spec writes it as `/v1/chat/completions/stream`; this points it at the real route. The operation span also covers reading the stream, as Bedrock's `ConverseStream` does.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.model_serving_inference#StreamChatCompletion/traits/smithy.api#http/uri",
+      "value": "/v1/chat/completions"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.model_serving_inference#StreamChatCompletion/traits/com.distilled.telemetry#operation",
+      "value": {
+        "stream": {
+          "member": "events",
+          "firstChunk": "gen_ai.response.time_to_first_chunk"
+        }
+      }
+    }
+  ]
+}

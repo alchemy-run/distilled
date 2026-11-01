@@ -1,0 +1,87 @@
+{
+  "description": "Forgejo's swagger marks no response field as required, but its structs always send these: `Repository` in modules/structs/repo.go and `User.UserName` in modules/structs/user.go have no `omitempty` (forgejo/forgejo v17.0.1, read 2026-11-01). Without this, a repository's id and name are optional on every read, and callers would have to invent values for what is always there.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git_forgejo#Repository/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git_forgejo#Repository/members/name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git_forgejo#Repository/members/full_name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git_forgejo#Repository/members/description/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git_forgejo#Repository/members/empty/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git_forgejo#Repository/members/private/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git_forgejo#Repository/members/archived/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git_forgejo#Repository/members/html_url/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git_forgejo#Repository/members/ssh_url/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git_forgejo#Repository/members/clone_url/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git_forgejo#Repository/members/default_branch/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git_forgejo#User/members/login/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

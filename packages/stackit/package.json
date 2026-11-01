@@ -22,6 +22,12 @@
       "distilled-lazy": "./lib/index.lazy.js",
       "default": "./lib/index.js"
     },
+    "./CloudFoundry": {
+      "types": "./lib/cloud-foundry.d.ts",
+      "bun": "./src/cloud-foundry.ts",
+      "worker": "./src/cloud-foundry.ts",
+      "default": "./lib/cloud-foundry.js"
+    },
     "./Credentials": {
       "types": "./lib/credentials.d.ts",
       "bun": "./src/credentials.ts",
@@ -39,6 +45,12 @@
       "bun": "./src/errors.ts",
       "worker": "./src/errors.ts",
       "default": "./lib/errors.js"
+    },
+    "./Forgejo": {
+      "types": "./lib/forgejo.d.ts",
+      "bun": "./src/forgejo.ts",
+      "worker": "./src/forgejo.ts",
+      "default": "./lib/forgejo.js"
     },
     "./OpenSearch": {
       "types": "./lib/opensearch.d.ts",
