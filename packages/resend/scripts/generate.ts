@@ -91,8 +91,7 @@ runGeneratorCli({
   description: "Generate the Resend Effect SDK from the Smithy model",
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
-  // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
-  // there is no smithy-model patch chain.
+  // scripts/convert.ts applies patches/ to the model; nothing to apply here.
   patchesDir: false,
   spec: (model) => {
     const shapes = (model.shapes ?? {}) as Record<string, any>;

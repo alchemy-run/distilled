@@ -9,7 +9,7 @@
  * ```ts
  * import * as Resend from "@distilled.cloud/resend";
  *
- * const emails = yield* Resend.Services.resend.getEmails({});
+ * const emails = yield* Resend.Services.resend.listEmails({});
  * ```
  */
 export * from "./credentials.ts";
