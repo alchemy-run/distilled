@@ -58,6 +58,12 @@
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
     },
+    "./Vault": {
+      "types": "./lib/vault.d.ts",
+      "bun": "./src/vault.ts",
+      "worker": "./src/vault.ts",
+      "default": "./lib/vault.js"
+    },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",

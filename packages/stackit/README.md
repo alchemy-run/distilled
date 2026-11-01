@@ -71,5 +71,35 @@ const Live = Layer.mergeAll(
 ).pipe(Layer.provideMerge(FetchHttpClient.layer));
 ```
 
+### Container Registry images (Harbor)
+
+STACKIT Container Registry is Harbor. `Stackit.registry` manages registry projects
+with a STACKIT token; robot accounts, repositories, artifacts, tags and scan reports
+are on Harbor's own API, `Stackit.registryHarbor`, generated from Harbor's swagger.
+It takes HTTP Basic instead of a token, and the registry's URL as part of the
+credentials:
+
+```ts
+import { Effect, Redacted } from "effect";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
+import * as Stackit from "@distilled.cloud/stackit";
+
+const repositories = yield* Stackit.registryHarbor
+  .listRepositories({ project_name: "my-project" })
+  .pipe(
+    Effect.provide(
+      Stackit.harborCredentials({
+        registryUrl: "https://registry.onstackit.cloud",
+        username: "robot$my-project+ci",
+        secret: Redacted.make(secret),
+      }),
+    ),
+    Effect.provide(FetchHttpClient.layer),
+  );
+```
+
+A `repository_name` holding a slash needs one `encodeURIComponent` from you: the SDK
+adds the second encoding Harbor's path requires.
+
 Signing uses WebCrypto, so the key flow runs on Node, Bun, Cloudflare Workers
 and Lambda. `Stackit.credentials({ token })` takes a ready-made access token.

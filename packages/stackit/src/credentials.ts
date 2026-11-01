@@ -50,7 +50,7 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import * as Semaphore from "effect/Semaphore";
+import { makeRefreshGate } from "./refresh-gate.ts";
 
 /** STACKIT's primary public region (Schwarz IT / Germany). */
 export const DEFAULT_REGION = "eu01";
@@ -333,13 +333,14 @@ const describeTokenError = (text: string): string => {
 
 /**
  * The key flow: an access token, minted from the key when the cached one is
- * within {@link REFRESH_WINDOW_MS} of expiry. One exchange at a time;
- * requests that arrive during it wait and reuse its token.
+ * within {@link REFRESH_WINDOW_MS} of expiry. One exchange at a time; requests
+ * that arrive during it wait and reuse its token. See `refresh-gate.ts` for why
+ * that isn't a semaphore.
  */
 const makeKeyFlow = (
   options: KeyFlowOptions,
 ): Effect.Effect<Redacted.Redacted<string>, ConfigError, HttpClient.HttpClient> => {
-  const lock = Semaphore.makeUnsafe(1);
+  const withClaim = makeRefreshGate();
   const keyName = options.key.id ?? options.key.credentials.kid;
   let cached: CachedToken | undefined;
   let signingKey: CryptoKey | undefined;
@@ -433,8 +434,7 @@ const makeKeyFlow = (
     );
 
   return fromCache(
-    Semaphore.withPermit(
-      lock,
+    withClaim(
       fromCache(
         exchange.pipe(
           Effect.map((token) => {
@@ -588,7 +588,6 @@ let envFlow:
       readonly flow: Effect.Effect<Redacted.Redacted<string>, ConfigError, HttpClient.HttpClient>;
     }
   | undefined;
-let envFlowLock: Semaphore.Semaphore | undefined;
 
 const keyFlowFromEnv = (env: EnvValues) => {
   const keyPath = nonEmpty(env.keyPath);
@@ -622,16 +621,11 @@ const keyFlowFromEnv = (env: EnvValues) => {
     envFlow = { fingerprint, flow };
     return flow;
   });
-  return Effect.suspend(() => {
-    if (envFlow?.fingerprint === fingerprint) return Effect.succeed(envFlow.flow);
-    envFlowLock ??= Semaphore.makeUnsafe(1);
-    return Semaphore.withPermit(
-      envFlowLock,
-      Effect.suspend(() =>
-        envFlow?.fingerprint === fingerprint ? Effect.succeed(envFlow.flow) : build,
-      ),
-    );
-  });
+  // Concurrent first requests may each build a flow, and the last one stays:
+  // parsing a key is cheap, and at most it costs a token exchange more.
+  return Effect.suspend(() =>
+    envFlow?.fingerprint === fingerprint ? Effect.succeed(envFlow.flow) : build,
+  );
 };
 
 const missingCredentials = () =>
@@ -695,3 +689,95 @@ export const credentials = (config: {
       apiBaseUrl: config.apiBaseUrl,
     }),
   );
+
+//#region Harbor (Container Registry data plane)
+
+/**
+ * Harbor's REST API prefix. The version is a path segment, so it belongs to
+ * the base URL: `registry_harbor` operations carry prefix-less routes.
+ */
+export const HARBOR_API_PATH = "/api/v2.0";
+
+/**
+ * The Harbor API root for a registry URL: a bare host gets `https://`, any
+ * path is dropped, and {@link HARBOR_API_PATH} is appended. STACKIT's API
+ * reports a project's `url`; Harbor serves its API at the host's root.
+ */
+export const harborApiBaseUrl = (registryUrl: string): string => {
+  const withScheme = /^https?:\/\//.test(registryUrl) ? registryUrl : `https://${registryUrl}`;
+  return `${new URL(withScheme).origin}${HARBOR_API_PATH}`;
+};
+
+export interface HarborConfig {
+  /** Basic-auth user: a robot account (`robot$...`) or a Harbor username. */
+  readonly username: string;
+  /** Basic-auth password: a robot's secret, or a user's CLI secret. */
+  readonly secret: Redacted.Redacted<string>;
+  /** Fully-qualified API root, e.g. `https://registry.onstackit.cloud/api/v2.0`. */
+  readonly apiBaseUrl: string;
+}
+
+/**
+ * What `registry_harbor` operations sign with. Harbor doesn't accept STACKIT
+ * access tokens as far as anyone has documented, so this is its own service
+ * rather than {@link Credentials}.
+ */
+export class HarborCredentials
+  extends /*@__PURE__*/ Context.Service<
+    HarborCredentials,
+    Effect.Effect<HarborConfig, ConfigError>
+  >()("StackitHarborCredentials") {}
+
+/** The `HarborCredentials` value for one registry and one Basic-auth identity. */
+export const harborCredentialsOf = (config: {
+  readonly registryUrl: string;
+  readonly username: string;
+  readonly secret: Redacted.Redacted<string>;
+}): Effect.Effect<HarborConfig, ConfigError> =>
+  Effect.try({
+    try: (): HarborConfig => ({
+      username: config.username,
+      secret: config.secret,
+      apiBaseUrl: harborApiBaseUrl(config.registryUrl),
+    }),
+    catch: () => new ConfigError({ message: `Not a Harbor registry URL: ${config.registryUrl}` }),
+  });
+
+/** Layer form of {@link harborCredentialsOf}. */
+export const harborCredentials = (config: {
+  readonly registryUrl: string;
+  readonly username: string;
+  readonly secret: Redacted.Redacted<string>;
+}): Layer.Layer<HarborCredentials> => Layer.succeed(HarborCredentials, harborCredentialsOf(config));
+
+//#endregion
+
+//#region Vault (Secrets Manager data plane)
+
+export interface VaultConfig {
+  /** A Secrets Manager instance's `apiUrl`, e.g. `https://prod.sm.eu01.stackit.cloud`. */
+  readonly apiUrl: string;
+  /** A client token from a Vault login, sent as `X-Vault-Token`. */
+  readonly token: Redacted.Redacted<string>;
+}
+
+/**
+ * What `secrets_manager_kv` operations sign with: Vault takes its own client
+ * tokens, not STACKIT access tokens, so this is its own service rather than
+ * {@link Credentials}. `@distilled.cloud/stackit/Vault` builds it from an AppRole
+ * or a user.
+ */
+export class VaultCredentials
+  extends /*@__PURE__*/ Context.Service<
+    VaultCredentials,
+    Effect.Effect<VaultConfig, ConfigError>
+  >()("StackitVaultCredentials") {}
+
+/**
+ * The instance URL a Vault login goes to. Logins have no token to sign with, so
+ * they read this service instead of {@link VaultCredentials}.
+ */
+export class VaultEndpoint
+  extends /*@__PURE__*/ Context.Service<VaultEndpoint, string>()("StackitVaultEndpoint") {}
+
+//#endregion

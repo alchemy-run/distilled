@@ -13,7 +13,10 @@ import {
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
 import {
+  makeRestProtocol,
   type RestErrorEnvelope,
+  type RestErrorInfo,
+  type RestParseErrorInfo,
   unwrapRedactedDeep,
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
@@ -41,7 +44,15 @@ import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import { Credentials, type Config } from "./credentials.ts";
+import {
+  Credentials,
+  type Config,
+  HarborCredentials,
+  type HarborConfig,
+  VaultCredentials,
+  type VaultConfig,
+  VaultEndpoint,
+} from "./credentials.ts";
 import { StackitParseError, UnknownStackitError } from "./errors.ts";
 import type { DefaultErrors } from "./errors.ts";
 import type { StackitHttpTrait } from "./traits.ts";
@@ -221,4 +232,106 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
         ).pipe(Effect.catch(fail));
       }),
   }),
+);
+
+/** Error channel shared by every generated `registry_harbor` operation. */
+export type HarborOpError = StackitOpError;
+
+/** Context (requirements) shared by every generated `registry_harbor` operation. */
+export type HarborOpContext = HarborCredentials | HttpClient.HttpClient;
+
+/**
+ * Harbor failures are `{ "errors": [{ "code": "NOT_FOUND", "message": "..." }] }`
+ * (the `Errors` definition in Harbor's swagger). Only the first is surfaced.
+ */
+const harborErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
+  if (body === null || typeof body !== "object") return undefined;
+  const errors = (body as Record<string, unknown>).errors;
+  if (!Array.isArray(errors) || errors.length === 0) return undefined;
+  const first = errors[0] as Record<string, unknown> | null;
+  return {
+    code: typeof first?.code === "string" ? first.code : undefined,
+    message: typeof first?.message === "string" ? first.message : undefined,
+  };
+};
+
+/**
+ * HarborProtocol -- the shared REST protocol instantiated for Harbor's API
+ * (`registry_harbor`), which STACKIT Container Registry serves. HTTP Basic
+ * with a robot account's secret or a user's CLI secret, against the registry
+ * the credentials name: Harbor has no per-product host to bake into `T.Http`.
+ */
+export const HarborProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<HarborConfig>({
+    credentials: /*@__PURE__*/ Effect.flatMap(HarborCredentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Basic ${btoa(`${creds.username}:${Redacted.value(creds.secret)}`)}`,
+      Accept: "application/json",
+    }),
+    errorEnvelope: harborErrorEnvelope,
+    unknownError: ({ code, message, body }) =>
+      new UnknownStackitError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
+  });
+
+/** Error channel shared by every generated `secrets_manager_kv` operation. */
+export type VaultOpError = StackitOpError;
+
+/** Context (requirements) of the `secrets_manager_kv` data operations. */
+export type VaultOpContext = VaultCredentials | HttpClient.HttpClient;
+
+/** Context (requirements) of the `secrets_manager_kv` logins. */
+export type VaultLoginContext = VaultEndpoint | HttpClient.HttpClient;
+
+/** Vault failures are `{ "errors": ["..."] }`, and the list can be empty (a plain 404). */
+const vaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
+  if (body === null || typeof body !== "object") return undefined;
+  const errors = (body as Record<string, unknown>).errors;
+  if (!Array.isArray(errors) || errors.length === 0) return undefined;
+  return { message: errors.filter((error) => typeof error === "string").join("; ") };
+};
+
+const vaultUnknownError = ({ code, message, body }: RestErrorInfo) =>
+  new UnknownStackitError({
+    code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+    message,
+    body,
+  });
+
+const vaultParseError = ({ body, cause }: RestParseErrorInfo) =>
+  new StackitParseError({ body, cause });
+
+const trimSlash = (url: string) => url.replace(/\/+$/, "");
+
+/**
+ * VaultProtocol -- the shared REST protocol instantiated for HashiCorp Vault's
+ * HTTP API (`secrets_manager_kv`), which STACKIT Secrets Manager serves on an
+ * instance's `apiUrl`. Auth is `X-Vault-Token` from {@link VaultCredentials}.
+ */
+export const VaultProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<VaultConfig>(
+  {
+    credentials: /*@__PURE__*/ Effect.flatMap(VaultCredentials, (resolve) => resolve),
+    baseUrl: (creds) => trimSlash(creds.apiUrl),
+    headers: (creds) => ({ "X-Vault-Token": Redacted.value(creds.token) }),
+    errorEnvelope: vaultErrorEnvelope,
+    unknownError: vaultUnknownError,
+    parseError: vaultParseError,
+  },
+);
+
+/** {@link VaultProtocol} for the logins, which send no token. */
+export const VaultLoginProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<string>(
+  {
+    credentials: /*@__PURE__*/ Effect.map(VaultEndpoint, (apiUrl) => apiUrl),
+    baseUrl: trimSlash,
+    headers: () => ({}),
+    errorEnvelope: vaultErrorEnvelope,
+    unknownError: vaultUnknownError,
+    parseError: vaultParseError,
+  },
 );

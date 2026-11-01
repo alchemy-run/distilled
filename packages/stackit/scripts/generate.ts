@@ -98,6 +98,52 @@ const spec: SdkSpec = {
       : code,
 };
 
+/**
+ * Harbor's API (`registry_harbor`, from Harbor's own swagger) is the one module
+ * that doesn't sign with a STACKIT token, so it has its own protocol and
+ * context. See `HarborProtocol`.
+ */
+const harborSpec: SdkSpec = {
+  ...spec,
+  operationDecl: {
+    contextType: "HarborOpContext",
+    commonErrorType: "HarborOpError",
+    commonErrorClasses: ["UnknownStackitError"],
+    protocol: "HarborProtocol",
+    retry: "Retry.Retry",
+  },
+};
+
+const isHarborModel = (model: { readonly shapes?: Record<string, unknown> }): boolean =>
+  Object.keys(model.shapes ?? {}).some((id) => id.startsWith("com.stackit.registry_harbor#"));
+
+/**
+ * Vault's API (`secrets_manager_kv`) signs with a client token rather than a
+ * STACKIT token, and its logins sign with nothing. See `VaultProtocol`.
+ */
+const vaultSpec: SdkSpec = {
+  ...spec,
+  operationDecl: {
+    contextType: "VaultOpContext",
+    commonErrorType: "VaultOpError",
+    commonErrorClasses: ["UnknownStackitError"],
+    protocol: "VaultProtocol",
+    retry: "Retry.Retry",
+    overrides: ({ exportName }) =>
+      exportName.startsWith("login")
+        ? { protocol: "VaultLoginProtocol", contextType: "VaultLoginContext" }
+        : undefined,
+  },
+  postProcess: (code) =>
+    (spec.postProcess?.(code) ?? code).replace(
+      "  VaultProtocol,\n",
+      "  VaultLoginProtocol,\n  VaultProtocol,\n  type VaultLoginContext,\n",
+    ),
+};
+
+const isVaultModel = (model: { readonly shapes?: Record<string, unknown> }): boolean =>
+  Object.keys(model.shapes ?? {}).some((id) => id.startsWith("com.stackit.secrets_manager_kv#"));
+
 runGeneratorCli({
   description: "Generate the STACKIT Effect SDK from the Smithy models",
   convert: () => import("./convert.ts"),
@@ -105,5 +151,5 @@ runGeneratorCli({
   patchesDir: false,
   barrelExportName: camel,
   continueOnModelError: true,
-  spec: () => spec,
+  spec: (model) => (isVaultModel(model) ? vaultSpec : isHarborModel(model) ? harborSpec : spec),
 });

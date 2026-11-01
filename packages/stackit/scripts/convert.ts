@@ -16,6 +16,14 @@
  *      `pageSize` and answer with `totalPages` plus a collection array —
  *      see {@link paginationFor}.
  *
+ * Harbor's API is the data plane of `registry` and isn't in STACKIT's specs:
+ * `specs/spec-mirror-stackit/specs/registry_harbor.json` is Harbor's Swagger
+ * 2.0 document at a release tag, trimmed by the mirror's `fetch-specs.ts`. It
+ * becomes the `registry_harbor` module, with no host stamped because the
+ * registry URL is part of `HarborCredentials`. Until the mirror has run that
+ * script and a submodule bump brings the file in, the same trimmed document in
+ * `manual-specs/` keeps this module reproducible from what's committed.
+ *
  * `scripts/generate.ts` then compiles the models. Patches, when added, live
  * in `patches/<name>/*.json` and apply here via `runOpenApiConvert`.
  */
@@ -130,29 +138,81 @@ const paginationFor = (spec: any, op: any): Record<string, string> | undefined =
   };
 };
 
+/** Harbor's mirrored document, which the manifest doesn't list. */
+const MIRRORED_HARBOR_SPEC = "specs/spec-mirror-stackit/specs/registry_harbor.json";
+
+/** Harbor's document while the mirror predates it. Delete once a bump brings it in. */
+const COMMITTED_HARBOR_SPEC = path.join(root, "manual-specs", "registry_harbor.json");
+
+const HARBOR_SPEC = fs.existsSync(path.join(specsDir, "registry_harbor.json"))
+  ? MIRRORED_HARBOR_SPEC
+  : COMMITTED_HARBOR_SPEC;
+
+/**
+ * Every Harbor operation declares `X-Request-Id`, a tracing header no caller
+ * sets. The other header parameters (`X-Is-Resource-Name`,
+ * `X-Accept-Vulnerabilities`) change the response, so they stay inputs.
+ */
+const dropHarborRequestId = (spec: any): void => {
+  for (const item of Object.values<any>(spec.paths ?? {})) {
+    for (const op of Object.values<any>(item)) {
+      if (Array.isArray(op?.parameters)) {
+        op.parameters = op.parameters.filter((p: any) => p?.$ref !== "#/parameters/requestId");
+      }
+    }
+  }
+  delete spec.parameters?.requestId;
+};
+
 /**
  * Operation names the verbNoun rewrite gets wrong, per product. `RetrieveZone`
  * (POST `.../zones/{zoneId}/retrieve`, queue a secondary zone's transfer)
  * would alias `retrieve` to `get` and collide with `GetZone`, as `getZone2`.
  */
 const OPERATION_NAMES: Record<string, Record<string, string>> = {
+  secrets_manager: { GetApproles: "listApproles" },
   dns: { RetrieveZone: "retrieveZone" },
 };
 
 await runOpenApiConvert({
   root,
-  specs: manifest.map((entry) => {
-    const slug = entry.output.replace(/\.json$/, "");
-    return {
-      name: slug,
-      specPath: `specs/spec-mirror-stackit/specs/${entry.output}`,
+  specs: [
+    ...manifest.map((entry) => {
+      const slug = entry.output.replace(/\.json$/, "");
+      return {
+        name: slug,
+        specPath: `specs/spec-mirror-stackit/specs/${entry.output}`,
+        options: {
+          namespace: `com.stackit.${slug}`,
+          serviceName: toPascal(slug),
+          operationNames: OPERATION_NAMES[slug],
+        },
+      };
+    }),
+    {
+      name: "registry_harbor",
+      specPath: HARBOR_SPEC,
+      preprocess: dropHarborRequestId,
       options: {
-        namespace: `com.stackit.${slug}`,
-        serviceName: toPascal(slug),
-        operationNames: OPERATION_NAMES[slug],
+        namespace: "com.stackit.registry_harbor",
+        // The definitions include `Project`, `Robot`, `Repository`: keep the
+        // service shape out of their way.
+        serviceName: "RegistryHarbor",
+        headerParams: true,
       },
-    };
-  }),
+    },
+    // Vault's KV v2 and login API, the data plane of `secrets_manager`: its
+    // published OpenAPI document, trimmed by hand (see the file's `info`). No
+    // host is stamped: each instance's URL is part of `VaultCredentials`.
+    {
+      name: "secrets_manager_kv",
+      specPath: path.join(root, "manual-specs", "secrets_manager_kv.json"),
+      options: {
+        namespace: "com.stackit.secrets_manager_kv",
+        serviceName: "SecretsManagerKv",
+      },
+    },
+  ],
   patchesDir: "patches",
   finalize: false,
   options: {

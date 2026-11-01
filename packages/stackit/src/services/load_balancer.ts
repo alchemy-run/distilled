@@ -482,6 +482,8 @@ export interface UpdateLoadBalancerRequest {
   targetPools?: UpdateLoadBalancerRequestTargetPoolsList;
   /** Load balancer resource version. Must be empty or unset for creating load balancers, non-empty for updating load balancers. Semantics: While retrieving load balancers, this is the current version of this load balancer resource that changes during updates of the load balancers. On updates this field specified the load balancer version you calculated your update for instead of the future version to enable concurrency safe updates. Update calls will then report the new version in their result as you would see with a load balancer retrieval call later. There exist no total order of the version, so you can only compare it for equality, but not for less/greater than another version. Since the creation of load balancer is always intended to create the first version of it, there should be no existing version. That's why this field must by empty of not present in that case. */
   version?: string;
+  /** Load balancer name in the request body. Not changeable after creation: send the same value as the path's `name`. */
+  bodyName?: string;
 }
 /** List of all targets which will be used in the pool. Limited to 250. */
 export type UpdateTargetPoolRequestTargetsList = Array<Target>;
@@ -496,6 +498,8 @@ export interface UpdateTargetPoolRequest {
   targetPort?: number;
   /** List of all targets which will be used in the pool. Limited to 250. */
   targets?: UpdateTargetPoolRequestTargetsList;
+  /** Target pool name in the request body. A target pool cannot be renamed: send the same value as the path's `targetPoolName`. */
+  bodyName?: string;
 }
 export type CreateCredentialsError = BadRequest | Forbidden | StackitOpError;
 /** Create credentials for observability of the Load Balancer Created credentials can be stored and used for the load balancer observability. For example, when using STACKIT Observability, credentials first must be created for that STACKIT Observability instance (by using their API or the STACKIT Portal) and then can be provided to the load balancer by storing them with this endpoint. */
@@ -531,7 +535,7 @@ export const createLoadBalancer: API.OperationMethod<
   span: "CreateLoadBalancer",
 }));
 
-export type DeleteCredentialsError = BadRequest | Forbidden | StackitOpError;
+export type DeleteCredentialsError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Delete a single credential in a project. Delete Credential */
 export const deleteCredentials: API.OperationMethod<
   DeleteCredentialsRequest,
@@ -541,14 +545,14 @@ export const deleteCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeleteCredentialsRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteCredentialsResponse2>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteCredentials",
 }));
 
-export type DeleteLoadBalancerError = BadRequest | Forbidden | StackitOpError;
+export type DeleteLoadBalancerError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Delete a given load balancer in a project. DeleteLoadBalancer will delete a given load balancer. */
 export const deleteLoadBalancer: API.OperationMethod<
   DeleteLoadBalancerRequest,
@@ -558,7 +562,7 @@ export const deleteLoadBalancer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<DeleteLoadBalancerRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteLoadBalancerResponse2>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -878,6 +882,7 @@ function __c5(j: number): any {
           planId: S.optional(S.String),
           targetPools: S.optional(__S(394, __c12, 10)),
           version: S.optional(S.String),
+          bodyName: S.optional(S.String.pipe(T.Body("name"))),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -902,6 +907,7 @@ function __c6(j: number): any {
           sessionPersistence: S.optional(__S(420, __c13, 4)),
           targetPort: S.optional(S.Number),
           targets: S.optional(__S(422, __c13, 6)),
+          bodyName: S.optional(S.String.pipe(T.Body("name"))),
         }).pipe(
           T.Http({
             method: "PUT",
