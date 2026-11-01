@@ -721,25 +721,250 @@ export interface CreateApiKeyResponse {
 }
 /** The initial status of the automation. Defaults to `disabled`. */
 export type CreateAutomationRequestStatus = "enabled" | "disabled";
-/** The type of automation step. */
-export type AutomationStepType =
-  | "trigger"
-  | "send_email"
-  | "delay"
-  | "wait_for_event"
-  | "condition"
-  | "contact_update"
-  | "contact_delete"
-  | "add_to_segment";
-/** A step in an automation workflow. The `config` object varies based on the step `type`. */
-export interface AutomationStep {
+/** Always `trigger`. */
+export type AutomationTriggerStepType = "trigger";
+/** The config of a `trigger` step. */
+export interface AutomationTriggerStepConfig {
+  /** The name of the custom event that starts the automation. */
+  event_name: string;
+}
+/** A `trigger` step: starts the automation when a custom event is sent. */
+export interface AutomationTriggerStep {
   /** A unique key for this step within the automation graph. */
   key: string;
-  /** The type of automation step. */
-  type: AutomationStepType | (string & {});
-  /** Configuration for the step. Shape depends on `type`: - **trigger**: `{ event_name: string }` - **send_email**: `{ template: { id: string, variables?: object }, subject?: string, from?: string, reply_to?: string }` - **delay**: `{ duration: string }` -- a human-readable duration (e.g. `"30 minutes"`) - **wait_for_event**: `{ event_name: string, timeout?: string, filter_rule?: object }` -- `timeout` is a human-readable duration (e.g. `"1 hour"`) - **condition**: A rule tree with `type` (`rule`, `and`, `or`), `field`, `operator`, and `value` - **contact_update**: `{ first_name?: string|object, last_name?: string|object, unsubscribed?: boolean|object, properties?: object }` - **contact_delete**: `{}` - **add_to_segment**: `{ segment_id: string }` */
-  config: unknown;
+  /** Always `trigger`. */
+  type: AutomationTriggerStepType;
+  /** The step's config. */
+  config: AutomationTriggerStepConfig;
 }
+/** Always `delay`. */
+export type AutomationDelayStepType = "delay";
+/** The config of a `delay` step. */
+export interface AutomationDelayStepConfig {
+  /** How long to wait, as a human-readable duration such as `30 minutes`. */
+  duration: string;
+}
+/** A `delay` step: waits for a duration. */
+export interface AutomationDelayStep {
+  /** A unique key for this step within the automation graph. */
+  key: string;
+  /** Always `delay`. */
+  type: AutomationDelayStepType;
+  /** The step's config. */
+  config: AutomationDelayStepConfig;
+}
+/** Always `send_email`. */
+export type AutomationSendEmailStepType = "send_email";
+/** A reference to a variable, `{ var: "<name>" }`. */
+export interface AutomationVariableReference {
+  /** The name of the variable. */
+  var: string;
+}
+/** A string, number or boolean. */
+export type AutomationScalarValue = string | number | boolean;
+/** An object of string, number or boolean values. */
+export type AutomationTemplateVariableObject = { [key: string]: AutomationScalarValue | undefined };
+/** An item of a list template variable. */
+export type AutomationTemplateVariableListItem =
+  | string
+  | number
+  | boolean
+  | AutomationTemplateVariableObject;
+/** A list template variable. */
+export type AutomationTemplateVariableList = Array<AutomationTemplateVariableListItem>;
+/** The value of a template variable: a string, number or boolean, a variable reference, an object, or a list. */
+export type AutomationTemplateVariableValue =
+  | string
+  | number
+  | boolean
+  | AutomationVariableReference
+  | AutomationTemplateVariableObject
+  | AutomationTemplateVariableList;
+/** Template variables, from variable name to value. */
+export type AutomationTemplateVariablesMap = {
+  [key: string]: AutomationTemplateVariableValue | undefined;
+};
+/** The template a `send_email` step sends. */
+export interface AutomationSendEmailStepTemplate {
+  /** The ID of the template to send. */
+  id: string;
+  /** Values for the template's variables. */
+  variables?: AutomationTemplateVariablesMap;
+}
+/** The config of a `send_email` step. */
+export interface AutomationSendEmailStepConfig {
+  /** The template to send. */
+  template: AutomationSendEmailStepTemplate;
+  /** The email's subject. */
+  subject?: string;
+  /** The sender address. */
+  from?: string;
+  /** The reply-to address. */
+  reply_to?: string;
+}
+/** A `send_email` step: sends a template to the contact. */
+export interface AutomationSendEmailStep {
+  /** A unique key for this step within the automation graph. */
+  key: string;
+  /** Always `send_email`. */
+  type: AutomationSendEmailStepType;
+  /** The step's config. */
+  config: AutomationSendEmailStepConfig;
+}
+/** Always `wait_for_event`. */
+export type AutomationWaitForEventStepType = "wait_for_event";
+/** A rule on one field. */
+export type AutomationFieldRuleType = "rule";
+/** How a rule compares the field: `eq` and `neq` take a string, number, boolean or `null`; `gt`, `gte`, `lt` and `lte` a number; `contains`, `starts_with` and `ends_with` a string; `exists` and `is_empty` take no value. */
+export type AutomationRuleOperator =
+  | "eq"
+  | "neq"
+  | "gt"
+  | "gte"
+  | "lt"
+  | "lte"
+  | "contains"
+  | "starts_with"
+  | "ends_with"
+  | "exists"
+  | "is_empty";
+/** A rule on one field. */
+export interface AutomationFieldRule {
+  /** Always `rule`. */
+  type: AutomationFieldRuleType;
+  /** The field the rule reads. */
+  field: string;
+  /** How the rule compares the field. */
+  operator: AutomationRuleOperator | (string & {});
+  /** The value to compare with. Omitted for `exists` and `is_empty`. */
+  value?: AutomationScalarValue | null;
+}
+/** A rule that matches when every rule in `rules` matches. */
+export type AutomationAndRuleType = "and";
+/** The rules to combine. */
+export type AutomationConditionRuleList = Array<AutomationConditionRule>;
+/** A rule that matches when every rule in `rules` matches. */
+export interface AutomationAndRule {
+  /** Always `and`. */
+  type: AutomationAndRuleType;
+  /** The rules that must all match. */
+  rules: AutomationConditionRuleList;
+}
+/** A rule that matches when any rule in `rules` matches. */
+export type AutomationOrRuleType = "or";
+/** A rule that matches when any rule in `rules` matches. */
+export interface AutomationOrRule {
+  /** Always `or`. */
+  type: AutomationOrRuleType;
+  /** The rules of which one must match. */
+  rules: AutomationConditionRuleList;
+}
+/** A rule tree: a rule on one field, or `and` / `or` over other rules. */
+export type AutomationConditionRule = AutomationFieldRule | AutomationAndRule | AutomationOrRule;
+/** The config of a `wait_for_event` step. */
+export interface AutomationWaitForEventStepConfig {
+  /** The name of the custom event to wait for. */
+  event_name: string;
+  /** How long to wait before following the `timeout` connection, as a human-readable duration such as `1 hour`. */
+  timeout?: string;
+  /** A rule the event must match. */
+  filter_rule?: AutomationConditionRule;
+}
+/** A `wait_for_event` step: waits for a custom event, or until a timeout. */
+export interface AutomationWaitForEventStep {
+  /** A unique key for this step within the automation graph. */
+  key: string;
+  /** Always `wait_for_event`. */
+  type: AutomationWaitForEventStepType;
+  /** The step's config. */
+  config: AutomationWaitForEventStepConfig;
+}
+/** Always `condition`. */
+export type AutomationConditionStepType = "condition";
+/** A `condition` step: follows `condition_met` or `condition_not_met` by a rule tree. */
+export interface AutomationConditionStep {
+  /** A unique key for this step within the automation graph. */
+  key: string;
+  /** Always `condition`. */
+  type: AutomationConditionStepType;
+  /** The step's config. */
+  config: AutomationConditionRule;
+}
+/** Always `contact_update`. */
+export type AutomationContactUpdateStepType = "contact_update";
+/** A string or a variable reference. */
+export type AutomationContactTextValue = string | AutomationVariableReference;
+/** A boolean or a variable reference. */
+export type AutomationContactBooleanValue = boolean | AutomationVariableReference;
+/** A string, number or boolean, or a variable reference. */
+export type AutomationContactPropertyValue =
+  | string
+  | number
+  | boolean
+  | AutomationVariableReference;
+/** Contact property values to set, from property key to value, which may be `null`. */
+export type AutomationContactPropertiesMap = {
+  [key: string]: AutomationContactPropertyValue | null | undefined;
+};
+/** The config of a `contact_update` step. */
+export interface AutomationContactUpdateStepConfig {
+  /** The contact's first name, a variable reference, or `null`. */
+  first_name?: AutomationContactTextValue | null;
+  /** The contact's last name, a variable reference, or `null`. */
+  last_name?: AutomationContactTextValue | null;
+  /** Whether the contact is unsubscribed. */
+  unsubscribed?: AutomationContactBooleanValue;
+  /** Contact property values to set. */
+  properties?: AutomationContactPropertiesMap;
+}
+/** A `contact_update` step: updates the contact. */
+export interface AutomationContactUpdateStep {
+  /** A unique key for this step within the automation graph. */
+  key: string;
+  /** Always `contact_update`. */
+  type: AutomationContactUpdateStepType;
+  /** The step's config. */
+  config: AutomationContactUpdateStepConfig;
+}
+/** Always `contact_delete`. */
+export type AutomationContactDeleteStepType = "contact_delete";
+/** The config of a `contact_delete` step, always `{}`. */
+export interface AutomationContactDeleteStepConfig {}
+/** A `contact_delete` step: deletes the contact. */
+export interface AutomationContactDeleteStep {
+  /** A unique key for this step within the automation graph. */
+  key: string;
+  /** Always `contact_delete`. */
+  type: AutomationContactDeleteStepType;
+  /** The step's config. */
+  config: AutomationContactDeleteStepConfig;
+}
+/** Always `add_to_segment`. */
+export type AutomationAddToSegmentStepType = "add_to_segment";
+/** The config of an `add_to_segment` step. */
+export interface AutomationAddToSegmentStepConfig {
+  /** The ID of the segment to add the contact to. */
+  segment_id: string;
+}
+/** An `add_to_segment` step: adds the contact to a segment. */
+export interface AutomationAddToSegmentStep {
+  /** A unique key for this step within the automation graph. */
+  key: string;
+  /** Always `add_to_segment`. */
+  type: AutomationAddToSegmentStepType;
+  /** The step's config. */
+  config: AutomationAddToSegmentStepConfig;
+}
+/** A step in an automation workflow, sent to createAutomation and updateAutomation. Its `config` depends on its `type`. */
+export type AutomationStep =
+  | AutomationTriggerStep
+  | AutomationDelayStep
+  | AutomationSendEmailStep
+  | AutomationWaitForEventStep
+  | AutomationConditionStep
+  | AutomationContactUpdateStep
+  | AutomationContactDeleteStep
+  | AutomationAddToSegmentStep;
 /** The steps that compose the automation workflow. Must include at least one `trigger` step. */
 export type CreateAutomationRequestStepsList = Array<AutomationStep>;
 /** The type of connection. Defaults to `default`. */
@@ -4817,8 +5042,8 @@ export const createBroadcast: API.OperationMethod<
   CreateBroadcastError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<CreateBroadcastRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<CreateBroadcastResponseSuccess>,
+  input: __S(1712, __c107, 0) as any as S.Schema<CreateBroadcastRequest>,
+  output: __S(1728, __c108, 0) as any as S.Schema<CreateBroadcastResponseSuccess>,
   errors: [
     DailyQuotaExceeded,
     MonthlyQuotaExceeded,
@@ -4851,7 +5076,7 @@ export const createContact: API.OperationMethod<
   CreateContactError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1730, __c108, 2) as any as S.Schema<CreateContactRequest>,
+  input: __S(1746, __c109, 2) as any as S.Schema<CreateContactRequest>,
   output: __S(1536, __c96, 0) as any as S.Schema<CreateContactResponseSuccess>,
   errors: [
     AlreadyExists,
@@ -4882,7 +5107,7 @@ export const createContactImport: API.OperationMethod<
   CreateContactImportError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<CreateContactImportRequest>,
+  input: __S(1792, __c112, 0) as any as S.Schema<CreateContactImportRequest>,
   output: __S(1536, __c96, 0) as any as S.Schema<CreateContactImportResponseSuccess>,
   errors: [
     AlreadyExists,
@@ -4913,7 +5138,7 @@ export const createContactProperty: API.OperationMethod<
   CreateContactPropertyError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<CreateContactPropertyRequest>,
+  input: __S(1808, __c113, 0) as any as S.Schema<CreateContactPropertyRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<CreateContactPropertyResponseSuccess>,
   errors: [
     AlreadyExists,
@@ -4948,8 +5173,8 @@ export const createDomain: API.OperationMethod<
   CreateDomainError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<CreateDomainRequest>,
-  output: __S(1809, __c113, 1) as any as S.Schema<CreateDomainResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<CreateDomainRequest>,
+  output: __S(1825, __c114, 1) as any as S.Schema<CreateDomainResponse>,
   errors: [
     AlreadyExists,
     DomainAlreadyRegistered,
@@ -4985,8 +5210,8 @@ export const createDomainClaim: API.OperationMethod<
   CreateDomainClaimError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<CreateDomainClaimRequest>,
-  output: __S(1873, __c117, 1) as any as S.Schema<DomainClaim>,
+  input: __S(1872, __c117, 0) as any as S.Schema<CreateDomainClaimRequest>,
+  output: __S(1889, __c118, 1) as any as S.Schema<DomainClaim>,
   errors: [
     AlreadyExists,
     DomainAlreadyRegistered,
@@ -5027,8 +5252,8 @@ export const createEmail: API.OperationMethod<
   CreateEmailError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1890, __c118, 2) as any as S.Schema<CreateEmailRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<SendEmailResponse>,
+  input: __S(1906, __c119, 2) as any as S.Schema<CreateEmailRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<SendEmailResponse>,
   errors: [
     DailyQuotaExceeded,
     MonthlyQuotaExceeded,
@@ -5074,8 +5299,8 @@ export const createEmailBatch: API.OperationMethod<
   CreateEmailBatchError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1956, __c122, 4) as any as S.Schema<CreateEmailBatchRequest>,
-  output: __S(1960, __c122, 8) as any as S.Schema<CreateBatchEmailsResponse>,
+  input: __S(1972, __c123, 4) as any as S.Schema<CreateEmailBatchRequest>,
+  output: __S(1976, __c123, 8) as any as S.Schema<CreateBatchEmailsResponse>,
   errors: [
     DailyQuotaExceeded,
     MonthlyQuotaExceeded,
@@ -5112,7 +5337,7 @@ export const createEvent: API.OperationMethod<
   CreateEventError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<CreateEventRequest>,
+  input: __S(1984, __c124, 0) as any as S.Schema<CreateEventRequest>,
   output: __S(1536, __c96, 0) as any as S.Schema<CreateEventResponse>,
   errors: [
     AlreadyExists,
@@ -5143,7 +5368,7 @@ export const createInbox: API.OperationMethod<
   CreateInboxError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<CreateInboxRequest>,
+  input: __S(2016, __c126, 0) as any as S.Schema<CreateInboxRequest>,
   output: __S(1536, __c96, 0) as any as S.Schema<CreateInboxResponseSuccess>,
   errors: [
     AlreadyExists,
@@ -5186,7 +5411,7 @@ export const createInboxDraft: API.OperationMethod<
   CreateInboxDraftError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<CreateInboxDraftRequest>,
+  input: __S(2032, __c127, 0) as any as S.Schema<CreateInboxDraftRequest>,
   output: __S(1536, __c96, 0) as any as S.Schema<CreateInboxDraftResponseSuccess>,
   errors: [
     InboxNotFound,
@@ -5225,7 +5450,7 @@ export const createInboxLabel: API.OperationMethod<
   CreateInboxLabelError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<CreateInboxLabelRequest>,
+  input: __S(2064, __c129, 0) as any as S.Schema<CreateInboxLabelRequest>,
   output: __S(1536, __c96, 0) as any as S.Schema<CreateInboxLabelResponseSuccess>,
   errors: [
     InboxNotFound,
@@ -5257,8 +5482,8 @@ export const createSegment: API.OperationMethod<
   CreateSegmentError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<CreateSegmentRequest>,
-  output: __S(2065, __c129, 1) as any as S.Schema<CreateSegmentResponseSuccess>,
+  input: __S(2080, __c130, 0) as any as S.Schema<CreateSegmentRequest>,
+  output: __S(2081, __c130, 1) as any as S.Schema<CreateSegmentResponseSuccess>,
   errors: [
     AlreadyExists,
     MissingApiKey,
@@ -5288,7 +5513,7 @@ export const createTemplate: API.OperationMethod<
   CreateTemplateError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<CreateTemplateRequest>,
+  input: __S(2096, __c131, 0) as any as S.Schema<CreateTemplateRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<CreateTemplateResponseSuccess>,
   errors: [
     AlreadyExists,
@@ -5319,8 +5544,8 @@ export const createTopic: API.OperationMethod<
   CreateTopicError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<CreateTopicRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<CreateTopicResponseSuccess>,
+  input: __S(2128, __c133, 0) as any as S.Schema<CreateTopicRequest>,
+  output: __S(1728, __c108, 0) as any as S.Schema<CreateTopicResponseSuccess>,
   errors: [
     AlreadyExists,
     MissingApiKey,
@@ -5350,8 +5575,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(2144, __c134, 0) as any as S.Schema<CreateWebhookResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(2160, __c135, 0) as any as S.Schema<CreateWebhookResponse>,
   errors: [
     AlreadyExists,
     MissingApiKey,
@@ -5381,7 +5606,7 @@ export const deleteApiKey: API.OperationMethod<
   DeleteApiKeyError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<DeleteApiKeyRequest>,
+  input: __S(2176, __c136, 0) as any as S.Schema<DeleteApiKeyRequest>,
   output: __S(1584, __c99, 0) as any as S.Schema<DeleteApiKeyResponse>,
   errors: [
     ApiKeyNotFound,
@@ -5412,7 +5637,7 @@ export const deleteAutomation: API.OperationMethod<
   DeleteAutomationError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<DeleteAutomationRequest>,
+  input: __S(2192, __c137, 0) as any as S.Schema<DeleteAutomationRequest>,
   output: __S(1584, __c99, 0) as any as S.Schema<DeleteAutomationResponse>,
   errors: [
     AutomationNotFound,
@@ -5443,8 +5668,8 @@ export const deleteBroadcast: API.OperationMethod<
   DeleteBroadcastError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<DeleteBroadcastRequest>,
-  output: __S(2208, __c138, 0) as any as S.Schema<RemoveBroadcastResponseSuccess>,
+  input: __S(2208, __c138, 0) as any as S.Schema<DeleteBroadcastRequest>,
+  output: __S(2224, __c139, 0) as any as S.Schema<RemoveBroadcastResponseSuccess>,
   errors: [
     BroadcastNotFound,
     BroadcastNotDeletable,
@@ -5475,8 +5700,8 @@ export const deleteContact: API.OperationMethod<
   DeleteContactError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<DeleteContactRequest>,
-  output: __S(2225, __c139, 1) as any as S.Schema<RemoveContactResponseSuccess>,
+  input: __S(2240, __c140, 0) as any as S.Schema<DeleteContactRequest>,
+  output: __S(2241, __c140, 1) as any as S.Schema<RemoveContactResponseSuccess>,
   errors: [
     ContactNotFound,
     MissingApiKey,
@@ -5506,8 +5731,8 @@ export const deleteContactProperty: API.OperationMethod<
   DeleteContactPropertyError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<DeleteContactPropertyRequest>,
-  output: __S(2208, __c138, 0) as any as S.Schema<RemoveContactPropertyResponseSuccess>,
+  input: __S(2256, __c141, 0) as any as S.Schema<DeleteContactPropertyRequest>,
+  output: __S(2224, __c139, 0) as any as S.Schema<RemoveContactPropertyResponseSuccess>,
   errors: [
     ContactPropertyNotFound,
     MissingApiKey,
@@ -5537,8 +5762,8 @@ export const deleteContactSegment: API.OperationMethod<
   DeleteContactSegmentError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<DeleteContactSegmentRequest>,
-  output: __S(2257, __c141, 1) as any as S.Schema<RemoveContactFromSegmentResponseSuccess>,
+  input: __S(2272, __c142, 0) as any as S.Schema<DeleteContactSegmentRequest>,
+  output: __S(2273, __c142, 1) as any as S.Schema<RemoveContactFromSegmentResponseSuccess>,
   errors: [
     SegmentNotFound,
     ContactNotFound,
@@ -5569,7 +5794,7 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<DeleteDomainRequest>,
+  input: __S(2288, __c143, 0) as any as S.Schema<DeleteDomainRequest>,
   output: __S(1584, __c99, 0) as any as S.Schema<DeleteDomainResponse>,
   errors: [
     DomainNotFound,
@@ -5600,7 +5825,7 @@ export const deleteEvent: API.OperationMethod<
   DeleteEventError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<DeleteEventRequest>,
+  input: __S(2304, __c144, 0) as any as S.Schema<DeleteEventRequest>,
   output: __S(1584, __c99, 0) as any as S.Schema<RemoveEventResponse>,
   errors: [
     EventNotFound,
@@ -5631,7 +5856,7 @@ export const deleteInbox: API.OperationMethod<
   DeleteInboxError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<DeleteInboxRequest>,
+  input: __S(2320, __c145, 0) as any as S.Schema<DeleteInboxRequest>,
   output: __S(1584, __c99, 0) as any as S.Schema<RemoveInboxResponseSuccess>,
   errors: [
     InboxNotFound,
@@ -5662,7 +5887,7 @@ export const deleteInboxDraft: API.OperationMethod<
   DeleteInboxDraftError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<DeleteInboxDraftRequest>,
+  input: __S(2336, __c146, 0) as any as S.Schema<DeleteInboxDraftRequest>,
   output: __S(1584, __c99, 0) as any as S.Schema<RemoveInboxDraftResponseSuccess>,
   errors: [
     InboxDraftNotFound,
@@ -5694,7 +5919,7 @@ export const deleteInboxLabel: API.OperationMethod<
   DeleteInboxLabelError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<DeleteInboxLabelRequest>,
+  input: __S(2352, __c147, 0) as any as S.Schema<DeleteInboxLabelRequest>,
   output: __S(1584, __c99, 0) as any as S.Schema<RemoveInboxLabelResponseSuccess>,
   errors: [
     InboxLabelNotFound,
@@ -5725,7 +5950,7 @@ export const deleteInboxThread: API.OperationMethod<
   DeleteInboxThreadError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<DeleteInboxThreadRequest>,
+  input: __S(2368, __c148, 0) as any as S.Schema<DeleteInboxThreadRequest>,
   output: __S(1584, __c99, 0) as any as S.Schema<RemoveInboxThreadResponseSuccess>,
   errors: [
     InboxThreadNotFound,
@@ -5756,7 +5981,7 @@ export const deleteInboxThreadLabel: API.OperationMethod<
   DeleteInboxThreadLabelError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<DeleteInboxThreadLabelRequest>,
+  input: __S(2384, __c149, 0) as any as S.Schema<DeleteInboxThreadLabelRequest>,
   output: __S(1504, __c94, 0) as any as S.Schema<InboxThreadLabelList>,
   errors: [
     InboxLabelNotFound,
@@ -5787,8 +6012,8 @@ export const deleteSegment: API.OperationMethod<
   DeleteSegmentError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<DeleteSegmentRequest>,
-  output: __S(2208, __c138, 0) as any as S.Schema<RemoveSegmentResponseSuccess>,
+  input: __S(2400, __c150, 0) as any as S.Schema<DeleteSegmentRequest>,
+  output: __S(2224, __c139, 0) as any as S.Schema<RemoveSegmentResponseSuccess>,
   errors: [
     SegmentNotFound,
     MissingApiKey,
@@ -5818,7 +6043,7 @@ export const deleteSuppression: API.OperationMethod<
   DeleteSuppressionError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<DeleteSuppressionRequest>,
+  input: __S(2416, __c151, 0) as any as S.Schema<DeleteSuppressionRequest>,
   output: __S(1584, __c99, 0) as any as S.Schema<RemoveSuppressionResponseSuccess>,
   errors: [
     SuppressionNotFound,
@@ -5849,7 +6074,7 @@ export const deleteTemplate: API.OperationMethod<
   DeleteTemplateError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<DeleteTemplateRequest>,
+  input: __S(2432, __c152, 0) as any as S.Schema<DeleteTemplateRequest>,
   output: __S(1584, __c99, 0) as any as S.Schema<RemoveTemplateResponseSuccess>,
   errors: [
     TemplateNotFound,
@@ -5880,8 +6105,8 @@ export const deleteTopic: API.OperationMethod<
   DeleteTopicError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<DeleteTopicRequest>,
-  output: __S(2208, __c138, 0) as any as S.Schema<RemoveTopicResponseSuccess>,
+  input: __S(2448, __c153, 0) as any as S.Schema<DeleteTopicRequest>,
+  output: __S(2224, __c139, 0) as any as S.Schema<RemoveTopicResponseSuccess>,
   errors: [
     TopicNotFound,
     MissingApiKey,
@@ -5911,7 +6136,7 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<DeleteWebhookRequest>,
+  input: __S(2464, __c154, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(1584, __c99, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [
     WebhookNotFound,
@@ -5942,7 +6167,7 @@ export const duplicateAutomation: API.OperationMethod<
   DuplicateAutomationError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<DuplicateAutomationRequest>,
+  input: __S(2480, __c155, 0) as any as S.Schema<DuplicateAutomationRequest>,
   output: __S(1536, __c96, 0) as any as S.Schema<DuplicateAutomationResponse>,
   errors: [
     AutomationNotFound,
@@ -5973,7 +6198,7 @@ export const duplicateBroadcast: API.OperationMethod<
   DuplicateBroadcastError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<DuplicateBroadcastRequest>,
+  input: __S(2496, __c156, 0) as any as S.Schema<DuplicateBroadcastRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<DuplicateBroadcastResponseSuccess>,
   errors: [
     BroadcastNotFound,
@@ -6004,7 +6229,7 @@ export const duplicateTemplate: API.OperationMethod<
   DuplicateTemplateError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<DuplicateTemplateRequest>,
+  input: __S(2512, __c157, 0) as any as S.Schema<DuplicateTemplateRequest>,
   output: __S(1616, __c101, 0) as any as S.Schema<DuplicateTemplateResponseSuccess>,
   errors: [
     TemplateNotFound,
@@ -6045,8 +6270,8 @@ export const forwardInboxThreadEmail: API.OperationMethod<
   ForwardInboxThreadEmailError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<ForwardInboxThreadEmailRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<ForwardInboxThreadEmailResponseSuccess>,
+  input: __S(2528, __c158, 0) as any as S.Schema<ForwardInboxThreadEmailRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<ForwardInboxThreadEmailResponseSuccess>,
   errors: [
     EmailNotFound,
     DailyQuotaExceeded,
@@ -6084,8 +6309,8 @@ export const getAutomation: API.OperationMethod<
   GetAutomationError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<GetAutomationRequest>,
-  output: __S(2529, __c158, 1) as any as S.Schema<Automation>,
+  input: __S(2544, __c159, 0) as any as S.Schema<GetAutomationRequest>,
+  output: __S(2547, __c159, 3) as any as S.Schema<Automation>,
   errors: [
     AutomationNotFound,
     MissingApiKey,
@@ -6115,8 +6340,8 @@ export const getAutomationRun: API.OperationMethod<
   GetAutomationRunError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<GetAutomationRunRequest>,
-  output: __S(2547, __c159, 3) as any as S.Schema<AutomationRun>,
+  input: __S(2560, __c160, 0) as any as S.Schema<GetAutomationRunRequest>,
+  output: __S(2563, __c160, 3) as any as S.Schema<AutomationRun>,
   errors: [
     AutomationRunNotFound,
     AutomationNotFound,
@@ -6147,8 +6372,8 @@ export const getBroadcast: API.OperationMethod<
   GetBroadcastError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<GetBroadcastRequest>,
-  output: __S(2561, __c160, 1) as any as S.Schema<GetBroadcastResponseSuccess>,
+  input: __S(2576, __c161, 0) as any as S.Schema<GetBroadcastRequest>,
+  output: __S(2577, __c161, 1) as any as S.Schema<GetBroadcastResponseSuccess>,
   errors: [
     BroadcastNotFound,
     MissingApiKey,
@@ -6178,8 +6403,8 @@ export const getContact: API.OperationMethod<
   GetContactError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<GetContactRequest>,
-  output: __S(2577, __c161, 1) as any as S.Schema<GetContactResponseSuccess>,
+  input: __S(2592, __c162, 0) as any as S.Schema<GetContactRequest>,
+  output: __S(2593, __c162, 1) as any as S.Schema<GetContactResponseSuccess>,
   errors: [
     ContactNotFound,
     MissingApiKey,
@@ -6209,8 +6434,8 @@ export const getContactImport: API.OperationMethod<
   GetContactImportError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<GetContactImportRequest>,
-  output: __S(2625, __c164, 1) as any as S.Schema<GetContactImportResponse>,
+  input: __S(2624, __c164, 0) as any as S.Schema<GetContactImportRequest>,
+  output: __S(2641, __c165, 1) as any as S.Schema<GetContactImportResponse>,
   errors: [
     ContactImportNotFound,
     MissingApiKey,
@@ -6240,8 +6465,8 @@ export const getContactProperty: API.OperationMethod<
   GetContactPropertyError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<GetContactPropertyRequest>,
-  output: __S(2641, __c165, 1) as any as S.Schema<GetContactPropertyResponseSuccess>,
+  input: __S(2656, __c166, 0) as any as S.Schema<GetContactPropertyRequest>,
+  output: __S(2657, __c166, 1) as any as S.Schema<GetContactPropertyResponseSuccess>,
   errors: [
     ContactPropertyNotFound,
     MissingApiKey,
@@ -6271,8 +6496,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c166, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(2657, __c166, 1) as any as S.Schema<Domain>,
+  input: __S(2672, __c167, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(2673, __c167, 1) as any as S.Schema<Domain>,
   errors: [
     DomainNotFound,
     MissingApiKey,
@@ -6302,8 +6527,8 @@ export const getDomainClaim: API.OperationMethod<
   GetDomainClaimError,
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<GetDomainClaimRequest>,
-  output: __S(1873, __c117, 1) as any as S.Schema<DomainClaim>,
+  input: __S(2688, __c168, 0) as any as S.Schema<GetDomainClaimRequest>,
+  output: __S(1889, __c118, 1) as any as S.Schema<DomainClaim>,
   errors: [
     DomainNotFound,
     DomainClaimNotFound,
@@ -6330,8 +6555,8 @@ export type GetEmailError = EmailNotFound | ResendOpError;
 /** Retrieve a single email */
 export const getEmail: API.OperationMethod<GetEmailRequest, Email, GetEmailError, ResendOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2688, __c168, 0) as any as S.Schema<GetEmailRequest>,
-    output: __S(2706, __c169, 2) as any as S.Schema<Email>,
+    input: __S(2704, __c169, 0) as any as S.Schema<GetEmailRequest>,
+    output: __S(2722, __c170, 2) as any as S.Schema<Email>,
     errors: [
       EmailNotFound,
       MissingApiKey,
@@ -8383,7 +8608,7 @@ export const replyInboxThreadEmail: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<ReplyInboxThreadEmailRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<ReplyInboxThreadEmailResponseSuccess>,
+  output: __S(1953, __c122, 1) as any as S.Schema<ReplyInboxThreadEmailResponseSuccess>,
   errors: [
     EmailNotFound,
     DailyQuotaExceeded,
@@ -8453,7 +8678,7 @@ export const rotateWebhookSigningSecret: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<RotateWebhookSigningSecretRequest>,
-  output: __S(2144, __c134, 0) as any as S.Schema<RotateWebhookSigningSecretResponse>,
+  output: __S(2160, __c135, 0) as any as S.Schema<RotateWebhookSigningSecretResponse>,
   errors: [
     WebhookNotFound,
     MissingApiKey,
@@ -8620,7 +8845,7 @@ export const sendInboxDraft: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<SendInboxDraftRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<SendInboxDraftResponseSuccess>,
+  output: __S(1953, __c122, 1) as any as S.Schema<SendInboxDraftResponseSuccess>,
   errors: [
     InboxDraftNotFound,
     DailyQuotaExceeded,
@@ -8816,7 +9041,7 @@ export const updateBroadcast: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<UpdateBroadcastRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<UpdateBroadcastResponseSuccess>,
+  output: __S(1728, __c108, 0) as any as S.Schema<UpdateBroadcastResponseSuccess>,
   errors: [
     BroadcastNotFound,
     BroadcastNotDraft,
@@ -9290,7 +9515,7 @@ export const updateTopic: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<UpdateTopicRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<UpdateTopicResponseSuccess>,
+  output: __S(1728, __c108, 0) as any as S.Schema<UpdateTopicResponseSuccess>,
   errors: [
     TopicNotFound,
     MissingApiKey,
@@ -9383,7 +9608,7 @@ export const verifyDomainClaim: API.OperationMethod<
   ResendOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<VerifyDomainClaimRequest>,
-  output: __S(1873, __c117, 1) as any as S.Schema<DomainClaim>,
+  output: __S(1889, __c118, 1) as any as S.Schema<DomainClaim>,
   errors: [
     DomainNotFound,
     DomainClaimNotFound,
@@ -9615,7 +9840,7 @@ function __c7(j: number): any {
           object: S.String,
           id: S.String,
           name: S.String,
-          schema: S.NullOr(__S(1984, __c124, 0)),
+          schema: S.NullOr(__S(2000, __c125, 0)),
           created_at: S.String,
           updated_at: S.NullOr(S.String),
         }),
@@ -10289,7 +10514,7 @@ function __c30(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/contacts/imports", code: 200 })),
       ).annotate({ identifier: "ListContactImportsRequest" });
     case 1:
-      return S.Array(__S(2625, __c164, 1));
+      return S.Array(__S(2641, __c165, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10453,7 +10678,7 @@ function __c36(j: number): any {
           region: S.String,
           open_tracking: S.optional(S.Boolean),
           click_tracking: S.optional(S.Boolean),
-          capabilities: __S(1840, __c115, 0),
+          capabilities: __S(1856, __c116, 0),
         }),
       ).annotate({ identifier: "ListDomainsItem" });
     case 2:
@@ -10571,7 +10796,7 @@ function __c41(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/emails", code: 200 })),
       ).annotate({ identifier: "ListEmailsRequest" });
     case 1:
-      return S.Array(__S(2706, __c169, 2));
+      return S.Array(__S(2722, __c170, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10597,7 +10822,7 @@ function __c42(j: number): any {
         S.Struct({
           id: S.String,
           name: S.String,
-          schema: S.NullOr(__S(1984, __c124, 0)),
+          schema: S.NullOr(__S(2000, __c125, 0)),
           created_at: S.String,
           updated_at: S.NullOr(S.String),
         }),
@@ -11151,8 +11376,8 @@ function __c60(j: number): any {
           text: S.optional(S.String),
           subject: S.optional(S.String),
           reply_all: S.optional(S.Boolean),
-          attachments: S.optional(S.NullOr(__S(1921, __c120, 1))),
-          headers: S.optional(S.NullOr(__S(1936, __c121, 0))),
+          attachments: S.optional(S.NullOr(__S(1937, __c121, 1))),
+          headers: S.optional(S.NullOr(__S(1952, __c122, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -11270,7 +11495,7 @@ function __c65(j: number): any {
           event: S.String,
           contact_id: S.optional(S.String),
           email: S.optional(S.String),
-          payload: S.optional(__S(2592, __c162, 0)),
+          payload: S.optional(__S(2608, __c163, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/events/send", code: 200 })),
       ).annotate({ identifier: "SendEventRequest" });
     case 1:
@@ -11290,7 +11515,7 @@ function __c66(j: number): any {
           inbox_id: S.String.pipe(T.Label()),
           draft_id: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          headers: S.optional(S.NullOr(__S(1936, __c121, 0))),
+          headers: S.optional(S.NullOr(__S(1952, __c122, 0))),
         }).pipe(
           T.Http({ method: "POST", uri: "/inboxes/{inbox_id}/drafts/{draft_id}/send", code: 200 }),
         ),
@@ -11371,8 +11596,8 @@ function __c71(j: number): any {
           automation_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           status: S.optional(S.String),
-          steps: S.optional(__S(1681, __c105, 1)),
-          connections: S.optional(__S(1683, __c105, 3)),
+          steps: S.optional(__S(1680, __c105, 0)),
+          connections: S.optional(__S(1697, __c106, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/automations/{automation_id}", code: 200 })),
       ).annotate({ identifier: "UpdateAutomationRequest" });
   }
@@ -11406,7 +11631,7 @@ function __c73(j: number): any {
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           unsubscribed: S.optional(S.Boolean),
-          properties: S.optional(__S(1744, __c109, 0)),
+          properties: S.optional(__S(1760, __c110, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/contacts/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateContactRequest" });
   }
@@ -11453,7 +11678,7 @@ function __c76(j: number): any {
       return S.suspend(() =>
         S.Struct({
           contact_id: S.String.pipe(T.Label()),
-          topics: __S(1761, __c110, 1).pipe(T.HttpBody()),
+          topics: __S(1777, __c111, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PATCH", uri: "/contacts/{contact_id}/topics", code: 200 })),
       ).annotate({ identifier: "UpdateContactTopicsRequest" });
   }
@@ -11467,7 +11692,7 @@ function __c77(j: number): any {
           open_tracking: S.optional(S.Boolean),
           click_tracking: S.optional(S.Boolean),
           tls: S.optional(S.String),
-          capabilities: S.optional(__S(1840, __c115, 0)),
+          capabilities: S.optional(__S(1856, __c116, 0)),
           tracking_subdomain: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/domains/{domain_id}", code: 200 })),
       ).annotate({ identifier: "UpdateDomainRequest" });
@@ -11490,7 +11715,7 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           identifier: S.String.pipe(T.Label()),
-          schema: S.NullOr(__S(1984, __c124, 0)),
+          schema: S.NullOr(__S(2000, __c125, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/events/{identifier}", code: 200 })),
       ).annotate({ identifier: "UpdateEventRequest" });
   }
@@ -11533,7 +11758,7 @@ function __c82(j: number): any {
           subject: S.optional(S.NullOr(S.String)),
           html: S.optional(S.NullOr(S.String)),
           text: S.optional(S.NullOr(S.String)),
-          attachments: S.optional(S.NullOr(__S(2033, __c127, 1))),
+          attachments: S.optional(S.NullOr(__S(2049, __c128, 1))),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/inboxes/{inbox_id}/drafts/{draft_id}", code: 200 }),
         ),
@@ -11594,7 +11819,7 @@ function __c86(j: number): any {
           reply_to: S.optional(__S(1472, __c92, 0)),
           html: S.optional(S.String),
           text: S.optional(S.String),
-          variables: S.optional(__S(2097, __c131, 1)),
+          variables: S.optional(__S(2113, __c132, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/templates/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateTemplateRequest" });
   }
@@ -11822,8 +12047,8 @@ function __c104(j: number): any {
         S.Struct({
           name: S.String,
           status: S.optional(S.String),
-          steps: __S(1681, __c105, 1),
-          connections: __S(1683, __c105, 3),
+          steps: __S(1680, __c105, 0),
+          connections: __S(1697, __c106, 1),
         }).pipe(T.Http({ method: "POST", uri: "/automations", code: 200 })),
       ).annotate({ identifier: "CreateAutomationRequest" });
   }
@@ -11831,16 +12056,12 @@ function __c104(j: number): any {
 function __c105(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String,
-          type: S.String,
-          config: S.Unknown,
-        }),
-      ).annotate({ identifier: "AutomationStep" });
-    case 1:
-      return S.Array(__S(1680, __c105, 0));
-    case 2:
+      return S.Array(S.Unknown);
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           from: S.String,
@@ -11848,11 +12069,11 @@ function __c105(j: number): any {
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "AutomationConnection" });
-    case 3:
-      return S.Array(__S(1682, __c105, 2));
+    case 1:
+      return S.Array(__S(1696, __c106, 0));
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11872,7 +12093,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "CreateBroadcastRequest" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11883,7 +12104,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "CreateBroadcastResponseSuccess" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11892,7 +12113,7 @@ function __c108(j: number): any {
         }),
       ).annotate({ identifier: "CreateContactRequestSegmentsItem" });
     case 1:
-      return S.Array(__S(1728, __c108, 0));
+      return S.Array(__S(1744, __c109, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -11900,20 +12121,20 @@ function __c108(j: number): any {
           first_name: S.optional(S.String),
           last_name: S.optional(S.String),
           unsubscribed: S.optional(S.Boolean),
-          properties: S.optional(__S(1744, __c109, 0)),
-          segments: S.optional(__S(1729, __c108, 1)),
-          topics: S.optional(__S(1761, __c110, 1)),
+          properties: S.optional(__S(1760, __c110, 0)),
+          segments: S.optional(__S(1745, __c109, 1)),
+          topics: S.optional(__S(1777, __c111, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/contacts", code: 200 })),
       ).annotate({ identifier: "CreateContactRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11923,10 +12144,10 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "CreateContactRequestTopicsItem" });
     case 1:
-      return S.Array(__S(1760, __c110, 0));
+      return S.Array(__S(1776, __c111, 0));
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11942,7 +12163,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "CreateContactImportRequest" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11954,7 +12175,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "CreateContactPropertyRequest" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11965,7 +12186,7 @@ function __c113(j: number): any {
           open_tracking: S.optional(S.Boolean),
           click_tracking: S.optional(S.Boolean),
           tls: S.optional(S.String),
-          capabilities: S.optional(__S(1840, __c115, 0)),
+          capabilities: S.optional(__S(1856, __c116, 0)),
           tracking_subdomain: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/domains", code: 200 })),
       ).annotate({ identifier: "CreateDomainRequest" });
@@ -11976,8 +12197,8 @@ function __c113(j: number): any {
           name: S.String,
           created_at: S.String,
           status: S.String,
-          capabilities: __S(1840, __c115, 0),
-          records: __S(1825, __c114, 1),
+          capabilities: __S(1856, __c116, 0),
+          records: __S(1841, __c115, 1),
           region: S.String,
           open_tracking: S.optional(S.Boolean),
           click_tracking: S.optional(S.Boolean),
@@ -11987,7 +12208,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "CreateDomainResponse" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12002,10 +12223,10 @@ function __c114(j: number): any {
         }),
       ).annotate({ identifier: "DomainRecord" });
     case 1:
-      return S.Array(__S(1824, __c114, 0));
+      return S.Array(__S(1840, __c115, 0));
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12016,7 +12237,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "DomainCapabilities" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12031,7 +12252,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "CreateDomainClaimRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12051,7 +12272,7 @@ function __c117(j: number): any {
           status: S.String,
           domain_id: S.NullOr(S.String),
           region: S.NullOr(S.String),
-          record: __S(1872, __c117, 0),
+          record: __S(1888, __c118, 0),
           blocked_reason: S.NullOr(S.String),
           failure_reason: S.NullOr(S.String),
           created_at: S.String,
@@ -12060,7 +12281,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "DomainClaim" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -12068,7 +12289,7 @@ function __c118(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          variables: S.optional(__S(1888, __c118, 0)),
+          variables: S.optional(__S(1904, __c119, 0)),
         }),
       ).annotate({ identifier: "CreateEmailRequestTemplate" });
     case 2:
@@ -12083,17 +12304,17 @@ function __c118(j: number): any {
           reply_to: S.optional(S.Unknown),
           html: S.optional(S.String),
           text: S.optional(S.String),
-          template: S.optional(__S(1889, __c118, 1)),
-          headers: S.optional(__S(1936, __c121, 0)),
+          template: S.optional(__S(1905, __c119, 1)),
+          headers: S.optional(__S(1952, __c122, 0)),
           scheduled_at: S.optional(S.String),
-          attachments: S.optional(__S(1921, __c120, 1)),
-          tags: S.optional(__S(1905, __c119, 1)),
+          attachments: S.optional(__S(1937, __c121, 1)),
+          tags: S.optional(__S(1921, __c120, 1)),
           topic_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/emails", code: 200 })),
       ).annotate({ identifier: "CreateEmailRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12103,10 +12324,10 @@ function __c119(j: number): any {
         }),
       ).annotate({ identifier: "Tag" });
     case 1:
-      return S.Array(__S(1904, __c119, 0));
+      return S.Array(__S(1920, __c120, 0));
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12119,10 +12340,10 @@ function __c120(j: number): any {
         }),
       ).annotate({ identifier: "Attachment" });
     case 1:
-      return S.Array(__S(1920, __c120, 0));
+      return S.Array(__S(1936, __c121, 0));
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -12134,7 +12355,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "SendEmailResponse" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -12142,7 +12363,7 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          variables: S.optional(__S(1952, __c122, 0)),
+          variables: S.optional(__S(1968, __c123, 0)),
         }),
       ).annotate({ identifier: "SendEmailRequestTemplate" });
     case 2:
@@ -12156,26 +12377,26 @@ function __c122(j: number): any {
           reply_to: S.optional(S.Unknown),
           html: S.optional(S.String),
           text: S.optional(S.String),
-          template: S.optional(__S(1953, __c122, 1)),
-          headers: S.optional(__S(1936, __c121, 0)),
+          template: S.optional(__S(1969, __c123, 1)),
+          headers: S.optional(__S(1952, __c122, 0)),
           scheduled_at: S.optional(S.String),
-          attachments: S.optional(__S(1921, __c120, 1)),
-          tags: S.optional(__S(1905, __c119, 1)),
+          attachments: S.optional(__S(1937, __c121, 1)),
+          tags: S.optional(__S(1921, __c120, 1)),
           topic_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "SendEmailRequest" });
     case 3:
-      return S.Array(__S(1954, __c122, 2));
+      return S.Array(__S(1970, __c123, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          body: S.optional(__S(1955, __c122, 3).pipe(T.HttpBody())),
+          body: S.optional(__S(1971, __c123, 3).pipe(T.HttpBody())),
           batchValidation: S.optional(S.String.pipe(T.Header("x-batch-validation"))),
         }).pipe(T.Http({ method: "POST", uri: "/emails/batch", code: 200 })),
       ).annotate({ identifier: "CreateEmailBatchRequest" });
     case 5:
-      return S.Array(__S(1937, __c121, 1));
+      return S.Array(__S(1953, __c122, 1));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -12184,34 +12405,34 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "CreateBatchEmailsResponseError" });
     case 7:
-      return S.Array(__S(1958, __c122, 6));
+      return S.Array(__S(1974, __c123, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1957, __c122, 5),
-          errors: S.optional(__S(1959, __c122, 7)),
+          data: __S(1973, __c123, 5),
+          errors: S.optional(__S(1975, __c123, 7)),
         }),
       ).annotate({ identifier: "CreateBatchEmailsResponse" });
-  }
-}
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          schema: S.optional(S.NullOr(__S(1984, __c124, 0))),
-        }).pipe(T.Http({ method: "POST", uri: "/events", code: 200 })),
-      ).annotate({ identifier: "CreateEventRequest" });
   }
 }
 function __c124(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          schema: S.optional(S.NullOr(__S(2000, __c125, 0))),
+        }).pipe(T.Http({ method: "POST", uri: "/events", code: 200 })),
+      ).annotate({ identifier: "CreateEventRequest" });
   }
 }
 function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12224,7 +12445,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "CreateInboxRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12237,14 +12458,14 @@ function __c126(j: number): any {
           subject: S.optional(S.NullOr(S.String)),
           html: S.optional(S.NullOr(S.String)),
           text: S.optional(S.NullOr(S.String)),
-          attachments: S.optional(S.NullOr(__S(2033, __c127, 1))),
+          attachments: S.optional(S.NullOr(__S(2049, __c128, 1))),
           thread_id: S.optional(S.String),
           reply_to_email_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/inboxes/{inbox_id}/drafts", code: 200 })),
       ).annotate({ identifier: "CreateInboxDraftRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12255,10 +12476,10 @@ function __c127(j: number): any {
         }),
       ).annotate({ identifier: "InboxDraftAttachmentInput" });
     case 1:
-      return S.Array(__S(2032, __c127, 0));
+      return S.Array(__S(2048, __c128, 0));
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12270,7 +12491,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "CreateInboxLabelRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12289,7 +12510,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "CreateSegmentResponseSuccess" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12301,12 +12522,12 @@ function __c130(j: number): any {
           reply_to: S.optional(__S(1472, __c92, 0)),
           html: S.String,
           text: S.optional(S.String),
-          variables: S.optional(__S(2097, __c131, 1)),
+          variables: S.optional(__S(2113, __c132, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/templates", code: 200 })),
       ).annotate({ identifier: "CreateTemplateRequest" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12317,10 +12538,10 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "TemplateVariableInput" });
     case 1:
-      return S.Array(__S(2096, __c131, 0));
+      return S.Array(__S(2112, __c132, 0));
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12333,7 +12554,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "CreateTopicRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12344,7 +12565,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12356,7 +12577,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "CreateWebhookResponse" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12366,7 +12587,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "DeleteApiKeyRequest" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12376,7 +12597,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "DeleteAutomationRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12386,7 +12607,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "DeleteBroadcastRequest" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12398,7 +12619,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "RemoveBroadcastResponseSuccess" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12416,7 +12637,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "RemoveContactResponseSuccess" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12426,7 +12647,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "DeleteContactPropertyRequest" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12452,7 +12673,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "RemoveContactFromSegmentResponseSuccess" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12462,7 +12683,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "DeleteDomainRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12472,7 +12693,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "DeleteEventRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12482,7 +12703,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "DeleteInboxRequest" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12495,7 +12716,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "DeleteInboxDraftRequest" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12508,7 +12729,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "DeleteInboxLabelRequest" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12521,7 +12742,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "DeleteInboxThreadRequest" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12539,7 +12760,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "DeleteInboxThreadLabelRequest" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12549,7 +12770,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "DeleteSegmentRequest" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12559,7 +12780,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "DeleteSuppressionRequest" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12569,7 +12790,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "DeleteTemplateRequest" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12579,7 +12800,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "DeleteTopicRequest" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12589,7 +12810,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12601,7 +12822,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "DuplicateAutomationRequest" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12611,7 +12832,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "DuplicateBroadcastRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12621,7 +12842,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "DuplicateTemplateRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12636,8 +12857,8 @@ function __c157(j: number): any {
           html: S.optional(S.String),
           text: S.optional(S.String),
           subject: S.optional(S.String),
-          attachments: S.optional(S.NullOr(__S(1921, __c120, 1))),
-          headers: S.optional(S.NullOr(__S(1936, __c121, 0))),
+          attachments: S.optional(S.NullOr(__S(1937, __c121, 1))),
+          headers: S.optional(S.NullOr(__S(1952, __c122, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -12648,7 +12869,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "ForwardInboxThreadEmailRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12659,19 +12880,29 @@ function __c158(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          key: S.String,
+          type: S.String,
+          config: S.Unknown,
+        }),
+      ).annotate({ identifier: "AutomationStepResponse" });
+    case 2:
+      return S.Array(__S(2545, __c159, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           object: S.String,
           id: S.String,
           name: S.String,
           status: S.String,
           created_at: S.String,
           updated_at: S.NullOr(S.String),
-          steps: __S(1681, __c105, 1),
-          connections: __S(1683, __c105, 3),
+          steps: __S(2546, __c159, 2),
+          connections: __S(1697, __c106, 1),
         }),
       ).annotate({ identifier: "Automation" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12696,7 +12927,7 @@ function __c159(j: number): any {
         }),
       ).annotate({ identifier: "AutomationRunStep" });
     case 2:
-      return S.Array(__S(2545, __c159, 1));
+      return S.Array(__S(2561, __c160, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12706,12 +12937,12 @@ function __c159(j: number): any {
           started_at: S.NullOr(S.String),
           completed_at: S.NullOr(S.String),
           created_at: S.String,
-          steps: __S(2546, __c159, 2),
+          steps: __S(2562, __c160, 2),
         }),
       ).annotate({ identifier: "AutomationRun" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12742,7 +12973,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetBroadcastResponseSuccess" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12760,18 +12991,18 @@ function __c161(j: number): any {
           last_name: S.NullOr(S.String),
           created_at: S.String,
           unsubscribed: S.Boolean,
-          properties: __S(2592, __c162, 0),
+          properties: __S(2608, __c163, 0),
         }),
       ).annotate({ identifier: "GetContactResponseSuccess" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12781,7 +13012,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "GetContactImportRequest" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12801,12 +13032,12 @@ function __c164(j: number): any {
           status: S.String,
           created_at: S.String,
           completed_at: S.NullOr(S.String),
-          counts: __S(2624, __c164, 0),
+          counts: __S(2640, __c165, 0),
         }),
       ).annotate({ identifier: "GetContactImportResponse" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12827,7 +13058,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "GetContactPropertyResponseSuccess" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12847,13 +13078,13 @@ function __c166(j: number): any {
           open_tracking: S.optional(S.Boolean),
           click_tracking: S.optional(S.Boolean),
           tracking_subdomain: S.optional(S.String),
-          capabilities: __S(1840, __c115, 0),
-          records: __S(1825, __c114, 1),
+          capabilities: __S(1856, __c116, 0),
+          records: __S(1841, __c115, 1),
         }),
       ).annotate({ identifier: "Domain" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12863,7 +13094,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "GetDomainClaimRequest" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12873,7 +13104,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "GetEmailRequest" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12883,7 +13114,7 @@ function __c169(j: number): any {
         }),
       ).annotate({ identifier: "EmailTag" });
     case 1:
-      return S.Array(__S(2704, __c169, 0));
+      return S.Array(__S(2720, __c170, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -12902,7 +13133,7 @@ function __c169(j: number): any {
           last_event: S.String,
           scheduled_at: S.NullOr(S.String),
           topic_id: S.optional(S.NullOr(S.String)),
-          tags: S.optional(__S(2705, __c169, 1)),
+          tags: S.optional(__S(2721, __c170, 1)),
         }),
       ).annotate({ identifier: "Email" });
   }

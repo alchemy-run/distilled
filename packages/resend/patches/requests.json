@@ -1,5 +1,5 @@
 {
-  "description": "Match request shapes to what Resend accepts. Audiences became Segments and the spec marks `audience_id` deprecated; it is removed from createBroadcast, updateBroadcast, createContact and createSegment, where `segment_id` replaces it. updateContactTopics takes the topic list as the bare JSON body, as resend-node sends it (the spec's `{ topics: [...] }` is refused with 422). updateEmail takes `scheduled_at` in the body; the spec declares no body, so the SDK could not reschedule. createEmailBatch takes the `x-batch-validation` header (`strict`, the default, or `permissive`).\n\nContact properties can be booleans. The spec lists only `string` and `number` for createContactProperty's `type` and types `fallback_value` as a string or number, but Resend accepts `boolean`: a request with `type: \"date\"` was refused with 422 \"The `type` field must be one of \\\"string\\\", \\\"number\\\", or \\\"boolean\\\".\" (live, 2026-10-29). A fallback value must match the property's type, so `fallback_value` also takes a boolean on createContactProperty and updateContactProperty and comes back as one from getContactProperty and listContactProperties.\n\nA custom event's `schema` is a flat map from payload key to type, one of `string`, `number`, `boolean` or `date`. The spec says so in prose but types `schema` as an untyped document on createEvent, updateEvent, getEvent and listEvents. resend-node (`src/events/interfaces/event.ts`, `EventSchemaMap = Record<string, EventSchemaType>`) and Resend's custom events docs give the same four types. All four now target EventSchemaMap; nullability is unchanged.\n\nAn email's custom `headers` are a map from header name to string value. The spec types `headers` as an untyped document on createEmail and on each createEmailBatch item. resend-node (`src/emails/interfaces/create-email-options.interface.ts`) sends `headers?: Record<string, string>`, as the inbox send operations in this spec already type theirs. Both now target EmailHeadersMap.",
+  "description": "Match request shapes to what Resend accepts. Audiences became Segments and the spec marks `audience_id` deprecated; it is removed from createBroadcast, updateBroadcast, createContact and createSegment, where `segment_id` replaces it. updateContactTopics takes the topic list as the bare JSON body, as resend-node sends it (the spec's `{ topics: [...] }` is refused with 422). updateEmail takes `scheduled_at` in the body; the spec declares no body, so the SDK could not reschedule. createEmailBatch takes the `x-batch-validation` header (`strict`, the default, or `permissive`).\n\nContact properties can be booleans. The spec lists only `string` and `number` for createContactProperty's `type` and types `fallback_value` as a string or number, but Resend accepts `boolean`: a request with `type: \"date\"` was refused with 422 \"The `type` field must be one of \\\"string\\\", \\\"number\\\", or \\\"boolean\\\".\" (live, 2026-10-29). A fallback value must match the property's type, so `fallback_value` also takes a boolean on createContactProperty and updateContactProperty and comes back as one from getContactProperty and listContactProperties.\n\nA custom event's `schema` is a flat map from payload key to type, one of `string`, `number`, `boolean` or `date`. The spec says so in prose but types `schema` as an untyped document on createEvent, updateEvent, getEvent and listEvents. resend-node (`src/events/interfaces/event.ts`, `EventSchemaMap = Record<string, EventSchemaType>`) and Resend's custom events docs give the same four types. All four now target EventSchemaMap; nullability is unchanged.\n\nAn email's custom `headers` are a map from header name to string value. The spec types `headers` as an untyped document on createEmail and on each createEmailBatch item. resend-node (`src/emails/interfaces/create-email-options.interface.ts`) sends `headers?: Record<string, string>`, as the inbox send operations in this spec already type theirs. Both now target EmailHeadersMap.\n\nAn automation step's `config` depends on the step's `type`, which the spec describes only in prose and types as an untyped document. createAutomation and updateAutomation now take each step as a union of eight step shapes, one per `type` (`trigger`, `delay`, `send_email`, `wait_for_event`, `condition`, `contact_update`, `contact_delete`, `add_to_segment`), each with its own config shape, taken from resend-node (`src/automations/interfaces/automation-step.interface.ts`, and the wire names from `src/common/utils/parse-automation-to-api-options.ts`, which maps `eventName` to `event_name`, `replyTo` to `reply_to`, `filterRule` to `filter_rule`, `firstName`/`lastName` to `first_name`/`last_name` and `segmentId` to `segment_id`). A condition rule is one shape for every operator, where resend-node splits rules by operator; the operator's JSDoc says which value each takes. Responses keep AutomationStepResponse, whose `config` stays an untyped document: resend-node types it as `Record<string, unknown>`.",
   "patches": [
     {
       "op": "remove",
@@ -200,6 +200,1125 @@
       "op": "replace",
       "path": "/shapes/com.resend.api#SendEmailRequest/members/headers/target",
       "value": "com.resend.api#EmailHeadersMap"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationVariableReference",
+      "value": {
+        "type": "structure",
+        "members": {
+          "var": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The name of the variable.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A reference to a variable, `{ var: \"<name>\" }`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationScalarValue",
+      "value": {
+        "type": "union",
+        "members": {
+          "Case0": {
+            "target": "smithy.api#String"
+          },
+          "Case1": {
+            "target": "smithy.api#Double"
+          },
+          "Case2": {
+            "target": "smithy.api#Boolean"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A string, number or boolean."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationTemplateVariableObject",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.resend.api#AutomationScalarValue"
+        },
+        "traits": {
+          "smithy.api#documentation": "An object of string, number or boolean values."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationTemplateVariableListItem",
+      "value": {
+        "type": "union",
+        "members": {
+          "Case0": {
+            "target": "smithy.api#String"
+          },
+          "Case1": {
+            "target": "smithy.api#Double"
+          },
+          "Case2": {
+            "target": "smithy.api#Boolean"
+          },
+          "Case3": {
+            "target": "com.resend.api#AutomationTemplateVariableObject"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "An item of a list template variable."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationTemplateVariableList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.resend.api#AutomationTemplateVariableListItem"
+        },
+        "traits": {
+          "smithy.api#documentation": "A list template variable."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationTemplateVariableValue",
+      "value": {
+        "type": "union",
+        "members": {
+          "Case0": {
+            "target": "smithy.api#String"
+          },
+          "Case1": {
+            "target": "smithy.api#Double"
+          },
+          "Case2": {
+            "target": "smithy.api#Boolean"
+          },
+          "Case3": {
+            "target": "com.resend.api#AutomationVariableReference"
+          },
+          "Case4": {
+            "target": "com.resend.api#AutomationTemplateVariableObject"
+          },
+          "Case5": {
+            "target": "com.resend.api#AutomationTemplateVariableList"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The value of a template variable: a string, number or boolean, a variable reference, an object, or a list."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationTemplateVariablesMap",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.resend.api#AutomationTemplateVariableValue"
+        },
+        "traits": {
+          "smithy.api#documentation": "Template variables, from variable name to value."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationFieldRuleType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "RULE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "rule"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A rule on one field."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationAndRuleType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "AND": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "and"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A rule that matches when every rule in `rules` matches."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationOrRuleType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "OR": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "or"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A rule that matches when any rule in `rules` matches."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationRuleOperator",
+      "value": {
+        "type": "enum",
+        "members": {
+          "EQ": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "eq"
+            }
+          },
+          "NEQ": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "neq"
+            }
+          },
+          "GT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "gt"
+            }
+          },
+          "GTE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "gte"
+            }
+          },
+          "LT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "lt"
+            }
+          },
+          "LTE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "lte"
+            }
+          },
+          "CONTAINS": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "contains"
+            }
+          },
+          "STARTS_WITH": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "starts_with"
+            }
+          },
+          "ENDS_WITH": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "ends_with"
+            }
+          },
+          "EXISTS": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "exists"
+            }
+          },
+          "IS_EMPTY": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "is_empty"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "How a rule compares the field: `eq` and `neq` take a string, number, boolean or `null`; `gt`, `gte`, `lt` and `lte` a number; `contains`, `starts_with` and `ends_with` a string; `exists` and `is_empty` take no value."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationFieldRule",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.resend.api#AutomationFieldRuleType",
+            "traits": {
+              "smithy.api#documentation": "Always `rule`.",
+              "smithy.api#required": {}
+            }
+          },
+          "field": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The field the rule reads.",
+              "smithy.api#required": {}
+            }
+          },
+          "operator": {
+            "target": "com.resend.api#AutomationRuleOperator",
+            "traits": {
+              "smithy.api#documentation": "How the rule compares the field.",
+              "smithy.api#required": {}
+            }
+          },
+          "value": {
+            "target": "com.resend.api#AutomationScalarValue",
+            "traits": {
+              "smithy.api#documentation": "The value to compare with. Omitted for `exists` and `is_empty`.",
+              "com.distilled.openapi#nullable": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A rule on one field."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationConditionRuleList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.resend.api#AutomationConditionRule"
+        },
+        "traits": {
+          "smithy.api#documentation": "The rules to combine."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationAndRule",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.resend.api#AutomationAndRuleType",
+            "traits": {
+              "smithy.api#documentation": "Always `and`.",
+              "smithy.api#required": {}
+            }
+          },
+          "rules": {
+            "target": "com.resend.api#AutomationConditionRuleList",
+            "traits": {
+              "smithy.api#documentation": "The rules that must all match.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A rule that matches when every rule in `rules` matches."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationOrRule",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.resend.api#AutomationOrRuleType",
+            "traits": {
+              "smithy.api#documentation": "Always `or`.",
+              "smithy.api#required": {}
+            }
+          },
+          "rules": {
+            "target": "com.resend.api#AutomationConditionRuleList",
+            "traits": {
+              "smithy.api#documentation": "The rules of which one must match.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A rule that matches when any rule in `rules` matches."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationConditionRule",
+      "value": {
+        "type": "union",
+        "members": {
+          "Case0": {
+            "target": "com.resend.api#AutomationFieldRule"
+          },
+          "Case1": {
+            "target": "com.resend.api#AutomationAndRule"
+          },
+          "Case2": {
+            "target": "com.resend.api#AutomationOrRule"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A rule tree: a rule on one field, or `and` / `or` over other rules."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationTriggerStepConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "event_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The name of the custom event that starts the automation.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The config of a `trigger` step."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationDelayStepConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "duration": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "How long to wait, as a human-readable duration such as `30 minutes`.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The config of a `delay` step."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationSendEmailStepTemplate",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The ID of the template to send.",
+              "smithy.api#required": {}
+            }
+          },
+          "variables": {
+            "target": "com.resend.api#AutomationTemplateVariablesMap",
+            "traits": {
+              "smithy.api#documentation": "Values for the template's variables."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The template a `send_email` step sends."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationSendEmailStepConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "template": {
+            "target": "com.resend.api#AutomationSendEmailStepTemplate",
+            "traits": {
+              "smithy.api#documentation": "The template to send.",
+              "smithy.api#required": {}
+            }
+          },
+          "subject": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The email's subject."
+            }
+          },
+          "from": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The sender address."
+            }
+          },
+          "reply_to": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The reply-to address."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The config of a `send_email` step."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationWaitForEventStepConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "event_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The name of the custom event to wait for.",
+              "smithy.api#required": {}
+            }
+          },
+          "timeout": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "How long to wait before following the `timeout` connection, as a human-readable duration such as `1 hour`."
+            }
+          },
+          "filter_rule": {
+            "target": "com.resend.api#AutomationConditionRule",
+            "traits": {
+              "smithy.api#documentation": "A rule the event must match."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The config of a `wait_for_event` step."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationContactTextValue",
+      "value": {
+        "type": "union",
+        "members": {
+          "Case0": {
+            "target": "smithy.api#String"
+          },
+          "Case1": {
+            "target": "com.resend.api#AutomationVariableReference"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A string or a variable reference."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationContactBooleanValue",
+      "value": {
+        "type": "union",
+        "members": {
+          "Case0": {
+            "target": "smithy.api#Boolean"
+          },
+          "Case1": {
+            "target": "com.resend.api#AutomationVariableReference"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A boolean or a variable reference."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationContactPropertyValue",
+      "value": {
+        "type": "union",
+        "members": {
+          "Case0": {
+            "target": "smithy.api#String"
+          },
+          "Case1": {
+            "target": "smithy.api#Double"
+          },
+          "Case2": {
+            "target": "smithy.api#Boolean"
+          },
+          "Case3": {
+            "target": "com.resend.api#AutomationVariableReference"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A string, number or boolean, or a variable reference."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationContactPropertiesMap",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.resend.api#AutomationContactPropertyValue",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Contact property values to set, from property key to value, which may be `null`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationContactUpdateStepConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "first_name": {
+            "target": "com.resend.api#AutomationContactTextValue",
+            "traits": {
+              "smithy.api#documentation": "The contact's first name, a variable reference, or `null`.",
+              "com.distilled.openapi#nullable": {}
+            }
+          },
+          "last_name": {
+            "target": "com.resend.api#AutomationContactTextValue",
+            "traits": {
+              "smithy.api#documentation": "The contact's last name, a variable reference, or `null`.",
+              "com.distilled.openapi#nullable": {}
+            }
+          },
+          "unsubscribed": {
+            "target": "com.resend.api#AutomationContactBooleanValue",
+            "traits": {
+              "smithy.api#documentation": "Whether the contact is unsubscribed."
+            }
+          },
+          "properties": {
+            "target": "com.resend.api#AutomationContactPropertiesMap",
+            "traits": {
+              "smithy.api#documentation": "Contact property values to set."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The config of a `contact_update` step."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationContactDeleteStepConfig",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#documentation": "The config of a `contact_delete` step, always `{}`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationAddToSegmentStepConfig",
+      "value": {
+        "type": "structure",
+        "members": {
+          "segment_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The ID of the segment to add the contact to.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The config of an `add_to_segment` step."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationTriggerStepType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "TRIGGER": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "trigger"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Always `trigger`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationTriggerStep",
+      "value": {
+        "type": "structure",
+        "members": {
+          "key": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "A unique key for this step within the automation graph.",
+              "smithy.api#required": {}
+            }
+          },
+          "type": {
+            "target": "com.resend.api#AutomationTriggerStepType",
+            "traits": {
+              "smithy.api#documentation": "Always `trigger`.",
+              "smithy.api#required": {}
+            }
+          },
+          "config": {
+            "target": "com.resend.api#AutomationTriggerStepConfig",
+            "traits": {
+              "smithy.api#documentation": "The step's config.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A `trigger` step: starts the automation when a custom event is sent."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationDelayStepType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "DELAY": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "delay"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Always `delay`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationDelayStep",
+      "value": {
+        "type": "structure",
+        "members": {
+          "key": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "A unique key for this step within the automation graph.",
+              "smithy.api#required": {}
+            }
+          },
+          "type": {
+            "target": "com.resend.api#AutomationDelayStepType",
+            "traits": {
+              "smithy.api#documentation": "Always `delay`.",
+              "smithy.api#required": {}
+            }
+          },
+          "config": {
+            "target": "com.resend.api#AutomationDelayStepConfig",
+            "traits": {
+              "smithy.api#documentation": "The step's config.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A `delay` step: waits for a duration."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationSendEmailStepType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "SEND_EMAIL": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "send_email"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Always `send_email`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationSendEmailStep",
+      "value": {
+        "type": "structure",
+        "members": {
+          "key": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "A unique key for this step within the automation graph.",
+              "smithy.api#required": {}
+            }
+          },
+          "type": {
+            "target": "com.resend.api#AutomationSendEmailStepType",
+            "traits": {
+              "smithy.api#documentation": "Always `send_email`.",
+              "smithy.api#required": {}
+            }
+          },
+          "config": {
+            "target": "com.resend.api#AutomationSendEmailStepConfig",
+            "traits": {
+              "smithy.api#documentation": "The step's config.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A `send_email` step: sends a template to the contact."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationWaitForEventStepType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "WAIT_FOR_EVENT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "wait_for_event"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Always `wait_for_event`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationWaitForEventStep",
+      "value": {
+        "type": "structure",
+        "members": {
+          "key": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "A unique key for this step within the automation graph.",
+              "smithy.api#required": {}
+            }
+          },
+          "type": {
+            "target": "com.resend.api#AutomationWaitForEventStepType",
+            "traits": {
+              "smithy.api#documentation": "Always `wait_for_event`.",
+              "smithy.api#required": {}
+            }
+          },
+          "config": {
+            "target": "com.resend.api#AutomationWaitForEventStepConfig",
+            "traits": {
+              "smithy.api#documentation": "The step's config.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A `wait_for_event` step: waits for a custom event, or until a timeout."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationConditionStepType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "CONDITION": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "condition"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Always `condition`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationConditionStep",
+      "value": {
+        "type": "structure",
+        "members": {
+          "key": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "A unique key for this step within the automation graph.",
+              "smithy.api#required": {}
+            }
+          },
+          "type": {
+            "target": "com.resend.api#AutomationConditionStepType",
+            "traits": {
+              "smithy.api#documentation": "Always `condition`.",
+              "smithy.api#required": {}
+            }
+          },
+          "config": {
+            "target": "com.resend.api#AutomationConditionRule",
+            "traits": {
+              "smithy.api#documentation": "The step's config.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A `condition` step: follows `condition_met` or `condition_not_met` by a rule tree."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationContactUpdateStepType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "CONTACT_UPDATE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "contact_update"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Always `contact_update`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationContactUpdateStep",
+      "value": {
+        "type": "structure",
+        "members": {
+          "key": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "A unique key for this step within the automation graph.",
+              "smithy.api#required": {}
+            }
+          },
+          "type": {
+            "target": "com.resend.api#AutomationContactUpdateStepType",
+            "traits": {
+              "smithy.api#documentation": "Always `contact_update`.",
+              "smithy.api#required": {}
+            }
+          },
+          "config": {
+            "target": "com.resend.api#AutomationContactUpdateStepConfig",
+            "traits": {
+              "smithy.api#documentation": "The step's config.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A `contact_update` step: updates the contact."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationContactDeleteStepType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "CONTACT_DELETE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "contact_delete"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Always `contact_delete`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationContactDeleteStep",
+      "value": {
+        "type": "structure",
+        "members": {
+          "key": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "A unique key for this step within the automation graph.",
+              "smithy.api#required": {}
+            }
+          },
+          "type": {
+            "target": "com.resend.api#AutomationContactDeleteStepType",
+            "traits": {
+              "smithy.api#documentation": "Always `contact_delete`.",
+              "smithy.api#required": {}
+            }
+          },
+          "config": {
+            "target": "com.resend.api#AutomationContactDeleteStepConfig",
+            "traits": {
+              "smithy.api#documentation": "The step's config.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A `contact_delete` step: deletes the contact."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationAddToSegmentStepType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ADD_TO_SEGMENT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "add_to_segment"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Always `add_to_segment`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationAddToSegmentStep",
+      "value": {
+        "type": "structure",
+        "members": {
+          "key": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "A unique key for this step within the automation graph.",
+              "smithy.api#required": {}
+            }
+          },
+          "type": {
+            "target": "com.resend.api#AutomationAddToSegmentStepType",
+            "traits": {
+              "smithy.api#documentation": "Always `add_to_segment`.",
+              "smithy.api#required": {}
+            }
+          },
+          "config": {
+            "target": "com.resend.api#AutomationAddToSegmentStepConfig",
+            "traits": {
+              "smithy.api#documentation": "The step's config.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "An `add_to_segment` step: adds the contact to a segment."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.resend.api#AutomationStep",
+      "value": {
+        "type": "union",
+        "members": {
+          "Case0": {
+            "target": "com.resend.api#AutomationTriggerStep"
+          },
+          "Case1": {
+            "target": "com.resend.api#AutomationDelayStep"
+          },
+          "Case2": {
+            "target": "com.resend.api#AutomationSendEmailStep"
+          },
+          "Case3": {
+            "target": "com.resend.api#AutomationWaitForEventStep"
+          },
+          "Case4": {
+            "target": "com.resend.api#AutomationConditionStep"
+          },
+          "Case5": {
+            "target": "com.resend.api#AutomationContactUpdateStep"
+          },
+          "Case6": {
+            "target": "com.resend.api#AutomationContactDeleteStep"
+          },
+          "Case7": {
+            "target": "com.resend.api#AutomationAddToSegmentStep"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A step in an automation workflow, sent to createAutomation and updateAutomation. Its `config` depends on its `type`."
+        }
+      }
     }
   ]
 }
