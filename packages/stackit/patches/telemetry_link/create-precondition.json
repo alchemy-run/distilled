@@ -1,0 +1,80 @@
+{
+  "description": "The telemetry_link spec (1.0) documents `412` (`components.responses.preconditionFailed`) and the `If-None-Match` header (`components.parameters.ifNoneMatch`) on the three create-or-update-*-telemetry-link operations, but convert drops header parameters and core's status map has no 412, so the header can't be sent and the failure surfaces as UnknownStackitError. STACKIT's Terraform provider (stackit/internal/services/telemetrylink/link/resource.go, read 2026-11-01) creates with IfNoneMatch(\"*\"). From the spec; no live probe: no credentials exist for this account.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.telemetry_link#PreconditionFailed",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 412,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 412
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.telemetry_link#CreateOrUpdateProjectTelemetryLink/errors/-",
+      "value": {
+        "target": "com.stackit.telemetry_link#PreconditionFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.telemetry_link#CreateOrUpdateProjectTelemetryLinkRequest/members/ifNoneMatch",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "If-None-Match",
+          "smithy.api#documentation": "Set to `*` so the call only creates a link, and fails with `PreconditionFailed` when one exists."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.telemetry_link#CreateOrUpdateFolderTelemetryLink/errors/-",
+      "value": {
+        "target": "com.stackit.telemetry_link#PreconditionFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.telemetry_link#CreateOrUpdateFolderTelemetryLinkRequest/members/ifNoneMatch",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "If-None-Match",
+          "smithy.api#documentation": "Set to `*` so the call only creates a link, and fails with `PreconditionFailed` when one exists."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.telemetry_link#CreateOrUpdateOrganizationTelemetryLink/errors/-",
+      "value": {
+        "target": "com.stackit.telemetry_link#PreconditionFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.telemetry_link#CreateOrUpdateOrganizationTelemetryLinkRequest/members/ifNoneMatch",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "If-None-Match",
+          "smithy.api#documentation": "Set to `*` so the call only creates a link, and fails with `PreconditionFailed` when one exists."
+        }
+      }
+    }
+  ]
+}

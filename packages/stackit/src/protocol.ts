@@ -3,8 +3,8 @@ import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   HTTP_STATUS_MAP,
   InternalServerError,
+  InvalidInput,
   type ConfigError,
-  type InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -48,7 +48,14 @@ import type * as AST from "effect/SchemaAST";
 import {
   Credentials,
   type Config,
+  DremioCredentials,
+  type DremioConfig,
+  DremioEndpoint,
   HarborCredentials,
+  LokiCredentials,
+  type LokiConfig,
+  ObservabilityDataCredentials,
+  type ObservabilityDataConfig,
   OpenSearchCredentials,
   type OpenSearchConfig,
   type HarborConfig,
@@ -57,6 +64,8 @@ import {
   VaultCredentials,
   type VaultConfig,
   VaultEndpoint,
+  WorkflowsAirflowCredentials,
+  type WorkflowsAirflowConfig,
 } from "./credentials.ts";
 import { StackitParseError, UnknownStackitError } from "./errors.ts";
 import type { DefaultErrors } from "./errors.ts";
@@ -129,6 +138,32 @@ const baseUrlFor = (creds: Config, inputAst: AST.AST): string => {
   return applyRegion(specUrl, creds.region);
 };
 
+/** One DNS label, which is all a request's field may contribute to a host. */
+const DNS_LABEL = /^[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$/;
+
+/**
+ * Fill the labels left in a host from the request's fields of the same name:
+ * Pub/Sub's data plane serves each topic on `{topicId}.pubsub.{regionId}.onstackit.cloud`.
+ * Those fields are path labels the route doesn't mention, so they stay out of the path
+ * and the body. A value that isn't one DNS label can't reach the host, where it could
+ * point the request and its bearer token at another server.
+ */
+const fillHostLabels = (url: string, input: unknown): Effect.Effect<string, InvalidInput> => {
+  if (!url.includes("{")) return Effect.succeed(url);
+  const fields = (input ?? {}) as Record<string, unknown>;
+  let invalid: InvalidInput | undefined;
+  const filled = url.replace(/\{(\w+)\}/g, (_, member: string) => {
+    const value = fields[member];
+    if (typeof value === "string" && DNS_LABEL.test(value)) return value;
+    invalid ??= new InvalidInput({
+      member,
+      message: `Input member ${member} has to be a single DNS label, because it is part of the host`,
+    });
+    return "";
+  });
+  return invalid === undefined ? Effect.succeed(filled) : Effect.fail(invalid);
+};
+
 export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
   API.Protocol,
   /*@__PURE__*/ API.Protocol.of({
@@ -136,10 +171,12 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
       Effect.gen(function* () {
         const resolve = yield* Credentials;
         const creds = yield* resolve;
+        const unwrapped = unwrapRedactedDeep(input);
+        const baseUrl = yield* fillHostLabels(baseUrlFor(creds, inputAst), unwrapped);
         return yield* buildRequest({
-          input: unwrapRedactedDeep(input),
+          input: unwrapped,
           inputAst,
-          baseUrl: baseUrlFor(creds, inputAst),
+          baseUrl,
           headers: {
             Authorization: `Bearer ${Redacted.value(creds.token)}`,
           },
@@ -387,6 +424,153 @@ export const RabbitMQManagementProtocol: Layer.Layer<API.Protocol> =
     parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
   });
 
+/** Error channel shared by every generated `observability_alertmanager` and `observability_prometheus` operation. */
+export type ObservabilityDataOpError = StackitOpError;
+
+/** Context (requirements) of the `observability_alertmanager` and `observability_prometheus` operations. */
+export type ObservabilityDataOpContext = ObservabilityDataCredentials | HttpClient.HttpClient;
+
+/**
+ * Prometheus's failures are `{ "status": "error", "errorType": "...", "error": "..." }`.
+ * Alertmanager's are a bare JSON string, and its gateway's are unknown.
+ */
+const observabilityDataErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
+  if (typeof body === "string") return { message: body };
+  if (body === null || typeof body !== "object") return undefined;
+  const { error, errorType, message } = body as Record<string, unknown>;
+  if (typeof error === "string") {
+    return { code: typeof errorType === "string" ? errorType : undefined, message: error };
+  }
+  return typeof message === "string" ? { message } : undefined;
+};
+
+/**
+ * ObservabilityDataProtocol -- the shared REST protocol instantiated for the Alertmanager
+ * and Prometheus APIs a STACKIT Observability instance serves on its own URLs. HTTP Basic
+ * with one of the instance's credentials: never a STACKIT token.
+ */
+export const ObservabilityDataProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<ObservabilityDataConfig>({
+    credentials: /*@__PURE__*/ Effect.flatMap(ObservabilityDataCredentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiUrl,
+    headers: (creds) => ({
+      Authorization: `Basic ${btoa(`${creds.username}:${Redacted.value(creds.password)}`)}`,
+    }),
+    errorEnvelope: observabilityDataErrorEnvelope,
+    unknownError: ({ code, message, body }) =>
+      new UnknownStackitError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
+  });
+
+/** Error channel shared by every generated `dremio_rest` operation. */
+export type DremioOpError = StackitOpError;
+
+/** Context (requirements) of the `dremio_rest` data operations. */
+export type DremioOpContext = DremioCredentials | HttpClient.HttpClient;
+
+/** Context (requirements) of the `dremio_rest` login. */
+export type DremioLoginContext = DremioEndpoint | HttpClient.HttpClient;
+
+/** Dremio's failures are `{ "errorMessage": "...", "moreInfo": "..." }`. */
+const dremioErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
+  if (body === null || typeof body !== "object") return undefined;
+  const { errorMessage, moreInfo } = body as Record<string, unknown>;
+  const parts = [errorMessage, moreInfo].filter(
+    (part): part is string => typeof part === "string" && part !== "",
+  );
+  return parts.length === 0 ? undefined : { message: parts.join(": ") };
+};
+
+const dremioUnknownError = ({ code, message, body }: RestErrorInfo) =>
+  new UnknownStackitError({
+    code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+    message,
+    body,
+  });
+
+const dremioParseError = ({ body, cause }: RestParseErrorInfo) =>
+  new StackitParseError({ body, cause });
+
+/**
+ * DremioProtocol -- the shared REST protocol instantiated for Dremio's REST API
+ * (`dremio_rest`), which a STACKIT Dremio instance serves. Auth is a Bearer token from
+ * {@link DremioCredentials}: a Dremio token, never a STACKIT one.
+ */
+export const DremioProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<DremioConfig>({
+    credentials: /*@__PURE__*/ Effect.flatMap(DremioCredentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiUrl,
+    headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.token)}` }),
+    errorEnvelope: dremioErrorEnvelope,
+    unknownError: dremioUnknownError,
+    parseError: dremioParseError,
+  });
+
+/** {@link DremioProtocol} for the login, which sends no token. */
+export const DremioLoginProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<string>({
+    credentials: /*@__PURE__*/ Effect.map(DremioEndpoint, (apiUrl) => apiUrl),
+    baseUrl: (apiUrl) => apiUrl,
+    headers: () => ({}),
+    errorEnvelope: dremioErrorEnvelope,
+    unknownError: dremioUnknownError,
+    parseError: dremioParseError,
+  });
+
+/** Error channel shared by every generated `workflows_airflow` operation. */
+export type WorkflowsAirflowOpError = StackitOpError;
+
+/** Context (requirements) of the `workflows_airflow` operations. */
+export type WorkflowsAirflowOpContext = WorkflowsAirflowCredentials | HttpClient.HttpClient;
+
+/**
+ * FastAPI's failures are `{ "detail": ... }`: text on an HTTP exception, an object on a
+ * database conflict (`{ reason, message, ... }`), a list of `{ msg, loc }` on a body that
+ * doesn't validate.
+ */
+const workflowsAirflowErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
+  if (body === null || typeof body !== "object") return undefined;
+  const { detail } = body as { readonly detail?: unknown };
+  if (typeof detail === "string") return { message: detail };
+  if (Array.isArray(detail)) {
+    const parts = detail.flatMap((item: { readonly msg?: unknown; readonly loc?: unknown }) =>
+      typeof item?.msg === "string"
+        ? [Array.isArray(item.loc) ? `${item.loc.join(".")}: ${item.msg}` : item.msg]
+        : [],
+    );
+    return parts.length === 0 ? undefined : { message: parts.join("; ") };
+  }
+  if (detail !== null && typeof detail === "object") {
+    const { reason } = detail as { readonly reason?: unknown };
+    return typeof reason === "string" ? { message: reason } : undefined;
+  }
+  return undefined;
+};
+
+/**
+ * WorkflowsAirflowProtocol -- the shared REST protocol instantiated for Apache Airflow's
+ * REST API (`workflows_airflow`), which a STACKIT Workflows instance serves on its
+ * `endpoints.url`. Auth is the session cookie from {@link WorkflowsAirflowCredentials}.
+ */
+export const WorkflowsAirflowProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<WorkflowsAirflowConfig>({
+    credentials: /*@__PURE__*/ Effect.flatMap(WorkflowsAirflowCredentials, (resolve) => resolve),
+    baseUrl: (creds) => creds.apiUrl,
+    headers: (creds) => ({ Cookie: Redacted.value(creds.cookie) }),
+    errorEnvelope: workflowsAirflowErrorEnvelope,
+    unknownError: ({ code, message, body }) =>
+      new UnknownStackitError({
+        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+        message,
+        body,
+      }),
+    parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
+  });
+
 /** Error channel shared by every generated `opensearch_data` operation. */
 export type OpenSearchOpError = StackitOpError;
 
@@ -432,3 +616,37 @@ export const OpenSearchProtocol: Layer.Layer<API.Protocol> =
       }),
     parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
   });
+
+/** Error channel shared by every generated `logs_loki` operation. */
+export type LokiOpError = StackitOpError;
+
+/** Context (requirements) shared by every generated `logs_loki` operation. */
+export type LokiOpContext = LokiCredentials | HttpClient.HttpClient;
+
+/**
+ * LokiProtocol -- the shared REST protocol instantiated for Grafana Loki's push and query
+ * API (`logs_loki`), which a STACKIT Logs instance serves on its `datasourceUrl`. Bearer auth
+ * with one of the instance's access tokens, or HTTP Basic with a credential on an
+ * Observability instance's Loki. Loki's errors are `text/plain`, which become the
+ * error's message; the gateway in front of it can answer STACKIT's `{ message }` envelope.
+ */
+export const LokiProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<
+  LokiConfig | ObservabilityDataConfig
+>({
+  credentials: /*@__PURE__*/ Effect.flatMap(LokiCredentials, (resolve) => resolve),
+  baseUrl: (creds) => creds.apiUrl,
+  headers: (creds) => ({
+    Authorization:
+      "token" in creds
+        ? `Bearer ${Redacted.value(creds.token)}`
+        : `Basic ${btoa(`${creds.username}:${Redacted.value(creds.password)}`)}`,
+  }),
+  errorEnvelope: (body) => errorEnvelope(body),
+  unknownError: ({ code, message, body }) =>
+    new UnknownStackitError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
+    }),
+  parseError: ({ body, cause }) => new StackitParseError({ body, cause }),
+});

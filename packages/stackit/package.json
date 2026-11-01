@@ -28,6 +28,12 @@
       "worker": "./src/credentials.ts",
       "default": "./lib/credentials.js"
     },
+    "./Dremio": {
+      "types": "./lib/dremio.d.ts",
+      "bun": "./src/dremio.ts",
+      "worker": "./src/dremio.ts",
+      "default": "./lib/dremio.js"
+    },
     "./Errors": {
       "types": "./lib/errors.d.ts",
       "bun": "./src/errors.ts",
@@ -63,6 +69,12 @@
       "bun": "./src/traits.ts",
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
+    },
+    "./WorkflowsAirflow": {
+      "types": "./lib/workflows-airflow.d.ts",
+      "bun": "./src/workflows-airflow.ts",
+      "worker": "./src/workflows-airflow.ts",
+      "default": "./lib/workflows-airflow.js"
     },
     "./Vault": {
       "types": "./lib/vault.d.ts",

@@ -81,15 +81,19 @@ const spec: SdkSpec = {
     `export const ${name} = /*@__PURE__*/ S.Unknown as any as S.Schema<${name}>;\n`,
   ],
 
-  // One pagination profile: STACKIT's page / totalPages envelope, traversed
-  // by src/pagination.ts's paginateByTotalPages. The trait is stamped in
-  // scripts/convert.ts — see the comment on `paginationFor` there.
+  // STACKIT's page / totalPages envelope, traversed by src/pagination.ts's
+  // paginateByTotalPages. The trait is stamped in scripts/convert.ts — see the
+  // comment on `paginationFor` there.
   paginationProfiles: {
     page: {
       strategy: "paginateByTotalPages",
       itemsFallback: "",
     },
+    // A trait a patch adds for an API that pages by `pageToken` / `nextPageToken`: core's
+    // default strategy for a trait without `mode`.
+    token: { itemsFallback: "" },
   },
+  paginationProfileFor: (trait) => (trait.mode === "page" ? "page" : "token"),
 
   sourceNote: ".generated-specs (specs/spec-mirror-stackit)",
 
@@ -193,6 +197,93 @@ const opensearchDataSpec: SdkSpec = {
 const isOpenSearchDataModel = (model: { readonly shapes?: Record<string, unknown> }): boolean =>
   Object.keys(model.shapes ?? {}).some((id) => id.startsWith("com.stackit.opensearch_data#"));
 
+/**
+ * Grafana Loki's API (`logs_loki`) takes a Logs instance's access token, per instance, rather
+ * than a STACKIT token. See `LokiProtocol`.
+ */
+const logsLokiSpec: SdkSpec = {
+  ...spec,
+  operationDecl: {
+    contextType: "LokiOpContext",
+    commonErrorType: "LokiOpError",
+    commonErrorClasses: ["UnknownStackitError"],
+    protocol: "LokiProtocol",
+    retry: "Retry.Retry",
+  },
+};
+
+const isLogsLokiModel = (model: { readonly shapes?: Record<string, unknown> }): boolean =>
+  Object.keys(model.shapes ?? {}).some((id) => id.startsWith("com.stackit.logs_loki#"));
+
+/**
+ * Dremio's REST API (`dremio_rest`) takes a token from its own login rather than a
+ * STACKIT token, and the login signs with nothing. See `DremioProtocol`.
+ */
+const dremioRestSpec: SdkSpec = {
+  ...spec,
+  operationDecl: {
+    contextType: "DremioOpContext",
+    commonErrorType: "DremioOpError",
+    commonErrorClasses: ["UnknownStackitError"],
+    protocol: "DremioProtocol",
+    retry: "Retry.Retry",
+    overrides: ({ exportName }) =>
+      exportName === "login"
+        ? { protocol: "DremioLoginProtocol", contextType: "DremioLoginContext" }
+        : undefined,
+  },
+  postProcess: (code) =>
+    (spec.postProcess?.(code) ?? code).replace(
+      "  DremioProtocol,\n",
+      "  DremioLoginProtocol,\n  DremioProtocol,\n  type DremioLoginContext,\n",
+    ),
+};
+
+const isDremioRestModel = (model: { readonly shapes?: Record<string, unknown> }): boolean =>
+  Object.keys(model.shapes ?? {}).some((id) => id.startsWith("com.stackit.dremio_rest#"));
+
+/**
+ * Apache Airflow's REST API (`workflows_airflow`) takes a session cookie from a STACKIT
+ * Workflows instance's session endpoint rather than a STACKIT token. See
+ * `WorkflowsAirflowProtocol`.
+ */
+const workflowsAirflowSpec: SdkSpec = {
+  ...spec,
+  operationDecl: {
+    contextType: "WorkflowsAirflowOpContext",
+    commonErrorType: "WorkflowsAirflowOpError",
+    commonErrorClasses: ["UnknownStackitError"],
+    protocol: "WorkflowsAirflowProtocol",
+    retry: "Retry.Retry",
+  },
+};
+
+const isWorkflowsAirflowModel = (model: { readonly shapes?: Record<string, unknown> }): boolean =>
+  Object.keys(model.shapes ?? {}).some((id) => id.startsWith("com.stackit.workflows_airflow#"));
+
+/**
+ * The Alertmanager and Prometheus APIs of an Observability instance
+ * (`observability_alertmanager`, `observability_prometheus`) take the Basic auth of one of
+ * its credentials rather than a STACKIT token. See `ObservabilityDataProtocol`.
+ */
+const observabilityDataSpec: SdkSpec = {
+  ...spec,
+  operationDecl: {
+    contextType: "ObservabilityDataOpContext",
+    commonErrorType: "ObservabilityDataOpError",
+    commonErrorClasses: ["UnknownStackitError"],
+    protocol: "ObservabilityDataProtocol",
+    retry: "Retry.Retry",
+  },
+};
+
+const isObservabilityDataModel = (model: { readonly shapes?: Record<string, unknown> }): boolean =>
+  Object.keys(model.shapes ?? {}).some(
+    (id) =>
+      id.startsWith("com.stackit.observability_alertmanager#") ||
+      id.startsWith("com.stackit.observability_prometheus#"),
+  );
+
 runGeneratorCli({
   description: "Generate the STACKIT Effect SDK from the Smithy models",
   convert: () => import("./convert.ts"),
@@ -201,13 +292,21 @@ runGeneratorCli({
   barrelExportName: camel,
   continueOnModelError: true,
   spec: (model) =>
-    isOpenSearchDataModel(model)
-      ? opensearchDataSpec
-      : isVaultModel(model)
-        ? vaultSpec
-        : isHarborModel(model)
-          ? harborSpec
-          : isRabbitMQManagementModel(model)
-            ? rabbitmqManagementSpec
-            : spec,
+    isObservabilityDataModel(model)
+      ? observabilityDataSpec
+      : isWorkflowsAirflowModel(model)
+        ? workflowsAirflowSpec
+        : isDremioRestModel(model)
+          ? dremioRestSpec
+          : isLogsLokiModel(model)
+            ? logsLokiSpec
+            : isOpenSearchDataModel(model)
+              ? opensearchDataSpec
+              : isVaultModel(model)
+                ? vaultSpec
+                : isHarborModel(model)
+                  ? harborSpec
+                  : isRabbitMQManagementModel(model)
+                    ? rabbitmqManagementSpec
+                    : spec,
 });

@@ -25,15 +25,24 @@ export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
 export {
+  DremioLoginProtocol,
+  DremioProtocol,
   HarborProtocol,
+  ObservabilityDataProtocol,
   OpenSearchProtocol,
   RabbitMQManagementProtocol,
   StackitProtocol,
   VaultLoginProtocol,
   VaultProtocol,
+  WorkflowsAirflowProtocol,
   applyRegion,
+  type DremioLoginContext,
+  type DremioOpContext,
+  type DremioOpError,
   type HarborOpContext,
   type HarborOpError,
+  type ObservabilityDataOpContext,
+  type ObservabilityDataOpError,
   type OpenSearchOpContext,
   type OpenSearchOpError,
   type RabbitMQManagementOpContext,
@@ -41,11 +50,15 @@ export {
   type VaultLoginContext,
   type VaultOpContext,
   type VaultOpError,
+  type WorkflowsAirflowOpContext,
+  type WorkflowsAirflowOpError,
   type StackitOpError,
   type StackitOpContext,
 } from "./protocol.ts";
 export { paginateByTotalPages } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * from "./services/index.ts";
+export * from "./dremio.ts";
 export * from "./opensearch.ts";
 export * from "./vault.ts";
+export * from "./workflows-airflow.ts";

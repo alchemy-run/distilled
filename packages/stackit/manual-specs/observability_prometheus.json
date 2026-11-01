@@ -1,0 +1,625 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Prometheus HTTP API (query)",
+    "version": "3.5.0",
+    "description": "Prometheus's published OpenAPI document (https://github.com/prometheus/prometheus/blob/main/web/api/v1/testdata/openapi_3.2_golden.yaml, read 2026-11-01), trimmed by hand to the read routes the instant, range, label and series queries take, and rewritten to OpenAPI 3.0. `QueryData`'s `anyOf` is one open `result` list, as the document's samples and series vary by `resultType`; `oneOf` timestamps are strings, as a query string is. Routes moved under `/api/v1`, because each instance's `metricsUrl` is the root. 401 and 403 are STACKIT's gateway; their bodies are unknown. Responses checked by running each request against the prom/prometheus:v3.5.0 image. STACKIT's own instances, which serve this API through Thanos per its docs, have not been probed: no credentials exist."
+  },
+  "servers": [
+    {
+      "url": "https://metrics.example.invalid"
+    }
+  ],
+  "paths": {
+    "/api/v1/query": {
+      "get": {
+        "operationId": "Query",
+        "summary": "Evaluates an instant query.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "The PromQL query to execute.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "time",
+            "in": "query",
+            "description": "Evaluation time, as an RFC 3339 timestamp or a Unix timestamp in seconds. Defaults to now.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeout",
+            "in": "query",
+            "description": "Evaluation timeout, such as `30s`. Capped by the server.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of items to return.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryOutputBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/query_range": {
+      "get": {
+        "operationId": "QueryRange",
+        "summary": "Evaluates a query over a range of time.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "The PromQL query to execute.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Start of the range, as an RFC 3339 timestamp or a Unix timestamp in seconds.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "End of the range, as an RFC 3339 timestamp or a Unix timestamp in seconds.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "step",
+            "in": "query",
+            "description": "Resolution step, such as `30s`, or a number of seconds.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeout",
+            "in": "query",
+            "description": "Evaluation timeout, such as `30s`. Capped by the server.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of items to return.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryRangeOutputBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/labels": {
+      "get": {
+        "operationId": "Labels",
+        "summary": "Gets label names.",
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Start of the range, as an RFC 3339 timestamp or a Unix timestamp in seconds.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "End of the range, as an RFC 3339 timestamp or a Unix timestamp in seconds.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "match[]",
+            "in": "query",
+            "description": "Series selector. Repeat it to select the union.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "explode": true
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of items to return.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringsOutputBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/label/{name}/values": {
+      "get": {
+        "operationId": "LabelValues",
+        "summary": "Gets the values of a label.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "The label name.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Start of the range, as an RFC 3339 timestamp or a Unix timestamp in seconds.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "End of the range, as an RFC 3339 timestamp or a Unix timestamp in seconds.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "match[]",
+            "in": "query",
+            "description": "Series selector. Repeat it to select the union.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "explode": true
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of items to return.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringsOutputBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/series": {
+      "get": {
+        "operationId": "Series",
+        "summary": "Finds series by label matchers.",
+        "parameters": [
+          {
+            "name": "match[]",
+            "in": "query",
+            "description": "Series selector. Repeat it to select the union.",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "explode": true
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Start of the range, as an RFC 3339 timestamp or a Unix timestamp in seconds.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "End of the range, as an RFC 3339 timestamp or a Unix timestamp in seconds.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of items to return.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeriesOutputBody"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "BadRequest": {
+        "description": "A missing or incorrect parameter.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Missing or wrong credentials.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "The credential lacks access.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "The query could not be executed.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "ServiceUnavailable": {
+        "description": "The query timed out or was aborted.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "errorType": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "QueryData": {
+        "type": "object",
+        "required": ["resultType", "result"],
+        "properties": {
+          "resultType": {
+            "type": "string",
+            "enum": ["vector", "matrix", "scalar", "string"]
+          },
+          "result": {
+            "type": "array",
+            "items": {},
+            "description": "For `vector`, a list of `{ metric, value }`. For `matrix`, a list of `{ metric, values }`. For `scalar` and `string`, `[<number: seconds since the epoch>, <string: value>]`. A native histogram has `histogram` or `histograms` in place of `value` or `values`. Check `resultType` before reading it."
+          },
+          "stats": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Query statistics, when asked for."
+          }
+        }
+      },
+      "QueryOutputBody": {
+        "type": "object",
+        "description": "The result of an instant query.",
+        "required": ["status", "data"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["success", "error"]
+          },
+          "data": {
+            "$ref": "#/components/schemas/QueryData"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Warnings raised while executing the request. `data` is still set."
+          },
+          "infos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Info-level annotations raised while executing the request."
+          }
+        }
+      },
+      "QueryRangeOutputBody": {
+        "type": "object",
+        "description": "The result of a range query.",
+        "required": ["status", "data"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["success", "error"]
+          },
+          "data": {
+            "$ref": "#/components/schemas/QueryData"
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Warnings raised while executing the request. `data` is still set."
+          },
+          "infos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Info-level annotations raised while executing the request."
+          }
+        }
+      },
+      "StringsOutputBody": {
+        "type": "object",
+        "description": "A list of label names or values.",
+        "required": ["status", "data"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["success", "error"]
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Warnings raised while executing the request. `data` is still set."
+          },
+          "infos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Info-level annotations raised while executing the request."
+          }
+        }
+      },
+      "SeriesOutputBody": {
+        "type": "object",
+        "description": "The label sets of the matching series.",
+        "required": ["status", "data"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["success", "error"]
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Warnings raised while executing the request. `data` is still set."
+          },
+          "infos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Info-level annotations raised while executing the request."
+          }
+        }
+      }
+    }
+  }
+}

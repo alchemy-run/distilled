@@ -109,7 +109,7 @@ export interface DestinationConfigOpenTelemetryBasicAuth {
 export interface DestinationConfigOpenTelemetry {
   basicAuth?: DestinationConfigOpenTelemetryBasicAuth;
   /** A bearer token to authenticate at the OpenTelemetry URI. */
-  bearerToken?: string;
+  bearerToken?: string | Redacted.Redacted<string>;
   /** The URI for reaching the resource. */
   uri: string;
 }
@@ -555,7 +555,7 @@ export const getDestination: API.OperationMethod<
   span: "GetDestination",
 }));
 
-export type GetTelemetryRouterError = BadRequest | Conflict | StackitOpError;
+export type GetTelemetryRouterError = BadRequest | Conflict | NotFound | StackitOpError;
 /** Returns the details for the given Telemetry Router. */
 export const getTelemetryRouter: API.OperationMethod<
   GetTelemetryRouterRequest,
@@ -565,7 +565,7 @@ export const getTelemetryRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<GetTelemetryRouterRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<TelemetryRouterResponse>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  errors: [BadRequest, Conflict, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -980,7 +980,7 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           basicAuth: S.optional(__S(88, __c11, 0)),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           uri: S.String,
         }),
       ).annotate({ identifier: "DestinationConfigOpenTelemetry" });

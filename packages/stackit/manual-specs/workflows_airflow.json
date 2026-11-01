@@ -1,0 +1,1423 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Apache Airflow REST API (DAGs, DAG runs, task instances, variables, connections)",
+    "version": "3.1.8",
+    "description": "Trimmed by a script from apache/airflow at tag 3.1.8 (airflow-core/src/airflow/api_fastapi/core_api/openapi/v2-rest-api-generated.yaml, read 2026-11-01), the version STACKIT Workflows' `workflows-3.0-airflow-3.1` names, to the DAG, DAG run, task instance, variable and connection routes the provider's bindings need. STACKIT publishes no document for this API. Changes from the source, all to describe the wire: OpenAPI 3.1 `anyOf: [X, null]` is 3.0 `nullable`; schema titles are gone; a task instance's `trigger` and `triggerer_job` stay open objects; security schemes are gone, because a session cookie is what the protocol sends; the listing routes keep only `limit`, `offset`, `state`, `order_by` and one narrowing filter each; the failure responses share one schema, because FastAPI's `detail` is text on an HTTPException and a list on validation. A variable's `value` is a string where upstream has any JSON value, because the image answered 500 to an object on PATCH. The connection PATCH route's path parameter is `connection_key` where upstream has `connection_id`, which only renames it here: the body needs its own `connection_id`, and one name can't be both. The update_mask parameter of the PATCH routes isn't kept: without it they leave what the body omits alone. Bodies and status codes were checked by running each request against the apache/airflow:3.1.8 image with a `_token` cookie, read 2026-11-01. STACKIT's own instances have not been probed: that `endpoints.url` serves this API, and that its session endpoint's cookie works on Airflow 3, are inferred from STACKIT's concepts page, whose example only calls `/api/v1/dags`."
+  },
+  "servers": [
+    {
+      "url": "https://airflow.example.invalid"
+    }
+  ],
+  "paths": {
+    "/api/v2/dags/{dag_id}": {
+      "get": {
+        "operationId": "GetDag",
+        "summary": "Get Dag",
+        "description": "Get basic information about a DAG.",
+        "parameters": [
+          {
+            "name": "dag_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DAGResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "422": {
+            "$ref": "#/components/responses/Status422"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "PatchDag",
+        "summary": "Patch Dag",
+        "description": "Patch the specific DAG.",
+        "parameters": [
+          {
+            "name": "dag_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DAGPatchBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DAGResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "422": {
+            "$ref": "#/components/responses/Status422"
+          }
+        }
+      }
+    },
+    "/api/v2/dags/{dag_id}/dagRuns": {
+      "post": {
+        "operationId": "TriggerDagRun",
+        "summary": "Trigger Dag Run",
+        "description": "Trigger a DAG.",
+        "parameters": [
+          {
+            "name": "dag_id",
+            "in": "path",
+            "required": true,
+            "schema": {}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TriggerDAGRunPostBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DAGRunResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "422": {
+            "$ref": "#/components/responses/Status422"
+          }
+        }
+      },
+      "get": {
+        "operationId": "ListDagRuns",
+        "summary": "Get Dag Runs",
+        "description": "Get all DAG Runs.\n\nThis endpoint allows specifying `~` as the dag_id to retrieve Dag Runs for all DAGs.",
+        "parameters": [
+          {
+            "name": "dag_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 50
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "name": "run_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Attributes to order by, multi criteria sort is supported. Prefix with `-` for descending order. Supported attributes: `id, state, dag_id, run_id, logical_date, run_after, start_date, end_date, updated_at, conf, duration, dag_run_id`",
+              "default": ["id"]
+            },
+            "description": "Attributes to order by, multi criteria sort is supported. Prefix with `-` for descending order. Supported attributes: `id, state, dag_id, run_id, logical_date, run_after, start_date, end_date, updated_at, conf, duration, dag_run_id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DAGRunCollectionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "422": {
+            "$ref": "#/components/responses/Status422"
+          }
+        }
+      }
+    },
+    "/api/v2/dags/{dag_id}/dagRuns/{dag_run_id}": {
+      "get": {
+        "operationId": "GetDagRun",
+        "summary": "Get Dag Run",
+        "description": null,
+        "parameters": [
+          {
+            "name": "dag_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dag_run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DAGRunResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "422": {
+            "$ref": "#/components/responses/Status422"
+          }
+        }
+      }
+    },
+    "/api/v2/dags/{dag_id}/dagRuns/{dag_run_id}/taskInstances": {
+      "get": {
+        "operationId": "ListTaskInstances",
+        "summary": "Get Task Instances",
+        "description": "Get list of task instances.\n\nThis endpoint allows specifying `~` as the dag_id, dag_run_id to retrieve Task Instances for all DAGs\nand DAG runs.",
+        "parameters": [
+          {
+            "name": "dag_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dag_run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "task_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 50
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Attributes to order by, multi criteria sort is supported. Prefix with `-` for descending order. Supported attributes: `id, state, duration, start_date, end_date, map_index, try_number, logical_date, run_after, data_interval_start, data_interval_end, rendered_map_index, operator, logical_date, run_after, data_interval_start, data_interval_end`",
+              "default": ["map_index"]
+            },
+            "description": "Attributes to order by, multi criteria sort is supported. Prefix with `-` for descending order. Supported attributes: `id, state, duration, start_date, end_date, map_index, try_number, logical_date, run_after, data_interval_start, data_interval_end, rendered_map_index, operator, logical_date, run_after, data_interval_start, data_interval_end`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskInstanceCollectionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "422": {
+            "$ref": "#/components/responses/Status422"
+          }
+        }
+      }
+    },
+    "/api/v2/variables": {
+      "post": {
+        "operationId": "CreateVariable",
+        "summary": "Post Variable",
+        "description": "Create a variable.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VariableBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VariableResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "422": {
+            "$ref": "#/components/responses/Status422"
+          }
+        }
+      }
+    },
+    "/api/v2/variables/{variable_key}": {
+      "patch": {
+        "operationId": "PatchVariable",
+        "summary": "Patch Variable",
+        "description": "Update a variable by key. What the body leaves out stays as it is.",
+        "parameters": [
+          {
+            "name": "variable_key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VariableBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VariableResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "422": {
+            "$ref": "#/components/responses/Status422"
+          }
+        }
+      }
+    },
+    "/api/v2/connections": {
+      "post": {
+        "operationId": "CreateConnection",
+        "summary": "Post Connection",
+        "description": "Create a connection entry.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConnectionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "409": {
+            "$ref": "#/components/responses/Status409"
+          },
+          "422": {
+            "$ref": "#/components/responses/Status422"
+          }
+        }
+      }
+    },
+    "/api/v2/connections/{connection_key}": {
+      "patch": {
+        "operationId": "PatchConnection",
+        "summary": "Patch Connection",
+        "description": "Update a connection entry. What the body leaves out stays as it is.",
+        "parameters": [
+          {
+            "name": "connection_key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConnectionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConnectionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Status401"
+          },
+          "403": {
+            "$ref": "#/components/responses/Status403"
+          },
+          "400": {
+            "$ref": "#/components/responses/Status400"
+          },
+          "404": {
+            "$ref": "#/components/responses/Status404"
+          },
+          "422": {
+            "$ref": "#/components/responses/Status422"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "Status400": {
+        "description": "The request was refused.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Status401": {
+        "description": "No session, or a session that expired.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Status403": {
+        "description": "The session's role doesn't allow this, or its token isn't valid any more.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Status404": {
+        "description": "Nothing with this id.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Status409": {
+        "description": "Something with this id exists already.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Status422": {
+        "description": "The body or a parameter doesn't validate.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "DAGResponse": {
+        "properties": {
+          "dag_id": {
+            "type": "string"
+          },
+          "dag_display_name": {
+            "type": "string"
+          },
+          "is_paused": {
+            "type": "boolean"
+          },
+          "is_stale": {
+            "type": "boolean"
+          },
+          "last_parsed_time": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "last_parse_duration": {
+            "type": "number",
+            "nullable": true
+          },
+          "last_expired": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "bundle_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "bundle_version": {
+            "type": "string",
+            "nullable": true
+          },
+          "relative_fileloc": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileloc": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "timetable_summary": {
+            "type": "string",
+            "nullable": true
+          },
+          "timetable_description": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "items": {
+              "$ref": "#/components/schemas/DagTagResponse"
+            },
+            "type": "array"
+          },
+          "max_active_tasks": {
+            "type": "integer"
+          },
+          "max_active_runs": {
+            "type": "integer",
+            "nullable": true
+          },
+          "max_consecutive_failed_dag_runs": {
+            "type": "integer"
+          },
+          "has_task_concurrency_limits": {
+            "type": "boolean"
+          },
+          "has_import_errors": {
+            "type": "boolean"
+          },
+          "next_dagrun_logical_date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "next_dagrun_data_interval_start": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "next_dagrun_data_interval_end": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "next_dagrun_run_after": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "owners": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "file_token": {
+            "type": "string",
+            "description": "Return file token.",
+            "readOnly": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "dag_id",
+          "dag_display_name",
+          "is_paused",
+          "is_stale",
+          "last_parsed_time",
+          "last_parse_duration",
+          "last_expired",
+          "bundle_name",
+          "bundle_version",
+          "relative_fileloc",
+          "fileloc",
+          "description",
+          "timetable_summary",
+          "timetable_description",
+          "tags",
+          "max_active_tasks",
+          "max_active_runs",
+          "max_consecutive_failed_dag_runs",
+          "has_task_concurrency_limits",
+          "has_import_errors",
+          "next_dagrun_logical_date",
+          "next_dagrun_data_interval_start",
+          "next_dagrun_data_interval_end",
+          "next_dagrun_run_after",
+          "owners",
+          "file_token"
+        ],
+        "description": "DAG serializer for responses."
+      },
+      "DagTagResponse": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "dag_id": {
+            "type": "string"
+          },
+          "dag_display_name": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": ["name", "dag_id", "dag_display_name"],
+        "description": "DAG Tag serializer for responses."
+      },
+      "DAGPatchBody": {
+        "properties": {
+          "is_paused": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["is_paused"],
+        "description": "Dag Serializer for updatable bodies."
+      },
+      "TriggerDAGRunPostBody": {
+        "properties": {
+          "dag_run_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "data_interval_start": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "data_interval_end": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "logical_date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "run_after": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "conf": {
+            "additionalProperties": true,
+            "type": "object",
+            "nullable": true
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["logical_date"],
+        "description": "Trigger DAG Run Serializer for POST body."
+      },
+      "DAGRunResponse": {
+        "properties": {
+          "dag_run_id": {
+            "type": "string"
+          },
+          "dag_id": {
+            "type": "string"
+          },
+          "logical_date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "queued_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "duration": {
+            "type": "number",
+            "nullable": true
+          },
+          "data_interval_start": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "data_interval_end": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "run_after": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "last_scheduling_decision": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "run_type": {
+            "$ref": "#/components/schemas/DagRunType"
+          },
+          "state": {
+            "$ref": "#/components/schemas/DagRunState"
+          },
+          "triggered_by": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DagRunTriggeredByType"
+              }
+            ],
+            "nullable": true
+          },
+          "triggering_user_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "conf": {
+            "additionalProperties": true,
+            "type": "object",
+            "nullable": true
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
+          },
+          "dag_versions": {
+            "items": {
+              "$ref": "#/components/schemas/DagVersionResponse"
+            },
+            "type": "array"
+          },
+          "bundle_version": {
+            "type": "string",
+            "nullable": true
+          },
+          "dag_display_name": {
+            "type": "string"
+          }
+        },
+        "type": "object",
+        "required": [
+          "dag_run_id",
+          "dag_id",
+          "logical_date",
+          "queued_at",
+          "start_date",
+          "end_date",
+          "duration",
+          "data_interval_start",
+          "data_interval_end",
+          "run_after",
+          "last_scheduling_decision",
+          "run_type",
+          "state",
+          "triggered_by",
+          "triggering_user_name",
+          "conf",
+          "note",
+          "dag_versions",
+          "bundle_version",
+          "dag_display_name"
+        ],
+        "description": "DAG Run serializer for responses."
+      },
+      "DagRunType": {
+        "type": "string",
+        "enum": ["backfill", "scheduled", "manual", "asset_triggered"],
+        "description": "Class with DagRun types."
+      },
+      "DagRunState": {
+        "type": "string",
+        "enum": ["queued", "running", "success", "failed"],
+        "description": "All possible states that a DagRun can be in.\n\nThese are \"shared\" with TaskInstanceState in some parts of the code,\nso please ensure that their values always match the ones with the\nsame name in TaskInstanceState."
+      },
+      "DagRunTriggeredByType": {
+        "type": "string",
+        "enum": ["cli", "operator", "rest_api", "ui", "test", "timetable", "asset", "backfill"],
+        "description": "Class with TriggeredBy types for DagRun."
+      },
+      "DagVersionResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "version_number": {
+            "type": "integer"
+          },
+          "dag_id": {
+            "type": "string"
+          },
+          "bundle_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "bundle_version": {
+            "type": "string",
+            "nullable": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dag_display_name": {
+            "type": "string"
+          },
+          "bundle_url": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "version_number",
+          "dag_id",
+          "bundle_name",
+          "bundle_version",
+          "created_at",
+          "dag_display_name",
+          "bundle_url"
+        ],
+        "description": "Dag Version serializer for responses."
+      },
+      "DAGRunCollectionResponse": {
+        "properties": {
+          "dag_runs": {
+            "items": {
+              "$ref": "#/components/schemas/DAGRunResponse"
+            },
+            "type": "array"
+          },
+          "total_entries": {
+            "type": "integer"
+          }
+        },
+        "type": "object",
+        "required": ["dag_runs", "total_entries"],
+        "description": "DAG Run Collection serializer for responses."
+      },
+      "TaskInstanceCollectionResponse": {
+        "properties": {
+          "task_instances": {
+            "items": {
+              "$ref": "#/components/schemas/TaskInstanceResponse"
+            },
+            "type": "array"
+          },
+          "total_entries": {
+            "type": "integer"
+          }
+        },
+        "type": "object",
+        "required": ["task_instances", "total_entries"],
+        "description": "Task Instance Collection serializer for responses."
+      },
+      "TaskInstanceResponse": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "task_id": {
+            "type": "string"
+          },
+          "dag_id": {
+            "type": "string"
+          },
+          "dag_run_id": {
+            "type": "string"
+          },
+          "map_index": {
+            "type": "integer"
+          },
+          "logical_date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "run_after": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "end_date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "duration": {
+            "type": "number",
+            "nullable": true
+          },
+          "state": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskInstanceState"
+              }
+            ],
+            "nullable": true
+          },
+          "try_number": {
+            "type": "integer"
+          },
+          "max_tries": {
+            "type": "integer"
+          },
+          "task_display_name": {
+            "type": "string"
+          },
+          "dag_display_name": {
+            "type": "string"
+          },
+          "hostname": {
+            "type": "string",
+            "nullable": true
+          },
+          "unixname": {
+            "type": "string",
+            "nullable": true
+          },
+          "pool": {
+            "type": "string"
+          },
+          "pool_slots": {
+            "type": "integer"
+          },
+          "queue": {
+            "type": "string",
+            "nullable": true
+          },
+          "priority_weight": {
+            "type": "integer",
+            "nullable": true
+          },
+          "operator": {
+            "type": "string",
+            "nullable": true
+          },
+          "operator_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "queued_when": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "scheduled_when": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "pid": {
+            "type": "integer",
+            "nullable": true
+          },
+          "executor": {
+            "type": "string",
+            "nullable": true
+          },
+          "executor_config": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string",
+            "nullable": true
+          },
+          "rendered_map_index": {
+            "type": "string",
+            "nullable": true
+          },
+          "rendered_fields": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "trigger": {
+            "type": "object",
+            "additionalProperties": true,
+            "nullable": true
+          },
+          "triggerer_job": {
+            "type": "object",
+            "additionalProperties": true,
+            "nullable": true
+          },
+          "dag_version": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DagVersionResponse"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "task_id",
+          "dag_id",
+          "dag_run_id",
+          "map_index",
+          "logical_date",
+          "run_after",
+          "start_date",
+          "end_date",
+          "duration",
+          "state",
+          "try_number",
+          "max_tries",
+          "task_display_name",
+          "dag_display_name",
+          "hostname",
+          "unixname",
+          "pool",
+          "pool_slots",
+          "queue",
+          "priority_weight",
+          "operator",
+          "operator_name",
+          "queued_when",
+          "scheduled_when",
+          "pid",
+          "executor",
+          "executor_config",
+          "note",
+          "rendered_map_index",
+          "trigger",
+          "triggerer_job",
+          "dag_version"
+        ],
+        "description": "TaskInstance serializer for responses."
+      },
+      "TaskInstanceState": {
+        "type": "string",
+        "enum": [
+          "removed",
+          "scheduled",
+          "queued",
+          "running",
+          "success",
+          "restarting",
+          "failed",
+          "up_for_retry",
+          "up_for_reschedule",
+          "upstream_failed",
+          "skipped",
+          "deferred"
+        ],
+        "description": "All possible states that a Task Instance can be in.\n\nNote that None is also allowed, so always use this in a type hint with Optional."
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "FastAPI's failure body: `detail` is text, or an object or list describing the failure.",
+        "properties": {
+          "detail": {}
+        }
+      },
+      "VariableBody": {
+        "type": "object",
+        "description": "Variable serializer for bodies. Upstream types `value` as any JSON value, but the apache/airflow:3.1.8 image answered 500 to an object on PATCH, so this keeps the string the response has.",
+        "required": ["key", "value"],
+        "properties": {
+          "key": {
+            "type": "string",
+            "maxLength": 250
+          },
+          "value": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "VariableResponse": {
+        "type": "object",
+        "description": "Variable serializer for responses.",
+        "required": ["key", "value", "description", "is_encrypted"],
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "is_encrypted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ConnectionBody": {
+        "type": "object",
+        "description": "Connection serializer for request bodies.",
+        "required": ["connection_id", "conn_type"],
+        "properties": {
+          "connection_id": {
+            "type": "string",
+            "maxLength": 200,
+            "pattern": "^[\\w.-]+$"
+          },
+          "conn_type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "host": {
+            "type": "string",
+            "nullable": true
+          },
+          "login": {
+            "type": "string",
+            "nullable": true
+          },
+          "schema": {
+            "type": "string",
+            "nullable": true
+          },
+          "port": {
+            "type": "integer",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "extra": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ConnectionResponse": {
+        "type": "object",
+        "description": "Connection serializer for responses. The API masks `password` as `***`.",
+        "required": [
+          "connection_id",
+          "conn_type",
+          "description",
+          "host",
+          "login",
+          "schema",
+          "port",
+          "password",
+          "extra"
+        ],
+        "properties": {
+          "connection_id": {
+            "type": "string"
+          },
+          "conn_type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "host": {
+            "type": "string",
+            "nullable": true
+          },
+          "login": {
+            "type": "string",
+            "nullable": true
+          },
+          "schema": {
+            "type": "string",
+            "nullable": true
+          },
+          "port": {
+            "type": "integer",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "extra": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}

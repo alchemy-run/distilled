@@ -1,0 +1,20 @@
+{
+  "description": "The observability spec documents no 404 on GetInstance, DeleteInstance or GetScrapeConfig, so a missing instance or scrape job surfaces as UnknownStackitError. STACKIT's own Terraform provider (stackitcloud/terraform-provider-stackit, stackit/internal/services/observability/instance/resource.go and scrapeconfig/resource.go, read 2026-11-01) removes the object from state on http.StatusNotFound in Read and treats http.StatusNotFound as already deleted in Delete. Type it as the model's NotFound so callers can tell a missing object from other failures. No live probe: no credentials exist for this account.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#GetInstance/errors/-",
+      "value": { "target": "com.stackit.observability#NotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#DeleteInstance/errors/-",
+      "value": { "target": "com.stackit.observability#NotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#GetScrapeConfig/errors/-",
+      "value": { "target": "com.stackit.observability#NotFound" }
+    }
+  ]
+}

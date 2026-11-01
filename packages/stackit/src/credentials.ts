@@ -833,6 +833,164 @@ export const rabbitmqManagementCredentialsOf = (config: {
 
 //#endregion
 
+//#region Grafana Loki API (Logs data plane)
+
+export interface LokiConfig {
+  /** Root of the instance's API: its `datasourceUrl`, with no trailing slash. */
+  readonly apiUrl: string;
+  /** The instance's access token, sent as `Authorization: Bearer`. */
+  readonly token: Redacted.Redacted<string>;
+}
+
+/**
+ * What `logs_loki` operations sign with: a Logs instance takes one of its own access
+ * tokens, not a STACKIT access token, so this is its own service rather than
+ * {@link Credentials}. An Observability instance's Loki takes a credential's HTTP Basic
+ * instead: see {@link observabilityDataCredentialsOf}.
+ */
+export class LokiCredentials
+  extends /*@__PURE__*/ Context.Service<
+    LokiCredentials,
+    Effect.Effect<LokiConfig | ObservabilityDataConfig, ConfigError>
+  >()("StackitLokiCredentials") {}
+
+/**
+ * The `LokiCredentials` value for one access token on one instance. A token the API no
+ * longer returns, on an adopted resource, fails here rather than on the wire.
+ */
+export const lokiCredentialsOf = (config: {
+  readonly datasourceUrl: string;
+  readonly token: Redacted.Redacted<string> | undefined;
+}): Effect.Effect<LokiConfig, ConfigError> => {
+  const withScheme = /^https?:\/\//.test(config.datasourceUrl)
+    ? config.datasourceUrl
+    : `https://${config.datasourceUrl}`;
+  if (!URL.canParse(withScheme)) {
+    return Effect.fail(
+      new ConfigError({ message: "A Logs instance's datasourceUrl is not a URL" }),
+    );
+  }
+  if (config.token === undefined) {
+    return Effect.fail(
+      new ConfigError({ message: "This Logs access token has no known value: create a new one" }),
+    );
+  }
+  const url = new URL(withScheme);
+  return Effect.succeed({
+    apiUrl: `${url.origin}${url.pathname.replace(/\/+$/, "")}`,
+    token: config.token,
+  });
+};
+
+//#endregion
+
+//#region Alertmanager, Prometheus and Loki APIs (Observability data plane)
+
+export interface ObservabilityDataConfig {
+  /** Root of one of the instance's APIs, with no trailing slash. */
+  readonly apiUrl: string;
+  /** The `username` of an Observability credential, sent as HTTP Basic. */
+  readonly username: string;
+  /** The `password` of an Observability credential. */
+  readonly password: Redacted.Redacted<string>;
+}
+
+/**
+ * What `observability_alertmanager` and `observability_prometheus` operations sign with:
+ * an Observability instance takes one of its own credentials, not a STACKIT access token,
+ * so this is its own service rather than {@link Credentials}.
+ */
+export class ObservabilityDataCredentials
+  extends /*@__PURE__*/ Context.Service<
+    ObservabilityDataCredentials,
+    Effect.Effect<ObservabilityDataConfig, ConfigError>
+  >()("StackitObservabilityDataCredentials") {}
+
+/**
+ * The credentials for one Observability credential on one of an instance's URLs. Whichever
+ * of its URLs is given, this keeps the root: STACKIT documents `logsPushUrl` as ending in
+ * `/loki/api/v1/push`, and the generated routes already carry their API's path. A credential
+ * whose password a crash lost fails here rather than on the wire. A failure doesn't quote
+ * the URL.
+ */
+export const observabilityDataCredentialsOf = (config: {
+  readonly url: string;
+  readonly username: string;
+  readonly password: Redacted.Redacted<string> | undefined;
+}): Effect.Effect<ObservabilityDataConfig, ConfigError> => {
+  const withScheme = /^https?:\/\//.test(config.url) ? config.url : `https://${config.url}`;
+  if (!URL.canParse(withScheme)) {
+    return Effect.fail(
+      new ConfigError({ message: "An Observability instance's URL is not a URL" }),
+    );
+  }
+  if (config.password === undefined) {
+    return Effect.fail(
+      new ConfigError({ message: "This Observability credential has no known password" }),
+    );
+  }
+  const url = new URL(withScheme);
+  const root = url.pathname.replace(/\/(?:loki\/)?api\/v\d+(?:\/.*)?$/, "").replace(/\/+$/, "");
+  return Effect.succeed({
+    apiUrl: `${url.origin}${root}`,
+    username: config.username,
+    password: config.password,
+  });
+};
+
+//#endregion
+
+//#region Dremio REST API (Dremio data plane)
+
+export interface DremioConfig {
+  /** Root of the REST API, an instance's `endpoints.ui` without a trailing slash. */
+  readonly apiUrl: string;
+  /** A token from a Dremio login, or a personal access token, sent as a Bearer token. */
+  readonly token: Redacted.Redacted<string>;
+}
+
+/**
+ * What `dremio_rest` operations sign with: Dremio takes its own tokens, not a STACKIT
+ * access token, so this is its own service rather than {@link Credentials}.
+ * `@distilled.cloud/stackit/Dremio` builds it from a user's password.
+ */
+export class DremioCredentials
+  extends /*@__PURE__*/ Context.Service<
+    DremioCredentials,
+    Effect.Effect<DremioConfig, ConfigError>
+  >()("StackitDremioCredentials") {}
+
+/**
+ * The instance URL a Dremio login goes to. A login has no token to sign with, so it
+ * reads this service instead of {@link DremioCredentials}.
+ */
+export class DremioEndpoint
+  extends /*@__PURE__*/ Context.Service<DremioEndpoint, string>()("StackitDremioEndpoint") {}
+
+//#endregion
+
+//#region Apache Airflow REST API (STACKIT Workflows data plane)
+
+export interface WorkflowsAirflowConfig {
+  /** Root of the REST API, an instance's `endpoints.url` without a trailing slash. */
+  readonly apiUrl: string;
+  /** The session from the instance's session endpoint, as a `Cookie` header's value. */
+  readonly cookie: Redacted.Redacted<string>;
+}
+
+/**
+ * What `workflows_airflow` operations sign with: an instance's Airflow takes a session
+ * cookie from its session endpoint, not a STACKIT access token, so this is its own service
+ * rather than {@link Credentials}. `@distilled.cloud/stackit/WorkflowsAirflow` builds it.
+ */
+export class WorkflowsAirflowCredentials
+  extends /*@__PURE__*/ Context.Service<
+    WorkflowsAirflowCredentials,
+    Effect.Effect<WorkflowsAirflowConfig, ConfigError>
+  >()("StackitWorkflowsAirflowCredentials") {}
+
+//#endregion
+
 //#region OpenSearch REST API (OpenSearch and LogMe data plane)
 
 export interface OpenSearchConfig {
