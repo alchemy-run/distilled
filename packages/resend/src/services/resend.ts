@@ -560,6 +560,8 @@ export interface Tag {
 }
 export type CreateEmailRequestTagsList = Array<Tag>;
 export interface CreateEmailRequest {
+  /** A unique identifier for the request to ensure emails are only sent once. [Learn more](https://resend.com/docs/dashboard/emails/idempotency-keys) */
+  idempotencyKey?: string;
   /** Sender email address. To include a friendly name, use the format "Your Name <sender@domain.com>". */
   from: string;
   /** Recipient email address. For multiple addresses, send as an array of strings. Max 50. */
@@ -644,6 +646,8 @@ export interface SendEmailRequest {
 }
 export type CreateEmailBatchRequestBodyList = Array<SendEmailRequest>;
 export interface CreateEmailBatchRequest {
+  /** A unique identifier for the request to ensure emails are only sent once. [Learn more](https://resend.com/docs/dashboard/emails/idempotency-keys) */
+  idempotencyKey?: string;
   body?: CreateEmailBatchRequestBodyList;
 }
 export interface CreateBatchEmailsResponseDataItem {
@@ -705,6 +709,8 @@ export type CreateInboxDraftRequestAttachmentsList = Array<InboxDraftAttachmentI
 export interface CreateInboxDraftRequest {
   /** The Inbox ID or the inbox email address, such as `support@acme.com`. A value that contains `@` must be a valid email address, and any other value must be a UUID, or the request returns a 422. The address match is case-insensitive and never falls back to the inbox `name`. An address that matches no inbox returns a 404. */
   inbox_id: string;
+  /** A unique key for the request, so the draft is created only once. A retry with the same key within 24 hours returns the first successful (2xx) response, with the `idempotent-replayed: true` header. A failed request is not stored, so it can be retried with the same key. Reusing the key with a different body, or while the first request is still running, returns a 409. An empty key, or one longer than 256 characters, returns a 400 `invalid_idempotency_key`. [Learn more](https://resend.com/docs/dashboard/emails/idempotency-keys) */
+  idempotencyKey?: string;
   /** The recipients. For multiple addresses, send an array of strings. Each value can include a friendly name, for example `Ada Lovelace <ada@example.org>`. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
   to?: CreateInboxDraftRequestTo | null;
   /** The CC recipients. For multiple addresses, send an array of strings. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
@@ -1110,6 +1116,8 @@ export interface ForwardInboxThreadEmailRequest {
   thread_id: string;
   /** The Email ID of the message to forward, as returned in `data[].id` by the list thread emails endpoint. */
   email_id: string;
+  /** A unique key for the request, so the forward is sent only once. A retry with the same key within 24 hours returns the first successful (2xx) response, with the `idempotent-replayed: true` header. A failed request is not stored, so it can be retried with the same key. Reusing the key with a different body, or while the first request is still running, returns a 409. An empty key, or one longer than 256 characters, returns a 400 `invalid_idempotency_key`. [Learn more](https://resend.com/docs/dashboard/emails/idempotency-keys) */
+  idempotencyKey?: string;
   /** Recipient email address. For multiple addresses, send as an array of strings. Must name at least one address. `to`, `cc` and `bcc` combined cannot exceed 50 recipients. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
   to: ForwardInboxThreadEmailRequestTo;
   /** CC recipient email address. For multiple addresses, send as an array of strings. Counts toward the 50-recipient limit. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
@@ -3257,6 +3265,8 @@ export interface ReplyInboxThreadEmailRequest {
   thread_id: string;
   /** The Email ID of the message to reply to, as returned in `data[].id` by the list thread emails endpoint. */
   email_id: string;
+  /** A unique key for the request, so the reply is sent only once. A retry with the same key within 24 hours returns the first successful (2xx) response, with the `idempotent-replayed: true` header. A failed request is not stored, so it can be retried with the same key. Reusing the key with a different body, or while the first request is still running, returns a 409. An empty key, or one longer than 256 characters, returns a 400 `invalid_idempotency_key`. [Learn more](https://resend.com/docs/dashboard/emails/idempotency-keys) */
+  idempotencyKey?: string;
   /** CC recipient email address. For multiple addresses, send as an array of strings. Without `reply_all`, the reply copies only these addresses. With `reply_all`, these addresses are merged with the copied recipients, without duplicates. `cc` and `bcc` combined must be fewer than 50 addresses. After the `to` recipients are added, the reply cannot exceed 50 recipients. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
   cc?: ReplyInboxThreadEmailRequestCc | null;
   /** BCC recipient email address. For multiple addresses, send as an array of strings. BCC recipients of the original message are never copied. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
@@ -3425,6 +3435,8 @@ export interface SendInboxDraftRequest {
   inbox_id: string;
   /** The Draft ID. */
   draft_id: string;
+  /** A unique key for the request, so the draft is sent only once. A retry with the same key within 24 hours returns the first successful (2xx) response, with the `idempotent-replayed: true` header. A failed request is not stored, so it can be retried with the same key. Reusing the key with a different body, or while the first request is still running, returns a 409. An empty key, or one longer than 256 characters, returns a 400 `invalid_idempotency_key`. [Learn more](https://resend.com/docs/dashboard/emails/idempotency-keys) */
+  idempotencyKey?: string;
   /** Custom headers to add to the email. The `In-Reply-To`, `References` and `Reply-To` headers are set by Resend and cannot be set here. Sending one of them, in any letter case, returns a 422. Header names cannot be empty, and names and values cannot contain line breaks or null characters, or the request returns a 422. `null` means no custom headers. */
   headers?: SendInboxDraftRequestHeadersMap | null;
 }
@@ -6837,6 +6849,7 @@ function __c14(j: number): any {
           inbox_id: S.String.pipe(T.Label()),
           thread_id: S.String.pipe(T.Label()),
           email_id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           cc: S.optional(S.NullOr(S.Unknown)),
           bcc: S.optional(S.NullOr(S.Unknown)),
           html: S.optional(S.String),
@@ -6988,6 +7001,7 @@ function __c21(j: number): any {
         S.Struct({
           inbox_id: S.String.pipe(T.Label()),
           draft_id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           headers: S.optional(S.NullOr(__S(1536, __c96, 0))),
         }).pipe(
           T.Http({ method: "POST", uri: "/inboxes/{inbox_id}/drafts/{draft_id}/send", code: 200 }),
@@ -7476,6 +7490,7 @@ function __c51(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           from: S.String,
           to: S.Unknown,
           subject: S.String,
@@ -7558,6 +7573,7 @@ function __c54(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           body: S.optional(__S(867, __c54, 3).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/emails/batch", code: 200 })),
       ).annotate({ identifier: "CreateEmailBatchRequest" });
@@ -7610,6 +7626,7 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           inbox_id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           to: S.optional(S.NullOr(S.Unknown)),
           cc: S.optional(S.NullOr(S.Unknown)),
           bcc: S.optional(S.NullOr(S.Unknown)),
@@ -8075,6 +8092,7 @@ function __c95(j: number): any {
           inbox_id: S.String.pipe(T.Label()),
           thread_id: S.String.pipe(T.Label()),
           email_id: S.String.pipe(T.Label()),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           to: S.Unknown,
           cc: S.optional(S.NullOr(S.Unknown)),
           bcc: S.optional(S.NullOr(S.Unknown)),
