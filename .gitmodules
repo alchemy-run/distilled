@@ -438,3 +438,8 @@ path = packages/celld/specs/spec-mirror-celld
 url = https://github.com/distilled-mirror/spec-mirror-celld.git
 ignore = dirty
 shallow = true
+[submodule "packages/convex/specs/spec-mirror-convex"]
+	path = packages/convex/specs/spec-mirror-convex
+	url = https://github.com/distilled-mirror/spec-mirror-convex.git
+	ignore = dirty
+	shallow = true

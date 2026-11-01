@@ -218,6 +218,12 @@
       "path": "./packages/adyen/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/convex/tsconfig.json"
+    },
+    {
+      "path": "./packages/convex/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/coolify/tsconfig.json"
     },
     {
