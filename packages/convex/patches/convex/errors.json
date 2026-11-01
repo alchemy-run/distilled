@@ -650,6 +650,9 @@
       "path": "/shapes/com.convex.api#ListCustomDomains/errors",
       "value": [
         {
+          "target": "com.convex.api#VanityDomainsDisabled"
+        },
+        {
           "target": "com.convex.api#DeploymentNotFound"
         },
         {

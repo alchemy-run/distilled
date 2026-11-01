@@ -1795,6 +1795,7 @@ export const listAuditLogEvents: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListCustomDomainsError =
+  | VanityDomainsDisabled
   | DeploymentNotFound
   | AccessTokenInvalid
   | OperationNotPermitted
@@ -1808,7 +1809,7 @@ export const listCustomDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c34, 0) as any as S.Schema<ListCustomDomainsRequest>,
   output: __S(139, __c34, 3) as any as S.Schema<PlatformListCustomDomainsResponse>,
-  errors: [DeploymentNotFound, AccessTokenInvalid, OperationNotPermitted],
+  errors: [VanityDomainsDisabled, DeploymentNotFound, AccessTokenInvalid, OperationNotPermitted],
   protocol: ConvexProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
