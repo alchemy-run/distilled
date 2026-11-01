@@ -1480,16 +1480,18 @@ export type CreateInboxDraftRequestCc = string | CreateInboxDraftRequestCcCase1L
 export type CreateInboxDraftRequestBccCase1List = Array<string>;
 /** The BCC recipients. For multiple addresses, send an array of strings. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
 export type CreateInboxDraftRequestBcc = string | CreateInboxDraftRequestBccCase1List;
-/** A file to store on a draft. Unlike `POST /emails` attachments, a draft attachment cannot use `path` or `content_id`. A `path` without `content` returns a 422, and when both are sent, `path` is ignored. */
+/** A file to store on a draft. Send either `content` or a `path` URL. Unlike `POST /emails` attachments, a `path` file is downloaded when the request is made, not when the draft is sent, and a draft attachment cannot use `content_id`. When both `content` and `path` are sent, `path` is ignored. */
 export interface InboxDraftAttachmentInput {
-  /** The content of the file, encoded in base64. It cannot be empty. */
-  content: string;
+  /** The content of the file, encoded in base64. It cannot be empty. Required without `path`. */
+  content?: string;
+  /** A URL to download the file from, starting with `http` or `https`. Required without `content`. A file that cannot be downloaded returns a 422, and so does a request whose downloads take more than 20 seconds together. */
+  path?: string;
   /** The filename of the attachment. A blocked file type returns a 422. */
   filename: string;
-  /** The MIME type of the attachment. It must be a valid MIME type, such as `application/pdf`, or the request returns a 422. */
-  content_type: string;
+  /** The MIME type of the attachment. It must be a valid MIME type, such as `application/pdf`, or the request returns a 422. Required with `content`. With `path`, it defaults to the content type of the downloaded file. */
+  content_type?: string;
 }
-/** Files to store on the draft. Each one needs `content`, `filename` and `content_type`. A `path` without `content` returns a 422, and when both are sent, `path` is ignored. A `content_id` returns a 422. The files on a draft can total at most 25 MB. An empty file or a blocked file type returns a 422. */
+/** Files to store on the draft. Each one needs a `filename` and either `content` or a `path` URL. A `path` file is downloaded when the request is made and stored on the draft. When both are sent, `path` is ignored. A `content_id` returns a 422. The files on a draft, downloaded ones included, can total at most 25 MB. A `path` that does not start with `http` or `https`, or that cannot be downloaded, returns a 422, and so does a request whose downloads take more than 20 seconds together. An empty file or a blocked file type returns a 422. */
 export type CreateInboxDraftRequestAttachmentsList = Array<InboxDraftAttachmentInput>;
 export interface CreateInboxDraftRequest {
   /** The Inbox ID or the inbox email address, such as `support@acme.com`. A value that contains `@` must be a valid email address, and any other value must be a UUID, or the request returns a 422. The address match is case-insensitive and never falls back to the inbox `name`. An address that matches no inbox returns a 404. */
@@ -1508,7 +1510,7 @@ export interface CreateInboxDraftRequest {
   html?: string | null;
   /** The plain text body. */
   text?: string | null;
-  /** Files to store on the draft. Each one needs `content`, `filename` and `content_type`. A `path` without `content` returns a 422, and when both are sent, `path` is ignored. A `content_id` returns a 422. The files on a draft can total at most 25 MB. An empty file or a blocked file type returns a 422. */
+  /** Files to store on the draft. Each one needs a `filename` and either `content` or a `path` URL. A `path` file is downloaded when the request is made and stored on the draft. When both are sent, `path` is ignored. A `content_id` returns a 422. The files on a draft, downloaded ones included, can total at most 25 MB. A `path` that does not start with `http` or `https`, or that cannot be downloaded, returns a 422, and so does a request whose downloads take more than 20 seconds together. An empty file or a blocked file type returns a 422. */
   attachments?: CreateInboxDraftRequestAttachmentsList | null;
   /** The Thread ID to reply in. Must be sent with `reply_to_email_id`. */
   thread_id?: string;
@@ -4639,7 +4641,7 @@ export type UpdateInboxDraftRequestCc = string | UpdateInboxDraftRequestCcCase1L
 export type UpdateInboxDraftRequestBccCase1List = Array<string>;
 /** The BCC recipients. Pass `null` or `[]` to clear. Each address is `email@example.com` or `Name <email@example.com>`. An address that is not valid returns a 422. */
 export type UpdateInboxDraftRequestBcc = string | UpdateInboxDraftRequestBccCase1List;
-/** Files to store on the draft. Each one needs `content`, `filename` and `content_type`. A `path` without `content` returns a 422, and when both are sent, `path` is ignored. A `content_id` returns a 422. The files on a draft can total at most 25 MB. An empty file or a blocked file type returns a 422. Sending the field replaces every attachment on the draft. Send `[]` to remove them all. `null` also removes them all. */
+/** Files to store on the draft. Each one needs a `filename` and either `content` or a `path` URL. A `path` file is downloaded when the request is made and stored on the draft. When both are sent, `path` is ignored. A `content_id` returns a 422. The files on a draft, downloaded ones included, can total at most 25 MB. A `path` that does not start with `http` or `https`, or that cannot be downloaded, returns a 422, and so does a request whose downloads take more than 20 seconds together. An empty file or a blocked file type returns a 422. Sending the field replaces every attachment on the draft. Send `[]` to remove them all. `null` also removes them all. */
 export type UpdateInboxDraftRequestAttachmentsList = Array<InboxDraftAttachmentInput>;
 export interface UpdateInboxDraftRequest {
   /** The Inbox ID or the inbox email address, such as `support@acme.com`. A value that contains `@` must be a valid email address, and any other value must be a UUID, or the request returns a 422. The address match is case-insensitive and never falls back to the inbox `name`. An address that matches no inbox returns a 404. */
@@ -4658,7 +4660,7 @@ export interface UpdateInboxDraftRequest {
   html?: string | null;
   /** The plain text body. Pass `null` to clear. */
   text?: string | null;
-  /** Files to store on the draft. Each one needs `content`, `filename` and `content_type`. A `path` without `content` returns a 422, and when both are sent, `path` is ignored. A `content_id` returns a 422. The files on a draft can total at most 25 MB. An empty file or a blocked file type returns a 422. Sending the field replaces every attachment on the draft. Send `[]` to remove them all. `null` also removes them all. */
+  /** Files to store on the draft. Each one needs a `filename` and either `content` or a `path` URL. A `path` file is downloaded when the request is made and stored on the draft. When both are sent, `path` is ignored. A `content_id` returns a 422. The files on a draft, downloaded ones included, can total at most 25 MB. A `path` that does not start with `http` or `https`, or that cannot be downloaded, returns a 422, and so does a request whose downloads take more than 20 seconds together. An empty file or a blocked file type returns a 422. Sending the field replaces every attachment on the draft. Send `[]` to remove them all. `null` also removes them all. */
   attachments?: UpdateInboxDraftRequestAttachmentsList | null;
 }
 export interface UpdateInboxDraftResponseSuccess {
@@ -5413,7 +5415,7 @@ export type CreateInboxDraftError =
   | IdempotencyKeyReused
   | IdempotentRequestInProgress
   | ResendOpError;
-/** Create a draft Creates an unsent draft on the inbox. Omit `thread_id` and `reply_to_email_id` for a draft that starts a new thread. Pass both together for a reply draft in an existing thread. A reply draft without `to` is addressed to the sender of the email it replies to, or to its Reply-To when set. For an email the inbox sent, it defaults to that email's `to` recipients. Send `to: []` to leave it empty. At least one of `to`, `cc`, `bcc`, `subject`, `text`, `html` or `attachments` must be non-empty. The combined recipients of `to`, `cc` and `bcc` cannot exceed 50. Attachments are stored on the draft, so each one needs `content`, `filename` and `content_type`. Returns 201 for a new draft. Only one unsent reply draft can target an email, so a reply draft request for an email that already has one returns 200 with the ID of the existing draft. An unknown `thread_id`, or a `reply_to_email_id` that is not in that thread, returns a 404. That request ignores every other field, except `attachments`, which replaces the attachments of the existing draft when sent. A reply draft created without `subject` stores an empty subject. When it is sent, it takes the thread subject, prefixed with `Re:` when it does not already start with it. */
+/** Create a draft Creates an unsent draft on the inbox. Omit `thread_id` and `reply_to_email_id` for a draft that starts a new thread. Pass both together for a reply draft in an existing thread. A reply draft without `to` is addressed to the sender of the email it replies to, or to its Reply-To when set. For an email the inbox sent, it defaults to that email's `to` recipients. Send `to: []` to leave it empty. At least one of `to`, `cc`, `bcc`, `subject`, `text`, `html` or `attachments` must be non-empty. The combined recipients of `to`, `cc` and `bcc` cannot exceed 50. Attachments are stored on the draft, so a `path` file is downloaded when the request is made. Returns 201 for a new draft. Only one unsent reply draft can target an email, so a reply draft request for an email that already has one returns 200 with the ID of the existing draft. An unknown `thread_id`, or a `reply_to_email_id` that is not in that thread, returns a 404. That request ignores every other field, except `attachments`, which replaces the attachments of the existing draft when sent. A reply draft created without `subject` stores an empty subject. When it is sent, it takes the thread subject, prefixed with `Re:` when it does not already start with it. */
 export const createInboxDraft: API.OperationMethod<
   CreateInboxDraftRequest,
   CreateInboxDraftResponseSuccess,
@@ -12524,9 +12526,10 @@ function __c130(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          content: S.String,
+          content: S.optional(S.String),
+          path: S.optional(S.String),
           filename: S.String,
-          content_type: S.String,
+          content_type: S.optional(S.String),
         }),
       ).annotate({ identifier: "InboxDraftAttachmentInput" });
     case 1:
