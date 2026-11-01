@@ -60,6 +60,12 @@ await runOpenApiConvert({
     {
       name: "functions",
       specPath: "specs/spec-mirror-convex/specs/public-deployment-openapi.json",
+      // POST /function is an admin route the spec doesn't mark as one: it
+      // answers 403 BadDeployKey with no token. This service sends none, so
+      // the operation could never succeed, and `run` covers the same call.
+      preprocess: (spec) => {
+        delete spec.paths["/function"];
+      },
       options: {
         namespace: "com.convex.functions",
         serviceName: "ConvexFunctions",
@@ -71,7 +77,6 @@ await runOpenApiConvert({
           "POST /query_batch": "queryBatch",
           "POST /mutation": "mutation",
           "POST /action": "action",
-          "POST /function": "runFunction",
           "POST /run/{*functionIdentifier}": "runFunctionByPath",
         },
       },

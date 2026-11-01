@@ -153,7 +153,7 @@ export interface CreateLogStreamArgsCase0 {
   /** Location of your Datadog deployment. */
   siteLocation: DatadogSiteLocation | (string & {});
   /** Datadog API key for authentication. */
-  ddApiKey: string;
+  ddApiKey: Redacted.Redacted<string>;
   /** Optional comma-separated list of tags. These are sent to Datadog in each log event via the `ddtags` field. */
   ddTags: CreateLogStreamArgsCase0DdTagsList;
   /** Service name used as a special tag in Datadog. */
@@ -202,7 +202,7 @@ export type CreateLogStreamArgsCase3TagsMap = { [key: string]: string | undefine
 export type CreateLogStreamArgsCase3LogStreamType = "sentry";
 export interface CreateLogStreamArgsCase3 {
   /** Sentry Data Source Name (DSN) to route exceptions to. */
-  dsn: string;
+  dsn: Redacted.Redacted<string>;
   /** Tags to add to all events routed to Sentry. */
   tags?: CreateLogStreamArgsCase3TagsMap | null;
   logStreamType: CreateLogStreamArgsCase3LogStreamType;
@@ -596,7 +596,7 @@ export interface LogStreamConfigCase6 {
   /** Key prefix within the bucket. */
   prefix?: string | null;
   /** AWS access key ID used to write to the bucket. The matching secret access key is write-only and is never returned. Absent for role exports. */
-  accessKeyId?: Redacted.Redacted<string> | null;
+  accessKeyId?: string | null;
   /** ARN of the role Convex assumes to write. Empty until the admin pastes it. Absent for access-key exports. */
   roleArn?: string | null;
   /** Value the role's trust policy must require as `sts:ExternalId`. */
@@ -859,7 +859,7 @@ export type UpdateLogStreamArgsCase0LogStreamType = "datadog";
 export interface UpdateLogStreamArgsCase0 {
   siteLocation?: DatadogSiteLocation | (string & {}) | null;
   /** Datadog API key for authentication. */
-  ddApiKey?: string | null;
+  ddApiKey?: Redacted.Redacted<string> | null;
   /** Optional comma-separated list of tags. These are sent to Datadog in each log event via the `ddtags` field. */
   ddTags?: UpdateLogStreamArgsCase0DdTagsList | null;
   /** Service name used as a special tag in Datadog. */
@@ -902,7 +902,7 @@ export type UpdateLogStreamArgsCase3TagsMap = { [key: string]: string | undefine
 export type UpdateLogStreamArgsCase3LogStreamType = "sentry";
 export interface UpdateLogStreamArgsCase3 {
   /** Sentry Data Source Name (DSN) to route exceptions to. */
-  dsn?: string | null;
+  dsn?: Redacted.Redacted<string> | null;
   /** Tags to add to all events routed to Sentry. */
   tags?: UpdateLogStreamArgsCase3TagsMap | null;
   logStreamType: UpdateLogStreamArgsCase3LogStreamType;
