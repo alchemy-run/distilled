@@ -7,9 +7,10 @@
  * hand-written.
  *
  * One module per STACKIT product (IaaS, SKE, DNS, Postgres Flex, ...), using
- * that product's latest published OpenAPI version. Auth is a service-account
- * bearer token (`STACKIT_SERVICE_ACCOUNT_TOKEN`); each product's host is
- * rewritten for `STACKIT_REGION` (default `eu01`).
+ * that product's latest published OpenAPI version. Auth is a bearer access
+ * token minted from a service-account key (`STACKIT_SERVICE_ACCOUNT_KEY_PATH`,
+ * `fromServiceAccountKey`) or given directly (`STACKIT_SERVICE_ACCOUNT_TOKEN`);
+ * each product's host is rewritten for `STACKIT_REGION` (default `eu01`).
  *
  * @example
  * ```ts
