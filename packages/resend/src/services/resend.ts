@@ -182,7 +182,7 @@ export interface CreateApiKeyResponse {
   /** The ID of the API key. */
   id?: string;
   /** The token of the API key. */
-  token?: string;
+  token?: string | Redacted.Redacted<string>;
 }
 /** The initial status of the automation. Defaults to `disabled`. */
 export type CreateAutomationRequestStatus = "enabled" | "disabled";
@@ -8578,7 +8578,7 @@ function __c118(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateApiKeyResponse" });
   }
