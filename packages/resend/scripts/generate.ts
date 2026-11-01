@@ -18,7 +18,6 @@ const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
 const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
-const PAGINATED_TRAIT = "smithy.api#paginated";
 
 /** Resend's provider spec for the shared smithy→SDK compiler. */
 const resendSpec: SdkSpec = {
@@ -57,7 +56,7 @@ const resendSpec: SdkSpec = {
 
   // Resend lists by cursor (`after`/`limit` in, `has_more` + last `data[].id`
   // out). The shared OpenAPI converter only detects `pagination.cursor` /
-  // `.next` / `.next_page`, so the trait is stamped below. Core's
+  // `.next` / `.next_page`, so patches/pagination.json adds the trait. Core's
   // paginateCursor would look for an output token field that Resend does not
   // send; Resend's strategy uses the last item's `id` while `has_more` is true.
   paginationProfiles: {
@@ -149,22 +148,6 @@ runGeneratorCli({
   patchesDir: false,
   spec: (model) => {
     const shapes = (model.shapes ?? {}) as Record<string, any>;
-    for (const shape of Object.values(shapes)) {
-      if (shape?.type !== "operation") continue;
-      if (shape.traits?.[PAGINATED_TRAIT]) continue;
-      const input = shapes[shape.input?.target];
-      const output = shapes[shape.output?.target];
-      if (!input?.members?.after || !output?.members?.data) continue;
-      if (!output.members.has_more) continue;
-      shape.traits ??= {};
-      shape.traits[PAGINATED_TRAIT] = {
-        mode: "cursor",
-        inputToken: "after",
-        items: "data",
-        hasNextPage: "has_more",
-        ...(input.members.limit ? { pageSize: "limit" } : {}),
-      };
-    }
     if (Object.values(shapes).some((shape) => shape?.traits?.[WEBHOOK_EVENT_TRAIT])) {
       return webhookEventsSpec(model);
     }
