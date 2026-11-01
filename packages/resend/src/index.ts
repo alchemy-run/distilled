@@ -20,8 +20,7 @@ export { paginateResend } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";
 export * as Webhooks from "./webhooks.ts";
-// Operations (and their request/response types) are importable straight off
-// the package root. The OpenAPI document does not declare per-status error
-// bodies, so typed error classes are not generated -- failures ride
-// ResendOpError / the shared HTTP-status map.
+// Operations, their request/response types and their typed errors (patched
+// in from patches/errors.json) are importable straight off the package root;
+// the errors every operation can answer come from ./errors.ts.
 export * from "./services/resend.ts";

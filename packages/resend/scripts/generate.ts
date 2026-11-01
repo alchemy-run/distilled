@@ -70,7 +70,21 @@ const resendSpec: SdkSpec = {
   operationDecl: {
     contextType: "ResendOpContext",
     commonErrorType: "ResendOpError",
-    commonErrorClasses: ["UnknownResendError"],
+    // Errors any operation can answer (src/errors.ts), then the fallback.
+    commonErrorClasses: [
+      "MissingApiKey",
+      "InvalidApiKey",
+      "RestrictedApiKey",
+      "InactiveApiKey",
+      "SuspendedApiKey",
+      "InvalidPermission",
+      "ValidationError",
+      "MissingRequiredField",
+      "MissingRequiredParameter",
+      "InvalidParameter",
+      "ResourceLocked",
+      "UnknownResendError",
+    ],
     protocol: "ResendProtocol",
     retry: "Retry.Retry",
   },

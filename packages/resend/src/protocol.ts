@@ -25,7 +25,7 @@ import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
-import { UnknownResendError, ResendParseError } from "./errors.ts";
+import { type ResendCommonError, UnknownResendError, ResendParseError } from "./errors.ts";
 
 /** Sent on every request; Resend's edge returns 403 (error 1010) without one. */
 export const USER_AGENT = "distilled.cloud-resend";
@@ -38,6 +38,7 @@ export const USER_AGENT = "distilled.cloud-resend";
  */
 export type ResendOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
+  | ResendCommonError
   | UnknownResendError
   | ConfigError
   | HttpClientError.HttpClientError
