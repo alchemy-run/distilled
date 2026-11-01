@@ -1,0 +1,10 @@
+{
+  "description": "`config.original` of `getStatus` is Alertmanager's whole configuration as text. prom/alertmanager:v0.28.1 masks the secrets it knows of as `<secret>`, but the document is a free-form string describing receivers, so it stays out of logs. Nothing on the wire changes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability_alertmanager#AlertmanagerConfig/members/original/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

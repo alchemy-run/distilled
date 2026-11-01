@@ -1,0 +1,25 @@
+{
+  "description": "The intake spec gives `failed` as a state of an intake only, and leaves it out of the state enums of runners and users. STACKIT's Intake docs list it among the states of a resource with no such restriction ('failed: The creation or operation of the resource has failed', products/data-and-ai/intake/basics/architecture-of-stackit-intake, read 2026-11-01). The wire value already decodes (the state schema is a string), so this only lets a caller compare against it. The Go SDK defines the constant for intakes alone and relies on its timeout for the other two, so whether the API ever answers it there is unconfirmed; treating it as terminal is harmless if it never does. No live probe: no credentials exist for this account.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.intake#IntakeRunnerResponseState/members/FAILED",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "failed"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.intake#IntakeUserResponseState/members/FAILED",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "failed"
+        }
+      }
+    }
+  ]
+}

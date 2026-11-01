@@ -1,0 +1,33 @@
+{
+  "description": "`publish-messages` documents a 413, \"the payload size exceeds the maximum allowed limit\", which the converter drops. Without a tag a caller can't tell an oversized batch, which it should split, from a transient failure. The limit itself isn't published.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub_data#MessagesTooLarge",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 413,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 413
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub_data#PublishMessages/errors/-",
+      "value": {
+        "target": "com.stackit.pubsub_data#MessagesTooLarge"
+      }
+    }
+  ]
+}

@@ -30,32 +30,36 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(2, __c0, 2)), S.String]),
-      ),
-      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  )
-{
-  declare readonly body?: ValidationError | string;
-}
+  ) {}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)), S.String]),
-      ),
-      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  )
-{
-  declare readonly body?: ConflictError | string;
-}
+  ) {}
+
+export class Gone
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Gone>()("Gone", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 410 }],
+  ) {}
+
+export class NotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 404 }],
+  ) {}
 
 /** List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) */
 export type CreateResourcePoolRequestIpAclList = Array<string>;
@@ -69,7 +73,7 @@ export interface CreateResourcePoolRequest {
   /** List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) */
   ipAcl: CreateResourcePoolRequestIpAclList;
   /** An optional object that represents the labels associated with the resource pool. */
-  labels?: CreateResourcePoolRequestLabelsMap | undefined;
+  labels?: CreateResourcePoolRequestLabelsMap;
   /** Name of the Resource Pool */
   name: string;
   /** Name of the performance class */
@@ -77,100 +81,100 @@ export interface CreateResourcePoolRequest {
   /** Size of the Resource Pool (unit: gibibytes) */
   sizeGigabytes: number;
   /** (optional) Id of the Snapshot Policy to use */
-  snapshotPolicyId?: string | undefined;
+  snapshotPolicyId?: string;
   /** Whether the .snapshot directory is visible when mounting the resource pool. Setting this value to false might prevent you from accessing the snapshots (e.g. for security reasons). Additionally, the access to the snapshots is always controlled by the export policy of the resource pool. That means, if snapshots are visible and the export policy allows for reading the resource pool, then it also allows reading the snapshot of all shares. */
-  snapshotsAreVisible?: boolean | undefined;
+  snapshotsAreVisible?: boolean;
 }
 /** List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) */
 export type ResourcePoolIpAclList = Array<string>;
 export type ResourcePoolLabelsMap = { [key: string]: string | undefined };
 export interface ResourcePoolPerformanceClass {
   /** Name of the performance class */
-  name?: string | undefined;
+  name?: string;
   /** Max. IOPS of the Resource Pool. This is shared between every Share in the Resource Pool. */
-  peakIops?: number | undefined;
+  peakIops?: number;
   /** Throughput of the Resource Pool. */
-  throughput?: number | undefined;
+  throughput?: number;
 }
 export interface ResourcePoolSnapshotPolicy {
   /** ID of the Snapshot Policy */
-  id?: string | undefined;
+  id?: string;
   /** Name of the Snapshot Policy */
-  name?: string | undefined;
+  name?: string;
 }
 export interface ResourcePoolSpace {
   /** Available space of the Resource Pool (only available when retrieving a single Resource Pool by ID) */
-  availableGigabytes?: number | null | undefined;
+  availableGigabytes?: number | null;
   /** Size of the Resource Pool in Gibibytes. */
-  sizeGigabytes?: number | undefined;
+  sizeGigabytes?: number;
   /** Used space by snapshots (only available when retrieving a single Resource Pool by ID) */
-  usedBySnapshotsGigabytes?: number | null | undefined;
+  usedBySnapshotsGigabytes?: number | null;
   /** Used space of the Resource Pool (only available when retrieving a single Resource Pool by ID) */
-  usedGigabytes?: number | null | undefined;
+  usedGigabytes?: number | null;
 }
 export interface ResourcePool {
   /** Name of the respective availability zone */
-  availabilityZone?: string | undefined;
+  availabilityZone?: string;
   /** Number of Shares in the Resource Pool */
-  countShares?: number | undefined;
-  createdAt?: string | undefined;
+  countShares?: number;
+  createdAt?: string;
   /** ID of the Resource Pool */
-  id?: string | undefined;
+  id?: string;
   /** List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) */
-  ipAcl?: ResourcePoolIpAclList | undefined;
-  labels?: ResourcePoolLabelsMap | undefined;
+  ipAcl?: ResourcePoolIpAclList;
+  labels?: ResourcePoolLabelsMap;
   /** Mount path of the Resource Pool, used to mount the Resource Pool Note that a Resource Pool can only be mounted in read-only */
-  mountPath?: string | undefined;
+  mountPath?: string;
   /** Name of the Resource Pool */
-  name?: string | undefined;
+  name?: string;
   /** Information about the performance class */
-  performanceClass?: ResourcePoolPerformanceClass | undefined;
+  performanceClass?: ResourcePoolPerformanceClass;
   /** Time when the performance class can be downgraded again. */
-  performanceClassDowngradableAt?: string | undefined;
+  performanceClassDowngradableAt?: string;
   /** Time when the size can be reduced again. */
-  sizeReducibleAt?: string | undefined;
+  sizeReducibleAt?: string;
   /** (optional) Snapshot Policy */
-  snapshotPolicy?: ResourcePoolSnapshotPolicy | null | undefined;
+  snapshotPolicy?: ResourcePoolSnapshotPolicy | null;
   /** Whether the .snapshot directory is visible when mounting the resource pool. Setting this value to false might prevent you from accessing the snapshots (e.g. for security reasons). Additionally, the access to the snapshots is always controlled by the export policy of the resource pool. That means, if snapshots are visible and the export policy allows for reading the resource pool, then it also allows reading the snapshot of all shares. */
-  snapshotsAreVisible?: boolean | undefined;
+  snapshotsAreVisible?: boolean;
   /** Space information */
-  space?: ResourcePoolSpace | undefined;
+  space?: ResourcePoolSpace;
   /** State of the Resource Pool (possible values: ["pending", "creating", "created", "updating", "error", "deleting"]) */
-  state?: string | undefined;
+  state?: string;
 }
 export interface CreateResourcePoolResponse {
   /** Created Resource Pool */
-  resourcePool?: ResourcePool | undefined;
+  resourcePool?: ResourcePool;
 }
 export interface CreateResourcePoolSnapshotRequest {
   projectId: string;
   region: string;
   resourcePoolId: string;
   /** (optional) A comment to add more information about a snapshot */
-  comment?: string | null | undefined;
+  comment?: string | null;
   /** Name of the Resource Pool Snapshot */
-  name?: string | undefined;
+  name?: string;
   /** (optional) Time in hours after which snaplock on the snapshot expires */
-  snaplockRetentionHours?: number | null | undefined;
+  snaplockRetentionHours?: number | null;
 }
 export interface ResourcePoolSnapshot {
   /** (optional) A comment to add more information about a snapshot */
-  comment?: string | null | undefined;
-  createdAt?: string | undefined;
+  comment?: string | null;
+  createdAt?: string;
   /** Represents the user-visible data size at the time of the snapshot in Gibibytes (e.g. what's in the snapshot) */
-  logicalSizeGigabytes?: number | undefined;
+  logicalSizeGigabytes?: number;
   /** ID of the Resource Pool of the Snapshot */
-  resourcePoolId?: string | undefined;
+  resourcePoolId?: string;
   /** Reflects the actual storage footprint in the backend at snapshot time in Gibibytes (e.g. how much storage from the Resource Pool does it use). */
-  sizeGigabytes?: number | undefined;
+  sizeGigabytes?: number;
   /** Represents the snaplock expiry time if snaplock is enabled for the resource pool */
-  snaplockExpiryTime?: string | null | undefined;
+  snaplockExpiryTime?: string | null;
   /** Name of the Resource Pool Snapshot */
-  snapshotName?: string | undefined;
+  snapshotName?: string;
 }
 export interface CreateResourcePoolSnapshotResponse {
   /** Created Resource Pool Snapshot */
-  resourcePoolSnapshot?: ResourcePoolSnapshot | undefined;
+  resourcePoolSnapshot?: ResourcePoolSnapshot;
 }
 /** An optional object that represents the labels associated with the share. */
 export type CreateShareRequestLabelsMap = { [key: string]: string | undefined };
@@ -179,9 +183,9 @@ export interface CreateShareRequest {
   region: string;
   resourcePoolId: string;
   /** Name of the Share Export Policy to use in the Share. Note that if this is not set, the Share can only be mounted in read only by clients with IPs matching the IP ACL of the Resource Pool hosting this Share. You can also assign a Share Export Policy after creating the Share */
-  exportPolicyName?: string | null | undefined;
+  exportPolicyName?: string | null;
   /** An optional object that represents the labels associated with the share. */
-  labels?: CreateShareRequestLabelsMap | undefined;
+  labels?: CreateShareRequestLabelsMap;
   /** Name of the Share */
   name: string;
   /** Space hard limit for the Share. If zero, the Share will have access to the full space of the Resource Pool it lives in. (unit: gibibytes) */
@@ -192,59 +196,59 @@ export type ShareExportPolicyLabelsMap = { [key: string]: string | undefined };
 /** IP access control list, where IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.251/32" for a specific IP) This array cannot be empty */
 export type ShareExportPolicyRuleIpAclList = Array<string>;
 export interface ShareExportPolicyRule {
-  createdAt?: string | undefined;
+  createdAt?: string;
   /** Description of the Rule (optional) */
-  description?: string | null | undefined;
+  description?: string | null;
   /** ID of the Share Export Policy Rule */
-  id?: string | undefined;
+  id?: string;
   /** IP access control list, where IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.251/32" for a specific IP) This array cannot be empty */
-  ipAcl?: ShareExportPolicyRuleIpAclList | undefined;
+  ipAcl?: ShareExportPolicyRuleIpAclList;
   /** Order of the rule within a Share Export Policy. The order is used so that when a client IP matches multiple rules, the first rule is applied This field must be set */
-  order?: number | undefined;
+  order?: number;
   /** Flag to indicate if client IPs matching this rule can only mount the share in read only mode Default: false */
-  readOnly?: boolean | undefined;
+  readOnly?: boolean;
   /** Flag to honor set UUID Default: false */
-  setUuid?: boolean | undefined;
+  setUuid?: boolean;
   /** Flag to indicate if client IPs matching this rule have root access on the Share Default: true */
-  superUser?: boolean | undefined;
+  superUser?: boolean;
 }
 /** List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters is the field "order" within each rule */
 export type ShareExportPolicyRulesList = Array<ShareExportPolicyRule>;
 export interface ShareExportPolicy {
-  createdAt?: string | undefined;
+  createdAt?: string;
   /** ID of the Share Export Policy */
-  id?: string | undefined;
+  id?: string;
   /** An optional object that represents the labels associated with the share export policy. */
-  labels?: ShareExportPolicyLabelsMap | undefined;
+  labels?: ShareExportPolicyLabelsMap;
   /** Name of the Share Export Policy */
-  name?: string | undefined;
+  name?: string;
   /** List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters is the field "order" within each rule */
-  rules?: ShareExportPolicyRulesList | undefined;
+  rules?: ShareExportPolicyRulesList;
   /** Number of Shares using this Share Export Policy */
-  sharesUsingExportPolicy?: number | undefined;
+  sharesUsingExportPolicy?: number;
 }
 /** An optional object that represents the labels associated with the share. */
 export type ShareLabelsMap = { [key: string]: string | undefined };
 export interface Share {
-  createdAt?: string | undefined;
+  createdAt?: string;
   /** Details of the Share Export Policy to use in the Share. Note that if this is not set, the Share can only be mounted in read only by clients with IPs matching the IP ACL of the Resource Pool hosting this Share */
-  exportPolicy?: ShareExportPolicy | null | undefined;
+  exportPolicy?: ShareExportPolicy | null;
   /** ID of the Share */
-  id?: string | undefined;
+  id?: string;
   /** An optional object that represents the labels associated with the share. */
-  labels?: ShareLabelsMap | undefined;
+  labels?: ShareLabelsMap;
   /** Mount path of the Share, used to mount the Share */
-  mountPath?: string | undefined;
+  mountPath?: string;
   /** Name of the Share */
-  name?: string | undefined;
+  name?: string;
   /** Space hard limit for the Share. If zero, the Share will have access to the full space of the Resource Pool it lives in. (unit: gibibytes) */
-  spaceHardLimitGigabytes?: number | undefined;
+  spaceHardLimitGigabytes?: number;
   /** State of the Resource Pool Snapshot (possible values: ["pending", "creating", "created", "error", "deleting"]) */
-  state?: string | undefined;
+  state?: string;
 }
 export interface CreateShareResponse {
   /** Created Share */
-  share?: Share | undefined;
+  share?: Share;
 }
 /** An optional object that represents the labels associated with the share export policy. */
 export type CreateShareExportPolicyRequestLabelsMap = { [key: string]: string | undefined };
@@ -252,17 +256,17 @@ export type CreateShareExportPolicyRequestLabelsMap = { [key: string]: string | 
 export type CreateShareExportPolicyRequestRuleIpAclList = Array<string>;
 export interface CreateShareExportPolicyRequestRule {
   /** Description of the Rule (optional) */
-  description?: string | null | undefined;
+  description?: string | null;
   /** IP access control list, where IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) This array cannot be empty */
-  ipAcl?: CreateShareExportPolicyRequestRuleIpAclList | undefined;
+  ipAcl?: CreateShareExportPolicyRequestRuleIpAclList;
   /** Order of the rule within a Share Export Policy. The order is used so that when a client IP matches multiple rules, the first rule is applied This field must be set */
-  order?: number | undefined;
+  order?: number;
   /** Flag to indicate if client IPs matching this rule can only mount the share in read only mode Default: false */
-  readOnly?: boolean | undefined;
+  readOnly?: boolean;
   /** Flag to honor set UUID Default: false */
-  setUuid?: boolean | undefined;
+  setUuid?: boolean;
   /** Flag to indicate if client IPs matching this rule have root access on the Share Default: true */
-  superUser?: boolean | undefined;
+  superUser?: boolean;
 }
 /** List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters is the field "order" within each rule */
 export type CreateShareExportPolicyRequestRulesList = Array<CreateShareExportPolicyRequestRule>;
@@ -270,15 +274,15 @@ export interface CreateShareExportPolicyRequest {
   projectId: string;
   region: string;
   /** An optional object that represents the labels associated with the share export policy. */
-  labels?: CreateShareExportPolicyRequestLabelsMap | undefined;
+  labels?: CreateShareExportPolicyRequestLabelsMap;
   /** Name of the Share Export Policy */
   name: string;
   /** List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters is the field "order" within each rule */
-  rules?: CreateShareExportPolicyRequestRulesList | undefined;
+  rules?: CreateShareExportPolicyRequestRulesList;
 }
 export interface CreateShareExportPolicyResponse {
   /** Created Share Export Policy */
-  shareExportPolicy?: ShareExportPolicy | undefined;
+  shareExportPolicy?: ShareExportPolicy;
 }
 export interface DeleteResourcePoolRequest {
   projectId: string;
@@ -316,14 +320,14 @@ export interface EnableLockRequest {
   projectId: string;
 }
 export interface EnableLockResponse {
-  lockId?: string | undefined;
+  lockId?: string;
 }
 export interface GetLockRequest {
   region: string;
   projectId: string;
 }
 export interface GetLockResponse {
-  lockId?: string | undefined;
+  lockId?: string;
 }
 export interface GetResourcePoolRequest {
   projectId: string;
@@ -332,7 +336,7 @@ export interface GetResourcePoolRequest {
 }
 export interface GetResourcePoolResponse {
   /** Resource Pool */
-  resourcePool?: ResourcePool | undefined;
+  resourcePool?: ResourcePool;
 }
 export interface GetResourcePoolSnapshotRequest {
   projectId: string;
@@ -342,7 +346,7 @@ export interface GetResourcePoolSnapshotRequest {
 }
 export interface GetResourcePoolSnapshotResponse {
   /** Resource Pool Snapshot */
-  resourcePoolSnapshot?: ResourcePoolSnapshot | undefined;
+  resourcePoolSnapshot?: ResourcePoolSnapshot;
 }
 export interface GetShareRequest {
   projectId: string;
@@ -352,7 +356,7 @@ export interface GetShareRequest {
 }
 export interface GetShareResponse {
   /** Share */
-  share?: Share | undefined;
+  share?: Share;
 }
 export interface GetShareExportPolicyRequest {
   projectId: string;
@@ -361,7 +365,7 @@ export interface GetShareExportPolicyRequest {
 }
 export interface GetShareExportPolicyResponse {
   /** Share Export Policies */
-  shareExportPolicy?: ShareExportPolicy | undefined;
+  shareExportPolicy?: ShareExportPolicy;
 }
 export interface GetSnapshotPolicyRequest {
   projectId: string;
@@ -369,69 +373,69 @@ export interface GetSnapshotPolicyRequest {
 }
 export interface SnapshotPolicySchedule {
   /** Retention Count */
-  count?: number | undefined;
+  count?: number;
   /** Interval of the Schedule (follows the cron schedule expression in Unix-like systems) */
-  interval?: string | undefined;
+  interval?: string;
   /** Prefix used for the snapshots created by this policy */
-  prefix?: string | undefined;
+  prefix?: string;
   /** Retention Period (ISO 8601 format or "infinite") */
-  retentionPeriod?: string | undefined;
+  retentionPeriod?: string;
   /** ID of the Schedule */
-  scheduleId?: string | undefined;
+  scheduleId?: string;
 }
 /** (deprecated) associated schedules */
 export type SnapshotPolicySchedulesList = Array<SnapshotPolicySchedule>;
 export interface SnapshotPolicySnapshotPolicySchedule {
-  createdAt?: string | undefined;
+  createdAt?: string;
   /** ID of the Schedule */
-  id?: string | undefined;
+  id?: string;
   /** Interval of the Schedule (follows the cron schedule expression in Unix-like systems) */
-  interval?: string | undefined;
+  interval?: string;
   /** Name of the Schedule */
-  name?: string | undefined;
+  name?: string;
   /** Prefix used for the snapshots created by this policy */
-  prefix?: string | undefined;
+  prefix?: string;
   /** Retention Count */
-  retentionCount?: number | undefined;
+  retentionCount?: number;
   /** Retention Period (ISO 8601 format or "infinite") */
-  retentionPeriod?: string | undefined;
+  retentionPeriod?: string;
 }
 /** associated schedules */
 export type SnapshotPolicySnapshotSchedulesList = Array<SnapshotPolicySnapshotPolicySchedule>;
 export interface SnapshotPolicy {
   /** Comment of the Snapshot Policy */
-  comment?: string | undefined;
+  comment?: string;
   /** created at timestamp */
-  createdAt?: string | undefined;
+  createdAt?: string;
   /** Wether the Snapshot Policy is enabled */
-  enabled?: boolean | undefined;
+  enabled?: boolean;
   /** ID of the Snapshot Policy */
-  id?: string | undefined;
+  id?: string;
   /** Name of the Snapshot Policy */
-  name?: string | undefined;
+  name?: string;
   /** (deprecated) associated schedules */
-  schedules?: SnapshotPolicySchedulesList | undefined;
+  schedules?: SnapshotPolicySchedulesList;
   /** associated schedules */
-  snapshotSchedules?: SnapshotPolicySnapshotSchedulesList | undefined;
+  snapshotSchedules?: SnapshotPolicySnapshotSchedulesList;
 }
 export interface GetSnapshotPolicyResponse {
   /** Snapshot Policy */
-  snapshotPolicy?: SnapshotPolicy | undefined;
+  snapshotPolicy?: SnapshotPolicy;
 }
 export interface ListPerformanceClassesRequest {}
 export interface PerformanceClass {
   /** IOPS of the Performance Class */
-  iops?: number | undefined;
+  iops?: number;
   /** Name of the Performance Class */
-  name?: string | undefined;
+  name?: string;
   /** Throughput of the Performance Class */
-  throughput?: number | undefined;
+  throughput?: number;
 }
 /** List of Performance Classes */
 export type ListPerformanceClassesResponsePerformanceClassesList = Array<PerformanceClass>;
 export interface ListPerformanceClassesResponse {
   /** List of Performance Classes */
-  performanceClasses?: ListPerformanceClassesResponsePerformanceClassesList | undefined;
+  performanceClasses?: ListPerformanceClassesResponsePerformanceClassesList;
 }
 export interface ListResourcePoolsRequest {
   projectId: string;
@@ -441,7 +445,7 @@ export interface ListResourcePoolsRequest {
 export type ListResourcePoolsResponseResourcePoolsList = Array<ResourcePool>;
 export interface ListResourcePoolsResponse {
   /** List of Resource Pools */
-  resourcePools?: ListResourcePoolsResponseResourcePoolsList | undefined;
+  resourcePools?: ListResourcePoolsResponseResourcePoolsList;
 }
 export interface ListResourcePoolSnapshotsRequest {
   projectId: string;
@@ -453,7 +457,7 @@ export type ListResourcePoolSnapshotsResponseResourcePoolSnapshotsList =
   Array<ResourcePoolSnapshot>;
 export interface ListResourcePoolSnapshotsResponse {
   /** List of Resource Pool Snapshots */
-  resourcePoolSnapshots?: ListResourcePoolSnapshotsResponseResourcePoolSnapshotsList | undefined;
+  resourcePoolSnapshots?: ListResourcePoolSnapshotsResponseResourcePoolSnapshotsList;
 }
 export interface ListShareExportPoliciesRequest {
   projectId: string;
@@ -463,7 +467,7 @@ export interface ListShareExportPoliciesRequest {
 export type ListShareExportPoliciesResponseShareExportPoliciesList = Array<ShareExportPolicy>;
 export interface ListShareExportPoliciesResponse {
   /** List of Share Export Policies */
-  shareExportPolicies?: ListShareExportPoliciesResponseShareExportPoliciesList | undefined;
+  shareExportPolicies?: ListShareExportPoliciesResponseShareExportPoliciesList;
 }
 export interface ListSharesRequest {
   projectId: string;
@@ -474,17 +478,17 @@ export interface ListSharesRequest {
 export type ListSharesResponseSharesList = Array<Share>;
 export interface ListSharesResponse {
   /** List of Shares */
-  shares?: ListSharesResponseSharesList | undefined;
+  shares?: ListSharesResponseSharesList;
 }
 export interface ListSnapshotPoliciesRequest {
   projectId: string;
-  immutable?: boolean | undefined;
+  immutable?: boolean;
 }
 /** List of Snapshot Policies */
 export type ListSnapshotPoliciesResponseSnapshotPoliciesList = Array<SnapshotPolicy>;
 export interface ListSnapshotPoliciesResponse {
   /** List of Snapshot Policies */
-  snapshotPolicies?: ListSnapshotPoliciesResponseSnapshotPoliciesList | undefined;
+  snapshotPolicies?: ListSnapshotPoliciesResponseSnapshotPoliciesList;
 }
 /** (optional) List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) */
 export type UpdateResourcePoolRequestIpAclList = Array<string>;
@@ -495,21 +499,21 @@ export interface UpdateResourcePoolRequest {
   region: string;
   resourcePoolId: string;
   /** (optional) List of IPs that can mount the Resource Pool in read-only; IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) */
-  ipAcl?: UpdateResourcePoolRequestIpAclList | undefined;
+  ipAcl?: UpdateResourcePoolRequestIpAclList;
   /** An optional object that represents the labels associated with the resource pool. */
-  labels?: UpdateResourcePoolRequestLabelsMap | undefined;
+  labels?: UpdateResourcePoolRequestLabelsMap;
   /** (optional) Name of the performance class */
-  performanceClass?: string | undefined;
+  performanceClass?: string;
   /** (optional) Size of the Resource Pool (unit: gigabytes) */
-  sizeGigabytes?: number | null | undefined;
+  sizeGigabytes?: number | null;
   /** (optional) Id of the Snapshot Policy to use If not set, the Snapshot Policy is not updated If set to an empty string, the Snapshot Policy is removed */
-  snapshotPolicyId?: string | null | undefined;
+  snapshotPolicyId?: string | null;
   /** Whether the .snapshot directory is visible when mounting the resource pool. Setting this value to false might prevent you from accessing the snapshots (e.g. for security reasons). Additionally, the access to the snapshots is always controlled by the export policy of the resource pool. That means, if snapshots are visible and the export policy allows for reading the resource pool, then it also allows reading the snapshot of all shares. */
-  snapshotsAreVisible?: boolean | undefined;
+  snapshotsAreVisible?: boolean;
 }
 export interface UpdateResourcePoolResponse {
   /** Updated Resource Pool */
-  resourcePool?: ResourcePool | undefined;
+  resourcePool?: ResourcePool;
 }
 export interface UpdateResourcePoolSnapshotRequest {
   projectId: string;
@@ -517,13 +521,13 @@ export interface UpdateResourcePoolSnapshotRequest {
   resourcePoolId: string;
   snapshotName: string;
   /** (optional) A comment to add more information about a snapshot */
-  comment?: string | null | undefined;
+  comment?: string | null;
   /** (optional) name of the Resource Pool Snapshot */
-  name?: string | null | undefined;
+  name?: string | null;
 }
 export interface UpdateResourcePoolSnapshotResponse {
   /** Updated Resource Pool Snapshot */
-  resourcePoolSnapshot?: ResourcePoolSnapshot | undefined;
+  resourcePoolSnapshot?: ResourcePoolSnapshot;
 }
 /** An optional object that represents the labels associated with the share. */
 export type UpdateShareRequestLabelsMap = { [key: string]: string | undefined };
@@ -533,15 +537,15 @@ export interface UpdateShareRequest {
   resourcePoolId: string;
   shareId: string;
   /** Name of the Share Export Policy to use in the Share. The behavior depends on the value: - If not set (null): Keep the existing export policy (if any) - If set to empty string (""): Remove the existing export policy - If set to a policy name: Update to use the specified policy, creating a new association if none exists */
-  exportPolicyName?: string | null | undefined;
+  exportPolicyName?: string | null;
   /** An optional object that represents the labels associated with the share. */
-  labels?: UpdateShareRequestLabelsMap | undefined;
+  labels?: UpdateShareRequestLabelsMap;
   /** Space hard limit for the Share. If zero, the Share will have access to the full space of the Resource Pool it lives in. (unit: gibibytes) */
-  spaceHardLimitGigabytes?: number | null | undefined;
+  spaceHardLimitGigabytes?: number | null;
 }
 export interface UpdateShareResponse {
   /** Updated Share */
-  share?: Share | undefined;
+  share?: Share;
 }
 /** An optional object that represents the labels associated with the share export policy. */
 export type UpdateShareExportPolicyRequestLabelsMap = { [key: string]: string | undefined };
@@ -549,17 +553,17 @@ export type UpdateShareExportPolicyRequestLabelsMap = { [key: string]: string | 
 export type UpdateShareExportPolicyBodyRuleIpAclList = Array<string>;
 export interface UpdateShareExportPolicyBodyRule {
   /** Description of the Rule (optional) */
-  description?: string | null | undefined;
+  description?: string | null;
   /** IP access control list, where IPs must have a subnet mask (e.g. "172.16.0.0/24" for a range of IPs, or "172.16.0.250/32" for a specific IP) This array cannot be empty */
-  ipAcl?: UpdateShareExportPolicyBodyRuleIpAclList | undefined;
+  ipAcl?: UpdateShareExportPolicyBodyRuleIpAclList;
   /** Order of the rule within a Share Export Policy. The order is used so that when a client IP matches multiple rules, the first rule is applied This field must be set */
-  order?: number | undefined;
+  order?: number;
   /** Flag to indicate if client IPs matching this rule can only mount the share in read only mode Default: false */
-  readOnly?: boolean | undefined;
+  readOnly?: boolean;
   /** Flag to honor set UUID Default: false */
-  setUuid?: boolean | undefined;
+  setUuid?: boolean;
   /** Flag to indicate if client IPs matching this rule have root access on the Share Default: true */
-  superUser?: boolean | undefined;
+  superUser?: boolean;
 }
 /** List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters is the field "order" within each rule. The whole set of rules needs to be sent in the same request, e.g. if 1 rule is sent, the share export policy will have just that 1 rule, as opposed to extending the existing set of rules with the 1 rule that was sent Important note: the array of rules passed always overwrites the rule array (i.e. sending an empty array removes all rules) */
 export type UpdateShareExportPolicyRequestRulesList = Array<UpdateShareExportPolicyBodyRule>;
@@ -568,39 +572,12 @@ export interface UpdateShareExportPolicyRequest {
   region: string;
   policyId: string;
   /** An optional object that represents the labels associated with the share export policy. */
-  labels?: UpdateShareExportPolicyRequestLabelsMap | undefined;
+  labels?: UpdateShareExportPolicyRequestLabelsMap;
   /** List of rules of the Share Export Policy. The order of the rules within the array does not matter - what matters is the field "order" within each rule. The whole set of rules needs to be sent in the same request, e.g. if 1 rule is sent, the share export policy will have just that 1 rule, as opposed to extending the existing set of rules with the 1 rule that was sent Important note: the array of rules passed always overwrites the rule array (i.e. sending an empty array removes all rules) */
-  rules?: UpdateShareExportPolicyRequestRulesList | null | undefined;
+  rules?: UpdateShareExportPolicyRequestRulesList | null;
 }
 export interface UpdateShareExportPolicyResponse {
-  shareExportPolicy?: ShareExportPolicy | undefined;
-}
-export interface ValidationErrorField {
-  /** The name of the field in the request that has failed the validation */
-  field: string;
-  /** The reason why the validation failed */
-  reason: string;
-}
-export type ValidationErrorFieldsList = Array<ValidationErrorField>;
-export interface ValidationError {
-  /** Human-readable string of the error that occured */
-  error_description?: unknown | undefined;
-  /** Human-readable description of the error that occurred. */
-  title: string;
-  /** URI Uniquely identifies the error type. It will be in the format of storage.stackit.cloud/<error-type> e.g. storage.stackit.cloud/validation-error */
-  type: string;
-  fields: ValidationErrorFieldsList;
-}
-/** Conflict error response */
-export interface ConflictError {
-  /** Human-readable explanation of the specific problem */
-  detail: string;
-  /** Human-readable string of the error that occurred */
-  error_description: string;
-  /** The HTTP status code */
-  status_code: number;
-  /** URI Uniquely identifies the error type. It will be in the format of storage.stackit.cloud/<error-type> e.g. storage.stackit.cloud/conflict */
-  type: string;
+  shareExportPolicy?: ShareExportPolicy;
 }
 export type CreateResourcePoolError = BadRequest | Conflict | StackitOpError;
 /** Create Resource Pool Create a Resource Pool in a project. */
@@ -610,8 +587,8 @@ export const createResourcePool: API.OperationMethod<
   CreateResourcePoolError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<CreateResourcePoolRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<CreateResourcePoolResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<CreateResourcePoolRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<CreateResourcePoolResponse>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -670,7 +647,7 @@ export const createShareExportPolicy: API.OperationMethod<
   span: "CreateShareExportPolicy",
 }));
 
-export type DeleteResourcePoolError = BadRequest | Conflict | StackitOpError;
+export type DeleteResourcePoolError = BadRequest | Conflict | NotFound | StackitOpError;
 /** Delete Resource Pool Deletes a Resource Pool in a project. */
 export const deleteResourcePool: API.OperationMethod<
   DeleteResourcePoolRequest,
@@ -680,7 +657,7 @@ export const deleteResourcePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<DeleteResourcePoolRequest>,
   output: __S(296, __c37, 0) as any as S.Schema<DeleteResourcePoolResponse2>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  errors: [BadRequest, Conflict, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -704,7 +681,7 @@ export const deleteResourcePoolSnapshot: API.OperationMethod<
   span: "DeleteResourcePoolSnapshot",
 }));
 
-export type DeleteShareError = BadRequest | StackitOpError;
+export type DeleteShareError = BadRequest | NotFound | StackitOpError;
 /** Delete Share Deletes a Shares in a Resource Pool in a project. */
 export const deleteShare: API.OperationMethod<
   DeleteShareRequest,
@@ -712,16 +689,16 @@ export const deleteShare: API.OperationMethod<
   DeleteShareError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<DeleteShareRequest>,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteShareRequest>,
   output: __S(296, __c37, 0) as any as S.Schema<DeleteShareResponse2>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteShare",
 }));
 
-export type DeleteShareExportPolicyError = BadRequest | StackitOpError;
+export type DeleteShareExportPolicyError = BadRequest | NotFound | StackitOpError;
 /** Delete Share Export Policy Deletes a ShareExportPolicies in a Resource Pool in a project. */
 export const deleteShareExportPolicy: API.OperationMethod<
   DeleteShareExportPolicyRequest,
@@ -729,9 +706,9 @@ export const deleteShareExportPolicy: API.OperationMethod<
   DeleteShareExportPolicyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<DeleteShareExportPolicyRequest>,
+  input: __S(8, __c1, 0) as any as S.Schema<DeleteShareExportPolicyRequest>,
   output: __S(296, __c37, 0) as any as S.Schema<DeleteShareExportPolicyResponse2>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -772,7 +749,7 @@ export const enableLock: API.OperationMethod<
   span: "EnableLock",
 }));
 
-export type GetLockError = StackitOpError;
+export type GetLockError = NotFound | StackitOpError;
 /** Get lock status for a project. */
 export const getLock: API.OperationMethod<
   GetLockRequest,
@@ -782,14 +759,14 @@ export const getLock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetLockRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<GetLockResponse>,
-  errors: [UnknownStackitError],
+  errors: [NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetLock",
 }));
 
-export type GetResourcePoolError = BadRequest | StackitOpError;
+export type GetResourcePoolError = BadRequest | NotFound | Gone | StackitOpError;
 /** Get Resource Pool Retrieves a Resource Pool in a project. */
 export const getResourcePool: API.OperationMethod<
   GetResourcePoolRequest,
@@ -798,8 +775,8 @@ export const getResourcePool: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<GetResourcePoolRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<GetResourcePoolResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  output: __S(192, __c24, 0) as any as S.Schema<GetResourcePoolResponse>,
+  errors: [BadRequest, NotFound, Gone, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -823,7 +800,7 @@ export const getResourcePoolSnapshot: API.OperationMethod<
   span: "GetResourcePoolSnapshot",
 }));
 
-export type GetShareError = BadRequest | StackitOpError;
+export type GetShareError = BadRequest | NotFound | StackitOpError;
 /** Get Share Retrieves a Shares in a Resource Pool in a project. */
 export const getShare: API.OperationMethod<
   GetShareRequest,
@@ -833,14 +810,14 @@ export const getShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetShareRequest>,
   output: __S(248, __c31, 0) as any as S.Schema<GetShareResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetShare",
 }));
 
-export type GetShareExportPolicyError = BadRequest | StackitOpError;
+export type GetShareExportPolicyError = BadRequest | NotFound | StackitOpError;
 /** Get Share Export Policy Retrieves a ShareExportPolicies in a Resource Pool in a project. */
 export const getShareExportPolicy: API.OperationMethod<
   GetShareExportPolicyRequest,
@@ -850,7 +827,7 @@ export const getShareExportPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<GetShareExportPolicyRequest>,
   output: __S(272, __c34, 0) as any as S.Schema<GetShareExportPolicyResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -908,7 +885,7 @@ export const listResourcePools: API.OperationMethod<
   span: "ListResourcePools",
 }));
 
-export type ListResourcePoolSnapshotsError = BadRequest | StackitOpError;
+export type ListResourcePoolSnapshotsError = BadRequest | NotFound | StackitOpError;
 /** List Resource Pool Snapshots Lists the Snapshots of a Resource Pool in a project. */
 export const listResourcePoolSnapshots: API.OperationMethod<
   ListResourcePoolSnapshotsRequest,
@@ -916,9 +893,9 @@ export const listResourcePoolSnapshots: API.OperationMethod<
   ListResourcePoolSnapshotsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ListResourcePoolSnapshotsRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<ListResourcePoolSnapshotsResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  input: __S(112, __c14, 0) as any as S.Schema<ListResourcePoolSnapshotsRequest>,
+  output: __S(114, __c14, 2) as any as S.Schema<ListResourcePoolSnapshotsResponse>,
+  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -933,8 +910,8 @@ export const listShareExportPolicies: API.OperationMethod<
   ListShareExportPoliciesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<ListShareExportPoliciesRequest>,
-  output: __S(154, __c19, 2) as any as S.Schema<ListShareExportPoliciesResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<ListShareExportPoliciesRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<ListShareExportPoliciesResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -950,8 +927,8 @@ export const listShares: API.OperationMethod<
   ListSharesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<ListSharesRequest>,
-  output: __S(162, __c20, 2) as any as S.Schema<ListSharesResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<ListSharesRequest>,
+  output: __S(130, __c16, 2) as any as S.Schema<ListSharesResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -967,8 +944,8 @@ export const listSnapshotPolicies: API.OperationMethod<
   ListSnapshotPoliciesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ListSnapshotPoliciesRequest>,
-  output: __S(170, __c21, 2) as any as S.Schema<ListSnapshotPoliciesResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<ListSnapshotPoliciesRequest>,
+  output: __S(138, __c17, 2) as any as S.Schema<ListSnapshotPoliciesResponse>,
   errors: [UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -976,7 +953,7 @@ export const listSnapshotPolicies: API.OperationMethod<
   span: "ListSnapshotPolicies",
 }));
 
-export type UpdateResourcePoolError = BadRequest | Conflict | StackitOpError;
+export type UpdateResourcePoolError = BadRequest | Conflict | NotFound | StackitOpError;
 /** Update Resource Pool Updates a Resource Pool in a project. */
 export const updateResourcePool: API.OperationMethod<
   UpdateResourcePoolRequest,
@@ -984,9 +961,9 @@ export const updateResourcePool: API.OperationMethod<
   UpdateResourcePoolError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<UpdateResourcePoolRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<UpdateResourcePoolResponse>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  input: __S(144, __c18, 0) as any as S.Schema<UpdateResourcePoolRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<UpdateResourcePoolResponse>,
+  errors: [BadRequest, Conflict, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1001,7 +978,7 @@ export const updateResourcePoolSnapshot: API.OperationMethod<
   UpdateResourcePoolSnapshotError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<UpdateResourcePoolSnapshotRequest>,
+  input: __S(152, __c19, 0) as any as S.Schema<UpdateResourcePoolSnapshotRequest>,
   output: __S(224, __c28, 0) as any as S.Schema<UpdateResourcePoolSnapshotResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
@@ -1010,7 +987,7 @@ export const updateResourcePoolSnapshot: API.OperationMethod<
   span: "UpdateResourcePoolSnapshot",
 }));
 
-export type UpdateShareError = BadRequest | StackitOpError;
+export type UpdateShareError = BadRequest | NotFound | StackitOpError;
 /** Update Share Updates a Shares in a Resource Pool in a project. */
 export const updateShare: API.OperationMethod<
   UpdateShareRequest,
@@ -1018,9 +995,9 @@ export const updateShare: API.OperationMethod<
   UpdateShareError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<UpdateShareRequest>,
+  input: __S(160, __c20, 0) as any as S.Schema<UpdateShareRequest>,
   output: __S(248, __c31, 0) as any as S.Schema<UpdateShareResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1035,7 +1012,7 @@ export const updateShareExportPolicy: API.OperationMethod<
   UpdateShareExportPolicyError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<UpdateShareExportPolicyRequest>,
+  input: __S(168, __c21, 0) as any as S.Schema<UpdateShareExportPolicyRequest>,
   output: __S(272, __c34, 0) as any as S.Schema<UpdateShareExportPolicyResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
@@ -1050,21 +1027,19 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          field: S.String,
-          reason: S.String,
-        }),
-      ).annotate({ identifier: "ValidationErrorField" });
-    case 1:
-      return S.Array(__S(0, __c0, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          error_description: S.optional(S.Unknown),
-          title: S.String,
-          type: S.String,
-          fields: __S(1, __c0, 1),
-        }),
-      ).annotate({ identifier: "ValidationError" });
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          resourcePoolId: S.String.pipe(T.Label()),
+          shareId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/shares/{shareId}",
+            code: 200,
+            baseUrl: "https://sfs.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteShareRequest" });
   }
 }
 function __c1(j: number): any {
@@ -1072,12 +1047,18 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          detail: S.String,
-          error_description: S.String,
-          status_code: S.Number,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "ConflictError" });
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          policyId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v1/projects/{projectId}/regions/{region}/shareExportPolicies/{policyId}",
+            code: 200,
+            baseUrl: "https://sfs.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteShareExportPolicyRequest" });
   }
 }
 function __c2(j: number): any {
@@ -1336,7 +1317,7 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListResourcePoolsRequest" });
     case 1:
-      return S.Array(__S(123, __c15, 3));
+      return S.Array(__S(187, __c23, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1352,9 +1333,206 @@ function __c14(j: number): any {
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
+          resourcePoolId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/snapshots",
+            code: 200,
+            baseUrl: "https://sfs.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "ListResourcePoolSnapshotsRequest" });
+    case 1:
+      return S.Array(__S(216, __c27, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          resourcePoolSnapshots: S.optional(__S(113, __c14, 1)),
+        }),
+      ).annotate({ identifier: "ListResourcePoolSnapshotsResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/projects/{projectId}/regions/{region}/shareExportPolicies",
+            code: 200,
+            baseUrl: "https://sfs.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "ListShareExportPoliciesRequest" });
+    case 1:
+      return S.Array(__S(258, __c32, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          shareExportPolicies: S.optional(__S(121, __c15, 1)),
+        }),
+      ).annotate({ identifier: "ListShareExportPoliciesResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          resourcePoolId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/shares",
+            code: 200,
+            baseUrl: "https://sfs.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "ListSharesRequest" });
+    case 1:
+      return S.Array(__S(240, __c30, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          shares: S.optional(__S(129, __c16, 1)),
+        }),
+      ).annotate({ identifier: "ListSharesResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          immutable: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/projects/{projectId}/snapshotPolicies",
+            code: 200,
+            baseUrl: "https://sfs.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "ListSnapshotPoliciesRequest" });
+    case 1:
+      return S.Array(__S(92, __c11, 4));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          snapshotPolicies: S.optional(__S(137, __c17, 1)),
+        }),
+      ).annotate({ identifier: "ListSnapshotPoliciesResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          resourcePoolId: S.String.pipe(T.Label()),
+          ipAcl: S.optional(__S(200, __c25, 0)),
+          labels: S.optional(__S(201, __c25, 1)),
+          performanceClass: S.optional(S.String),
+          sizeGigabytes: S.optional(S.NullOr(S.Number)),
+          snapshotPolicyId: S.optional(S.NullOr(S.String)),
+          snapshotsAreVisible: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}",
+            code: 200,
+            baseUrl: "https://sfs.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateResourcePoolRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          resourcePoolId: S.String.pipe(T.Label()),
+          snapshotName: S.String.pipe(T.Label()),
+          comment: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/snapshots/{snapshotName}",
+            code: 200,
+            baseUrl: "https://sfs.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateResourcePoolSnapshotRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          resourcePoolId: S.String.pipe(T.Label()),
+          shareId: S.String.pipe(T.Label()),
+          exportPolicyName: S.optional(S.NullOr(S.String)),
+          labels: S.optional(__S(201, __c25, 1)),
+          spaceHardLimitGigabytes: S.optional(S.NullOr(S.Number)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/shares/{shareId}",
+            code: 200,
+            baseUrl: "https://sfs.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateShareRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          policyId: S.String.pipe(T.Label()),
+          labels: S.optional(__S(201, __c25, 1)),
+          rules: S.optional(S.NullOr(__S(281, __c35, 1))),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v1/projects/{projectId}/regions/{region}/shareExportPolicies/{policyId}",
+            code: 200,
+            baseUrl: "https://sfs.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateShareExportPolicyRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
           availabilityZone: S.String,
-          ipAcl: __S(136, __c17, 0),
-          labels: S.optional(__S(137, __c17, 1)),
+          ipAcl: __S(200, __c25, 0),
+          labels: S.optional(__S(201, __c25, 1)),
           name: S.String,
           performanceClass: S.String,
           sizeGigabytes: S.Number,
@@ -1371,7 +1549,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateResourcePoolRequest" });
   }
 }
-function __c15(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1404,190 +1582,19 @@ function __c15(j: number): any {
           countShares: S.optional(S.Number),
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
-          ipAcl: S.optional(__S(136, __c17, 0)),
-          labels: S.optional(__S(137, __c17, 1)),
+          ipAcl: S.optional(__S(200, __c25, 0)),
+          labels: S.optional(__S(201, __c25, 1)),
           mountPath: S.optional(S.String),
           name: S.optional(S.String),
-          performanceClass: S.optional(__S(120, __c15, 0)),
+          performanceClass: S.optional(__S(184, __c23, 0)),
           performanceClassDowngradableAt: S.optional(S.String),
           sizeReducibleAt: S.optional(S.String),
-          snapshotPolicy: S.optional(S.NullOr(__S(121, __c15, 1))),
+          snapshotPolicy: S.optional(S.NullOr(__S(185, __c23, 1))),
           snapshotsAreVisible: S.optional(S.Boolean),
-          space: S.optional(__S(122, __c15, 2)),
+          space: S.optional(__S(186, __c23, 2)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourcePool" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resourcePool: S.optional(__S(123, __c15, 3)),
-        }),
-      ).annotate({ identifier: "CreateResourcePoolResponse" });
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-    case 1:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resourcePoolId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/snapshots",
-            code: 200,
-            baseUrl: "https://sfs.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "ListResourcePoolSnapshotsRequest" });
-    case 1:
-      return S.Array(__S(216, __c27, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          resourcePoolSnapshots: S.optional(__S(145, __c18, 1)),
-        }),
-      ).annotate({ identifier: "ListResourcePoolSnapshotsResponse" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/regions/{region}/shareExportPolicies",
-            code: 200,
-            baseUrl: "https://sfs.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "ListShareExportPoliciesRequest" });
-    case 1:
-      return S.Array(__S(258, __c32, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          shareExportPolicies: S.optional(__S(153, __c19, 1)),
-        }),
-      ).annotate({ identifier: "ListShareExportPoliciesResponse" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resourcePoolId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/shares",
-            code: 200,
-            baseUrl: "https://sfs.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "ListSharesRequest" });
-    case 1:
-      return S.Array(__S(240, __c30, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          shares: S.optional(__S(161, __c20, 1)),
-        }),
-      ).annotate({ identifier: "ListSharesResponse" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          immutable: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/snapshotPolicies",
-            code: 200,
-            baseUrl: "https://sfs.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "ListSnapshotPoliciesRequest" });
-    case 1:
-      return S.Array(__S(92, __c11, 4));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          snapshotPolicies: S.optional(__S(169, __c21, 1)),
-        }),
-      ).annotate({ identifier: "ListSnapshotPoliciesResponse" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resourcePoolId: S.String.pipe(T.Label()),
-          ipAcl: S.optional(__S(136, __c17, 0)),
-          labels: S.optional(__S(137, __c17, 1)),
-          performanceClass: S.optional(S.String),
-          sizeGigabytes: S.optional(S.NullOr(S.Number)),
-          snapshotPolicyId: S.optional(S.NullOr(S.String)),
-          snapshotsAreVisible: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}",
-            code: 200,
-            baseUrl: "https://sfs.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateResourcePoolRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resourcePoolId: S.String.pipe(T.Label()),
-          snapshotName: S.String.pipe(T.Label()),
-          comment: S.optional(S.NullOr(S.String)),
-          name: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/snapshots/{snapshotName}",
-            code: 200,
-            baseUrl: "https://sfs.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateResourcePoolSnapshotRequest" });
   }
 }
 function __c24(j: number): any {
@@ -1595,43 +1602,17 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resourcePoolId: S.String.pipe(T.Label()),
-          shareId: S.String.pipe(T.Label()),
-          exportPolicyName: S.optional(S.NullOr(S.String)),
-          labels: S.optional(__S(137, __c17, 1)),
-          spaceHardLimitGigabytes: S.optional(S.NullOr(S.Number)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/shares/{shareId}",
-            code: 200,
-            baseUrl: "https://sfs.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateShareRequest" });
+          resourcePool: S.optional(__S(187, __c23, 3)),
+        }),
+      ).annotate({ identifier: "CreateResourcePoolResponse" });
   }
 }
 function __c25(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          policyId: S.String.pipe(T.Label()),
-          labels: S.optional(__S(137, __c17, 1)),
-          rules: S.optional(S.NullOr(__S(281, __c35, 1))),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/v1/projects/{projectId}/regions/{region}/shareExportPolicies/{policyId}",
-            code: 200,
-            baseUrl: "https://sfs.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateShareExportPolicyRequest" });
+      return S.Array(S.String);
+    case 1:
+      return S.Record(S.String, S.String);
   }
 }
 function __c26(j: number): any {
@@ -1691,7 +1672,7 @@ function __c29(j: number): any {
           region: S.String.pipe(T.Label()),
           resourcePoolId: S.String.pipe(T.Label()),
           exportPolicyName: S.optional(S.NullOr(S.String)),
-          labels: S.optional(__S(137, __c17, 1)),
+          labels: S.optional(__S(201, __c25, 1)),
           name: S.String,
           spaceHardLimitGigabytes: S.Number,
         }).pipe(
@@ -1713,7 +1694,7 @@ function __c30(j: number): any {
           createdAt: S.optional(S.String),
           exportPolicy: S.optional(S.NullOr(__S(258, __c32, 2))),
           id: S.optional(S.String),
-          labels: S.optional(__S(137, __c17, 1)),
+          labels: S.optional(__S(201, __c25, 1)),
           mountPath: S.optional(S.String),
           name: S.optional(S.String),
           spaceHardLimitGigabytes: S.optional(S.Number),
@@ -1740,7 +1721,7 @@ function __c32(j: number): any {
           createdAt: S.optional(S.String),
           description: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
-          ipAcl: S.optional(__S(136, __c17, 0)),
+          ipAcl: S.optional(__S(200, __c25, 0)),
           order: S.optional(S.Number),
           readOnly: S.optional(S.Boolean),
           setUuid: S.optional(S.Boolean),
@@ -1754,7 +1735,7 @@ function __c32(j: number): any {
         S.Struct({
           createdAt: S.optional(S.String),
           id: S.optional(S.String),
-          labels: S.optional(__S(137, __c17, 1)),
+          labels: S.optional(__S(201, __c25, 1)),
           name: S.optional(S.String),
           rules: S.optional(__S(257, __c32, 1)),
           sharesUsingExportPolicy: S.optional(S.Number),
@@ -1769,7 +1750,7 @@ function __c33(j: number): any {
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
-          labels: S.optional(__S(137, __c17, 1)),
+          labels: S.optional(__S(201, __c25, 1)),
           name: S.String,
           rules: S.optional(__S(281, __c35, 1)),
         }).pipe(
@@ -1799,7 +1780,7 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
-          ipAcl: S.optional(__S(136, __c17, 0)),
+          ipAcl: S.optional(__S(200, __c25, 0)),
           order: S.optional(S.Number),
           readOnly: S.optional(S.Boolean),
           setUuid: S.optional(S.Boolean),
@@ -1855,45 +1836,6 @@ function __c38(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteResourcePoolSnapshotRequest" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          resourcePoolId: S.String.pipe(T.Label()),
-          shareId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v1/projects/{projectId}/regions/{region}/resourcePools/{resourcePoolId}/shares/{shareId}",
-            code: 200,
-            baseUrl: "https://sfs.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteShareRequest" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          policyId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v1/projects/{projectId}/regions/{region}/shareExportPolicies/{policyId}",
-            code: 200,
-            baseUrl: "https://sfs.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteShareExportPolicyRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

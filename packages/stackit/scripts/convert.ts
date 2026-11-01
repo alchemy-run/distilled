@@ -223,6 +223,17 @@ await runOpenApiConvert({
         serviceName: "RabbitmqManagement",
       },
     },
+    // Dremio's login, SQL and job routes, the data plane of `dremio`: written by hand from
+    // its published reference (see the file's `info`). No host is stamped: each instance's
+    // URL is part of `DremioCredentials`.
+    {
+      name: "dremio_rest",
+      specPath: path.join(root, "manual-specs", "dremio_rest.json"),
+      options: {
+        namespace: "com.stackit.dremio_rest",
+        serviceName: "DremioRest",
+      },
+    },
     // OpenSearch's REST API, the data plane of `opensearch` and `logme`: trimmed by hand
     // from its published OpenAPI document (see the file's `info`). No host is stamped:
     // each credential's URL is part of `OpenSearchCredentials`.
@@ -232,6 +243,66 @@ await runOpenApiConvert({
       options: {
         namespace: "com.stackit.opensearch_data",
         serviceName: "OpensearchData",
+      },
+    },
+    // Grafana Loki's push and query API, the data plane of `logs`: written by hand from
+    // its published reference (see the file's `info`). No host is stamped: each
+    // instance's URL is part of `LokiCredentials`.
+    {
+      name: "logs_loki",
+      specPath: path.join(root, "manual-specs", "logs_loki.json"),
+      options: {
+        namespace: "com.stackit.logs_loki",
+        serviceName: "LogsLoki",
+      },
+    },
+    // Apache Airflow's REST API, the data plane of `workflows`: Airflow's published OpenAPI
+    // document, trimmed by a script (see the file's `info`). No host is stamped: each
+    // instance's URL is part of `WorkflowsAirflowCredentials`.
+    {
+      name: "workflows_airflow",
+      specPath: path.join(root, "manual-specs", "workflows_airflow.json"),
+      options: {
+        namespace: "com.stackit.workflows_airflow",
+        serviceName: "WorkflowsAirflow",
+        // Airflow's own names. The verbNoun rewrite would call them `updateDag` and so on.
+        operationNames: {
+          PatchDag: "patchDag",
+          PatchVariable: "patchVariable",
+          PatchConnection: "patchConnection",
+        },
+      },
+    },
+    // Alertmanager's API v2, part of the data plane of `observability`: its published
+    // OpenAPI document, trimmed (see the file's `info`). No host is stamped: each instance's
+    // URL is part of `ObservabilityDataCredentials`.
+    {
+      name: "observability_alertmanager",
+      specPath: path.join(root, "manual-specs", "observability_alertmanager.json"),
+      options: {
+        namespace: "com.stackit.observability_alertmanager",
+        serviceName: "ObservabilityAlertmanager",
+      },
+    },
+    // Prometheus's query API, part of the data plane of `observability`: its published
+    // OpenAPI document, trimmed (see the file's `info`). No host is stamped, like Alertmanager.
+    {
+      name: "observability_prometheus",
+      specPath: path.join(root, "manual-specs", "observability_prometheus.json"),
+      options: {
+        namespace: "com.stackit.observability_prometheus",
+        serviceName: "ObservabilityPrometheus",
+      },
+    },
+    // Pub/Sub's data plane: the OpenAPI document in `stackitcloud/pubsub-sdk-go`, with the
+    // topic and region made host labels (see the file's `info`). Its host is stamped below.
+    {
+      name: "pubsub_data",
+      specPath: path.join(root, "manual-specs", "pubsub_data.json"),
+      options: {
+        namespace: "com.stackit.pubsub_data",
+        serviceName: "PubsubData",
+        headerParams: true,
       },
     },
   ],
@@ -298,6 +369,25 @@ for (const entry of manifest) {
   }
   stampedPages += paginated;
   writeModel(modelPath, model);
+}
+
+// A manual spec with a real host: `T.Http({ baseUrl })` keeps its `{topicId}` and
+// `{regionId}` labels, and the protocol fills them from the request.
+{
+  const modelPath = path.join(outDir, "pubsub_data.json");
+  if (modelExists(modelPath)) {
+    const spec = JSON.parse(
+      fs.readFileSync(path.join(root, "manual-specs", "pubsub_data.json"), "utf8"),
+    );
+    const model = readModel(modelPath);
+    for (const shape of Object.values<any>(model.shapes ?? {})) {
+      const http = shape?.type === "operation" ? shape.traits?.["smithy.api#http"] : undefined;
+      if (!http || typeof http !== "object") continue;
+      http.baseUrl = specServerUrl(spec);
+      stampedUrls++;
+    }
+    writeModel(modelPath, model);
+  }
 }
 
 console.log(`🔗 stamped ${stampedUrls} operation baseUrl(s), ${stampedPages} paginated`);

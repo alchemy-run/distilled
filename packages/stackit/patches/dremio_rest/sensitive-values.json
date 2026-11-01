@@ -1,0 +1,15 @@
+{
+  "description": "The login's password and token, which the hand-written spec types as plain strings: the token acts as the user until it expires. Keeps both Redacted through distilled. Nothing on the wire changes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.dremio_rest#LoginRequest/members/password/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.dremio_rest#LoginResponse/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

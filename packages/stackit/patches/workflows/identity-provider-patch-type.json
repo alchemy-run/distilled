@@ -1,0 +1,15 @@
+{
+  "description": "`UpdateIdentityProviderPayload` is a `oneOf` discriminated by `type`, mapping `oauth2` to `OAuth2IdentityProviderPatch`, but that schema has no `type` member, so the generated type can't express the discriminator the spec's own mapping requires. Adds it, with the same enum `OAuth2IdentityProvider.type` has. Evidence: the spec's `discriminator.mapping` on `UpdateIdentityProviderPayload`. The request body stays opaque at runtime: nothing else changes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows#OAuth2IdentityProviderPatch/members/type",
+      "value": {
+        "target": "com.stackit.workflows#OAuth2IdentityProviderType",
+        "traits": {
+          "smithy.api#required": {}
+        }
+      }
+    }
+  ]
+}

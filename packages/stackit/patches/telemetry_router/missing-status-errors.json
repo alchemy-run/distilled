@@ -1,0 +1,12 @@
+{
+  "description": "The telemetry_router spec lists 200/400/401/409/500 on GET /telemetry-routers/{telemetryRouterId}, without 404, although every sibling operation on the same path (PUT, PATCH, DELETE) documents it. STACKIT's own Go SDK waits for a deleted router by that 404 (stackitcloud/stackit-sdk-go, services/telemetryrouter/v1api/wait/wait.go, DeleteTelemetryRouterWaitHandler, read 2026-11-01), so the wire answers it. Without the tag a gone router surfaces as UnknownStackitError and can't be told from a failed read. No live probe: no credentials exist for this account.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.telemetry_router#GetTelemetryRouter/errors/-",
+      "value": {
+        "target": "com.stackit.telemetry_router#NotFound"
+      }
+    }
+  ]
+}

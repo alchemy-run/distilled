@@ -1,0 +1,10 @@
+{
+  "description": "The telemetry_router spec leaves `bearerToken` on an OpenTelemetry destination a plain string, while the sibling `basicAuth.password` and S3 `accessKey.secret` are already marked sensitive by name. The spec's own description says the field is 'a bearer token to authenticate at the OpenTelemetry URI'. Nothing on the wire changes. No live probe: no credentials exist for this account.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.telemetry_router#DestinationConfigOpenTelemetry/members/bearerToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

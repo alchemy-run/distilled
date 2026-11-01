@@ -1,0 +1,15 @@
+{
+  "description": "The intake spec leaves `personalAccessToken` on the Dremio catalog auth a plain string, on both the create shape and the update shape. The spec's own description says it is 'a Dremio personal access token for authentication'. Nothing on the wire changes. No live probe: no credentials exist for this account.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.intake#DremioAuth/members/personalAccessToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.intake#DremioAuthPatch/members/personalAccessToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

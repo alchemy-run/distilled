@@ -1,0 +1,69 @@
+{
+  "description": "The observability spec leaves these secrets as plain strings. STACKIT's Terraform provider marks the alert config's `opsgenie_api_key` and webhook `url` Sensitive (stackit/internal/services/observability/instance/resource.go, read 2026-11-01): a webhook URL usually carries its own token. `oauthClientSecret` is, by its name and its spec description, the OAuth client secret of Grafana's login. `bearerToken` is the token a scrape job sends in its Authorization header. Convert already marks `password`, `apiKey`, `clientSecret`, `authPassword` and `smtpAuthPassword`. Nothing on the wire changes. No live probe: no credentials exist for this account.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#Global/members/opsgenieApiKey/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#UpdateAlertConfigsRequestGlobal/members/opsgenieApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#WebHook/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#UpdateAlertConfigsRequestReceiversItemWebHookConfigsItem/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#CreateAlertConfigReceiverRequestWebHookConfigsItem/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#UpdateAlertConfigReceiverRequestWebHookConfigsItem/members/url/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#GrafanaOauth/members/oauthClientSecret/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#UpdateGrafanaConfigsRequestGenericOauth/members/oauthClientSecret/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#Job/members/bearerToken/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#CreateScrapeConfigRequest/members/bearerToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#PartialUpdateScrapeConfigsRequestBodyItem/members/bearerToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.observability#UpdateScrapeConfigRequest/members/bearerToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

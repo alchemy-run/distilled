@@ -1,0 +1,133 @@
+{
+  "description": "The published server is `https://{topicId}.pubsub.eu01.onstackit.cloud`: a topic is its own host, and no operation can name it. The official Go client builds that host from the topic id and region itself (`pkg/pubsub/publisher.go`, `subscriber.go`, read 2026-11-01). Add the topic and region to each input as labels, under the management API's names. `src/protocol.ts` fills them into the host; the routes don't mention them, so they stay out of the path and the body.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub_data#PublishMessagesRequest/members/topicId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpLabel": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The topic UUID. Part of the host, not the path."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub_data#PublishMessagesRequest/members/regionId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpLabel": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The STACKIT region name. Part of the host, not the path."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub_data#PullMessagesRequest/members/topicId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpLabel": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The topic UUID. Part of the host, not the path."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub_data#PullMessagesRequest/members/regionId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpLabel": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The STACKIT region name. Part of the host, not the path."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub_data#AckMessagesRequest/members/topicId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpLabel": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The topic UUID. Part of the host, not the path."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub_data#AckMessagesRequest/members/regionId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpLabel": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The STACKIT region name. Part of the host, not the path."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub_data#NackMessagesRequest/members/topicId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpLabel": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The topic UUID. Part of the host, not the path."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub_data#NackMessagesRequest/members/regionId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpLabel": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The STACKIT region name. Part of the host, not the path."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub_data#PurgeTopicRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "topicId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The topic UUID. Part of the host, not the path."
+            }
+          },
+          "regionId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The STACKIT region name. Part of the host, not the path."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub_data#PurgeTopic/input",
+      "value": {
+        "target": "com.stackit.pubsub_data#PurgeTopicRequest"
+      }
+    }
+  ]
+}

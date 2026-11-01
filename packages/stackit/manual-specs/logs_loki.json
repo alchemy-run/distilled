@@ -1,0 +1,440 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Grafana Loki HTTP API (push and query)",
+    "version": "3.5.0",
+    "description": "Written by hand from Grafana's Loki HTTP API reference (https://grafana.com/docs/loki/latest/reference/loki-http-api/, read 2026-11-01), trimmed to the routes STACKIT Logs names on an instance: `ingestUrl`, `ingestOtlpUrl`, `queryUrl` and `queryRangeUrl`. Loki publishes no OpenAPI document and STACKIT publishes none for this API; STACKIT's docs say a Logs instance runs unmodified Grafana Loki and sends the instance's access token as `Authorization: Bearer`. Bodies and status codes were checked by running each request against the grafana/loki:3.5.0 image, read 2026-11-01: a push and an OTLP push answer 204 with no body; `query_range` answers `resultType` `streams` or `matrix`; `query` answers `vector` and refuses a log query with a 400; `values` rows are `[string nanoseconds, line]` for streams and `[number seconds, string]` for a matrix; a numeric timestamp in a push is a 400; errors are `text/plain`, which the 4XX schemas below don't describe and the protocol surfaces as the error's message. The 401 and 403 are STACKIT's gateway, not Loki, which has no auth of its own, so their bodies are unknown. STACKIT's own instances have not been probed: no credentials exist. OTLP's `resourceLogs` stays an open list: opentelemetry-proto's JSON mapping defines it, and callers write it as JSON."
+  },
+  "servers": [
+    {
+      "url": "https://logs.example.invalid"
+    }
+  ],
+  "paths": {
+    "/loki/api/v1/push": {
+      "post": {
+        "operationId": "Push",
+        "summary": "Sends log lines to the instance. Needs a token with the `write` permission.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PushBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "The lines were accepted."
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/otlp/v1/logs": {
+      "post": {
+        "operationId": "PushOtlp",
+        "summary": "Sends log records in OTLP/HTTP's JSON encoding. Needs a token with the `write` permission.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtlpBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "The records were accepted."
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/loki/api/v1/query": {
+      "get": {
+        "operationId": "Query",
+        "summary": "Runs a metric LogQL query at one point in time. Refuses a log query with `BadRequest`: use `queryRange` for log lines. Needs a token with the `read` permission.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "The LogQL query.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of log lines to return. Applies only to log queries. Defaults to 100.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "time",
+            "in": "query",
+            "description": "Evaluation time, as a nanosecond Unix epoch or an RFC 3339 timestamp. Defaults to now.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "description": "Order of log lines: `backward` is most recent first. Applies only to log queries. Defaults to `backward`.",
+            "schema": {
+              "type": "string",
+              "enum": ["forward", "backward"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/loki/api/v1/query_range": {
+      "get": {
+        "operationId": "QueryRange",
+        "summary": "Runs a LogQL query over a time range: log lines for a log query, a matrix for a metric query. Needs a token with the `read` permission.",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "The LogQL query.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of log lines to return. Applies only to log queries. Defaults to 100.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Start of the range, inclusive, as a nanosecond Unix epoch or an RFC 3339 timestamp. Defaults to one hour ago.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "End of the range, exclusive, as a nanosecond Unix epoch or an RFC 3339 timestamp. Defaults to now.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "description": "A duration, such as `5m`, to compute `start` from `end`. An explicit `start` wins.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "step",
+            "in": "query",
+            "description": "Resolution of a metric query, as a duration or a number of seconds.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "description": "Only for log queries: return entries at least this far apart, as a duration or a number of seconds.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "description": "Order of log lines: `backward` is most recent first. Applies only to log queries. Defaults to `backward`.",
+            "schema": {
+              "type": "string",
+              "enum": ["forward", "backward"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryRangeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "BadRequest": {
+        "description": "A malformed push or query, or a line outside the accepted time range.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "A missing or invalid access token.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "The access token lacks the permission.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "PushStream": {
+        "type": "object",
+        "properties": {
+          "stream": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "The stream's labels."
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {},
+              "description": "`[\"<nanosecond Unix epoch, as a string>\", \"<log line>\"]`, optionally followed by an object of structured metadata with string values. A numeric timestamp is refused."
+            },
+            "description": "The log lines."
+          }
+        },
+        "required": ["stream", "values"]
+      },
+      "PushBody": {
+        "type": "object",
+        "properties": {
+          "streams": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PushStream"
+            }
+          }
+        },
+        "required": ["streams"]
+      },
+      "OtlpBody": {
+        "type": "object",
+        "properties": {
+          "resourceLogs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true,
+              "description": "A `ResourceLogs` message in OTLP's JSON encoding."
+            }
+          }
+        },
+        "required": ["resourceLogs"]
+      },
+      "InstantResult": {
+        "type": "object",
+        "description": "One series of a `vector` result.",
+        "properties": {
+          "metric": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "The series' labels."
+          },
+          "value": {
+            "type": "array",
+            "items": {},
+            "description": "`[<number: seconds since the epoch>, <string: value>]`."
+          }
+        },
+        "required": ["metric", "value"]
+      },
+      "QueryData": {
+        "type": "object",
+        "properties": {
+          "resultType": {
+            "type": "string",
+            "enum": ["vector", "scalar", "streams", "matrix"]
+          },
+          "result": {
+            "type": "array",
+            "items": {},
+            "description": "For `vector`, a list of `{ metric, value }`. For `scalar`, `[<number: seconds since the epoch>, <string: value>]`. Check `resultType` before reading it."
+          },
+          "stats": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Query statistics, as Loki reports them."
+          }
+        },
+        "required": ["resultType", "result"]
+      },
+      "QueryResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/QueryData"
+          }
+        },
+        "required": ["status", "data"]
+      },
+      "RangeResult": {
+        "type": "object",
+        "description": "One stream of a `streams` result, or one series of a `matrix` result.",
+        "properties": {
+          "stream": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "The stream's labels, for `streams`."
+          },
+          "metric": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "The series' labels, for `matrix`."
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {}
+            },
+            "description": "For `streams`, `[<string: nanosecond Unix epoch>, <string: log line>]`. For `matrix`, `[<number: seconds since the epoch>, <string: value>]`."
+          }
+        },
+        "required": ["values"]
+      },
+      "QueryRangeData": {
+        "type": "object",
+        "properties": {
+          "resultType": {
+            "type": "string",
+            "enum": ["streams", "matrix"]
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RangeResult"
+            }
+          },
+          "stats": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Query statistics, as Loki reports them."
+          }
+        },
+        "required": ["resultType", "result"]
+      },
+      "QueryRangeResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/QueryRangeData"
+          }
+        },
+        "required": ["status", "data"]
+      }
+    }
+  }
+}
