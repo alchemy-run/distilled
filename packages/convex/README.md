@@ -17,12 +17,12 @@ import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Convex from "@distilled.cloud/convex";
 
 const program = Effect.gen(function* () {
-  const { projectId, deploymentUrl } = yield* Convex.convex.createProject({
+  const { id, deploymentUrl } = yield* Convex.convex.createProject({
     team_id: 12345,
     projectName: "my-app",
     deploymentType: "prod",
   });
-  return { projectId, deploymentUrl };
+  return { id, deploymentUrl };
 });
 
 const Live = Layer.mergeAll(
@@ -65,6 +65,7 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Convex.ConvexDeploymentProtocol,
+  Convex.ConvexFunctionsProtocol,
   Convex.fromDeployment({
     url: "https://happy-otter-123.convex.cloud",
     token: Redacted.make(process.env.CONVEX_ACCESS_TOKEN!),

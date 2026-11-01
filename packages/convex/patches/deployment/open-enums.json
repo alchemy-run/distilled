@@ -1,5 +1,5 @@
 {
-  "description": "Convex adds deployment types and usage metrics without a new API version, so these are open strings.",
+  "description": "The spec closes these as enums, but Convex extends them in place: `UsageLimitMetric` gained `aiGatewayCostDollars` in convex/convex-backend@155deb4b74 (2026-09-09), and `info.version` stayed 1.0.0. Deployment types have not changed in the spec yet and are opened as a precaution, matching the Management API patch.",
   "patches": [
     {
       "op": "replace",

@@ -7,9 +7,26 @@
  *
  * @example
  * ```ts
+ * import { Effect, Layer } from "effect";
+ * import * as FetchHttpClient from "effect/http/FetchHttpClient";
  * import * as Convex from "@distilled.cloud/convex";
  *
- * const details = Convex.convex.getTokenDetails({});
+ * const program = Effect.gen(function* () {
+ *   const { id, deploymentUrl } = yield* Convex.convex.createProject({
+ *     team_id: 12345,
+ *     projectName: "my-app",
+ *     deploymentType: "prod",
+ *   });
+ *   return { id, deploymentUrl };
+ * });
+ *
+ * const Live = Layer.mergeAll(
+ *   FetchHttpClient.layer,
+ *   Convex.CredentialsFromEnv,
+ *   Convex.ConvexProtocol,
+ * );
+ *
+ * program.pipe(Effect.provide(Live), Effect.runPromise);
  * ```
  */
 export * from "./credentials.ts";

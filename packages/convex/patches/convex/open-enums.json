@@ -1,5 +1,5 @@
 {
-  "description": "Convex adds deployment types, classes and regions without a new API version, so these are open strings. A closed union would tell callers the list is complete.",
+  "description": "The spec closes these as enums, but Convex extends them in place: `RegionName` gained `aws-ca-central-1` and `aws-ap-southeast-2` in convex/convex-backend@785e6f4d46 (2026-09-24), and `info.version` stayed 1.0.0. Deployment types and classes have not changed in the spec yet and are opened as a precaution, since they are the same kind of list. A closed union would tell callers the list is complete.",
   "patches": [
     {
       "op": "replace",
