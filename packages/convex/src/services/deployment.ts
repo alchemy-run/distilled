@@ -240,7 +240,7 @@ export interface CreateLogStreamArgsCase5 {
 export type InclusionDefault = "excluded" | "included";
 export interface Selection {
   /** Whether components not explicitly listed are exported */
-  _other: InclusionDefault | (string & {});
+  other: InclusionDefault | (string & {});
   [key: string]: unknown;
 }
 export type CreateLogStreamArgsCase6LogStreamType = "s3Export";
@@ -360,7 +360,7 @@ export interface DeleteUsageLimitRequest {
 export interface DeleteUsageLimitResponse {}
 export interface GetActiveSyncRequest {
   /** `syncId` of the sync, as returned by /data/sync */
-  sync_id: string;
+  syncId: string;
 }
 /** The literal string `snapshotting`, discriminating "snapshotting" status objects. */
 export type ActiveDataSyncSnapshottingType = "snapshotting";
@@ -435,8 +435,8 @@ export interface GetCurrentUsageRequest {}
 export type MetricUnit = "calls" | "GB" | "Query-GB" | "GB-hours" | "dollars";
 /** Usage in each calendar-aligned window currently in progress. */
 export interface WindowUsageResponse {
-  current_day: number;
-  current_month: number;
+  currentDay: number;
+  currentMonth: number;
 }
 /** Current-window usage for a single metric. */
 export interface MetricUsageResponse {
@@ -662,17 +662,17 @@ export type AuditLogActorCase1Kind = "member";
 /** A member acting via the dashboard. */
 export interface AuditLogActorCase1 {
   /** Member ID */
-  member_id: number;
+  memberId: number;
   kind: AuditLogActorCase1Kind;
 }
 export type AuditLogActorCase2Kind = "token";
 /** A deploy key or access token. */
 export interface AuditLogActorCase2 {
-  member_id?: number | null;
+  memberId?: number | null;
   /** Token ID. `0` for legacy audit log rows created before token IDs were recorded. */
-  token_id: number;
+  tokenId: number;
   /** Client ID of the OAuth application, if the token belongs to one. */
-  client_id?: string | null;
+  clientId?: string | null;
   kind: AuditLogActorCase2Kind;
 }
 /** The identity that performed an audit log action. */
@@ -1725,7 +1725,7 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sync_id: S.String.pipe(T.Label()),
+          syncId: S.String.pipe(T.Label("sync_id")),
         }).pipe(T.Http({ method: "GET", uri: "/data/sync/{sync_id}", code: 200 })),
       ).annotate({ identifier: "GetActiveSyncRequest" });
   }
@@ -1766,8 +1766,8 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          current_day: S.Number,
-          current_month: S.Number,
+          currentDay: S.Number.pipe(T.Body("current_day")),
+          currentMonth: S.Number.pipe(T.Body("current_month")),
         }),
       ).annotate({ identifier: "WindowUsageResponse" });
     case 2:
@@ -1872,7 +1872,9 @@ function __c20(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          actor: S.Unknown,
+          actor: S.Unknown.pipe(
+            T.KeyDictionary({ memberId: "member_id", tokenId: "token_id", clientId: "client_id" }),
+          ),
           action: S.String,
           createTime: S.Number,
           metadata: S.Unknown,
@@ -2000,7 +2002,7 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            _other: S.String,
+            other: S.String.pipe(T.Body("_other")),
           }),
           [S.Record(S.String, S.Unknown)],
         ),

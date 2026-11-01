@@ -119,14 +119,14 @@ export class VanityDomainsDisabled
 
 export interface CancelTeamMemberInviteRequest {
   /** Team ID */
-  team_id: string;
+  teamId: string;
   email: string;
 }
 export interface CancelTeamMemberInviteResponse {}
 export type RequestDestination = "convexCloud" | "convexSite";
 export interface CreateCustomDomainRequest {
   /** Deployment name */
-  deployment_name: string;
+  deploymentName: string;
   /** The destination for this custom domain (convexCloud or convexSite). */
   requestDestination: RequestDestination | (string & {});
   /** The custom domain name to delete. */
@@ -256,7 +256,7 @@ export interface RoleStatement {
 export type CreateCustomRoleRequestStatementsList = Array<RoleStatement>;
 export interface CreateCustomRoleRequest {
   /** Team ID */
-  team_id: number;
+  teamId: number;
   name: string;
   description?: string | null;
   statements: CreateCustomRoleRequestStatementsList;
@@ -303,7 +303,7 @@ export type CreateDeployKeyRequestAllowedActionsList = Array<
 >;
 export interface CreateDeployKeyRequest {
   /** Deployment name */
-  deployment_name: string;
+  deploymentName: string;
   /** Name for the deploy key. */
   name: string;
   allowedActions?: CreateDeployKeyRequestAllowedActionsList;
@@ -317,7 +317,7 @@ export interface PlatformCreateDeployKeyResponse {
 export type CreateDeploymentType = "dev" | "prod" | "preview" | "custom";
 export interface CreateDeploymentRequest {
   /** Project ID */
-  project_id: number;
+  projectId: number;
   type: CreateDeploymentType | (string & {});
   /** The class to use for this deployment. If not provided, the default deployment class for your team will be used. */
   class?: string | null;
@@ -399,7 +399,7 @@ export interface CreatePersonalAccessTokenResponse {
 }
 export interface CreatePreviewDeployKeyRequest {
   /** Project ID */
-  project_id: number;
+  projectId: number;
   /** Name for the preview deploy key. */
   name: string;
   /** Timestamp in milliseconds when this preview deploy key will expire. Must be at least 30 minutes in the future. */
@@ -412,7 +412,7 @@ export interface PlatformCreatePreviewDeployKeyResponse {
 export type CreateProjectRequestTagsList = Array<string>;
 export interface CreateProjectRequest {
   /** Team ID */
-  team_id: number;
+  teamId: number;
   /** The full name of the project as it will appear in the dashboard. Spaces and punctuations allowed. */
   projectName: string;
   deploymentType?: CreateDeploymentType | (string & {}) | null;
@@ -462,7 +462,7 @@ export interface CreateTeamAccessTokenArgs {
 }
 export interface CreateTeamAccessTokenRequest {
   /** Team ID */
-  team_id: number;
+  teamId: number;
   body?: CreateTeamAccessTokenArgs | null;
 }
 export interface CreateTeamAccessTokenResponse {
@@ -471,7 +471,7 @@ export interface CreateTeamAccessTokenResponse {
 }
 export interface DeleteCustomDomainRequest {
   /** Deployment name */
-  deployment_name: string;
+  deploymentName: string;
   /** The destination for this custom domain (convexCloud or convexSite). */
   requestDestination: RequestDestination | (string & {});
   /** The custom domain name to delete. */
@@ -480,20 +480,20 @@ export interface DeleteCustomDomainRequest {
 export interface DeleteCustomDomainResponse {}
 export interface DeleteCustomRoleRequest {
   /** Team ID */
-  team_id: number;
+  teamId: number;
   id: number;
 }
 export interface DeleteCustomRoleResponse {}
 export interface DeleteDeployKeyRequest {
   /** Deployment name */
-  deployment_name: string;
+  deploymentName: string;
   /** The token to delete. This can be the secret value of the token or the token's unique name. */
   id: string;
 }
 export interface DeleteDeployKeyResponse {}
 export interface DeleteDeploymentRequest {
   /** Deployment Name */
-  deployment_name: string;
+  deploymentName: string;
 }
 export interface DeleteDeploymentResponse {}
 export interface DeletePersonalAccessTokenRequest {
@@ -503,31 +503,31 @@ export interface DeletePersonalAccessTokenRequest {
 export interface DeletePersonalAccessTokenResponse {}
 export interface DeletePreviewDeployKeyRequest {
   /** Project ID */
-  project_id: number;
+  projectId: number;
   /** The token to delete. This can be the secret value of the token or the token's unique name. */
   id: string;
 }
 export interface DeletePreviewDeployKeyResponse {}
 export interface DeleteProjectRequest {
   /** Project ID */
-  project_id: number;
+  projectId: number;
 }
 export interface DeleteProjectResponse {}
 export interface DeleteTeamAccessTokenRequest {
   /** Team ID */
-  team_id: number;
+  teamId: number;
   /** The token to delete. This can be its secret value or its name. */
   id: string;
 }
 export interface DeleteTeamAccessTokenResponse {}
 export interface GetDeploymentRequest {
   /** Deployment Name */
-  deployment_name: string;
+  deploymentName: string;
 }
 export type GetDeploymentResponse = PlatformDeploymentResponse;
 export interface GetProjectRequest {
   /** Project ID */
-  project_id: number;
+  projectId: number;
 }
 export type ProjectResponseTagsList = Array<string>;
 export interface ProjectResponse {
@@ -553,13 +553,13 @@ export interface ProjectResponse {
 }
 export interface GetProjectBySlugRequest {
   /** Team ID or slug */
-  team_id_or_slug: string;
+  teamIdOrSlug: string;
   /** Project slug */
-  project_slug: string;
+  projectSlug: string;
 }
 export interface GetProjectDeploymentRequest {
   /** Project ID */
-  project_id: number;
+  projectId: number;
   /** The reference of the deployment to retrieve. */
   reference?: string;
   /** If true, retrieve the default production deployment. */
@@ -570,9 +570,9 @@ export interface GetProjectDeploymentRequest {
 export type GetProjectDeploymentResponse = PlatformDeploymentResponse;
 export interface GetProjectDeploymentBySlugRequest {
   /** Team ID or slug */
-  team_id_or_slug: string;
+  teamIdOrSlug: string;
   /** Project slug */
-  project_slug: string;
+  projectSlug: string;
   /** The reference of the deployment to retrieve. */
   reference?: string;
   /** If true, retrieve the default production deployment. */
@@ -615,7 +615,7 @@ export type Role = "admin" | "developer" | "custom";
 export type InviteTeamMemberRequestCustomRolesList = Array<number>;
 export interface InviteTeamMemberRequest {
   /** Team ID */
-  team_id: string;
+  teamId: string;
   email: string;
   /** Role to assign when the invitation is accepted. Pass `custom` together with a non-empty `customRoles` list to invite a member into a custom role; `admin` and `developer` must be sent without `customRoles`. */
   role: Role | (string & {});
@@ -705,7 +705,7 @@ export type ListAuditLogEventsRequestAction =
   | "customRole:delete";
 export interface ListAuditLogEventsRequest {
   /** Team ID */
-  team_id: number;
+  teamId: number;
   /** Start of the time range, in milliseconds since epoch. */
   from: number;
   /** End of the time range, in milliseconds since epoch. */
@@ -727,24 +727,24 @@ export type AuditLogActorCase1Kind = "member";
 /** A member acting via the dashboard. */
 export interface AuditLogActorCase1 {
   /** Member ID */
-  member_id: number;
+  memberId: number;
   kind: AuditLogActorCase1Kind;
 }
 export type AuditLogActorCase2Kind = "token";
 /** A token. */
 export interface AuditLogActorCase2 {
-  member_id?: number | null;
+  memberId?: number | null;
   /** Token ID. `0` for legacy audit log rows created before token IDs were recorded. */
-  token_id: number;
+  tokenId: number;
   /** Client ID of the OAuth application the token was issued to or is managed by, if any. */
-  client_id?: string | null;
+  clientId?: string | null;
   kind: AuditLogActorCase2Kind;
 }
 export type AuditLogActorCase3Kind = "integration";
 /** An integration (OAuth application). */
 export interface AuditLogActorCase3 {
   /** Client ID of the integration */
-  client_id: string;
+  clientId: string;
   kind: AuditLogActorCase3Kind;
 }
 /** The identity that executed an audit log action. */
@@ -859,7 +859,7 @@ export interface ListAuditLogEventsResponse {
 }
 export interface ListCustomDomainsRequest {
   /** Deployment name */
-  deployment_name: string;
+  deploymentName: string;
 }
 export interface PlatformCustomDomainResponse {
   /** Timestamp in milliseconds when this domain was created. */
@@ -881,7 +881,7 @@ export interface PlatformListCustomDomainsResponse {
 }
 export interface ListCustomRolesRequest {
   /** Team ID */
-  team_id: number;
+  teamId: number;
   /** Cursor for pagination */
   cursor?: string;
   /** Max results per page (default: 100, max: 100) */
@@ -894,7 +894,7 @@ export interface ListCustomRolesResponse {
 }
 export interface ListDefaultEnvironmentVariablesRequest {
   /** Project ID */
-  project_id: number;
+  projectId: number;
   /** Filter by exact environment variable name. */
   name?: string;
   /** Filter by deployment type */
@@ -916,7 +916,7 @@ export interface PaginatedDefaultEnvironmentVariablesResponse {
 }
 export interface ListDeployKeysRequest {
   /** Deployment name */
-  deployment_name: string;
+  deploymentName: string;
 }
 export type PlatformDeployKeyResponseAllowedActionsItem =
   | "deployment:deploy"
@@ -966,7 +966,7 @@ export type ListDeployKeysResponseBodyList = Array<PlatformDeployKeyResponse>;
 export type ListDeployKeysResponse = ListDeployKeysResponseBodyList;
 export interface ListDeploymentClassesRequest {
   /** Team ID */
-  team_id: string;
+  teamId: string;
 }
 export interface DeploymentClassMetadata {
   type: string;
@@ -978,7 +978,7 @@ export interface ListDeploymentClassesResponse {
 }
 export interface ListDeploymentRegionsRequest {
   /** Team ID */
-  team_id: string;
+  teamId: string;
 }
 export interface DeploymentRegionMetadata {
   name: string;
@@ -991,7 +991,7 @@ export interface ListDeploymentRegionsResponse {
 }
 export interface ListDeploymentsRequest {
   /** Project ID */
-  project_id: number;
+  projectId: number;
   /** If true, include local deployments in the response (filtered to only show local deployments created by the requesting team member). */
   includeLocal?: boolean;
   /** If true, only include default deployments. If false, only include non-default deployments. */
@@ -1003,7 +1003,7 @@ export type ListDeploymentsResponseBodyList = Array<PlatformDeploymentResponse>;
 export type ListDeploymentsResponse = ListDeploymentsResponseBodyList;
 export interface ListLocalDeploymentsRequest {
   /** Team ID */
-  team_id: number;
+  teamId: number;
 }
 export type ListLocalDeploymentsResponseItemsList = Array<PlatformDeploymentResponse>;
 export interface ListLocalDeploymentsResponse {
@@ -1011,7 +1011,7 @@ export interface ListLocalDeploymentsResponse {
 }
 export interface ListPendingTeamInvitesRequest {
   /** Team ID */
-  team_id: string;
+  teamId: string;
 }
 /** A custom role attached to a team member, denormalized with the role's display name so API consumers can render members without a separate roles lookup. */
 export interface TeamMemberCustomRole {
@@ -1053,7 +1053,7 @@ export interface PaginatedPersonalAccessTokensResponse {
 }
 export interface ListPreviewDeployKeysRequest {
   /** Project ID */
-  project_id: number;
+  projectId: number;
   /** If true, include managed preview deploy keys (e.g., created by external integrations like Vercel) in the response. Defaults to false. */
   includeManaged?: boolean;
 }
@@ -1066,7 +1066,7 @@ export interface PlatformListPreviewDeployKeysResponse {
 export type ListProjectsRequestTagList = Array<string>;
 export interface ListProjectsRequest {
   /** Team ID */
-  team_id: number;
+  teamId: number;
   /** Cursor for pagination */
   cursor?: string;
   /** Maximum number of projects to return (1-100, defaults to 100) */
@@ -1083,7 +1083,7 @@ export interface PlatformPaginatedProjectsResponse {
 }
 export interface ListProjectTagsRequest {
   /** Team ID */
-  team_id: number;
+  teamId: number;
   /** Cursor for pagination */
   cursor?: string;
   /** Maximum number of tags to return (default: 100, max: 100) */
@@ -1099,7 +1099,7 @@ export interface ProjectTagsResponse {
 }
 export interface ListTeamAccessTokensRequest {
   /** Team ID */
-  team_id: number;
+  teamId: number;
   /** Cursor for pagination */
   cursor?: string;
   /** Maximum number of tokens to return (default 10, max 100) */
@@ -1127,7 +1127,7 @@ export interface ListTeamAccessTokensResponse {
 }
 export interface ListTeamDeploymentsRequest {
   /** Team ID */
-  team_id: number;
+  teamId: number;
   /** Cursor for pagination */
   cursor?: string;
   /** Max results per page (default: 100, max: 100) */
@@ -1154,7 +1154,7 @@ export interface PaginatedDeploymentsResponse {
 }
 export interface ListTeamMembersRequest {
   /** Team ID */
-  team_id: string;
+  teamId: string;
 }
 /** The custom roles attached to this team member. Present iff `role` is `custom`. */
 export type TeamMemberCustomRolesList = Array<TeamMemberCustomRole>;
@@ -1181,7 +1181,7 @@ export interface AttributionClaims {
 }
 export interface MintAiGatewayJwtRequest {
   /** Local deployment name */
-  deployment_name: string;
+  deploymentName: string;
   attribution: AttributionClaims;
 }
 export interface MintLocalAiGatewayJwtResponse {
@@ -1189,14 +1189,14 @@ export interface MintLocalAiGatewayJwtResponse {
 }
 export interface TransferDeploymentRequest {
   /** Deployment Name */
-  deployment_name: string;
+  deploymentName: string;
   destinationProjectId: number;
 }
 export interface TransferDeploymentResponse {}
 export type UpdateCustomRoleRequestStatementsList = Array<RoleStatement>;
 export interface UpdateCustomRoleRequest {
   /** Team ID */
-  team_id: number;
+  teamId: number;
   id: number;
   name: string;
   description?: string | null;
@@ -1214,13 +1214,13 @@ export type UpdateDefaultEnvironmentVariablesRequestChangesList =
   Array<DefaultEnvironmentVariableChangeArgs>;
 export interface UpdateDefaultEnvironmentVariablesRequest {
   /** Project ID */
-  project_id: number;
+  projectId: number;
   changes: UpdateDefaultEnvironmentVariablesRequestChangesList;
 }
 export interface UpdateDefaultEnvironmentVariablesResponse {}
 export interface UpdateDeploymentRequest {
   /** Deployment Name */
-  deployment_name: string;
+  deploymentName: string;
   /** The reference of the deployment. When provided, must match the following rules: - be unique across deployment references in the project - 3 to 100 characters (included) - only lowercase letters, numbers, "-"" and "/" - not follow the deployment name format [a-z]+-[a-z]+-[0-9]+ (e.g. "happy-capybara-123") - not start with "local-"" - not be one of the following reserved keywords: "prod", "dev", "cloud", "local", "default", "name", "new", "existing", "deployment", "preview" */
   reference?: string | null;
   /** Controls whether the dashboard requires a confirmation before allowing edits during a browser session for this deployment. If set to `null`, the setting is reset to the default behavior (true for prod deployments, false for dev and preview deployments). If set to `true` or `false`, the setting is explicitly overridden. */
@@ -1240,7 +1240,7 @@ export interface UpdateDeploymentResponse {}
 export type UpdateProjectRequestTagsList = Array<string>;
 export interface UpdateProjectRequest {
   /** Project ID */
-  project_id: number;
+  projectId: number;
   name?: string | null;
   slug?: string | null;
   /** Replaces the project's full set of tags; `[]` clears them. If omitted, the tags are left unchanged. */
@@ -1250,7 +1250,7 @@ export interface UpdateProjectRequest {
 export type UpdateTeamMemberRoleRequestCustomRolesList = Array<number>;
 export interface UpdateTeamMemberRoleRequest {
   /** Team ID */
-  team_id: number;
+  teamId: number;
   memberId: number;
   role?: Role | (string & {}) | null;
   /** Replace the member's custom roles. Mutually exclusive with `role`. Must be non-empty. Sets the member's role to `custom`. */
@@ -2314,7 +2314,7 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.String.pipe(T.Label()),
+          teamId: S.String.pipe(T.Label("team_id")),
           email: S.String,
         }).pipe(
           T.Http({ method: "POST", uri: "/teams/{team_id}/cancel_team_member_invite", code: 200 }),
@@ -2335,7 +2335,7 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deployment_name: S.String.pipe(T.Label()),
+          deploymentName: S.String.pipe(T.Label("deployment_name")),
           requestDestination: S.String,
           domain: S.String,
         }).pipe(
@@ -2353,7 +2353,7 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.Number.pipe(T.Label()),
+          teamId: S.Number.pipe(T.Label("team_id")),
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
           statements: __S(17, __c4, 1),
@@ -2392,7 +2392,7 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deployment_name: S.String.pipe(T.Label()),
+          deploymentName: S.String.pipe(T.Label("deployment_name")),
           name: S.String,
           allowedActions: S.optional(__S(24, __c6, 0)),
           expiresAt: S.optional(S.NullOr(S.Number)),
@@ -2423,7 +2423,7 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.Number.pipe(T.Label()),
+          projectId: S.Number.pipe(T.Label("project_id")),
           type: S.String,
           class: S.optional(S.NullOr(S.String)),
           region: S.optional(S.NullOr(S.String)),
@@ -2466,7 +2466,7 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.Number.pipe(T.Label()),
+          projectId: S.Number.pipe(T.Label("project_id")),
           name: S.String,
           expiresAt: S.optional(S.NullOr(S.Number)),
         }).pipe(
@@ -2490,7 +2490,7 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.Number.pipe(T.Label()),
+          teamId: S.Number.pipe(T.Label("team_id")),
           projectName: S.String,
           deploymentType: S.optional(S.NullOr(S.String)),
           deploymentClass: S.optional(S.NullOr(S.String)),
@@ -2555,7 +2555,7 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.Number.pipe(T.Label()),
+          teamId: S.Number.pipe(T.Label("team_id")),
           body: S.optional(S.NullOr(__S(56, __c14, 0)).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/teams/{team_id}/create_access_token", code: 200 })),
       ).annotate({ identifier: "CreateTeamAccessTokenRequest" });
@@ -2573,7 +2573,7 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deployment_name: S.String.pipe(T.Label()),
+          deploymentName: S.String.pipe(T.Label("deployment_name")),
           requestDestination: S.String,
           domain: S.String,
         }).pipe(
@@ -2591,7 +2591,7 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.Number.pipe(T.Label()),
+          teamId: S.Number.pipe(T.Label("team_id")),
           id: S.Number,
         }).pipe(T.Http({ method: "POST", uri: "/teams/{team_id}/delete_custom_role", code: 200 })),
       ).annotate({ identifier: "DeleteCustomRoleRequest" });
@@ -2602,7 +2602,7 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deployment_name: S.String.pipe(T.Label()),
+          deploymentName: S.String.pipe(T.Label("deployment_name")),
           id: S.String,
         }).pipe(
           T.Http({
@@ -2619,7 +2619,7 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deployment_name: S.String.pipe(T.Label()),
+          deploymentName: S.String.pipe(T.Label("deployment_name")),
         }).pipe(
           T.Http({ method: "POST", uri: "/deployments/{deployment_name}/delete", code: 200 }),
         ),
@@ -2641,7 +2641,7 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.Number.pipe(T.Label()),
+          projectId: S.Number.pipe(T.Label("project_id")),
           id: S.String,
         }).pipe(
           T.Http({
@@ -2658,7 +2658,7 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.Number.pipe(T.Label()),
+          projectId: S.Number.pipe(T.Label("project_id")),
         }).pipe(T.Http({ method: "POST", uri: "/projects/{project_id}/delete", code: 200 })),
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
@@ -2668,7 +2668,7 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.Number.pipe(T.Label()),
+          teamId: S.Number.pipe(T.Label("team_id")),
           id: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/teams/{team_id}/delete_access_token", code: 200 })),
       ).annotate({ identifier: "DeleteTeamAccessTokenRequest" });
@@ -2679,7 +2679,7 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deployment_name: S.String.pipe(T.Label()),
+          deploymentName: S.String.pipe(T.Label("deployment_name")),
         }).pipe(T.Http({ method: "GET", uri: "/deployments/{deployment_name}", code: 200 })),
       ).annotate({ identifier: "GetDeploymentRequest" });
   }
@@ -2689,7 +2689,7 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.Number.pipe(T.Label()),
+          projectId: S.Number.pipe(T.Label("project_id")),
         }).pipe(T.Http({ method: "GET", uri: "/projects/{project_id}", code: 200 })),
       ).annotate({ identifier: "GetProjectRequest" });
   }
@@ -2719,8 +2719,8 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id_or_slug: S.String.pipe(T.Label()),
-          project_slug: S.String.pipe(T.Label()),
+          teamIdOrSlug: S.String.pipe(T.Label("team_id_or_slug")),
+          projectSlug: S.String.pipe(T.Label("project_slug")),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2736,7 +2736,7 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.Number.pipe(T.Label()),
+          projectId: S.Number.pipe(T.Label("project_id")),
           reference: S.optional(S.String.pipe(T.Query())),
           defaultProd: S.optional(S.Boolean.pipe(T.Query())),
           defaultDev: S.optional(S.Boolean.pipe(T.Query())),
@@ -2749,8 +2749,8 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id_or_slug: S.String.pipe(T.Label()),
-          project_slug: S.String.pipe(T.Label()),
+          teamIdOrSlug: S.String.pipe(T.Label("team_id_or_slug")),
+          projectSlug: S.String.pipe(T.Label("project_slug")),
           reference: S.optional(S.String.pipe(T.Query())),
           defaultProd: S.optional(S.Boolean.pipe(T.Query())),
           defaultDev: S.optional(S.Boolean.pipe(T.Query())),
@@ -2781,7 +2781,7 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.String.pipe(T.Label()),
+          teamId: S.String.pipe(T.Label("team_id")),
           email: S.String,
           role: S.String,
           customRoles: S.optional(S.NullOr(__S(124, __c31, 0))),
@@ -2800,7 +2800,7 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.Number.pipe(T.Label()),
+          teamId: S.Number.pipe(T.Label("team_id")),
           from: S.Number.pipe(T.Query()),
           to: S.Number.pipe(T.Query()),
           memberId: S.optional(S.Number.pipe(T.Query())),
@@ -2815,7 +2815,9 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           teamId: S.Number,
-          actor: S.Unknown,
+          actor: S.Unknown.pipe(
+            T.KeyDictionary({ memberId: "member_id", tokenId: "token_id", clientId: "client_id" }),
+          ),
           action: S.String,
           createTime: S.Number,
           metadata: S.Unknown,
@@ -2850,7 +2852,7 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deployment_name: S.String.pipe(T.Label()),
+          deploymentName: S.String.pipe(T.Label("deployment_name")),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2884,7 +2886,7 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.Number.pipe(T.Label()),
+          teamId: S.Number.pipe(T.Label("team_id")),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/teams/{team_id}/list_custom_roles", code: 200 })),
@@ -2905,7 +2907,7 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.Number.pipe(T.Label()),
+          projectId: S.Number.pipe(T.Label("project_id")),
           name: S.optional(S.String.pipe(T.Query())),
           deploymentType: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -2940,7 +2942,7 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deployment_name: S.String.pipe(T.Label()),
+          deploymentName: S.String.pipe(T.Label("deployment_name")),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2979,7 +2981,7 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.String.pipe(T.Label()),
+          teamId: S.String.pipe(T.Label("team_id")),
         }).pipe(
           T.Http({ method: "GET", uri: "/teams/{team_id}/list_deployment_classes", code: 200 }),
         ),
@@ -3006,7 +3008,7 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.String.pipe(T.Label()),
+          teamId: S.String.pipe(T.Label("team_id")),
         }).pipe(
           T.Http({ method: "GET", uri: "/teams/{team_id}/list_deployment_regions", code: 200 }),
         ),
@@ -3034,7 +3036,7 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.Number.pipe(T.Label()),
+          projectId: S.Number.pipe(T.Label("project_id")),
           includeLocal: S.optional(S.Boolean.pipe(T.Query())),
           isDefault: S.optional(S.Boolean.pipe(T.Query())),
           deploymentType: S.optional(S.String.pipe(T.Query())),
@@ -3059,7 +3061,7 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.Number.pipe(T.Label()),
+          teamId: S.Number.pipe(T.Label("team_id")),
         }).pipe(
           T.Http({ method: "GET", uri: "/teams/{team_id}/list_local_deployments", code: 200 }),
         ),
@@ -3077,7 +3079,7 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.String.pipe(T.Label()),
+          teamId: S.String.pipe(T.Label("team_id")),
         }).pipe(T.Http({ method: "GET", uri: "/teams/{team_id}/list_pending_invites", code: 200 })),
       ).annotate({ identifier: "ListPendingTeamInvitesRequest" });
     case 1:
@@ -3148,7 +3150,7 @@ function __c47(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.Number.pipe(T.Label()),
+          projectId: S.Number.pipe(T.Label("project_id")),
           includeManaged: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3171,7 +3173,7 @@ function __c48(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.Number.pipe(T.Label()),
+          teamId: S.Number.pipe(T.Label("team_id")),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           q: S.optional(S.String.pipe(T.Query())),
@@ -3194,7 +3196,7 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.Number.pipe(T.Label()),
+          teamId: S.Number.pipe(T.Label("team_id")),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/teams/{team_id}/list_project_tags", code: 200 })),
@@ -3221,7 +3223,7 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.Number.pipe(T.Label()),
+          teamId: S.Number.pipe(T.Label("team_id")),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/teams/{team_id}/list_access_tokens", code: 200 })),
@@ -3253,7 +3255,7 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.Number.pipe(T.Label()),
+          teamId: S.Number.pipe(T.Label("team_id")),
           cursor: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           sortBy: S.optional(S.String.pipe(T.Query())),
@@ -3279,7 +3281,7 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.String.pipe(T.Label()),
+          teamId: S.String.pipe(T.Label("team_id")),
         }).pipe(T.Http({ method: "GET", uri: "/teams/{team_id}/list_members", code: 200 })),
       ).annotate({ identifier: "ListTeamMembersRequest" });
     case 1:
@@ -3315,7 +3317,7 @@ function __c53(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          deployment_name: S.String.pipe(T.Label()),
+          deploymentName: S.String.pipe(T.Label("deployment_name")),
           attribution: __S(212, __c53, 0),
         }).pipe(
           T.Http({
@@ -3338,7 +3340,7 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deployment_name: S.String.pipe(T.Label()),
+          deploymentName: S.String.pipe(T.Label("deployment_name")),
           destinationProjectId: S.Number,
         }).pipe(
           T.Http({ method: "POST", uri: "/deployments/{deployment_name}/transfer", code: 200 }),
@@ -3351,7 +3353,7 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.Number.pipe(T.Label()),
+          teamId: S.Number.pipe(T.Label("team_id")),
           id: S.Number,
           name: S.String,
           description: S.optional(S.NullOr(S.String)),
@@ -3376,7 +3378,7 @@ function __c56(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.Number.pipe(T.Label()),
+          projectId: S.Number.pipe(T.Label("project_id")),
           changes: __S(225, __c56, 1),
         }).pipe(
           T.Http({
@@ -3393,7 +3395,7 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deployment_name: S.String.pipe(T.Label()),
+          deploymentName: S.String.pipe(T.Label("deployment_name")),
           reference: S.optional(S.NullOr(S.String)),
           dashboardEditConfirmation: S.optional(S.NullOr(S.Boolean)),
           expiresAt: S.optional(S.NullOr(S.Number)),
@@ -3410,7 +3412,7 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          project_id: S.Number.pipe(T.Label()),
+          projectId: S.Number.pipe(T.Label("project_id")),
           name: S.optional(S.NullOr(S.String)),
           slug: S.optional(S.NullOr(S.String)),
           tags: S.optional(S.NullOr(__S(48, __c12, 0))),
@@ -3423,7 +3425,7 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          team_id: S.Number.pipe(T.Label()),
+          teamId: S.Number.pipe(T.Label("team_id")),
           memberId: S.Number,
           role: S.optional(S.NullOr(S.String)),
           customRoles: S.optional(S.NullOr(__S(124, __c31, 0))),

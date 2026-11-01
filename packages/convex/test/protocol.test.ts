@@ -9,14 +9,15 @@ import { describe, expect, test } from "vitest";
 import { type Credentials, fromDeployment, fromToken } from "../src/credentials.ts";
 import type { ConvexOpContext } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
+import { getDeploymentInfo } from "../src/services/deployment.ts";
+import { query, runFunctionByPath } from "../src/services/functions.ts";
 import {
   createDeployKey,
   createProject,
   getProject,
+  listAuditLogEvents,
   listProjects,
-} from "../src/services/convex.ts";
-import { getDeploymentInfo } from "../src/services/deployment.ts";
-import { query } from "../src/services/functions.ts";
+} from "../src/services/management.ts";
 
 const TOKEN = "sentinel-token-7f3a";
 const DEPLOYMENT_URL = "https://happy-otter-123.convex.cloud";
@@ -67,7 +68,7 @@ const runError = <A, E>(
 
 describe("each API's URL and auth scheme", () => {
   test("the Management API takes Bearer at the default base URL", async () => {
-    const { result, requests } = run(getProject({ project_id: 7 }), () =>
+    const { result, requests } = run(getProject({ projectId: 7 }), () =>
       json({ id: 7, name: "app", slug: "app", teamId: 1 }),
     );
     await result;
@@ -111,6 +112,31 @@ describe("each API's URL and auth scheme", () => {
   });
 });
 
+describe("wire names", () => {
+  test("a renamed path parameter fills its snake_case placeholder", async () => {
+    const { result, requests } = run(
+      createDeployKey({ deploymentName: "happy-otter-123", name: "ci" }),
+      () => json({ deployKey: "key" }),
+    );
+    await result;
+
+    expect(requests[0]?.url).toBe(
+      "https://api.convex.dev/v1/deployments/happy-otter-123/create_deploy_key",
+    );
+  });
+
+  test("the leading underscore in a path placeholder stays on the wire", async () => {
+    const { result, requests } = run(
+      runFunctionByPath({ functionIdentifier: "messages/list", args: {} }),
+      () => json({ status: "success", value: [] }),
+      fromDeployment({ url: DEPLOYMENT_URL }),
+    );
+    await result;
+
+    expect(requests[0]?.url).toBe(`${DEPLOYMENT_URL}/api/run/messages%2Flist`);
+  });
+});
+
 describe("configuration errors", () => {
   test("deployment fails without a deployment URL, before any request", async () => {
     const { result, requests } = runError(getDeploymentInfo({}), () => json({}));
@@ -142,7 +168,7 @@ describe("configuration errors", () => {
 
 describe("errors", () => {
   test("a string code in the body selects the typed error", async () => {
-    const { result } = runError(getProject({ project_id: 7 }), () =>
+    const { result } = runError(getProject({ projectId: 7 }), () =>
       json({ code: "ProjectNotFound", message: "no such project" }, 404),
     );
 
@@ -150,7 +176,7 @@ describe("errors", () => {
   });
 
   test("the code tells apart errors that share a status", async () => {
-    const { result } = runError(createProject({ team_id: 1, projectName: "app" }), () =>
+    const { result } = runError(createProject({ teamId: 1, projectName: "app" }), () =>
       json({ code: "InvalidProjectTag", message: "bad tag" }, 400),
     );
 
@@ -158,7 +184,7 @@ describe("errors", () => {
   });
 
   test("a code the operation doesn't declare falls back to its status class", async () => {
-    const { result } = runError(getProject({ project_id: 7 }), () =>
+    const { result } = runError(getProject({ projectId: 7 }), () =>
       json({ code: "SomethingNew", message: "new failure" }, 400),
     );
 
@@ -168,9 +194,8 @@ describe("errors", () => {
 
 describe("responses", () => {
   test("a minted deploy key decodes as Redacted", async () => {
-    const { result } = run(
-      createDeployKey({ deployment_name: "happy-otter-123", name: "ci" }),
-      () => json({ deployKey: "prod:happy-otter-123|secret" }),
+    const { result } = run(createDeployKey({ deploymentName: "happy-otter-123", name: "ci" }), () =>
+      json({ deployKey: "prod:happy-otter-123|secret" }),
     );
 
     const { deployKey } = await result;
@@ -178,8 +203,29 @@ describe("responses", () => {
     expect(Redacted.value(deployKey)).toBe("prod:happy-otter-123|secret");
   });
 
+  test("keys inside an opaque union decode to camelCase", async () => {
+    const { result } = run(listAuditLogEvents({ teamId: 1, from: 0, to: 1 }), () =>
+      json({
+        items: [
+          {
+            teamId: 1,
+            actor: { kind: "token", member_id: 3, token_id: 4, client_id: "app" },
+            action: "createProject",
+            createTime: 0,
+            metadata: { member_id: 3 },
+          },
+        ],
+        pagination: { hasMore: false, nextCursor: null },
+      }),
+    );
+
+    const { items } = await result;
+    expect(items[0]?.actor).toEqual({ kind: "token", memberId: 3, tokenId: 4, clientId: "app" });
+    expect(items[0]?.metadata).toEqual({ member_id: 3 });
+  });
+
   test("items follows pagination.nextCursor until it comes back null", async () => {
-    const items = listProjects.items({ team_id: 1 }).pipe(Stream.runCollect);
+    const items = listProjects.items({ teamId: 1 }).pipe(Stream.runCollect);
     const { result, requests } = run(items, ({ url }) =>
       new URL(url).searchParams.get("cursor") === null
         ? json({

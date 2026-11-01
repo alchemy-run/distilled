@@ -11,7 +11,7 @@ import { makeRestProtocol, type RestProtocolOptions } from "@distilled.cloud/cor
  *
  * | Service      | Base URL                 | Authorization     |
  * | ------------ | ------------------------ | ----------------- |
- * | `convex`     | `apiBaseUrl`             | `Bearer <token>`  |
+ * | `management` | `apiBaseUrl`             | `Bearer <token>`  |
  * | `deployment` | `{deploymentUrl}/api/v1` | `Convex <token>`  |
  * | `functions`  | `{deploymentUrl}/api`    | none              |
  *

@@ -3,12 +3,13 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy models from scripts/convert.ts into an Effect SDK.
  *
- * Output: src/services/{convex,deployment,functions}.ts + src/services/index.ts
+ * Output: src/services/{management,deployment,functions}.ts + src/services/index.ts
  *
  * Patches apply in convert, so this script only compiles. Each service uses
  * its own protocol (see src/protocol.ts).
  */
 import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import { camel, lowerFirst } from "@distilled.cloud/dev/codegen/naming";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
@@ -17,6 +18,7 @@ import {
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 const PAGINATED_TRAIT = "smithy.api#paginated";
+const KEY_DICTIONARY_TRAIT = "com.convex.protocols#keyDictionary";
 
 /** The protocol each service's operations run on, by Smithy namespace. */
 const PROTOCOLS: Record<string, string> = {
@@ -54,8 +56,40 @@ const stampPagination = (shapes: Record<string, any>) => {
   }
 };
 
+/**
+ * Wire names are mixed; the TS surface is camelCase. Leading underscores strip
+ * first, or `camel` would capitalize the next letter ("_other" → "Other").
+ */
+const memberName = (n: string) => lowerFirst(camel(n.replace(/^_+/, "")));
+
+/**
+ * Union content decodes opaque (see `union` in `makeSpec`), so the protocol
+ * can't rename its keys from the schema. Each member holding such a union gets
+ * a key dictionary instead. It sits on the member, not the operation root, so
+ * the dictionary never touches user data elsewhere in the payload.
+ */
+const stampUnionKeys = (shapes: Record<string, any>) => {
+  for (const shape of Object.values(shapes)) {
+    for (const member of Object.values<any>(shape?.members ?? {})) {
+      const union = shapes[member.target];
+      if (union?.type !== "union") continue;
+      const dict: Record<string, string> = {};
+      for (const { target } of Object.values<any>(union.members ?? {})) {
+        if (shapes[target]?.type !== "structure") continue;
+        for (const wire of Object.keys(shapes[target].members ?? {})) {
+          const name = memberName(wire);
+          if (name !== wire) dict[name] = wire;
+        }
+      }
+      if (Object.keys(dict).length === 0) continue;
+      member.traits = { ...member.traits, [KEY_DICTIONARY_TRAIT]: dict };
+    }
+  }
+};
+
 /** The SDK spec for one Convex service. */
 const makeSpec = (protocol: string): SdkSpec => ({
+  memberName,
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
 
@@ -74,6 +108,7 @@ const makeSpec = (protocol: string): SdkSpec => ({
   memberTraitPipes: {
     // Sensitive strings: Redacted-wrapped on decode by the REST protocol.
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
+    [KEY_DICTIONARY_TRAIT]: "T.KeyDictionary",
   },
   // ...so their TS type is the Redacted the protocol actually delivers.
   memberTsType: (m) =>
@@ -126,6 +161,7 @@ runGeneratorCli({
   patchesDir: false,
   spec: (model) => {
     stampPagination((model.shapes ?? {}) as Record<string, any>);
+    stampUnionKeys((model.shapes ?? {}) as Record<string, any>);
     return makeSpec(protocolFor(model));
   },
 });

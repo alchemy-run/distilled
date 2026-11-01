@@ -12,8 +12,8 @@
  * import * as Convex from "@distilled.cloud/convex";
  *
  * const program = Effect.gen(function* () {
- *   const { id, deploymentUrl } = yield* Convex.convex.createProject({
- *     team_id: 12345,
+ *   const { id, deploymentUrl } = yield* Convex.management.createProject({
+ *     teamId: 12345,
  *     projectName: "my-app",
  *     deploymentType: "prod",
  *   });

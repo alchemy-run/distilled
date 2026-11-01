@@ -58,13 +58,6 @@
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
     },
-    "./convex": {
-      "types": "./lib/services/convex.d.ts",
-      "bun": "./src/services/convex.ts",
-      "worker": "./src/services/convex.ts",
-      "distilled-lazy": "./lib/services.lazy/convex.js",
-      "default": "./lib/services/convex.js"
-    },
     "./deployment": {
       "types": "./lib/services/deployment.d.ts",
       "bun": "./src/services/deployment.ts",
@@ -78,6 +71,13 @@
       "worker": "./src/services/functions.ts",
       "distilled-lazy": "./lib/services.lazy/functions.js",
       "default": "./lib/services/functions.js"
+    },
+    "./management": {
+      "types": "./lib/services/management.d.ts",
+      "bun": "./src/services/management.ts",
+      "worker": "./src/services/management.ts",
+      "distilled-lazy": "./lib/services.lazy/management.js",
+      "default": "./lib/services/management.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",

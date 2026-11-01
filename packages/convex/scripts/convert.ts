@@ -3,7 +3,7 @@
  * convert — turn Convex's OpenAPI specs into Smithy JSON models.
  *
  * Input:  specs/spec-mirror-convex/specs/{management,deployment,public-deployment}-openapi.json
- * Output: .generated-specs/{convex,deployment,functions}.json
+ * Output: .generated-specs/{management,deployment,functions}.json
  *
  * Each document becomes one service, because each API has its own base URL and
  * auth scheme (see src/protocol.ts). Patches live in `patches/<model>/` and
@@ -21,7 +21,7 @@ await runOpenApiConvert({
   root: `${import.meta.dirname}/..`,
   specs: [
     {
-      name: "convex",
+      name: "management",
       specPath: "specs/spec-mirror-convex/specs/management-openapi.json",
       options: {
         namespace: "com.convex.api",

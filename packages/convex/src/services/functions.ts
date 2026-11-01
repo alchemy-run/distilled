@@ -19,7 +19,6 @@ const TELEMETRY = {
   ],
   prefix: "Convex",
   service: "ConvexFunctions",
-  labels: "convex",
   propagate: "w3c",
 } as const;
 
@@ -91,7 +90,7 @@ export interface QueryGetRequest {
 }
 export type QueryGetResponse = UdfResponse;
 export interface RunFunctionByPathRequest {
-  _functionIdentifier: string;
+  functionIdentifier: string;
   args: unknown;
   format?: string | null;
 }
@@ -225,7 +224,10 @@ export const runFunctionByPath: API.OperationMethod<
   protocol: ConvexFunctionsProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "RunFunctionByPath",
+  span: {
+    op: "RunFunctionByPath",
+    input: { functionIdentifier: [{ name: "convex._function_identifier" }] },
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -345,7 +347,7 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          _functionIdentifier: S.String.pipe(T.Label()),
+          functionIdentifier: S.String.pipe(T.Label("_functionIdentifier")),
           args: S.Unknown,
           format: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/run/{_functionIdentifier}", code: 200 })),
