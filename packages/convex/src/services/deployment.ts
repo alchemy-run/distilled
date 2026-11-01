@@ -120,6 +120,14 @@ export class StreamingExportNotEnabled
     [{ body: { "/code": "StreamingExportNotEnabled" } }],
   ) {}
 
+export class UnpauseDeploymentFailed
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<UnpauseDeploymentFailed>()("UnpauseDeploymentFailed", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ body: { "/code": "UnpauseDeploymentFailed" } }],
+  ) {}
+
 export class UsageLimitNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UsageLimitNotFound>()("UsageLimitNotFound", {
@@ -1458,6 +1466,7 @@ export const startDataSync: API.OperationMethod<
 }));
 
 export type UnpauseDeploymentError =
+  | UnpauseDeploymentFailed
   | MalformedAccessToken
   | BadDeployKey
   | OperationNotPermitted
@@ -1471,7 +1480,7 @@ export const unpauseDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<UnpauseDeploymentRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<UnpauseDeploymentResponse>,
-  errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  errors: [UnpauseDeploymentFailed, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

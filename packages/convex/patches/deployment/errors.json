@@ -1,5 +1,5 @@
 {
-  "description": "The spec documents no errors. Every failure is `{ code, message }`, so these match on `code`. Observed on a live deployment, 2026-10-31 and 2026-11-01: 400 AuthConfigMissingEnvironmentVariable for deleting a variable auth.config.ts reads, EnvironmentVariableNameInvalid, InvalidLogStreamId, InvalidId for a malformed usage limit id, DuplicateUsageLimit; 403 LogStreamingNotEnabled and StreamingExportNotEnabled below the Professional plan, AuditLogsTooOld when the plan keeps 0 days of audit logs, BadDeployKey with no token, OperationNotPermitted for a key that lacks an action; 404 UsageLimitNotFound; 401 MalformedAccessToken. The REST protocol forwards only numeric codes, so matchers read `/code` from the body.",
+  "description": "The spec documents no errors. Every failure is `{ code, message }`, so these match on `code`. Observed on a live deployment, 2026-10-31 and 2026-11-01: 400 UnpauseDeploymentFailed for a deployment that isn't paused, AuthConfigMissingEnvironmentVariable for deleting a variable auth.config.ts reads, EnvironmentVariableNameInvalid, InvalidLogStreamId, InvalidId for a malformed usage limit id, DuplicateUsageLimit; 403 LogStreamingNotEnabled and StreamingExportNotEnabled below the Professional plan, AuditLogsTooOld when the plan keeps 0 days of audit logs, BadDeployKey with no token, OperationNotPermitted for a key that lacks an action; 404 UsageLimitNotFound; 401 MalformedAccessToken. The REST protocol forwards only numeric codes, so matchers read `/code` from the body.",
   "patches": [
     {
       "op": "add",
@@ -271,6 +271,29 @@
             {
               "body": {
                 "/code": "AuditLogsTooOld"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#UnpauseDeploymentFailed",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "UnpauseDeploymentFailed"
               }
             }
           ]
@@ -666,6 +689,9 @@
       "op": "add",
       "path": "/shapes/com.convex.deployment#UnpauseDeployment/errors",
       "value": [
+        {
+          "target": "com.convex.deployment#UnpauseDeploymentFailed"
+        },
         {
           "target": "com.convex.deployment#MalformedAccessToken"
         },
