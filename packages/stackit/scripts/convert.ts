@@ -130,6 +130,15 @@ const paginationFor = (spec: any, op: any): Record<string, string> | undefined =
   };
 };
 
+/**
+ * Operation names the verbNoun rewrite gets wrong, per product. `RetrieveZone`
+ * (POST `.../zones/{zoneId}/retrieve`, queue a secondary zone's transfer)
+ * would alias `retrieve` to `get` and collide with `GetZone`, as `getZone2`.
+ */
+const OPERATION_NAMES: Record<string, Record<string, string>> = {
+  dns: { RetrieveZone: "retrieveZone" },
+};
+
 await runOpenApiConvert({
   root,
   specs: manifest.map((entry) => {
@@ -140,6 +149,7 @@ await runOpenApiConvert({
       options: {
         namespace: `com.stackit.${slug}`,
         serviceName: toPascal(slug),
+        operationNames: OPERATION_NAMES[slug],
       },
     };
   }),

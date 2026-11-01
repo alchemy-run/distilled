@@ -545,12 +545,6 @@ export interface GetZoneRequest {
   /** zone id */
   zoneId: string;
 }
-export interface GetZoneRequest2 {
-  /** project id */
-  projectId: string;
-  /** zone id */
-  zoneId: string;
-}
 export type ImportRecordSetsRequestFormat = "json" | "csv" | "bind";
 export type ImportRecordSetsRequestImportType = "restore" | "delete" | "update" | "upsert";
 export type ZoneModelsImportRecordModelContentList = Array<string>;
@@ -941,6 +935,12 @@ export interface RestoreZoneRequest {
   /** zone id */
   zoneId: string;
 }
+export interface RetrieveZoneRequest {
+  /** project id */
+  projectId: string;
+  /** zone id */
+  zoneId: string;
+}
 export interface ValidateMoveCodeRequest {
   /** project id */
   projectId: string;
@@ -1153,23 +1153,6 @@ export const getZone: API.OperationMethod<
   span: "GetZone",
 }));
 
-export type GetZone2Error = BadRequest | StackitOpError;
-/** Queue secondary zone for a zone transfer request. The zone transfer will usually be performed within a few seconds, and will be tried only once by randomly choosing one of the configured primary name servers. If that single attempt fails, no further attempt will be performed. The zone will be transferred to our inbound name server regardless of its serial, but the internal zone distribution is only reliable if the zone's serial on the customer's primary name server is higher than on the STACKIT name server. <br>NOTE: As said above, this endpoint is not a reliable way to decrease a zone's serial. To guarantee consistent zones over all STACKIT location, the zone's serial MUST always be increased on zone changes. */
-export const getZone2: API.OperationMethod<
-  GetZoneRequest2,
-  Message,
-  GetZone2Error,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetZoneRequest2>,
-  output: __S(232, __c29, 0) as any as S.Schema<Message>,
-  errors: [BadRequest, UnknownStackitError],
-  protocol: StackitProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetZone2",
-}));
-
 export type ImportRecordSetsError = BadRequest | Forbidden | StackitOpError;
 /** Imports a zone Imports a zone and overwrites/deletes/inserts all desired records */
 export const importRecordSets: API.OperationMethod<
@@ -1178,8 +1161,8 @@ export const importRecordSets: API.OperationMethod<
   ImportRecordSetsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ImportRecordSetsRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<ImportRecordSetsResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<ImportRecordSetsRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<ImportRecordSetsResponse>,
   errors: [BadRequest, Forbidden, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1197,8 +1180,8 @@ export const listRecordSets: API.PaginatedOperationMethod<
   RecordSet
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(72, __c9, 0) as any as S.Schema<ListRecordSetsRequest>,
-    output: __S(74, __c9, 2) as any as S.Schema<ListRecordSetsResponse>,
+    input: __S(64, __c8, 0) as any as S.Schema<ListRecordSetsRequest>,
+    output: __S(66, __c8, 2) as any as S.Schema<ListRecordSetsResponse>,
     errors: [BadRequest, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
@@ -1225,8 +1208,8 @@ export const listZones: API.PaginatedOperationMethod<
   Zone
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(80, __c10, 0) as any as S.Schema<ListZonesRequest>,
-    output: __S(82, __c10, 2) as any as S.Schema<ListZonesResponse>,
+    input: __S(72, __c9, 0) as any as S.Schema<ListZonesRequest>,
+    output: __S(74, __c9, 2) as any as S.Schema<ListZonesResponse>,
     errors: [BadRequest, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
@@ -1251,7 +1234,7 @@ export const moveZone: API.OperationMethod<
   MoveZoneError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<MoveZoneRequest>,
+  input: __S(80, __c10, 0) as any as S.Schema<MoveZoneRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
@@ -1268,7 +1251,7 @@ export const partialUpdateRecord: API.OperationMethod<
   PartialUpdateRecordError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<PartialUpdateRecordRequest>,
+  input: __S(88, __c11, 0) as any as S.Schema<PartialUpdateRecordRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
@@ -1285,7 +1268,7 @@ export const partialUpdateRecordSet: API.OperationMethod<
   PartialUpdateRecordSetError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<PartialUpdateRecordSetRequest>,
+  input: __S(96, __c12, 0) as any as S.Schema<PartialUpdateRecordSetRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
@@ -1302,7 +1285,7 @@ export const partialUpdateZone: API.OperationMethod<
   PartialUpdateZoneError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<PartialUpdateZoneRequest>,
+  input: __S(104, __c13, 0) as any as S.Schema<PartialUpdateZoneRequest>,
   output: __S(168, __c21, 0) as any as S.Schema<ZoneResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
@@ -1319,7 +1302,7 @@ export const restoreRecordSet: API.OperationMethod<
   RestoreRecordSetError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<RestoreRecordSetRequest>,
+  input: __S(112, __c14, 0) as any as S.Schema<RestoreRecordSetRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
@@ -1336,13 +1319,30 @@ export const restoreZone: API.OperationMethod<
   RestoreZoneError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<RestoreZoneRequest>,
+  input: __S(120, __c15, 0) as any as S.Schema<RestoreZoneRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<Message>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreZone",
+}));
+
+export type RetrieveZoneError = BadRequest | StackitOpError;
+/** Queue secondary zone for a zone transfer request. The zone transfer will usually be performed within a few seconds, and will be tried only once by randomly choosing one of the configured primary name servers. If that single attempt fails, no further attempt will be performed. The zone will be transferred to our inbound name server regardless of its serial, but the internal zone distribution is only reliable if the zone's serial on the customer's primary name server is higher than on the STACKIT name server. <br>NOTE: As said above, this endpoint is not a reliable way to decrease a zone's serial. To guarantee consistent zones over all STACKIT location, the zone's serial MUST always be increased on zone changes. */
+export const retrieveZone: API.OperationMethod<
+  RetrieveZoneRequest,
+  Message,
+  RetrieveZoneError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c16, 0) as any as S.Schema<RetrieveZoneRequest>,
+  output: __S(232, __c29, 0) as any as S.Schema<Message>,
+  errors: [BadRequest, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RetrieveZone",
 }));
 
 export type ValidateMoveCodeError = BadRequest | StackitOpError;
@@ -1534,24 +1534,6 @@ function __c7(j: number): any {
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           zoneId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v1/projects/{projectId}/zones/{zoneId}/retrieve",
-            code: 200,
-            baseUrl: "https://dns.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "GetZoneRequest2" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          zoneId: S.String.pipe(T.Label()),
           format: S.optional(S.String.pipe(T.Query())),
           importType: S.optional(S.String.pipe(T.Query())),
           rrSets: S.optional(__S(25, __c3, 1)),
@@ -1579,12 +1561,12 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          summary: __S(65, __c8, 1),
+          summary: __S(57, __c7, 1),
         }),
       ).annotate({ identifier: "ImportRecordSetsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1641,14 +1623,14 @@ function __c9(j: number): any {
         S.Struct({
           itemsPerPage: S.Number,
           message: S.optional(S.String),
-          rrSets: __S(73, __c9, 1),
+          rrSets: __S(65, __c8, 1),
           totalItems: S.Number,
           totalPages: S.Number,
         }),
       ).annotate({ identifier: "ListRecordSetsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1718,12 +1700,12 @@ function __c10(j: number): any {
           message: S.optional(S.String),
           totalItems: S.Number,
           totalPages: S.Number,
-          zones: __S(81, __c10, 1),
+          zones: __S(73, __c9, 1),
         }),
       ).annotate({ identifier: "ListZonesResponse" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1742,7 +1724,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "MoveZoneRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1763,7 +1745,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "PartialUpdateRecordRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1786,7 +1768,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "PartialUpdateRecordSetRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1816,7 +1798,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "PartialUpdateZoneRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1835,7 +1817,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "RestoreRecordSetRequest" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1851,6 +1833,24 @@ function __c16(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RestoreZoneRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          zoneId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/projects/{projectId}/zones/{zoneId}/retrieve",
+            code: 200,
+            baseUrl: "https://dns.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "RetrieveZoneRequest" });
   }
 }
 function __c17(j: number): any {
