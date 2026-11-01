@@ -107,7 +107,7 @@ const stubHttp = (
     HttpClient.HttpClient,
     HttpClient.make((request, url) =>
       Effect.gen(function* () {
-        const isApi = url.hostname.endsWith(".api.eu01.stackit.cloud");
+        const isApi = url.pathname.includes("/projects/");
         if (isApi) {
           apiCalls.push({ url: url.toString(), authorization: request.headers.authorization });
           return HttpClientResponse.fromWeb(request, new Response("{}", { status: 200 }));

@@ -31,11 +31,12 @@
  * and the default `https://service-account.api.stackit.cloud/token`.
  * Token exchange failures surface on the operation as `ConfigError`.
  *
- * Each STACKIT product has its own host (`iaas.api.eu01.stackit.cloud`,
- * `ske.api.eu01.stackit.cloud`, ...). The per-operation host is baked into
- * the generated `T.Http` trait from the OpenAPI `servers` entry; `region`
- * (default `eu01`) is substituted at request time. An explicit `apiBaseUrl`
- * overrides that host for every call -- a proxy, not a per-product map.
+ * Each STACKIT product has its own host (`iaas.api.stackit.cloud`,
+ * `secrets-manager.api.{region}stackit.cloud`, ...). The per-operation host is
+ * baked into the generated `T.Http` trait from the OpenAPI `servers` entry;
+ * `region` (default `eu01`) fills a `{region}` placeholder at request time, and
+ * hosts without one are global. An explicit `apiBaseUrl` overrides that host
+ * for every call -- a proxy, not a per-product map.
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
@@ -63,9 +64,9 @@ export const REFRESH_WINDOW_MS = 5 * 60 * 1000;
 export interface Config {
   readonly token: Redacted.Redacted<string>;
   /**
-   * Region inserted into product hosts (`eu01` ->
-   * `https://iaas.api.eu01.stackit.cloud`). `"global"` leaves the spec URL
-   * unchanged.
+   * Region filling a `{region}` placeholder in a product host (`eu01` ->
+   * `https://secrets-manager.api.eu01.stackit.cloud`). Hosts without one are
+   * global and stay unchanged; `"global"` drops the placeholder.
    */
   readonly region: string;
   /** When set, every operation uses this host instead of the spec's. */

@@ -64,29 +64,23 @@ export type StackitOpError =
 export type StackitOpContext = Credentials | HttpClient.HttpClient;
 
 /**
- * Rewrite a spec `servers` URL for the configured region.
+ * Rewrite a spec `servers` URL for the configured region, as the official Go
+ * SDK's `ConfigureRegion` does.
  *
- *   * `{region}` still in the template (IaaS v1:
- *     `https://iaas.api.{region}stackit.cloud`, default `eu01.`) is
- *     substituted. A glued `{region}stackit` means the spec's default
- *     includes the trailing dot.
- *   * `https://<svc>.api.stackit.cloud` becomes
- *     `https://<svc>.api.<region>.stackit.cloud`.
- *   * `region === "global"` leaves the URL alone (after dropping any
- *     leftover `{region}`).
+ *   * `{region}` still in the template
+ *     (`https://secrets-manager.api.{region}stackit.cloud`, default `eu01.`)
+ *     is substituted. A glued `{region}stackit` means the spec's default
+ *     includes the trailing dot. `region === "global"` drops the placeholder.
+ *   * A URL with no `{region}` is a global host and is left alone. Regional
+ *     operations on those hosts carry the region in their path instead
+ *     (`/v2/projects/{projectId}/regions/{region}/...`).
  */
 export const applyRegion = (specUrl: string, region: string): string => {
-  if (specUrl.includes("{region}")) {
-    if (region === "global") return specUrl.replaceAll("{region}", "");
-    const glued = specUrl.includes("{region}stackit");
-    const value = glued && !region.endsWith(".") ? `${region}.` : region;
-    return specUrl.replaceAll("{region}", value);
-  }
-  if (region === "global") return specUrl;
-  return specUrl.replace(
-    /^(https:\/\/[a-z0-9-]+)\.api\.stackit\.cloud(?=[:/?]|$)/i,
-    `$1.api.${region}.stackit.cloud`,
-  );
+  if (!specUrl.includes("{region}")) return specUrl;
+  if (region === "global") return specUrl.replaceAll("{region}", "");
+  const glued = specUrl.includes("{region}stackit");
+  const value = glued && !region.endsWith(".") ? `${region}.` : region;
+  return specUrl.replaceAll("{region}", value);
 };
 
 const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
