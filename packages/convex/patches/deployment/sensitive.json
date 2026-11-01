@@ -1,0 +1,10 @@
+{
+  "description": "Mark the rotated webhook secret sensitive so it decodes as Redacted. The other secrets in this API sit inside union cases, which pass through as plain values, so callers wrap those themselves.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#RotateLogStreamSecretResponse/members/hmacSecret/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

@@ -1,0 +1,754 @@
+{
+  "description": "The spec documents no errors. Every failure is `{ code, message }`, so these match on `code`. Observed on a live deployment, 2026-10-31 and 2026-11-01: 400 AuthConfigMissingEnvironmentVariable for deleting a variable auth.config.ts reads, EnvironmentVariableNameInvalid, InvalidLogStreamId, InvalidId for a malformed usage limit id, DuplicateUsageLimit; 403 LogStreamingNotEnabled and StreamingExportNotEnabled below the Professional plan, BadDeployKey with no token, OperationNotPermitted for a key that lacks an action; 404 UsageLimitNotFound; 401 MalformedAccessToken. The REST protocol forwards only numeric codes, so matchers read `/code` from the body.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#AuthConfigMissingEnvironmentVariable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "AuthConfigMissingEnvironmentVariable"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#EnvironmentVariableNameInvalid",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "EnvironmentVariableNameInvalid"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#LogStreamingNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "LogStreamingNotEnabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#InvalidLogStreamId",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "InvalidLogStreamId"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#StreamingExportNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "StreamingExportNotEnabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#UsageLimitNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "UsageLimitNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#InvalidUsageLimitId",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "InvalidId"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#DuplicateUsageLimit",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "DuplicateUsageLimit"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#MalformedAccessToken",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 401,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "MalformedAccessToken"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#BadDeployKey",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "BadDeployKey"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#OperationNotPermitted",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "OperationNotPermitted"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#CreateIntegration/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#CreateLogStream/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#LogStreamingNotEnabled"
+        },
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#CreateUsageLimit/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#DuplicateUsageLimit"
+        },
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#DataSync/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#StreamingExportNotEnabled"
+        },
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#DeleteIntegration/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#DeleteLogStream/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#InvalidLogStreamId"
+        },
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#DeleteUsageLimit/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#UsageLimitNotFound"
+        },
+        {
+          "target": "com.convex.deployment#InvalidUsageLimitId"
+        },
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#GetActiveSync/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#StreamingExportNotEnabled"
+        },
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#GetCanonicalUrls/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#GetCurrentUsage/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#GetDeploymentInfo/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#GetIntegration/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#GetLogStream/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#InvalidLogStreamId"
+        },
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#ListActiveSyncs/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#StreamingExportNotEnabled"
+        },
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#ListAuditLogEvents/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#ListEnvironmentVariables/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#ListIntegrations/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#ListLogStreams/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#ListUsageLimits/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#PauseDeployment/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#RotateIntegrationWebhookSecret/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#RotateWebhookSecret/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#InvalidLogStreamId"
+        },
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#UnpauseDeployment/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#UpdateCanonicalUrl/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#UpdateEnvironmentVariables/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#AuthConfigMissingEnvironmentVariable"
+        },
+        {
+          "target": "com.convex.deployment#EnvironmentVariableNameInvalid"
+        },
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#UpdateIntegration/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#UpdateLogStream/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#LogStreamingNotEnabled"
+        },
+        {
+          "target": "com.convex.deployment#InvalidLogStreamId"
+        },
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.deployment#UpdateUsageLimit/errors",
+      "value": [
+        {
+          "target": "com.convex.deployment#UsageLimitNotFound"
+        },
+        {
+          "target": "com.convex.deployment#InvalidUsageLimitId"
+        },
+        {
+          "target": "com.convex.deployment#MalformedAccessToken"
+        },
+        {
+          "target": "com.convex.deployment#BadDeployKey"
+        },
+        {
+          "target": "com.convex.deployment#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    }
+  ]
+}

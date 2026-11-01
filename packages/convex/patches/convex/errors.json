@@ -1,0 +1,1006 @@
+{
+  "description": "The spec documents no errors. Every failure is `{ code, message }`, and conflicts arrive as 400, so these match on `code`. Observed on the live Management API, 2026-10-31 and 2026-11-01: 404 ProjectNotFound, DeploymentNotFound, DeployKeyNotFound and PreviewDeployKeyNotFound for a missing resource or one the token can't see; 400 DeploymentAlreadyExists for a second default prod, DeploymentReferenceAlreadyExists, InvalidDeploymentReference and InvalidProjectTag; 403 VanityDomainsDisabled below the Professional plan and OperationNotPermitted for a key that lacks an action; 401 AccessTokenInvalid for an undecodable token. The REST protocol forwards only numeric codes, so matchers read `/code` from the body.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ProjectNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "ProjectNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeploymentNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "DeploymentNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeployKeyNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "DeployKeyNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#PreviewDeployKeyNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "PreviewDeployKeyNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeploymentAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "DeploymentAlreadyExists"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeploymentReferenceAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "DeploymentReferenceAlreadyExists"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#InvalidDeploymentReference",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "InvalidDeploymentReference"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#InvalidProjectTag",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "InvalidProjectTag"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#VanityDomainsDisabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "VanityDomainsDisabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#AccessTokenInvalid",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 401,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "AccessTokenInvalid"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#OperationNotPermitted",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/code": "OperationNotPermitted"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CancelTeamMemberInvite/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateCustomDomain/errors",
+      "value": [
+        {
+          "target": "com.convex.api#DeploymentNotFound"
+        },
+        {
+          "target": "com.convex.api#VanityDomainsDisabled"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateCustomRole/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateDeployKey/errors",
+      "value": [
+        {
+          "target": "com.convex.api#DeploymentNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateDeployment/errors",
+      "value": [
+        {
+          "target": "com.convex.api#ProjectNotFound"
+        },
+        {
+          "target": "com.convex.api#DeploymentAlreadyExists"
+        },
+        {
+          "target": "com.convex.api#DeploymentReferenceAlreadyExists"
+        },
+        {
+          "target": "com.convex.api#InvalidDeploymentReference"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreatePersonalAccessToken/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreatePreviewDeployKey/errors",
+      "value": [
+        {
+          "target": "com.convex.api#ProjectNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateProject/errors",
+      "value": [
+        {
+          "target": "com.convex.api#InvalidProjectTag"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateTeam/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#CreateTeamAccessToken/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeleteCustomDomain/errors",
+      "value": [
+        {
+          "target": "com.convex.api#DeploymentNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeleteCustomRole/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeleteDeployKey/errors",
+      "value": [
+        {
+          "target": "com.convex.api#DeploymentNotFound"
+        },
+        {
+          "target": "com.convex.api#DeployKeyNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeleteDeployment/errors",
+      "value": [
+        {
+          "target": "com.convex.api#DeploymentNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeletePersonalAccessToken/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeletePreviewDeployKey/errors",
+      "value": [
+        {
+          "target": "com.convex.api#ProjectNotFound"
+        },
+        {
+          "target": "com.convex.api#PreviewDeployKeyNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeleteProject/errors",
+      "value": [
+        {
+          "target": "com.convex.api#ProjectNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#DeleteTeamAccessToken/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#GetDeploymentInProjectByProjectId/errors",
+      "value": [
+        {
+          "target": "com.convex.api#ProjectNotFound"
+        },
+        {
+          "target": "com.convex.api#DeploymentNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#GetDeploymentInProjectByProjectSlug/errors",
+      "value": [
+        {
+          "target": "com.convex.api#ProjectNotFound"
+        },
+        {
+          "target": "com.convex.api#DeploymentNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#GetProjectById/errors",
+      "value": [
+        {
+          "target": "com.convex.api#ProjectNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#GetProjectBySlug/errors",
+      "value": [
+        {
+          "target": "com.convex.api#ProjectNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#GetTokenDetails/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#InviteTeamMember/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListAuditLogEvents/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListCustomDomains/errors",
+      "value": [
+        {
+          "target": "com.convex.api#DeploymentNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListCustomRoles/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListDefaultEnvironmentVariables/errors",
+      "value": [
+        {
+          "target": "com.convex.api#ProjectNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListDeployKeys/errors",
+      "value": [
+        {
+          "target": "com.convex.api#DeploymentNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListDeploymentClasses/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListDeploymentRegions/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListDeployments/errors",
+      "value": [
+        {
+          "target": "com.convex.api#ProjectNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListDeploymentsForTeam/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListLocalDeploymentsForTeam/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListPendingTeamInvites/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListPersonalAccessTokens/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListPreviewDeployKeys/errors",
+      "value": [
+        {
+          "target": "com.convex.api#ProjectNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListProjectTags/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListProjects/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListTeamAccessTokens/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#ListTeamMembers/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#MintAiGatewayJwt/errors",
+      "value": [
+        {
+          "target": "com.convex.api#DeploymentNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#PlatformGetDeployment/errors",
+      "value": [
+        {
+          "target": "com.convex.api#DeploymentNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#TransferDeployment/errors",
+      "value": [
+        {
+          "target": "com.convex.api#ProjectNotFound"
+        },
+        {
+          "target": "com.convex.api#DeploymentNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#UpdateCustomRole/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#UpdateDefaultEnvironmentVariables/errors",
+      "value": [
+        {
+          "target": "com.convex.api#ProjectNotFound"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#UpdateDeployment/errors",
+      "value": [
+        {
+          "target": "com.convex.api#DeploymentNotFound"
+        },
+        {
+          "target": "com.convex.api#DeploymentReferenceAlreadyExists"
+        },
+        {
+          "target": "com.convex.api#InvalidDeploymentReference"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#UpdateProject/errors",
+      "value": [
+        {
+          "target": "com.convex.api#ProjectNotFound"
+        },
+        {
+          "target": "com.convex.api#InvalidProjectTag"
+        },
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.convex.api#UpdateTeamMemberRole/errors",
+      "value": [
+        {
+          "target": "com.convex.api#AccessTokenInvalid"
+        },
+        {
+          "target": "com.convex.api#OperationNotPermitted"
+        }
+      ],
+      "before": "traits"
+    }
+  ]
+}
