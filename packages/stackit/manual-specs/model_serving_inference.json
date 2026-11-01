@@ -1,0 +1,749 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "STACKIT AI Model Serving OpenAI-compatible inference API",
+    "version": "1.0.0",
+    "description": "Written by hand. STACKIT publishes no document for this API. Its docs (docs.stackit.cloud/products/data-and-ai/ai-model-serving/how-tos/use-the-models/ and basics/available-shared-models/, read 2026-11-01) name the host `https://api.openai-compat.model-serving.eu01.onstackit.cloud`, the routes `POST /v1/chat/completions` and `POST /v1/embeddings`, `Authorization: Bearer` with an auth token, and the fields `model`, `messages`, `max_completion_tokens`, `temperature` for chat and `model`, `input`, `messages` for embeddings, with the embedding response shown in full. They point to OpenAI's API reference for everything else, so the remaining fields, the chat response, the streamed chunk and the error statuses follow OpenAI's published reference (platform.openai.com/docs/api-reference/chat, read 2026-11-01), trimmed to what the provider's bindings need. Objects stay open because OpenAI-compatible servers add fields. STACKIT's docs don't mention streaming, tool choice values, response formats or an error body, and no credentials exist to try them: those parts are unverified against STACKIT. `POST /completions` and `GET /models`, also on that docs page, are left out: no binding needs them, and `model_serving.listModels` is the documented catalogue. No host is stamped, because `ModelServingInferenceCredentials` carries it. `/v1/chat/completions/stream` is not a real route: OpenAPI can't hold two operations on one method and path, so `StreamChatCompletion` is written under this name and a patch points it at `/v1/chat/completions`."
+  },
+  "servers": [
+    {
+      "url": "https://api.openai-compat.model-serving.example.invalid"
+    }
+  ],
+  "paths": {
+    "/v1/chat/completions": {
+      "post": {
+        "operationId": "CreateChatCompletion",
+        "summary": "Generate a model's reply to a conversation. The API keeps no session, so a request carries the whole conversation.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatCompletion"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/v1/embeddings": {
+      "post": {
+        "operationId": "CreateEmbeddings",
+        "summary": "Turn text, or text and images, into embedding vectors.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmbeddingsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmbeddingsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    },
+    "/v1/chat/completions/stream": {
+      "post": {
+        "operationId": "StreamChatCompletion",
+        "summary": "Generate a model's reply as server-sent events, as the caller reads them. Always asks for a stream, whatever the request's `stream` says.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatCompletionEvents"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "BadRequest": {
+        "description": "A malformed request, or a model that doesn't take these parameters.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "A missing, wrong or expired auth token.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "The auth token may not do this.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "No such model.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "The model's requests per minute or tokens per minute are used up.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": ["message"]
+      },
+      "ChatMessageContentPart": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "`text` or `image_url`."
+          },
+          "text": {
+            "type": "string"
+          },
+          "image_url": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "An image's URL, or a base64 data URI."
+              }
+            },
+            "required": ["url"]
+          }
+        },
+        "required": ["type"],
+        "additionalProperties": true,
+        "description": "One part of a message's content."
+      },
+      "ChatMessageContent": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatMessageContentPart"
+            }
+          }
+        ]
+      },
+      "ToolCallFunction": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "arguments": {
+            "type": "string",
+            "description": "The arguments as a JSON document."
+          }
+        },
+        "required": ["name", "arguments"]
+      },
+      "ToolCall": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "`function`."
+          },
+          "function": {
+            "$ref": "#/components/schemas/ToolCallFunction"
+          }
+        },
+        "required": ["id", "type", "function"]
+      },
+      "ChatMessage": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "`system`, `user`, `assistant` or `tool`."
+          },
+          "content": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ChatMessageContent"
+              }
+            ],
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "tool_call_id": {
+            "type": "string",
+            "description": "The call a `tool` message answers."
+          },
+          "tool_calls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ToolCall"
+            }
+          }
+        },
+        "required": ["role"],
+        "description": "One message of a conversation."
+      },
+      "ToolFunction": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "The function's parameters as a JSON Schema."
+          }
+        },
+        "required": ["name"]
+      },
+      "Tool": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "`function`."
+          },
+          "function": {
+            "$ref": "#/components/schemas/ToolFunction"
+          }
+        },
+        "required": ["type", "function"]
+      },
+      "StreamOptions": {
+        "type": "object",
+        "properties": {
+          "include_usage": {
+            "type": "boolean",
+            "description": "Whether the last chunk of a stream reports token usage."
+          }
+        }
+      },
+      "ChatCompletionRequest": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "The model's full name, e.g. `openai/gpt-oss-20b`."
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatMessage"
+            }
+          },
+          "max_completion_tokens": {
+            "type": "integer"
+          },
+          "max_tokens": {
+            "type": "integer"
+          },
+          "temperature": {
+            "type": "number"
+          },
+          "top_p": {
+            "type": "number"
+          },
+          "seed": {
+            "type": "integer"
+          },
+          "frequency_penalty": {
+            "type": "number"
+          },
+          "presence_penalty": {
+            "type": "number"
+          },
+          "stop": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tool"
+            }
+          },
+          "tool_choice": {
+            "description": "`auto`, `none`, `required`, or an object naming one function."
+          },
+          "response_format": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "`{ type: \"json_schema\", json_schema: ... }` asks for structured output."
+          },
+          "stream": {
+            "type": "boolean",
+            "description": "Ask for server-sent events. `streamChatCompletion` always sets it, and `createChatCompletion` can't read that answer."
+          },
+          "stream_options": {
+            "$ref": "#/components/schemas/StreamOptions"
+          }
+        },
+        "required": ["model", "messages"]
+      },
+      "Usage": {
+        "type": "object",
+        "properties": {
+          "prompt_tokens": {
+            "type": "integer"
+          },
+          "completion_tokens": {
+            "type": "integer",
+            "nullable": true
+          },
+          "total_tokens": {
+            "type": "integer"
+          },
+          "prompt_tokens_details": {
+            "type": "object",
+            "properties": {
+              "cached_tokens": {
+                "type": "integer",
+                "nullable": true
+              }
+            },
+            "additionalProperties": true,
+            "nullable": true
+          },
+          "completion_tokens_details": {
+            "type": "object",
+            "properties": {
+              "reasoning_tokens": {
+                "type": "integer",
+                "nullable": true
+              }
+            },
+            "additionalProperties": true,
+            "nullable": true
+          }
+        },
+        "additionalProperties": true
+      },
+      "ChatCompletionMessage": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "refusal": {
+            "type": "string",
+            "nullable": true
+          },
+          "reasoning_content": {
+            "type": "string",
+            "description": "A reasoning model's chain of thought, on servers that split it from `content`.",
+            "nullable": true
+          },
+          "tool_calls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ToolCall"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": true
+      },
+      "ChatCompletionChoice": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer"
+          },
+          "message": {
+            "$ref": "#/components/schemas/ChatCompletionMessage"
+          },
+          "finish_reason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": ["message"],
+        "additionalProperties": true
+      },
+      "ChatCompletion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "object": {
+            "type": "string"
+          },
+          "created": {
+            "type": "integer"
+          },
+          "model": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatCompletionChoice"
+            }
+          },
+          "usage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Usage"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "required": ["choices"],
+        "additionalProperties": true
+      },
+      "ToolCallDeltaFunction": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "arguments": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": true
+      },
+      "ToolCallDelta": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer"
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "function": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ToolCallDeltaFunction"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "required": ["index"],
+        "additionalProperties": true
+      },
+      "ChatCompletionDelta": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "refusal": {
+            "type": "string",
+            "nullable": true
+          },
+          "reasoning_content": {
+            "type": "string",
+            "nullable": true
+          },
+          "tool_calls": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ToolCallDelta"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": true
+      },
+      "ChatCompletionChunkChoice": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer"
+          },
+          "delta": {
+            "$ref": "#/components/schemas/ChatCompletionDelta"
+          },
+          "finish_reason": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": ["delta"],
+        "additionalProperties": true
+      },
+      "ChatCompletionChunk": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "object": {
+            "type": "string"
+          },
+          "created": {
+            "type": "integer"
+          },
+          "model": {
+            "type": "string"
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatCompletionChunkChoice"
+            }
+          },
+          "usage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Usage"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "required": ["choices"],
+        "additionalProperties": true,
+        "description": "One server-sent event of a streamed reply."
+      },
+      "EmbeddingsInput": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "EmbeddingsRequest": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "The embedding model's full name, e.g. `intfloat/e5-mistral-7b-instruct`."
+          },
+          "input": {
+            "$ref": "#/components/schemas/EmbeddingsInput"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatMessage"
+            },
+            "description": "Multi-modal input instead of `input`: text and `image_url` parts."
+          },
+          "encoding_format": {
+            "type": "string"
+          },
+          "dimensions": {
+            "type": "integer"
+          }
+        },
+        "required": ["model"]
+      },
+      "Embedding": {
+        "type": "object",
+        "properties": {
+          "index": {
+            "type": "integer"
+          },
+          "object": {
+            "type": "string"
+          },
+          "embedding": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "required": ["embedding"],
+        "additionalProperties": true
+      },
+      "EmbeddingsResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "object": {
+            "type": "string"
+          },
+          "created": {
+            "type": "integer"
+          },
+          "model": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Embedding"
+            }
+          },
+          "usage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Usage"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "required": ["data"],
+        "additionalProperties": true
+      },
+      "ChatCompletionEvents": {
+        "type": "object",
+        "properties": {
+          "events": {
+            "$ref": "#/components/schemas/ChatCompletionChunk"
+          }
+        },
+        "required": ["events"],
+        "description": "The reply's chunks. `scripts/generate.ts` types `events` as a stream: the protocol decodes them."
+      }
+    }
+  }
+}

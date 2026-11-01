@@ -1,0 +1,798 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "MLflow tracking REST API (experiments and runs)",
+    "version": "3.1.1",
+    "description": "Written by hand from MLflow's REST API reference (mlflow.org/docs/latest/api_reference/rest-api.html, read 2026-11-01); MLflow publishes no OpenAPI document for this API. Trimmed to the routes the provider's bindings need: more exist (metrics history, tags, artifacts, models, traces). Bodies and status codes were checked by running each request against the ghcr.io/mlflow/mlflow:v3.1.1 image with no auth in front of it, read 2026-11-01. Where the wire differs from the reference, this file follows the wire: `experiment_id` is a string of digits; a missing experiment or run answers 404 `RESOURCE_DOES_NOT_EXIST`; `log-metric` and `log-parameter` answer an empty object; an empty search answers `{}`, so `runs` is optional, and a run with nothing logged has no `metrics` or `params`, so those are optional too. STACKIT's docs (docs.stackit.cloud/products/data-and-ai/ai-model-experiments/faq/ and how-tos/setup-the-local-environment/, read 2026-11-01) say an instance works with the standard MLflow Python SDK and REST API, at `MLFLOW_TRACKING_URI` with `MLFLOW_TRACKING_TOKEN`, which that SDK sends as `Authorization: Bearer`. They name no server version. The 401 and 403 would come from STACKIT's gateway, so their bodies are unknown. STACKIT's own instances have not been probed: no credentials exist. No host is stamped: each instance's `url` is part of `MlflowCredentials`."
+  },
+  "servers": [
+    {
+      "url": "https://mlflow.example.invalid"
+    }
+  ],
+  "paths": {
+    "/api/2.0/mlflow/experiments/create": {
+      "post": {
+        "operationId": "CreateExperiment",
+        "summary": "Create an experiment. Its name has to be new: a taken one answers 400 `RESOURCE_ALREADY_EXISTS`.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExperimentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateExperimentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/2.0/mlflow/experiments/get": {
+      "get": {
+        "operationId": "GetExperiment",
+        "summary": "Read an experiment.",
+        "parameters": [
+          {
+            "name": "experiment_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The experiment's id."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetExperimentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/2.0/mlflow/experiments/get-by-name": {
+      "get": {
+        "operationId": "GetExperimentByName",
+        "summary": "Read an experiment by its name.",
+        "parameters": [
+          {
+            "name": "experiment_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The experiment's name."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetExperimentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/2.0/mlflow/runs/create": {
+      "post": {
+        "operationId": "CreateRun",
+        "summary": "Start a run in an experiment.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRunRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRunResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/2.0/mlflow/runs/update": {
+      "post": {
+        "operationId": "UpdateRun",
+        "summary": "Change a run's status, end time or name.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRunRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateRunResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/2.0/mlflow/runs/get": {
+      "get": {
+        "operationId": "GetRun",
+        "summary": "Read a run with its latest metrics, params and tags.",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The run's id."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRunResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/2.0/mlflow/runs/search": {
+      "post": {
+        "operationId": "SearchRuns",
+        "summary": "Find runs in experiments.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchRunsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchRunsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/2.0/mlflow/runs/log-metric": {
+      "post": {
+        "operationId": "LogMetric",
+        "summary": "Log one value of a metric. A metric keeps a history, so the same key can be logged again.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogMetricRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogMetricResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/2.0/mlflow/runs/log-parameter": {
+      "post": {
+        "operationId": "LogParam",
+        "summary": "Log a parameter. Logging a key again with the same value does nothing; another value answers 400.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogParamRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogParamResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "BadRequest": {
+        "description": "A missing or invalid parameter (`INVALID_PARAMETER_VALUE`).",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "A missing, wrong or expired tracking token.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "The tracking token may not do this.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "No such experiment or run (`RESOURCE_DOES_NOT_EXIST`).",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "error_code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": ["message"]
+      },
+      "ExperimentTag": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": ["key", "value"],
+        "description": "A key and value on an experiment."
+      },
+      "RunTag": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": ["key", "value"],
+        "description": "A key and value on a run."
+      },
+      "Param": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": ["key", "value"],
+        "description": "A parameter of a run."
+      },
+      "RunStatus": {
+        "type": "string",
+        "enum": ["RUNNING", "SCHEDULED", "FINISHED", "FAILED", "KILLED"]
+      },
+      "ViewType": {
+        "type": "string",
+        "enum": ["ACTIVE_ONLY", "DELETED_ONLY", "ALL"]
+      },
+      "Metric": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "timestamp": {
+            "type": "integer",
+            "description": "Milliseconds since the Unix epoch."
+          },
+          "step": {
+            "type": "integer"
+          },
+          "run_id": {
+            "type": "string"
+          }
+        },
+        "required": ["key", "value", "timestamp"],
+        "additionalProperties": true
+      },
+      "Experiment": {
+        "type": "object",
+        "properties": {
+          "experiment_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "artifact_location": {
+            "type": "string"
+          },
+          "lifecycle_stage": {
+            "type": "string",
+            "description": "`active` or `deleted`."
+          },
+          "last_update_time": {
+            "type": "integer"
+          },
+          "creation_time": {
+            "type": "integer"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExperimentTag"
+            }
+          }
+        },
+        "required": ["experiment_id", "name"],
+        "additionalProperties": true
+      },
+      "RunInfo": {
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string"
+          },
+          "run_uuid": {
+            "type": "string"
+          },
+          "run_name": {
+            "type": "string"
+          },
+          "experiment_id": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RunStatus"
+          },
+          "start_time": {
+            "type": "integer"
+          },
+          "end_time": {
+            "type": "integer"
+          },
+          "artifact_uri": {
+            "type": "string"
+          },
+          "lifecycle_stage": {
+            "type": "string"
+          }
+        },
+        "required": ["run_id", "experiment_id", "status"],
+        "additionalProperties": true
+      },
+      "RunData": {
+        "type": "object",
+        "properties": {
+          "metrics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Metric"
+            }
+          },
+          "params": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Param"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RunTag"
+            }
+          }
+        },
+        "additionalProperties": true
+      },
+      "Run": {
+        "type": "object",
+        "properties": {
+          "info": {
+            "$ref": "#/components/schemas/RunInfo"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RunData"
+          }
+        },
+        "required": ["info"],
+        "additionalProperties": true
+      },
+      "CreateExperimentRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "artifact_location": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExperimentTag"
+            }
+          }
+        },
+        "required": ["name"]
+      },
+      "CreateExperimentResponse": {
+        "type": "object",
+        "properties": {
+          "experiment_id": {
+            "type": "string"
+          }
+        },
+        "required": ["experiment_id"]
+      },
+      "GetExperimentResponse": {
+        "type": "object",
+        "properties": {
+          "experiment": {
+            "$ref": "#/components/schemas/Experiment"
+          }
+        },
+        "required": ["experiment"]
+      },
+      "CreateRunRequest": {
+        "type": "object",
+        "properties": {
+          "experiment_id": {
+            "type": "string"
+          },
+          "run_name": {
+            "type": "string"
+          },
+          "start_time": {
+            "type": "integer",
+            "description": "Milliseconds since the Unix epoch."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RunTag"
+            }
+          }
+        },
+        "required": ["experiment_id"]
+      },
+      "GetRunResponse": {
+        "type": "object",
+        "properties": {
+          "run": {
+            "$ref": "#/components/schemas/Run"
+          }
+        },
+        "required": ["run"]
+      },
+      "UpdateRunRequest": {
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RunStatus"
+          },
+          "end_time": {
+            "type": "integer",
+            "description": "Milliseconds since the Unix epoch."
+          },
+          "run_name": {
+            "type": "string"
+          }
+        },
+        "required": ["run_id"]
+      },
+      "UpdateRunResponse": {
+        "type": "object",
+        "properties": {
+          "run_info": {
+            "$ref": "#/components/schemas/RunInfo"
+          }
+        },
+        "required": ["run_info"]
+      },
+      "SearchRunsRequest": {
+        "type": "object",
+        "properties": {
+          "experiment_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "filter": {
+            "type": "string",
+            "description": "MLflow's search syntax, e.g. `params.lr = '0.1' and metrics.loss < 1`."
+          },
+          "run_view_type": {
+            "$ref": "#/components/schemas/ViewType"
+          },
+          "max_results": {
+            "type": "integer"
+          },
+          "order_by": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "page_token": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchRunsResponse": {
+        "type": "object",
+        "properties": {
+          "runs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Run"
+            }
+          },
+          "next_page_token": {
+            "type": "string"
+          }
+        }
+      },
+      "LogMetricRequest": {
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "timestamp": {
+            "type": "integer",
+            "description": "Milliseconds since the Unix epoch."
+          },
+          "step": {
+            "type": "integer"
+          }
+        },
+        "required": ["run_id", "key", "value", "timestamp"]
+      },
+      "LogMetricResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "LogParamRequest": {
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string",
+            "description": "At most 255 bytes."
+          },
+          "value": {
+            "type": "string",
+            "description": "At most 6000 bytes."
+          }
+        },
+        "required": ["run_id", "key", "value"]
+      },
+      "LogParamResponse": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}

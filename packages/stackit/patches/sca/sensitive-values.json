@@ -1,0 +1,24 @@
+{
+  "description": "The spec's sensitive marks are a name match and get these fields backwards. EnvironmentSecret.value is the secret itself (spec example `mysql://user:pass@host:port`) and is plain, on both the read shape and the input the convert splits from it. ContainerEnvVar.value is plain too, and holds whatever the deployer sets on a container; GET .../applications/{applicationId} returns it. ApplicationCustomRuleSecretMapping.secret is marked sensitive only because of its name: the spec describes it as `Environment secret name` (example `amqp-host-environment-secret`), a reference a caller has to read back. Read from the sca v1beta spec, 2026-11-01. Nothing on the wire changes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sca#EnvironmentSecret/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sca#EnvironmentSecretInput/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sca#ContainerEnvVar/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.stackit.sca#ApplicationCustomRuleSecretMapping/members/secret/traits/smithy.api#sensitive"
+    }
+  ]
+}

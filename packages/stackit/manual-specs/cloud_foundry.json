@@ -1,0 +1,4647 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Cloud Foundry V3 API, for STACKIT Cloud Foundry",
+    "version": "latest",
+    "description": "Trimmed by a script from the OpenAPI document Cloud Foundry publishes at v3-apidocs.cloudfoundry.org/openapi/latest/openapi.yaml (source: cloudfoundry/cloud_controller_ng docs/openapi, at b8cc317e, read 2026-11-01; it calls itself experimental) to the operations the STACKIT provider needs. Examples, `links`, `included` and the 401/5xx responses every operation shares are dropped, and long descriptions cut to their first line. Changes from the source, all to describe the wire: the API root declares the `login` link (the source omits it; v3-apidocs.cloudfoundry.org, \"Global API Root\"); `Relationships` is a map of to-one relationships (the source leaves it an empty object); filters are plain strings, because the API takes them comma-delimited; UAA's `POST /oauth/token`, which isn't part of this API, is added from docs.cloudfoundry.org/api/uaa \"Password Grant\". `servers` holds STACKIT's eu01 platform for reference: each platform's URL is part of `CloudFoundryCredentials`."
+  },
+  "servers": [
+    {
+      "url": "https://api.system.01.cf.eu01.stackit.cloud"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Global API Root",
+        "description": "This endpoint returns links to the APIs available on a given Cloud Foundry deployment.",
+        "operationId": "getApiRoot",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiRoot"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v3/apps": {
+      "post": {
+        "summary": "Create an app",
+        "description": "Creates a new app.",
+        "operationId": "createApp",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/AppCreateRequestBody"
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created app",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/App"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List apps",
+        "description": "Retrieve all apps the user has access to.",
+        "operationId": "listApps",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PerPage"
+          },
+          {
+            "$ref": "#/components/parameters/OrderBy"
+          },
+          {
+            "$ref": "#/components/parameters/CreatedAts"
+          },
+          {
+            "$ref": "#/components/parameters/UpdatedAts"
+          },
+          {
+            "$ref": "#/components/parameters/LabelSelector"
+          },
+          {
+            "name": "guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of app GUIDs to filter by"
+          },
+          {
+            "name": "names",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of app names to filter by"
+          },
+          {
+            "name": "space_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of space GUIDs to filter by"
+          },
+          {
+            "name": "organization_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of organization GUIDs to filter by"
+          },
+          {
+            "name": "stacks",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of stack names to filter by"
+          },
+          {
+            "name": "lifecycle_type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["buildpack", "cnb", "docker"]
+            },
+            "description": "Lifecycle type to filter by"
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optionally include a list of unique related resources in the response"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppList"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/apps/{guid}": {
+      "get": {
+        "summary": "Get an app",
+        "description": "Retrieve a specific app.",
+        "operationId": "getApp",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optionally include a list of unique related resources in the response"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved app",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/App"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update an app",
+        "description": "Update an app.",
+        "operationId": "updateApp",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/AppUpdateRequestBody"
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated app",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/App"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an app",
+        "description": "Delete an app.",
+        "operationId": "deleteApp",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successfully deleted app",
+            "headers": {
+              "Location": {
+                "description": "URL of the job that is deleting the app",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/apps/{guid}/actions/start": {
+      "post": {
+        "summary": "Start an app",
+        "description": "Start an app.",
+        "operationId": "startApp",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully started app",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/App"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/apps/{guid}/environment_variables": {
+      "get": {
+        "summary": "Get environment variables for an app",
+        "description": "Retrieve the environment variables that are associated with the given app. For the entire list of environment variables that will be available to the app at runtime, see the env endpoint.",
+        "operationId": "getEnvironmentVariablesForApp",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppEnvironmentVariables"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update environment variables for an app",
+        "description": "Update the environment variables associated with the given app. The variables given in the request will be merged with the existing app environment variables. Any requested variables with a value of `",
+        "operationId": "updateEnvironmentVariablesForApp",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "var": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": ["string", "null"]
+                    },
+                    "description": "Environment variables to inject; keys and values must be strings"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppEnvironmentVariables"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/apps/{guid}/droplets/current": {
+      "get": {
+        "summary": "Get current droplet",
+        "description": "Get the current droplet for an app.",
+        "operationId": "getCurrentDropletForApp",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved droplet",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Droplet"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v3/apps/{guid}/relationships/current_droplet": {
+      "patch": {
+        "summary": "Set current droplet",
+        "description": "Set the current droplet for an app. The current droplet is the droplet that the app will use when running.",
+        "operationId": "setCurrentDropletForApp",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "requestBody": {
+          "description": "Droplet relationship object that needs to be set",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/Relationship"
+                  }
+                },
+                "required": ["data"],
+                "description": "Request schema for setting the current droplet"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully set current droplet",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RelationshipToOne"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/apps/{guid}/processes/{type}": {
+      "get": {
+        "summary": "Get a process for an app",
+        "description": "Get a specific process for an app.",
+        "operationId": "getProcessForApp",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Process"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v3/apps/{guid}/processes/{type}/actions/scale": {
+      "post": {
+        "summary": "Scale a process for an app",
+        "description": "Scale a specific process for an app.",
+        "operationId": "scaleProcessForApp",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "instances": {
+                    "type": ["integer", "null"],
+                    "description": "The number of instances to run"
+                  },
+                  "memory_in_mb": {
+                    "type": ["integer", "null"],
+                    "description": "The memory in MB allocated per instance"
+                  },
+                  "disk_in_mb": {
+                    "type": ["integer", "null"],
+                    "description": "The disk in MB allocated per instance"
+                  },
+                  "log_rate_limit_in_bytes_per_second": {
+                    "type": ["integer", "null"],
+                    "description": "The log rate limit in bytes per second per instance"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Process"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/apps/{guid}/processes/{type}/stats": {
+      "get": {
+        "summary": "Get stats for a process for an app",
+        "description": "Get stats for a specific process for an app.",
+        "operationId": "getProcessStatsForApp",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessStats"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v3/processes/{guid}": {
+      "patch": {
+        "summary": "Update a process",
+        "description": "Update a process.",
+        "operationId": "updateProcess",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ProcessUpdateRequestBody"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Process"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/packages": {
+      "post": {
+        "summary": "Create a package",
+        "description": "Create a package.",
+        "operationId": "createPackage",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/PackageCreateRequestBody"
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created package",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Package"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/packages/{guid}": {
+      "get": {
+        "summary": "Get a package",
+        "description": "Retrieve a package.",
+        "operationId": "getPackage",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved package",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Package"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/builds": {
+      "post": {
+        "summary": "Create a build",
+        "description": "Create a build.",
+        "operationId": "createBuild",
+        "requestBody": {
+          "description": "Build object that needs to be created",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "package": {
+                    "$ref": "#/components/schemas/Relationship"
+                  },
+                  "lifecycle": {
+                    "$ref": "#/components/schemas/Lifecycle"
+                  },
+                  "staging_memory_in_mb": {
+                    "type": "integer",
+                    "description": "Memory in MB allocated for staging of the build"
+                  },
+                  "staging_disk_in_mb": {
+                    "type": "integer",
+                    "description": "Disk space in MB allocated for staging of the build"
+                  },
+                  "staging_log_rate_limit_bytes_per_second": {
+                    "type": "integer",
+                    "description": "Log rate limit in bytes per second allocated for staging of the build"
+                  },
+                  "metadata": {
+                    "$ref": "#/components/schemas/Metadata"
+                  }
+                },
+                "required": ["package"],
+                "description": "Request schema for creating a build"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created build",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Build"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/builds/{guid}": {
+      "get": {
+        "summary": "Get a build",
+        "description": "Retrieve a build.",
+        "operationId": "getBuild",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved build",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Build"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v3/deployments": {
+      "post": {
+        "summary": "Create a deployment",
+        "description": "When you create a new deployment you can either provide a specific droplet or revision to deploy. If no revision or droplet is provided, the droplet associated with the app is deployed.",
+        "operationId": "createDeployment",
+        "requestBody": {
+          "description": "Deployment object that needs to be created",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "relationships": {
+                    "$ref": "#/components/schemas/Relationships"
+                  },
+                  "strategy": {
+                    "type": "string",
+                    "enum": ["rolling", "canary"]
+                  },
+                  "options": {
+                    "type": "object",
+                    "properties": {
+                      "max_in_flight": {
+                        "type": "integer",
+                        "description": "The maximum number of instances that will be deployed simultaneously",
+                        "default": 1,
+                        "minimum": 1
+                      },
+                      "web_instances": {
+                        "type": "integer",
+                        "description": "The number of instances for the web process of the new droplet"
+                      },
+                      "memory_in_mb": {
+                        "type": "integer",
+                        "description": "The amount of memory in megabytes to allocate for the web process"
+                      },
+                      "disk_in_mb": {
+                        "type": "integer",
+                        "description": "The amount of disk space in megabytes to allocate for the web process"
+                      },
+                      "log_rate_limit_in_bytes_per_second": {
+                        "type": "integer",
+                        "description": "The log rate limit in bytes per second for the web process. A value of -1 indicates unlimited, 0 prevents any logs from being emitted."
+                      },
+                      "canary": {
+                        "type": "object",
+                        "description": "Canary steps to use for the deployment. Only available for deployments with strategy ‘canary’.",
+                        "properties": {
+                          "steps": {
+                            "type": "array",
+                            "description": "Array of steps defining the canary deployment progression",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "instance_weight": {
+                                  "type": "integer",
+                                  "description": "The percentage of instances to be deployed as part of the canary process in this step"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "droplet": {
+                    "$ref": "#/components/schemas/Relationship"
+                  },
+                  "revision": {
+                    "$ref": "#/components/schemas/Relationship"
+                  },
+                  "metadata": {
+                    "$ref": "#/components/schemas/Metadata"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully created deployment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deployment"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/deployments/{guid}": {
+      "get": {
+        "summary": "Get a deployment",
+        "description": "Retrieve a deployment.",
+        "operationId": "getDeployment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved deployment",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deployment"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v3/jobs/{guid}": {
+      "get": {
+        "summary": "Get a job",
+        "description": "Retrieve a specific job.",
+        "operationId": "getJob",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved job",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/roles": {
+      "get": {
+        "summary": "List roles",
+        "description": "This endpoint lists roles that the user has access to.",
+        "operationId": "listRoles",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PerPage"
+          },
+          {
+            "$ref": "#/components/parameters/OrderBy"
+          },
+          {
+            "$ref": "#/components/parameters/CreatedAts"
+          },
+          {
+            "$ref": "#/components/parameters/UpdatedAts"
+          },
+          {
+            "$ref": "#/components/parameters/LabelSelector"
+          },
+          {
+            "name": "guids",
+            "in": "query",
+            "description": "Comma-delimited list of role guids to filter by",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "types",
+            "in": "query",
+            "description": "Comma-delimited list of role types to filter by",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "organization_guids",
+            "in": "query",
+            "description": "Comma-delimited list of organization guids to filter by",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "space_guids",
+            "in": "query",
+            "description": "Comma-delimited list of space guids to filter by",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "user_guids",
+            "in": "query",
+            "description": "Comma-delimited list of user guids to filter by",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "description": "Optionally include additional related resources in the response; valid values are `user`, `space`, and `organization`.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/RoleListResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/roles/{guid}": {
+      "get": {
+        "summary": "Get a role",
+        "description": "This endpoint gets an individual role resource.",
+        "operationId": "getRole",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "description": "Optionally include additional related resources in the response; valid values are `user`, `space`, and `organization`.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Role retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a role",
+        "description": "This endpoint deletes an individual role.",
+        "operationId": "deleteRole",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "headers": {
+              "Location": {
+                "description": "URL of the job that is deleting the role",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/routes": {
+      "post": {
+        "summary": "Create a route",
+        "description": "Create a route.",
+        "operationId": "createRoute",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/RouteCreateRequestBody"
+        },
+        "responses": {
+          "201": {
+            "description": "Route created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Route"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      },
+      "get": {
+        "summary": "List routes",
+        "description": "Retrieve all routes the user has access to.",
+        "operationId": "listRoutes",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PerPage"
+          },
+          {
+            "$ref": "#/components/parameters/OrderBy"
+          },
+          {
+            "$ref": "#/components/parameters/CreatedAts"
+          },
+          {
+            "$ref": "#/components/parameters/UpdatedAts"
+          },
+          {
+            "$ref": "#/components/parameters/LabelSelector"
+          },
+          {
+            "name": "protocols",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of protocols to filter by"
+          },
+          {
+            "name": "hosts",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of hosts to filter by"
+          },
+          {
+            "name": "paths",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of paths to filter by"
+          },
+          {
+            "name": "ports",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of ports to filter by"
+          },
+          {
+            "name": "domain_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of domain GUIDs to filter by"
+          },
+          {
+            "name": "space_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of space GUIDs to filter by"
+          },
+          {
+            "name": "app_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of app GUIDs to filter by"
+          },
+          {
+            "name": "organization_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of organization GUIDs to filter by"
+          },
+          {
+            "name": "service_instance_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service instance GUIDs to filter by"
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optionally include a list of unique related resources in the response"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/RouteListResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/routes/{guid}": {
+      "get": {
+        "summary": "Get a route",
+        "description": "Retrieve a route.",
+        "operationId": "getRoute",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optionally include a list of unique related resources in the response"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Route"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a route",
+        "description": "Update a route.",
+        "operationId": "updateRoute",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "requestBody": {
+          "description": "Route object that needs to be updated",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "metadata": {
+                    "$ref": "#/components/schemas/Metadata"
+                  }
+                },
+                "description": "Request schema for updating a route"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Route"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a route",
+        "description": "Delete a route.",
+        "operationId": "deleteRoute",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successfully deleted route",
+            "headers": {
+              "Location": {
+                "description": "URL of the job that is deleting the route",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/routes/{guid}/destinations": {
+      "get": {
+        "summary": "List destinations for a route",
+        "description": "Retrieve all destinations associated with a route.",
+        "operationId": "listDestinationsForRoute",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PerPage"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of destinations for the route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RouteDestinationList"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "post": {
+        "summary": "Insert destinations for a route",
+        "description": "Add one or more destinations to a route, preserving any existing destinations.\n\nWeighted destinations (deprecated) cannot be added with this endpoint.",
+        "operationId": "insertDestinationsForRoute",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/RouteDestinations"
+        },
+        "responses": {
+          "200": {
+            "description": "List of destinations for the route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RouteDestinationList"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/routes/{guid}/destinations/{destination_guid}": {
+      "delete": {
+        "summary": "Remove destination for a route",
+        "description": "Remove a destination from a route.",
+        "operationId": "removeDestinationForRoute",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          },
+          {
+            "name": "destination_guid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "The GUID of the route destination to remove"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully removed destination from the route"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/domains": {
+      "get": {
+        "summary": "List domains",
+        "description": "Retrieve all domains the user has access to.\n\n**Permitted roles:** All Roles",
+        "operationId": "listDomains",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PerPage"
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["created_at", "-created_at", "updated_at", "-updated_at"]
+            },
+            "description": "Value to sort by. Defaults to ascending; prepend with `-` to sort descending. Valid values are `created_at`, `updated_at`"
+          },
+          {
+            "$ref": "#/components/parameters/CreatedAts"
+          },
+          {
+            "$ref": "#/components/parameters/UpdatedAts"
+          },
+          {
+            "$ref": "#/components/parameters/LabelSelector"
+          },
+          {
+            "name": "guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of guids to filter by"
+          },
+          {
+            "name": "names",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of domain names to filter by (case-insensitive)"
+          },
+          {
+            "name": "organization_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of owning organization guids to filter by"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DomainList"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/service_instances": {
+      "post": {
+        "summary": "Create a service instance",
+        "description": "This endpoint creates a new service instance. Service instances can be of type `managed` or `user-provided`, and the required parameters are different for each type. User provided service instances do",
+        "operationId": "createServiceInstance",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ServiceInstanceCreateRequestBody"
+        },
+        "responses": {
+          "201": {
+            "description": "User Provided Service instance created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProvidedServiceInstance"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Service instance creation in progress",
+            "headers": {
+              "Location": {
+                "description": "URL of the job that is creating the service instance",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      },
+      "get": {
+        "summary": "List service instances",
+        "description": "This endpoint retrieves the service instances the user has access to, including access granted by service instance sharing.",
+        "operationId": "listServiceInstances",
+        "parameters": [
+          {
+            "name": "names",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service instance names to filter by"
+          },
+          {
+            "name": "guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service instance guids to filter by"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["managed", "user-provided"]
+            },
+            "description": "Filter by type; valid values are 'managed' and 'user-provided'"
+          },
+          {
+            "name": "space_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of space guids to filter by"
+          },
+          {
+            "name": "organization_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of organization guids to filter by"
+          },
+          {
+            "name": "service_plan_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service plan guids to filter by"
+          },
+          {
+            "name": "service_plan_names",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service plan names to filter by"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PerPage"
+          },
+          {
+            "$ref": "#/components/parameters/OrderBy"
+          },
+          {
+            "$ref": "#/components/parameters/LabelSelector"
+          },
+          {
+            "$ref": "#/components/parameters/CreatedAts"
+          },
+          {
+            "$ref": "#/components/parameters/UpdatedAts"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "schema": {
+              "type": "object"
+            },
+            "description": "Fields to include in the response"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request succeeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceInstanceList"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/service_instances/{guid}": {
+      "get": {
+        "summary": "Get a service instance",
+        "description": "This endpoint retrieves the service instance by GUID.",
+        "operationId": "getServiceInstance",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "schema": {
+              "type": "object"
+            },
+            "description": "Fields to include in the response"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ManagedServiceInstance"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UserProvidedServiceInstance"
+                    }
+                  ],
+                  "discriminator": {
+                    "propertyName": "type",
+                    "mapping": {
+                      "managed": "#/components/schemas/ManagedServiceInstance",
+                      "user-provided": "#/components/schemas/UserProvidedServiceInstance"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a service instance",
+        "description": "Some updates can be performed entirely within the Cloud Controller in which case the response is synchronous. Some updates require communication with the service broker, in which case the response wil",
+        "operationId": "updateServiceInstance",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ServiceInstanceUpdateRequestBody"
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ManagedServiceInstance"
+                    },
+                    {
+                      "$ref": "#/components/schemas/UserProvidedServiceInstance"
+                    }
+                  ],
+                  "discriminator": {
+                    "propertyName": "type",
+                    "mapping": {
+                      "managed": "#/components/schemas/ManagedServiceInstance",
+                      "user-provided": "#/components/schemas/UserProvidedServiceInstance"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "headers": {
+              "Location": {
+                "description": "URL of the job that is updating the service instance",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a service instance",
+        "description": "This endpoint deletes a service instance and any associated service credential",
+        "operationId": "deleteServiceInstance",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          },
+          {
+            "name": "purge",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "If `true`, deletes the service instance and all associated resources without any interaction with the service broker."
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "headers": {
+              "Location": {
+                "description": "URL of the job that is deleting the service instance",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/service_instances/{guid}/credentials": {
+      "get": {
+        "summary": "Get credentials for a user-provided service instance",
+        "description": "Retrieves the credentials for a user-provided service instance. This endpoint is not available for managed service instances.",
+        "operationId": "getServiceInstanceCredentials",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/v3/service_plans": {
+      "get": {
+        "summary": "List service plans",
+        "description": "This endpoint retrieves the service plans the user has access to.",
+        "operationId": "listServicePlans",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PerPage"
+          },
+          {
+            "$ref": "#/components/parameters/OrderBy"
+          },
+          {
+            "name": "names",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service plan names to filter by"
+          },
+          {
+            "name": "available",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Filter by the `available` property; valid values are `true` or `false`"
+          },
+          {
+            "name": "service_offering_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service offering guids to filter by"
+          },
+          {
+            "name": "service_instance_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service instance guids to filter by"
+          },
+          {
+            "name": "space_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of space guids to filter by"
+          },
+          {
+            "name": "organization_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of organization guids to filter by"
+          },
+          {
+            "name": "broker_catalog_ids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of broker catalog IDs to filter by"
+          },
+          {
+            "name": "service_broker_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service broker GUIDs to filter by"
+          },
+          {
+            "name": "service_broker_names",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service broker names to filter by"
+          },
+          {
+            "name": "service_offering_names",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service offering names to filter by"
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optionally include a list of unique related resources in the response"
+          },
+          {
+            "$ref": "#/components/parameters/LabelSelector"
+          },
+          {
+            "name": "fields",
+            "in": "query",
+            "schema": {
+              "type": "object"
+            },
+            "description": "Fields to include in the response"
+          },
+          {
+            "$ref": "#/components/parameters/CreatedAts"
+          },
+          {
+            "$ref": "#/components/parameters/UpdatedAts"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServicePlanList"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/service_credential_bindings": {
+      "post": {
+        "summary": "Create a service credential binding",
+        "description": "This endpoint creates a new service credential binding. Service credential bindings can be of type `app` or `key`; `key` is only valid for managed service instances.",
+        "operationId": "createServiceCredentialBinding",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/ServiceCredentialBindingCreateRequestBody"
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/AppCredentialBinding"
+                    },
+                    {
+                      "$ref": "#/components/schemas/KeyCredentialBinding"
+                    }
+                  ],
+                  "discriminator": {
+                    "propertyName": "type",
+                    "mapping": {
+                      "app": "#/components/schemas/AppCredentialBinding",
+                      "key": "#/components/schemas/KeyCredentialBinding"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "headers": {
+              "Location": {
+                "description": "URL of the job that is creating the service credential binding",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      },
+      "get": {
+        "summary": "List service credential bindings",
+        "description": "This endpoint retrieves the service credential bindings the user has access to.",
+        "operationId": "listServiceCredentialBindings",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PerPage"
+          },
+          {
+            "$ref": "#/components/parameters/OrderBy"
+          },
+          {
+            "$ref": "#/components/parameters/CreatedAts"
+          },
+          {
+            "$ref": "#/components/parameters/UpdatedAts"
+          },
+          {
+            "$ref": "#/components/parameters/LabelSelector"
+          },
+          {
+            "name": "names",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service credential binding names to filter by"
+          },
+          {
+            "name": "service_instance_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service instance guids to filter by"
+          },
+          {
+            "name": "app_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of app guids to filter by"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["app", "key"]
+            },
+            "description": "Type of credential binding to filter by. Valid values are 'app' or 'key'"
+          },
+          {
+            "name": "service_instance_names",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service instance names to filter by"
+          },
+          {
+            "name": "app_names",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of app names to filter by"
+          },
+          {
+            "name": "service_plan_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service plan guids to filter by"
+          },
+          {
+            "name": "service_plan_names",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service plan names to filter by"
+          },
+          {
+            "name": "service_offering_guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service offering guids to filter by"
+          },
+          {
+            "name": "service_offering_names",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service offering names to filter by"
+          },
+          {
+            "name": "guids",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-delimited list of service credential binding guids to filter by"
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optionally include a list of unique related resources in the response. Valid values are: `app`, `service_instance`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceCredentialBindingList"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/v3/service_credential_bindings/{guid}": {
+      "get": {
+        "summary": "Get a service credential binding",
+        "description": "This endpoint retrieves the service credential binding by GUID.",
+        "operationId": "getServiceCredentialBinding",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optionally include a list of unique related resources in the response"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/AppCredentialBinding"
+                    },
+                    {
+                      "$ref": "#/components/schemas/KeyCredentialBinding"
+                    }
+                  ],
+                  "discriminator": {
+                    "propertyName": "type",
+                    "mapping": {
+                      "app": "#/components/schemas/AppCredentialBinding",
+                      "key": "#/components/schemas/KeyCredentialBinding"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a service credential binding",
+        "description": "This endpoint deletes a service credential binding. When deleting credential bindings originated from user provided service instances, the delete operation does not require interactions with service b",
+        "operationId": "deleteServiceCredentialBinding",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Guid"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "headers": {
+              "Location": {
+                "description": "URL of the job that is deleting the service credential binding",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
+          }
+        }
+      }
+    },
+    "/oauth/token": {
+      "post": {
+        "operationId": "requestToken",
+        "summary": "Exchange a user's password for an access token.",
+        "description": "UAA's password grant, with the `cf` client and its empty secret.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "required": ["grant_type", "username", "password"],
+                "properties": {
+                  "grant_type": {
+                    "type": "string",
+                    "enum": ["password"]
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "token_format": {
+                    "type": "string",
+                    "description": "`jwt` for a JWT access token."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is malformed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The client may not use this grant.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Errors"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Link": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          }
+        }
+      },
+      "Errors": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "description": "An error response will always return a list of error objects. Errors appear on the job resource for asynchronous operations."
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "A numeric code for this error"
+          },
+          "detail": {
+            "type": "string",
+            "description": "Detailed description of the error"
+          },
+          "title": {
+            "type": "string",
+            "description": "Name of the error"
+          }
+        }
+      },
+      "Lifecycle": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of the lifecycle; valid values are buildpack, cnb, docker"
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Data specific to the lifecycle",
+            "properties": {
+              "buildpacks": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "List of the names of buildpacks, URLs from which they may be downloaded, or null to auto-detect a suitable buildpack during staging (applicable for buildpack and cnb lifecycles)"
+              },
+              "stack": {
+                "type": ["string", "null"],
+                "description": "The root filesystem to use with the buildpack, for example cflinuxfs4 (applicable for buildpack lifecycle)"
+              },
+              "credentials": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": ["string", "null"]
+                    },
+                    "password": {
+                      "type": ["string", "null"]
+                    },
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "description": "Credentials used to download the configured buildpacks (applicable for cnb lifecycle)"
+              }
+            }
+          }
+        },
+        "description": "The lifecycle type defines how the application droplet is created and run. The following lifecycle types are supported: - buildpack: Traditional buildpacks for Cloud Foundry applications. - cnb: Cloud"
+      },
+      "RelationshipToOne": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Relationship"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "Relationship": {
+        "type": "object",
+        "properties": {
+          "guid": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The GUID of the resource"
+          }
+        }
+      },
+      "Metadata": {
+        "type": "object",
+        "properties": {
+          "labels": {
+            "type": "object",
+            "additionalProperties": {
+              "type": ["string", "null"]
+            },
+            "description": "A set of key-value pairs that describe the resource. Labels are a JSON object that contains information about a resource. They are used to tag resources with metadata that can be used to filter and gr"
+          },
+          "annotations": {
+            "type": "object",
+            "additionalProperties": {
+              "type": ["string", "null"]
+            },
+            "description": "A set of key-value pairs that describe the resource. Annotations are a JSON object that contains information about a resource. They are used to tag resources with metadata that can be used to filter a"
+          }
+        },
+        "description": "Metadata is a JSON object that contains information about a resource. It includes the GUID of the resource, the time the resource was created, the time the resource was last updated, and links to the "
+      },
+      "App": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          },
+          {
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name of the app"
+              },
+              "state": {
+                "type": "string",
+                "description": "Current desired state of the app",
+                "enum": ["STOPPED", "STARTED"]
+              },
+              "lifecycle": {
+                "$ref": "#/components/schemas/Lifecycle",
+                "description": "Provides the default lifecycle object for the application. This lifecycle will be used when staging and running the application. The staging lifecycle can be overridden on builds"
+              },
+              "relationships": {
+                "$ref": "#/components/schemas/Relationships"
+              },
+              "metadata": {
+                "$ref": "#/components/schemas/Metadata"
+              }
+            }
+          }
+        ],
+        "description": "Apps represent the core entities in the Cloud Foundry environment. They are the deployable units that run your code. Each app can have multiple processes, routes, and services associated with it. Apps"
+      },
+      "BaseSchema": {
+        "type": "object",
+        "properties": {
+          "guid": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The unique identifier for the resource"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The ISO8601 compatible date and time when resource was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The ISO8601 compatible date and time when resource was last updated"
+          }
+        },
+        "description": "A resource represents an individual object within the system, such as an app or a service. It is represented as a JSON object."
+      },
+      "Relationships": {
+        "type": "object",
+        "description": "Associations between this resource and others, by name (`space`, `app`, `domain`, ...).",
+        "additionalProperties": {
+          "$ref": "#/components/schemas/RelationshipToOne"
+        }
+      },
+      "Domain": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          },
+          {
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name of the domain; must be between 3 ~ 253 characters and follow [RFC 1035](https://tools.ietf.org/html/rfc1035)"
+              },
+              "internal": {
+                "type": "boolean",
+                "description": "Whether the domain is used for internal (container-to-container) traffic"
+              },
+              "router_group": {
+                "type": ["object", "null"],
+                "properties": {
+                  "guid": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "The guid of the desired router group to route `tcp` traffic through; if set, the domain will only be available for `tcp` traffic"
+                  }
+                },
+                "description": "The router group the domain routes `tcp` traffic through; if set, the domain will only be available for `tcp` traffic"
+              },
+              "supported_protocols": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": ["http", "tcp"]
+                },
+                "description": "Available protocols for routes using the domain, currently `http` and `tcp`"
+              },
+              "enforce_route_policies": {
+                "type": "boolean",
+                "description": "When `true`, GoRouter enforces route policies for routes on this domain. This field only appears in the response when set to `true`. Set at creation only; cannot be changed on update"
+              },
+              "route_policies_scope": {
+                "type": "string",
+                "enum": ["any", "org", "space"],
+                "description": "Operator-defined boundary for allowed callers: `any`, `org`, or `space`. Required when `enforce_route_policies` is `true`. This field only appears when `enforce_route_policies` is `true`. Set at creat"
+              },
+              "relationships": {
+                "type": "object",
+                "properties": {
+                  "organization": {
+                    "$ref": "#/components/schemas/RelationshipToOne",
+                    "description": "The organization the domain is scoped to; if set, the domain will only be available in that organization; otherwise, the domain will be globally available"
+                  },
+                  "shared_organizations": {
+                    "$ref": "#/components/schemas/RelationshipToMany",
+                    "description": "Organizations the domain is shared with; if set, the domain will be available in these organizations in addition to the organization the domain is scoped to"
+                  }
+                },
+                "description": "Relationships to the organization the domain is scoped to and the organizations the domain is shared with"
+              },
+              "metadata": {
+                "$ref": "#/components/schemas/Metadata",
+                "description": "Labels and annotations applied to the domain"
+              }
+            }
+          }
+        ],
+        "description": "Domains represent a [fully qualified domain name](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) that is used for application routes."
+      },
+      "RelationshipToMany": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Relationship"
+            }
+          }
+        },
+        "description": "Some relationships relate a resource to several other resources. For example, an isolation segment can be entitled to multiple organizations.\n"
+      },
+      "ManagedServiceInstance": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          },
+          {
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["managed"],
+                "description": "Type of service instance"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the service instance"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Tags for the service instance"
+              },
+              "syslog_drain_url": {
+                "type": ["string", "null"],
+                "format": "uri",
+                "description": "URL for syslog drain"
+              },
+              "route_service_url": {
+                "type": ["string", "null"],
+                "format": "uri",
+                "description": "URL for route service"
+              },
+              "dashboard_url": {
+                "type": ["string", "null"],
+                "format": "uri",
+                "description": "URL for service dashboard"
+              },
+              "maintenance_info": {
+                "type": "object",
+                "properties": {
+                  "version": {
+                    "type": "string",
+                    "description": "Version of maintenance info"
+                  },
+                  "description": {
+                    "type": ["string", "null"],
+                    "description": "Description of maintenance info"
+                  }
+                }
+              },
+              "upgrade_available": {
+                "type": "boolean",
+                "description": "Whether an upgrade is available"
+              },
+              "last_operation": {
+                "$ref": "#/components/schemas/ServiceInstanceLastOperation"
+              },
+              "relationships": {
+                "type": "object",
+                "properties": {
+                  "space": {
+                    "$ref": "#/components/schemas/RelationshipToOne"
+                  },
+                  "service_plan": {
+                    "$ref": "#/components/schemas/RelationshipToOne"
+                  }
+                },
+                "description": "Relationships for the service instance"
+              },
+              "metadata": {
+                "$ref": "#/components/schemas/Metadata"
+              }
+            },
+            "required": ["type", "name", "relationships"]
+          }
+        ]
+      },
+      "ServiceInstanceLastOperation": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of the last operation",
+            "enum": ["create", "update", "delete"]
+          },
+          "state": {
+            "type": "string",
+            "description": "State of the last operation",
+            "enum": ["initial", "in progress", "succeeded", "failed"]
+          },
+          "description": {
+            "type": ["string", "null"],
+            "description": "A textual explanation associated with this state"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the last operation was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the last operation was last updated"
+          }
+        },
+        "description": "The last operation object for service instances"
+      },
+      "UserProvidedServiceInstance": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          },
+          {
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["user-provided"],
+                "description": "Type of service instance"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the service instance"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Tags for the service instance"
+              },
+              "syslog_drain_url": {
+                "type": ["string", "null"],
+                "format": "uri",
+                "description": "URL for syslog drain"
+              },
+              "route_service_url": {
+                "type": ["string", "null"],
+                "format": "uri",
+                "description": "URL for route service"
+              },
+              "relationships": {
+                "type": "object",
+                "properties": {
+                  "space": {
+                    "$ref": "#/components/schemas/RelationshipToOne"
+                  }
+                },
+                "description": "Relationships for the service instance"
+              },
+              "metadata": {
+                "$ref": "#/components/schemas/Metadata"
+              }
+            },
+            "required": ["type", "name", "relationships"]
+          }
+        ]
+      },
+      "Route": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          },
+          {
+            "properties": {
+              "protocol": {
+                "type": "string"
+              },
+              "host": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "port": {
+                "type": ["integer", "null"]
+              },
+              "url": {
+                "type": "string",
+                "description": "Fully qualified path or address where the route directs traffic"
+              },
+              "relationships": {
+                "$ref": "#/components/schemas/Relationships"
+              },
+              "metadata": {
+                "$ref": "#/components/schemas/Metadata"
+              }
+            }
+          }
+        ],
+        "description": "A route in Cloud Foundry is used to direct traffic from a URL to an application."
+      },
+      "AppList": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/App"
+            }
+          }
+        }
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "total_results": {
+            "type": "integer",
+            "description": "The total number of results available"
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "The total number of pages available"
+          },
+          "first": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Link"
+              },
+              {
+                "description": "The first page of results"
+              }
+            ]
+          },
+          "last": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Link"
+              },
+              {
+                "description": "The last page of results"
+              }
+            ]
+          },
+          "next": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Link"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The next page of results"
+          },
+          "previous": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Link"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The previous page of results"
+          }
+        },
+        "description": "Pagination is a technique used to divide a large set of results into smaller, more manageable sets. This allows clients to retrieve results in smaller chunks, reducing the amount of data transferred a"
+      },
+      "AppEnvironmentVariables": {
+        "type": "object",
+        "properties": {
+          "var": {
+            "type": "object",
+            "description": "Environment variables",
+            "additionalProperties": {
+              "type": ["string", "null"]
+            }
+          }
+        },
+        "description": "App environment variables with links"
+      },
+      "Droplet": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          },
+          {
+            "properties": {
+              "state": {
+                "type": "string",
+                "description": "State of the droplet; valid states are AWAITING_UPLOAD, PROCESSING_UPLOAD, STAGED, COPYING, FAILED, or EXPIRED"
+              },
+              "error": {
+                "type": ["string", "null"],
+                "description": "A string describing the last error during the droplet lifecycle"
+              },
+              "lifecycle": {
+                "$ref": "#/components/schemas/Lifecycle"
+              },
+              "execution_metadata": {
+                "type": ["string", "null"],
+                "description": "Serialized JSON data resulting from staging for use when executing a droplet"
+              },
+              "process_types": {
+                "type": "object",
+                "description": "The process types (keys) and associated start commands (values) that will be created when the droplet is executed"
+              },
+              "metadata": {
+                "$ref": "#/components/schemas/Metadata"
+              },
+              "checksum": {
+                "type": ["object", "null"],
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Hashing algorithm for checksum; supported algorithms are sha256 and sha1"
+                  },
+                  "value": {
+                    "type": "string",
+                    "description": "Checksum of the droplet"
+                  }
+                }
+              },
+              "buildpacks": {
+                "type": ["array", "null"],
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": ["string", "null"],
+                      "description": "System buildpack name"
+                    },
+                    "detect_output": {
+                      "type": ["string", "null"],
+                      "description": "Output during buildpack detect process"
+                    },
+                    "version": {
+                      "type": ["string", "null"],
+                      "description": "Version reported by the buildpack"
+                    },
+                    "buildpack_name": {
+                      "type": ["string", "null"],
+                      "description": "Name reported by the buildpack"
+                    }
+                  }
+                }
+              },
+              "stack": {
+                "type": ["string", "null"],
+                "description": "The root filesystem to use with the buildpack, for example cflinuxfs4"
+              },
+              "image": {
+                "type": ["string", "null"],
+                "description": "Docker image name for Docker droplets"
+              }
+            }
+          }
+        ],
+        "description": "A droplet is the result of staging an application package. There are two types (lifecycles) of droplets buildpack and docker. In the case of the buildpacks, the droplet contains the bits produced by t"
+      },
+      "Process": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          },
+          {
+            "properties": {
+              "version": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Random identifier that changes every time the process will be recreated in the runtime"
+              },
+              "type": {
+                "type": "string",
+                "description": "Process type; a unique identifier for processes belonging to an app"
+              },
+              "command": {
+                "type": ["string", "null"],
+                "description": "The command used to start the process; use null to revert to the buildpack-detected or procfile-provided start command"
+              },
+              "user": {
+                "type": ["string", "null"],
+                "description": "The user used to run the process; use null to revert to the docker-detected or default 'vcap' user"
+              },
+              "instances": {
+                "type": "integer",
+                "description": "The number of instances to run"
+              },
+              "memory_in_mb": {
+                "type": ["integer", "null"],
+                "description": "The memory in MB allocated per instance"
+              },
+              "disk_in_mb": {
+                "type": ["integer", "null"],
+                "description": "The disk in MB allocated per instance"
+              },
+              "log_rate_limit_in_bytes_per_second": {
+                "type": "integer",
+                "description": "The log rate in bytes per second allocated per instance"
+              },
+              "health_check": {
+                "$ref": "#/components/schemas/HealthCheck"
+              },
+              "readiness_health_check": {
+                "$ref": "#/components/schemas/HealthCheck"
+              },
+              "relationships": {
+                "type": "object",
+                "properties": {
+                  "app": {
+                    "$ref": "#/components/schemas/RelationshipToOne"
+                  },
+                  "revision": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/RelationshipToOne"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              },
+              "metadata": {
+                "$ref": "#/components/schemas/Metadata"
+              }
+            }
+          }
+        ],
+        "description": "A process defines the runnable units of an app"
+      },
+      "HealthCheck": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["port", "process", "http"],
+            "description": "The type of health check to perform; valid values are http, port, and process; default is port"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "timeout": {
+                "type": ["integer", "null"],
+                "description": "The duration in seconds that health checks can fail before the process is restarted"
+              },
+              "invocation_timeout": {
+                "type": ["integer", "null"],
+                "description": "The timeout in seconds for individual health check requests for http and port health checks"
+              },
+              "interval": {
+                "type": ["integer", "null"],
+                "description": "The interval in seconds between health check requests"
+              },
+              "endpoint": {
+                "type": "string",
+                "description": "The endpoint called to determine if the app is healthy; this key is only present for http health checks"
+              }
+            }
+          }
+        },
+        "description": "Health check configuration for a process"
+      },
+      "ProcessStats": {
+        "type": "object",
+        "properties": {
+          "resources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "index": {
+                  "type": "integer"
+                },
+                "state": {
+                  "type": "string",
+                  "enum": ["RUNNING", "CRASHED", "STARTING", "DOWN", "STOPPING"]
+                },
+                "host": {
+                  "type": "string"
+                },
+                "uptime": {
+                  "type": "integer"
+                },
+                "mem_quota": {
+                  "type": ["integer", "null"]
+                },
+                "disk_quota": {
+                  "type": ["integer", "null"]
+                },
+                "log_rate_limit": {
+                  "type": ["integer", "null"]
+                },
+                "usage": {
+                  "type": "object",
+                  "properties": {
+                    "time": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "cpu": {
+                      "type": "number"
+                    },
+                    "mem": {
+                      "type": "integer"
+                    },
+                    "disk": {
+                      "type": "integer"
+                    },
+                    "log_rate": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Statistics for a process"
+      },
+      "Package": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          },
+          {
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Type of the package; valid values are bits or docker",
+                "enum": ["bits", "docker"]
+              },
+              "data": {
+                "type": "object",
+                "description": "Data for package type",
+                "properties": {
+                  "error": {
+                    "type": ["string", "null"],
+                    "description": "If an error occurs this field will contain the error message"
+                  },
+                  "checksum": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "description": "The checksum type, for example sha256"
+                      },
+                      "value": {
+                        "type": ["string", "null"],
+                        "description": "The checksum value; this will be populated after bits are uploaded"
+                      }
+                    }
+                  },
+                  "image": {
+                    "type": "string",
+                    "description": "The registry address of the image"
+                  },
+                  "username": {
+                    "type": ["string", "null"],
+                    "description": "The username for the image's registry"
+                  },
+                  "password": {
+                    "type": ["string", "null"],
+                    "description": "The password for the image's registry"
+                  }
+                }
+              },
+              "state": {
+                "type": "string",
+                "description": "State of the package; valid states are AWAITING_UPLOAD, PROCESSING_UPLOAD, READY, FAILED, COPYING, or EXPIRED",
+                "enum": [
+                  "AWAITING_UPLOAD",
+                  "PROCESSING_UPLOAD",
+                  "READY",
+                  "FAILED",
+                  "COPYING",
+                  "EXPIRED"
+                ]
+              },
+              "relationships": {
+                "$ref": "#/components/schemas/Relationships"
+              },
+              "metadata": {
+                "$ref": "#/components/schemas/Metadata"
+              }
+            }
+          }
+        ],
+        "description": "A package represents an application\"s \"source code\" - either raw bits or a pointer to these bits. Packages are used to create builds, which result in a droplet that can be deployed."
+      },
+      "Build": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          },
+          {
+            "properties": {
+              "state": {
+                "type": "string",
+                "description": "State of the build",
+                "enum": ["STAGING", "STAGED", "FAILED"]
+              },
+              "staging_memory_in_mb": {
+                "type": ["integer", "null"],
+                "description": "Memory in MB allocated for staging of the build"
+              },
+              "staging_disk_in_mb": {
+                "type": ["integer", "null"],
+                "description": "Disk space in MB allocated for staging of the build"
+              },
+              "staging_log_rate_limit_bytes_per_second": {
+                "type": "integer",
+                "description": "Log rate limit in bytes per second allocated for staging of the build"
+              },
+              "error": {
+                "type": ["string", "null"],
+                "description": "A string describing errors during the build process"
+              },
+              "lifecycle": {
+                "$ref": "#/components/schemas/Lifecycle",
+                "description": "Provides the lifecycle object to use during staging; this will override the build’s application’s default lifecycle for this build"
+              },
+              "checksum": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Hashing algorithm for checksum; supported algorithms are sha256 and sha1"
+                  },
+                  "value": {
+                    "type": "string",
+                    "description": "Checksum of build"
+                  }
+                }
+              },
+              "metadata": {
+                "$ref": "#/components/schemas/Metadata"
+              },
+              "relationships": {
+                "$ref": "#/components/schemas/Relationships"
+              },
+              "package": {
+                "type": "object",
+                "properties": {
+                  "guid": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                },
+                "description": "The package that is the input to the staging process"
+              },
+              "droplet": {
+                "type": ["object", "null"],
+                "properties": {
+                  "guid": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                },
+                "description": "A resulting droplet from the staging process; `droplet` will be `null` if staging has not completed"
+              },
+              "created_by": {
+                "type": "object",
+                "properties": {
+                  "guid": {
+                    "type": "string",
+                    "description": "The guid of the user that created the build"
+                  },
+                  "name": {
+                    "type": ["string", "null"],
+                    "description": "The name of the user that created the build"
+                  },
+                  "email": {
+                    "type": ["string", "null"],
+                    "description": "The email of the user that created the build"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "description": "Builds represent the process of transforming source code into a runnable artifact. Builds can be triggered manually or automatically as part of the app lifecycle. A successful build results in a dropl"
+      },
+      "Deployment": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          },
+          {
+            "properties": {
+              "status": {
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "description": "The current status of the deployment",
+                    "enum": ["ACTIVE", "FINALIZED"]
+                  },
+                  "reason": {
+                    "type": "string",
+                    "description": "The reason for the status of the deployment",
+                    "enum": [
+                      "DEPLOYING",
+                      "PAUSED",
+                      "CANCELING",
+                      "DEPLOYED",
+                      "CANCELED",
+                      "SUPERSEDED"
+                    ]
+                  },
+                  "details": {
+                    "type": "object",
+                    "properties": {
+                      "last_successful_healthcheck": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of the last successful health check"
+                      },
+                      "last_status_change": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of last change to status.value or status.reason"
+                      }
+                    }
+                  }
+                }
+              },
+              "strategy": {
+                "type": "string",
+                "description": "Strategy used for the deployment",
+                "enum": ["rolling", "canary"]
+              },
+              "options": {
+                "type": "object",
+                "properties": {
+                  "max_in_flight": {
+                    "type": "integer",
+                    "description": "The maximum number of new instances to deploy simultaneously"
+                  },
+                  "web_instances": {
+                    "type": "integer",
+                    "description": "The number of instances for the web process of the new droplet"
+                  },
+                  "memory_in_mb": {
+                    "type": "integer",
+                    "description": "The amount of memory in megabytes to allocate for the web process"
+                  },
+                  "disk_in_mb": {
+                    "type": "integer",
+                    "description": "The amount of disk space in megabytes to allocate for the web process"
+                  },
+                  "log_rate_limit_in_bytes_per_second": {
+                    "type": "integer",
+                    "description": "The log rate limit in bytes per second for the web process. A value of -1 indicates unlimited, 0 prevents any logs from being emitted."
+                  },
+                  "canary": {
+                    "type": "object",
+                    "description": "Configuration for canary deployments. Present when strategy is 'canary'.",
+                    "properties": {
+                      "steps": {
+                        "type": "array",
+                        "description": "Array of steps defining the canary deployment progression",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "instance_weight": {
+                              "type": "integer",
+                              "description": "The percentage of instances to be deployed as part of the canary process in this step"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "droplet": {
+                "type": "object",
+                "properties": {
+                  "guid": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                },
+                "description": "The droplet guid that the deployment is transitioning the app to"
+              },
+              "previous_droplet": {
+                "type": "object",
+                "properties": {
+                  "guid": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                },
+                "description": "The app’s [current droplet guid](#get-current-droplet-association-for-an-app) before the deployment was created"
+              },
+              "new_processes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "guid": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "The GUID of the new process created as part of the deployment"
+                    },
+                    "type": {
+                      "type": "string",
+                      "description": "The type of the new process created as part of the deployment"
+                    }
+                  }
+                }
+              },
+              "revision": {
+                "type": ["object", "null"],
+                "properties": {
+                  "guid": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "The revision the deployment is transitioning the app to"
+                  },
+                  "version": {
+                    "type": "integer",
+                    "description": "The version of the revision"
+                  }
+                }
+              },
+              "relationships": {
+                "$ref": "#/components/schemas/Relationships"
+              },
+              "metadata": {
+                "$ref": "#/components/schemas/Metadata"
+              }
+            }
+          }
+        ],
+        "description": "Deployments are objects that manage updates to applications with zero downtime. They can either: - Manage updating an app’s droplet directly after an application package is staged - Roll an app back t"
+      },
+      "Job": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          },
+          {
+            "properties": {
+              "operation": {
+                "type": "string",
+                "description": "The type of operation the job is performing"
+              },
+              "state": {
+                "type": "string",
+                "description": "The current state of the job",
+                "enum": ["PROCESSING", "COMPLETE", "FAILED", "POLLING"]
+              },
+              "errors": {
+                "type": "array",
+                "description": "Any errors encountered during job execution",
+                "items": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              },
+              "warnings": {
+                "type": "array",
+                "description": "Any warnings encountered during job execution",
+                "items": {
+                  "$ref": "#/components/schemas/Warning"
+                }
+              }
+            }
+          }
+        ],
+        "description": "Jobs are created by the platform when performing certain asynchronous actions. Asynchronous jobs are commonly used for long-running tasks such as uploading large files, staging applications, or deleti"
+      },
+      "Warning": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "string",
+            "description": "Description of the warning"
+          }
+        }
+      },
+      "Role": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          }
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Role type. Possible values are:",
+            "enum": [
+              "organization_user",
+              "organization_auditor",
+              "organization_manager",
+              "organization_billing_manager",
+              "space_auditor",
+              "space_developer",
+              "space_manager",
+              "space_supporter"
+            ]
+          },
+          "relationships": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Relationships"
+              }
+            ],
+            "properties": {
+              "organization": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RelationshipToOne"
+                  },
+                  {
+                    "description": "A relationship to the organization the role controls access to; when this is a space role, `organization.data` will be `null`.\n"
+                  }
+                ]
+              },
+              "space": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/RelationshipToOne"
+                  },
+                  {
+                    "description": "A relationship to the space the role controls access to; when this is an organization role, `space.data` will be `null`.\n"
+                  }
+                ]
+              },
+              "user": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/UserRelationshipToOne"
+                  },
+                  {
+                    "description": "A relationship to the user; this is the user that has the role\n"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "description": "Roles represent a set of permissions that can be granted to users. Roles are represented as a JSON object."
+      },
+      "UserRelationshipToOne": {
+        "type": ["object", "null"],
+        "properties": {
+          "data": {
+            "type": "object",
+            "description": "User relationship data that can be specified either by GUID or by username and origin.\nWhen using username and origin, the set_roles_by_username feature flag must be enabled.\n",
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "guid": {
+                    "type": "string",
+                    "description": "The GUID of the user, matching either a UAA user id or client id. A client id may not be a uuid."
+                  }
+                },
+                "required": ["guid"],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "The username of the user"
+                  },
+                  "origin": {
+                    "type": "string",
+                    "description": "The identity provider for the user (e.g., 'ldap', 'saml'). Optional field to disambiguate the username."
+                  }
+                },
+                "required": ["username"],
+                "additionalProperties": false,
+                "description": "User relationship data that can be specified either by GUID or by username and origin.\nSet to null to clear the relationship.\n"
+              }
+            ]
+          }
+        }
+      },
+      "RouteDestinationList": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          },
+          "destinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RouteDestination"
+            }
+          }
+        },
+        "description": "A list of route destinations"
+      },
+      "RouteDestination": {
+        "type": "object",
+        "properties": {
+          "guid": {
+            "type": "string"
+          },
+          "app": {
+            "type": "object",
+            "properties": {
+              "guid": {
+                "type": "string"
+              },
+              "process": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "weight": {
+            "type": ["integer", "null"]
+          },
+          "port": {
+            "type": "integer"
+          },
+          "protocol": {
+            "type": ["string", "null"]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        },
+        "description": "A route destination is a specification for where traffic on a route should be directed."
+      },
+      "DomainList": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination",
+            "description": "Pagination information for the list of domains"
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Domain"
+            },
+            "description": "List of domains"
+          }
+        },
+        "description": "A paginated list of domains"
+      },
+      "ServiceInstanceList": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/ManagedServiceInstance"
+                },
+                {
+                  "$ref": "#/components/schemas/UserProvidedServiceInstance"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "type",
+                "mapping": {
+                  "managed": "#/components/schemas/ManagedServiceInstance",
+                  "user-provided": "#/components/schemas/UserProvidedServiceInstance"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ServicePlanList": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServicePlan"
+            }
+          }
+        }
+      },
+      "ServicePlan": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          },
+          {
+            "properties": {
+              "service_offering_guid": {
+                "type": "string"
+              },
+              "service_offering_name": {
+                "type": "string"
+              },
+              "metadata": {
+                "$ref": "#/components/schemas/Metadata"
+              }
+            }
+          }
+        ]
+      },
+      "AppCredentialBinding": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          },
+          {
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["app"],
+                "description": "Type of credential binding"
+              },
+              "name": {
+                "type": ["string", "null"],
+                "description": "Name of the credential binding"
+              },
+              "last_operation": {
+                "$ref": "#/components/schemas/ServiceCredentialBindingLastOperation"
+              },
+              "relationships": {
+                "type": "object",
+                "properties": {
+                  "app": {
+                    "$ref": "#/components/schemas/RelationshipToOne"
+                  },
+                  "service_instance": {
+                    "$ref": "#/components/schemas/RelationshipToOne"
+                  }
+                },
+                "description": "Relationships for the credential binding"
+              },
+              "metadata": {
+                "$ref": "#/components/schemas/Metadata"
+              }
+            },
+            "required": ["type", "relationships"]
+          }
+        ]
+      },
+      "ServiceCredentialBindingLastOperation": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of the last operation",
+            "enum": ["create", "delete"]
+          },
+          "state": {
+            "type": "string",
+            "description": "State of the last operation",
+            "enum": ["initial", "in progress", "succeeded", "failed"]
+          },
+          "description": {
+            "type": ["string", "null"],
+            "description": "A textual explanation associated with this state"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the last operation was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the last operation was last updated"
+          }
+        },
+        "description": "The last operation object for service credential bindings"
+      },
+      "KeyCredentialBinding": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSchema"
+          },
+          {
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["key"],
+                "description": "Type of credential binding"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the credential binding"
+              },
+              "last_operation": {
+                "$ref": "#/components/schemas/ServiceCredentialBindingLastOperation"
+              },
+              "relationships": {
+                "type": "object",
+                "properties": {
+                  "service_instance": {
+                    "$ref": "#/components/schemas/RelationshipToOne"
+                  }
+                },
+                "description": "Relationships for the credential binding"
+              },
+              "metadata": {
+                "$ref": "#/components/schemas/Metadata"
+              }
+            },
+            "required": ["type", "relationships"]
+          }
+        ]
+      },
+      "ServiceCredentialBindingList": {
+        "type": "object",
+        "properties": {
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          },
+          "resources": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/AppCredentialBinding"
+                },
+                {
+                  "$ref": "#/components/schemas/KeyCredentialBinding"
+                }
+              ],
+              "discriminator": {
+                "propertyName": "type",
+                "mapping": {
+                  "app": "#/components/schemas/AppCredentialBinding",
+                  "key": "#/components/schemas/KeyCredentialBinding"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ApiRoot": {
+        "type": "object",
+        "properties": {
+          "links": {
+            "type": "object",
+            "properties": {
+              "self": {
+                "$ref": "#/components/schemas/Link"
+              },
+              "cloud_controller_v3": {
+                "$ref": "#/components/schemas/Link"
+              },
+              "login": {
+                "$ref": "#/components/schemas/Link"
+              },
+              "uaa": {
+                "$ref": "#/components/schemas/Link"
+              }
+            }
+          }
+        }
+      },
+      "TokenResponse": {
+        "type": "object",
+        "required": ["access_token", "expires_in"],
+        "properties": {
+          "access_token": {
+            "type": "string"
+          },
+          "token_type": {
+            "type": "string"
+          },
+          "expires_in": {
+            "type": "integer"
+          },
+          "refresh_token": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "jti": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "Page": {
+        "name": "page",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Page to display; valid values are integers >= 1"
+      },
+      "PerPage": {
+        "name": "per_page",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer"
+        },
+        "description": "Number of results per page, valid values are 1 through 5000"
+      },
+      "OrderBy": {
+        "name": "order_by",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Value to sort by. Defaults to ascending; prepend with `-` to sort descending.\n"
+      },
+      "CreatedAts": {
+        "name": "created_ats",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators).\n"
+      },
+      "UpdatedAts": {
+        "name": "updated_ats",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Timestamp to filter by. When filtering on equality, several comma-delimited timestamps may be passed. Also supports filtering with [relational operators](#relational-operators).\n"
+      },
+      "LabelSelector": {
+        "name": "label_selector",
+        "in": "query",
+        "description": "A query string containing a list of [label selector](#labels-and-selectors) requirements",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "Guid": {
+        "name": "guid",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "description": "The unique identifier for the resource"
+      }
+    },
+    "responses": {
+      "NotFound": {
+        "description": "Not Found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Errors"
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Errors"
+            }
+          },
+          "text/html": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Forbidden",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Errors"
+            }
+          }
+        }
+      },
+      "Conflict": {
+        "description": "Conflict",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Errors"
+            }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "Unprocessable Entity",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Errors"
+            }
+          }
+        }
+      },
+      "RoleListResponse": {
+        "description": "Roles retrieved",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pagination": {
+                  "$ref": "#/components/schemas/Pagination"
+                },
+                "resources": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Role"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "RouteListResponse": {
+        "description": "A list of routes",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pagination": {
+                  "$ref": "#/components/schemas/Pagination"
+                },
+                "resources": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Route"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "AppCreateRequestBody": {
+        "description": "App object that needs to be created",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the app"
+                },
+                "environment_variables": {
+                  "type": "object",
+                  "description": "Environment variables to be used for the App when running",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "lifecycle": {
+                  "$ref": "#/components/schemas/Lifecycle",
+                  "description": "Provides the lifecycle object for the application"
+                },
+                "relationships": {
+                  "type": "object",
+                  "properties": {
+                    "space": {
+                      "$ref": "#/components/schemas/RelationshipToOne",
+                      "description": "A relationship to a space"
+                    }
+                  },
+                  "required": ["space"]
+                },
+                "metadata": {
+                  "$ref": "#/components/schemas/Metadata"
+                }
+              },
+              "required": ["name", "relationships"],
+              "description": "Request schema for creating an app"
+            }
+          }
+        }
+      },
+      "AppUpdateRequestBody": {
+        "description": "App object that needs to be updated",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the app"
+                },
+                "environment_variables": {
+                  "type": "object",
+                  "description": "Environment variables to be used for the App when running",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "lifecycle": {
+                  "$ref": "#/components/schemas/Lifecycle",
+                  "description": "Lifecycle to be used when updating the app; note `data` is a required field in lifecycle if lifecycle is updated. `type` may NOT be changed from its current value."
+                },
+                "metadata": {
+                  "$ref": "#/components/schemas/Metadata"
+                }
+              },
+              "description": "Request schema for updating an app"
+            }
+          }
+        }
+      },
+      "ProcessUpdateRequestBody": {
+        "description": "Process object that needs to be updated",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "command": {
+                  "type": ["string", "null"],
+                  "description": "The command used to start the process; use null to revert to the buildpack-detected or procfile-provided start command"
+                },
+                "health_check": {
+                  "$ref": "#/components/schemas/HealthCheck",
+                  "description": "The health check to perform on the process"
+                },
+                "readiness_health_check": {
+                  "$ref": "#/components/schemas/HealthCheck",
+                  "description": "The readiness health check to perform on the process"
+                },
+                "metadata": {
+                  "$ref": "#/components/schemas/Metadata"
+                }
+              },
+              "description": "Request schema for updating a process"
+            }
+          }
+        }
+      },
+      "PackageCreateRequestBody": {
+        "description": "Package object that needs to be created or copied. When copying (source_guid query parameter is provided), only relationships.app is required. When creating a new package, type and relationships.app a",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "description": "Type of the package; valid values are bits or docker. Required when creating a new package (when source_guid is not provided). Not required when copying a package (when source_guid is provided).",
+                  "enum": ["bits", "docker"]
+                },
+                "data": {
+                  "type": "object",
+                  "description": "Data for package type",
+                  "properties": {
+                    "image": {
+                      "type": "string",
+                      "description": "The registry address of the image (for docker packages)"
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "The username for the image's registry (for docker packages)"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "The password for the image's registry (for docker packages)"
+                    }
+                  }
+                },
+                "relationships": {
+                  "type": "object",
+                  "properties": {
+                    "app": {
+                      "$ref": "#/components/schemas/RelationshipToOne",
+                      "description": "A relationship to an app"
+                    }
+                  },
+                  "required": ["app"]
+                },
+                "metadata": {
+                  "$ref": "#/components/schemas/Metadata"
+                }
+              },
+              "required": ["relationships"],
+              "description": "Request schema for creating a package"
+            }
+          }
+        }
+      },
+      "RouteCreateRequestBody": {
+        "description": "Route to create",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "host": {
+                  "type": "string",
+                  "description": "The host component for the route; not compatible with routes specifying the `tcp` protocol"
+                },
+                "path": {
+                  "type": "string",
+                  "description": "The path component for the route; should begin with a `/` and not compatible with routes specifying the `tcp` protocol"
+                },
+                "port": {
+                  "type": "integer",
+                  "description": "The port the route will listen on; only compatible with routes leveraging a domain that supports the `tcp` protocol. For `tcp` domains, a port will be randomly assigned if not specified"
+                },
+                "relationships": {
+                  "type": "object",
+                  "properties": {
+                    "domain": {
+                      "$ref": "#/components/schemas/RelationshipToOne",
+                      "description": "A relationship to the domain of the route"
+                    },
+                    "space": {
+                      "$ref": "#/components/schemas/RelationshipToOne",
+                      "description": "A relationship to the space containing the route; routes can only be mapped to destinations in that space"
+                    }
+                  }
+                },
+                "metadata": {
+                  "$ref": "#/components/schemas/Metadata"
+                }
+              },
+              "required": ["relationships"]
+            }
+          }
+        }
+      },
+      "RouteDestinations": {
+        "description": "A list of route destinations",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "destinations": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RouteDestination"
+                  },
+                  "description": "List of destinations to add to route; destinations without `process.type` specified will get process type `\"web\"` by default"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ServiceInstanceCreateRequestBody": {
+        "description": "A request to create a service instance",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": ["type", "name", "relationships"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": ["managed", "user-provided"],
+                  "description": "The type of service instance"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the service instance"
+                },
+                "parameters": {
+                  "type": "object",
+                  "description": "A JSON object that is passed to the service broker"
+                },
+                "credentials": {
+                  "type": "object",
+                  "description": "A JSON object that is made available to apps bound to this service instance (user-provided services only)"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Tags are used by apps to identify service instances; they are shown in the app VCAP_SERVICES env"
+                },
+                "syslog_drain_url": {
+                  "type": "string",
+                  "description": "URL to which logs for bound applications will be streamed (user-provided services only)"
+                },
+                "route_service_url": {
+                  "type": "string",
+                  "description": "URL to which requests for bound routes will be forwarded; must use the https protocol (user-provided services only)"
+                },
+                "relationships": {
+                  "type": "object",
+                  "required": ["space"],
+                  "properties": {
+                    "space": {
+                      "$ref": "#/components/schemas/RelationshipToOne",
+                      "description": "The space in which to create the service instance"
+                    },
+                    "service_plan": {
+                      "$ref": "#/components/schemas/RelationshipToOne",
+                      "description": "The service plan from which to create the service instance"
+                    }
+                  },
+                  "description": "Relationships for the service instance"
+                },
+                "metadata": {
+                  "$ref": "#/components/schemas/Metadata"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ServiceInstanceUpdateRequestBody": {
+        "description": "A request to update a service instance",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the service instance"
+                },
+                "parameters": {
+                  "type": "object",
+                  "description": "A JSON object that is passed to the service broker (managed services only)"
+                },
+                "credentials": {
+                  "type": "object",
+                  "description": "A JSON object that is made available to apps bound to this service instance (user-provided services only)"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Tags are used by apps to identify service instances; they are shown in the app VCAP_SERVICES env"
+                },
+                "syslog_drain_url": {
+                  "type": "string",
+                  "description": "URL to which logs for bound applications will be streamed (user-provided services only)"
+                },
+                "route_service_url": {
+                  "type": "string",
+                  "description": "URL to which requests for bound routes will be forwarded; must use the https protocol (user-provided services only)"
+                },
+                "relationships": {
+                  "type": "object",
+                  "properties": {
+                    "service_plan": {
+                      "$ref": "#/components/schemas/RelationshipToOne",
+                      "description": "The service plan from which to create the service instance"
+                    }
+                  },
+                  "description": "Relationships for the service instance"
+                },
+                "maintenance_info": {
+                  "type": "object",
+                  "required": ["version"],
+                  "properties": {
+                    "version": {
+                      "type": "string",
+                      "description": "Must be a semantic version value and it must match the version in the maintenance_info for the service instance plan in the updated broker catalog"
+                    }
+                  },
+                  "description": "If provided, must have the `version` field; `version` must be a semantic version value and it must match the `version` in the `maintenance_info` for the service instance plan in the updated broker cat"
+                },
+                "metadata": {
+                  "$ref": "#/components/schemas/Metadata"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ServiceCredentialBindingCreateRequestBody": {
+        "description": "A request to create a service credential binding",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": ["type", "relationships"],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": ["app", "key"],
+                  "description": "Type of the service credential binding. Valid values are key and app"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the service credential binding. name is optional when the type is app"
+                },
+                "relationships": {
+                  "type": "object",
+                  "required": ["service_instance"],
+                  "properties": {
+                    "service_instance": {
+                      "$ref": "#/components/schemas/RelationshipToOne",
+                      "description": "The service instance to be bound"
+                    },
+                    "app": {
+                      "$ref": "#/components/schemas/RelationshipToOne",
+                      "description": "The app to be bound. Required when type is app"
+                    }
+                  },
+                  "description": "Relationships for the service credential binding"
+                },
+                "parameters": {
+                  "type": "object",
+                  "description": "A JSON object that is passed to the service broker"
+                },
+                "metadata": {
+                  "$ref": "#/components/schemas/Metadata"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

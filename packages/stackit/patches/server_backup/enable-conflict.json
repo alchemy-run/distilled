@@ -1,0 +1,10 @@
+{
+  "description": "The spec documents only 204/400/401/404 on EnableServiceResource, but the API answers 409 when the service is already enabled on the server. STACKIT's own Terraform provider (stackitcloud/terraform-provider-stackit, stackit/internal/services/serverbackup/enable/resource.go, Create, read 2026-11-01) treats http.StatusConflict from this call as 'Server backup is already enabled for this server'. Its schedule/resource.go matches the same case on the message 'Tried to activate already active service'. `Conflict` is already in the module, from CreateBackup and RestoreBackup. No live probe.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.server_backup#EnableServiceResource/errors/-",
+      "value": { "target": "com.stackit.server_backup#Conflict" }
+    }
+  ]
+}

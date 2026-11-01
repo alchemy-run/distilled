@@ -15,8 +15,10 @@ import {
   Credentials,
   CredentialsFromEnv,
   DEFAULT_TOKEN_URL,
+  fromServerMetadata,
   fromServiceAccountKey,
   parseServiceAccountKey,
+  SERVER_METADATA_URL,
   type ServiceAccountKey,
 } from "../src/credentials.ts";
 import * as Retry from "../src/retry.ts";
@@ -577,5 +579,89 @@ describe("CredentialsFromEnv", () => {
     );
     expect(error).toBeInstanceOf(ConfigError);
     expect(error.key).toBe("STACKIT_SERVICE_ACCOUNT_KEY_PATH");
+  });
+});
+
+describe("fromServerMetadata", () => {
+  const MAIL = "worker-abc@sa.stackit.cloud";
+  const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status });
+
+  /** Answers by URL and records every URL asked for. */
+  const metadataHttp = (answer: (url: string) => Response) => {
+    const urls: string[] = [];
+    const layer = Layer.succeed(
+      HttpClient.HttpClient,
+      HttpClient.make((request, url) =>
+        Effect.sync(() => {
+          urls.push(url.toString());
+          return HttpClientResponse.fromWeb(request, answer(url.toString()));
+        }),
+      ),
+    );
+    return { urls, layer };
+  };
+
+  const tokenUrl = `${SERVER_METADATA_URL}/${encodeURIComponent(MAIL)}/token`;
+
+  test("fetches the named account's token, without listing, and reuses it until near its exp", async () => {
+    const jwt = accessJwt(3600, "metadata");
+    const http = metadataHttp(() => json({ token: jwt }));
+    const config = await runWith(
+      Effect.gen(function* () {
+        yield* resolveToken;
+        return yield* resolveToken;
+      }),
+      fromServerMetadata({ serviceAccountEmail: MAIL, region: "eu02" }),
+      http.layer,
+    );
+    expect(Redacted.value(config.token)).toBe(jwt);
+    expect(config.region).toBe("eu02");
+    expect(http.urls).toEqual([tokenUrl]);
+  });
+
+  test("without an email, uses the first attached account and remembers it", async () => {
+    const http = metadataHttp((url) =>
+      url === SERVER_METADATA_URL
+        ? json({ serviceAccountMails: [MAIL] })
+        : json({ token: accessJwt(3600, "listed") }),
+    );
+    await runWith(resolveToken, fromServerMetadata(), http.layer);
+    expect(http.urls).toEqual([SERVER_METADATA_URL, tokenUrl]);
+  });
+
+  test("a token with no readable exp isn't reused", async () => {
+    const http = metadataHttp(() => json({ token: "opaque" }));
+    await runWith(
+      Effect.gen(function* () {
+        yield* resolveToken;
+        return yield* resolveToken;
+      }),
+      fromServerMetadata({ serviceAccountEmail: MAIL }),
+      http.layer,
+    );
+    expect(http.urls).toEqual([tokenUrl, tokenUrl]);
+  });
+
+  test("a server with no attached account is a ConfigError", async () => {
+    const error = await runWith(
+      Effect.flip(resolveToken),
+      fromServerMetadata(),
+      metadataHttp(() => json({ serviceAccountMails: [] })).layer,
+    );
+    expect(error).toBeInstanceOf(ConfigError);
+    expect(error.message).toContain("no service account is attached");
+  });
+
+  test("an error status fails after bounded retries, without quoting the body", async () => {
+    const http = metadataHttp(() => json({ secret: "do-not-print" }, 500));
+    const error = await runWith(
+      Effect.flip(resolveToken),
+      fromServerMetadata({ serviceAccountEmail: MAIL }),
+      http.layer,
+    );
+    expect(error).toBeInstanceOf(ConfigError);
+    expect(error.message).toContain("HTTP 500");
+    expect(error.message).not.toContain("do-not-print");
+    expect(http.urls).toHaveLength(3);
   });
 });

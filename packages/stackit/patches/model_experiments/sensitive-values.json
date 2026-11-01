@@ -1,0 +1,10 @@
+{
+  "description": "Token.content is a tracking token (a JWT in the spec's example), typed as a plain string. Only createInstanceToken returns it, as `Token` rather than `TokenMetadata`. STACKIT's docs say its value is shown once and not stored (docs.stackit.cloud/products/data-and-ai/ai-model-experiments/faq/, read 2026-11-01), and its Terraform provider marks it Sensitive (stackit/internal/services/modelexperiments/token/resource.go, read 2026-11-01).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.model_experiments#Token/members/content/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

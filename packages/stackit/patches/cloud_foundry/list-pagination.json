@@ -1,0 +1,82 @@
+{
+  "description": "The list operations take `page` and `per_page` and answer `pagination.total_pages` beside `resources` (the `Pagination` schema in the spec, read 2026-11-01), but the converter's page detection only runs on STACKIT's own documents, so none got a paginated surface. Without it `.items` doesn't exist, and a caller reading one page would miss routes and apps.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.cloud_foundry#ListApps/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "pagination.total_pages",
+        "items": "resources",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.cloud_foundry#ListRoutes/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "pagination.total_pages",
+        "items": "resources",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.cloud_foundry#ListDomains/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "pagination.total_pages",
+        "items": "resources",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.cloud_foundry#ListServiceInstances/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "pagination.total_pages",
+        "items": "resources",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.cloud_foundry#ListServicePlans/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "pagination.total_pages",
+        "items": "resources",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.cloud_foundry#ListServiceCredentialBindings/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "pagination.total_pages",
+        "items": "resources",
+        "pageSize": "per_page"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.cloud_foundry#ListRoles/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "pagination.total_pages",
+        "items": "resources",
+        "pageSize": "per_page"
+      }
+    }
+  ]
+}

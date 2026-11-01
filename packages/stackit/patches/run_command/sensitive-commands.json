@@ -1,0 +1,20 @@
+{
+  "description": "The spec types a command's `output` and `script` and the values of `parameters` as plain strings. STACKIT's Run Command docs (Command templates and Run a command via API, read 2026-11-01) show that `parameters` carries `password`, `DomainPassword` and whole scripts, and that the command history returns `script` verbatim and `output` as whatever the script printed, so a secret passed to a command comes back through both. Nothing on the wire changes. No live probe: no credentials exist for this account.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.run_command#CommandDetails/members/output/traits",
+      "value": { "smithy.api#sensitive": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.run_command#CommandDetails/members/script/traits",
+      "value": { "smithy.api#sensitive": {} }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.run_command#CreateCommandRequestParametersMap/value/traits",
+      "value": { "smithy.api#sensitive": {} }
+    }
+  ]
+}

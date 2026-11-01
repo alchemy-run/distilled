@@ -1,0 +1,23 @@
+{
+  "description": "\"There is only one organization manager per organization\" (spec, CreateOrgManager, read 2026-11-01), and the spec documents no answer for asking for a second, so a 409 surfaces as UnknownStackitError. The same operation says a failed create needs DeleteOrgManager before a retry, so a caller has to tell a create that broke halfway from one that was refused because a manager is already there: deleting on the second deletes someone else's manager. `Conflict` is what a 409 means on every other STACKIT API, and a real answer of another status changes nothing here. No live probe.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.scf#Conflict",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [{ "status": 409 }]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.scf#CreateOrgManager/errors/-",
+      "value": { "target": "com.stackit.scf#Conflict" }
+    }
+  ]
+}
