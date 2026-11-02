@@ -146,6 +146,16 @@ export class RulesetNotFound
     [{ code: 10003 }, { code: 10001 }],
   ) {}
 
+/** The rule is not in the ruleset (`could not find rule with public id`), e.g. it was already deleted. */
+export class RulesetRuleNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RulesetRuleNotFound>()("RulesetRuleNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 404, message: { includes: "could not find rule" } }],
+  ) {}
+
 export interface RulesCreateRequestBodyBlockRulePositionBeforePosition {
   /** The ID of another rule to place the rule before. An empty value causes the rule to be placed at the top. */
   before?: string;
@@ -30260,8 +30270,8 @@ export const createRuleForAccount: API.OperationMethod<
   CreateRuleForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<CreateRuleForAccountRequest>,
-  output: __S(227, __c28, 3) as any as S.Schema<CreateRuleResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<CreateRuleForAccountRequest>,
+  output: __S(275, __c34, 3) as any as S.Schema<CreateRuleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30277,8 +30287,8 @@ export const createRuleForZone: API.OperationMethod<
   CreateRuleForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<CreateRuleForZoneRequest>,
-  output: __S(227, __c28, 3) as any as S.Schema<CreateRuleResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<CreateRuleForZoneRequest>,
+  output: __S(275, __c34, 3) as any as S.Schema<CreateRuleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30294,8 +30304,8 @@ export const createRulesetForAccount: API.OperationMethod<
   CreateRulesetForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<CreateRulesetForAccountRequest>,
-  output: __S(284, __c35, 4) as any as S.Schema<CreateRulesetResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<CreateRulesetForAccountRequest>,
+  output: __S(300, __c37, 4) as any as S.Schema<CreateRulesetResponse>,
   errors: [PhaseNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30311,8 +30321,8 @@ export const createRulesetForZone: API.OperationMethod<
   CreateRulesetForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<CreateRulesetForZoneRequest>,
-  output: __S(284, __c35, 4) as any as S.Schema<CreateRulesetResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<CreateRulesetForZoneRequest>,
+  output: __S(300, __c37, 4) as any as S.Schema<CreateRulesetResponse>,
   errors: [PhaseNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30328,8 +30338,8 @@ export const deleteRuleForAccount: API.OperationMethod<
   DeleteRuleForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<DeleteRuleForAccountRequest>,
-  output: __S(306, __c38, 2) as any as S.Schema<DeleteRuleResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<DeleteRuleForAccountRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<DeleteRuleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30337,7 +30347,7 @@ export const deleteRuleForAccount: API.OperationMethod<
   span: "DeleteRuleForAccount",
 }));
 
-export type DeleteRuleForZoneError = CloudflareOpError;
+export type DeleteRuleForZoneError = RulesetRuleNotFound | CloudflareOpError;
 /** Deletes an existing rule from an account or zone ruleset. */
 export const deleteRuleForZone: API.OperationMethod<
   DeleteRuleForZoneRequest,
@@ -30345,9 +30355,9 @@ export const deleteRuleForZone: API.OperationMethod<
   DeleteRuleForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<DeleteRuleForZoneRequest>,
-  output: __S(306, __c38, 2) as any as S.Schema<DeleteRuleResponse>,
-  errors: [CloudflareRateLimited, CloudflareError],
+  input: __S(328, __c41, 0) as any as S.Schema<DeleteRuleForZoneRequest>,
+  output: __S(322, __c40, 2) as any as S.Schema<DeleteRuleResponse>,
+  errors: [RulesetRuleNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30362,8 +30372,8 @@ export const deleteRulesetForAccount: API.OperationMethod<
   DeleteRulesetForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<DeleteRulesetForAccountRequest>,
-  output: __S(328, __c41, 0) as any as S.Schema<DeleteRulesetForAccountResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteRulesetForAccountRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteRulesetForAccountResponse>,
   errors: [RulesetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30379,8 +30389,8 @@ export const deleteRulesetForZone: API.OperationMethod<
   DeleteRulesetForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteRulesetForZoneRequest>,
-  output: __S(328, __c41, 0) as any as S.Schema<DeleteRulesetForZoneResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<DeleteRulesetForZoneRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteRulesetForZoneResponse>,
   errors: [RulesetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30396,8 +30406,8 @@ export const deleteVersionForAccount: API.OperationMethod<
   DeleteVersionForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<DeleteVersionForAccountRequest>,
-  output: __S(328, __c41, 0) as any as S.Schema<DeleteVersionForAccountResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<DeleteVersionForAccountRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteVersionForAccountResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30413,8 +30423,8 @@ export const deleteVersionForZone: API.OperationMethod<
   DeleteVersionForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DeleteVersionForZoneRequest>,
-  output: __S(328, __c41, 0) as any as S.Schema<DeleteVersionForZoneResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteVersionForZoneRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteVersionForZoneResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30430,8 +30440,8 @@ export const getPhasForAccount: API.OperationMethod<
   GetPhasForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetPhasForAccountRequest>,
-  output: __S(35, __c4, 3) as any as S.Schema<GetPhasResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetPhasForAccountRequest>,
+  output: __S(51, __c6, 3) as any as S.Schema<GetPhasResponse>,
   errors: [RulesetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30447,8 +30457,8 @@ export const getPhasForZone: API.OperationMethod<
   GetPhasForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetPhasForZoneRequest>,
-  output: __S(35, __c4, 3) as any as S.Schema<GetPhasResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetPhasForZoneRequest>,
+  output: __S(51, __c6, 3) as any as S.Schema<GetPhasResponse>,
   errors: [RulesetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30464,8 +30474,8 @@ export const getPhasVersionForAccount: API.OperationMethod<
   GetPhasVersionForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetPhasVersionForAccountRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<GetPhasVersionResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetPhasVersionForAccountRequest>,
+  output: __S(75, __c9, 3) as any as S.Schema<GetPhasVersionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30481,8 +30491,8 @@ export const getPhasVersionForZone: API.OperationMethod<
   GetPhasVersionForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetPhasVersionForZoneRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<GetPhasVersionResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetPhasVersionForZoneRequest>,
+  output: __S(75, __c9, 3) as any as S.Schema<GetPhasVersionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30498,8 +30508,8 @@ export const getRulesetForAccount: API.OperationMethod<
   GetRulesetForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetRulesetForAccountRequest>,
-  output: __S(83, __c10, 3) as any as S.Schema<GetRulesetResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetRulesetForAccountRequest>,
+  output: __S(99, __c12, 3) as any as S.Schema<GetRulesetResponse>,
   errors: [RulesetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30515,8 +30525,8 @@ export const getRulesetForZone: API.OperationMethod<
   GetRulesetForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetRulesetForZoneRequest>,
-  output: __S(83, __c10, 3) as any as S.Schema<GetRulesetResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetRulesetForZoneRequest>,
+  output: __S(99, __c12, 3) as any as S.Schema<GetRulesetResponse>,
   errors: [RulesetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30532,8 +30542,8 @@ export const getVersionForAccount: API.OperationMethod<
   GetVersionForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetVersionForAccountRequest>,
-  output: __S(107, __c13, 3) as any as S.Schema<GetVersionResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetVersionForAccountRequest>,
+  output: __S(123, __c15, 3) as any as S.Schema<GetVersionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30549,8 +30559,8 @@ export const getVersionForZone: API.OperationMethod<
   GetVersionForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetVersionForZoneRequest>,
-  output: __S(107, __c13, 3) as any as S.Schema<GetVersionResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetVersionForZoneRequest>,
+  output: __S(123, __c15, 3) as any as S.Schema<GetVersionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30568,8 +30578,8 @@ export const listPhasVersionsForAccount: API.PaginatedOperationMethod<
   RulesetSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(120, __c15, 0) as any as S.Schema<ListPhasVersionsForAccountRequest>,
-    output: __S(130, __c16, 2) as any as S.Schema<ListPhasVersionsResponse>,
+    input: __S(136, __c17, 0) as any as S.Schema<ListPhasVersionsForAccountRequest>,
+    output: __S(146, __c18, 2) as any as S.Schema<ListPhasVersionsResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -30590,8 +30600,8 @@ export const listPhasVersionsForZone: API.PaginatedOperationMethod<
   RulesetSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(136, __c17, 0) as any as S.Schema<ListPhasVersionsForZoneRequest>,
-    output: __S(130, __c16, 2) as any as S.Schema<ListPhasVersionsResponse>,
+    input: __S(152, __c19, 0) as any as S.Schema<ListPhasVersionsForZoneRequest>,
+    output: __S(146, __c18, 2) as any as S.Schema<ListPhasVersionsResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -30612,8 +30622,8 @@ export const listRulesetsForAccount: API.PaginatedOperationMethod<
   RulesetSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(144, __c18, 0) as any as S.Schema<ListRulesetsForAccountRequest>,
-    output: __S(130, __c16, 2) as any as S.Schema<ListRulesetsResponse>,
+    input: __S(160, __c20, 0) as any as S.Schema<ListRulesetsForAccountRequest>,
+    output: __S(146, __c18, 2) as any as S.Schema<ListRulesetsResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -30640,8 +30650,8 @@ export const listRulesetsForZone: API.PaginatedOperationMethod<
   RulesetSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(152, __c19, 0) as any as S.Schema<ListRulesetsForZoneRequest>,
-    output: __S(130, __c16, 2) as any as S.Schema<ListRulesetsResponse>,
+    input: __S(168, __c21, 0) as any as S.Schema<ListRulesetsForZoneRequest>,
+    output: __S(146, __c18, 2) as any as S.Schema<ListRulesetsResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -30668,8 +30678,8 @@ export const listVersionsForAccount: API.PaginatedOperationMethod<
   RulesetSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(160, __c20, 0) as any as S.Schema<ListVersionsForAccountRequest>,
-    output: __S(130, __c16, 2) as any as S.Schema<ListVersionsResponse>,
+    input: __S(176, __c22, 0) as any as S.Schema<ListVersionsForAccountRequest>,
+    output: __S(146, __c18, 2) as any as S.Schema<ListVersionsResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -30690,8 +30700,8 @@ export const listVersionsForZone: API.PaginatedOperationMethod<
   RulesetSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(168, __c21, 0) as any as S.Schema<ListVersionsForZoneRequest>,
-    output: __S(130, __c16, 2) as any as S.Schema<ListVersionsResponse>,
+    input: __S(184, __c23, 0) as any as S.Schema<ListVersionsForZoneRequest>,
+    output: __S(146, __c18, 2) as any as S.Schema<ListVersionsResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -30710,8 +30720,8 @@ export const patchRuleForAccount: API.OperationMethod<
   PatchRuleForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<PatchRuleForAccountRequest>,
-  output: __S(187, __c23, 3) as any as S.Schema<PatchRuleResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<PatchRuleForAccountRequest>,
+  output: __S(203, __c25, 3) as any as S.Schema<PatchRuleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30727,8 +30737,8 @@ export const patchRuleForZone: API.OperationMethod<
   PatchRuleForZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<PatchRuleForZoneRequest>,
-  output: __S(187, __c23, 3) as any as S.Schema<PatchRuleResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<PatchRuleForZoneRequest>,
+  output: __S(203, __c25, 3) as any as S.Schema<PatchRuleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30748,8 +30758,8 @@ export const putPhasForAccount: API.OperationMethod<
   PutPhasForAccountError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<PutPhasForAccountRequest>,
-  output: __S(212, __c26, 4) as any as S.Schema<PutPhasResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<PutPhasForAccountRequest>,
+  output: __S(228, __c28, 4) as any as S.Schema<PutPhasResponse>,
   errors: [RulesetNotFound, PhaseNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30770,7 +30780,7 @@ export const putPhasForZone: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<PutPhasForZoneRequest>,
-  output: __S(212, __c26, 4) as any as S.Schema<PutPhasResponse>,
+  output: __S(228, __c28, 4) as any as S.Schema<PutPhasResponse>,
   errors: [RulesetNotFound, PhaseNotEntitled, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -30818,6 +30828,34 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          rulesetId: S.String.pipe(T.Label("ruleset_id")),
+          dryRun: S.optional(S.Boolean.pipe(T.Query("dry_run"))),
+        })
+          .pipe(
+            T.Http({
+              method: "DELETE",
+              uri: "/accounts/{account_id}/rulesets/{ruleset_id}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "DeleteRulesetForAccountRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY))).annotate({
+        identifier: "DeleteRulesetForAccountResponse",
+      });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           rulesetId: S.String.pipe(T.Label("ruleset_id")),
           dryRun: S.optional(S.Boolean.pipe(T.Query("dry_run"))),
@@ -30829,7 +30867,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteRulesetForZoneRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30850,7 +30888,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "DeleteVersionForAccountRequest" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30871,7 +30909,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DeleteVersionForZoneRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30890,7 +30928,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetPhasForAccountRequest" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -31241,7 +31279,7 @@ function __c4(j: number): any {
         ),
       );
     case 1:
-      return S.Array(__S(32, __c4, 0));
+      return S.Array(__S(48, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -31251,17 +31289,17 @@ function __c4(j: number): any {
           lastUpdated: S.String.pipe(T.Body("last_updated")),
           name: S.String,
           phase: S.String,
-          rules: __S(33, __c4, 1),
+          rules: __S(49, __c6, 1),
           version: S.String,
         }),
       ).annotate({ identifier: "PhasesGetResult" });
     case 3:
       return S.suspend(() =>
-        __S(34, __c4, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(50, __c6, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetPhasResponse" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31280,7 +31318,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetPhasForZoneRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31300,7 +31338,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetPhasVersionForAccountRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -31651,7 +31689,7 @@ function __c7(j: number): any {
         ),
       );
     case 1:
-      return S.Array(__S(56, __c7, 0));
+      return S.Array(__S(72, __c9, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -31661,17 +31699,17 @@ function __c7(j: number): any {
           lastUpdated: S.String.pipe(T.Body("last_updated")),
           name: S.String,
           phase: S.String,
-          rules: __S(57, __c7, 1),
+          rules: __S(73, __c9, 1),
           version: S.String,
         }),
       ).annotate({ identifier: "PhasesVersionsGetResult" });
     case 3:
       return S.suspend(() =>
-        __S(58, __c7, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(74, __c9, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetPhasVersionResponse" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31691,7 +31729,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetPhasVersionForZoneRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31710,7 +31748,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetRulesetForAccountRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -32061,7 +32099,7 @@ function __c10(j: number): any {
         ),
       );
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(96, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -32071,17 +32109,17 @@ function __c10(j: number): any {
           lastUpdated: S.String.pipe(T.Body("last_updated")),
           name: S.String,
           phase: S.String,
-          rules: __S(81, __c10, 1),
+          rules: __S(97, __c12, 1),
           version: S.String,
         }),
       ).annotate({ identifier: "GetResult" });
     case 3:
       return S.suspend(() =>
-        __S(82, __c10, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(98, __c12, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetRulesetResponse" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32094,7 +32132,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetRulesetForZoneRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32114,7 +32152,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetVersionForAccountRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -32465,7 +32503,7 @@ function __c13(j: number): any {
         ),
       );
     case 1:
-      return S.Array(__S(104, __c13, 0));
+      return S.Array(__S(120, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -32475,17 +32513,17 @@ function __c13(j: number): any {
           lastUpdated: S.String.pipe(T.Body("last_updated")),
           name: S.String,
           phase: S.String,
-          rules: __S(105, __c13, 1),
+          rules: __S(121, __c15, 1),
           version: S.String,
         }),
       ).annotate({ identifier: "VersionsGetResult" });
     case 3:
       return S.suspend(() =>
-        __S(106, __c13, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(122, __c15, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetVersionResponse" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32505,7 +32543,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetVersionForZoneRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32524,7 +32562,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ListPhasVersionsForAccountRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32539,17 +32577,17 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "RulesetSummary" });
     case 1:
-      return S.Array(__S(128, __c16, 0));
+      return S.Array(__S(144, __c18, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: __S(129, __c16, 1).pipe(T.EnvelopePayload()),
+          result: __S(145, __c18, 1).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListPhasVersionsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32568,7 +32606,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ListPhasVersionsForZoneRequest" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32582,7 +32620,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ListRulesetsForAccountRequest" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32596,7 +32634,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ListRulesetsForZoneRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32615,7 +32653,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ListVersionsForAccountRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32634,7 +32672,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ListVersionsForZoneRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32643,7 +32681,7 @@ function __c22(j: number): any {
           rulesetId: S.String.pipe(T.Label("ruleset_id")),
           ruleId: S.String.pipe(T.Label("rule_id")),
           dryRun: S.optional(S.Boolean.pipe(T.Query("dry_run"))),
-          body: __S(184, __c23, 0).pipe(T.HttpBody()),
+          body: __S(200, __c25, 0).pipe(T.HttpBody()),
         })
           .pipe(
             T.Http({
@@ -32656,7 +32694,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "PatchRuleForAccountRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -33098,7 +33136,7 @@ function __c23(j: number): any {
         ),
       );
     case 2:
-      return S.Array(__S(185, __c23, 1));
+      return S.Array(__S(201, __c25, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -33107,14 +33145,14 @@ function __c23(j: number): any {
           lastUpdated: S.String.pipe(T.Body("last_updated")),
           name: S.String,
           phase: S.String,
-          rules: __S(186, __c23, 2),
+          rules: __S(202, __c25, 2),
           version: S.String,
           description: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PatchRuleResponse" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33123,7 +33161,7 @@ function __c24(j: number): any {
           rulesetId: S.String.pipe(T.Label("ruleset_id")),
           ruleId: S.String.pipe(T.Label("rule_id")),
           dryRun: S.optional(S.Boolean.pipe(T.Query("dry_run"))),
-          body: __S(184, __c23, 0).pipe(T.HttpBody()),
+          body: __S(200, __c25, 0).pipe(T.HttpBody()),
         })
           .pipe(
             T.Http({
@@ -33136,7 +33174,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "PatchRuleForZoneRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33146,7 +33184,7 @@ function __c25(j: number): any {
           dryRun: S.optional(S.Boolean.pipe(T.Query("dry_run"))),
           description: S.optional(S.String),
           name: S.optional(S.String),
-          rules: S.optional(__S(209, __c26, 1)),
+          rules: S.optional(__S(225, __c28, 1)),
         })
           .pipe(
             T.Http({
@@ -33159,7 +33197,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "PutPhasForAccountRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -33468,7 +33506,7 @@ function __c26(j: number): any {
         ),
       );
     case 1:
-      return S.Array(__S(208, __c26, 0));
+      return S.Array(__S(224, __c28, 0));
     case 2:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases(
@@ -33818,7 +33856,7 @@ function __c26(j: number): any {
         ),
       );
     case 3:
-      return S.Array(__S(210, __c26, 2));
+      return S.Array(__S(226, __c28, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -33827,490 +33865,11 @@ function __c26(j: number): any {
           lastUpdated: S.String.pipe(T.Body("last_updated")),
           name: S.String,
           phase: S.String,
-          rules: __S(211, __c26, 3),
+          rules: __S(227, __c28, 3),
           version: S.String,
           description: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutPhasResponse" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          rulesetId: S.String.pipe(T.Label("ruleset_id")),
-          dryRun: S.optional(S.Boolean.pipe(T.Query("dry_run"))),
-          body: __S(224, __c28, 0).pipe(T.HttpBody()),
-        })
-          .pipe(
-            T.Http({
-              method: "POST",
-              uri: "/accounts/{account_id}/rulesets/{ruleset_id}/rules",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateRuleForAccountRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Unknown.pipe(
-        /*@__PURE__*/ T.UnionCases([
-          ["position"],
-          [
-            "id",
-            "action",
-            "actionParameters",
-            "categories",
-            "description",
-            "enabled",
-            "exposedCredentialCheck",
-            "expression",
-            "logging",
-            "position",
-            "ratelimit",
-            "ref",
-          ],
-          ["position"],
-          ["position"],
-          ["position"],
-          ["position"],
-          [
-            "id",
-            "action",
-            "actionParameters",
-            "categories",
-            "description",
-            "enabled",
-            "exposedCredentialCheck",
-            "expression",
-            "logging",
-            "position",
-            "ratelimit",
-            "ref",
-          ],
-          ["position"],
-          ["position"],
-          ["position"],
-          ["position"],
-          ["position"],
-          ["position"],
-          ["position"],
-          ["position"],
-          [
-            "id",
-            "action",
-            "actionParameters",
-            "categories",
-            "description",
-            "enabled",
-            "exposedCredentialCheck",
-            "expression",
-            "logging",
-            "position",
-            "ratelimit",
-            "ref",
-          ],
-          ["position"],
-          [
-            "id",
-            "action",
-            "actionParameters",
-            "categories",
-            "description",
-            "enabled",
-            "exposedCredentialCheck",
-            "expression",
-            "logging",
-            "position",
-            "ratelimit",
-            "ref",
-          ],
-          ["position"],
-          ["position"],
-          [
-            "id",
-            "action",
-            "actionParameters",
-            "categories",
-            "description",
-            "enabled",
-            "exposedCredentialCheck",
-            "expression",
-            "logging",
-            "position",
-            "ratelimit",
-            "ref",
-          ],
-        ]),
-      );
-    case 1:
-      return S.Unknown.pipe(
-        /*@__PURE__*/ T.UnionCases(
-          [
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "id",
-              "action",
-              "enabled",
-              "expression",
-              "lastUpdated",
-              "ref",
-              "version",
-              "actionParameters",
-              "categories",
-              "description",
-              "exposedCredentialCheck",
-              "logging",
-              "ratelimit",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "id",
-              "action",
-              "enabled",
-              "expression",
-              "lastUpdated",
-              "ref",
-              "version",
-              "actionParameters",
-              "categories",
-              "description",
-              "exposedCredentialCheck",
-              "logging",
-              "ratelimit",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "id",
-              "action",
-              "enabled",
-              "expression",
-              "lastUpdated",
-              "ref",
-              "version",
-              "actionParameters",
-              "categories",
-              "description",
-              "exposedCredentialCheck",
-              "logging",
-              "ratelimit",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "id",
-              "action",
-              "enabled",
-              "expression",
-              "lastUpdated",
-              "ref",
-              "version",
-              "actionParameters",
-              "categories",
-              "description",
-              "exposedCredentialCheck",
-              "logging",
-              "ratelimit",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "lastUpdated",
-              "version",
-              "id",
-              "action",
-              "actionParameters",
-              "categories",
-              "description",
-              "enabled",
-              "exposedCredentialCheck",
-              "expression",
-              "logging",
-              "ratelimit",
-              "ref",
-            ],
-            [
-              "id",
-              "action",
-              "enabled",
-              "expression",
-              "lastUpdated",
-              "ref",
-              "version",
-              "actionParameters",
-              "categories",
-              "description",
-              "exposedCredentialCheck",
-              "logging",
-              "ratelimit",
-            ],
-          ],
-          {
-            key: "action",
-            values: [
-              "block",
-              "challenge",
-              "compress_response",
-              "ddos_dynamic",
-              "execute",
-              "force_connection_close",
-              "js_challenge",
-              "log",
-              "log_custom_field",
-              "managed_challenge",
-              "redirect",
-              "rewrite",
-              "route",
-              "score",
-              "serve_error",
-              "set_cache_control",
-              "set_cache_settings",
-              "set_cache_tags",
-              "set_config",
-              "skip",
-              "transform_response_html",
-            ],
-          },
-        ),
-      );
-    case 2:
-      return S.Array(__S(225, __c28, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          kind: S.String,
-          lastUpdated: S.String.pipe(T.Body("last_updated")),
-          name: S.String,
-          phase: S.String,
-          rules: __S(226, __c28, 2),
-          version: S.String,
-          description: S.optional(S.NullOr(S.String)),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateRuleResponse" });
   }
 }
 function __c29(j: number): any {
@@ -34323,7 +33882,7 @@ function __c29(j: number): any {
           dryRun: S.optional(S.Boolean.pipe(T.Query("dry_run"))),
           description: S.optional(S.String),
           name: S.optional(S.String),
-          rules: S.optional(__S(209, __c26, 1)),
+          rules: S.optional(__S(225, __c28, 1)),
         })
           .pipe(
             T.Http({
@@ -35060,10 +34619,489 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          rulesetId: S.String.pipe(T.Label("ruleset_id")),
+          dryRun: S.optional(S.Boolean.pipe(T.Query("dry_run"))),
+          body: __S(272, __c34, 0).pipe(T.HttpBody()),
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/rulesets/{ruleset_id}/rules",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateRuleForAccountRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          ["position"],
+          [
+            "id",
+            "action",
+            "actionParameters",
+            "categories",
+            "description",
+            "enabled",
+            "exposedCredentialCheck",
+            "expression",
+            "logging",
+            "position",
+            "ratelimit",
+            "ref",
+          ],
+          ["position"],
+          ["position"],
+          ["position"],
+          ["position"],
+          [
+            "id",
+            "action",
+            "actionParameters",
+            "categories",
+            "description",
+            "enabled",
+            "exposedCredentialCheck",
+            "expression",
+            "logging",
+            "position",
+            "ratelimit",
+            "ref",
+          ],
+          ["position"],
+          ["position"],
+          ["position"],
+          ["position"],
+          ["position"],
+          ["position"],
+          ["position"],
+          ["position"],
+          [
+            "id",
+            "action",
+            "actionParameters",
+            "categories",
+            "description",
+            "enabled",
+            "exposedCredentialCheck",
+            "expression",
+            "logging",
+            "position",
+            "ratelimit",
+            "ref",
+          ],
+          ["position"],
+          [
+            "id",
+            "action",
+            "actionParameters",
+            "categories",
+            "description",
+            "enabled",
+            "exposedCredentialCheck",
+            "expression",
+            "logging",
+            "position",
+            "ratelimit",
+            "ref",
+          ],
+          ["position"],
+          ["position"],
+          [
+            "id",
+            "action",
+            "actionParameters",
+            "categories",
+            "description",
+            "enabled",
+            "exposedCredentialCheck",
+            "expression",
+            "logging",
+            "position",
+            "ratelimit",
+            "ref",
+          ],
+        ]),
+      );
+    case 1:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases(
+          [
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "id",
+              "action",
+              "enabled",
+              "expression",
+              "lastUpdated",
+              "ref",
+              "version",
+              "actionParameters",
+              "categories",
+              "description",
+              "exposedCredentialCheck",
+              "logging",
+              "ratelimit",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "id",
+              "action",
+              "enabled",
+              "expression",
+              "lastUpdated",
+              "ref",
+              "version",
+              "actionParameters",
+              "categories",
+              "description",
+              "exposedCredentialCheck",
+              "logging",
+              "ratelimit",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "id",
+              "action",
+              "enabled",
+              "expression",
+              "lastUpdated",
+              "ref",
+              "version",
+              "actionParameters",
+              "categories",
+              "description",
+              "exposedCredentialCheck",
+              "logging",
+              "ratelimit",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "id",
+              "action",
+              "enabled",
+              "expression",
+              "lastUpdated",
+              "ref",
+              "version",
+              "actionParameters",
+              "categories",
+              "description",
+              "exposedCredentialCheck",
+              "logging",
+              "ratelimit",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "lastUpdated",
+              "version",
+              "id",
+              "action",
+              "actionParameters",
+              "categories",
+              "description",
+              "enabled",
+              "exposedCredentialCheck",
+              "expression",
+              "logging",
+              "ratelimit",
+              "ref",
+            ],
+            [
+              "id",
+              "action",
+              "enabled",
+              "expression",
+              "lastUpdated",
+              "ref",
+              "version",
+              "actionParameters",
+              "categories",
+              "description",
+              "exposedCredentialCheck",
+              "logging",
+              "ratelimit",
+            ],
+          ],
+          {
+            key: "action",
+            values: [
+              "block",
+              "challenge",
+              "compress_response",
+              "ddos_dynamic",
+              "execute",
+              "force_connection_close",
+              "js_challenge",
+              "log",
+              "log_custom_field",
+              "managed_challenge",
+              "redirect",
+              "rewrite",
+              "route",
+              "score",
+              "serve_error",
+              "set_cache_control",
+              "set_cache_settings",
+              "set_cache_tags",
+              "set_config",
+              "skip",
+              "transform_response_html",
+            ],
+          },
+        ),
+      );
+    case 2:
+      return S.Array(__S(273, __c34, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          kind: S.String,
+          lastUpdated: S.String.pipe(T.Body("last_updated")),
+          name: S.String,
+          phase: S.String,
+          rules: __S(274, __c34, 2),
+          version: S.String,
+          description: S.optional(S.NullOr(S.String)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateRuleResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           rulesetId: S.String.pipe(T.Label("ruleset_id")),
           dryRun: S.optional(S.Boolean.pipe(T.Query("dry_run"))),
-          body: __S(224, __c28, 0).pipe(T.HttpBody()),
+          body: __S(272, __c34, 0).pipe(T.HttpBody()),
         })
           .pipe(
             T.Http({
@@ -35076,7 +35114,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateRuleForZoneRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35087,14 +35125,14 @@ function __c34(j: number): any {
           kind: S.optional(S.String),
           name: S.optional(S.String),
           phase: S.optional(S.String),
-          rules: S.optional(__S(281, __c35, 1)),
+          rules: S.optional(__S(297, __c37, 1)),
         })
           .pipe(T.Http({ method: "POST", uri: "/accounts/{account_id}/rulesets", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateRulesetForAccountRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -35403,7 +35441,7 @@ function __c35(j: number): any {
         ),
       );
     case 1:
-      return S.Array(__S(280, __c35, 0));
+      return S.Array(__S(296, __c37, 0));
     case 2:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases(
@@ -35753,7 +35791,7 @@ function __c35(j: number): any {
         ),
       );
     case 3:
-      return S.Array(__S(282, __c35, 2));
+      return S.Array(__S(298, __c37, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -35762,14 +35800,14 @@ function __c35(j: number): any {
           lastUpdated: S.String.pipe(T.Body("last_updated")),
           name: S.String,
           phase: S.String,
-          rules: __S(283, __c35, 3),
+          rules: __S(299, __c37, 3),
           version: S.String,
           description: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateRulesetResponse" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35780,14 +35818,14 @@ function __c36(j: number): any {
           kind: S.optional(S.String),
           name: S.optional(S.String),
           phase: S.optional(S.String),
-          rules: S.optional(__S(281, __c35, 1)),
+          rules: S.optional(__S(297, __c37, 1)),
         })
           .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/rulesets", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateRulesetForZoneRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35808,7 +35846,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteRuleForAccountRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -36159,7 +36197,7 @@ function __c38(j: number): any {
         ),
       );
     case 1:
-      return S.Array(__S(304, __c38, 0));
+      return S.Array(__S(320, __c40, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -36168,14 +36206,14 @@ function __c38(j: number): any {
           lastUpdated: S.String.pipe(T.Body("last_updated")),
           name: S.String,
           phase: S.String,
-          rules: __S(305, __c38, 1),
+          rules: __S(321, __c40, 1),
           version: S.String,
           description: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteRuleResponse" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36194,34 +36232,6 @@ function __c39(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteRuleForZoneRequest" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          rulesetId: S.String.pipe(T.Label("ruleset_id")),
-          dryRun: S.optional(S.Boolean.pipe(T.Query("dry_run"))),
-        })
-          .pipe(
-            T.Http({
-              method: "DELETE",
-              uri: "/accounts/{account_id}/rulesets/{ruleset_id}",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "DeleteRulesetForAccountRequest" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY))).annotate({
-        identifier: "DeleteRulesetForAccountResponse",
-      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

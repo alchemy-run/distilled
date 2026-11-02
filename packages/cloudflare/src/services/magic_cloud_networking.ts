@@ -158,7 +158,10 @@ export class FeatureNotEnabled
       code: S.Number,
       message: S.String,
     }),
-    [{ code: 1012, status: 403 }],
+    [
+      { code: 1012, status: 403 },
+      { status: 404, message: { includes: "No route for that URI" } },
+    ],
   ) {}
 
 export class Forbidden
