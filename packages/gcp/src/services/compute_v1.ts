@@ -38227,7 +38227,13 @@ export const deleteBackendBuckets: API.OperationMethod<
   span: "DeleteBackendBuckets",
 }));
 
-export type DeleteBackendServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
+export type DeleteBackendServicesError =
+  | NotFound
+  | Forbidden
+  | BadRequest
+  | Conflict
+  | ResourceNotReady
+  | GcpOpError;
 /** Deletes the specified BackendService resource. */
 export const deleteBackendServices: API.OperationMethod<
   DeleteBackendServicesRequest,
@@ -38237,7 +38243,7 @@ export const deleteBackendServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<DeleteBackendServicesRequest>,
   output: __S(38641, __c1207, 17) as any as S.Schema<Operation>,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [NotFound, Forbidden, BadRequest, Conflict, ResourceNotReady, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

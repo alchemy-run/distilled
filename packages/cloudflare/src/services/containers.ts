@@ -53,6 +53,19 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+/** Cloudflare temporarily refuses to create an application (`can't create application at this time`); the same request succeeds when retried. */
+export class ContainerApplicationCreateUnavailable
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ContainerApplicationCreateUnavailable>()(
+      "ContainerApplicationCreateUnavailable",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [{ message: { includes: "can't create application at this time" } }],
+  ) {}
+
 export class ContainerApplicationNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ContainerApplicationNotFound>()("ContainerApplicationNotFound", {
@@ -400,6 +413,7 @@ export type CreateContainerApplicationError =
   | DurableObjectNotContainerEnabled
   | DurableObjectCheckError
   | DurableObjectNamespaceNotFound
+  | ContainerApplicationCreateUnavailable
   | CloudflareOpError;
 export const createContainerApplication: API.OperationMethod<
   CreateContainerApplicationRequest,
@@ -407,14 +421,15 @@ export const createContainerApplication: API.OperationMethod<
   CreateContainerApplicationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreateContainerApplicationRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<CreateContainerApplicationResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateContainerApplicationRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<CreateContainerApplicationResponse>,
   errors: [
     InvalidRoute,
     DurableObjectAlreadyHasApplication,
     DurableObjectNotContainerEnabled,
     DurableObjectCheckError,
     DurableObjectNamespaceNotFound,
+    ContainerApplicationCreateUnavailable,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -432,8 +447,8 @@ export const createContainerApplicationRollout: API.OperationMethod<
   CreateContainerApplicationRolloutError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateContainerApplicationRolloutRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<CreateContainerApplicationRolloutResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<CreateContainerApplicationRolloutRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<CreateContainerApplicationRolloutResponse>,
   errors: [InvalidRoute, ContainerApplicationNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -446,8 +461,8 @@ export const createContainerRegistryCredentials: API.OperationMethod<
   CreateContainerRegistryCredentialsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CreateContainerRegistryCredentialsRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<CreateContainerRegistryCredentialsResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<CreateContainerRegistryCredentialsRequest>,
+  output: __S(66, __c8, 2) as any as S.Schema<CreateContainerRegistryCredentialsResponse>,
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -467,8 +482,8 @@ export const createDurableObjectContainerApplication: API.OperationMethod<
   CreateDurableObjectContainerApplicationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17, __c2, 1) as any as S.Schema<CreateDurableObjectContainerApplicationRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<CreateDurableObjectContainerApplicationResponse>,
+  input: __S(73, __c9, 1) as any as S.Schema<CreateDurableObjectContainerApplicationRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<CreateDurableObjectContainerApplicationResponse>,
   errors: [
     InvalidRoute,
     DurableObjectAlreadyHasApplication,
@@ -492,8 +507,8 @@ export const deleteContainerApplication: API.OperationMethod<
   DeleteContainerApplicationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeleteContainerApplicationRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<DeleteContainerApplicationResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<DeleteContainerApplicationRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<DeleteContainerApplicationResponse>,
   errors: [InvalidRoute, ContainerApplicationNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -509,8 +524,8 @@ export const getContainerApplication: API.OperationMethod<
   GetContainerApplicationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetContainerApplicationRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<GetContainerApplicationResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetContainerApplicationRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<GetContainerApplicationResponse>,
   errors: [InvalidRoute, ContainerApplicationNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -523,8 +538,8 @@ export const getContainerIdentity: API.OperationMethod<
   GetContainerIdentityError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetContainerIdentityRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<GetContainerIdentityResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetContainerIdentityRequest>,
+  output: __S(96, __c12, 0) as any as S.Schema<GetContainerIdentityResponse>,
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -537,8 +552,8 @@ export const listContainerApplications: API.OperationMethod<
   ListContainerApplicationsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListContainerApplicationsRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<ListContainerApplicationsResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<ListContainerApplicationsRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<ListContainerApplicationsResponse>,
   errors: [InvalidRoute, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -556,8 +571,8 @@ export const prepareContainerImage: API.OperationMethod<
   PrepareContainerImageError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<PrepareContainerImageRequest>,
-  output: __S(74, __c9, 2) as any as S.Schema<PrepareContainerImageResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<PrepareContainerImageRequest>,
+  output: __S(130, __c16, 2) as any as S.Schema<PrepareContainerImageResponse>,
   errors: [
     ContainerImagePreparationInvalidImage,
     BadRequest,
@@ -579,8 +594,8 @@ export const updateContainerApplication: API.OperationMethod<
   UpdateContainerApplicationError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c10, 1) as any as S.Schema<UpdateContainerApplicationRequest>,
-  output: __S(120, __c15, 0) as any as S.Schema<UpdateContainerApplicationResponse>,
+  input: __S(137, __c17, 1) as any as S.Schema<UpdateContainerApplicationRequest>,
+  output: __S(32, __c4, 0) as any as S.Schema<UpdateContainerApplicationResponse>,
   errors: [InvalidRoute, ContainerApplicationNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -593,306 +608,10 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
-          applicationId: S.String.pipe(T.Label("application_id")),
-          description: S.String,
-          strategy: S.String,
-          kind: S.optional(S.String),
-          stepPercentage: S.optional(S.Number.pipe(T.Body("step_percentage"))),
-          targetConfiguration: S.optional(__S(96, __c12, 0).pipe(T.Body("target_configuration"))),
-        })
-          .pipe(
-            T.Http({
-              method: "POST",
-              uri: "/accounts/{account_id}/containers/applications/{application_id}/rollouts",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateContainerApplicationRolloutRequest" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          registryId: S.String.pipe(T.Label("registry_id")),
-          permissions: __S(104, __c13, 0),
-          expirationMinutes: S.Number.pipe(T.Body("expiration_minutes")),
-        })
-          .pipe(
-            T.Http({
-              method: "POST",
-              uri: "/accounts/{account_id}/containers/registries/{registry_id}/credentials",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateContainerRegistryCredentialsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          user: S.optional(S.NullOr(S.String)),
-          username: S.optional(S.NullOr(S.String)),
-          password: S.String,
-        }),
-      ).annotate({ identifier: "CreateContainerRegistryCredentialsResult" });
-    case 2:
-      return S.suspend(() =>
-        __S(9, __c1, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateContainerRegistryCredentialsResponse" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          wranglerSsh: S.optional(S.NullOr(__S(24, __c3, 0)).pipe(T.Body("wrangler_ssh"))),
-          authorizedKeys: S.optional(S.NullOr(__S(26, __c3, 2)).pipe(T.Body("authorized_keys"))),
-          experimentalFlags: S.optional(
-            S.NullOr(__S(104, __c13, 0)).pipe(T.Body("experimental_flags")),
-          ),
-        }),
-      ).annotate({ identifier: "DurableObjectContainerConfiguration" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          name: S.String,
-          schedulingPolicy: S.String.pipe(T.Body("scheduling_policy")),
-          durableObjects: __S(136, __c17, 0).pipe(T.Body("durable_objects")),
-          configuration: S.optional(__S(16, __c2, 0)),
-          observability: S.optional(__S(28, __c3, 4)),
-        })
-          .pipe(
-            T.Http({
-              method: "POST",
-              uri: "/accounts/{account_id}/containers/applications",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateDurableObjectContainerApplicationRequest" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-          port: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "WranglerSSHConfiguration" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.NullOr(S.String)),
-          publicKey: S.String.pipe(T.Body("public_key")),
-        }),
-      ).annotate({ identifier: "UserSSHPublicKey" });
-    case 2:
-      return S.Array(__S(25, __c3, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.optional(S.NullOr(S.Boolean)),
-        }),
-      ).annotate({ identifier: "ContainerApplicationLogs" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          logs: S.optional(S.NullOr(__S(27, __c3, 3))),
-        }),
-      ).annotate({ identifier: "ContainerApplicationObservability" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          applicationId: S.String.pipe(T.Label("application_id")),
-        })
-          .pipe(
-            T.Http({
-              method: "DELETE",
-              uri: "/accounts/{account_id}/containers/applications/{application_id}",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "DeleteContainerApplicationRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "DeleteContainerApplicationResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          applicationId: S.String.pipe(T.Label("application_id")),
-        })
-          .pipe(
-            T.Http({
-              method: "GET",
-              uri: "/accounts/{account_id}/containers/applications/{application_id}",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "GetContainerApplicationRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-        })
-          .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/containers/me", code: 200 }))
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "GetContainerIdentityRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-        })
-          .pipe(
-            T.Http({
-              method: "GET",
-              uri: "/accounts/{account_id}/containers/applications",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "ListContainerApplicationsRequest" });
-    case 1:
-      return S.Array(__S(112, __c14, 0));
-    case 2:
-      return S.suspend(() =>
-        __S(65, __c8, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "ListContainerApplicationsResponse" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          image: S.String,
-        })
-          .pipe(
-            T.Http({
-              method: "POST",
-              uri: "/accounts/{account_id}/containers/image-preparations",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "PrepareContainerImageRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          image: S.String,
-          status: S.String,
-          artifactDigest: S.optional(S.NullOr(S.String).pipe(T.Body("artifact_digest"))),
-          reason: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "ContainerImagePreparation" });
-    case 2:
-      return S.suspend(() =>
-        __S(73, __c9, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "PrepareContainerImageResponse" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          image: S.optional(S.NullOr(S.String)),
-          instanceType: S.optional(S.NullOr(S.String).pipe(T.Body("instance_type"))),
-          vcpu: S.optional(S.NullOr(S.Number)),
-          memory: S.optional(S.NullOr(S.String)),
-          memoryMib: S.optional(S.NullOr(S.Number).pipe(T.Body("memory_mib"))),
-          disk: S.optional(S.NullOr(S.Unknown)),
-          environmentVariables: S.optional(
-            S.NullOr(__S(129, __c16, 1)).pipe(T.Body("environment_variables")),
-          ),
-          secrets: S.optional(S.NullOr(__S(130, __c16, 2))),
-          labels: S.optional(S.NullOr(__S(130, __c16, 2))),
-          ports: S.optional(S.NullOr(__S(130, __c16, 2))),
-          network: S.optional(S.NullOr(__S(131, __c16, 3))),
-          command: S.optional(S.NullOr(__S(104, __c13, 0))),
-          entrypoint: S.optional(S.NullOr(__S(104, __c13, 0))),
-          observability: S.optional(S.NullOr(S.Unknown)),
-          checks: S.optional(S.NullOr(__S(130, __c16, 2))),
-          dns: S.optional(S.NullOr(S.Unknown)),
-          sshPublicKeyIds: S.optional(
-            S.NullOr(__S(104, __c13, 0)).pipe(T.Body("ssh_public_key_ids")),
-          ),
-          wranglerSsh: S.optional(S.NullOr(__S(24, __c3, 0)).pipe(T.Body("wrangler_ssh"))),
-          authorizedKeys: S.optional(S.NullOr(__S(26, __c3, 2)).pipe(T.Body("authorized_keys"))),
-          experimentalFlags: S.optional(
-            S.NullOr(__S(104, __c13, 0)).pipe(T.Body("experimental_flags")),
-          ),
-        }),
-      ).annotate({ identifier: "ContainerApplicationConfiguration" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          applicationId: S.String.pipe(T.Label("application_id")),
-          maxInstances: S.optional(S.Number.pipe(T.Body("max_instances"))),
-          configuration: S.optional(__S(80, __c10, 0)),
-          instances: S.optional(S.Number),
-          schedulingPolicy: S.optional(S.String.pipe(T.Body("scheduling_policy"))),
-          rolloutActiveGracePeriod: S.optional(
-            S.Number.pipe(T.Body("rollout_active_grace_period")),
-          ),
-          constraints: S.optional(S.Unknown),
-          affinities: S.optional(S.Unknown),
-          observability: S.optional(__S(28, __c3, 4)),
-        })
-          .pipe(
-            T.Http({
-              method: "PATCH",
-              uri: "/accounts/{account_id}/containers/applications/{application_id}",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "UpdateContainerApplicationRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
           name: S.String,
           maxInstances: S.Number.pipe(T.Body("max_instances")),
-          configuration: __S(96, __c12, 0),
-          durableObjects: S.optional(__S(136, __c17, 0).pipe(T.Body("durable_objects"))),
+          configuration: __S(8, __c1, 0),
+          durableObjects: S.optional(__S(48, __c6, 0).pipe(T.Body("durable_objects"))),
           instances: S.optional(S.Number),
           schedulingPolicy: S.optional(S.String.pipe(T.Body("scheduling_policy"))),
           rolloutActiveGracePeriod: S.optional(
@@ -913,7 +632,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateContainerApplicationRequest" });
   }
 }
-function __c12(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -924,30 +643,28 @@ function __c12(j: number): any {
           memory: S.optional(S.String),
           memoryMib: S.optional(S.Number.pipe(T.Body("memory_mib"))),
           disk: S.optional(S.Unknown),
-          environmentVariables: S.optional(
-            __S(129, __c16, 1).pipe(T.Body("environment_variables")),
-          ),
-          secrets: S.optional(__S(130, __c16, 2)),
-          labels: S.optional(__S(130, __c16, 2)),
-          ports: S.optional(__S(130, __c16, 2)),
-          network: S.optional(__S(131, __c16, 3)),
-          command: S.optional(__S(104, __c13, 0)),
-          entrypoint: S.optional(__S(104, __c13, 0)),
+          environmentVariables: S.optional(__S(41, __c5, 1).pipe(T.Body("environment_variables"))),
+          secrets: S.optional(__S(42, __c5, 2)),
+          labels: S.optional(__S(42, __c5, 2)),
+          ports: S.optional(__S(42, __c5, 2)),
+          network: S.optional(__S(43, __c5, 3)),
+          command: S.optional(__S(16, __c2, 0)),
+          entrypoint: S.optional(__S(16, __c2, 0)),
           observability: S.optional(S.Unknown),
-          checks: S.optional(__S(130, __c16, 2)),
+          checks: S.optional(__S(42, __c5, 2)),
           dns: S.optional(S.Unknown),
-          sshPublicKeyIds: S.optional(__S(104, __c13, 0).pipe(T.Body("ssh_public_key_ids"))),
+          sshPublicKeyIds: S.optional(__S(16, __c2, 0).pipe(T.Body("ssh_public_key_ids"))),
         }),
       ).annotate({ identifier: "ContainerConfiguration" });
   }
 }
-function __c13(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c14(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -988,15 +705,15 @@ function __c14(j: number): any {
       );
   }
 }
-function __c15(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        __S(112, __c14, 0).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(24, __c3, 0).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateContainerApplicationResponse" });
   }
 }
-function __c16(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1006,7 +723,7 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "EnvironmentVariable" });
     case 1:
-      return S.Array(__S(128, __c16, 0));
+      return S.Array(__S(40, __c5, 0));
     case 2:
       return S.Array(S.Unknown);
     case 3:
@@ -1019,7 +736,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ContainerNetwork" });
   }
 }
-function __c17(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1027,6 +744,302 @@ function __c17(j: number): any {
           namespaceId: S.String.pipe(T.Body("namespace_id")),
         }),
       ).annotate({ identifier: "DurableObjectsRef" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          applicationId: S.String.pipe(T.Label("application_id")),
+          description: S.String,
+          strategy: S.String,
+          kind: S.optional(S.String),
+          stepPercentage: S.optional(S.Number.pipe(T.Body("step_percentage"))),
+          targetConfiguration: S.optional(__S(8, __c1, 0).pipe(T.Body("target_configuration"))),
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/containers/applications/{application_id}/rollouts",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateContainerApplicationRolloutRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          registryId: S.String.pipe(T.Label("registry_id")),
+          permissions: __S(16, __c2, 0),
+          expirationMinutes: S.Number.pipe(T.Body("expiration_minutes")),
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/containers/registries/{registry_id}/credentials",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateContainerRegistryCredentialsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          user: S.optional(S.NullOr(S.String)),
+          username: S.optional(S.NullOr(S.String)),
+          password: S.String,
+        }),
+      ).annotate({ identifier: "CreateContainerRegistryCredentialsResult" });
+    case 2:
+      return S.suspend(() =>
+        __S(65, __c8, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateContainerRegistryCredentialsResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          wranglerSsh: S.optional(S.NullOr(__S(80, __c10, 0)).pipe(T.Body("wrangler_ssh"))),
+          authorizedKeys: S.optional(S.NullOr(__S(82, __c10, 2)).pipe(T.Body("authorized_keys"))),
+          experimentalFlags: S.optional(
+            S.NullOr(__S(16, __c2, 0)).pipe(T.Body("experimental_flags")),
+          ),
+        }),
+      ).annotate({ identifier: "DurableObjectContainerConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          name: S.String,
+          schedulingPolicy: S.String.pipe(T.Body("scheduling_policy")),
+          durableObjects: __S(48, __c6, 0).pipe(T.Body("durable_objects")),
+          configuration: S.optional(__S(72, __c9, 0)),
+          observability: S.optional(__S(84, __c10, 4)),
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/containers/applications",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateDurableObjectContainerApplicationRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+          port: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "WranglerSSHConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.NullOr(S.String)),
+          publicKey: S.String.pipe(T.Body("public_key")),
+        }),
+      ).annotate({ identifier: "UserSSHPublicKey" });
+    case 2:
+      return S.Array(__S(81, __c10, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "ContainerApplicationLogs" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          logs: S.optional(S.NullOr(__S(83, __c10, 3))),
+        }),
+      ).annotate({ identifier: "ContainerApplicationObservability" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          applicationId: S.String.pipe(T.Label("application_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "DELETE",
+              uri: "/accounts/{account_id}/containers/applications/{application_id}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "DeleteContainerApplicationRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "DeleteContainerApplicationResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          applicationId: S.String.pipe(T.Label("application_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/containers/applications/{application_id}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetContainerApplicationRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+        })
+          .pipe(T.Http({ method: "GET", uri: "/accounts/{account_id}/containers/me", code: 200 }))
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetContainerIdentityRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/containers/applications",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ListContainerApplicationsRequest" });
+    case 1:
+      return S.Array(__S(24, __c3, 0));
+    case 2:
+      return S.suspend(() =>
+        __S(121, __c15, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ListContainerApplicationsResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          image: S.String,
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/containers/image-preparations",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "PrepareContainerImageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          image: S.String,
+          status: S.String,
+          artifactDigest: S.optional(S.NullOr(S.String).pipe(T.Body("artifact_digest"))),
+          reason: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ContainerImagePreparation" });
+    case 2:
+      return S.suspend(() =>
+        __S(129, __c16, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "PrepareContainerImageResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          image: S.optional(S.NullOr(S.String)),
+          instanceType: S.optional(S.NullOr(S.String).pipe(T.Body("instance_type"))),
+          vcpu: S.optional(S.NullOr(S.Number)),
+          memory: S.optional(S.NullOr(S.String)),
+          memoryMib: S.optional(S.NullOr(S.Number).pipe(T.Body("memory_mib"))),
+          disk: S.optional(S.NullOr(S.Unknown)),
+          environmentVariables: S.optional(
+            S.NullOr(__S(41, __c5, 1)).pipe(T.Body("environment_variables")),
+          ),
+          secrets: S.optional(S.NullOr(__S(42, __c5, 2))),
+          labels: S.optional(S.NullOr(__S(42, __c5, 2))),
+          ports: S.optional(S.NullOr(__S(42, __c5, 2))),
+          network: S.optional(S.NullOr(__S(43, __c5, 3))),
+          command: S.optional(S.NullOr(__S(16, __c2, 0))),
+          entrypoint: S.optional(S.NullOr(__S(16, __c2, 0))),
+          observability: S.optional(S.NullOr(S.Unknown)),
+          checks: S.optional(S.NullOr(__S(42, __c5, 2))),
+          dns: S.optional(S.NullOr(S.Unknown)),
+          sshPublicKeyIds: S.optional(
+            S.NullOr(__S(16, __c2, 0)).pipe(T.Body("ssh_public_key_ids")),
+          ),
+          wranglerSsh: S.optional(S.NullOr(__S(80, __c10, 0)).pipe(T.Body("wrangler_ssh"))),
+          authorizedKeys: S.optional(S.NullOr(__S(82, __c10, 2)).pipe(T.Body("authorized_keys"))),
+          experimentalFlags: S.optional(
+            S.NullOr(__S(16, __c2, 0)).pipe(T.Body("experimental_flags")),
+          ),
+        }),
+      ).annotate({ identifier: "ContainerApplicationConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          applicationId: S.String.pipe(T.Label("application_id")),
+          maxInstances: S.optional(S.Number.pipe(T.Body("max_instances"))),
+          configuration: S.optional(__S(136, __c17, 0)),
+          instances: S.optional(S.Number),
+          schedulingPolicy: S.optional(S.String.pipe(T.Body("scheduling_policy"))),
+          rolloutActiveGracePeriod: S.optional(
+            S.Number.pipe(T.Body("rollout_active_grace_period")),
+          ),
+          constraints: S.optional(S.Unknown),
+          affinities: S.optional(S.Unknown),
+          observability: S.optional(__S(84, __c10, 4)),
+        })
+          .pipe(
+            T.Http({
+              method: "PATCH",
+              uri: "/accounts/{account_id}/containers/applications/{application_id}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "UpdateContainerApplicationRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
