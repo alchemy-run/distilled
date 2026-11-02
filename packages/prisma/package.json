@@ -52,11 +52,11 @@
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
     },
-    "./Bucket": {
-      "types": "./lib/bucket.d.ts",
-      "bun": "./src/bucket.ts",
-      "worker": "./src/bucket.ts",
-      "default": "./lib/bucket.js"
+    "./BucketObjects": {
+      "types": "./lib/bucket-objects.d.ts",
+      "bun": "./src/bucket-objects.ts",
+      "worker": "./src/bucket-objects.ts",
+      "default": "./lib/bucket-objects.js"
     },
     "./management": {
       "types": "./lib/services/management.d.ts",

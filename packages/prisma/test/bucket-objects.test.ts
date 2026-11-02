@@ -7,9 +7,9 @@ import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import * as TestClock from "effect/testing/TestClock";
 import { describe, expect, test } from "vitest";
-import * as Bucket from "../src/bucket.ts";
+import * as BucketObjects from "../src/bucket-objects.ts";
 
-const bucket = Bucket.make({
+const bucket = BucketObjects.make({
   endpoint: "https://t3.storage.dev/",
   bucket: "user-abc123",
   credentials: {
@@ -58,19 +58,13 @@ const fakeStore = (respond: (request: SentRequest) => Reply) => {
       }),
     ),
   );
-  return { sent, client, layer: Layer.mergeAll(client, TestClock.layer()) };
+  return { sent, layer: Layer.mergeAll(client, TestClock.layer()) };
 };
 
 const run = <A, E>(
   effect: Effect.Effect<A, E, HttpClient.HttpClient>,
   layer: Layer.Layer<HttpClient.HttpClient>,
 ) => Effect.runPromise(Effect.provide(effect, layer));
-
-/** With the real clock, so retry backoff actually elapses. */
-const runLive = <A, E>(
-  effect: Effect.Effect<A, E, HttpClient.HttpClient>,
-  store: { client: Layer.Layer<HttpClient.HttpClient> },
-) => Effect.runPromise(Effect.provide(effect, store.client));
 
 const runSigned = <A, E>(effect: Effect.Effect<A, E>) =>
   Effect.runPromise(
@@ -193,7 +187,7 @@ describe("Prisma bucket client", () => {
       body: "<Error><Code>NoSuchBucket</Code></Error>",
     }));
     expect(await run(bucket.getObject("k").pipe(Effect.flip), missingBucket.layer)).toMatchObject({
-      _tag: "NoSuchBucket",
+      _tag: "Prisma::BucketObjects::NoSuchBucket",
       status: 404,
       message: "GetObject failed with HTTP 404 (NoSuchBucket)",
     });
@@ -208,7 +202,7 @@ describe("Prisma bucket client", () => {
       body: "<Error><Code>AccessDenied</Code><Message>Access Denied.</Message></Error>",
     }));
     expect(await run(bucket.putObject("k", "v").pipe(Effect.flip), store.layer)).toMatchObject({
-      _tag: "S3ServiceError",
+      _tag: "Prisma::BucketObjects::S3ServiceError",
       code: "AccessDenied",
       message: "PutObject failed with HTTP 403 (AccessDenied): Access Denied.",
     });
@@ -282,7 +276,7 @@ describe("Prisma bucket client", () => {
       bucket.putObject("a.txt", Stream.fail("boom")).pipe(Effect.flip),
       store.layer,
     );
-    expect(error).toMatchObject({ _tag: "BodyReadError", cause: "boom" });
+    expect(error).toMatchObject({ _tag: "Prisma::BucketObjects::BodyReadError", cause: "boom" });
     expect(store.sent).toEqual([]);
   });
 
@@ -354,16 +348,20 @@ describe("Prisma bucket client", () => {
       );
 
     expect(await messageFor("<Other/>")).toBe(
-      "InvalidS3Response: ListObjectsV2 returned a response that is not a ListBucketResult",
+      "Prisma::BucketObjects::InvalidS3Response: ListObjectsV2 returned a response that is not a ListBucketResult",
     );
     expect(
       await messageFor("<ListBucketResult><IsTruncated>true</IsTruncated></ListBucketResult>"),
-    ).toBe("InvalidS3Response: ListObjectsV2 returned IsTruncated without a NextContinuationToken");
+    ).toBe(
+      "Prisma::BucketObjects::InvalidS3Response: ListObjectsV2 returned IsTruncated without a NextContinuationToken",
+    );
     expect(
       await messageFor(
         "<ListBucketResult><Contents><Key>a</Key><Size>x</Size></Contents></ListBucketResult>",
       ),
-    ).toBe("InvalidS3Response: ListObjectsV2 returned an invalid Size for a");
+    ).toBe(
+      "Prisma::BucketObjects::InvalidS3Response: ListObjectsV2 returned an invalid Size for a",
+    );
   });
 
   test("percent-encodes list parameters", async () => {
@@ -375,26 +373,31 @@ describe("Prisma bucket client", () => {
     );
   });
 
-  test("retries a transient failure but not forever", { timeout: 20_000 }, async () => {
+  test("retries a transient failure but not forever", async () => {
+    const withBackoffElapsed = <A, E>(effect: Effect.Effect<A, E, HttpClient.HttpClient>) =>
+      Effect.all([effect, TestClock.adjust("1 minute")], { concurrency: 2 }).pipe(
+        Effect.map(([result]) => result),
+      );
+
     let calls = 0;
     const flaky = fakeStore(() =>
       ++calls === 1
         ? { status: 503, body: "<Error><Code>SlowDown</Code></Error>" }
         : { status: 200, headers: objectHeaders },
     );
-    expect((await runLive(bucket.headObject("k"), flaky))?.etag).toBe("e2");
+    expect((await run(withBackoffElapsed(bucket.headObject("k")), flaky.layer))?.etag).toBe("e2");
     expect(flaky.sent.length).toBe(2);
 
     const down = fakeStore(() => ({ status: 503 }));
-    await runLive(bucket.headObject("k").pipe(Effect.flip), down);
+    await run(withBackoffElapsed(bucket.headObject("k").pipe(Effect.flip)), down.layer);
     expect(down.sent.length).toBe(6);
   });
 
   test("rejects keys that cannot be addressed safely", async () => {
     const store = fakeStore(() => ({ status: 200 }));
-    for (const key of ["a/../b", "..", "./a", "../other-bucket/x", "bad\uD800"]) {
+    for (const key of ["", "a/../b", "..", "./a", "../other-bucket/x", "bad\uD800"]) {
       const error = await run(bucket.putObject(key, "v").pipe(Effect.flip), store.layer);
-      expect(error._tag).toBe("InvalidInput");
+      expect(error._tag).toBe("Prisma::BucketObjects::InvalidInput");
     }
     expect(store.sent).toEqual([]);
   });

@@ -6,12 +6,15 @@
  * `HeadObject`, `PutObject`, `DeleteObject`, `ListObjectsV2`, and presigned
  * `GET` and `PUT` URLs. Requests are signed with SigV4 under the `auto`
  * region and address the bucket path-style (`<endpoint>/<bucket>/<key>`).
+ * Transient failures (408, 429, 5xx, transport errors) are retried up to 5
+ * times with jittered exponential backoff from 200 ms; the policy is fixed
+ * and does not read `Prisma.Retry`.
  *
  * @example
  * ```ts
- * import * as Bucket from "@distilled.cloud/prisma/Bucket";
+ * import * as BucketObjects from "@distilled.cloud/prisma/BucketObjects";
  *
- * const bucket = Bucket.make({ endpoint, bucket: "uploads", credentials });
+ * const bucket = BucketObjects.make({ endpoint, bucket: "uploads", credentials });
  * const object = yield* bucket.getObject("reports/2026.json");
  * ```
  */
@@ -34,7 +37,7 @@ const SIGNING_REGION = "auto";
 
 const DEFAULT_PRESIGN_EXPIRES_IN = 900;
 
-export interface BucketConfig {
+export interface ClientConfig {
   /** The bucket key's S3 endpoint, e.g. `https://t3.storage.dev`. */
   endpoint: string;
   bucket: string;
@@ -127,44 +130,51 @@ export interface PresignPutObjectOptions {
   contentType?: string | undefined;
 }
 
-export class NoSuchKey extends Data.TaggedError("NoSuchKey")<{
-  message: string;
-  status: number;
-}> {}
+export class NoSuchKey
+  extends /*@__PURE__*/ Data.TaggedError("Prisma::BucketObjects::NoSuchKey")<{
+    message: string;
+    status: number;
+  }> {}
 
-export class NoSuchBucket extends Data.TaggedError("NoSuchBucket")<{
-  message: string;
-  status: number;
-}> {}
+export class NoSuchBucket
+  extends /*@__PURE__*/ Data.TaggedError("Prisma::BucketObjects::NoSuchBucket")<{
+    message: string;
+    status: number;
+  }> {}
 
 /** A 404 with no S3 error body, as `HeadObject` returns. */
-export class NotFound extends Data.TaggedError("NotFound")<{
-  message: string;
-  status: number;
-}> {}
+export class NotFound
+  extends /*@__PURE__*/ Data.TaggedError("Prisma::BucketObjects::NotFound")<{
+    message: string;
+    status: number;
+  }> {}
 
 /** Any other S3 error response. */
-export class S3ServiceError extends Data.TaggedError("S3ServiceError")<{
-  message: string;
-  status: number;
-  code: string | undefined;
-}> {}
+export class S3ServiceError
+  extends /*@__PURE__*/ Data.TaggedError("Prisma::BucketObjects::S3ServiceError")<{
+    message: string;
+    status: number;
+    code: string | undefined;
+  }> {}
 
-export class InvalidS3Response extends Data.TaggedError("InvalidS3Response")<{
-  message: string;
-}> {}
+export class InvalidS3Response
+  extends /*@__PURE__*/ Data.TaggedError("Prisma::BucketObjects::InvalidS3Response")<{
+    message: string;
+  }> {}
 
 /** An argument that cannot be sent: a key with `.` or `..` segments, or a string that is not valid UTF-16. */
-export class InvalidInput extends Data.TaggedError("InvalidInput")<{
-  message: string;
-}> {}
+export class InvalidInput
+  extends /*@__PURE__*/ Data.TaggedError("Prisma::BucketObjects::InvalidInput")<{
+    message: string;
+  }> {}
 
-export class BodyReadError extends Data.TaggedError("BodyReadError")<{
-  message: string;
-  cause: unknown;
-}> {}
+export class BodyReadError
+  extends /*@__PURE__*/ Data.TaggedError("Prisma::BucketObjects::BodyReadError")<{
+    message: string;
+    cause: unknown;
+  }> {}
 
-export type BucketClientError =
+export type ClientError =
   | NoSuchKey
   | NoSuchBucket
   | NotFound
@@ -177,37 +187,35 @@ export type BucketClientError =
   | AwsClient.SignRequestError
   | XmlParseError;
 
-export interface Bucket {
+export interface Client {
   /** `null` when the key does not exist. */
-  headObject: (
-    key: string,
-  ) => Effect.Effect<ObjectInfo | null, BucketClientError, HttpClient.HttpClient>;
+  headObject: (key: string) => Effect.Effect<ObjectInfo | null, ClientError, HttpClient.HttpClient>;
   /** `null` when the key does not exist. */
   getObject: (
     key: string,
     options?: GetObjectOptions,
-  ) => Effect.Effect<ObjectWithBody | null, BucketClientError, HttpClient.HttpClient>;
+  ) => Effect.Effect<ObjectWithBody | null, ClientError, HttpClient.HttpClient>;
   putObject: (
     key: string,
     body: PutObjectBody,
     options?: PutObjectOptions,
-  ) => Effect.Effect<PutObjectResult, BucketClientError, HttpClient.HttpClient>;
+  ) => Effect.Effect<PutObjectResult, ClientError, HttpClient.HttpClient>;
   /** Deleting a key that does not exist succeeds. */
-  deleteObject: (key: string) => Effect.Effect<void, BucketClientError, HttpClient.HttpClient>;
+  deleteObject: (key: string) => Effect.Effect<void, ClientError, HttpClient.HttpClient>;
   /** One page. */
   listObjectsV2: (
     options?: ListObjectsV2Options,
-  ) => Effect.Effect<ListObjectsV2Result, BucketClientError, HttpClient.HttpClient>;
+  ) => Effect.Effect<ListObjectsV2Result, ClientError, HttpClient.HttpClient>;
   /** Sends no request. */
   presignGetObject: (
     key: string,
     options?: PresignGetObjectOptions,
-  ) => Effect.Effect<string, BucketClientError>;
+  ) => Effect.Effect<string, InvalidInput | SigningError>;
   /** Sends no request. */
   presignPutObject: (
     key: string,
     options?: PresignPutObjectOptions,
-  ) => Effect.Effect<string, BucketClientError>;
+  ) => Effect.Effect<string, InvalidInput | SigningError>;
 }
 
 const rangeHeader = (range: ByteRange) => {
@@ -223,10 +231,13 @@ const encodeComponent = (value: string) =>
   );
 
 /**
- * The URL parser resolves `.` and `..` path segments before a request is sent,
+ * An empty key addresses the bucket itself. The URL parser resolves `.` and `..` path segments before a request is sent,
  * so such a key would address a different object, or another bucket.
  */
 const encodeKey = (key: string): Effect.Effect<string, InvalidInput> => {
+  if (key === "") {
+    return Effect.fail(new InvalidInput({ message: "Object key must not be empty" }));
+  }
   const segments = key.split("/");
   if (segments.some((segment) => segment === "." || segment === "..")) {
     return Effect.fail(
@@ -329,8 +340,13 @@ const ensureOk = (operation: string) => (response: HttpClientResponse.HttpClient
         ),
       );
 
-const isTransient = (error: BucketClientError) =>
-  (error._tag === "S3ServiceError" &&
+const missingObject = [
+  "Prisma::BucketObjects::NoSuchKey",
+  "Prisma::BucketObjects::NotFound",
+] as const;
+
+const isTransient = (error: ClientError) =>
+  (error._tag === "Prisma::BucketObjects::S3ServiceError" &&
     (error.status === 408 || error.status === 429 || error.status >= 500)) ||
   (error._tag === "HttpClientError" && error.reason._tag === "TransportError");
 
@@ -452,7 +468,7 @@ const listQuery = (options: ListObjectsV2Options | undefined) =>
     catch: () => new InvalidInput({ message: "List options are not valid UTF-16" }),
   });
 
-export const make = (config: BucketConfig): Bucket => {
+export const make = (config: ClientConfig): Client => {
   const bucketUrl = `${config.endpoint.replace(/\/+$/, "")}/${config.bucket}`;
   const objectUrl = (key: string) => Effect.map(encodeKey(key), (path) => `${bucketUrl}/${path}`);
   const signing = {
@@ -468,7 +484,7 @@ export const make = (config: BucketConfig): Bucket => {
       Effect.flatMap(ensureOk(operation)),
       Effect.retry({
         while: isTransient,
-        schedule: Schedule.exponential("200 millis"),
+        schedule: Schedule.exponential("200 millis").pipe(Schedule.jittered),
         times: 5,
       }),
     );
@@ -493,7 +509,7 @@ export const make = (config: BucketConfig): Bucket => {
       objectUrl(key).pipe(
         Effect.flatMap((url) => send("HeadObject", HttpClientRequest.head(url))),
         Effect.map((response): ObjectInfo | null => objectFromHeaders(key, response.headers)),
-        Effect.catchTag(["NoSuchKey", "NotFound"], () => Effect.succeed(null)),
+        Effect.catchTag(missingObject, () => Effect.succeed(null)),
       ),
     getObject: (key, options) =>
       objectUrl(key).pipe(
@@ -508,7 +524,7 @@ export const make = (config: BucketConfig): Bucket => {
           ...objectFromHeaders(key, response.headers),
           body: response.stream,
         })),
-        Effect.catchTag(["NoSuchKey", "NotFound"], () => Effect.succeed(null)),
+        Effect.catchTag(missingObject, () => Effect.succeed(null)),
       ),
     putObject: (key, body, options) =>
       Effect.all([objectUrl(key), requestBody(body, options?.contentType)]).pipe(
@@ -527,7 +543,7 @@ export const make = (config: BucketConfig): Bucket => {
       objectUrl(key).pipe(
         Effect.flatMap((url) => send("DeleteObject", HttpClientRequest.delete(url))),
         Effect.asVoid,
-        Effect.catchTag(["NoSuchKey", "NotFound"], () => Effect.void),
+        Effect.catchTag(missingObject, () => Effect.void),
       ),
     listObjectsV2: (options) =>
       listQuery(options).pipe(

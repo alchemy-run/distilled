@@ -96,10 +96,10 @@ const signableBody = (
 };
 
 /**
- * `signedUrl` already carries the query, so the request's `urlParams` are
- * dropped. `setUrl` with a `URL` replaces them, but `setUrl` with a string
- * keeps them, so the string is set second: the query goes out exactly as
- * signed, not re-encoded.
+ * `signedUrl` already carries the query, so the request's `urlParams` must be
+ * emptied. Effect's `setUrl` moves a `URL`'s query into `urlParams` and keeps
+ * `urlParams` for a string, so the first call empties them and the second sets
+ * the query exactly as signed, without re-encoding it.
  */
 const withSignedUrl = (request: HttpClientRequest.HttpClientRequest, url: URL, signedUrl: string) =>
   HttpClientRequest.setUrl(
