@@ -60,7 +60,6 @@ runGeneratorCli({
   description: "Generate the Modal Effect SDK from the Smithy models",
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
-  patchesDir: false,
   barrelExportName: camel,
   spec: () => spec,
 });

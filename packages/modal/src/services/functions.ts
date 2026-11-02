@@ -657,6 +657,32 @@ export interface FunctionCallFromIdResponse {
   numInputs?: number;
   metadata?: FunctionCallHandleMetadata;
 }
+export interface FunctionCallGetDataInRequest {
+  functionCallId?: string;
+  attemptToken?: string;
+  lastIndex?: string;
+}
+/** Chunks of data that can be streamed in and out of tasks. */
+export interface DataChunk {
+  dataFormat?: DataFormat | (string & {});
+  data?: string;
+  dataBlobId?: string;
+  index?: string;
+}
+export type DataChunkList = Array<DataChunk>;
+export interface FunctionCallGetDataInStream {
+  /** Every message of the server stream, in order. The stream ends when the server ends it (bound it with the request's timeout). */
+  items: DataChunkList;
+}
+export interface FunctionCallGetDataOutRequest {
+  functionCallId?: string;
+  attemptToken?: string;
+  lastIndex?: string;
+}
+export interface FunctionCallGetDataOutStream {
+  /** Every message of the server stream, in order. The stream ends when the server ends it (bound it with the request's timeout). */
+  items: DataChunkList;
+}
 export interface FunctionCallGetInfoRequest {
   functionId?: string;
   functionCallId?: string;
@@ -693,14 +719,6 @@ export interface FunctionCallInfo {
 export interface FunctionCallGetInfoResponse {
   info?: FunctionCallInfo;
 }
-/** Chunks of data that can be streamed in and out of tasks. */
-export interface DataChunk {
-  dataFormat?: DataFormat | (string & {});
-  data?: string;
-  dataBlobId?: string;
-  index?: string;
-}
-export type DataChunkList = Array<DataChunk>;
 export interface FunctionCallPutDataOutRequest {
   functionCallId?: string;
   attemptToken?: string;
@@ -1174,8 +1192,8 @@ export const functionBindParams: API.OperationMethod<
   FunctionBindParamsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<FunctionBindParamsRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<FunctionBindParamsResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<FunctionBindParamsRequest>,
+  output: __S(1121, __c35, 1) as any as S.Schema<FunctionBindParamsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1190,13 +1208,45 @@ export const functionCallFromId: API.OperationMethod<
   FunctionCallFromIdError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<FunctionCallFromIdRequest>,
-  output: __S(1154, __c36, 2) as any as S.Schema<FunctionCallFromIdResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<FunctionCallFromIdRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<FunctionCallFromIdResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FunctionCallFromId",
+}));
+
+export type FunctionCallGetDataInError = ModalOpError;
+export const functionCallGetDataIn: API.OperationMethod<
+  FunctionCallGetDataInRequest,
+  FunctionCallGetDataInStream,
+  FunctionCallGetDataInError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1248, __c39, 0) as any as S.Schema<FunctionCallGetDataInRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<FunctionCallGetDataInStream>,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionCallGetDataIn",
+}));
+
+export type FunctionCallGetDataOutError = ModalOpError;
+export const functionCallGetDataOut: API.OperationMethod<
+  FunctionCallGetDataOutRequest,
+  FunctionCallGetDataOutStream,
+  FunctionCallGetDataOutError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1344, __c42, 0) as any as S.Schema<FunctionCallGetDataOutRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<FunctionCallGetDataOutStream>,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "FunctionCallGetDataOut",
 }));
 
 export type FunctionCallGetInfoError = ModalOpError;
@@ -1206,8 +1256,8 @@ export const functionCallGetInfo: API.OperationMethod<
   FunctionCallGetInfoError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<FunctionCallGetInfoRequest>,
-  output: __S(1185, __c37, 1) as any as S.Schema<FunctionCallGetInfoResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<FunctionCallGetInfoRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<FunctionCallGetInfoResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1222,7 +1272,7 @@ export const functionCallPutDataOut: API.OperationMethod<
   FunctionCallPutDataOutError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1250, __c39, 2) as any as S.Schema<FunctionCallPutDataOutRequest>,
+  input: __S(1440, __c45, 0) as any as S.Schema<FunctionCallPutDataOutRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<FunctionCallPutDataOutResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
@@ -1238,7 +1288,7 @@ export const functionFinishInputs: API.OperationMethod<
   FunctionFinishInputsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<FunctionFinishInputsRequest>,
+  input: __S(1472, __c46, 0) as any as S.Schema<FunctionFinishInputsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<FunctionFinishInputsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
@@ -1254,8 +1304,8 @@ export const functionGetById: API.OperationMethod<
   FunctionGetByIdError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<FunctionGetByIdRequest>,
-  output: __S(1313, __c41, 1) as any as S.Schema<FunctionGetByIdResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<FunctionGetByIdRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<FunctionGetByIdResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1270,8 +1320,8 @@ export const functionGetCallGraph: API.OperationMethod<
   FunctionGetCallGraphError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<FunctionGetCallGraphRequest>,
-  output: __S(1349, __c42, 5) as any as S.Schema<FunctionGetCallGraphResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<FunctionGetCallGraphRequest>,
+  output: __S(389, __c12, 5) as any as S.Schema<FunctionGetCallGraphResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1286,8 +1336,8 @@ export const functionGetCurrentStats: API.OperationMethod<
   FunctionGetCurrentStatsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<FunctionGetCurrentStatsRequest>,
-  output: __S(353, __c11, 1) as any as S.Schema<FunctionGetCurrentStatsResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<FunctionGetCurrentStatsRequest>,
+  output: __S(417, __c13, 1) as any as S.Schema<FunctionGetCurrentStatsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1302,8 +1352,8 @@ export const functionGetDynamicConcurrency: API.OperationMethod<
   FunctionGetDynamicConcurrencyError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<FunctionGetDynamicConcurrencyRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<FunctionGetDynamicConcurrencyResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<FunctionGetDynamicConcurrencyRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<FunctionGetDynamicConcurrencyResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1318,8 +1368,8 @@ export const functionGetFlashAuthToken: API.OperationMethod<
   FunctionGetFlashAuthTokenError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<FunctionGetFlashAuthTokenRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<FunctionGetFlashAuthTokenResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<FunctionGetFlashAuthTokenRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<FunctionGetFlashAuthTokenResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1335,8 +1385,8 @@ export const functionGetSchedulingParams: API.OperationMethod<
   FunctionGetSchedulingParamsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<FunctionGetSchedulingParamsRequest>,
-  output: __S(452, __c14, 4) as any as S.Schema<FunctionGetSchedulingParamsResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<FunctionGetSchedulingParamsRequest>,
+  output: __S(516, __c16, 4) as any as S.Schema<FunctionGetSchedulingParamsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1351,8 +1401,8 @@ export const functionGetSerialized: API.OperationMethod<
   FunctionGetSerializedError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<FunctionGetSerializedRequest>,
-  output: __S(481, __c15, 1) as any as S.Schema<FunctionGetSerializedResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<FunctionGetSerializedRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<FunctionGetSerializedResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1367,8 +1417,8 @@ export const functionGetTimeRangeStats: API.OperationMethod<
   FunctionGetTimeRangeStatsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<FunctionGetTimeRangeStatsRequest>,
-  output: __S(517, __c16, 5) as any as S.Schema<FunctionGetTimeRangeStatsResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<FunctionGetTimeRangeStatsRequest>,
+  output: __S(581, __c18, 5) as any as S.Schema<FunctionGetTimeRangeStatsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1383,8 +1433,8 @@ export const functionListVariants: API.OperationMethod<
   FunctionListVariantsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(545, __c17, 1) as any as S.Schema<FunctionListVariantsRequest>,
-  output: __S(548, __c17, 4) as any as S.Schema<FunctionListVariantsResponse>,
+  input: __S(609, __c19, 1) as any as S.Schema<FunctionListVariantsRequest>,
+  output: __S(612, __c19, 4) as any as S.Schema<FunctionListVariantsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1399,8 +1449,8 @@ export const functionMap: API.OperationMethod<
   FunctionMapError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<FunctionMapRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<FunctionMapResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<FunctionMapRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<FunctionMapResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1415,8 +1465,8 @@ export const functionPrecreate: API.OperationMethod<
   FunctionPrecreateError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<FunctionPrecreateRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<FunctionPrecreateResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<FunctionPrecreateRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<FunctionPrecreateResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1431,8 +1481,8 @@ export const functionPutInputs: API.OperationMethod<
   FunctionPutInputsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<FunctionPutInputsRequest>,
-  output: __S(705, __c22, 1) as any as S.Schema<FunctionPutInputsResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<FunctionPutInputsRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<FunctionPutInputsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1447,7 +1497,7 @@ export const functionPutOutputs: API.OperationMethod<
   FunctionPutOutputsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(770, __c24, 2) as any as S.Schema<FunctionPutOutputsRequest>,
+  input: __S(834, __c26, 2) as any as S.Schema<FunctionPutOutputsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<FunctionPutOutputsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
@@ -1464,8 +1514,8 @@ export const functionRetryInputs: API.OperationMethod<
   FunctionRetryInputsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(834, __c26, 2) as any as S.Schema<FunctionRetryInputsRequest>,
-  output: __S(835, __c26, 3) as any as S.Schema<FunctionRetryInputsResponse>,
+  input: __S(898, __c28, 2) as any as S.Schema<FunctionRetryInputsRequest>,
+  output: __S(899, __c28, 3) as any as S.Schema<FunctionRetryInputsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1480,7 +1530,7 @@ export const functionStartPtyShell: API.OperationMethod<
   FunctionStartPtyShellError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<FunctionStartPtyShellRequest>,
+  input: __S(928, __c29, 0) as any as S.Schema<FunctionStartPtyShellRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<FunctionStartPtyShellResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
@@ -1496,8 +1546,8 @@ export const functionUpdateSchedulingParams: API.OperationMethod<
   FunctionUpdateSchedulingParamsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<FunctionUpdateSchedulingParamsRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<FunctionUpdateSchedulingParamsResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<FunctionUpdateSchedulingParamsRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<FunctionUpdateSchedulingParamsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1513,8 +1563,8 @@ export const getFunction: API.OperationMethod<
   GetFunctionError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetFunctionRequest>,
-  output: __S(929, __c29, 1) as any as S.Schema<GetFunctionResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetFunctionRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<GetFunctionResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1529,8 +1579,8 @@ export const getFunctionInputs: API.OperationMethod<
   GetFunctionInputsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetFunctionInputsRequest>,
-  output: __S(963, __c30, 3) as any as S.Schema<GetFunctionInputsResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetFunctionInputsRequest>,
+  output: __S(1027, __c32, 3) as any as S.Schema<GetFunctionInputsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1546,8 +1596,8 @@ export const getFunctionOutputs: API.OperationMethod<
   GetFunctionOutputsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetFunctionOutputsRequest>,
-  output: __S(996, __c31, 4) as any as S.Schema<GetFunctionOutputsResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetFunctionOutputsRequest>,
+  output: __S(1060, __c33, 4) as any as S.Schema<GetFunctionOutputsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1563,8 +1613,8 @@ export const invokeFunctionAsync: API.OperationMethod<
   InvokeFunctionAsyncError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<InvokeFunctionAsyncRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<InvokeFunctionAsyncResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<InvokeFunctionAsyncRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<InvokeFunctionAsyncResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1579,8 +1629,8 @@ export const listFunctionCall: API.OperationMethod<
   ListFunctionCallError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<ListFunctionCallRequest>,
-  output: __S(1058, __c33, 2) as any as S.Schema<ListFunctionCallResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<ListFunctionCallRequest>,
+  output: __S(1186, __c37, 2) as any as S.Schema<ListFunctionCallResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1618,11 +1668,11 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          function: S.optional(__S(336, __c10, 16)),
+          function: S.optional(__S(176, __c5, 16)),
           appId: S.optional(S.String),
-          schedule: S.optional(__S(333, __c10, 13)),
+          schedule: S.optional(__S(173, __c5, 13)),
           existingFunctionId: S.optional(S.String),
-          functionData: S.optional(__S(339, __c10, 19)),
+          functionData: S.optional(__S(179, __c5, 19)),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionCreate", code: 200 }),
         ),
@@ -1632,186 +1682,15 @@ function __c2(j: number): any {
         S.Struct({
           functionId: S.optional(S.String),
           DeprecatedWebUrl: S.optional(S.String),
-          function: S.optional(__S(336, __c10, 16)),
-          handleMetadata: S.optional(__S(232, __c7, 8)),
-          serverWarnings: S.optional(__S(97, __c3, 1)),
-          functionData: S.optional(__S(339, __c10, 19)),
+          function: S.optional(__S(176, __c5, 16)),
+          handleMetadata: S.optional(__S(328, __c10, 8)),
+          serverWarnings: S.optional(__S(193, __c6, 1)),
+          functionData: S.optional(__S(179, __c5, 19)),
         }),
       ).annotate({ identifier: "CreateFunctionResponse" });
   }
 }
 function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Warning" });
-    case 1:
-      return S.Array(__S(96, __c3, 0));
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          backoffCoefficient: S.optional(S.Number),
-          initialDelayMs: S.optional(S.Number),
-          maxDelayMs: S.optional(S.Number),
-          retries: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "FunctionRetryPolicy" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          count: S.optional(S.Number),
-          gpuType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GPUConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          memoryMb: S.optional(S.Number),
-          milliCpu: S.optional(S.Number),
-          gpuConfig: S.optional(__S(192, __c6, 0)),
-          memoryMbMax: S.optional(S.Number),
-          ephemeralDiskMb: S.optional(S.Number),
-          milliCpuMax: S.optional(S.Number),
-          rdma: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Resources" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          volumeId: S.optional(S.String),
-          mountPath: S.optional(S.String),
-          allowBackgroundCommits: S.optional(S.Boolean),
-          readOnly: S.optional(S.Boolean),
-          subPath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "VolumeMount" });
-    case 3:
-      return S.Array(__S(194, __c6, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          bucketName: S.optional(S.String),
-          mountPath: S.optional(S.String),
-          credentialsSecretId: S.optional(S.String),
-          readOnly: S.optional(S.Boolean),
-          bucketType: S.optional(S.String),
-          requesterPays: S.optional(S.Boolean),
-          bucketEndpointUrl: S.optional(S.String),
-          keyPrefix: S.optional(S.String),
-          oidcAuthRoleArn: S.optional(S.String),
-          forcePathStyle: S.optional(S.Boolean),
-          metadataTtlType: S.optional(S.String),
-          metadataTtlSeconds: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloudBucketMount" });
-    case 5:
-      return S.Array(__S(196, __c6, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          regions: S.optional(__S(160, __c5, 0)),
-          Zone: S.optional(S.String),
-          Lifecycle: S.optional(S.String),
-          InstanceTypes: S.optional(__S(160, __c5, 0)),
-          nonpreemptible: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "SchedulerPlacement" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(225, __c7, 1)));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          baseType: S.optional(S.String),
-          subTypes: S.optional(__S(224, __c7, 0)),
-        }),
-      ).annotate({ identifier: "GenericPayloadType" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          hasDefault: S.optional(S.Boolean),
-          stringDefault: S.optional(S.String),
-          intDefault: S.optional(S.String),
-          pickleDefault: S.optional(S.String),
-          bytesDefault: S.optional(S.String),
-          boolDefault: S.optional(S.Boolean),
-          fullType: S.optional(__S(225, __c7, 1)),
-        }),
-      ).annotate({ identifier: "ClassParameterSpec" });
-    case 3:
-      return S.Array(__S(226, __c7, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          format: S.optional(S.String),
-          schema: S.optional(__S(227, __c7, 3)),
-        }),
-      ).annotate({ identifier: "ClassParameterInfo" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          schemaType: S.optional(S.String),
-          arguments: S.optional(__S(227, __c7, 3)),
-          returnType: S.optional(__S(225, __c7, 1)),
-        }),
-      ).annotate({ identifier: "FunctionSchema" });
-    case 6:
-      return S.Array(S.String);
-    case 7:
-      return S.Record(
-        S.String,
-        /*@__PURE__*/ S.suspend(() => __S(232, __c7, 8)),
-      );
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          functionName: S.optional(S.String),
-          functionType: S.optional(S.String),
-          webUrl: S.optional(S.String),
-          isMethod: S.optional(S.Boolean),
-          useMethodName: S.optional(S.String),
-          definitionId: S.optional(S.String),
-          classParameterInfo: S.optional(__S(228, __c7, 4)),
-          methodHandleMetadata: S.optional(__S(231, __c7, 7)),
-          functionSchema: S.optional(__S(229, __c7, 5)),
-          inputPlaneUrl: S.optional(S.String),
-          inputPlaneRegion: S.optional(S.String),
-          maxObjectSizeBytes: S.optional(S.String),
-          maxAsyncObjectSizeBytes: S.optional(S.String),
-          ExperimentalFlashUrls: S.optional(__S(160, __c5, 0)),
-          supportedInputFormats: S.optional(__S(230, __c7, 6)),
-          supportedOutputFormats: S.optional(__S(230, __c7, 6)),
-          appId: S.optional(S.String),
-          baseFunctionId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FunctionHandleMetadata" });
-  }
-}
-function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1828,7 +1707,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "AutoscalerSettings" });
   }
 }
-function __c9(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1837,7 +1716,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "CustomDomainConfig" });
     case 1:
-      return S.Array(__S(288, __c9, 0));
+      return S.Array(__S(128, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1845,7 +1724,7 @@ function __c9(j: number): any {
           method: S.optional(S.String),
           requestedSuffix: S.optional(S.String),
           asyncMode: S.optional(S.String),
-          customDomains: S.optional(__S(289, __c9, 1)),
+          customDomains: S.optional(__S(129, __c4, 1)),
           webServerPort: S.optional(S.Number),
           webServerStartupTimeout: S.optional(S.Number),
           webEndpointDocs: S.optional(S.Boolean),
@@ -1868,26 +1747,26 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "CustomDomainInfo" });
     case 5:
-      return S.Array(__S(292, __c9, 4));
+      return S.Array(__S(132, __c4, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           functionName: S.optional(S.String),
           functionType: S.optional(S.String),
-          webhookConfig: S.optional(__S(290, __c9, 2)),
+          webhookConfig: S.optional(__S(130, __c4, 2)),
           webUrl: S.optional(S.String),
-          webUrlInfo: S.optional(__S(291, __c9, 3)),
-          customDomainInfo: S.optional(__S(293, __c9, 5)),
-          functionSchema: S.optional(__S(229, __c7, 5)),
-          supportedInputFormats: S.optional(__S(230, __c7, 6)),
-          supportedOutputFormats: S.optional(__S(230, __c7, 6)),
+          webUrlInfo: S.optional(__S(131, __c4, 3)),
+          customDomainInfo: S.optional(__S(133, __c4, 5)),
+          functionSchema: S.optional(__S(325, __c10, 5)),
+          supportedInputFormats: S.optional(__S(326, __c10, 6)),
+          supportedOutputFormats: S.optional(__S(326, __c10, 6)),
         }),
       ).annotate({ identifier: "MethodDefinition" });
     case 7:
-      return S.Record(S.String, __S(294, __c9, 6));
+      return S.Record(S.String, __S(134, __c4, 6));
   }
 }
-function __c10(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1905,7 +1784,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "SharedVolumeMount" });
     case 2:
-      return S.Array(__S(321, __c10, 1));
+      return S.Array(__S(161, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1939,7 +1818,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "ObjectDependency" });
     case 6:
-      return S.Array(__S(325, __c10, 5));
+      return S.Array(__S(165, __c5, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -1950,19 +1829,19 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "S3Mount" });
     case 8:
-      return S.Array(__S(327, __c10, 7));
+      return S.Array(__S(167, __c5, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           rank: S.optional(S.Number),
-          resources: S.optional(__S(193, __c6, 1)),
+          resources: S.optional(__S(289, __c9, 1)),
           targetConcurrentInputs: S.optional(S.Number),
           maxConcurrentInputs: S.optional(S.Number),
           index: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TaskTemplate" });
     case 10:
-      return S.Array(__S(329, __c10, 9));
+      return S.Array(__S(169, __c5, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -1985,8 +1864,8 @@ function __c10(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          cron: S.optional(__S(331, __c10, 11)),
-          period: S.optional(__S(332, __c10, 12)),
+          cron: S.optional(__S(171, __c5, 11)),
+          period: S.optional(__S(172, __c5, 12)),
         }),
       ).annotate({ identifier: "Schedule" });
     case 14:
@@ -1995,7 +1874,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           port: S.optional(S.Number),
-          proxyRegions: S.optional(__S(160, __c5, 0)),
+          proxyRegions: S.optional(__S(256, __c8, 0)),
           startupTimeout: S.optional(S.Number),
           exitGracePeriod: S.optional(S.Number),
           h2Enabled: S.optional(S.Boolean),
@@ -2009,32 +1888,32 @@ function __c10(j: number): any {
         S.Struct({
           moduleName: S.optional(S.String),
           functionName: S.optional(S.String),
-          mountIds: S.optional(__S(160, __c5, 0)),
+          mountIds: S.optional(__S(256, __c8, 0)),
           imageId: S.optional(S.String),
           functionSerialized: S.optional(S.String),
           definitionType: S.optional(S.String),
           functionType: S.optional(S.String),
-          resources: S.optional(__S(193, __c6, 1)),
-          secretIds: S.optional(__S(160, __c5, 0)),
-          rateLimit: S.optional(__S(320, __c10, 0)),
-          webhookConfig: S.optional(__S(290, __c9, 2)),
-          sharedVolumeMounts: S.optional(__S(322, __c10, 2)),
+          resources: S.optional(__S(289, __c9, 1)),
+          secretIds: S.optional(__S(256, __c8, 0)),
+          rateLimit: S.optional(__S(160, __c5, 0)),
+          webhookConfig: S.optional(__S(130, __c4, 2)),
+          sharedVolumeMounts: S.optional(__S(162, __c5, 2)),
           proxyId: S.optional(S.String),
-          retryPolicy: S.optional(__S(128, __c4, 0)),
+          retryPolicy: S.optional(__S(224, __c7, 0)),
           concurrencyLimit: S.optional(S.Number),
           timeoutSecs: S.optional(S.Number),
-          ptyInfo: S.optional(__S(323, __c10, 3)),
+          ptyInfo: S.optional(__S(163, __c5, 3)),
           classSerialized: S.optional(S.String),
           taskIdleTimeoutSecs: S.optional(S.Number),
           cloudProvider: S.optional(S.String),
           warmPoolSize: S.optional(S.Number),
           webUrl: S.optional(S.String),
-          webUrlInfo: S.optional(__S(291, __c9, 3)),
+          webUrlInfo: S.optional(__S(131, __c4, 3)),
           runtime: S.optional(S.String),
           appName: S.optional(S.String),
-          volumeMounts: S.optional(__S(195, __c6, 3)),
+          volumeMounts: S.optional(__S(291, __c9, 3)),
           maxConcurrentInputs: S.optional(S.Number),
-          customDomainInfo: S.optional(__S(293, __c9, 5)),
+          customDomainInfo: S.optional(__S(133, __c4, 5)),
           workerId: S.optional(S.String),
           runtimeDebug: S.optional(S.Boolean),
           isBuilderFunction: S.optional(S.Boolean),
@@ -2042,45 +1921,45 @@ function __c10(j: number): any {
           isMethod: S.optional(S.Boolean),
           isCheckpointingFunction: S.optional(S.Boolean),
           checkpointingEnabled: S.optional(S.Boolean),
-          checkpoint: S.optional(__S(324, __c10, 4)),
-          objectDependencies: S.optional(__S(326, __c10, 6)),
+          checkpoint: S.optional(__S(164, __c5, 4)),
+          objectDependencies: S.optional(__S(166, __c5, 6)),
           blockNetwork: S.optional(S.Boolean),
           maxInputs: S.optional(S.Number),
-          s3Mounts: S.optional(__S(328, __c10, 8)),
-          cloudBucketMounts: S.optional(__S(197, __c6, 5)),
-          schedulerPlacement: S.optional(__S(198, __c6, 6)),
+          s3Mounts: S.optional(__S(168, __c5, 8)),
+          cloudBucketMounts: S.optional(__S(293, __c9, 5)),
+          schedulerPlacement: S.optional(__S(294, __c9, 6)),
           isClass: S.optional(S.Boolean),
-          classParameterInfo: S.optional(__S(228, __c7, 4)),
+          classParameterInfo: S.optional(__S(324, __c10, 4)),
           batchMaxSize: S.optional(S.Number),
           batchLingerMs: S.optional(S.String),
           i6pnEnabled: S.optional(S.Boolean),
           ExperimentalConcurrentCancellations: S.optional(S.Boolean),
           targetConcurrentInputs: S.optional(S.Number),
           ExperimentalTaskTemplatesEnabled: S.optional(S.Boolean),
-          ExperimentalTaskTemplates: S.optional(__S(330, __c10, 10)),
+          ExperimentalTaskTemplates: S.optional(__S(170, __c5, 10)),
           ExperimentalGroupSize: S.optional(S.Number),
           ExperimentalFabricSize: S.optional(S.Number),
           untrusted: S.optional(S.Boolean),
           ExperimentalBufferContainers: S.optional(S.Number),
           runtimePerfRecord: S.optional(S.Boolean),
-          schedule: S.optional(__S(333, __c10, 13)),
+          schedule: S.optional(__S(173, __c5, 13)),
           snapshotDebug: S.optional(S.Boolean),
-          methodDefinitions: S.optional(__S(295, __c9, 7)),
+          methodDefinitions: S.optional(__S(135, __c4, 7)),
           methodDefinitionsSet: S.optional(S.Boolean),
           ExperimentalCustomScaling: S.optional(S.Boolean),
           cloudProviderStr: S.optional(S.String),
           ExperimentalEnableGpuSnapshot: S.optional(S.Boolean),
-          autoscalerSettings: S.optional(__S(256, __c8, 0)),
-          functionSchema: S.optional(__S(229, __c7, 5)),
-          experimentalOptions: S.optional(__S(334, __c10, 14)),
+          autoscalerSettings: S.optional(__S(96, __c3, 0)),
+          functionSchema: S.optional(__S(325, __c10, 5)),
+          experimentalOptions: S.optional(__S(174, __c5, 14)),
           mountClientDependencies: S.optional(S.Boolean),
-          flashServiceUrls: S.optional(__S(160, __c5, 0)),
+          flashServiceUrls: S.optional(__S(256, __c8, 0)),
           flashServiceLabel: S.optional(S.String),
           enableGpuSnapshot: S.optional(S.Boolean),
           startupTimeoutSecs: S.optional(S.Number),
-          supportedInputFormats: S.optional(__S(230, __c7, 6)),
-          supportedOutputFormats: S.optional(__S(230, __c7, 6)),
-          httpConfig: S.optional(__S(335, __c10, 15)),
+          supportedInputFormats: S.optional(__S(326, __c10, 6)),
+          supportedOutputFormats: S.optional(__S(326, __c10, 6)),
+          httpConfig: S.optional(__S(175, __c5, 15)),
           implementationName: S.optional(S.String),
           singleUseContainers: S.optional(S.Boolean),
           isServer: S.optional(S.Boolean),
@@ -2092,11 +1971,11 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           rank: S.optional(S.Number),
-          function: S.optional(__S(336, __c10, 16)),
+          function: S.optional(__S(176, __c5, 16)),
         }),
       ).annotate({ identifier: "FunctionDataRankedFunction" });
     case 18:
-      return S.Array(__S(337, __c10, 17));
+      return S.Array(__S(177, __c5, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -2114,28 +1993,28 @@ function __c10(j: number): any {
           workerId: S.optional(S.String),
           timeoutSecs: S.optional(S.Number),
           webUrl: S.optional(S.String),
-          webUrlInfo: S.optional(__S(291, __c9, 3)),
-          webhookConfig: S.optional(__S(290, __c9, 2)),
-          customDomainInfo: S.optional(__S(293, __c9, 5)),
-          methodDefinitions: S.optional(__S(295, __c9, 7)),
+          webUrlInfo: S.optional(__S(131, __c4, 3)),
+          webhookConfig: S.optional(__S(130, __c4, 2)),
+          customDomainInfo: S.optional(__S(133, __c4, 5)),
+          methodDefinitions: S.optional(__S(135, __c4, 7)),
           methodDefinitionsSet: S.optional(S.Boolean),
           isClass: S.optional(S.Boolean),
-          classParameterInfo: S.optional(__S(228, __c7, 4)),
+          classParameterInfo: S.optional(__S(324, __c10, 4)),
           isMethod: S.optional(S.Boolean),
-          rankedFunctions: S.optional(__S(338, __c10, 18)),
-          schedule: S.optional(__S(333, __c10, 13)),
+          rankedFunctions: S.optional(__S(178, __c5, 18)),
+          schedule: S.optional(__S(173, __c5, 13)),
           untrusted: S.optional(S.Boolean),
           snapshotDebug: S.optional(S.Boolean),
           runtimePerfRecord: S.optional(S.Boolean),
-          autoscalerSettings: S.optional(__S(256, __c8, 0)),
-          functionSchema: S.optional(__S(229, __c7, 5)),
-          experimentalOptions: S.optional(__S(334, __c10, 14)),
-          flashServiceUrls: S.optional(__S(160, __c5, 0)),
+          autoscalerSettings: S.optional(__S(96, __c3, 0)),
+          functionSchema: S.optional(__S(325, __c10, 5)),
+          experimentalOptions: S.optional(__S(174, __c5, 14)),
+          flashServiceUrls: S.optional(__S(256, __c8, 0)),
           flashServiceLabel: S.optional(S.String),
           startupTimeoutSecs: S.optional(S.Number),
-          supportedInputFormats: S.optional(__S(230, __c7, 6)),
-          supportedOutputFormats: S.optional(__S(230, __c7, 6)),
-          httpConfig: S.optional(__S(335, __c10, 15)),
+          supportedInputFormats: S.optional(__S(326, __c10, 6)),
+          supportedOutputFormats: S.optional(__S(326, __c10, 6)),
+          httpConfig: S.optional(__S(175, __c5, 15)),
           implementationName: S.optional(S.String),
           isServer: S.optional(S.Boolean),
           routingRegion: S.optional(S.String),
@@ -2144,7 +2023,243 @@ function __c10(j: number): any {
       ).annotate({ identifier: "FunctionData" });
   }
 }
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Warning" });
+    case 1:
+      return S.Array(__S(192, __c6, 0));
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          backoffCoefficient: S.optional(S.Number),
+          initialDelayMs: S.optional(S.Number),
+          maxDelayMs: S.optional(S.Number),
+          retries: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FunctionRetryPolicy" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          count: S.optional(S.Number),
+          gpuType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GPUConfig" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          memoryMb: S.optional(S.Number),
+          milliCpu: S.optional(S.Number),
+          gpuConfig: S.optional(__S(288, __c9, 0)),
+          memoryMbMax: S.optional(S.Number),
+          ephemeralDiskMb: S.optional(S.Number),
+          milliCpuMax: S.optional(S.Number),
+          rdma: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Resources" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          volumeId: S.optional(S.String),
+          mountPath: S.optional(S.String),
+          allowBackgroundCommits: S.optional(S.Boolean),
+          readOnly: S.optional(S.Boolean),
+          subPath: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VolumeMount" });
+    case 3:
+      return S.Array(__S(290, __c9, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          bucketName: S.optional(S.String),
+          mountPath: S.optional(S.String),
+          credentialsSecretId: S.optional(S.String),
+          readOnly: S.optional(S.Boolean),
+          bucketType: S.optional(S.String),
+          requesterPays: S.optional(S.Boolean),
+          bucketEndpointUrl: S.optional(S.String),
+          keyPrefix: S.optional(S.String),
+          oidcAuthRoleArn: S.optional(S.String),
+          forcePathStyle: S.optional(S.Boolean),
+          metadataTtlType: S.optional(S.String),
+          metadataTtlSeconds: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloudBucketMount" });
+    case 5:
+      return S.Array(__S(292, __c9, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          regions: S.optional(__S(256, __c8, 0)),
+          Zone: S.optional(S.String),
+          Lifecycle: S.optional(S.String),
+          InstanceTypes: S.optional(__S(256, __c8, 0)),
+          nonpreemptible: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SchedulerPlacement" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(321, __c10, 1)));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          baseType: S.optional(S.String),
+          subTypes: S.optional(__S(320, __c10, 0)),
+        }),
+      ).annotate({ identifier: "GenericPayloadType" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          hasDefault: S.optional(S.Boolean),
+          stringDefault: S.optional(S.String),
+          intDefault: S.optional(S.String),
+          pickleDefault: S.optional(S.String),
+          bytesDefault: S.optional(S.String),
+          boolDefault: S.optional(S.Boolean),
+          fullType: S.optional(__S(321, __c10, 1)),
+        }),
+      ).annotate({ identifier: "ClassParameterSpec" });
+    case 3:
+      return S.Array(__S(322, __c10, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          format: S.optional(S.String),
+          schema: S.optional(__S(323, __c10, 3)),
+        }),
+      ).annotate({ identifier: "ClassParameterInfo" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          schemaType: S.optional(S.String),
+          arguments: S.optional(__S(323, __c10, 3)),
+          returnType: S.optional(__S(321, __c10, 1)),
+        }),
+      ).annotate({ identifier: "FunctionSchema" });
+    case 6:
+      return S.Array(S.String);
+    case 7:
+      return S.Record(
+        S.String,
+        /*@__PURE__*/ S.suspend(() => __S(328, __c10, 8)),
+      );
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          functionName: S.optional(S.String),
+          functionType: S.optional(S.String),
+          webUrl: S.optional(S.String),
+          isMethod: S.optional(S.Boolean),
+          useMethodName: S.optional(S.String),
+          definitionId: S.optional(S.String),
+          classParameterInfo: S.optional(__S(324, __c10, 4)),
+          methodHandleMetadata: S.optional(__S(327, __c10, 7)),
+          functionSchema: S.optional(__S(325, __c10, 5)),
+          inputPlaneUrl: S.optional(S.String),
+          inputPlaneRegion: S.optional(S.String),
+          maxObjectSizeBytes: S.optional(S.String),
+          maxAsyncObjectSizeBytes: S.optional(S.String),
+          ExperimentalFlashUrls: S.optional(__S(256, __c8, 0)),
+          supportedInputFormats: S.optional(__S(326, __c10, 6)),
+          supportedOutputFormats: S.optional(__S(326, __c10, 6)),
+          appId: S.optional(S.String),
+          baseFunctionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FunctionHandleMetadata" });
+  }
+}
 function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionId: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionGetById", code: 200 }),
+        ),
+      ).annotate({ identifier: "FunctionGetByIdRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          function: S.optional(__S(179, __c5, 19)),
+          handleMetadata: S.optional(__S(328, __c10, 8)),
+        }),
+      ).annotate({ identifier: "FunctionGetByIdResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionCallId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.client.ModalClient/FunctionGetCallGraph",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FunctionGetCallGraphRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          inputId: S.optional(S.String),
+          status: S.optional(S.String),
+          functionCallId: S.optional(S.String),
+          taskId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InputCallGraphInfo" });
+    case 2:
+      return S.Array(__S(385, __c12, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          functionCallId: S.optional(S.String),
+          parentInputId: S.optional(S.String),
+          functionName: S.optional(S.String),
+          moduleName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FunctionCallCallGraphInfo" });
+    case 4:
+      return S.Array(__S(387, __c12, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          inputs: S.optional(__S(386, __c12, 2)),
+          functionCalls: S.optional(__S(388, __c12, 4)),
+          truncated: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "FunctionGetCallGraphResponse" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2169,7 +2284,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "FunctionGetCurrentStatsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2193,7 +2308,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "FunctionGetDynamicConcurrencyResponse" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2215,7 +2330,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "FunctionGetFlashAuthTokenResponse" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2239,26 +2354,26 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "UserActionInfo" });
     case 2:
-      return S.Record(S.String, __S(449, __c14, 1));
+      return S.Record(S.String, __S(513, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          settings: S.optional(__S(256, __c8, 0)),
-          overrideEvents: S.optional(__S(450, __c14, 2)),
-          defaultSettings: S.optional(__S(256, __c8, 0)),
-          staticSettings: S.optional(__S(256, __c8, 0)),
-          overrideSettings: S.optional(__S(256, __c8, 0)),
+          settings: S.optional(__S(96, __c3, 0)),
+          overrideEvents: S.optional(__S(514, __c16, 2)),
+          defaultSettings: S.optional(__S(96, __c3, 0)),
+          staticSettings: S.optional(__S(96, __c3, 0)),
+          overrideSettings: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "AutoscalerConfiguration" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          autoscalerConfiguration: S.optional(__S(451, __c14, 3)),
+          autoscalerConfiguration: S.optional(__S(515, __c16, 3)),
         }),
       ).annotate({ identifier: "FunctionGetSchedulingParamsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2281,7 +2396,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "FunctionGetSerializedResponse" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2307,16 +2422,16 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "StatsPercentile" });
     case 2:
-      return S.Array(__S(513, __c16, 1));
+      return S.Array(__S(577, __c18, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           unit: S.optional(S.String),
-          percentiles: S.optional(__S(514, __c16, 2)),
+          percentiles: S.optional(__S(578, __c18, 2)),
         }),
       ).annotate({ identifier: "StatsPercentileDistribution" });
     case 4:
-      return S.Record(S.String, __S(515, __c16, 3));
+      return S.Record(S.String, __S(579, __c18, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2326,18 +2441,18 @@ function __c16(j: number): any {
           inputFailureCount: S.optional(S.String),
           inputTimeoutCount: S.optional(S.String),
           inputRunningAtEndCount: S.optional(S.String),
-          inputPercentileStats: S.optional(__S(516, __c16, 4)),
+          inputPercentileStats: S.optional(__S(580, __c18, 4)),
           containerStartedCount: S.optional(S.String),
           containerErrorCount: S.optional(S.String),
           containerCreatingAtEndCount: S.optional(S.String),
-          containerPercentileStats: S.optional(__S(516, __c16, 4)),
+          containerPercentileStats: S.optional(__S(580, __c18, 4)),
           variantCount: S.optional(S.Number),
           containerTotalCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "FunctionGetTimeRangeStatsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2350,7 +2465,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           functionId: S.optional(S.String),
-          cursor: S.optional(__S(544, __c17, 0)),
+          cursor: S.optional(__S(608, __c19, 0)),
           limit: S.optional(S.Number),
         }).pipe(
           T.Http({
@@ -2365,22 +2480,22 @@ function __c17(j: number): any {
         S.Struct({
           functionId: S.optional(S.String),
           serializedParams: S.optional(S.String),
-          functionOptions: S.optional(__S(1120, __c35, 0)),
+          functionOptions: S.optional(__S(1152, __c36, 0)),
         }),
       ).annotate({ identifier: "FunctionVariantInfo" });
     case 3:
-      return S.Array(__S(546, __c17, 2));
+      return S.Array(__S(610, __c19, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          infos: S.optional(__S(547, __c17, 3)),
-          nextCursor: S.optional(__S(544, __c17, 0)),
+          infos: S.optional(__S(611, __c19, 3)),
+          nextCursor: S.optional(__S(608, __c19, 0)),
           orderedByTaskCount: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "FunctionListVariantsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2389,7 +2504,7 @@ function __c18(j: number): any {
           parentInputId: S.optional(S.String),
           returnExceptions: S.optional(S.Boolean),
           functionCallType: S.optional(S.String),
-          pipelinedInputs: S.optional(__S(611, __c19, 3)),
+          pipelinedInputs: S.optional(__S(675, __c21, 3)),
           functionCallInvocationType: S.optional(S.String),
           fromSpawnMap: S.optional(S.Boolean),
         }).pipe(
@@ -2400,8 +2515,8 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           functionCallId: S.optional(S.String),
-          pipelinedInputs: S.optional(__S(613, __c19, 5)),
-          retryPolicy: S.optional(__S(128, __c4, 0)),
+          pipelinedInputs: S.optional(__S(677, __c21, 5)),
+          retryPolicy: S.optional(__S(224, __c7, 0)),
           functionCallJwt: S.optional(S.String),
           syncClientRetriesEnabled: S.optional(S.Boolean),
           maxInputsOutstanding: S.optional(S.Number),
@@ -2409,7 +2524,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "FunctionMapResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2420,19 +2535,19 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "BlobUploadResult" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(672, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           idx: S.optional(S.Number),
-          input: S.optional(__S(640, __c20, 0)),
+          input: S.optional(__S(704, __c22, 0)),
           r2Failed: S.optional(S.Boolean),
           r2ThroughputBytesS: S.optional(S.String),
-          blobUploadResults: S.optional(__S(609, __c19, 1)),
+          blobUploadResults: S.optional(__S(673, __c21, 1)),
         }),
       ).annotate({ identifier: "FunctionPutInputsItem" });
     case 3:
-      return S.Array(__S(610, __c19, 2));
+      return S.Array(__S(674, __c21, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2442,10 +2557,10 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "FunctionPutInputsResponseItem" });
     case 5:
-      return S.Array(__S(612, __c19, 4));
+      return S.Array(__S(676, __c21, 4));
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2457,53 +2572,6 @@ function __c20(j: number): any {
           methodName: S.optional(S.String),
         }),
       ).annotate({ identifier: "FunctionInput" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.optional(S.String),
-          functionName: S.optional(S.String),
-          existingFunctionId: S.optional(S.String),
-          functionType: S.optional(S.String),
-          webhookConfig: S.optional(__S(290, __c9, 2)),
-          methodDefinitions: S.optional(__S(295, __c9, 7)),
-          functionSchema: S.optional(__S(229, __c7, 5)),
-          supportedInputFormats: S.optional(__S(230, __c7, 6)),
-          supportedOutputFormats: S.optional(__S(230, __c7, 6)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionPrecreate", code: 200 }),
-        ),
-      ).annotate({ identifier: "FunctionPrecreateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          functionId: S.optional(S.String),
-          handleMetadata: S.optional(__S(232, __c7, 8)),
-        }),
-      ).annotate({ identifier: "FunctionPrecreateResponse" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          functionId: S.optional(S.String),
-          functionCallId: S.optional(S.String),
-          inputs: S.optional(__S(611, __c19, 3)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionPutInputs", code: 200 }),
-        ),
-      ).annotate({ identifier: "FunctionPutInputsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          inputs: S.optional(__S(613, __c19, 5)),
-        }),
-      ).annotate({ identifier: "FunctionPutInputsResponse" });
   }
 }
 function __c23(j: number): any {
@@ -2552,8 +2620,55 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          appId: S.optional(S.String),
+          functionName: S.optional(S.String),
+          existingFunctionId: S.optional(S.String),
+          functionType: S.optional(S.String),
+          webhookConfig: S.optional(__S(130, __c4, 2)),
+          methodDefinitions: S.optional(__S(135, __c4, 7)),
+          functionSchema: S.optional(__S(325, __c10, 5)),
+          supportedInputFormats: S.optional(__S(326, __c10, 6)),
+          supportedOutputFormats: S.optional(__S(326, __c10, 6)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionPrecreate", code: 200 }),
+        ),
+      ).annotate({ identifier: "FunctionPrecreateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          functionId: S.optional(S.String),
+          handleMetadata: S.optional(__S(328, __c10, 8)),
+        }),
+      ).annotate({ identifier: "FunctionPrecreateResponse" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionId: S.optional(S.String),
+          functionCallId: S.optional(S.String),
+          inputs: S.optional(__S(675, __c21, 3)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionPutInputs", code: 200 }),
+        ),
+      ).annotate({ identifier: "FunctionPutInputsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          inputs: S.optional(__S(677, __c21, 5)),
+        }),
+      ).annotate({ identifier: "FunctionPutInputsResponse" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           inputId: S.optional(S.String),
-          result: S.optional(__S(800, __c25, 0)),
+          result: S.optional(__S(864, __c27, 0)),
           inputStartedAt: S.optional(S.Number),
           outputCreatedAt: S.optional(S.Number),
           dataFormat: S.optional(S.String),
@@ -2564,11 +2679,11 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "FunctionPutOutputsItem" });
     case 1:
-      return S.Array(__S(768, __c24, 0));
+      return S.Array(__S(832, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          outputs: S.optional(__S(769, __c24, 1)),
+          outputs: S.optional(__S(833, __c26, 1)),
           requestedAt: S.optional(S.Number),
         }).pipe(
           T.Http({
@@ -2580,7 +2695,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "FunctionPutOutputsRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2598,23 +2713,23 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GenericResult" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           inputJwt: S.optional(S.String),
-          input: S.optional(__S(640, __c20, 0)),
+          input: S.optional(__S(704, __c22, 0)),
           retryCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FunctionRetryInputsItem" });
     case 1:
-      return S.Array(__S(832, __c26, 0));
+      return S.Array(__S(896, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           functionCallJwt: S.optional(S.String),
-          inputs: S.optional(__S(833, __c26, 1)),
+          inputs: S.optional(__S(897, __c28, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2626,12 +2741,12 @@ function __c26(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          inputJwts: S.optional(__S(160, __c5, 0)),
+          inputJwts: S.optional(__S(256, __c8, 0)),
         }),
       ).annotate({ identifier: "FunctionRetryInputsResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2645,14 +2760,14 @@ function __c27(j: number): any {
       ).annotate({ identifier: "FunctionStartPtyShellRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           functionId: S.optional(S.String),
           warmPoolSizeOverride: S.optional(S.Number),
-          settings: S.optional(__S(256, __c8, 0)),
+          settings: S.optional(__S(96, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2664,12 +2779,12 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          currentSettings: S.optional(__S(256, __c8, 0)),
+          currentSettings: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "FunctionUpdateSchedulingParamsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2686,14 +2801,14 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           functionId: S.optional(S.String),
-          handleMetadata: S.optional(__S(232, __c7, 8)),
-          serverWarnings: S.optional(__S(97, __c3, 1)),
-          function: S.optional(__S(339, __c10, 19)),
+          handleMetadata: S.optional(__S(328, __c10, 8)),
+          serverWarnings: S.optional(__S(193, __c6, 1)),
+          function: S.optional(__S(179, __c5, 19)),
         }),
       ).annotate({ identifier: "GetFunctionResponse" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2710,7 +2825,7 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           inputId: S.optional(S.String),
-          input: S.optional(__S(640, __c20, 0)),
+          input: S.optional(__S(704, __c22, 0)),
           killSwitch: S.optional(S.Boolean),
           functionCallId: S.optional(S.String),
           functionCallInvocationType: S.optional(S.String),
@@ -2721,17 +2836,17 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "GetFunctionInputsItem" });
     case 2:
-      return S.Array(__S(961, __c30, 1));
+      return S.Array(__S(1025, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          inputs: S.optional(__S(962, __c30, 2)),
+          inputs: S.optional(__S(1026, __c32, 2)),
           rateLimitSleepDuration: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetFunctionInputsResponse" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2742,7 +2857,7 @@ function __c31(j: number): any {
           lastEntryId: S.optional(S.String),
           clearOnSuccess: S.optional(S.Boolean),
           requestedAt: S.optional(S.Number),
-          inputJwts: S.optional(__S(160, __c5, 0)),
+          inputJwts: S.optional(__S(256, __c8, 0)),
           startIdx: S.optional(S.Number),
           endIdx: S.optional(S.Number),
         }).pipe(
@@ -2758,7 +2873,7 @@ function __c31(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(800, __c25, 0)),
+          result: S.optional(__S(864, __c27, 0)),
           idx: S.optional(S.Number),
           inputId: S.optional(S.String),
           dataFormat: S.optional(S.String),
@@ -2770,26 +2885,26 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "GetFunctionOutputsItem" });
     case 3:
-      return S.Array(__S(994, __c31, 2));
+      return S.Array(__S(1058, __c33, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          idxs: S.optional(__S(993, __c31, 1)),
-          outputs: S.optional(__S(995, __c31, 3)),
+          idxs: S.optional(__S(1057, __c33, 1)),
+          outputs: S.optional(__S(1059, __c33, 3)),
           lastEntryId: S.optional(S.String),
           numUnfinishedInputs: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetFunctionOutputsResponse" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           functionId: S.optional(S.String),
           parentInputId: S.optional(S.String),
-          input: S.optional(__S(640, __c20, 0)),
+          input: S.optional(__S(704, __c22, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2807,34 +2922,14 @@ function __c32(j: number): any {
       ).annotate({ identifier: "InvokeFunctionAsyncResponse" });
   }
 }
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          functionId: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionCallList", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListFunctionCallRequest" });
-    case 1:
-      return S.Array(__S(1219, __c38, 3));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          functionCalls: S.optional(__S(1057, __c33, 1)),
-        }),
-      ).annotate({ identifier: "ListFunctionCallResponse" });
-  }
-}
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           functionId: S.optional(S.String),
           serializedParams: S.optional(S.String),
-          functionOptions: S.optional(__S(1120, __c35, 0)),
+          functionOptions: S.optional(__S(1152, __c36, 0)),
           environmentName: S.optional(S.String),
           authSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
@@ -2849,25 +2944,25 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           boundFunctionId: S.optional(S.String),
-          handleMetadata: S.optional(__S(232, __c7, 8)),
+          handleMetadata: S.optional(__S(328, __c10, 8)),
         }),
       ).annotate({ identifier: "FunctionBindParamsResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          secretIds: S.optional(__S(160, __c5, 0)),
-          mountIds: S.optional(__S(160, __c5, 0)),
-          resources: S.optional(__S(193, __c6, 1)),
-          retryPolicy: S.optional(__S(128, __c4, 0)),
+          secretIds: S.optional(__S(256, __c8, 0)),
+          mountIds: S.optional(__S(256, __c8, 0)),
+          resources: S.optional(__S(289, __c9, 1)),
+          retryPolicy: S.optional(__S(224, __c7, 0)),
           concurrencyLimit: S.optional(S.Number),
           timeoutSecs: S.optional(S.Number),
           taskIdleTimeoutSecs: S.optional(S.Number),
           warmPoolSize: S.optional(S.Number),
-          volumeMounts: S.optional(__S(195, __c6, 3)),
+          volumeMounts: S.optional(__S(291, __c9, 3)),
           targetConcurrentInputs: S.optional(S.Number),
           replaceVolumeMounts: S.optional(S.Boolean),
           replaceSecretIds: S.optional(S.Boolean),
@@ -2875,17 +2970,37 @@ function __c35(j: number): any {
           maxConcurrentInputs: S.optional(S.Number),
           batchMaxSize: S.optional(S.Number),
           batchLingerMs: S.optional(S.String),
-          schedulerPlacement: S.optional(__S(198, __c6, 6)),
+          schedulerPlacement: S.optional(__S(294, __c9, 6)),
           cloudProviderStr: S.optional(S.String),
           replaceCloudBucketMounts: S.optional(S.Boolean),
-          cloudBucketMounts: S.optional(__S(197, __c6, 5)),
+          cloudBucketMounts: S.optional(__S(293, __c9, 5)),
           pinnedAppVersion: S.optional(S.Number),
           routingRegion: S.optional(S.String),
         }),
       ).annotate({ identifier: "FunctionOptions" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionId: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionCallList", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListFunctionCallRequest" });
+    case 1:
+      return S.Array(__S(1411, __c44, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          functionCalls: S.optional(__S(1185, __c37, 1)),
+        }),
+      ).annotate({ identifier: "ListFunctionCallResponse" });
+  }
+}
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2911,12 +3026,73 @@ function __c36(j: number): any {
         S.Struct({
           functionCallId: S.optional(S.String),
           numInputs: S.optional(S.Number),
-          metadata: S.optional(__S(1153, __c36, 1)),
+          metadata: S.optional(__S(1217, __c38, 1)),
         }),
       ).annotate({ identifier: "FunctionCallFromIdResponse" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionCallId: S.optional(S.String),
+          attemptToken: S.optional(S.String),
+          lastIndex: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.client.ModalClient/FunctionCallGetDataIn",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FunctionCallGetDataInRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(1313, __c41, 1),
+        }),
+      ).annotate({ identifier: "FunctionCallGetDataInStream" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dataFormat: S.optional(S.String),
+          data: S.optional(S.String),
+          dataBlobId: S.optional(S.String),
+          index: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataChunk" });
+    case 1:
+      return S.Array(__S(1312, __c41, 0));
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionCallId: S.optional(S.String),
+          attemptToken: S.optional(S.String),
+          lastIndex: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.client.ModalClient/FunctionCallGetDataOut",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "FunctionCallGetDataOutRequest" });
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2934,12 +3110,12 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          info: S.optional(__S(1219, __c38, 3)),
+          info: S.optional(__S(1411, __c44, 3)),
         }),
       ).annotate({ identifier: "FunctionCallGetInfoResponse" });
   }
 }
-function __c38(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2954,12 +3130,12 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "InputInfo" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1408, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           total: S.optional(S.Number),
-          latest: S.optional(__S(1217, __c38, 1)),
+          latest: S.optional(__S(1409, __c44, 1)),
         }),
       ).annotate({ identifier: "InputCategoryInfo" });
     case 3:
@@ -2969,35 +3145,24 @@ function __c38(j: number): any {
           idx: S.optional(S.Number),
           createdAt: S.optional(S.Number),
           scheduledAt: S.optional(S.Number),
-          pendingInputs: S.optional(__S(1218, __c38, 2)),
-          failedInputs: S.optional(__S(1218, __c38, 2)),
-          succeededInputs: S.optional(__S(1218, __c38, 2)),
-          timeoutInputs: S.optional(__S(1218, __c38, 2)),
-          cancelledInputs: S.optional(__S(1218, __c38, 2)),
+          pendingInputs: S.optional(__S(1410, __c44, 2)),
+          failedInputs: S.optional(__S(1410, __c44, 2)),
+          succeededInputs: S.optional(__S(1410, __c44, 2)),
+          timeoutInputs: S.optional(__S(1410, __c44, 2)),
+          cancelledInputs: S.optional(__S(1410, __c44, 2)),
           totalInputs: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FunctionCallInfo" });
   }
 }
-function __c39(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataFormat: S.optional(S.String),
-          data: S.optional(S.String),
-          dataBlobId: S.optional(S.String),
-          index: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DataChunk" });
-    case 1:
-      return S.Array(__S(1248, __c39, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           functionCallId: S.optional(S.String),
           attemptToken: S.optional(S.String),
-          dataChunks: S.optional(__S(1249, __c39, 1)),
+          dataChunks: S.optional(__S(1313, __c41, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3008,7 +3173,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "FunctionCallPutDataOutRequest" });
   }
 }
-function __c40(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3024,71 +3189,6 @@ function __c40(j: number): any {
           }),
         ),
       ).annotate({ identifier: "FunctionFinishInputsRequest" });
-  }
-}
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          functionId: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/FunctionGetById", code: 200 }),
-        ),
-      ).annotate({ identifier: "FunctionGetByIdRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          function: S.optional(__S(339, __c10, 19)),
-          handleMetadata: S.optional(__S(232, __c7, 8)),
-        }),
-      ).annotate({ identifier: "FunctionGetByIdResponse" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          functionCallId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/modal.client.ModalClient/FunctionGetCallGraph",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "FunctionGetCallGraphRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          inputId: S.optional(S.String),
-          status: S.optional(S.String),
-          functionCallId: S.optional(S.String),
-          taskId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "InputCallGraphInfo" });
-    case 2:
-      return S.Array(__S(1345, __c42, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          functionCallId: S.optional(S.String),
-          parentInputId: S.optional(S.String),
-          functionName: S.optional(S.String),
-          moduleName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FunctionCallCallGraphInfo" });
-    case 4:
-      return S.Array(__S(1347, __c42, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          inputs: S.optional(__S(1346, __c42, 2)),
-          functionCalls: S.optional(__S(1348, __c42, 4)),
-          truncated: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "FunctionGetCallGraphResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

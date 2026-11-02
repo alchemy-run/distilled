@@ -71,6 +71,31 @@ export interface WorkspaceBillingRatesResponse {
   deprecationErrors?: StringMap;
   formatted?: string;
 }
+export type StringList = Array<string>;
+export interface WorkspaceBillingReportRequest {
+  /** Workspace ID will be implicit in the request metadata */
+  startTimestamp?: string;
+  endTimestamp?: string;
+  resolution?: string;
+  /** e.g. 'd' or 'h'; server defines what we accept */
+  tagNames?: StringList;
+  environmentIds?: StringList;
+  appIds?: StringList;
+}
+export interface WorkspaceBillingReportItem {
+  objectId?: string;
+  description?: string;
+  environmentName?: string;
+  interval?: string;
+  cost?: string;
+  tags?: StringMap;
+  costByResource?: StringMap;
+}
+export type WorkspaceBillingReportItemList = Array<WorkspaceBillingReportItem>;
+export interface WorkspaceBillingReportStream {
+  /** Every message of the server stream, in order. The stream ends when the server ends it (bound it with the request's timeout). */
+  items: WorkspaceBillingReportItemList;
+}
 export interface WorkspaceBillingSummaryRequest {
   /** all query intervals are implicitly one month long (to line up with billing cycles) */
   startTimestamp?: string;
@@ -145,8 +170,8 @@ export const listWorkspaceMembers: API.OperationMethod<
   ListWorkspaceMembersError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<ListWorkspaceMembersRequest>,
-  output: __S(7, __c1, 3) as any as S.Schema<ListWorkspaceMembersResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<ListWorkspaceMembersRequest>,
+  output: __S(11, __c1, 3) as any as S.Schema<ListWorkspaceMembersResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -161,8 +186,8 @@ export const lookupWorkspaceName: API.OperationMethod<
   LookupWorkspaceNameError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<LookupWorkspaceNameRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<LookupWorkspaceNameResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<LookupWorkspaceNameRequest>,
+  output: __S(17, __c2, 1) as any as S.Schema<LookupWorkspaceNameResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -178,13 +203,29 @@ export const workspaceBillingRates: API.OperationMethod<
   WorkspaceBillingRatesError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<WorkspaceBillingRatesRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<WorkspaceBillingRatesResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<WorkspaceBillingRatesRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<WorkspaceBillingRatesResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WorkspaceBillingRates",
+}));
+
+export type WorkspaceBillingReportError = ModalOpError;
+export const workspaceBillingReport: API.OperationMethod<
+  WorkspaceBillingReportRequest,
+  WorkspaceBillingReportStream,
+  WorkspaceBillingReportError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(41, __c5, 1) as any as S.Schema<WorkspaceBillingReportRequest>,
+  output: __S(44, __c5, 4) as any as S.Schema<WorkspaceBillingReportStream>,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WorkspaceBillingReport",
 }));
 
 export type WorkspaceBillingSummaryError = ModalOpError;
@@ -194,8 +235,8 @@ export const workspaceBillingSummary: API.OperationMethod<
   WorkspaceBillingSummaryError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<WorkspaceBillingSummaryRequest>,
-  output: __S(21, __c5, 1) as any as S.Schema<WorkspaceBillingSummaryResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<WorkspaceBillingSummaryRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<WorkspaceBillingSummaryResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -210,8 +251,8 @@ export const workspaceSetDefaultEnvironment: API.OperationMethod<
   WorkspaceSetDefaultEnvironmentError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<WorkspaceSetDefaultEnvironmentRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<WorkspaceSetDefaultEnvironmentResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<WorkspaceSetDefaultEnvironmentRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<WorkspaceSetDefaultEnvironmentResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -226,8 +267,8 @@ export const workspaceSetDefaultEnvironmentSettings: API.OperationMethod<
   WorkspaceSetDefaultEnvironmentSettingsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<WorkspaceSetDefaultEnvironmentSettingsRequest>,
-  output: __S(30, __c7, 2) as any as S.Schema<WorkspaceSetDefaultEnvironmentSettingsResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<WorkspaceSetDefaultEnvironmentSettingsRequest>,
+  output: __S(66, __c8, 2) as any as S.Schema<WorkspaceSetDefaultEnvironmentSettingsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -242,8 +283,8 @@ export const workspaceSetImageBuilderVersion: API.OperationMethod<
   WorkspaceSetImageBuilderVersionError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<WorkspaceSetImageBuilderVersionRequest>,
-  output: __S(33, __c8, 1) as any as S.Schema<WorkspaceSetImageBuilderVersionResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<WorkspaceSetImageBuilderVersionRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<WorkspaceSetImageBuilderVersionResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -258,8 +299,8 @@ export const workspaceSettings: API.OperationMethod<
   WorkspaceSettingsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<WorkspaceSettingsRequest>,
-  output: __S(37, __c9, 1) as any as S.Schema<WorkspaceSettingsResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<WorkspaceSettingsRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<WorkspaceSettingsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -319,11 +360,11 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "WorkspaceMembersListItem" });
     case 2:
-      return S.Array(__S(5, __c1, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(6, __c1, 2)),
+          members: S.optional(__S(10, __c1, 2)),
         }),
       ).annotate({ identifier: "ListWorkspaceMembersResponse" });
   }
@@ -364,9 +405,9 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rates: S.optional(__S(16, __c4, 0)),
-          deprecationWarnings: S.optional(__S(16, __c4, 0)),
-          deprecationErrors: S.optional(__S(16, __c4, 0)),
+          rates: S.optional(__S(32, __c4, 0)),
+          deprecationWarnings: S.optional(__S(32, __c4, 0)),
+          deprecationErrors: S.optional(__S(32, __c4, 0)),
           formatted: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceBillingRatesResponse" });
@@ -379,6 +420,49 @@ function __c4(j: number): any {
   }
 }
 function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          startTimestamp: S.optional(S.String),
+          endTimestamp: S.optional(S.String),
+          resolution: S.optional(S.String),
+          tagNames: S.optional(__S(40, __c5, 0)),
+          environmentIds: S.optional(__S(40, __c5, 0)),
+          appIds: S.optional(__S(40, __c5, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.client.ModalClient/WorkspaceBillingReport",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "WorkspaceBillingReportRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          objectId: S.optional(S.String),
+          description: S.optional(S.String),
+          environmentName: S.optional(S.String),
+          interval: S.optional(S.String),
+          cost: S.optional(S.String),
+          tags: S.optional(__S(32, __c4, 0)),
+          costByResource: S.optional(__S(32, __c4, 0)),
+        }),
+      ).annotate({ identifier: "WorkspaceBillingReportItem" });
+    case 3:
+      return S.Array(__S(42, __c5, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(43, __c5, 3),
+        }),
+      ).annotate({ identifier: "WorkspaceBillingReportStream" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -399,13 +483,13 @@ function __c5(j: number): any {
           endTimestamp: S.optional(S.String),
           meteredCost: S.optional(S.String),
           billedCost: S.optional(S.String),
-          meteredCostBreakdown: S.optional(__S(16, __c4, 0)),
-          adjustments: S.optional(__S(16, __c4, 0)),
+          meteredCostBreakdown: S.optional(__S(32, __c4, 0)),
+          adjustments: S.optional(__S(32, __c4, 0)),
         }),
       ).annotate({ identifier: "WorkspaceBillingSummaryResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -425,7 +509,7 @@ function __c6(j: number): any {
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -452,12 +536,12 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          defaultEnvironmentSettings: S.optional(__S(29, __c7, 1)),
+          defaultEnvironmentSettings: S.optional(__S(65, __c8, 1)),
         }),
       ).annotate({ identifier: "WorkspaceSetDefaultEnvironmentSettingsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -479,7 +563,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "WorkspaceSetImageBuilderVersionResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -24,6 +24,11 @@ export interface Config {
   readonly tokenId: Redacted.Redacted<string>;
   readonly tokenSecret: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
+  /**
+   * Sent as `authorization: Bearer <token>` instead of the token pair. Set by
+   * {@link withTaskCommandRouter} for a sandbox's task command router.
+   */
+  readonly bearerToken?: Redacted.Redacted<string>;
 }
 
 export class Credentials
@@ -67,3 +72,42 @@ export const credentials = (config: {
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );
+
+/**
+ * Run `effect` against a sandbox's task command router: the
+ * `modal.task_command_router.TaskCommandRouter` operations (exec, stdio,
+ * filesystem, snapshots, mounts) are served at a per-task URL with a JWT,
+ * both returned by `sandboxGetCommandRouterAccess` /
+ * `taskGetCommandRouterAccess`.
+ *
+ * @example
+ * ```ts
+ * const access = yield* Modal.sandboxGetCommandRouterAccess({ sandboxId });
+ * const exec = yield* Modal.taskExecStart({ taskId, execId, commandArgs: ["ls"] }).pipe(
+ *   Modal.withTaskCommandRouter({ url: access.url!, jwt: access.jwt! }),
+ * );
+ * ```
+ */
+export const withTaskCommandRouter =
+  (access: { readonly url: string; readonly jwt: string | Redacted.Redacted<string> }) =>
+  <A, E, R>(effect: Effect.Effect<A, E, R>): Effect.Effect<A, E, R> =>
+    Effect.flatMap(Effect.serviceOption(Credentials), (outer) =>
+      Effect.provideService(
+        effect,
+        Credentials,
+        Effect.map(
+          outer._tag === "Some"
+            ? outer.value
+            : Effect.succeed({
+                tokenId: Redacted.make(""),
+                tokenSecret: Redacted.make(""),
+                apiBaseUrl: DEFAULT_API_BASE_URL,
+              }),
+          (config): Config => ({
+            ...config,
+            apiBaseUrl: access.url.replace(/\/$/, ""),
+            bearerToken: Redacted.isRedacted(access.jwt) ? access.jwt : Redacted.make(access.jwt),
+          }),
+        ),
+      ),
+    ) as Effect.Effect<A, E, R>;

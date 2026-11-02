@@ -221,6 +221,62 @@ export interface ImageGetOrCreateResponse {
   /** image metadata - only set if the image has built successfully */
   metadata?: ImageMetadata;
 }
+export interface ImageJoinStreamingRequest {
+  imageId?: string;
+  timeout?: number;
+  lastEntryId?: string;
+  includeLogsForFinished?: boolean;
+}
+export type TaskState =
+  | "TASK_STATE_UNSPECIFIED"
+  | "TASK_STATE_CREATED"
+  | "TASK_STATE_QUEUED"
+  | "TASK_STATE_WORKER_ASSIGNED"
+  | "TASK_STATE_LOADING_IMAGE"
+  | "TASK_STATE_ACTIVE"
+  | "TASK_STATE_COMPLETED"
+  | "TASK_STATE_CREATING_CONTAINER"
+  | "TASK_STATE_IDLE"
+  | "TASK_STATE_PREEMPTIBLE"
+  | "TASK_STATE_PREEMPTED"
+  | "TASK_STATE_LOADING_CHECKPOINT_IMAGE";
+export type FileDescriptor =
+  | "FILE_DESCRIPTOR_UNSPECIFIED"
+  | "FILE_DESCRIPTOR_STDOUT"
+  | "FILE_DESCRIPTOR_STDERR"
+  | "FILE_DESCRIPTOR_INFO";
+export type ProgressType = "IMAGE_SNAPSHOT_UPLOAD" | "FUNCTION_QUEUED";
+export interface TaskProgress {
+  len?: string;
+  pos?: string;
+  progressType?: ProgressType;
+  description?: string;
+}
+export interface TaskLogs {
+  data?: string;
+  taskState?: TaskState;
+  timestamp?: number;
+  fileDescriptor?: FileDescriptor;
+  taskProgress?: TaskProgress;
+  functionCallId?: string;
+  inputId?: string;
+  timestampNs?: string;
+  containerId?: string;
+  containerName?: string;
+}
+export type TaskLogsList = Array<TaskLogs>;
+export interface ImageJoinStreamingResponse {
+  result?: GenericResult;
+  taskLogs?: TaskLogsList;
+  entryId?: string;
+  eof?: boolean;
+  metadata?: ImageMetadata;
+}
+export type ImageJoinStreamingResponseList = Array<ImageJoinStreamingResponse>;
+export interface ImageJoinStreamingStream {
+  /** Every message of the server stream, in order. The stream ends when the server ends it (bound it with the request's timeout). */
+  items: ImageJoinStreamingResponseList;
+}
 export interface ImageListTagsRequest {
   environmentName?: string;
   /** Prefix search over full "name:tag" strings. */
@@ -351,12 +407,28 @@ export const imageGetOrCreate: API.OperationMethod<
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c5, 12) as any as S.Schema<ImageGetOrCreateRequest>,
-  output: __S(94, __c5, 14) as any as S.Schema<ImageGetOrCreateResponse>,
+  output: __S(93, __c5, 13) as any as S.Schema<ImageGetOrCreateResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImageGetOrCreate",
+}));
+
+export type ImageJoinStreamingError = ModalOpError;
+export const imageJoinStreaming: API.OperationMethod<
+  ImageJoinStreamingRequest,
+  ImageJoinStreamingStream,
+  ImageJoinStreamingError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c7, 0) as any as S.Schema<ImageJoinStreamingRequest>,
+  output: __S(118, __c7, 6) as any as S.Schema<ImageJoinStreamingStream>,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ImageJoinStreaming",
 }));
 
 export type ImageListTagsError = ModalOpError;
@@ -366,8 +438,8 @@ export const imageListTags: API.OperationMethod<
   ImageListTagsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ImageListTagsRequest>,
-  output: __S(99, __c6, 3) as any as S.Schema<ImageListTagsResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<ImageListTagsRequest>,
+  output: __S(131, __c8, 3) as any as S.Schema<ImageListTagsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -382,8 +454,8 @@ export const imageTagRevisions: API.OperationMethod<
   ImageTagRevisionsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ImageTagRevisionsRequest>,
-  output: __S(115, __c7, 3) as any as S.Schema<ImageTagRevisionsResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<ImageTagRevisionsRequest>,
+  output: __S(147, __c9, 3) as any as S.Schema<ImageTagRevisionsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -398,8 +470,8 @@ export const publishImage: API.OperationMethod<
   PublishImageError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<PublishImageRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<PublishImageResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<PublishImageRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<PublishImageResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -617,6 +689,18 @@ function __c5(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
+          imageId: S.optional(S.String),
+          result: S.optional(__S(96, __c6, 0)),
+          metadata: S.optional(__S(49, __c3, 1)),
+        }),
+      ).annotate({ identifier: "ImageGetOrCreateResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           status: S.optional(S.String),
           exception: S.optional(S.String),
           exitcode: S.optional(S.Number),
@@ -628,17 +712,72 @@ function __c5(j: number): any {
           propagationReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "GenericResult" });
-    case 14:
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           imageId: S.optional(S.String),
-          result: S.optional(__S(93, __c5, 13)),
+          timeout: S.optional(S.Number),
+          lastEntryId: S.optional(S.String),
+          includeLogsForFinished: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.client.ModalClient/ImageJoinStreaming",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ImageJoinStreamingRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          len: S.optional(S.String),
+          pos: S.optional(S.String),
+          progressType: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TaskProgress" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(S.String),
+          taskState: S.optional(S.String),
+          timestamp: S.optional(S.Number),
+          fileDescriptor: S.optional(S.String),
+          taskProgress: S.optional(__S(113, __c7, 1)),
+          functionCallId: S.optional(S.String),
+          inputId: S.optional(S.String),
+          timestampNs: S.optional(S.String),
+          containerId: S.optional(S.String),
+          containerName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TaskLogs" });
+    case 3:
+      return S.Array(__S(114, __c7, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          result: S.optional(__S(96, __c6, 0)),
+          taskLogs: S.optional(__S(115, __c7, 3)),
+          entryId: S.optional(S.String),
+          eof: S.optional(S.Boolean),
           metadata: S.optional(__S(49, __c3, 1)),
         }),
-      ).annotate({ identifier: "ImageGetOrCreateResponse" });
+      ).annotate({ identifier: "ImageJoinStreamingResponse" });
+    case 5:
+      return S.Array(__S(116, __c7, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(117, __c7, 5),
+        }),
+      ).annotate({ identifier: "ImageJoinStreamingStream" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -662,18 +801,18 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "ImageListTagsItem" });
     case 2:
-      return S.Array(__S(97, __c6, 1));
+      return S.Array(__S(129, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(98, __c6, 2)),
+          items: S.optional(__S(130, __c8, 2)),
           nextPageToken: S.optional(S.String),
           environmentName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImageListTagsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -696,11 +835,11 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "ImageTagRevisionsItem" });
     case 2:
-      return S.Array(__S(113, __c7, 1));
+      return S.Array(__S(145, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(114, __c7, 2)),
+          items: S.optional(__S(146, __c9, 2)),
           nextPageToken: S.optional(S.String),
           tag: S.optional(S.String),
           environmentName: S.optional(S.String),
@@ -708,7 +847,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ImageTagRevisionsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
