@@ -142,6 +142,10 @@ console.log(
     `) → ${OUT_DIR}`,
 );
 
+/** A string literal the formatter leaves alone (single quotes unless escaping). */
+const quoteForSource = (text: string): string =>
+  /['\\\n]/.test(text) ? JSON.stringify(text) : `'${text}'`;
+
 // Binary wire descriptors for the gRPC protocol (src/protocol.ts): Modal's
 // API only speaks binary gRPC, so the proto3 JSON bodies the services build
 // are transcoded with this table.
@@ -153,9 +157,9 @@ fs.writeFileSync(
     'import type { ProtoDescriptors } from "@distilled.cloud/core/protobuf";',
     "",
     "/** Field numbers, kinds, enums and gRPC methods for the binary wire codec. */",
-    `export const descriptors: ProtoDescriptors = /*@__PURE__*/ JSON.parse(${JSON.stringify(
-      JSON.stringify(descriptors),
-    )});`,
+    "export const descriptors: ProtoDescriptors = /*@__PURE__*/ JSON.parse(",
+    `  ${quoteForSource(JSON.stringify(descriptors))},`,
+    ");",
     "",
   ].join("\n"),
 );
