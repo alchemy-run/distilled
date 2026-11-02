@@ -63,6 +63,18 @@
       "worker": "./src/services/*.ts",
       "distilled-lazy": "./lib/services.lazy/*.js",
       "default": "./lib/services/*.js"
+    },
+    "./Objects": {
+      "types": "./lib/objects.d.ts",
+      "bun": "./src/objects.ts",
+      "worker": "./src/objects.ts",
+      "default": "./lib/objects.js"
+    },
+    "./Process": {
+      "types": "./lib/process.d.ts",
+      "bun": "./src/process.ts",
+      "worker": "./src/process.ts",
+      "default": "./lib/process.js"
     }
   },
   "scripts": {

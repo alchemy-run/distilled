@@ -53,7 +53,10 @@ export class Credentials
     "ArchilCredentials",
   ) {}
 
-const resolveBaseUrl = (region: Region | undefined, apiBaseUrl: string | undefined) => {
+const resolveBaseUrl = (
+  region: Region | undefined,
+  apiBaseUrl: string | undefined,
+): Effect.Effect<string, ConfigError> => {
   if (apiBaseUrl) return Effect.succeed(apiBaseUrl);
   const url = controlPlaneUrl(region ?? DEFAULT_REGION);
   return url
