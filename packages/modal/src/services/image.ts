@@ -23,6 +23,16 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The image or image tag doesn't exist (gRPC NOT_FOUND). */
+export class ImageNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ImageNotFound>()("ImageNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export interface DeleteImageRequest {
   imageId?: string;
 }
@@ -334,7 +344,7 @@ export interface PublishImageResponse {
   imageId?: string;
   revisionId?: string;
 }
-export type DeleteImageError = ModalOpError;
+export type DeleteImageError = ImageNotFound | ModalOpError;
 export const deleteImage: API.OperationMethod<
   DeleteImageRequest,
   DeleteImageResponse,
@@ -343,14 +353,14 @@ export const deleteImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteImageRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<DeleteImageResponse>,
-  errors: [UnknownModalError],
+  errors: [ImageNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteImage",
 }));
 
-export type GetImageBuildChainError = ModalOpError;
+export type GetImageBuildChainError = ImageNotFound | ModalOpError;
 /** Images */
 export const getImageBuildChain: API.OperationMethod<
   GetImageBuildChainRequest,
@@ -360,14 +370,14 @@ export const getImageBuildChain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<GetImageBuildChainRequest>,
   output: __S(19, __c1, 3) as any as S.Schema<GetImageBuildChainResponse>,
-  errors: [UnknownModalError],
+  errors: [ImageNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetImageBuildChain",
 }));
 
-export type ImageFromIdError = ModalOpError;
+export type ImageFromIdError = ImageNotFound | ModalOpError;
 export const imageFromId: API.OperationMethod<
   ImageFromIdRequest,
   ImageFromIdResponse,
@@ -376,14 +386,14 @@ export const imageFromId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<ImageFromIdRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<ImageFromIdResponse>,
-  errors: [UnknownModalError],
+  errors: [ImageNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImageFromId",
 }));
 
-export type ImageGetByTagError = ModalOpError;
+export type ImageGetByTagError = ImageNotFound | ModalOpError;
 export const imageGetByTag: API.OperationMethod<
   ImageGetByTagRequest,
   ImageGetByTagResponse,
@@ -392,7 +402,7 @@ export const imageGetByTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<ImageGetByTagRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<ImageGetByTagResponse>,
-  errors: [UnknownModalError],
+  errors: [ImageNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -415,7 +425,7 @@ export const imageGetOrCreate: API.OperationMethod<
   span: "ImageGetOrCreate",
 }));
 
-export type ImageJoinStreamingError = ModalOpError;
+export type ImageJoinStreamingError = ImageNotFound | ModalOpError;
 export const imageJoinStreaming: API.OperationMethod<
   ImageJoinStreamingRequest,
   ImageJoinStreamingStream,
@@ -424,7 +434,7 @@ export const imageJoinStreaming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ImageJoinStreamingRequest>,
   output: __S(118, __c7, 6) as any as S.Schema<ImageJoinStreamingStream>,
-  errors: [UnknownModalError],
+  errors: [ImageNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -463,7 +473,7 @@ export const imageTagRevisions: API.OperationMethod<
   span: "ImageTagRevisions",
 }));
 
-export type PublishImageError = ModalOpError;
+export type PublishImageError = ImageNotFound | ModalOpError;
 export const publishImage: API.OperationMethod<
   PublishImageRequest,
   PublishImageResponse,
@@ -472,7 +482,7 @@ export const publishImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<PublishImageRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<PublishImageResponse>,
-  errors: [UnknownModalError],
+  errors: [ImageNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

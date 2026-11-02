@@ -1,0 +1,143 @@
+{
+  "description": "Typed not-found / already-exists errors for the functions RPCs. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND, 6 = ALREADY_EXISTS), which these matchers key on.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The function (or its app) doesn't exist (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionCallNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The function call doesn't exist (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionGet/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionGetById/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionGetSchedulingParams/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionUpdateSchedulingParams/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionMap/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionAsyncInvoke/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionCallGetInfo/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionCallNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionCallCancel/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionCallNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionCallFromId/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionCallNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionGetOutputs/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionCallNotFound"
+        }
+      ]
+    }
+  ]
+}

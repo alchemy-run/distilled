@@ -1,0 +1,155 @@
+{
+  "description": "Typed not-found / already-exists errors for the app RPCs. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND, 6 = ALREADY_EXISTS), which these matchers key on.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The app doesn't exist (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "An app with this name already exists in the environment (gRPC ALREADY_EXISTS).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppGetOrCreate/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        },
+        {
+          "target": "com.modal.app#AppAlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppLookup/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppStop/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppGetTags/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppSetTags/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppGetInfo/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppGetLifecycle/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppGetLogs/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppFetchLogs/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppCountLogs/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppCreate/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppAlreadyExists"
+        }
+      ]
+    }
+  ]
+}

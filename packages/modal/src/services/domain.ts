@@ -23,6 +23,26 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The domain is already registered (gRPC ALREADY_EXISTS). */
+export class DomainAlreadyExists
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<DomainAlreadyExists>()("DomainAlreadyExists", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 6 }],
+  ) {}
+
+/** The domain doesn't exist (gRPC NOT_FOUND). */
+export class DomainNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<DomainNotFound>()("DomainNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export interface CreateDomainRequest {
   domainName?: string;
 }
@@ -61,7 +81,7 @@ export interface VerifyDomainCertificateRequest {
 export interface VerifyDomainCertificateResponse {
   domain?: Domain;
 }
-export type CreateDomainError = ModalOpError;
+export type CreateDomainError = DomainAlreadyExists | ModalOpError;
 export const createDomain: API.OperationMethod<
   CreateDomainRequest,
   CreateDomainResponse,
@@ -70,7 +90,7 @@ export const createDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateDomainRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CreateDomainResponse>,
-  errors: [UnknownModalError],
+  errors: [DomainAlreadyExists, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -93,7 +113,7 @@ export const listDomain: API.OperationMethod<
   span: "ListDomain",
 }));
 
-export type VerifyDomainCertificateError = ModalOpError;
+export type VerifyDomainCertificateError = DomainNotFound | ModalOpError;
 /** Domains */
 export const verifyDomainCertificate: API.OperationMethod<
   VerifyDomainCertificateRequest,
@@ -103,7 +123,7 @@ export const verifyDomainCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<VerifyDomainCertificateRequest>,
   output: __S(17, __c4, 1) as any as S.Schema<VerifyDomainCertificateResponse>,
-  errors: [UnknownModalError],
+  errors: [DomainNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

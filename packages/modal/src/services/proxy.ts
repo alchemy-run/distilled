@@ -23,6 +23,26 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** A proxy with this name already exists in the environment (gRPC ALREADY_EXISTS). */
+export class ProxyAlreadyExists
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ProxyAlreadyExists>()("ProxyAlreadyExists", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 6 }],
+  ) {}
+
+/** The proxy or proxy IP doesn't exist (gRPC NOT_FOUND). */
+export class ProxyNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ProxyNotFound>()("ProxyNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export interface CreateProxyRequest {
   name?: string;
   environmentName?: string;
@@ -95,7 +115,7 @@ export interface ProxyRemoveIpRequest {
   proxyIp?: string;
 }
 export interface ProxyRemoveIpResponse {}
-export type CreateProxyError = ModalOpError;
+export type CreateProxyError = ProxyAlreadyExists | ModalOpError;
 export const createProxy: API.OperationMethod<
   CreateProxyRequest,
   CreateProxyResponse,
@@ -104,14 +124,14 @@ export const createProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateProxyRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<CreateProxyResponse>,
-  errors: [UnknownModalError],
+  errors: [ProxyAlreadyExists, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProxy",
 }));
 
-export type DeleteProxyError = ModalOpError;
+export type DeleteProxyError = ProxyNotFound | ModalOpError;
 export const deleteProxy: API.OperationMethod<
   DeleteProxyRequest,
   DeleteProxyResponse,
@@ -120,14 +140,14 @@ export const deleteProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<DeleteProxyRequest>,
   output: __S(20, __c5, 0) as any as S.Schema<DeleteProxyResponse>,
-  errors: [UnknownModalError],
+  errors: [ProxyNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProxy",
 }));
 
-export type GetProxyError = ModalOpError;
+export type GetProxyError = ProxyNotFound | ModalOpError;
 export const getProxy: API.OperationMethod<
   GetProxyRequest,
   GetProxyResponse,
@@ -136,7 +156,7 @@ export const getProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetProxyRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<GetProxyResponse>,
-  errors: [UnknownModalError],
+  errors: [ProxyNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -159,7 +179,7 @@ export const listProxy: API.OperationMethod<
   span: "ListProxy",
 }));
 
-export type ProxyAddIpError = ModalOpError;
+export type ProxyAddIpError = ProxyNotFound | ModalOpError;
 /** Proxies */
 export const proxyAddIp: API.OperationMethod<
   ProxyAddIpRequest,
@@ -169,14 +189,14 @@ export const proxyAddIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ProxyAddIpRequest>,
   output: __S(33, __c8, 1) as any as S.Schema<ProxyAddIpResponse>,
-  errors: [UnknownModalError],
+  errors: [ProxyNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProxyAddIp",
 }));
 
-export type ProxyGetOrCreateError = ModalOpError;
+export type ProxyGetOrCreateError = ProxyNotFound | ProxyAlreadyExists | ModalOpError;
 export const proxyGetOrCreate: API.OperationMethod<
   ProxyGetOrCreateRequest,
   ProxyGetOrCreateResponse,
@@ -185,14 +205,14 @@ export const proxyGetOrCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<ProxyGetOrCreateRequest>,
   output: __S(37, __c9, 1) as any as S.Schema<ProxyGetOrCreateResponse>,
-  errors: [UnknownModalError],
+  errors: [ProxyNotFound, ProxyAlreadyExists, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProxyGetOrCreate",
 }));
 
-export type ProxyRemoveIpError = ModalOpError;
+export type ProxyRemoveIpError = ProxyNotFound | ModalOpError;
 export const proxyRemoveIp: API.OperationMethod<
   ProxyRemoveIpRequest,
   ProxyRemoveIpResponse,
@@ -201,7 +221,7 @@ export const proxyRemoveIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<ProxyRemoveIpRequest>,
   output: __S(20, __c5, 0) as any as S.Schema<ProxyRemoveIpResponse>,
-  errors: [UnknownModalError],
+  errors: [ProxyNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

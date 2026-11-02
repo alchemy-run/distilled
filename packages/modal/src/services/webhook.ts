@@ -24,6 +24,16 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The webhook token doesn't exist (gRPC NOT_FOUND). */
+export class WebhookTokenNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<WebhookTokenNotFound>()("WebhookTokenNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export interface AddWebhookTokenEnvironmentRequest {
   tokenId?: string;
   environmentId?: string;
@@ -87,7 +97,7 @@ export interface WebhookTokenListForEnvironmentRequest {
 export interface WebhookTokenListForEnvironmentResponse {
   tokens?: WebhookTokenList2;
 }
-export type AddWebhookTokenEnvironmentError = ModalOpError;
+export type AddWebhookTokenEnvironmentError = WebhookTokenNotFound | ModalOpError;
 export const addWebhookTokenEnvironment: API.OperationMethod<
   AddWebhookTokenEnvironmentRequest,
   AddWebhookTokenEnvironmentResponse,
@@ -96,7 +106,7 @@ export const addWebhookTokenEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddWebhookTokenEnvironmentRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<AddWebhookTokenEnvironmentResponse>,
-  errors: [UnknownModalError],
+  errors: [WebhookTokenNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -120,7 +130,7 @@ export const createWebhookToken: API.OperationMethod<
   span: "CreateWebhookToken",
 }));
 
-export type DeleteWebhookTokenError = ModalOpError;
+export type DeleteWebhookTokenError = WebhookTokenNotFound | ModalOpError;
 export const deleteWebhookToken: API.OperationMethod<
   DeleteWebhookTokenRequest,
   DeleteWebhookTokenResponse,
@@ -129,7 +139,7 @@ export const deleteWebhookToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<DeleteWebhookTokenRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteWebhookTokenResponse>,
-  errors: [UnknownModalError],
+  errors: [WebhookTokenNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -152,7 +162,7 @@ export const listWebhookToken: API.OperationMethod<
   span: "ListWebhookToken",
 }));
 
-export type ListWebhookTokenEnvironmentError = ModalOpError;
+export type ListWebhookTokenEnvironmentError = WebhookTokenNotFound | ModalOpError;
 export const listWebhookTokenEnvironment: API.OperationMethod<
   ListWebhookTokenEnvironmentRequest,
   ListWebhookTokenEnvironmentResponse,
@@ -161,14 +171,14 @@ export const listWebhookTokenEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ListWebhookTokenEnvironmentRequest>,
   output: __S(30, __c7, 2) as any as S.Schema<ListWebhookTokenEnvironmentResponse>,
-  errors: [UnknownModalError],
+  errors: [WebhookTokenNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWebhookTokenEnvironment",
 }));
 
-export type RemoveWebhookTokenEnvironmentError = ModalOpError;
+export type RemoveWebhookTokenEnvironmentError = WebhookTokenNotFound | ModalOpError;
 export const removeWebhookTokenEnvironment: API.OperationMethod<
   RemoveWebhookTokenEnvironmentRequest,
   RemoveWebhookTokenEnvironmentResponse,
@@ -177,14 +187,14 @@ export const removeWebhookTokenEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<RemoveWebhookTokenEnvironmentRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<RemoveWebhookTokenEnvironmentResponse>,
-  errors: [UnknownModalError],
+  errors: [WebhookTokenNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveWebhookTokenEnvironment",
 }));
 
-export type UpdateWebhookTokenError = ModalOpError;
+export type UpdateWebhookTokenError = WebhookTokenNotFound | ModalOpError;
 export const updateWebhookToken: API.OperationMethod<
   UpdateWebhookTokenRequest,
   UpdateWebhookTokenResponse,
@@ -193,7 +203,7 @@ export const updateWebhookToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<UpdateWebhookTokenRequest>,
   output: __S(21, __c5, 1) as any as S.Schema<UpdateWebhookTokenResponse>,
-  errors: [UnknownModalError],
+  errors: [WebhookTokenNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

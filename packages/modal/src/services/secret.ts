@@ -23,6 +23,26 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** A secret with this name already exists in the environment (gRPC ALREADY_EXISTS). */
+export class SecretAlreadyExists
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SecretAlreadyExists>()("SecretAlreadyExists", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 6 }],
+  ) {}
+
+/** The secret doesn't exist (gRPC NOT_FOUND). */
+export class SecretNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SecretNotFound>()("SecretNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export interface DeleteSecretRequest {
   secretId?: string;
 }
@@ -103,7 +123,7 @@ export interface UpdateSecretRequest {
   updates?: UpdateSecretRequestUpdateList;
 }
 export interface UpdateSecretResponse {}
-export type DeleteSecretError = ModalOpError;
+export type DeleteSecretError = SecretNotFound | ModalOpError;
 /** Secrets */
 export const deleteSecret: API.OperationMethod<
   DeleteSecretRequest,
@@ -113,7 +133,7 @@ export const deleteSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteSecretRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteSecretResponse>,
-  errors: [UnknownModalError],
+  errors: [SecretNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -136,7 +156,7 @@ export const listSecret: API.OperationMethod<
   span: "ListSecret",
 }));
 
-export type SecretGetInfoError = ModalOpError;
+export type SecretGetInfoError = SecretNotFound | ModalOpError;
 export const secretGetInfo: API.OperationMethod<
   SecretGetInfoRequest,
   SecretGetInfoResponse,
@@ -145,14 +165,14 @@ export const secretGetInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<SecretGetInfoRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<SecretGetInfoResponse>,
-  errors: [UnknownModalError],
+  errors: [SecretNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SecretGetInfo",
 }));
 
-export type SecretGetOrCreateError = ModalOpError;
+export type SecretGetOrCreateError = SecretNotFound | SecretAlreadyExists | ModalOpError;
 export const secretGetOrCreate: API.OperationMethod<
   SecretGetOrCreateRequest,
   SecretGetOrCreateResponse,
@@ -161,14 +181,14 @@ export const secretGetOrCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41, __c5, 1) as any as S.Schema<SecretGetOrCreateRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<SecretGetOrCreateResponse>,
-  errors: [UnknownModalError],
+  errors: [SecretNotFound, SecretAlreadyExists, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SecretGetOrCreate",
 }));
 
-export type UpdateSecretError = ModalOpError;
+export type UpdateSecretError = SecretNotFound | ModalOpError;
 export const updateSecret: API.OperationMethod<
   UpdateSecretRequest,
   UpdateSecretResponse,
@@ -177,7 +197,7 @@ export const updateSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(50, __c6, 2) as any as S.Schema<UpdateSecretRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UpdateSecretResponse>,
-  errors: [UnknownModalError],
+  errors: [SecretNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

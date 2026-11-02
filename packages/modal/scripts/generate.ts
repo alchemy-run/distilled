@@ -16,6 +16,14 @@ import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
+/**
+ * Error matchers on patched error shapes. The gRPC protocol turns a non-zero
+ * `grpc-status` into an HTTP status (`NOT_FOUND` -> 404, `ALREADY_EXISTS` ->
+ * 409, ...) with `{ code: "NOT_FOUND", message }`, so matchers key on
+ * `status`, `code` and `message` like any REST API.
+ */
+const ERROR_MATCHERS_TRAIT = "com.modal.protocols#errorMatchers";
+
 const camel = (slug: string): string =>
   slug
     .split("_")
@@ -26,6 +34,7 @@ const camel = (slug: string): string =>
 const spec: SdkSpec = {
   sourceNote: ".generated-specs (modal_proto → smithy)",
 
+  errorMatchersTrait: ERROR_MATCHERS_TRAIT,
   memberTraitPipes: {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
@@ -60,6 +69,7 @@ runGeneratorCli({
   description: "Generate the Modal Effect SDK from the Smithy models",
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
+  patchesDir: false,
   barrelExportName: camel,
   spec: () => spec,
 });

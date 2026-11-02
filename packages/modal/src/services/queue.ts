@@ -23,6 +23,26 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** A queue with this name already exists in the environment (gRPC ALREADY_EXISTS). */
+export class QueueAlreadyExists
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<QueueAlreadyExists>()("QueueAlreadyExists", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 6 }],
+  ) {}
+
+/** The queue doesn't exist (gRPC NOT_FOUND). */
+export class QueueNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<QueueNotFound>()("QueueNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export interface ClearQueueRequest {
   queueId?: string;
   partitionKey?: string;
@@ -134,7 +154,7 @@ export type QueueItemList = Array<QueueItem>;
 export interface QueueNextItemsResponse {
   items?: QueueItemList;
 }
-export type ClearQueueError = ModalOpError;
+export type ClearQueueError = QueueNotFound | ModalOpError;
 /** Queues */
 export const clearQueue: API.OperationMethod<
   ClearQueueRequest,
@@ -142,25 +162,25 @@ export const clearQueue: API.OperationMethod<
   ClearQueueError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ClearQueueRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<ClearQueueResponse>,
-  errors: [UnknownModalError],
+  input: __S(16, __c2, 0) as any as S.Schema<ClearQueueRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<ClearQueueResponse>,
+  errors: [QueueNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ClearQueue",
 }));
 
-export type DeleteQueueError = ModalOpError;
+export type DeleteQueueError = QueueNotFound | ModalOpError;
 export const deleteQueue: API.OperationMethod<
   DeleteQueueRequest,
   DeleteQueueResponse,
   DeleteQueueError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DeleteQueueRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<DeleteQueueResponse>,
-  errors: [UnknownModalError],
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteQueueRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<DeleteQueueResponse>,
+  errors: [QueueNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -174,8 +194,8 @@ export const getQueue: API.OperationMethod<
   GetQueueError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetQueueRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<GetQueueResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetQueueRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<GetQueueResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -190,8 +210,8 @@ export const listQueue: API.OperationMethod<
   ListQueueError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(41, __c5, 1) as any as S.Schema<ListQueueRequest>,
-  output: __S(44, __c5, 4) as any as S.Schema<ListQueueResponse>,
+  input: __S(57, __c7, 1) as any as S.Schema<ListQueueRequest>,
+  output: __S(60, __c7, 4) as any as S.Schema<ListQueueResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -199,48 +219,48 @@ export const listQueue: API.OperationMethod<
   span: "ListQueue",
 }));
 
-export type PutQueueError = ModalOpError;
+export type PutQueueError = QueueNotFound | ModalOpError;
 export const putQueue: API.OperationMethod<
   PutQueueRequest,
   PutQueueResponse,
   PutQueueError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<PutQueueRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<PutQueueResponse>,
-  errors: [UnknownModalError],
+  input: __S(72, __c9, 0) as any as S.Schema<PutQueueRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<PutQueueResponse>,
+  errors: [QueueNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PutQueue",
 }));
 
-export type QueueGetByIdError = ModalOpError;
+export type QueueGetByIdError = QueueNotFound | ModalOpError;
 export const queueGetById: API.OperationMethod<
   QueueGetByIdRequest,
   QueueGetByIdResponse,
   QueueGetByIdError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<QueueGetByIdRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<QueueGetByIdResponse>,
-  errors: [UnknownModalError],
+  input: __S(80, __c10, 0) as any as S.Schema<QueueGetByIdRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<QueueGetByIdResponse>,
+  errors: [QueueNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueueGetById",
 }));
 
-export type QueueGetOrCreateError = ModalOpError;
+export type QueueGetOrCreateError = QueueNotFound | QueueAlreadyExists | ModalOpError;
 export const queueGetOrCreate: API.OperationMethod<
   QueueGetOrCreateRequest,
   QueueGetOrCreateResponse,
   QueueGetOrCreateError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<QueueGetOrCreateRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<QueueGetOrCreateResponse>,
-  errors: [UnknownModalError],
+  input: __S(96, __c12, 0) as any as S.Schema<QueueGetOrCreateRequest>,
+  output: __S(88, __c11, 0) as any as S.Schema<QueueGetOrCreateResponse>,
+  errors: [QueueNotFound, QueueAlreadyExists, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -254,8 +274,8 @@ export const queueHeartbeat: API.OperationMethod<
   QueueHeartbeatError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<QueueHeartbeatRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<QueueHeartbeatResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<QueueHeartbeatRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<QueueHeartbeatResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -263,32 +283,32 @@ export const queueHeartbeat: API.OperationMethod<
   span: "QueueHeartbeat",
 }));
 
-export type QueueLenError = ModalOpError;
+export type QueueLenError = QueueNotFound | ModalOpError;
 export const queueLen: API.OperationMethod<
   QueueLenRequest,
   QueueLenResponse,
   QueueLenError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<QueueLenRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<QueueLenResponse>,
-  errors: [UnknownModalError],
+  input: __S(0, __c0, 0) as any as S.Schema<QueueLenRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<QueueLenResponse>,
+  errors: [QueueNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueueLen",
 }));
 
-export type QueueNextItemsError = ModalOpError;
+export type QueueNextItemsError = QueueNotFound | ModalOpError;
 export const queueNextItems: API.OperationMethod<
   QueueNextItemsRequest,
   QueueNextItemsResponse,
   QueueNextItemsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<QueueNextItemsRequest>,
-  output: __S(107, __c13, 3) as any as S.Schema<QueueNextItemsResponse>,
-  errors: [UnknownModalError],
+  input: __S(8, __c1, 0) as any as S.Schema<QueueNextItemsRequest>,
+  output: __S(11, __c1, 3) as any as S.Schema<QueueNextItemsResponse>,
+  errors: [QueueNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -297,180 +317,6 @@ export const queueNextItems: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          queueId: S.optional(S.String),
-          partitionKey: S.optional(S.String),
-          allPartitions: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueClear", code: 200 })),
-      ).annotate({ identifier: "ClearQueueRequest" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "ClearQueueResponse" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          queueId: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueDelete", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteQueueRequest" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          queueId: S.optional(S.String),
-          timeout: S.optional(S.Number),
-          nValues: S.optional(S.Number),
-          partitionKey: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueGet", code: 200 })),
-      ).annotate({ identifier: "GetQueueRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          values: S.optional(__S(32, __c4, 0)),
-        }),
-      ).annotate({ identifier: "GetQueueResponse" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          maxObjects: S.optional(S.Number),
-          createdBefore: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ListPagination" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          environmentName: S.optional(S.String),
-          totalSizeLimit: S.optional(S.Number),
-          pagination: S.optional(__S(40, __c5, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueList", code: 200 })),
-      ).annotate({ identifier: "ListQueueRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          numPartitions: S.optional(S.Number),
-          totalSize: S.optional(S.Number),
-          queueId: S.optional(S.String),
-          metadata: S.optional(__S(49, __c6, 1)),
-        }),
-      ).annotate({ identifier: "ListQueueResponseQueueInfo" });
-    case 3:
-      return S.Array(__S(42, __c5, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          queues: S.optional(__S(43, __c5, 3)),
-          environmentName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListQueueResponse" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createdAt: S.optional(S.Number),
-          createdBy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreationInfo" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          creationInfo: S.optional(__S(48, __c6, 0)),
-        }),
-      ).annotate({ identifier: "QueueMetadata" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          queueId: S.optional(S.String),
-          values: S.optional(__S(32, __c4, 0)),
-          partitionKey: S.optional(S.String),
-          partitionTtlSeconds: S.optional(S.Number),
-        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueuePut", code: 200 })),
-      ).annotate({ identifier: "PutQueueRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          queueId: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueGetById", code: 200 }),
-        ),
-      ).annotate({ identifier: "QueueGetByIdRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          queueId: S.optional(S.String),
-          metadata: S.optional(__S(49, __c6, 1)),
-        }),
-      ).annotate({ identifier: "QueueGetByIdResponse" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deploymentName: S.optional(S.String),
-          environmentName: S.optional(S.String),
-          objectCreationType: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueGetOrCreate", code: 200 }),
-        ),
-      ).annotate({ identifier: "QueueGetOrCreateRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          queueId: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueHeartbeat", code: 200 }),
-        ),
-      ).annotate({ identifier: "QueueHeartbeatRequest" });
-  }
-}
-function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -488,7 +334,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "QueueLenResponse" });
   }
 }
-function __c13(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -509,13 +355,187 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "QueueItem" });
     case 2:
-      return S.Array(__S(105, __c13, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(106, __c13, 2)),
+          items: S.optional(__S(10, __c1, 2)),
         }),
       ).annotate({ identifier: "QueueNextItemsResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          queueId: S.optional(S.String),
+          partitionKey: S.optional(S.String),
+          allPartitions: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueClear", code: 200 })),
+      ).annotate({ identifier: "ClearQueueRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "ClearQueueResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          queueId: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueDelete", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteQueueRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          queueId: S.optional(S.String),
+          timeout: S.optional(S.Number),
+          nValues: S.optional(S.Number),
+          partitionKey: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueGet", code: 200 })),
+      ).annotate({ identifier: "GetQueueRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          values: S.optional(__S(48, __c6, 0)),
+        }),
+      ).annotate({ identifier: "GetQueueResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxObjects: S.optional(S.Number),
+          createdBefore: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ListPagination" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          environmentName: S.optional(S.String),
+          totalSizeLimit: S.optional(S.Number),
+          pagination: S.optional(__S(56, __c7, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueList", code: 200 })),
+      ).annotate({ identifier: "ListQueueRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          createdAt: S.optional(S.Number),
+          numPartitions: S.optional(S.Number),
+          totalSize: S.optional(S.Number),
+          queueId: S.optional(S.String),
+          metadata: S.optional(__S(65, __c8, 1)),
+        }),
+      ).annotate({ identifier: "ListQueueResponseQueueInfo" });
+    case 3:
+      return S.Array(__S(58, __c7, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          queues: S.optional(__S(59, __c7, 3)),
+          environmentName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListQueueResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.optional(S.Number),
+          createdBy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreationInfo" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          creationInfo: S.optional(__S(64, __c8, 0)),
+        }),
+      ).annotate({ identifier: "QueueMetadata" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          queueId: S.optional(S.String),
+          values: S.optional(__S(48, __c6, 0)),
+          partitionKey: S.optional(S.String),
+          partitionTtlSeconds: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueuePut", code: 200 })),
+      ).annotate({ identifier: "PutQueueRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          queueId: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueGetById", code: 200 }),
+        ),
+      ).annotate({ identifier: "QueueGetByIdRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          queueId: S.optional(S.String),
+          metadata: S.optional(__S(65, __c8, 1)),
+        }),
+      ).annotate({ identifier: "QueueGetByIdResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deploymentName: S.optional(S.String),
+          environmentName: S.optional(S.String),
+          objectCreationType: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueGetOrCreate", code: 200 }),
+        ),
+      ).annotate({ identifier: "QueueGetOrCreateRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          queueId: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueHeartbeat", code: 200 }),
+        ),
+      ).annotate({ identifier: "QueueHeartbeatRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
