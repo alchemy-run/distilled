@@ -33,9 +33,10 @@ export {
   errorMatchersSymbol,
 } from "@distilled.cloud/core/trait";
 
-// Bearer-REST protocol traits (sensitive strings, bare-payload responses).
+// REST protocol traits (sensitive strings, bare-payload and binary responses).
 export {
   SensitiveValue,
+  BinaryResponse,
   RawResponse,
   RawResponseRoot,
   sensitiveValueSymbol,

@@ -66,7 +66,7 @@ export interface ReadVolumeFileRequest {
   volumeID: string;
   path: string;
 }
-export interface ReadVolumeFileResponse {}
+export type ReadVolumeFileResponse = Uint8Array;
 export interface RemoveVolumePathRequest {
   volumeID: string;
   path: string;
@@ -94,6 +94,7 @@ export interface WriteVolumeFileRequest {
   mode?: number;
   /** Force overwrite of an existing file */
   force?: boolean;
+  body: Uint8Array | string;
 }
 export type ListVolumeDirError = E2BOpError;
 /** List directory contents */
@@ -138,7 +139,7 @@ export const readVolumeFile: API.OperationMethod<
   VolumeContentOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<ReadVolumeFileRequest>,
-  output: __S(16, __c4, 0) as any as S.Schema<ReadVolumeFileResponse>,
+  output: __S(13, __c3, 1) as any as S.Codec<ReadVolumeFileResponse>,
   errors: [UnknownE2BError],
   protocol: VolumeContentProtocol,
   retry: Retry.Retry,
@@ -154,8 +155,8 @@ export const removeVolumePath: API.OperationMethod<
   RemoveVolumePathError,
   VolumeContentOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<RemoveVolumePathRequest>,
-  output: __S(16, __c4, 0) as any as S.Schema<RemoveVolumePathResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<RemoveVolumePathRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<RemoveVolumePathResponse>,
   errors: [UnknownE2BError],
   protocol: VolumeContentProtocol,
   retry: Retry.Retry,
@@ -171,7 +172,7 @@ export const statVolumePath: API.OperationMethod<
   StatVolumePathError,
   VolumeContentOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<StatVolumePathRequest>,
+  input: __S(20, __c5, 0) as any as S.Schema<StatVolumePathRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<VolumeEntryStat>,
   errors: [UnknownE2BError],
   protocol: VolumeContentProtocol,
@@ -188,7 +189,7 @@ export const updateVolumePath: API.OperationMethod<
   UpdateVolumePathError,
   VolumeContentOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<UpdateVolumePathRequest>,
+  input: __S(24, __c6, 0) as any as S.Schema<UpdateVolumePathRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<VolumeEntryStat>,
   errors: [UnknownE2BError],
   protocol: VolumeContentProtocol,
@@ -205,7 +206,7 @@ export const writeVolumeFile: API.OperationMethod<
   WriteVolumeFileError,
   VolumeContentOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<WriteVolumeFileRequest>,
+  input: __S(28, __c7, 0) as any as S.Schema<WriteVolumeFileRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<VolumeEntryStat>,
   errors: [UnknownE2BError],
   protocol: VolumeContentProtocol,
@@ -277,15 +278,11 @@ function __c3(j: number): any {
           path: S.String.pipe(T.Query()),
         }).pipe(T.Http({ method: "GET", uri: "/volumecontent/{volumeID}/file", code: 200 })),
       ).annotate({ identifier: "ReadVolumeFileRequest" });
+    case 1:
+      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
 function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "ReadVolumeFileResponse" });
-  }
-}
-function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -294,9 +291,11 @@ function __c5(j: number): any {
           path: S.String.pipe(T.Query()),
         }).pipe(T.Http({ method: "DELETE", uri: "/volumecontent/{volumeID}/path", code: 200 })),
       ).annotate({ identifier: "RemoveVolumePathRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "RemoveVolumePathResponse" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -307,7 +306,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "StatVolumePathRequest" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -321,7 +320,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateVolumePathRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -332,7 +331,15 @@ function __c8(j: number): any {
           gid: S.optional(S.Number.pipe(T.Query())),
           mode: S.optional(S.Number.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "PUT", uri: "/volumecontent/{volumeID}/file", code: 200 })),
+          body: S.String.pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/volumecontent/{volumeID}/file",
+            code: 200,
+            bodyMediaType: "application/octet-stream",
+          }),
+        ),
       ).annotate({ identifier: "WriteVolumeFileRequest" });
   }
 }

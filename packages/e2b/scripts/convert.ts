@@ -27,7 +27,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
-import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
+import { convertOpenApiToSmithy, RAW_RESPONSE_TRAIT } from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { convertProtoToSmithy, parseProto } from "@distilled.cloud/dev/codegen/proto";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
@@ -158,6 +158,60 @@ const renameOperations = (model: Record<string, any>, names: Record<string, stri
   }
 };
 
+/**
+ * File bodies the OpenAPI converter cannot express. It flattens JSON, form
+ * and multipart bodies only, so `application/octet-stream` downloads come out
+ * as empty outputs and uploads with no body member. These are stamped onto
+ * the converted model: downloads get a raw `Blob` body (decoded as bytes),
+ * uploads a `Blob` `httpPayload` sent as `application/octet-stream`.
+ */
+const BINARY_BODIES: Record<string, { readonly download?: true; readonly upload?: true }> = {
+  "GET /files": { download: true },
+  "POST /files": { upload: true },
+  "GET /volumecontent/{volumeID}/file": { download: true },
+  "PUT /volumecontent/{volumeID}/file": { upload: true },
+};
+
+const stampBinaryBodies = (model: Record<string, any>) => {
+  const shapes: Record<string, any> = model.shapes;
+  for (const shape of Object.values<any>(shapes)) {
+    if (shape.type !== "operation") continue;
+    const http = shape.traits?.["smithy.api#http"];
+    const kind = http && BINARY_BODIES[`${http.method} ${http.uri}`];
+    if (!kind) continue;
+    if (kind.download) {
+      const body = { body: { target: "smithy.api#Blob", traits: { [RAW_RESPONSE_TRAIT]: {} } } };
+      const output = shapes[shape.output?.target];
+      if (output?.type === "structure") {
+        output.members = body;
+      } else {
+        // No JSON response: the output is `Unit`, so give the op its own.
+        const opId = Object.keys(shapes).find((id) => shapes[id] === shape)!;
+        const finalName = OPERATION_NAMES[`${http.method} ${http.uri}`] ?? opId.split("#")[1]!;
+        const outputId = `${opId.split("#")[0]}#${finalName.charAt(0).toUpperCase()}${finalName.slice(1)}Response`;
+        shapes[outputId] = {
+          type: "structure",
+          members: body,
+          traits: { "smithy.api#output": {} },
+        };
+        shape.output = { target: outputId };
+      }
+    }
+    if (kind.upload) {
+      const input = shapes[shape.input?.target];
+      if (input?.type !== "structure") throw new Error(`${http.uri}: no input structure to stamp`);
+      input.members = {
+        ...input.members,
+        body: {
+          target: "smithy.api#Blob",
+          traits: { "smithy.api#httpPayload": {}, "smithy.api#required": {} },
+        },
+      };
+      http.bodyMediaType = "application/octet-stream";
+    }
+  }
+};
+
 type PathBucket = Record<string, Record<string, unknown>>;
 
 /** Buckets a spec's operations by primary tag (or a fixed slug). */
@@ -208,6 +262,7 @@ const writeOpenApi = (slug: string, spec: Record<string, any>, paths: PathBucket
       statusToErrorClass: {},
     },
   );
+  stampBinaryBodies(model);
   const operations = Object.values<any>(model.shapes).filter((s) => s.type === "operation");
   if (operations.length === 0) {
     console.warn(`   ⚠️  ${slug}: no operations — bucket dropped`);

@@ -196,7 +196,7 @@ export interface ReadFileRequest {
   /** Unix timestamp (seconds) after which the signature expires. Only used with the signature parameter. */
   signature_expiration?: number;
 }
-export interface ReadFileResponse {}
+export type ReadFileResponse = Uint8Array;
 export interface UnfreezeEnvdRequest {}
 export interface UnfreezeEnvdResponse {}
 export interface WriteFilesRequest {
@@ -209,6 +209,7 @@ export interface WriteFilesRequest {
   /** Unix timestamp (seconds) after which the signature expires. Only used with the signature parameter. */
   signature_expiration?: number;
   file?: string;
+  body: Uint8Array | string;
 }
 export type WriteFilesResponseBodyList = Array<EntryInfo>;
 export type WriteFilesResponse = WriteFilesResponseBodyList;
@@ -374,7 +375,7 @@ export const readFile: API.OperationMethod<
   EnvdOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<ReadFileRequest>,
-  output: __S(32, __c8, 0) as any as S.Schema<ReadFileResponse>,
+  output: __S(57, __c14, 1) as any as S.Codec<ReadFileResponse>,
   errors: [UnknownE2BError],
   protocol: EnvdProtocol,
   retry: Retry.Retry,
@@ -487,7 +488,16 @@ function __c5(j: number): any {
           signature: S.optional(S.String.pipe(T.Query())),
           signature_expiration: S.optional(S.Number.pipe(T.Query())),
           file: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/files", code: 200, contentType: "multipart" })),
+          body: S.String.pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/files",
+            code: 200,
+            contentType: "multipart",
+            bodyMediaType: "application/octet-stream",
+          }),
+        ),
       ).annotate({ identifier: "WriteFilesRequest" });
     case 1:
       return S.Array(__S(8, __c2, 0));
@@ -644,6 +654,8 @@ function __c14(j: number): any {
           signature_expiration: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/files", code: 200 })),
       ).annotate({ identifier: "ReadFileRequest" });
+    case 1:
+      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
