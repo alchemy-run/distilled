@@ -78,6 +78,15 @@
           "target": "com.modal.image#ImageNotFound"
         }
       ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.image#ImageNameDelete/errors",
+      "value": [
+        {
+          "target": "com.modal.image#ImageNotFound"
+        }
+      ]
     }
   ]
 }

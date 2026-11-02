@@ -150,6 +150,87 @@
           "target": "com.modal.app#AppAlreadyExists"
         }
       ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppGetLayout/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppPublish/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppGetObjects/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppDeploymentHistory/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppRollback/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppRollover/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppGetByDeploymentName/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppClientDisconnect/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.app#AppPromote/errors",
+      "value": [
+        {
+          "target": "com.modal.app#AppNotFound"
+        }
+      ]
     }
   ]
 }

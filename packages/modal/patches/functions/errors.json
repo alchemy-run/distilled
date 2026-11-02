@@ -138,6 +138,60 @@
           "target": "com.modal.functions#FunctionCallNotFound"
         }
       ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionPrecreate/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionCreate/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionGetCurrentStats/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionGetTimeRangeStats/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionCallList/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.functions#FunctionBindParams/errors",
+      "value": [
+        {
+          "target": "com.modal.functions#FunctionNotFound"
+        }
+      ]
     }
   ]
 }

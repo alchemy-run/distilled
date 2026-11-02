@@ -234,6 +234,7 @@ export interface VolumeListFiles2Stream {
   /** Every message of the server stream, in order. The stream ends when the server ends it (bound it with the request's timeout). */
   items: VolumeListFiles2ResponseList;
 }
+/** Server time of the check. Clients send the earliest one back as earliest_checked_at on the commit. */
 export interface MountFile {
   filename?: string;
   sha256Hex?: string;
@@ -249,6 +250,8 @@ export interface VolumePutFilesRequest {
   files?: MountFileList;
   /** If set to true, prevent overwriting existing files. (Note that we don't allow overwriting existing directories with uploaded files regardless.) */
   disallowOverwriteExistingFiles?: boolean;
+  /** Earliest checked_at the client received from the existence checks for these files. Telemetry only. */
+  earliestCheckedAt?: string;
 }
 export interface VolumePutFilesResponse {}
 export interface VolumePutFiles2RequestBlock {
@@ -770,6 +773,7 @@ function __c7(j: number): any {
           volumeId: S.optional(S.String),
           files: S.optional(__S(57, __c7, 1)),
           disallowOverwriteExistingFiles: S.optional(S.Boolean),
+          earliestCheckedAt: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/VolumePutFiles", code: 200 }),
         ),

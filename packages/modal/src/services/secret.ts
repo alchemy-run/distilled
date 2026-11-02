@@ -67,6 +67,8 @@ export interface SecretMetadata {
   creationInfo?: CreationInfo;
   keys?: StringList;
   environmentName?: string;
+  lastUsedAt?: number;
+  templateType?: string;
 }
 export interface SecretListItem {
   label?: string;
@@ -279,6 +281,8 @@ function __c3(j: number): any {
           creationInfo: S.optional(__S(24, __c3, 0)),
           keys: S.optional(__S(25, __c3, 1)),
           environmentName: S.optional(S.String),
+          lastUsedAt: S.optional(S.Number),
+          templateType: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecretMetadata" });
   }

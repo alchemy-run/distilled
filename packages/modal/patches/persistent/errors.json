@@ -1,0 +1,89 @@
+{
+  "description": "Typed not-found error for persistent sandbox RPCs. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND, 6 = ALREADY_EXISTS), which these matchers key on.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.persistent#PersistentSandboxNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The persistent sandbox doesn't exist (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.persistent#PersistentSandboxAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "A persistent sandbox with this name already exists (gRPC ALREADY_EXISTS).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 6
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.persistent#PersistentSandboxGet/errors",
+      "value": [
+        {
+          "target": "com.modal.persistent#PersistentSandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.persistent#PersistentSandboxResume/errors",
+      "value": [
+        {
+          "target": "com.modal.persistent#PersistentSandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.persistent#PersistentSandboxTerminate/errors",
+      "value": [
+        {
+          "target": "com.modal.persistent#PersistentSandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.persistent#PersistentSandboxCreate/errors",
+      "value": [
+        {
+          "target": "com.modal.persistent#PersistentSandboxAlreadyExists"
+        }
+      ]
+    }
+  ]
+}

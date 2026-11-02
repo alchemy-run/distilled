@@ -41,7 +41,9 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_INIT_FAILURE"
   | "GENERIC_STATUS_INTERNAL_FAILURE"
   | "GENERIC_STATUS_IDLE_TIMEOUT"
-  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION";
+  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
+  | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
+  | "GENERIC_STATUS_KERNEL_OOM_KILL";
 /** sub-type for generic types like lists */
 export interface GenericResult {
   status?: GenericResultGenericStatus;
@@ -69,7 +71,6 @@ export type DataFormat =
   | "DATA_FORMAT_ASGI"
   | "DATA_FORMAT_GENERATOR_DONE"
   | "DATA_FORMAT_CBOR";
-/** How long to sleep before requesting another input. */
 export interface FunctionGetOutputsItem {
   result?: GenericResult;
   idx?: number;

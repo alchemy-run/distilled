@@ -23,13 +23,31 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The server function doesn't exist (gRPC NOT_FOUND). */
+export class ServerNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ServerNotFound>()("ServerNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export interface FetchServerRequestRequestTail {
   /** Number of most recent requests to return. Must be between 1 and 1000. */
   count?: number;
 }
+export interface FetchServerRequestRequestRange {
+  since?: string;
+  /** Inclusive, based on request timestamp. */
+  until?: string;
+  /** Exclusive, based on request timestamp. Maximum number of requests to return. Must be between 1 and 20000. */
+  limit?: number;
+}
 export interface FetchServerRequestRequest {
   functionId?: string;
   tail?: FetchServerRequestRequestTail;
+  range?: FetchServerRequestRequestRange;
 }
 export interface ServerRequestInfo {
   route?: string;
@@ -40,8 +58,62 @@ export interface ServerRequestInfo {
 }
 export type ServerRequestInfoList = Array<ServerRequestInfo>;
 export interface FetchServerRequestResponse {
-  /** The requested number of most recent requests from the last seven days, ordered from newest to oldest. */
+  /** Tail queries return the most recent requests from the last seven days, ordered from newest to oldest. Range queries return requests ordered from oldest to newest. */
   requests?: ServerRequestInfoList;
+}
+export interface ServerCountRequestsRequest {
+  functionId?: string;
+  since?: string;
+  /** Inclusive, based on request timestamp. */
+  until?: string;
+  /** Exclusive, based on request timestamp. */
+  bucketSecs?: number;
+}
+export interface ServerCountRequestsResponseRequestBucket {
+  bucketStartAt?: string;
+  /** Number of request records, matching ServerRequestFetch. */
+  count?: string;
+}
+export type ServerCountRequestsResponseRequestBucketList =
+  Array<ServerCountRequestsResponseRequestBucket>;
+export interface ServerCountRequestsResponse {
+  /** Ordered by bucket start time, from oldest to newest. Counts include only requests within the requested time range. */
+  buckets?: ServerCountRequestsResponseRequestBucketList;
+}
+export type StringList = Array<string>;
+export interface ServerGetMetricsRequest {
+  functionId?: string;
+  since?: string;
+  /** Required; rounded down to a UTC bucket boundary. */
+  until?: string;
+  /** Required; rounded down; at most 31 days after since. If omitted, choose a supported width targeting approximately 100 buckets. At most 500 points per series in the rounded interval. */
+  bucketSecs?: number;
+  /** Metric groups: containers, requests, etc. */
+  groups?: StringList;
+}
+export interface FunctionMetricPoint {
+  /** UTC-aligned bucket start within the response's effective [since, until). */
+  timestamp?: string;
+  value?: number;
+}
+export type FunctionMetricPointList = Array<FunctionMetricPoint>;
+export interface FunctionMetricSeries {
+  /** Unique within the response; identifies one aggregate series for this metric. The metric name defines the aggregation semantics. */
+  name?: string;
+  /** Public semantic unit, such as seconds, calls, containers, or requests. */
+  unit?: string;
+  points?: FunctionMetricPointList;
+  /** Ascending timestamps; absent points are gaps. */
+  description?: string;
+}
+export type FunctionMetricSeriesList = Array<FunctionMetricSeries>;
+export interface ServerGetMetricsResponse {
+  since?: string;
+  /** Inclusive effective bound, rounded down. */
+  until?: string;
+  /** Exclusive effective bound, rounded down. */
+  bucketSecs?: number;
+  series?: FunctionMetricSeriesList;
 }
 export interface ServerGetTimeRangeStatsRequest {
   functionId?: string;
@@ -107,33 +179,65 @@ export interface ServerGetTimeRangeStatsResponse {
   /** Number of containers that were active (published heartbeats) in the time range. */
   containerTotalCount?: string;
 }
-export type FetchServerRequestError = ModalOpError;
+export type FetchServerRequestError = ServerNotFound | ModalOpError;
 export const fetchServerRequest: API.OperationMethod<
   FetchServerRequestRequest,
   FetchServerRequestResponse,
   FetchServerRequestError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<FetchServerRequestRequest>,
-  output: __S(4, __c0, 4) as any as S.Schema<FetchServerRequestResponse>,
-  errors: [UnknownModalError],
+  input: __S(2, __c0, 2) as any as S.Schema<FetchServerRequestRequest>,
+  output: __S(5, __c0, 5) as any as S.Schema<FetchServerRequestResponse>,
+  errors: [ServerNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchServerRequest",
 }));
 
-export type ServerGetTimeRangeStatsError = ModalOpError;
+export type ServerCountRequestsError = ModalOpError;
 /** Servers */
+export const serverCountRequests: API.OperationMethod<
+  ServerCountRequestsRequest,
+  ServerCountRequestsResponse,
+  ServerCountRequestsError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(16, __c1, 0) as any as S.Schema<ServerCountRequestsRequest>,
+  output: __S(19, __c1, 3) as any as S.Schema<ServerCountRequestsResponse>,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServerCountRequests",
+}));
+
+export type ServerGetMetricsError = ModalOpError;
+export const serverGetMetrics: API.OperationMethod<
+  ServerGetMetricsRequest,
+  ServerGetMetricsResponse,
+  ServerGetMetricsError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(33, __c2, 1) as any as S.Schema<ServerGetMetricsRequest>,
+  output: __S(38, __c2, 6) as any as S.Schema<ServerGetMetricsResponse>,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ServerGetMetrics",
+}));
+
+export type ServerGetTimeRangeStatsError = ServerNotFound | ModalOpError;
 export const serverGetTimeRangeStats: API.OperationMethod<
   ServerGetTimeRangeStatsRequest,
   ServerGetTimeRangeStatsResponse,
   ServerGetTimeRangeStatsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<ServerGetTimeRangeStatsRequest>,
-  output: __S(25, __c1, 9) as any as S.Schema<ServerGetTimeRangeStatsResponse>,
-  errors: [UnknownModalError],
+  input: __S(48, __c3, 0) as any as S.Schema<ServerGetTimeRangeStatsRequest>,
+  output: __S(57, __c3, 9) as any as S.Schema<ServerGetTimeRangeStatsResponse>,
+  errors: [ServerNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -152,8 +256,17 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          since: S.optional(S.String),
+          until: S.optional(S.String),
+          limit: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FetchServerRequestRequestRange" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           functionId: S.optional(S.String),
           tail: S.optional(__S(0, __c0, 0)),
+          range: S.optional(__S(1, __c0, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -162,7 +275,7 @@ function __c0(j: number): any {
           }),
         ),
       ).annotate({ identifier: "FetchServerRequestRequest" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           route: S.optional(S.String),
@@ -172,17 +285,98 @@ function __c0(j: number): any {
           status: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ServerRequestInfo" });
-    case 3:
-      return S.Array(__S(2, __c0, 2));
     case 4:
+      return S.Array(__S(3, __c0, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          requests: S.optional(__S(3, __c0, 3)),
+          requests: S.optional(__S(4, __c0, 4)),
         }),
       ).annotate({ identifier: "FetchServerRequestResponse" });
   }
 }
 function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          functionId: S.optional(S.String),
+          since: S.optional(S.String),
+          until: S.optional(S.String),
+          bucketSecs: S.optional(S.Number),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.client.ModalClient/ServerCountRequests",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ServerCountRequestsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          bucketStartAt: S.optional(S.String),
+          count: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ServerCountRequestsResponseRequestBucket" });
+    case 2:
+      return S.Array(__S(17, __c1, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          buckets: S.optional(__S(18, __c1, 2)),
+        }),
+      ).annotate({ identifier: "ServerCountRequestsResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          functionId: S.optional(S.String),
+          since: S.optional(S.String),
+          until: S.optional(S.String),
+          bucketSecs: S.optional(S.Number),
+          groups: S.optional(__S(32, __c2, 0)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/ServerGetMetrics", code: 200 }),
+        ),
+      ).annotate({ identifier: "ServerGetMetricsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          timestamp: S.optional(S.String),
+          value: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FunctionMetricPoint" });
+    case 3:
+      return S.Array(__S(34, __c2, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          unit: S.optional(S.String),
+          points: S.optional(__S(35, __c2, 3)),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FunctionMetricSeries" });
+    case 5:
+      return S.Array(__S(36, __c2, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          since: S.optional(S.String),
+          until: S.optional(S.String),
+          bucketSecs: S.optional(S.Number),
+          series: S.optional(__S(37, __c2, 5)),
+        }),
+      ).annotate({ identifier: "ServerGetMetricsResponse" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -207,7 +401,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "ServerGetTimeRangeStatsResponseServerStatusCodeCount" });
     case 2:
-      return S.Array(__S(17, __c1, 1));
+      return S.Array(__S(49, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -216,16 +410,16 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "StatsPercentile" });
     case 4:
-      return S.Array(__S(19, __c1, 3));
+      return S.Array(__S(51, __c3, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           unit: S.optional(S.String),
-          percentiles: S.optional(__S(20, __c1, 4)),
+          percentiles: S.optional(__S(52, __c3, 4)),
         }),
       ).annotate({ identifier: "StatsPercentileDistribution" });
     case 6:
-      return S.Record(S.String, __S(21, __c1, 5));
+      return S.Record(S.String, __S(53, __c3, 5));
     case 7:
       return S.Record(S.String, S.Number);
     case 8:
@@ -233,8 +427,8 @@ function __c1(j: number): any {
         S.Struct({
           engine: S.optional(S.String),
           status: S.optional(S.String),
-          percentileStats: S.optional(__S(22, __c1, 6)),
-          scalarStats: S.optional(__S(23, __c1, 7)),
+          percentileStats: S.optional(__S(54, __c3, 6)),
+          scalarStats: S.optional(__S(55, __c3, 7)),
         }),
       ).annotate({ identifier: "ServerGetTimeRangeStatsResponseServerInferenceStats" });
     case 9:
@@ -243,11 +437,11 @@ function __c1(j: number): any {
           since: S.optional(S.String),
           until: S.optional(S.String),
           requestCount: S.optional(S.String),
-          requestCountByStatusCode: S.optional(__S(18, __c1, 2)),
+          requestCountByStatusCode: S.optional(__S(50, __c3, 2)),
           requestRatePerSecond: S.optional(S.Number),
-          requestPercentileStats: S.optional(__S(22, __c1, 6)),
-          containerPercentileStats: S.optional(__S(22, __c1, 6)),
-          inference: S.optional(__S(24, __c1, 8)),
+          requestPercentileStats: S.optional(__S(54, __c3, 6)),
+          containerPercentileStats: S.optional(__S(54, __c3, 6)),
+          inference: S.optional(__S(56, __c3, 8)),
           containerStartedCount: S.optional(S.String),
           containerErrorCount: S.optional(S.String),
           containerCreatingAtEndCount: S.optional(S.String),

@@ -1,0 +1,38 @@
+{
+  "description": "Typed not-found error for mount lookups. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND), which the matcher keys on.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.mount#MountNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The mount doesn't exist (gRPC NOT_FOUND), e.g. a global client or Python mount name that Modal doesn't publish.",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.mount#MountGetOrCreate/errors",
+      "value": [
+        {
+          "target": "com.modal.mount#MountNotFound"
+        }
+      ]
+    }
+  ]
+}

@@ -24,6 +24,16 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The token doesn't exist (gRPC NOT_FOUND). */
+export class TokenNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<TokenNotFound>()("TokenNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export interface CreateTokenFlowRequest {
   utmSource?: string;
   localhostPort?: number;
@@ -36,6 +46,10 @@ export interface CreateTokenFlowResponse {
   code?: string;
   waitSecret?: string | Redacted.Redacted<string>;
 }
+export interface DeleteTokenRequest {
+  tokenId?: string;
+}
+export interface DeleteTokenResponse {}
 export interface GetTokenInfoRequest {}
 export interface UserIdentity {
   userId?: string;
@@ -69,7 +83,6 @@ export interface WaitTokenFlowResponse {
   workspaceUsername?: string;
 }
 export type CreateTokenFlowError = ModalOpError;
-/** Tokens (web auth flow) */
 export const createTokenFlow: API.OperationMethod<
   CreateTokenFlowRequest,
   CreateTokenFlowResponse,
@@ -85,6 +98,23 @@ export const createTokenFlow: API.OperationMethod<
   span: "CreateTokenFlow",
 }));
 
+export type DeleteTokenError = TokenNotFound | ModalOpError;
+/** Tokens (web auth flow) */
+export const deleteToken: API.OperationMethod<
+  DeleteTokenRequest,
+  DeleteTokenResponse,
+  DeleteTokenError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4, __c1, 0) as any as S.Schema<DeleteTokenRequest>,
+  output: __S(5, __c1, 1) as any as S.Schema<DeleteTokenResponse>,
+  errors: [TokenNotFound, UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteToken",
+}));
+
 export type GetTokenInfoError = ModalOpError;
 export const getTokenInfo: API.OperationMethod<
   GetTokenInfoRequest,
@@ -92,8 +122,8 @@ export const getTokenInfo: API.OperationMethod<
   GetTokenInfoError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<GetTokenInfoRequest>,
-  output: __S(7, __c1, 3) as any as S.Schema<GetTokenInfoResponse>,
+  input: __S(8, __c2, 0) as any as S.Schema<GetTokenInfoRequest>,
+  output: __S(11, __c2, 3) as any as S.Schema<GetTokenInfoResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -108,8 +138,8 @@ export const waitTokenFlow: API.OperationMethod<
   WaitTokenFlowError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<WaitTokenFlowRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<WaitTokenFlowResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<WaitTokenFlowRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<WaitTokenFlowResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -146,6 +176,20 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          tokenId: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/TokenDelete", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteTokenRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteTokenResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/TokenInfoGet", code: 200 }),
         ),
@@ -162,7 +206,7 @@ function __c1(j: number): any {
         S.Struct({
           serviceUserId: S.optional(S.String),
           serviceUserName: S.optional(S.String),
-          createdBy: S.optional(__S(5, __c1, 1)),
+          createdBy: S.optional(__S(9, __c2, 1)),
         }),
       ).annotate({ identifier: "ServiceUserIdentity" });
     case 3:
@@ -171,8 +215,8 @@ function __c1(j: number): any {
           tokenId: S.optional(S.String),
           workspaceId: S.optional(S.String),
           workspaceName: S.optional(S.String),
-          userIdentity: S.optional(__S(5, __c1, 1)),
-          serviceUserIdentity: S.optional(__S(6, __c1, 2)),
+          userIdentity: S.optional(__S(9, __c2, 1)),
+          serviceUserIdentity: S.optional(__S(10, __c2, 2)),
           createdAt: S.optional(S.String),
           expiresAt: S.optional(S.String),
           tokenName: S.optional(S.String),
@@ -180,7 +224,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetTokenInfoResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

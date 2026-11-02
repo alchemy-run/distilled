@@ -106,7 +106,9 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_INIT_FAILURE"
   | "GENERIC_STATUS_INTERNAL_FAILURE"
   | "GENERIC_STATUS_IDLE_TIMEOUT"
-  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION";
+  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
+  | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
+  | "GENERIC_STATUS_KERNEL_OOM_KILL";
 /** sub-type for generic types like lists */
 export interface GenericResult {
   status?: GenericResultGenericStatus;
@@ -304,7 +306,7 @@ export interface TaskSetNetworkAccessRequest {
   networkAccess?: NetworkAccess;
 }
 export interface TaskSetNetworkAccessResponse {}
-export interface OutboundPolicyHeaderReplacement {
+export interface ExperimentalOutboundPolicyHeaderReplacement {
   /** Domain that the header replacements are scoped to. Supports wildcards in subdomain positions. */
   domain?: string;
   /** Reference to a secret usable in the header value templates. Can be empty if no secret value is used. */
@@ -312,16 +314,17 @@ export interface OutboundPolicyHeaderReplacement {
   /** Header name -> header value. Values support templating with keys in the stanza's secret_id: a $-prefixed key name in the secret will be replaced with the secret value. Literal $ characters can be represented by two dollars: `$$`. */
   headers?: StringMap;
 }
-export type OutboundPolicyHeaderReplacementList = Array<OutboundPolicyHeaderReplacement>;
-/** Policy for outbound traffic from a sandbox. */
-export interface OutboundPolicy {
+export type ExperimentalOutboundPolicyHeaderReplacementList =
+  Array<ExperimentalOutboundPolicyHeaderReplacement>;
+/** Experimental policy for outbound traffic from a sandbox: header replacements. */
+export interface ExperimentalOutboundPolicy {
   /** Replace headers in outbound HTTPS requests, potentially with secret values. */
-  headerReplacements?: OutboundPolicyHeaderReplacementList;
+  headerReplacements?: ExperimentalOutboundPolicyHeaderReplacementList;
 }
 export interface TaskSetOutboundPolicyRequest {
   taskId?: string;
-  /** Replaces the task's outbound policy. */
-  outboundPolicy?: OutboundPolicy;
+  /** Replaces the task's experimental outbound policy. */
+  experimentalOutboundPolicy?: ExperimentalOutboundPolicy;
 }
 export interface TaskSetOutboundPolicyResponse {}
 export interface TaskSnapshotDirectoryRequest {
@@ -633,7 +636,7 @@ export const taskSetNetworkAccess: API.OperationMethod<
 }));
 
 export type TaskSetOutboundPolicyError = ModalOpError;
-/** Replace the task's outbound policy. */
+/** Replace the task's experimental outbound policy. The method keeps its original name because gRPC sends method names on the wire. */
 export const taskSetOutboundPolicy: API.OperationMethod<
   TaskSetOutboundPolicyRequest,
   TaskSetOutboundPolicyResponse,
@@ -1022,7 +1025,7 @@ function __c13(j: number): any {
           secretId: S.optional(S.String),
           headers: S.optional(__S(16, __c4, 0)),
         }),
-      ).annotate({ identifier: "OutboundPolicyHeaderReplacement" });
+      ).annotate({ identifier: "ExperimentalOutboundPolicyHeaderReplacement" });
     case 1:
       return S.Array(__S(52, __c13, 0));
     case 2:
@@ -1030,12 +1033,12 @@ function __c13(j: number): any {
         S.Struct({
           headerReplacements: S.optional(__S(53, __c13, 1)),
         }),
-      ).annotate({ identifier: "OutboundPolicy" });
+      ).annotate({ identifier: "ExperimentalOutboundPolicy" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           taskId: S.optional(S.String),
-          outboundPolicy: S.optional(__S(54, __c13, 2)),
+          experimentalOutboundPolicy: S.optional(__S(54, __c13, 2)),
         }).pipe(
           T.Http({
             method: "POST",

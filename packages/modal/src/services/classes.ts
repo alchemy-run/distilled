@@ -23,6 +23,16 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The class doesn't exist in the deployed app (gRPC NOT_FOUND). */
+export class ClassNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ClassNotFound>()("ClassNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export type FunctionFunctionType =
   | "FUNCTION_TYPE_UNSPECIFIED"
   | "FUNCTION_TYPE_GENERATOR"
@@ -176,7 +186,7 @@ export const createClass: API.OperationMethod<
   span: "CreateClass",
 }));
 
-export type GetClassError = ModalOpError;
+export type GetClassError = ClassNotFound | ModalOpError;
 export const getClass: API.OperationMethod<
   GetClassRequest,
   GetClassResponse,
@@ -185,7 +195,7 @@ export const getClass: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<GetClassRequest>,
   output: __S(35, __c2, 3) as any as S.Schema<GetClassResponse>,
-  errors: [UnknownModalError],
+  errors: [ClassNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

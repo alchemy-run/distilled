@@ -101,11 +101,15 @@ export interface CreateEndpointRequest {
   unauthenticated?: boolean;
   servingMode?: EndpointServingMode | (string & {});
   sharedEndpointNoticeAcknowledged?: boolean;
+  /** Requires Modal admin access. Dedicated endpoints only; must match model. */
+  recipeId?: string;
 }
 export interface CreateEndpointResponse {
   endpointId?: string;
   endpointPageUrl?: string;
   name?: string;
+  /** Model name to send in requests to the endpoint. */
+  modelName?: string;
 }
 export interface EndpointGetByNameRequest {
   name?: string;
@@ -153,6 +157,8 @@ export interface EndpointGetInfoResponseEndpointInfoSummary {
   /** set only when the model is served from a modal volume */
   volumeId?: string;
   modelPath?: string;
+  /** Model name to send in requests to the endpoint. */
+  modelName?: string;
 }
 export interface EndpointGetInfoResponseEndpointHandleMetadata {
   appId?: string;
@@ -162,6 +168,18 @@ export interface EndpointGetInfoResponseEndpointHandleMetadata {
 export interface EndpointGetInfoResponse {
   info?: EndpointGetInfoResponseEndpointInfoSummary;
   metadata?: EndpointGetInfoResponseEndpointHandleMetadata;
+}
+export interface EndpointGetLibraryRequest {}
+export type EndpointServingModeList = Array<EndpointServingMode>;
+export interface EndpointModel {
+  /** Canonical model identifier used in Endpoint configuration. */
+  baseModelRepoId?: string;
+  supportedInputModalities?: EndpointInputModalityList;
+  availableServingModes?: EndpointServingModeList;
+}
+export type EndpointModelList = Array<EndpointModel>;
+export interface EndpointGetLibraryResponse {
+  models?: EndpointModelList;
 }
 export interface EndpointGetLifecycleRequest {
   endpointId?: string;
@@ -173,9 +191,16 @@ export interface ListPagination {
   maxObjects?: number;
   createdBefore?: number;
 }
+export type EndpointListFilterStatus = "STATUS_UNSPECIFIED" | "STATUS_LIVE" | "STATUS_STOPPED";
+export interface EndpointListFilter {
+  /** Only Endpoints whose name contains this text, ignoring case; empty matches every name. */
+  nameContains?: string;
+  status?: EndpointListFilterStatus | (string & {});
+}
 export interface ListEndpointRequest {
   environmentName?: string;
   pagination?: ListPagination;
+  filter?: EndpointListFilter;
 }
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
@@ -244,8 +269,8 @@ export const createEndpoint: API.OperationMethod<
   CreateEndpointError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c0, 8) as any as S.Schema<CreateEndpointRequest>,
-  output: __S(9, __c0, 9) as any as S.Schema<CreateEndpointResponse>,
+  input: __S(7, __c0, 7) as any as S.Schema<CreateEndpointRequest>,
+  output: __S(8, __c0, 8) as any as S.Schema<CreateEndpointResponse>,
   errors: [EndpointAlreadyExists, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -260,8 +285,8 @@ export const endpointGetByName: API.OperationMethod<
   EndpointGetByNameError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<EndpointGetByNameRequest>,
-  output: __S(33, __c2, 1) as any as S.Schema<EndpointGetByNameResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<EndpointGetByNameRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<EndpointGetByNameResponse>,
   errors: [EndpointNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -276,13 +301,29 @@ export const endpointGetInfo: API.OperationMethod<
   EndpointGetInfoError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<EndpointGetInfoRequest>,
-  output: __S(51, __c3, 3) as any as S.Schema<EndpointGetInfoResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<EndpointGetInfoRequest>,
+  output: __S(67, __c4, 3) as any as S.Schema<EndpointGetInfoResponse>,
   errors: [EndpointNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EndpointGetInfo",
+}));
+
+export type EndpointGetLibraryError = ModalOpError;
+export const endpointGetLibrary: API.OperationMethod<
+  EndpointGetLibraryRequest,
+  EndpointGetLibraryResponse,
+  EndpointGetLibraryError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c6, 0) as any as S.Schema<EndpointGetLibraryRequest>,
+  output: __S(99, __c6, 3) as any as S.Schema<EndpointGetLibraryResponse>,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EndpointGetLibrary",
 }));
 
 export type EndpointGetLifecycleError = EndpointNotFound | ModalOpError;
@@ -292,8 +333,8 @@ export const endpointGetLifecycle: API.OperationMethod<
   EndpointGetLifecycleError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<EndpointGetLifecycleRequest>,
-  output: __S(81, __c5, 1) as any as S.Schema<EndpointGetLifecycleResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<EndpointGetLifecycleRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<EndpointGetLifecycleResponse>,
   errors: [EndpointNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -308,8 +349,8 @@ export const listEndpoint: API.OperationMethod<
   ListEndpointError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c6, 1) as any as S.Schema<ListEndpointRequest>,
-  output: __S(102, __c6, 6) as any as S.Schema<ListEndpointResponse>,
+  input: __S(130, __c8, 2) as any as S.Schema<ListEndpointRequest>,
+  output: __S(135, __c8, 7) as any as S.Schema<ListEndpointResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -324,8 +365,8 @@ export const stopEndpoint: API.OperationMethod<
   StopEndpointError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<StopEndpointRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<StopEndpointResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<StopEndpointRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<StopEndpointResponse>,
   errors: [EndpointNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -347,8 +388,8 @@ function __c0(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          auto: S.optional(__S(16, __c1, 0)),
-          colocated: S.optional(__S(16, __c1, 0)),
+          auto: S.optional(__S(32, __c2, 0)),
+          colocated: S.optional(__S(32, __c2, 0)),
           explicit: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "EndpointComputeRegionSpec" });
@@ -383,8 +424,6 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "EndpointModelSource" });
     case 7:
-      return S.Array(S.String);
-    case 8:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
@@ -392,22 +431,24 @@ function __c0(j: number): any {
           proxyRegions: S.optional(__S(0, __c0, 0)),
           computeRegion: S.optional(__S(2, __c0, 2)),
           model: S.optional(__S(6, __c0, 6)),
-          apiSurfaces: S.optional(__S(7, __c0, 7)),
-          inputModalities: S.optional(__S(7, __c0, 7)),
+          apiSurfaces: S.optional(__S(16, __c1, 0)),
+          inputModalities: S.optional(__S(16, __c1, 0)),
           environmentName: S.optional(S.String),
           unauthenticated: S.optional(S.Boolean),
           servingMode: S.optional(S.String),
           sharedEndpointNoticeAcknowledged: S.optional(S.Boolean),
+          recipeId: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/EndpointCreate", code: 200 }),
         ),
       ).annotate({ identifier: "CreateEndpointRequest" });
-    case 9:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           endpointId: S.optional(S.String),
           endpointPageUrl: S.optional(S.String),
           name: S.optional(S.String),
+          modelName: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateEndpointResponse" });
   }
@@ -415,10 +456,16 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "GoogleProtobufEmpty" });
+      return S.Array(S.String);
   }
 }
 function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "GoogleProtobufEmpty" });
+  }
+}
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -438,7 +485,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "EndpointGetByNameResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -458,9 +505,10 @@ function __c3(j: number): any {
           requiresProxyAuth: S.optional(S.Boolean),
           servingMode: S.optional(S.String),
           status: S.optional(S.String),
-          lifecycle: S.optional(__S(64, __c4, 0)),
+          lifecycle: S.optional(__S(80, __c5, 0)),
           volumeId: S.optional(S.String),
           modelPath: S.optional(S.String),
+          modelName: S.optional(S.String),
         }),
       ).annotate({ identifier: "EndpointGetInfoResponseEndpointInfoSummary" });
     case 2:
@@ -474,13 +522,13 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          info: S.optional(__S(49, __c3, 1)),
-          metadata: S.optional(__S(50, __c3, 2)),
+          info: S.optional(__S(65, __c4, 1)),
+          metadata: S.optional(__S(66, __c4, 2)),
         }),
       ).annotate({ identifier: "EndpointGetInfoResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -495,7 +543,37 @@ function __c4(j: number): any {
       ).annotate({ identifier: "EndpointLifecycle" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.client.ModalClient/EndpointGetLibrary",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "EndpointGetLibraryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          baseModelRepoId: S.optional(S.String),
+          supportedInputModalities: S.optional(__S(16, __c1, 0)),
+          availableServingModes: S.optional(__S(16, __c1, 0)),
+        }),
+      ).annotate({ identifier: "EndpointModel" });
+    case 2:
+      return S.Array(__S(97, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          models: S.optional(__S(98, __c6, 2)),
+        }),
+      ).annotate({ identifier: "EndpointGetLibraryResponse" });
+  }
+}
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -512,12 +590,12 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          lifecycle: S.optional(__S(64, __c4, 0)),
+          lifecycle: S.optional(__S(80, __c5, 0)),
         }),
       ).annotate({ identifier: "EndpointGetLifecycleResponse" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -529,27 +607,35 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          nameContains: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EndpointListFilter" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           environmentName: S.optional(S.String),
-          pagination: S.optional(__S(96, __c6, 0)),
+          pagination: S.optional(__S(128, __c8, 0)),
+          filter: S.optional(__S(129, __c8, 1)),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/EndpointList", code: 200 }),
         ),
       ).annotate({ identifier: "ListEndpointRequest" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.Number),
           createdBy: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreationInfo" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          creationInfo: S.optional(__S(98, __c6, 2)),
+          creationInfo: S.optional(__S(131, __c8, 3)),
         }),
       ).annotate({ identifier: "EndpointMetadata" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           endpointId: S.optional(S.String),
@@ -557,7 +643,7 @@ function __c6(j: number): any {
           description: S.optional(S.String),
           activeDeploymentId: S.optional(S.String),
           updatedAt: S.optional(S.Number),
-          metadata: S.optional(__S(99, __c6, 3)),
+          metadata: S.optional(__S(132, __c8, 4)),
           appState: S.optional(S.String),
           functionId: S.optional(S.String),
           createdByAvatarUrl: S.optional(S.String),
@@ -567,18 +653,18 @@ function __c6(j: number): any {
           unauthenticated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "EndpointListItem" });
-    case 5:
-      return S.Array(__S(100, __c6, 4));
     case 6:
+      return S.Array(__S(133, __c8, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(101, __c6, 5)),
+          items: S.optional(__S(134, __c8, 6)),
           environmentName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEndpointResponse" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

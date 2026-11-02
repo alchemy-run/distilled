@@ -401,7 +401,9 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_INIT_FAILURE"
   | "GENERIC_STATUS_INTERNAL_FAILURE"
   | "GENERIC_STATUS_IDLE_TIMEOUT"
-  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION";
+  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
+  | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
+  | "GENERIC_STATUS_KERNEL_OOM_KILL";
 /** sub-type for generic types like lists */
 export interface GenericResult {
   status?: GenericResultGenericStatus;
@@ -692,7 +694,7 @@ export const appCountLogs: API.OperationMethod<
   span: "AppCountLogs",
 }));
 
-export type AppDeploymentHistoryError = ModalOpError;
+export type AppDeploymentHistoryError = AppNotFound | ModalOpError;
 export const appDeploymentHistory: API.OperationMethod<
   AppDeploymentHistoryRequest,
   AppDeploymentHistoryResponse,
@@ -701,7 +703,7 @@ export const appDeploymentHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<AppDeploymentHistoryRequest>,
   output: __S(611, __c19, 3) as any as S.Schema<AppDeploymentHistoryResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -724,7 +726,7 @@ export const appFetchLogs: API.OperationMethod<
   span: "AppFetchLogs",
 }));
 
-export type AppGetByDeploymentNameError = ModalOpError;
+export type AppGetByDeploymentNameError = AppNotFound | ModalOpError;
 export const appGetByDeploymentName: API.OperationMethod<
   AppGetByDeploymentNameRequest,
   AppGetByDeploymentNameResponse,
@@ -733,7 +735,7 @@ export const appGetByDeploymentName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<AppGetByDeploymentNameRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<AppGetByDeploymentNameResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -756,7 +758,7 @@ export const appGetInfo: API.OperationMethod<
   span: "AppGetInfo",
 }));
 
-export type AppGetLayoutError = ModalOpError;
+export type AppGetLayoutError = AppNotFound | ModalOpError;
 export const appGetLayout: API.OperationMethod<
   AppGetLayoutRequest,
   AppGetLayoutResponse,
@@ -765,7 +767,7 @@ export const appGetLayout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<AppGetLayoutRequest>,
   output: __S(899, __c28, 3) as any as S.Schema<AppGetLayoutResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -804,7 +806,7 @@ export const appGetLogs: API.OperationMethod<
   span: "AppGetLogs",
 }));
 
-export type AppGetObjectsError = ModalOpError;
+export type AppGetObjectsError = AppNotFound | ModalOpError;
 export const appGetObjects: API.OperationMethod<
   AppGetObjectsRequest,
   AppGetObjectsResponse,
@@ -813,7 +815,7 @@ export const appGetObjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AppGetObjectsRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<AppGetObjectsResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -868,7 +870,7 @@ export const appHeartbeat: API.OperationMethod<
   span: "AppHeartbeat",
 }));
 
-export type AppRollbackError = ModalOpError;
+export type AppRollbackError = AppNotFound | ModalOpError;
 export const appRollback: API.OperationMethod<
   AppRollbackRequest,
   AppRollbackResponse,
@@ -877,14 +879,14 @@ export const appRollback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<AppRollbackRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<AppRollbackResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppRollback",
 }));
 
-export type AppRolloverError = ModalOpError;
+export type AppRolloverError = AppNotFound | ModalOpError;
 export const appRollover: API.OperationMethod<
   AppRolloverRequest,
   AppRolloverResponse,
@@ -893,7 +895,7 @@ export const appRollover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<AppRolloverRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<AppRolloverResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -964,7 +966,7 @@ export const deployApp: API.OperationMethod<
   span: "DeployApp",
 }));
 
-export type DisconnectAppClientError = ModalOpError;
+export type DisconnectAppClientError = AppNotFound | ModalOpError;
 /** Apps */
 export const disconnectAppClient: API.OperationMethod<
   DisconnectAppClientRequest,
@@ -974,7 +976,7 @@ export const disconnectAppClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<DisconnectAppClientRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DisconnectAppClientResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1013,7 +1015,7 @@ export const lookupApp: API.OperationMethod<
   span: "LookupApp",
 }));
 
-export type PromoteAppError = ModalOpError;
+export type PromoteAppError = AppNotFound | ModalOpError;
 export const promoteApp: API.OperationMethod<
   PromoteAppRequest,
   PromoteAppResponse,
@@ -1022,14 +1024,14 @@ export const promoteApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<PromoteAppRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<PromoteAppResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PromoteApp",
 }));
 
-export type PublishAppError = ModalOpError;
+export type PublishAppError = AppNotFound | ModalOpError;
 export const publishApp: API.OperationMethod<
   PublishAppRequest,
   PublishAppResponse,
@@ -1038,7 +1040,7 @@ export const publishApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<PublishAppRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<PublishAppResponse>,
-  errors: [UnknownModalError],
+  errors: [AppNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

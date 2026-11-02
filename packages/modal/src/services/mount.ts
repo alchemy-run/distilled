@@ -23,12 +23,23 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The mount doesn't exist (gRPC NOT_FOUND), e.g. a global client or Python mount name that Modal doesn't publish. */
+export class MountNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MountNotFound>()("MountNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export type StringList = Array<string>;
 export interface MountBatchedCheckExistenceRequest {
   sha256HexHashes?: StringList;
 }
 export interface MountBatchedCheckExistenceResponse {
   missingSha256HexHashes?: StringList;
+  checkedAt?: string;
 }
 export type DeploymentNamespace =
   | "DEPLOYMENT_NAMESPACE_UNSPECIFIED"
@@ -41,6 +52,7 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS"
   | "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
+/** Server time of the check. Clients send the earliest one back as earliest_checked_at on the commit. */
 export interface MountFile {
   filename?: string;
   sha256Hex?: string;
@@ -57,6 +69,8 @@ export interface MountGetOrCreateRequest {
   objectCreationType?: ObjectCreationType | (string & {});
   files?: MountFileList;
   appId?: string;
+  /** only used with OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP Earliest checked_at the client received from the existence checks for these files. Telemetry only. */
+  earliestCheckedAt?: string;
 }
 export interface MountHandleMetadata {
   contentChecksumSha256Hex?: string;
@@ -72,6 +86,7 @@ export interface MountPutFileRequest {
 }
 export interface MountPutFileResponse {
   exists?: boolean;
+  checkedAt?: string;
 }
 export type MountBatchedCheckExistenceError = ModalOpError;
 /** Mounts */
@@ -90,7 +105,7 @@ export const mountBatchedCheckExistence: API.OperationMethod<
   span: "MountBatchedCheckExistence",
 }));
 
-export type MountGetOrCreateError = ModalOpError;
+export type MountGetOrCreateError = MountNotFound | ModalOpError;
 export const mountGetOrCreate: API.OperationMethod<
   MountGetOrCreateRequest,
   MountGetOrCreateResponse,
@@ -99,7 +114,7 @@ export const mountGetOrCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10, __c1, 2) as any as S.Schema<MountGetOrCreateRequest>,
   output: __S(12, __c1, 4) as any as S.Schema<MountGetOrCreateResponse>,
-  errors: [UnknownModalError],
+  errors: [MountNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -143,6 +158,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           missingSha256HexHashes: S.optional(__S(0, __c0, 0)),
+          checkedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "MountBatchedCheckExistenceResponse" });
   }
@@ -169,6 +185,7 @@ function __c1(j: number): any {
           objectCreationType: S.optional(S.String),
           files: S.optional(__S(9, __c1, 1)),
           appId: S.optional(S.String),
+          earliestCheckedAt: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/MountGetOrCreate", code: 200 }),
         ),
@@ -204,6 +221,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           exists: S.optional(S.Boolean),
+          checkedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "MountPutFileResponse" });
   }

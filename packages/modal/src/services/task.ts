@@ -79,7 +79,9 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_INIT_FAILURE"
   | "GENERIC_STATUS_INTERNAL_FAILURE"
   | "GENERIC_STATUS_IDLE_TIMEOUT"
-  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION";
+  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
+  | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
+  | "GENERIC_STATUS_KERNEL_OOM_KILL";
 /** sub-type for generic types like lists */
 export interface GenericResult {
   status?: GenericResultGenericStatus | (string & {});
@@ -100,7 +102,6 @@ export interface GenericResult {
   /** Blob ID for large data. */
   propagationReason?: string;
 }
-/** ENOSPC: No space left on device */
 export type TaskSnapshotBehavior =
   | "TASK_SNAPSHOT_BEHAVIOR_UNSPECIFIED"
   | "TASK_SNAPSHOT_BEHAVIOR_SNAPSHOT"

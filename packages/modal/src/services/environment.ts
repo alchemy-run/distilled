@@ -52,13 +52,18 @@ export interface EnvironmentSettings {
   /** When true, new unauthenticated web functions, Servers, tunnels, and Endpoints in this environment are rejected. Unset inherits the workspace default. */
   blockUnauthenticatedResources?: boolean;
 }
-/** Creation-time environment classification. Captures whether an environment is public. is_managed and machine_generated may be folded in as future values. */
-export type EnvironmentType = "ENVIRONMENT_TYPE_UNSPECIFIED" | "ENVIRONMENT_TYPE_PUBLIC";
+/** Creation-time environment classification. Captures whether an environment is public or administered by Modal. is_managed and machine_generated may be folded in as future values. */
+export type EnvironmentType =
+  | "ENVIRONMENT_TYPE_UNSPECIFIED"
+  | "ENVIRONMENT_TYPE_PUBLIC"
+  | "ENVIRONMENT_TYPE_MODAL_ADMINISTERED";
 export type EnvironmentRole =
   | "ENVIRONMENT_ROLE_UNSPECIFIED"
   | "ENVIRONMENT_ROLE_VIEWER"
   | "ENVIRONMENT_ROLE_CONTRIBUTOR"
-  | "ENVIRONMENT_ROLE_NO_ACCESS";
+  | "ENVIRONMENT_ROLE_NO_ACCESS"
+  | "ENVIRONMENT_ROLE_MODAL_ADMINISTERED_OBSERVER"
+  | "ENVIRONMENT_ROLE_CUSTOM";
 export interface CreateEnvironmentRequest {
   name?: string;
   isManaged?: boolean;
@@ -145,7 +150,17 @@ export interface EnvironmentGetOrCreateResponse {
 export interface EnvironmentGetRolesRequest {
   environmentId?: string;
 }
+export type StringList = Array<string>;
+/** Workspace custom role. Built-in Viewer and Contributor are not represented here. */
+export interface EnvironmentRoleDefinition {
+  environmentRoleDefinitionId?: string;
+  name?: string;
+  description?: string;
+  permissions?: StringList;
+  createdAt?: number;
+}
 export type EnvironmentRoleList = Array<EnvironmentRole>;
+export type EnvironmentRoleDefinitionList = Array<EnvironmentRoleDefinition>;
 export interface EnvironmentGetRolesResponsePrincipal {
   userId?: string;
   serviceUserId?: string;
@@ -153,10 +168,12 @@ export interface EnvironmentGetRolesResponsePrincipal {
   avatarUrl?: string;
   userName?: string;
   serviceUserName?: string;
-  role?: EnvironmentRole;
+  /** Built-in role token or custom role name. */
   roleStr?: string;
-  /** String representation for the CLI */
+  role?: EnvironmentRole;
+  roleDefinition?: EnvironmentRoleDefinition;
   choosableRoles?: EnvironmentRoleList;
+  choosableRoleDefinitions?: EnvironmentRoleDefinitionList;
   memberRole?: MemberRole;
   inheritsDefaultMemberRole?: boolean;
   hasRoleAssignment?: boolean;
@@ -206,6 +223,7 @@ export interface EnvironmentListItem {
   defaultMemberRole?: EnvironmentRole;
   blockUnauthenticatedResources?: boolean;
   effectiveRole?: EnvironmentRole;
+  imageBuilderVersion?: string;
 }
 export type EnvironmentListItemList = Array<EnvironmentListItem>;
 export interface ListEnvironmentResponse {
@@ -217,6 +235,11 @@ export interface SetEnvironmentRoleRequest {
   serviceUserId?: string;
   role?: EnvironmentRole | (string & {});
   roleStr?: string;
+  /** String representation from the CLI; parsed when role is unspecified */
+  serviceUserName?: string;
+  environmentName?: string;
+  /** Sent by the client when an environment ID is unavailable Custom role (`rd-`). */
+  environmentRoleDefinitionId?: string;
 }
 export interface SetEnvironmentRoleResponse {}
 /** Partial-update signal for EnvironmentUpdateRequest. Omitted means no-op. INHERIT clears the environment override so the workspace default applies. */
@@ -232,6 +255,7 @@ export interface UpdateEnvironmentRequest {
   maxConcurrentTasks?: number;
   maxConcurrentGpus?: number;
   blockUnauthenticatedResources?: EnvironmentBlockUnauthenticatedResources | (string & {});
+  imageBuilderVersion?: string;
 }
 export interface UpdateEnvironmentResponse {
   name?: string;
@@ -253,6 +277,7 @@ export interface UpdateEnvironmentResponse {
   defaultMemberRole?: EnvironmentRole;
   blockUnauthenticatedResources?: boolean;
   effectiveRole?: EnvironmentRole;
+  imageBuilderVersion?: string;
 }
 export type CreateEnvironmentError = EnvironmentAlreadyExists | ModalOpError;
 export const createEnvironment: API.OperationMethod<
@@ -359,7 +384,7 @@ export const environmentGetRoles: API.OperationMethod<
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<EnvironmentGetRolesRequest>,
-  output: __S(116, __c14, 4) as any as S.Schema<EnvironmentGetRolesResponse>,
+  output: __S(119, __c14, 7) as any as S.Schema<EnvironmentGetRolesResponse>,
   errors: [EnvironmentNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -540,6 +565,7 @@ function __c3(j: number): any {
           defaultMemberRole: S.optional(S.String),
           blockUnauthenticatedResources: S.optional(S.Boolean),
           effectiveRole: S.optional(S.String),
+          imageBuilderVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentListItem" });
   }
@@ -554,6 +580,9 @@ function __c4(j: number): any {
           serviceUserId: S.optional(S.String),
           role: S.optional(S.String),
           roleStr: S.optional(S.String),
+          serviceUserName: S.optional(S.String),
+          environmentName: S.optional(S.String),
+          environmentRoleDefinitionId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -575,6 +604,7 @@ function __c5(j: number): any {
           maxConcurrentTasks: S.optional(S.Number),
           maxConcurrentGpus: S.optional(S.Number),
           blockUnauthenticatedResources: S.optional(S.String),
+          imageBuilderVersion: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/EnvironmentUpdate", code: 200 }),
         ),
@@ -775,28 +805,44 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          environmentRoleDefinitionId: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          permissions: S.optional(__S(113, __c14, 1)),
+          createdAt: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "EnvironmentRoleDefinition" });
+    case 3:
+      return S.Array(S.String);
+    case 4:
+      return S.Array(__S(114, __c14, 2));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           userId: S.optional(S.String),
           serviceUserId: S.optional(S.String),
           email: S.optional(S.String),
           avatarUrl: S.optional(S.String),
           userName: S.optional(S.String),
           serviceUserName: S.optional(S.String),
-          role: S.optional(S.String),
           roleStr: S.optional(S.String),
-          choosableRoles: S.optional(__S(113, __c14, 1)),
+          role: S.optional(S.String),
+          roleDefinition: S.optional(__S(114, __c14, 2)),
+          choosableRoles: S.optional(__S(115, __c14, 3)),
+          choosableRoleDefinitions: S.optional(__S(116, __c14, 4)),
           memberRole: S.optional(S.String),
           inheritsDefaultMemberRole: S.optional(S.Boolean),
           hasRoleAssignment: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "EnvironmentGetRolesResponsePrincipal" });
-    case 3:
-      return S.Array(__S(114, __c14, 2));
-    case 4:
+    case 6:
+      return S.Array(__S(117, __c14, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           createdAt: S.optional(S.Number),
-          principalRoles: S.optional(__S(115, __c14, 3)),
+          principalRoles: S.optional(__S(118, __c14, 6)),
           defaultMemberRole: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentGetRolesResponse" });

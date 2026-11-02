@@ -43,6 +43,37 @@ export type ClusterStatsList = Array<ClusterStats>;
 export interface ListClusterResponse {
   clusters?: ClusterStatsList;
 }
+export interface ListClusterReservationRequest {}
+/** A container running on a worker reserved for this reservation. */
+export interface ClusterReservationTask {
+  taskId?: string;
+  clusterRank?: number;
+  appId?: string;
+  functionId?: string;
+}
+export type ClusterReservationTaskList = Array<ClusterReservationTask>;
+export interface ClusterReservation {
+  name?: string;
+  /** reservation name, as configured by Modal */
+  gpuType?: string;
+  /** e.g. "B300" */
+  region?: string;
+  minReservedWorkers?: number;
+  /** workers Modal has committed to keep reserved */
+  reservedWorkers?: number;
+  /** healthy reserved workers currently present (active + idle) */
+  activeWorkers?: number;
+  /** reserved workers running this workspace's containers */
+  idleWorkers?: number;
+  /** reserved workers available for new clusters */
+  unfulfilledWorkers?: number;
+  /** max(0, min_reserved_workers - reserved_workers) */
+  tasks?: ClusterReservationTaskList;
+}
+export type ClusterReservationList2 = Array<ClusterReservation>;
+export interface ListClusterReservationResponse {
+  reservations?: ClusterReservationList2;
+}
 export type GetClusterError = ModalOpError;
 /** Clusters */
 export const getCluster: API.OperationMethod<
@@ -67,13 +98,29 @@ export const listCluster: API.OperationMethod<
   ListClusterError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<ListClusterRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<ListClusterResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<ListClusterRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<ListClusterResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCluster",
+}));
+
+export type ListClusterReservationError = ModalOpError;
+export const listClusterReservation: API.OperationMethod<
+  ListClusterReservationRequest,
+  ListClusterReservationResponse,
+  ListClusterReservationError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(24, __c3, 0) as any as S.Schema<ListClusterReservationRequest>,
+  output: __S(29, __c3, 5) as any as S.Schema<ListClusterReservationResponse>,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListClusterReservation",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -88,7 +135,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cluster: S.optional(__S(5, __c1, 1)),
+          cluster: S.optional(__S(9, __c1, 1)),
         }),
       ).annotate({ identifier: "GetClusterResponse" });
   }
@@ -101,7 +148,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           appId: S.optional(S.String),
-          taskIds: S.optional(__S(4, __c1, 0)),
+          taskIds: S.optional(__S(8, __c1, 0)),
           clusterId: S.optional(S.String),
           startedAt: S.optional(S.Number),
         }),
@@ -119,13 +166,60 @@ function __c2(j: number): any {
         ),
       ).annotate({ identifier: "ListClusterRequest" });
     case 1:
-      return S.Array(__S(5, __c1, 1));
+      return S.Array(__S(9, __c1, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          clusters: S.optional(__S(9, __c2, 1)),
+          clusters: S.optional(__S(17, __c2, 1)),
         }),
       ).annotate({ identifier: "ListClusterResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.client.ModalClient/ClusterReservationList",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListClusterReservationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          taskId: S.optional(S.String),
+          clusterRank: S.optional(S.Number),
+          appId: S.optional(S.String),
+          functionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClusterReservationTask" });
+    case 2:
+      return S.Array(__S(25, __c3, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          gpuType: S.optional(S.String),
+          region: S.optional(S.String),
+          minReservedWorkers: S.optional(S.Number),
+          reservedWorkers: S.optional(S.Number),
+          activeWorkers: S.optional(S.Number),
+          idleWorkers: S.optional(S.Number),
+          unfulfilledWorkers: S.optional(S.Number),
+          tasks: S.optional(__S(26, __c3, 2)),
+        }),
+      ).annotate({ identifier: "ClusterReservation" });
+    case 4:
+      return S.Array(__S(27, __c3, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          reservations: S.optional(__S(28, __c3, 4)),
+        }),
+      ).annotate({ identifier: "ListClusterReservationResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
