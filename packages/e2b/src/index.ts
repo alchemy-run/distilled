@@ -8,8 +8,8 @@
  *
  * Control-plane modules (`sandboxes`, `templates`, `volumes`, `secrets`,
  * `snapshots`, `webhooks`, …) authenticate with the team API key. The envd
- * modules (`envd`, `process`, `filesystem`, and the streaming calls in
- * `./Connect`) address one running sandbox — provide `sandboxConnection`.
+ * modules (`envd`, `process`, `filesystem`) address one running sandbox,
+ * streaming calls included — provide `sandboxConnection`.
  * `volumeContent` authenticates with one volume's token — provide
  * `volumeConnection`.
  *
@@ -35,5 +35,4 @@ export {
 } from "./protocol.ts";
 export { paginateToken } from "./pagination.ts";
 export * as Retry from "./retry.ts";
-export * as Connect from "./connect.ts";
 export * from "./services/index.ts";

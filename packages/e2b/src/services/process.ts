@@ -157,6 +157,16 @@ export const updateProcess: API.OperationMethod<
   span: "UpdateProcess",
 }));
 
+export {
+  connectProcess,
+  startProcess,
+  type ConnectProcessRequest,
+  type ConnectStreamError,
+  type ProcessEvent,
+  type Pty,
+  type StartProcessRequest,
+} from "../connect.ts";
+
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
   switch (j) {

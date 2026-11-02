@@ -137,14 +137,49 @@ const baseSpec: SdkSpec = {
       : code,
 };
 
+/**
+ * envd's streaming RPCs are hand-written in `src/connect.ts`; each is
+ * re-exported from the service it belongs to, so every API call reads
+ * `E2B.<service>.<operation>`.
+ */
+const STREAMING_EXPORTS: Record<string, string> = {
+  "com.e2b.process": [
+    "export {",
+    "  connectProcess,",
+    "  startProcess,",
+    "  type ConnectProcessRequest,",
+    "  type ConnectStreamError,",
+    "  type ProcessEvent,",
+    "  type Pty,",
+    "  type StartProcessRequest,",
+    '} from "../connect.ts";',
+  ].join("\n"),
+  "com.e2b.filesystem": [
+    "export {",
+    "  watchDir,",
+    "  type ConnectStreamError,",
+    "  type FilesystemEventType,",
+    "  type WatchDirEvent,",
+    "  type WatchDirRequest,",
+    '} from "../connect.ts";',
+  ].join("\n"),
+};
+
 runGeneratorCli({
   description: "Generate the E2B Effect SDK from the Smithy models",
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
   barrelExportName: camel,
-  spec: (model) => ({
-    ...baseSpec,
-    operationDecl: { ...baseSpec.operationDecl!, ...protocolFor(model) },
-  }),
+  spec: (model) => {
+    const streaming = STREAMING_EXPORTS[namespaceOf(model)];
+    return {
+      ...baseSpec,
+      operationDecl: { ...baseSpec.operationDecl!, ...protocolFor(model) },
+      postProcess: (code) => {
+        const processed = baseSpec.postProcess!(code);
+        return streaming === undefined ? processed : `${processed.trimEnd()}\n\n${streaming}\n`;
+      },
+    };
+  },
 });

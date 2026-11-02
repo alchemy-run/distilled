@@ -19,7 +19,9 @@
  * is not implemented: `process.sendInput` sends input unary.
  *
  * Every call addresses the {@link SandboxConnection} on the calling fiber,
- * like the generated envd operations.
+ * like the generated envd operations. The generator re-exports the calls
+ * from the services they belong to: `process.startProcess`,
+ * `process.connectProcess` and `filesystem.watchDir`.
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Effect from "effect/Effect";
@@ -56,7 +58,7 @@ export interface Pty {
   readonly size: { readonly cols: number; readonly rows: number };
 }
 
-export interface StartRequest {
+export interface StartProcessRequest {
   readonly process: ProcessConfig;
   /** Run the command in a pseudo-terminal; its output arrives as `Pty` events. */
   readonly pty?: Pty;
@@ -69,7 +71,7 @@ export interface StartRequest {
 /** Selects a running process by pid or by the tag it was started with. */
 export type ProcessSelector = { readonly pid: number } | { readonly tag: string };
 
-export interface ConnectRequest {
+export interface ConnectProcessRequest {
   readonly process: ProcessSelector;
 }
 
@@ -341,18 +343,18 @@ const decodeWith =
  * Starts a process in the sandbox and streams its events: `Start` (with the
  * pid), output, then `End` with the exit code. Interrupting the stream closes
  * the connection; the process keeps running and can be re-attached with
- * {@link processConnect} or stopped with `process.sendSignal`.
+ * {@link connectProcess} or stopped with `process.sendSignal`.
  */
-export const processStart = (
-  request: StartRequest,
+export const startProcess = (
+  request: StartProcessRequest,
 ): Stream.Stream<ProcessEvent, ConnectStreamError, SandboxConnection | HttpClient.HttpClient> =>
   serverStream("process.Process/Start", request).pipe(
     Stream.mapEffect(decodeWith(decodeProcessEvent)),
   );
 
 /** Re-attaches to a running process and streams its events from now on. */
-export const processConnect = (
-  request: ConnectRequest,
+export const connectProcess = (
+  request: ConnectProcessRequest,
 ): Stream.Stream<ProcessEvent, ConnectStreamError, SandboxConnection | HttpClient.HttpClient> =>
   serverStream("process.Process/Connect", request).pipe(
     Stream.mapEffect(decodeWith(decodeProcessEvent)),
@@ -382,7 +384,7 @@ export const decodeWatchDirEvent = (message: unknown): WatchDirEvent | E2BParseE
 };
 
 /** Watches a directory and streams its changes until the stream is interrupted. */
-export const filesystemWatchDir = (
+export const watchDir = (
   request: WatchDirRequest,
 ): Stream.Stream<WatchDirEvent, ConnectStreamError, SandboxConnection | HttpClient.HttpClient> =>
   serverStream("filesystem.Filesystem/WatchDir", request).pipe(

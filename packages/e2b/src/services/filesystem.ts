@@ -241,6 +241,14 @@ export const statPath: API.OperationMethod<
   span: "StatPath",
 }));
 
+export {
+  watchDir,
+  type ConnectStreamError,
+  type FilesystemEventType,
+  type WatchDirEvent,
+  type WatchDirRequest,
+} from "../connect.ts";
+
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
   switch (j) {

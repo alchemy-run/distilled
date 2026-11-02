@@ -1,7 +1,11 @@
-import * as E2B from "@distilled.cloud/e2b";
 import { expect, test } from "vitest";
-
-const { decodeProcessEvent, decodeWatchDirEvent, encodeEnvelope, takeEnvelopes } = E2B.Connect;
+import {
+  connectError,
+  decodeProcessEvent,
+  decodeWatchDirEvent,
+  encodeEnvelope,
+  takeEnvelopes,
+} from "../src/connect.ts";
 
 const endFrame = (json: unknown): Uint8Array => {
   const frame = encodeEnvelope(json);
@@ -71,11 +75,9 @@ test("decodeWatchDirEvent decodes filesystem events", () => {
 });
 
 test("connectError maps Connect codes onto the SDK's error classes", () => {
-  expect(E2B.Connect.connectError({ code: "not_found", message: "no process" }, {})._tag).toBe(
-    "NotFound",
-  );
-  expect(E2B.Connect.connectError({ code: "unauthenticated" }, {})._tag).toBe("Unauthorized");
-  expect(E2B.Connect.connectError({ code: "resource_exhausted", message: "x" }, {})._tag).toBe(
+  expect(connectError({ code: "not_found", message: "no process" }, {})._tag).toBe("NotFound");
+  expect(connectError({ code: "unauthenticated" }, {})._tag).toBe("Unauthorized");
+  expect(connectError({ code: "resource_exhausted", message: "x" }, {})._tag).toBe(
     "UnknownE2BError",
   );
 });

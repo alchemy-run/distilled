@@ -22,12 +22,6 @@
       "distilled-lazy": "./lib/index.lazy.js",
       "default": "./lib/index.js"
     },
-    "./Connect": {
-      "types": "./lib/connect.d.ts",
-      "bun": "./src/connect.ts",
-      "worker": "./src/connect.ts",
-      "default": "./lib/connect.js"
-    },
     "./Credentials": {
       "types": "./lib/credentials.d.ts",
       "bun": "./src/credentials.ts",
