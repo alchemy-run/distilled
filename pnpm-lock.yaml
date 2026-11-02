@@ -1494,6 +1494,9 @@ importers:
 
   packages/prisma:
     dependencies:
+      '@distilled.cloud/aws4signer':
+        specifier: workspace:*
+        version: link:../aws4signer
       '@distilled.cloud/core':
         specifier: workspace:*
         version: link:../core

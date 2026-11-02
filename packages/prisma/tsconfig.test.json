@@ -12,7 +12,9 @@
     "tsBuildInfoFile": "./.test-types/tsconfig.test.tsbuildinfo",
     "rewriteRelativeImportExtensions": false,
     "paths": {
-      "@distilled.cloud/core/*": ["../core/src/*"]
+      "@distilled.cloud/core/*": ["../core/src/*"],
+      "@distilled.cloud/aws4signer": ["../aws4signer/src/index.ts"],
+      "@distilled.cloud/aws4signer/AwsClient": ["../aws4signer/src/client.ts"]
     }
   },
   "references": [
@@ -21,6 +23,9 @@
     },
     {
       "path": "../core"
+    },
+    {
+      "path": "../aws4signer"
     }
   ]
 }

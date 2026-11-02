@@ -12,8 +12,10 @@
     // via tsconfig.strict.json (`pnpm run typecheck:strict`).
     "noCheck": true,
     "paths": {
-      "@distilled.cloud/core/*": ["../core/src/*"]
+      "@distilled.cloud/core/*": ["../core/src/*"],
+      "@distilled.cloud/aws4signer": ["../aws4signer/src/index.ts"],
+      "@distilled.cloud/aws4signer/AwsClient": ["../aws4signer/src/client.ts"]
     }
   },
-  "references": [{ "path": "../core" }]
+  "references": [{ "path": "../core" }, { "path": "../aws4signer" }]
 }

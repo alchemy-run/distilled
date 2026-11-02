@@ -52,6 +52,12 @@
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
     },
+    "./Bucket": {
+      "types": "./lib/bucket.d.ts",
+      "bun": "./src/bucket.ts",
+      "worker": "./src/bucket.ts",
+      "default": "./lib/bucket.js"
+    },
     "./management": {
       "types": "./lib/services/management.d.ts",
       "bun": "./src/services/management.ts",
@@ -78,6 +84,7 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-prisma-postgres"
   },
   "dependencies": {
+    "@distilled.cloud/aws4signer": "workspace:*",
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
