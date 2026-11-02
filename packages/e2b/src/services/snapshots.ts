@@ -3,6 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { UnknownE2BError } from "../errors.ts";
+import { paginateToken } from "../pagination.ts";
 import { E2BProtocol, type E2BOpError, type E2BOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -41,23 +42,36 @@ export interface SnapshotInfo {
   names: SnapshotInfoNamesList;
 }
 export type ListSnapshotsResponseBodyList = Array<SnapshotInfo>;
-export type ListSnapshotsResponse = ListSnapshotsResponseBodyList;
+export interface ListSnapshotsResponse {
+  items: ListSnapshotsResponseBodyList;
+  nextToken?: string;
+}
 export type ListSnapshotsError = E2BOpError;
 /** List snapshots List all snapshots for the team */
-export const listSnapshots: API.OperationMethod<
+export const listSnapshots: API.PaginatedOperationMethod<
   ListSnapshotsRequest,
   ListSnapshotsResponse,
   ListSnapshotsError,
-  E2BOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListSnapshotsRequest>,
-  output: __S(4, __c0, 4) as any as S.Schema<ListSnapshotsResponse>,
-  errors: [UnknownE2BError],
-  protocol: E2BProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListSnapshots",
-}));
+  E2BOpContext,
+  SnapshotInfo
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(0, __c0, 0) as any as S.Schema<ListSnapshotsRequest>,
+    output: __S(4, __c0, 4) as any as S.Schema<ListSnapshotsResponse>,
+    errors: [UnknownE2BError],
+    protocol: E2BProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSnapshots",
+    pagination: {
+      inputToken: "nextToken",
+      outputToken: "nextToken",
+      items: "items",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginateToken,
+) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
@@ -83,9 +97,12 @@ function __c0(j: number): any {
     case 3:
       return S.Array(__S(2, __c0, 2));
     case 4:
-      return S.suspend(() => __S(3, __c0, 3).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListSnapshotsResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(3, __c0, 3).pipe(T.RawResponse()),
+          nextToken: S.optional(S.String.pipe(T.Header("X-Next-Token"))),
+        }),
+      ).annotate({ identifier: "ListSnapshotsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

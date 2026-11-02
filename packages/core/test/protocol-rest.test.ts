@@ -21,6 +21,7 @@ import {
 import {
   BinaryResponse,
   makeRestProtocol,
+  RawResponse,
   RawResponseRoot,
   SensitiveValue,
   type RestErrorInfo,
@@ -872,5 +873,38 @@ describe("Link-header pagination", () => {
     );
     expect(items).toEqual([{ id: "x" }]);
     expect(recorded.requests).toHaveLength(1);
+  });
+});
+
+describe("makeRestProtocol raw body members", () => {
+  // Shaped like E2B's list endpoints: a bare JSON array body, with the next
+  // page token in a response header.
+  const PageOutput = S.Struct({
+    items: S.Array(S.Struct({ id: S.String })).pipe(RawResponse()),
+    nextToken: S.optional(S.String.pipe(T.Header("X-Next-Token"))),
+  });
+  const pageOp = API.make(() => ({
+    input: ThingInput,
+    output: PageOutput,
+    errors: [],
+    protocol: DefaultProtocol,
+  })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+
+  test("a bare array body lands in the raw member, next to header members", async () => {
+    const out = await succeed(
+      pageOp({ id: "t1" }),
+      fakeClient(() => json([{ id: "a" }, { id: "b" }], 200, { "X-Next-Token": "page-2" })),
+      creds(),
+    );
+    expect(out).toEqual({ items: [{ id: "a" }, { id: "b" }], nextToken: "page-2" });
+  });
+
+  test("a missing header leaves the header member unset", async () => {
+    const out = await succeed(
+      pageOp({ id: "t1" }),
+      fakeClient(() => json([])),
+      creds(),
+    );
+    expect(out).toEqual({ items: [] });
   });
 });

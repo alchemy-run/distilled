@@ -4,6 +4,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { UnknownE2BError } from "../errors.ts";
+import { paginateToken } from "../pagination.ts";
 import { E2BProtocol, type E2BOpError, type E2BOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -62,7 +63,10 @@ export interface ListSecretsRequest {
   limit?: number;
 }
 export type ListSecretsResponseBodyList = Array<Secret>;
-export type ListSecretsResponse = ListSecretsResponseBodyList;
+export interface ListSecretsResponse {
+  items: ListSecretsResponseBodyList;
+  nextToken?: string;
+}
 export interface UpdateSecretRequest {
   secretID: string;
   /** Runtime marker stored as the secret's new version. The runtime resolves it to a value at sandbox egress. */
@@ -122,20 +126,30 @@ export const getSecret: API.OperationMethod<
 
 export type ListSecretsError = E2BOpError;
 /** List project secrets List the project's secrets. No response carries a secret value. */
-export const listSecrets: API.OperationMethod<
+export const listSecrets: API.PaginatedOperationMethod<
   ListSecretsRequest,
   ListSecretsResponse,
   ListSecretsError,
-  E2BOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListSecretsRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<ListSecretsResponse>,
-  errors: [UnknownE2BError],
-  protocol: E2BProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListSecrets",
-}));
+  E2BOpContext,
+  Secret
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(16, __c4, 0) as any as S.Schema<ListSecretsRequest>,
+    output: __S(18, __c4, 2) as any as S.Schema<ListSecretsResponse>,
+    errors: [UnknownE2BError],
+    protocol: E2BProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSecrets",
+    pagination: {
+      inputToken: "nextToken",
+      outputToken: "nextToken",
+      items: "items",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginateToken,
+) as any;
 
 export type UpdateSecretError = E2BOpError;
 /** Update a secret Replace the secret's stored marker by appending a new version. The response carries metadata only. */
@@ -218,9 +232,12 @@ function __c4(j: number): any {
     case 1:
       return S.Array(__S(5, __c1, 1));
     case 2:
-      return S.suspend(() => __S(17, __c4, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListSecretsResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(17, __c4, 1).pipe(T.RawResponse()),
+          nextToken: S.optional(S.String.pipe(T.Header("X-Next-Token"))),
+        }),
+      ).annotate({ identifier: "ListSecretsResponse" });
   }
 }
 function __c5(j: number): any {

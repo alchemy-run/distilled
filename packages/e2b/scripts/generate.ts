@@ -104,6 +104,15 @@ const baseSpec: SdkSpec = {
     `export const ${name} = /*@__PURE__*/ S.Unknown as any as S.Schema<${name}>;\n`,
   ],
 
+  // List endpoints page by token: `nextToken` in, the `X-Next-Token` header
+  // out (bound to `nextToken`), items under `items`. convert stamps them.
+  paginationProfiles: {
+    token: {
+      strategy: "paginateToken",
+      itemsFallback: "items",
+    },
+  },
+
   sourceNote:
     ".generated-specs (specs/spec-mirror-e2b/specs/{openapi.yml,openapi-volumecontent.yml,envd.yaml,process.proto,filesystem.proto})",
 

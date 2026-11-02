@@ -40,6 +40,12 @@
       "worker": "./src/errors.ts",
       "default": "./lib/errors.js"
     },
+    "./Pagination": {
+      "types": "./lib/pagination.d.ts",
+      "bun": "./src/pagination.ts",
+      "worker": "./src/pagination.ts",
+      "default": "./lib/pagination.js"
+    },
     "./Protocol": {
       "types": "./lib/protocol.d.ts",
       "bun": "./src/protocol.ts",

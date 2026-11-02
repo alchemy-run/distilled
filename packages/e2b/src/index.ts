@@ -33,6 +33,7 @@ export {
   type EnvdOpContext,
   type VolumeContentOpContext,
 } from "./protocol.ts";
+export { paginateToken } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Connect from "./connect.ts";
 export * from "./services/index.ts";

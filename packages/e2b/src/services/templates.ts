@@ -4,6 +4,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { UnknownE2BError } from "../errors.ts";
+import { paginateToken } from "../pagination.ts";
 import { E2BProtocol, type E2BOpError, type E2BOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -133,6 +134,7 @@ export interface GetTemplateResponse {
   description?: string;
   /** List of builds for the template */
   builds: GetTemplateResponseBuildsList;
+  nextToken?: string;
 }
 /** State of the sandbox */
 export type LogLevel = "debug" | "info" | "warn" | "error";
@@ -272,7 +274,10 @@ export interface ListTemplatesRequest {
   limit?: number;
 }
 export type ListTemplatesResponseBodyList = Array<Template>;
-export type ListTemplatesResponse = ListTemplatesResponseBodyList;
+export interface ListTemplatesResponse {
+  items: ListTemplatesResponseBodyList;
+  nextToken?: string;
+}
 /** Type of registry authentication */
 export type AWSRegistryType = "aws";
 export interface AWSRegistry {
@@ -459,7 +464,7 @@ export const listDefaultTemplates: API.OperationMethod<
   E2BOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<ListDefaultTemplatesRequest>,
-  output: __S(50, __c12, 2) as any as S.Schema<ListDefaultTemplatesResponse>,
+  output: __S(45, __c11, 1) as any as S.Schema<ListDefaultTemplatesResponse>,
   errors: [UnknownE2BError],
   protocol: E2BProtocol,
   retry: Retry.Retry,
@@ -486,20 +491,30 @@ export const listTemplateBuildLogs: API.OperationMethod<
 
 export type ListTemplatesError = E2BOpError;
 /** List templates (v2) List all templates */
-export const listTemplates: API.OperationMethod<
+export const listTemplates: API.PaginatedOperationMethod<
   ListTemplatesRequest,
   ListTemplatesResponse,
   ListTemplatesError,
-  E2BOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<ListTemplatesRequest>,
-  output: __S(50, __c12, 2) as any as S.Schema<ListTemplatesResponse>,
-  errors: [UnknownE2BError],
-  protocol: E2BProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListTemplates",
-}));
+  E2BOpContext,
+  Template
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(56, __c14, 0) as any as S.Schema<ListTemplatesRequest>,
+    output: __S(57, __c14, 1) as any as S.Schema<ListTemplatesResponse>,
+    errors: [UnknownE2BError],
+    protocol: E2BProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListTemplates",
+    pagination: {
+      inputToken: "nextToken",
+      outputToken: "nextToken",
+      items: "items",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginateToken,
+) as any;
 
 export type StartTemplateBuildError = E2BOpError;
 /** Start template build (v2) Start the build */
@@ -650,6 +665,7 @@ function __c5(j: number): any {
           isDefault: S.optional(S.Boolean),
           description: S.optional(S.String),
           builds: __S(22, __c5, 2),
+          nextToken: S.optional(S.String.pipe(T.Header("X-Next-Token"))),
         }),
       ).annotate({ identifier: "GetTemplateResponse" });
   }
@@ -763,6 +779,10 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/default-templates", code: 200 })),
       ).annotate({ identifier: "ListDefaultTemplatesRequest" });
+    case 1:
+      return S.suspend(() => __S(49, __c12, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListDefaultTemplatesResponse",
+      });
   }
 }
 function __c12(j: number): any {
@@ -792,10 +812,6 @@ function __c12(j: number): any {
       ).annotate({ identifier: "Template" });
     case 1:
       return S.Array(__S(48, __c12, 0));
-    case 2:
-      return S.suspend(() => __S(49, __c12, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListDefaultTemplatesResponse",
-      });
   }
 }
 function __c13(j: number): any {
@@ -836,6 +852,13 @@ function __c14(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/templates", code: 200 })),
       ).annotate({ identifier: "ListTemplatesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(49, __c12, 1).pipe(T.RawResponse()),
+          nextToken: S.optional(S.String.pipe(T.Header("X-Next-Token"))),
+        }),
+      ).annotate({ identifier: "ListTemplatesResponse" });
   }
 }
 function __c15(j: number): any {

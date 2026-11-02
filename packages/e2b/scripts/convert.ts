@@ -212,6 +212,61 @@ const stampBinaryBodies = (model: Record<string, any>) => {
   }
 };
 
+/** The response header E2B's list endpoints carry the next page's token in. */
+const NEXT_TOKEN_HEADER = "X-Next-Token";
+
+/** Whether a spec operation's success response declares the next-page header. */
+const hasNextTokenHeader = (spec: Record<string, any>, op: Record<string, any>): boolean => {
+  const ok = op.responses?.["200"];
+  const response = ok?.$ref ? spec.components?.responses?.[ok.$ref.split("/").at(-1)] : ok;
+  return Object.keys(response?.headers ?? {}).some(
+    (name) => name.toLowerCase() === NEXT_TOKEN_HEADER.toLowerCase(),
+  );
+};
+
+/**
+ * Token pagination the converter cannot see. E2B's list endpoints return a
+ * bare JSON array and put the next page's token in an `X-Next-Token`
+ * response header, taking it back as the `nextToken` query parameter. Each
+ * such operation's output becomes `{ items, nextToken }` (the body and the
+ * header) and is stamped paginated, so `.items()` streams every page.
+ */
+const stampHeaderPagination = (model: Record<string, any>, spec: Record<string, any>) => {
+  const shapes: Record<string, any> = model.shapes;
+  for (const shape of Object.values<any>(shapes)) {
+    if (shape.type !== "operation") continue;
+    const http = shape.traits?.["smithy.api#http"];
+    if (!http) continue;
+    const specOp = spec.paths?.[http.uri]?.[String(http.method).toLowerCase()];
+    if (!specOp || !hasNextTokenHeader(spec, specOp)) continue;
+    const input = shapes[shape.input?.target];
+    const output = shapes[shape.output?.target];
+    if (!input?.members?.nextToken || output?.type !== "structure") {
+      throw new Error(
+        `${http.method} ${http.uri}: X-Next-Token without a nextToken input or an output`,
+      );
+    }
+    const nextToken = {
+      target: "smithy.api#String",
+      traits: { "smithy.api#httpHeader": NEXT_TOKEN_HEADER },
+    };
+    const body = output.members?.body;
+    if (body === undefined || !(RAW_RESPONSE_TRAIT in (body.traits ?? {}))) {
+      // An object body that pages a nested list (a template's builds): the
+      // token is readable, but there is no item list to stream.
+      output.members = { ...output.members, nextToken };
+      continue;
+    }
+    output.members = { items: body, nextToken };
+    shape.traits["smithy.api#paginated"] = {
+      inputToken: "nextToken",
+      outputToken: "nextToken",
+      items: "items",
+      ...(input.members.limit ? { pageSize: "limit" } : {}),
+    };
+  }
+};
+
 type PathBucket = Record<string, Record<string, unknown>>;
 
 /** Buckets a spec's operations by primary tag (or a fixed slug). */
@@ -263,6 +318,7 @@ const writeOpenApi = (slug: string, spec: Record<string, any>, paths: PathBucket
     },
   );
   stampBinaryBodies(model);
+  stampHeaderPagination(model, spec);
   const operations = Object.values<any>(model.shapes).filter((s) => s.type === "operation");
   if (operations.length === 0) {
     console.warn(`   ⚠️  ${slug}: no operations — bucket dropped`);

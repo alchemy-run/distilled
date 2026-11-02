@@ -4,6 +4,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { UnknownE2BError } from "../errors.ts";
+import { paginateToken } from "../pagination.ts";
 import { E2BProtocol, type E2BOpError, type E2BOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -284,7 +285,10 @@ export interface ListedSandbox {
   volumeMounts?: ListedSandboxVolumeMountsList;
 }
 export type ListSandboxesResponseBodyList = Array<ListedSandbox>;
-export type ListSandboxesResponse = ListSandboxesResponseBodyList;
+export interface ListSandboxesResponse {
+  items: ListSandboxesResponseBodyList;
+  nextToken?: string;
+}
 export type ListSandboxesMetricsRequestSandboxIdsList = Array<string>;
 export interface ListSandboxesMetricsRequest {
   /** Comma-separated list of sandbox IDs to get metrics for */
@@ -503,20 +507,30 @@ export const getSandbox: API.OperationMethod<
 
 export type ListSandboxesError = E2BOpError;
 /** List sandboxes (v2) List all sandboxes */
-export const listSandboxes: API.OperationMethod<
+export const listSandboxes: API.PaginatedOperationMethod<
   ListSandboxesRequest,
   ListSandboxesResponse,
   ListSandboxesError,
-  E2BOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(137, __c17, 1) as any as S.Schema<ListSandboxesRequest>,
-  output: __S(140, __c17, 4) as any as S.Schema<ListSandboxesResponse>,
-  errors: [UnknownE2BError],
-  protocol: E2BProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListSandboxes",
-}));
+  E2BOpContext,
+  ListedSandbox
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(137, __c17, 1) as any as S.Schema<ListSandboxesRequest>,
+    output: __S(140, __c17, 4) as any as S.Schema<ListSandboxesResponse>,
+    errors: [UnknownE2BError],
+    protocol: E2BProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSandboxes",
+    pagination: {
+      inputToken: "nextToken",
+      outputToken: "nextToken",
+      items: "items",
+      pageSize: "limit",
+    } as const,
+  }),
+  paginateToken,
+) as any;
 
 export type ListSandboxesMetricsError = E2BOpError;
 /** List sandbox metrics List metrics for given sandboxes */
@@ -987,9 +1001,12 @@ function __c17(j: number): any {
     case 3:
       return S.Array(__S(138, __c17, 2));
     case 4:
-      return S.suspend(() => __S(139, __c17, 3).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListSandboxesResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(139, __c17, 3).pipe(T.RawResponse()),
+          nextToken: S.optional(S.String.pipe(T.Header("X-Next-Token"))),
+        }),
+      ).annotate({ identifier: "ListSandboxesResponse" });
   }
 }
 function __c18(j: number): any {
