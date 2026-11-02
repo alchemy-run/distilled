@@ -51,5 +51,8 @@ await runOpenApiConvert({
     namespace: "com.archil.api",
     serviceName: "Archil",
     skipDeprecated: true,
+    // Sandbox create/fork and image builds answer `202 Accepted` with the
+    // sandbox or image envelope.
+    successStatuses: ["200", "201", "202", "204"],
   },
 });
