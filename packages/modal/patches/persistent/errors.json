@@ -64,6 +64,9 @@
       "value": [
         {
           "target": "com.modal.persistent#PersistentSandboxNotFound"
+        },
+        {
+          "target": "com.modal.persistent#PersistentSandboxBusy"
         }
       ]
     },
@@ -84,6 +87,30 @@
           "target": "com.modal.persistent#PersistentSandboxAlreadyExists"
         }
       ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.persistent#PersistentSandboxBusy",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "server",
+          "smithy.api#documentation": "The previous session is still pausing, or another resume is in progress (gRPC UNAVAILABLE). Retry shortly.",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 14
+            }
+          ]
+        }
+      }
     }
   ]
 }

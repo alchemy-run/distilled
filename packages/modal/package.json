@@ -52,6 +52,12 @@
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
     },
+    "./ClassParameters": {
+      "types": "./lib/class-parameters.d.ts",
+      "bun": "./src/class-parameters.ts",
+      "worker": "./src/class-parameters.ts",
+      "default": "./lib/class-parameters.js"
+    },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",

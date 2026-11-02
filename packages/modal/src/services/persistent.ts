@@ -36,6 +36,16 @@ export class PersistentSandboxAlreadyExists
     [{ code: 6 }],
   ) {}
 
+/** The previous session is still pausing, or another resume is in progress (gRPC UNAVAILABLE). Retry shortly. */
+export class PersistentSandboxBusy
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<PersistentSandboxBusy>()("PersistentSandboxBusy", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 14 }],
+  ) {}
+
 /** The persistent sandbox doesn't exist (gRPC NOT_FOUND). */
 export class PersistentSandboxNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -408,7 +418,10 @@ export const getPersistentSandbox: API.OperationMethod<
   span: "GetPersistentSandbox",
 }));
 
-export type ResumePersistentSandboxError = PersistentSandboxNotFound | ModalOpError;
+export type ResumePersistentSandboxError =
+  | PersistentSandboxNotFound
+  | PersistentSandboxBusy
+  | ModalOpError;
 export const resumePersistentSandbox: API.OperationMethod<
   ResumePersistentSandboxRequest,
   ResumePersistentSandboxResponse,
@@ -417,7 +430,7 @@ export const resumePersistentSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<ResumePersistentSandboxRequest>,
   output: __S(161, __c5, 1) as any as S.Schema<ResumePersistentSandboxResponse>,
-  errors: [PersistentSandboxNotFound, UnknownModalError],
+  errors: [PersistentSandboxNotFound, PersistentSandboxBusy, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
