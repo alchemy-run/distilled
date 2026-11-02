@@ -100,7 +100,7 @@ type Event =
 
 const connectionUrl = (sid: string) =>
   createSandboxConnection({ sid }).pipe(
-    Effect.map((response) => Redacted.value(response.data.url)),
+    Effect.map(({ data: { url } }) => (typeof url === "string" ? url : Redacted.value(url))),
   );
 
 const openSocket = (url: string) =>
