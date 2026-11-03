@@ -439,8 +439,8 @@ function __c6(j: number): any {
           orderAsc: S.optional(S.Boolean.pipe(T.Query())),
           start: S.optional(S.String.pipe(T.Query())),
           end: S.optional(S.String.pipe(T.Query())),
-          deliveryStatus: S.optional(__S(48, __c6, 0).pipe(T.Query())),
-          eventType: S.optional(__S(8, __c1, 0).pipe(T.Query())),
+          deliveryStatus: S.optional(__S(48, __c6, 0).pipe(T.Query(), T.CommaDelimited({}))),
+          eventType: S.optional(__S(8, __c1, 0).pipe(T.Query(), T.CommaDelimited({}))),
         }).pipe(
           T.Http({ method: "GET", uri: "/events/webhooks/{webhookID}/deliveries", code: 200 }),
         ),

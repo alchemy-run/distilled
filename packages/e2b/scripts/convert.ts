@@ -267,6 +267,42 @@ const stampHeaderPagination = (model: Record<string, any>, spec: Record<string, 
   }
 };
 
+/** Generate maps it to `T.CommaDelimited()`. */
+const COMMA_DELIMITED_TRAIT = "com.e2b#commaDelimited";
+
+/**
+ * Query lists the spec sends as ONE comma-separated value (`style: form,
+ * explode: false`, e.g. `?state=running,paused`): E2B rejects them repeated.
+ * The Smithy model has no such serialization, so stamp a trait on the member.
+ */
+const stampCommaDelimited = (model: Record<string, any>, spec: Record<string, any>) => {
+  const shapes: Record<string, any> = model.shapes;
+  const resolve = (node: Record<string, any>) =>
+    node.$ref ? spec.components?.parameters?.[node.$ref.split("/").at(-1)] : node;
+  for (const shape of Object.values<any>(shapes)) {
+    if (shape.type !== "operation") continue;
+    const http = shape.traits?.["smithy.api#http"];
+    if (!http) continue;
+    const pathItem = spec.paths?.[http.uri];
+    const specOp = pathItem?.[String(http.method).toLowerCase()];
+    if (!specOp) continue;
+    for (const param of [...(pathItem.parameters ?? []), ...(specOp.parameters ?? [])].map(
+      resolve,
+    )) {
+      if (param?.in !== "query" || param.explode !== false || param.schema?.type !== "array") {
+        continue;
+      }
+      const member = Object.values<any>(shapes[shape.input?.target]?.members ?? {}).find(
+        (m) => m.traits?.["smithy.api#httpQuery"] === param.name,
+      );
+      if (member === undefined) {
+        throw new Error(`${http.method} ${http.uri}: no input member for query ${param.name}`);
+      }
+      member.traits[COMMA_DELIMITED_TRAIT] = {};
+    }
+  }
+};
+
 type PathBucket = Record<string, Record<string, unknown>>;
 
 /** Buckets a spec's operations by primary tag (or a fixed slug). */
@@ -319,6 +355,7 @@ const writeOpenApi = (slug: string, spec: Record<string, any>, paths: PathBucket
   );
   stampBinaryBodies(model);
   stampHeaderPagination(model, spec);
+  stampCommaDelimited(model, spec);
   const operations = Object.values<any>(model.shapes).filter((s) => s.type === "operation");
   if (operations.length === 0) {
     console.warn(`   ⚠️  ${slug}: no operations — bucket dropped`);

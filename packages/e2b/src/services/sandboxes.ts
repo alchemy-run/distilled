@@ -972,7 +972,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(__S(136, __c17, 0).pipe(T.Query())),
+          state: S.optional(__S(136, __c17, 0).pipe(T.Query(), T.CommaDelimited({}))),
           order: S.optional(S.String.pipe(T.Query())),
           startedAfter: S.optional(S.String.pipe(T.Query())),
           template: S.optional(S.String.pipe(T.Query())),
@@ -1014,7 +1014,7 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sandbox_ids: __S(24, __c3, 0).pipe(T.Query()),
+          sandbox_ids: __S(24, __c3, 0).pipe(T.Query(), T.CommaDelimited({})),
         }).pipe(T.Http({ method: "GET", uri: "/sandboxes/metrics", code: 200 })),
       ).annotate({ identifier: "ListSandboxesMetricsRequest" });
     case 1:

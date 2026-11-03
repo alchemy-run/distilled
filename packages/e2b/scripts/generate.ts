@@ -30,6 +30,7 @@ import {
 } from "@distilled.cloud/dev/codegen/openapi";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
+const COMMA_DELIMITED_TRAIT = "com.e2b#commaDelimited";
 
 /** `volume_content` → `volumeContent` (the barrel's export name). */
 const camel = (slug: string): string =>
@@ -76,6 +77,8 @@ const baseSpec: SdkSpec = {
   // `string | Redacted` accepted on the way in (the REST protocol unwraps).
   memberTraitPipes: {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
+    // Query lists sent as one comma-separated value (convert stamps them).
+    [COMMA_DELIMITED_TRAIT]: "T.CommaDelimited",
   },
   memberTsType: (m) =>
     SENSITIVE_TRAIT in m.traits

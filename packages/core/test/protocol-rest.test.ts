@@ -100,6 +100,7 @@ const ThingInput = S.Struct({
   id: S.String.pipe(T.Label()),
   limit: S.optional(S.Number.pipe(T.Query("limit"))),
   tags: S.optional(S.Array(S.String).pipe(T.Query("tag"))),
+  states: S.optional(S.Array(S.String).pipe(T.Query("state"), T.CommaDelimited())),
   trace: S.optional(S.String.pipe(T.Header("X-Trace-Id"))),
   displayName: S.optional(S.String.pipe(T.Body("display_name"))),
   secret: S.optional(S.String.pipe(SensitiveValue(), T.Body("secret_value"))),
@@ -206,6 +207,16 @@ describe("makeRestProtocol request encoding", () => {
     expect(request!.url).toBe("https://api.test/things/a%20b%2Fc?limit=5&tag=x&tag=y");
     expect(request!.headers["x-trace-id"]).toBe("trace-1");
     expect(JSON.parse(bodyText(request!)!)).toEqual({ display_name: "Widget" });
+  });
+
+  test("sends a CommaDelimited query list as one comma-separated parameter", async () => {
+    const recorded: Recorded = { requests: [] };
+    await succeed(
+      createThing({ id: "t1", states: ["running", "paused"] }),
+      fakeClient(() => json({}), recorded),
+      creds(),
+    );
+    expect(recorded.requests[0]!.url).toBe("https://api.test/things/t1?state=running%2Cpaused");
   });
 
   test("unwraps Redacted input values before serializing them", async () => {
