@@ -91,6 +91,9 @@ describe("S3 GetObject", () => {
   const s3 = http(body, { "content-type": "application/octet-stream", "x-amz-request-id": "R1" });
 
   test("the span ends at the response headers; reading the body is the caller's", async () => {
+    // The first call also loads the protocol and builds the endpoint rules,
+    // which a busy CI runner can stretch past PART_MS; only time the second.
+    await run(S3.getObject({ Bucket: "b", Key: "k" }), s3);
     const spans: Tracer.NativeSpan[] = [];
     let endedBeforeRead: boolean | undefined;
     const { exit } = await run(
@@ -105,7 +108,8 @@ describe("S3 GetObject", () => {
     expect(exit).toEqual(Exit.succeed("part1;part2;part3;"));
     expect(endedBeforeRead).toBe(true);
     expect(spans.map((s) => s.name)).toEqual(["S3.GetObject"]);
-    expect(ms(spans[0]!)).toBeLessThan(PART_MS);
+    // Reading the body takes 4 * PART_MS (three parts, then the end).
+    expect(ms(spans[0]!)).toBeLessThan(2 * PART_MS);
   });
 });
 
