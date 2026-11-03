@@ -208,8 +208,7 @@ export interface WriteFilesRequest {
   signature?: string;
   /** Unix timestamp (seconds) after which the signature expires. Only used with the signature parameter. */
   signature_expiration?: number;
-  file?: string;
-  body: Uint8Array | string;
+  file: Blob;
 }
 export type WriteFilesResponseBodyList = Array<EntryInfo>;
 export type WriteFilesResponse = WriteFilesResponseBodyList;
@@ -487,17 +486,8 @@ function __c5(j: number): any {
           username: S.optional(S.String.pipe(T.Query())),
           signature: S.optional(S.String.pipe(T.Query())),
           signature_expiration: S.optional(S.Number.pipe(T.Query())),
-          file: S.optional(S.String),
-          body: S.String.pipe(T.HttpBody()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/files",
-            code: 200,
-            contentType: "multipart",
-            bodyMediaType: "application/octet-stream",
-          }),
-        ),
+          file: S.Unknown.pipe(T.FormDataFile()),
+        }).pipe(T.Http({ method: "POST", uri: "/files", code: 200, contentType: "multipart" })),
       ).annotate({ identifier: "WriteFilesRequest" });
     case 1:
       return S.Array(__S(8, __c2, 0));

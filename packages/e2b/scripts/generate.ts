@@ -31,6 +31,7 @@ import {
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 const COMMA_DELIMITED_TRAIT = "com.e2b#commaDelimited";
+const FORM_DATA_FILE_TRAIT = "com.e2b#formDataFile";
 
 /** `volume_content` → `volumeContent` (the barrel's export name). */
 const camel = (slug: string): string =>
@@ -63,6 +64,14 @@ const baseSpec: SdkSpec = {
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
 
   extraBindings: [
+    {
+      // A multipart file part (envd `writeFiles`): the protocol appends a
+      // bare Blob as the `file` part.
+      trait: FORM_DATA_FILE_TRAIT,
+      binding: "file",
+      pipe: "T.FormDataFile()",
+      tsType: "Blob",
+    },
     {
       // Sole member of a synthesized wrapper for bare array/scalar response
       // bodies — as a response's sole member, the response IS the payload.

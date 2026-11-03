@@ -163,14 +163,23 @@ const renameOperations = (model: Record<string, any>, names: Record<string, stri
  * and multipart bodies only, so `application/octet-stream` downloads come out
  * as empty outputs and uploads with no body member. These are stamped onto
  * the converted model: downloads get a raw `Blob` body (decoded as bytes),
- * uploads a `Blob` `httpPayload` sent as `application/octet-stream`.
+ * uploads a `Blob` `httpPayload` sent as `application/octet-stream`, and a
+ * multipart upload a binary `file` part.
  */
-const BINARY_BODIES: Record<string, { readonly download?: true; readonly upload?: true }> = {
+const BINARY_BODIES: Record<
+  string,
+  { readonly download?: true; readonly upload?: true; readonly multipartFile?: true }
+> = {
   "GET /files": { download: true },
-  "POST /files": { upload: true },
+  // envd takes octet-stream only from 0.5.7; multipart works on every
+  // version (and is what E2B's SDK sends for buffers).
+  "POST /files": { multipartFile: true },
   "GET /volumecontent/{volumeID}/file": { download: true },
   "PUT /volumecontent/{volumeID}/file": { upload: true },
 };
+
+/** A multipart file part; generate binds it with `T.FormDataFile()`. */
+const FORM_DATA_FILE_TRAIT = "com.e2b#formDataFile";
 
 const stampBinaryBodies = (model: Record<string, any>) => {
   const shapes: Record<string, any> = model.shapes;
@@ -196,6 +205,16 @@ const stampBinaryBodies = (model: Record<string, any>) => {
         };
         shape.output = { target: outputId };
       }
+    }
+    if (kind.multipartFile) {
+      const input = shapes[shape.input?.target];
+      if (input?.type !== "structure" || input.members?.file === undefined) {
+        throw new Error(`${http.uri}: no multipart file member to stamp`);
+      }
+      input.members.file = {
+        target: "smithy.api#Document",
+        traits: { [FORM_DATA_FILE_TRAIT]: {}, "smithy.api#required": {} },
+      };
     }
     if (kind.upload) {
       const input = shapes[shape.input?.target];
