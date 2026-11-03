@@ -21,7 +21,9 @@ import * as Retry from "../src/retry.ts";
 import * as Bedrock from "../src/services/bedrock-runtime.ts";
 import * as S3 from "../src/services/s3.ts";
 
-const PART_MS = 40;
+// Wide enough that a loaded CI runner's scheduling jitter stays well inside
+// one part; at 40ms the span-ends-before-body check failed on main.
+const PART_MS = 200;
 
 /** A 200 response whose body sends `parts`, PART_MS apart, then ends with `end`. */
 const http = (
