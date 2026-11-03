@@ -1,5 +1,5 @@
 {
-  "description": "Typed not-found / already-exists errors for the environment RPCs. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND, 6 = ALREADY_EXISTS), which these matchers key on.",
+  "description": "Typed not-found / already-exists errors for the environment RPCs. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND, 6 = ALREADY_EXISTS), which these matchers key on. Typed entitlement error for environment budgets. A workspace without the budgets feature rejects EnvironmentGetBudget and EnvironmentSetBudget with gRPC PERMISSION_DENIED (code 7) and 'Environment budgets are not enabled for this workspace'.",
   "patches": [
     {
       "op": "add",
@@ -150,6 +150,47 @@
           "target": "com.modal.environment#EnvironmentAlreadyExists"
         }
       ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.environment#EnvironmentBudgetsNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The workspace's plan doesn't include environment budgets (gRPC PERMISSION_DENIED).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 7,
+              "message": {
+                "includes": "budgets are not enabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.environment#EnvironmentGetBudget/errors/-",
+      "value": {
+        "target": "com.modal.environment#EnvironmentBudgetsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.environment#EnvironmentSetBudget/errors/-",
+      "value": {
+        "target": "com.modal.environment#EnvironmentBudgetsNotEnabled"
+      }
     }
   ]
 }

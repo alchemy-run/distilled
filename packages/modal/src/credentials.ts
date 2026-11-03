@@ -74,6 +74,23 @@ export const credentials = (config: {
   );
 
 /**
+ * Credentials with no token, for the calls Modal serves before one exists:
+ * the browser token flow (`createTokenFlow` / `waitTokenFlow`), which is how
+ * `modal token new` gets a token pair.
+ *
+ * @example
+ * ```ts
+ * const flow = yield* Modal.createTokenFlow({}).pipe(Effect.provide(Modal.anonymous()));
+ * ```
+ */
+export const anonymous = (apiBaseUrl?: string): Layer.Layer<Credentials> =>
+  credentials({
+    tokenId: Redacted.make(""),
+    tokenSecret: Redacted.make(""),
+    apiBaseUrl,
+  });
+
+/**
  * Run `effect` against a sandbox's task command router: the
  * `modal.task_command_router.TaskCommandRouter` operations (exec, stdio,
  * filesystem, snapshots, mounts) are served at a per-task URL with a JWT,

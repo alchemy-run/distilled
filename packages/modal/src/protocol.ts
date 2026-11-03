@@ -35,6 +35,14 @@ export const CLIENT_VERSION = "1.0.0";
 export const CLIENT_TYPE_LIBMODAL_JS = "8";
 
 /**
+ * The official JS client (`modal` on npm) whose wire behavior this SDK
+ * matches. Modal reads the SDK version from `x-modal-libmodal-version` as
+ * `modal-js/<version>`, and refuses to create Apps for a version it can't
+ * parse.
+ */
+export const LIBMODAL_JS_VERSION = "0.11.1";
+
+/**
  * Error channel shared by every generated Modal operation. Generated service
  * files annotate operations with `API.OperationMethod<I, O, ModalOpError,
  * ModalOpContext>` explicitly so the compiler never infers these back out of
@@ -69,13 +77,16 @@ export const ModalProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeGrpcPr
   headers: (creds) => ({
     ...(creds.bearerToken !== undefined
       ? { authorization: `Bearer ${Redacted.value(creds.bearerToken)}` }
-      : {
-          "x-modal-token-id": Redacted.value(creds.tokenId),
-          "x-modal-token-secret": Redacted.value(creds.tokenSecret),
-        }),
+      : Redacted.value(creds.tokenId) === ""
+        ? // Anonymous (see `anonymous`): the token flow runs before a token exists.
+          {}
+        : {
+            "x-modal-token-id": Redacted.value(creds.tokenId),
+            "x-modal-token-secret": Redacted.value(creds.tokenSecret),
+          }),
     "x-modal-client-type": CLIENT_TYPE_LIBMODAL_JS,
     "x-modal-client-version": CLIENT_VERSION,
-    "x-modal-libmodal-version": "distilled-modal/1.0.0-rc.8",
+    "x-modal-libmodal-version": `modal-js/${LIBMODAL_JS_VERSION}`,
   }),
   errorEnvelope,
   unknownError: ({ status: _status, code, message, body }) =>
