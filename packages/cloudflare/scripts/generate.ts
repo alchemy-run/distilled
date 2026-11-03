@@ -170,4 +170,9 @@ runGeneratorCli({
   // Per-service fallback key dictionary and route aliases arrive via the
   // model's metadata (baked into .generated-specs by spec-to-smithy).
   spec: (model) => makeCfSpec(model.metadata?.keyDictionary, model.metadata?.opAliases),
+  // R2's S3 API, under the R2 import path; the layer is hand-written.
+  append: (resource) =>
+    resource === "r2"
+      ? 'export { layerS3, S3CredentialsError, type LayerS3Options } from "../r2-s3.ts";'
+      : undefined,
 });

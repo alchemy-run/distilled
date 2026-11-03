@@ -119,6 +119,12 @@ interface Plan {
   readonly serviceDirs: string[];
   /** lib paths (relative to lib/) that must not be touched */
   readonly keep: (rel: string) => boolean;
+  /**
+   * Modules that are one `export * from "<package>"` line (module -> that
+   * specifier). They ship as that line, and the package's own imports of
+   * them import the other package instead.
+   */
+  readonly aliases: Map<string, string>;
 }
 
 interface Built {
@@ -171,6 +177,7 @@ const corePlan = (): Plan => {
     deep: [],
     serviceDirs: [],
     keep: (p) => p.startsWith("fixtures/"),
+    aliases: new Map(),
   };
 };
 
@@ -196,6 +203,50 @@ const shortName = (i: number): string => {
 };
 
 const isService = (plan: Plan, m: string) => plan.serviceDirs.some((d) => m.startsWith(`${d}/`));
+
+/**
+ * The package a module re-exports, if the module is only
+ * `export * from "<package>"` (`@distilled.cloud/aws`'s modules that
+ * re-export `@distilled.cloud/s3`). Re-exports of core stay ordinary
+ * modules: SDK builds route core to its group chunks.
+ */
+const aliasOf = (file: string): string | undefined => {
+  const ast = parseAst(readFileSync(file, "utf8"), { sourceType: "module", lang: "ts" }, file);
+  const [n, ...rest] = ast.body;
+  if (rest.length > 0 || n?.type !== "ExportAllDeclaration" || n.exported) return undefined;
+  const spec: string = n.source.value;
+  return spec.startsWith(".") || spec.startsWith("@distilled.cloud/core") ? undefined : spec;
+};
+
+const ALIAS = "\0distilled-alias:";
+
+/**
+ * What an alias module's importers import: when the workspace package it
+ * names publishes the module as a facade of one of its `_bundle/` chunks,
+ * that facade's line pointed at the chunk, so a service imports the chunk
+ * by name (as it imports core's) instead of through the facade.
+ */
+const facades = new Map<string, string | undefined>();
+const facadeOf = (spec: string): string | undefined => {
+  if (!facades.has(spec)) facades.set(spec, readFacade(spec));
+  return facades.get(spec);
+};
+const readFacade = (spec: string): string | undefined => {
+  const m = /^(@distilled\.cloud\/[^/]+)(\/.+)?$/.exec(spec);
+  if (!m) return undefined;
+  const dir = join(ROOT, "packages", m[1]!.slice("@distilled.cloud/".length));
+  if (!existsSync(join(dir, "package.json"))) return undefined;
+  const pkg = JSON.parse(readFileSync(join(dir, "package.json"), "utf8"));
+  if (!pkg.exports?.["./_bundle/*"]) return undefined;
+  const entry = pkg.exports[`.${m[2] ?? ""}`];
+  const target: unknown = typeof entry === "string" ? entry : entry?.default;
+  const file = typeof target === "string" && target.startsWith("./lib/") && join(dir, target);
+  if (!file || !existsSync(file)) return undefined;
+  const line = /^export \{([^}]*)\} from "(?:\.\.?\/)+_bundle\/([\w.-]+)\.js";\n?$/.exec(
+    readFileSync(file, "utf8"),
+  );
+  return line ? `export {${line[1]}} from "${m[1]}/_bundle/${line[2]}";` : undefined;
+};
 
 const sdkPlan = (dir: string): Plan | undefined => {
   const pkg = JSON.parse(readFileSync(join(dir, "package.json"), "utf8"));
@@ -230,6 +281,14 @@ const sdkPlan = (dir: string): Plan | undefined => {
       .map(noExt),
   );
   const inServiceDir = (m: string) => [...serviceDirs].some((d) => m.startsWith(`${d}/`));
+  const aliases = new Map<string, string>();
+  for (const file of walk(src)) {
+    const m = noExt(rel(src, file));
+    if (!isSource(rel(src, file)) || inServiceDir(m)) continue;
+    const spec = aliasOf(file);
+    if (spec) aliases.set(m, spec);
+  }
+  for (const m of aliases.keys()) publicMods.delete(m);
   const direct = [...publicMods].filter((m) => m === "index" || m.startsWith("index."));
   // The group is what a program (credentials + one service) loads anyway:
   // credentials and every module a service imports, with their static
@@ -243,7 +302,7 @@ const sdkPlan = (dir: string): Plan | undefined => {
       /^(?:import|export)[^;]*? from "(\.[^"]+)";/gm,
     )) {
       const target = noExt(rel(src, join(src, dirname(s), m[1]!)));
-      if (!inServiceDir(target)) roots.add(target);
+      if (!inServiceDir(target) && !aliases.has(target)) roots.add(target);
     }
   const group = [...roots];
   const deep = [...publicMods].filter(
@@ -257,6 +316,7 @@ const sdkPlan = (dir: string): Plan | undefined => {
     deep,
     serviceDirs: [...serviceDirs],
     keep: () => false,
+    aliases,
   };
 };
 
@@ -327,7 +387,7 @@ const assignGroups = (plan: Plan, graph: Map<string, Imports>): Map<string, stri
     const stack = [...mods];
     while (stack.length) {
       const m = stack.pop()!;
-      if (groupOf.has(m) || (direct.has(m) && !mods.includes(m))) continue;
+      if (groupOf.has(m) || plan.aliases.has(m) || (direct.has(m) && !mods.includes(m))) continue;
       groupOf.set(m, g);
       for (const d of graph.get(m)?.static ?? []) stack.push(d);
     }
@@ -404,7 +464,9 @@ const external = (id: string) =>
   !isAbsolute(id) &&
   !id.startsWith("\0") &&
   !id.startsWith(VIRTUAL) &&
-  !id.startsWith("@distilled.cloud/core");
+  !id.startsWith("@distilled.cloud/core") &&
+  // Rolldown asks before any plugin resolves the id; see aliasImports.
+  !(id.startsWith("@distilled.cloud/") && facadeOf(id));
 
 /** SDK builds: route `@distilled.cloud/core/<m>` straight to core's group chunks. */
 const corePlugin = (core: Plan, built: Built) => ({
@@ -626,7 +688,36 @@ const buildPackage = async (
     else plan.direct.push(d);
   }
   const dynamicTargets = new Set([...graph.values()].flatMap((i) => i.dynamic));
-  const plugins: Plugin[] = core ? [corePlugin(corePlan, core)] : [];
+  const pkgName = `@distilled.cloud/${plan.name}`;
+  /**
+   * Imports of another workspace package, and the package's own imports of
+   * an alias module, as `facadeOf` names them: the build sees the names they
+   * export (so `export * from` such a package can be grouped) and the
+   * output imports that package's group chunk.
+   */
+  const aliasImports = {
+    name: "distilled-aliases",
+    resolveId(source: string, importer: string | undefined) {
+      let spec: string | undefined = source;
+      if (source.startsWith(".")) {
+        if (!importer || !inside(src, importer)) return;
+        spec = plan.aliases.get(noExt(rel(src, join(dirname(importer), source))));
+        if (!spec) return;
+      } else if (
+        !source.startsWith("@distilled.cloud/") ||
+        source.startsWith("@distilled.cloud/core") ||
+        source === pkgName ||
+        source.startsWith(`${pkgName}/`)
+      )
+        return;
+      if (facadeOf(spec)) return ALIAS + spec;
+      if (spec !== source) return { id: spec, external: true };
+    },
+    load(id: string) {
+      if (id.startsWith(ALIAS)) return facadeOf(id.slice(ALIAS.length));
+    },
+  };
+  const plugins: Plugin[] = [aliasImports, ...(core ? [corePlugin(corePlan, core)] : [])];
   // Core modules that services and the SDK group import. The SDK group
   // imports all of them, so the re-export shims that route them to core's
   // chunks live in that chunk instead of a chunk of their own. Lazily loaded
@@ -668,7 +759,7 @@ const buildPackage = async (
     targets.push(...b.targets);
   }
   for (const t of targets) {
-    if (barrels.has(t) || plan.direct.includes(t)) continue;
+    if (barrels.has(t) || plan.direct.includes(t) || plan.aliases.has(t)) continue;
     if ([...plan.groups.values()].some((mods) => mods.includes(t))) continue;
     const g = groupOf.get(t);
     if (g) plan.groups.get(g)!.push(t);
@@ -735,7 +826,7 @@ const buildPackage = async (
       // A grouped module that is also imported lazily is an entry of its own;
       // it must reach the whole group too, or the group splits.
       if (own && dynamicTargets.has(m)) needs.add(own);
-      if (needs.size === 0) return;
+      if (needs.size === 0) return isService(plan, m) ? { code, map: null } : undefined;
       // Appended, not prepended: line/column mappings stay valid.
       return {
         code: `${code}\n${[...needs].map((g) => `import "${VIRTUAL}${g}";`).join("\n")}\n`,
@@ -765,7 +856,10 @@ const buildPackage = async (
       : [];
     if (
       isService(plan, m) &&
-      ownImports.every((i) => groupOf.has(noExt(rel(src, join(dirname(file), i[1]!)))))
+      ownImports.every((i) => {
+        const target = noExt(rel(src, join(dirname(file), i[1]!)));
+        return groupOf.has(target) || plan.aliases.has(target);
+      })
     )
       services.push({ m, size: statSync(file).size });
     else shared[m] = file;
@@ -1027,7 +1121,8 @@ const buildPackage = async (
     running.add(p);
   }
   await Promise.all(running);
-  await build();
+  // A package whose public modules are all aliases has nothing else to build.
+  if (Object.keys(shared).length > 0) await build();
   if (nodeOnly.size) {
     if (JSON.stringify(pkgJson.browser) !== JSON.stringify(browserMap))
       throw new Error(
@@ -1082,6 +1177,11 @@ const buildPackage = async (
 
   for (const [m, code] of barrels) {
     writeFileSync(join(lib, `${m}.js`), code);
+    written.add(`${m}.js`);
+  }
+  for (const [m, spec] of plan.aliases) {
+    if (!existsSync(join(lib, `${m}.d.ts`))) continue;
+    writeFileSync(join(lib, `${m}.js`), `export * from ${JSON.stringify(spec)};\n`);
     written.add(`${m}.js`);
   }
 
@@ -1159,7 +1259,24 @@ if (childOf) {
 } else {
   const core = corePlan();
   const coreBuilt = await buildPackage(core, core, undefined);
-  const sdks = dirs.filter((d) => sdkPlan(d));
+  // A package's workspace dependencies build first: alias modules read the
+  // facades of the package they re-export (see facadeOf).
+  const deps = (d: string) =>
+    Object.keys(JSON.parse(readFileSync(join(d, "package.json"), "utf8")).dependencies ?? {});
+  const sdks: string[] = [];
+  const seen = new Set<string>();
+  const visit = (d: string) => {
+    if (seen.has(d) || !sdkPlan(d)) return;
+    seen.add(d);
+    for (const name of deps(d)) {
+      const dep = dirs.find((x) =>
+        x.endsWith(join("packages", name.replace("@distilled.cloud/", ""))),
+      );
+      if (dep) visit(dep);
+    }
+    sdks.push(d);
+  };
+  for (const d of dirs) visit(d);
   if (sdks.length <= 1) for (const dir of sdks) await buildPackage(sdkPlan(dir)!, core, coreBuilt);
   else {
     // A process keeps the memory it peaked at: build each package in a

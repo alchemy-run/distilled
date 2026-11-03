@@ -5129,3 +5129,5 @@ function __c62(j: number): any {
 function __S(i: number, f: (j: number) => unknown, j: number): any {
   return (__s[i] ??= __L.at(f, j));
 }
+
+export { layerS3, S3CredentialsError, type LayerS3Options } from "../r2-s3.ts";

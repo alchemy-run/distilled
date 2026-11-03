@@ -12,13 +12,17 @@
  * nothing provides it, so a caller who already said "authenticate with the
  * `dev` profile" doesn't have to repeat which region `dev` uses, but a caller
  * who wants one call in another region can still say so.
+ *
+ * The `Region` service and `RegionName` come from `@distilled.cloud/s3`;
+ * this module adds the environment and the helpers.
  */
 import * as Config from "@distilled.cloud/core/config";
-import type { SourceError } from "effect/ConfigProvider";
-import * as Context from "effect/Context";
+import { Region, type RegionName } from "@distilled.cloud/s3/Region";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+
+export * from "@distilled.cloud/s3/Region";
 
 /**
  * No region is configured: a credentials layer resolved a set of credentials
@@ -33,12 +37,6 @@ export class MissingRegion
     message: string;
     hints?: ReadonlyArray<string>;
   }> {}
-
-export class Region
-  extends /*@__PURE__*/ Context.Service<
-    Region,
-    Effect.Effect<RegionName, MissingRegion | SourceError>
-  >()("AWS::Region") {}
 
 /**
  * `AWS_REGION`, then `AWS_DEFAULT_REGION` -- the variables every AWS tool
@@ -75,40 +73,3 @@ export const fromEnv = () =>
 
 /** Override the region for a scope, e.g. `Region.of("us-west-2")`. */
 export const of = (region: RegionName) => Layer.succeed(Region, Effect.succeed(region));
-
-export type RegionName =
-  | "us-east-1"
-  | "us-east-2"
-  | "us-west-1"
-  | "us-west-2"
-  | "af-south-1"
-  | "ap-east-1"
-  | "ap-south-2"
-  | "ap-southeast-3"
-  | "ap-southeast-5"
-  | "ap-southeast-4"
-  | "ap-south-1"
-  | "ap-southeast-6"
-  | "ap-northeast-3"
-  | "ap-northeast-2"
-  | "ap-southeast-1"
-  | "ap-southeast-2"
-  | "ap-east-2"
-  | "ap-southeast-7"
-  | "ap-northeast-1"
-  | "ca-central-1"
-  | "ca-west-1"
-  | "eu-central-1"
-  | "eu-west-1"
-  | "eu-west-2"
-  | "eu-south-1"
-  | "eu-west-3"
-  | "eu-south-2"
-  | "eu-north-1"
-  | "eu-central-2"
-  | "il-central-1"
-  | "mx-central-1"
-  | "me-south-1"
-  | "me-central-1"
-  | "sa-east-1"
-  | (string & {});

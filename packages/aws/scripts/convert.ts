@@ -2,7 +2,7 @@
 /**
  * convert — original AWS Smithy models + patches/{sdkId}.json →
  * `.generated-specs/<sdkId>.json`, plus the endpoint rules engine's
- * partition data → `src/rules-engine/partitions.json`.
+ * partition data → `packages/s3/src/rules-engine/partitions.json`.
  *
  * generate.ts compiles those models and does not read the spec-mirror.
  */
@@ -44,11 +44,12 @@ if (!fs.existsSync(modelsRoot)) {
   );
 }
 
-// Region → partition data the endpoint resolver reads at runtime. Not
-// generated code, but it comes from the same mirror as the models.
+// Region → partition data the endpoint resolver (in @distilled.cloud/s3)
+// reads at runtime. Not generated code, but it comes from the same mirror as
+// the models.
 {
   const partitions = path.join(specsRoot, "partitions.json");
-  const dest = path.join(root, "src", "rules-engine");
+  const dest = path.join(root, "..", "s3", "src", "rules-engine");
   fs.mkdirSync(dest, { recursive: true });
   fs.copyFileSync(partitions, path.join(dest, "partitions.json"));
   console.log("✅ partitions.json");

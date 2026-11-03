@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { dnsSuffix } from "@distilled.cloud/s3/rules-engine/aws-functions";
 import * as Console from "effect/Console";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
@@ -29,7 +30,6 @@ import {
   SsoStartUrl,
   type ResolvedCredentials,
 } from "./credentials-service.ts";
-import { dnsSuffix } from "./rules-engine/aws-functions.ts";
 import { parseSSOSessionData } from "./util/parse-ini.ts";
 import {
   getConfigFilepath,
