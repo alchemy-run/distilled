@@ -89,6 +89,15 @@ describe("redactParsed", () => {
     expect(JSON.stringify(out)).not.toContain("fixture");
   });
 
+  test("judges input and output independently, each by its own schema", () => {
+    const In = S.Struct({ id: S.String, secret: S.String.pipe(Secret()) });
+    const Out = S.Struct({ id: S.String, version: S.String });
+    const output = { id: "db", version: "v-1" };
+    expect(redactParsed(Out.ast, output)).toBe(output);
+    expect(redactPlain(Out.ast, '{"id":"db"}')).toBe('{"id":"db"}');
+    expect(redactPlain(In.ast, '{"id":"db"}')).toBe(REDACTED);
+  });
+
   test("returns a value with no secret type unchanged", () => {
     const value = { name: "db" };
     expect(redactParsed(S.Struct({ name: S.String }).ast, value)).toBe(value);
