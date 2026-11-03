@@ -65,10 +65,15 @@ export interface DebugHooks {
   ) => Stream.Stream<A, E, R>;
   /**
    * The operation call with its debug log lines: `Effect.logDebug` at the
-   * start and on exit, every line inside annotated with the operation.
+   * start (with the input) and on exit (with the output), every line inside
+   * annotated with the operation. With `schemas`, input and output are
+   * logged with their sensitive values `Redacted` (`./sensitive.ts`);
+   * without, they are left out.
    */
   readonly call: <A, E, R>(
     info: OperationInfo,
+    input: unknown,
+    schemas: OperationSchemas | undefined,
     effect: Effect.Effect<A, E, R>,
   ) => Effect.Effect<A, E, R>;
   /** One HTTP exchange (`sent`) with its debug log lines. */
@@ -80,6 +85,12 @@ export interface DebugHooks {
   readonly callSite: (
     callSite: (() => string | undefined) | undefined,
   ) => Record<string, unknown> | undefined;
+}
+
+/** An operation's input and output schemas, for the debug log lines. */
+export interface OperationSchemas {
+  readonly input: AST.AST;
+  readonly output: AST.AST;
 }
 
 export const Debug = /*@__PURE__*/ Context.Reference<DebugHooks | undefined>(
@@ -706,10 +717,11 @@ export const operationSpan = <A, E, R>(
   callSite: (() => string | undefined) | undefined,
   input: unknown,
   run: (input: unknown) => Effect.Effect<A, E, R>,
+  schemas?: OperationSchemas,
 ): Effect.Effect<A, E, R> => {
   const measure = fiber.getRef(Metrics);
   let traced = traceCall(fiber, debug, info, callSite, input, run);
-  if (debug !== undefined) traced = debug.call(info, traced);
+  if (debug !== undefined) traced = debug.call(info, input, schemas, traced);
   return measure === undefined ? traced : measure(info, traced);
 };
 

@@ -13,7 +13,7 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
  * {@link matchTypedError}).
  */
 import type * as AST from "effect/SchemaAST";
-import { getAnn, getProps } from "./annotations.ts";
+import { getAnn, getProps, resolveNode } from "./annotations.ts";
 import * as Category from "./category.ts";
 import { isOpaqueValue } from "./plain-values.ts";
 import * as Schema from "./schema-lite-typed.ts";
@@ -41,7 +41,7 @@ import {
 
 //#region AST helpers (survive S.optional / Suspend / transforms)
 
-export { getAnn, getProps } from "./annotations.ts";
+export { getAnn, getProps, resolveNode } from "./annotations.ts";
 
 export const getPropAnn = (prop: AST.PropertySignature, symbol: symbol): unknown =>
   getAnn(prop.type, symbol);
@@ -52,21 +52,6 @@ export const nameOf = (prop: AST.PropertySignature, symbol: symbol): string => {
   return typeof v === "string" ? v : String(prop.name);
 };
 
-/** Resolve wrappers to the real node: Suspend, encoding, optional/null unions. */
-export const resolveNode = (ast: AST.AST): AST.AST => {
-  if (ast._tag === "Suspend") return resolveNode(ast.thunk());
-  if (ast.encoding && ast.encoding.length > 0) return resolveNode(ast.encoding[0]!.to);
-  if (ast._tag === "Union") {
-    const real = (ast as AST.Union).types.filter(
-      (t) =>
-        t._tag !== "Undefined" &&
-        t._tag !== "Null" &&
-        !(t._tag === "Literal" && (t as any).literal === null),
-    );
-    if (real.length === 1) return resolveNode(real[0]!);
-  }
-  return ast;
-};
 //#endregion
 
 //#region Response headers on outputs
