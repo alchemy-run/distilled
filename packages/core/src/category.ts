@@ -242,16 +242,36 @@ export const isThrottling = (error: unknown): boolean => {
 };
 
 /**
+ * Whether a transport failure's cause is DNS answering that the host does
+ * not exist (`ENOTFOUND`). Depending on the runtime, `code` sits on the
+ * fetch error itself or further down its `cause` chain.
+ */
+const isHostNotFoundCause = (cause: unknown): boolean => {
+  for (let e = cause, depth = 0; typeof e === "object" && e !== null && depth < 4; depth++) {
+    if ((e as { code?: unknown }).code === "ENOTFOUND") return true;
+    e = (e as { cause?: unknown }).cause;
+  }
+  return false;
+};
+
+/**
  * Check if an error is an Effect `HttpClientError` caused by a wire-level
- * transport failure (undici `ConnectTimeoutError`, socket reset, DNS
- * failure, premature stream close, ...). The request never reached the
+ * transport failure (undici `ConnectTimeoutError`, socket reset, temporary
+ * DNS failure, premature stream close, ...). The request never reached the
  * server (or the response never finished) so retrying is safe.
+ *
+ * A host that DNS says does not exist (`ENOTFOUND`) is excluded: the answer
+ * is authoritative, so a mistyped base URL, or a service with no endpoint
+ * in a region, fails at once. A temporary resolver failure (`EAI_AGAIN`)
+ * is still retried.
  *
  * Status-code retries are intentionally left to the per-SDK API client,
  * which knows whether a given response is genuinely retryable.
  */
 const isHttpTransportError = (error: unknown): boolean =>
-  HttpClientError.isHttpClientError(error) && error.reason._tag === "TransportError";
+  HttpClientError.isHttpClientError(error) &&
+  error.reason._tag === "TransportError" &&
+  !isHostNotFoundCause(error.reason.cause);
 
 /**
  * Check if an error is a transient error that should be automatically retried.
@@ -264,8 +284,9 @@ const isHttpTransportError = (error: unknown): boolean =>
  * - TimeoutError (request timed out)
  * - LockedError (423 - resource temporarily locked)
  * - Effect `HttpClientError` with `reason._tag === "TransportError"`
- *   (undici connect/read timeout, socket reset, DNS failure, premature
- *   stream close)
+ *   (undici connect/read timeout, socket reset, temporary DNS failure,
+ *   premature stream close). A host DNS says does not exist (`ENOTFOUND`)
+ *   is not retried.
  */
 export const isTransientError = (error: unknown): boolean => {
   // Check for retryable trait first
