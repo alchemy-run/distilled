@@ -31,9 +31,10 @@
  * DEBUG distilled.operation=27ms: ok S3.PutObject
  * ```
  *
- * The lines hold no request or response body and no full URL (a URL can
- * carry a presigned signature): the method, host, URL template, status,
- * and the error's tag on failure.
+ * The `call` line carries the input and the `ok` line the output, each
+ * with only its sensitive values `Redacted` (`./sensitive.ts`; input and
+ * output judged independently). The lines hold no serialized body and no
+ * full URL (a URL can carry a presigned signature or a sensitive label).
  */
 import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
@@ -41,18 +42,27 @@ import * as Exit from "effect/Exit";
 import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
 import * as Tracer from "effect/Tracer";
+import { redactParsed } from "./sensitive.ts";
 import { Debug, type DebugHooks, OperationSpan, tagOf } from "./telemetry.ts";
 
 /**
  * The call's log lines. Every line inside (the HTTP ones included) carries
- * the operation and its URL template, and the exit line its duration.
+ * the operation and its URL template, and the exit line its duration. The
+ * input and output show only their sensitive values `Redacted`; each is
+ * judged by its own schema.
  */
-const call: DebugHooks["call"] = (info, effect) => {
+const call: DebugHooks["call"] = (info, input, schemas, effect) => {
   const template = info.attributes["url.template"];
-  const logged = Effect.flatMap(Effect.logDebug(`call ${info.name}`), () =>
+  const start =
+    schemas === undefined
+      ? Effect.logDebug(`call ${info.name}`)
+      : Effect.logDebug(`call ${info.name}`, redactParsed(schemas.input, input));
+  const logged = Effect.flatMap(start, () =>
     Effect.onExit(effect, (exit) =>
       Exit.isSuccess(exit)
-        ? Effect.logDebug(`ok ${info.name}`)
+        ? schemas === undefined
+          ? Effect.logDebug(`ok ${info.name}`)
+          : Effect.logDebug(`ok ${info.name}`, redactParsed(schemas.output, exit.value))
         : Cause.hasInterruptsOnly(exit.cause)
           ? Effect.logDebug(`interrupted ${info.name}`)
           : Effect.logDebug(`failed ${info.name}: ${tagOf(Cause.squash(exit.cause))}`),

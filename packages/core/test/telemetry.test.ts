@@ -335,7 +335,12 @@ describe("TelemetryDebug log lines", () => {
     const capture = Logger.layer([
       Logger.make(({ message, fiber }) => {
         const annotations = fiber.getRef(References.CurrentLogAnnotations);
-        lines.push(`${[message].flat().join(" ")} | ${annotations["distilled.operation"] ?? ""}`);
+        lines.push(
+          `${[message]
+            .flat()
+            .map((m) => (typeof m === "string" ? m : JSON.stringify(m)))
+            .join(" ")} | ${annotations["distilled.operation"] ?? ""}`,
+        );
       }),
     ]);
     await Effect.runPromise(
@@ -350,10 +355,10 @@ describe("TelemetryDebug log lines", () => {
 
   test("logs each call and HTTP exchange, annotated with the operation", async () => {
     expect(await logged(TelemetryDebug.layer)).toEqual([
-      "call Test.GetZone | Test.GetZone",
+      'call Test.GetZone {"zone_id":"z1"} | Test.GetZone',
       "-> GET api.test:8443 | Test.GetZone",
       "<- 200 | Test.GetZone",
-      "ok Test.GetZone | Test.GetZone",
+      'ok Test.GetZone {"id":"z1"} | Test.GetZone',
     ]);
   });
 

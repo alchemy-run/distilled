@@ -1,4 +1,5 @@
 import { inspect } from "node:util";
+import { TelemetryDebug } from "@distilled.cloud/core/telemetry-debug";
 import { References } from "effect";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
@@ -49,23 +50,25 @@ const captureDebugLogs = async (effect: Effect.Effect<unknown, unknown, any>, re
   ]);
   await Effect.runPromise(
     effect.pipe(
-      Effect.provide(Layer.mergeAll(mockClient(respond, sent), Credentials.mock, capture)),
+      Effect.provide(
+        Layer.mergeAll(mockClient(respond, sent), Credentials.mock, TelemetryDebug.layer, capture),
+      ),
       Effect.provideService(References.MinimumLogLevel, "Debug"),
     ) as Effect.Effect<unknown, never, never>,
   );
   return { logs: lines, all: lines.join("\n"), sent: sent.join("\n") };
 };
 
-const line = (logs: ReadonlyArray<string>, message: string) =>
-  logs.find((l) => l.includes(`'${message}'`)) ?? "";
+const line = (logs: ReadonlyArray<string>, prefix: string) =>
+  logs.find((l) => l.includes(`'${prefix} `)) ?? "";
 
-describe("AWS protocol debug logging", () => {
+describe("AWS debug log lines (TelemetryDebug)", () => {
   test("does not log secret request values passed as Redacted", async () => {
     const { all, sent } = await captureDebugLogs(
       putSecretValue({ SecretId: "app/db", SecretString: Redacted.make(SECRET) }),
       { Name: "app/db" },
     );
-    expect(all).toContain("Built Request");
+    expect(all).toContain("call SecretsManager.PutSecretValue");
     expect(all).not.toContain(SECRET);
     // The request on the wire still carries the real value.
     expect(sent).toContain(SECRET);
@@ -80,19 +83,15 @@ describe("AWS protocol debug logging", () => {
     expect(sent).toContain(PLAIN);
   });
 
-  test("redacts the whole built request and only the sensitive members of the payload", async () => {
-    const { logs } = await captureDebugLogs(
+  test("redacts only the sensitive members of the input, and logs no serialized body", async () => {
+    const { logs, all } = await captureDebugLogs(
       putSecretValue({ SecretId: "app/db-control", SecretString: PLAIN }),
       { Name: "app/db" },
     );
-    const payload = line(logs, "Payload");
-    expect(payload).toContain("SecretId: 'app/db-control'");
-    expect(payload).toContain("SecretString: <redacted>");
-    const built = line(logs, "Built Request");
-    expect(built).toContain("method: 'POST'");
-    expect(built).toContain("body: '[REDACTED]'");
-    expect(built).toContain("headers: '[REDACTED]'");
-    expect(built).not.toContain("app/db-control");
+    const call = line(logs, "call");
+    expect(call).toContain("SecretId: 'app/db-control'");
+    expect(call).toContain("SecretString: <redacted>");
+    expect(all).not.toContain('"SecretId"');
   });
 
   test("does not log secret binary values", async () => {
@@ -115,7 +114,7 @@ describe("AWS protocol debug logging", () => {
       }),
       { FunctionName: "worker" },
     );
-    expect(line(logs, "Payload")).toContain("FunctionName: 'worker'");
+    expect(line(logs, "call")).toContain("FunctionName: 'worker'");
     expect(all).not.toContain(SECRET);
     expect(all).not.toContain(PLAIN);
     expect(sent).toContain(SECRET);
@@ -129,7 +128,7 @@ describe("AWS protocol debug logging", () => {
       putSecretValue({ SecretId: "app/db", SecretString: Redacted.make(SECRET) }),
       { Name: "app/db-response", VersionId: "v-1" },
     );
-    const parsed = line(logs, "Parsed Response");
+    const parsed = line(logs, "ok");
     expect(parsed).toContain("Name: 'app/db-response'");
     expect(parsed).toContain("VersionId: 'v-1'");
   });
@@ -139,9 +138,9 @@ describe("AWS protocol debug logging", () => {
       Name: "app/db",
       SecretString: SECRET,
     });
-    expect(line(logs, "Payload")).toContain("SecretId: 'app/db-request'");
-    expect(line(logs, "Built Request")).toContain('"SecretId":"app/db-request"');
-    expect(line(logs, "Parsed Response")).toContain("SecretString: <redacted>");
+    expect(line(logs, "call")).toContain("SecretId: 'app/db-request'");
+    expect(line(logs, "ok")).toContain("Name: 'app/db'");
+    expect(line(logs, "ok")).toContain("SecretString: <redacted>");
     expect(all).not.toContain(SECRET);
   });
 });
