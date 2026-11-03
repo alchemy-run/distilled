@@ -15,14 +15,14 @@ allowBuilds:
   workerd: true
 
 catalog:
-  "@effect/platform-node": "^4.0.5"
+  "@effect/platform-node": "^4.1.2"
   "@oxc-project/types": "^0.153.0"
   "@types/node": "26.6.5"
   "@alchemy.run/cloudflare": "2.0.0-beta.85"
   "@alchemy.run/github": "2.0.0-beta.85"
   alchemy: "2.0.0-beta.85"
   changelogithub: "^13.16.1"
-  effect: "^4.0.5"
+  effect: "^4.1.2"
   graphql: "^16.11.0"
   husky: "^9.1.7"
   mitata: "^1.0.34"

@@ -171,7 +171,7 @@ catalogs:
       specifier: 2.0.0-beta.85
       version: 2.0.0-beta.85
     '@effect/platform-node':
-      specifier: ^4.0.5
+      specifier: ^4.1.2
       version: 4.1.2
     '@oxc-project/types':
       specifier: ^0.153.0
@@ -186,7 +186,7 @@ catalogs:
       specifier: ^13.16.1
       version: 13.16.1
     effect:
-      specifier: ^4.0.5
+      specifier: ^4.1.2
       version: 4.1.2
     graphql:
       specifier: ^16.11.0
