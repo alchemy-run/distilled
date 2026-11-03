@@ -83,6 +83,7 @@ import {
   InvalidRoute,
   UnknownCloudflareError,
 } from "./errors.ts";
+import { Jurisdiction } from "./jurisdiction.ts";
 import {
   binaryResponseBodySymbol,
   envelopePayloadRootSymbol,
@@ -303,18 +304,42 @@ const hostFor = (input: unknown, inputAst: AST.AST): string | undefined => {
 // and reintroduced for callers by the generated `CloudflareOpContext`
 // annotations.
 const requestFor = (
+  context: Context.Context<any>,
   creds: ResolvedCredentials,
   input: unknown,
   inputAst: AST.AST,
-): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> =>
-  buildRequest({
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> => {
+  const headers = formatHeaders(creds);
+  // The `Jurisdiction` layer, for operations that take the header. A
+  // `jurisdiction` the call sets is a member header and replaces it.
+  const jurisdiction = Context.getOrUndefined(context, Jurisdiction);
+  if (jurisdiction !== undefined && takesJurisdiction(inputAst))
+    headers[JURISDICTION_HEADER] = jurisdiction;
+  return buildRequest({
     input,
     inputAst,
     baseUrl: hostFor(input, inputAst) ?? creds.apiBaseUrl,
-    headers: formatHeaders(creds),
+    headers,
     mapMemberHeader: bearerPrefixAuthorization,
     unknownKeyToWire: camelToSnake,
   });
+};
+
+const JURISDICTION_HEADER = "cf-r2-jurisdiction";
+const jurisdictionInputs = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
+/** Whether an operation's input has a member sent as the `cf-r2-jurisdiction` header. */
+const takesJurisdiction = (inputAst: AST.AST): boolean => {
+  let takes = jurisdictionInputs.get(inputAst);
+  if (takes === undefined) {
+    takes = getProps(inputAst).some(
+      (prop) =>
+        hasPropAnn(prop, headerSymbol) &&
+        nameOf(prop, headerSymbol).toLowerCase() === JURISDICTION_HEADER,
+    );
+    jurisdictionInputs.set(inputAst, takes);
+  }
+  return takes;
+};
 
 /**
  * The calling fiber's credentials, then `f` on them. The Credentials service
@@ -335,7 +360,7 @@ const withCredentials = <B>(
 const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.withFiber((fiber) =>
     withCredentials(fiber.context as Context.Context<any>, (creds) =>
-      requestFor(creds, input, inputAst),
+      requestFor(fiber.context as Context.Context<any>, creds, input, inputAst),
     ),
   );
 
@@ -667,7 +692,7 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
       const context = fiber.context as Context.Context<any>;
       return withCredentials(context, (creds) => {
         const client = Context.get(context, HttpClient.HttpClient);
-        return Effect.flatMap(requestFor(creds, input, op.inputAst), (request) =>
+        return Effect.flatMap(requestFor(context, creds, input, op.inputAst), (request) =>
           Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
             Telemetry.phase(
               context,

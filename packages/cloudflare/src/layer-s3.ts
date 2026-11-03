@@ -11,7 +11,8 @@
  *   is the secret access key.
  * - The endpoint: `https://<account_id>[.<jurisdiction>].r2.cloudflarestorage.com`,
  *   for the credentials' `accountId`, or else the one account the token can
- *   reach.
+ *   reach, and the `Jurisdiction` layer (default: Cloudflare's default
+ *   jurisdiction).
  *
  * Both are looked up on the first S3 call and kept.
  *
@@ -28,12 +29,14 @@
 import * as CoreCrypto from "@distilled.cloud/core/crypto";
 import type * as S3Credentials from "@distilled.cloud/s3/Credentials";
 import type * as S3Endpoint from "@distilled.cloud/s3/Endpoint";
+import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials } from "./credentials.ts";
+import { Jurisdiction } from "./jurisdiction.ts";
 
 /** The Cloudflare credentials could not be turned into R2 S3 keys or an endpoint. */
 export class S3CredentialsError
@@ -49,14 +52,6 @@ declare module "@distilled.cloud/s3/Credentials" {
   }
 }
 
-export interface LayerS3Options {
-  /**
-   * The jurisdiction the buckets were created in; each has its own
-   * endpoint. Default: `"default"`.
-   */
-  readonly jurisdiction?: "default" | "eu" | "fedramp";
-}
-
 interface Resolved {
   readonly keys: S3Credentials.ResolvedCredentials;
   readonly endpoint: string;
@@ -66,9 +61,7 @@ interface Resolved {
  * `@distilled.cloud/s3`'s `Credentials` (region `auto`) and `Endpoint` for
  * the R2 buckets of the account the Cloudflare `Credentials` act on.
  */
-export const layerS3 = (
-  options: LayerS3Options = {},
-): Layer.Layer<
+export const layerS3 = (): Layer.Layer<
   S3Credentials.Credentials | S3Endpoint.Endpoint,
   never,
   Credentials | HttpClient.HttpClient
@@ -106,7 +99,7 @@ export const layerS3 = (
             sessionToken: undefined,
             region: "auto",
           },
-          endpoint: endpoint(accountId, options.jurisdiction ?? "default"),
+          endpoint: endpoint(accountId, Context.getOrUndefined(context, Jurisdiction) ?? "default"),
         } satisfies Resolved;
       }).pipe(
         Effect.provideContext(context),

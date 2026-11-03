@@ -28,6 +28,13 @@
       "workerd": "./src/errors.ts",
       "default": "./lib/errors.js"
     },
+    "./Jurisdiction": {
+      "types": "./lib/jurisdiction.d.ts",
+      "bun": "./src/jurisdiction.ts",
+      "worker": "./src/jurisdiction.ts",
+      "workerd": "./src/jurisdiction.ts",
+      "default": "./lib/jurisdiction.js"
+    },
     "./Traits": {
       "types": "./lib/traits.d.ts",
       "bun": "./src/traits.ts",

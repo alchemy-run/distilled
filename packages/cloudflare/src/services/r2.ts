@@ -5130,4 +5130,4 @@ function __S(i: number, f: (j: number) => unknown, j: number): any {
   return (__s[i] ??= __L.at(f, j));
 }
 
-export { layerS3, S3CredentialsError, type LayerS3Options } from "../layer-s3.ts";
+export { layerS3, S3CredentialsError } from "../layer-s3.ts";
