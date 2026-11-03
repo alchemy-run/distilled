@@ -3,6 +3,7 @@ import * as GitHub from "@alchemy.run/github";
 import * as Alchemy from "alchemy";
 import * as Console from "effect/Console";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 
 /**
  * The exact set of files a spec-mirror repository must contain, committed by
@@ -108,14 +109,30 @@ export const makeSyncScaffold = (resolve: (repository: string) => ScaffoldFiles)
   Alchemy.Action(
     "SyncScaffold",
     Effect.gen(function* () {
-      // `Stack` constrains its requirement union to provider services, and
-      // GitHubCredentials — provided at runtime by `GitHub.providers()` — is
-      // not one, so it cannot appear there. The cast erases the requirement;
-      // it is always satisfied when the stack runs.
-      const credentials = yield* GitHub.GitHubCredentials as unknown as Effect.Effect<
-        Effect.Effect<{ readonly octokit: () => any }>
-      >;
-      const octokit = (yield* credentials).octokit();
+      // Provided at runtime by `GitHub.providers()`.
+      const { token, apiBaseUrl, userAgent } = yield* yield* GitHub.Credentials;
+
+      /** One GitHub REST call; a non-2xx response throws an error carrying `status`. */
+      const github = async (method: string, path: string, body?: unknown): Promise<any> => {
+        const response = await fetch(`${apiBaseUrl}${path}`, {
+          method,
+          headers: {
+            accept: "application/vnd.github+json",
+            authorization: `Bearer ${Redacted.value(token)}`,
+            "user-agent": userAgent,
+            "x-github-api-version": "2022-11-28",
+            ...(body === undefined ? {} : { "content-type": "application/json" }),
+          },
+          body: body === undefined ? undefined : JSON.stringify(body),
+        });
+        if (!response.ok) {
+          throw Object.assign(
+            new Error(`GitHub ${method} ${path}: ${response.status} ${await response.text()}`),
+            { status: response.status },
+          );
+        }
+        return response.status === 204 ? undefined : response.json();
+      };
 
       const api = <A>(call: () => Promise<A>) =>
         Effect.tryPromise({ try: call, catch: (e) => e as Error });
@@ -128,11 +145,7 @@ export const makeSyncScaffold = (resolve: (repository: string) => ScaffoldFiles)
         // The commit the branch is on, and the tree it points at.
         const ref = yield* api(async () => {
           try {
-            const { data } = await octokit.rest.git.getRef({
-              owner,
-              repo,
-              ref: `heads/${branch}`,
-            });
+            const data = await github("GET", `/repos/${owner}/${repo}/git/ref/heads/${branch}`);
             return data.object.sha as string;
           } catch (error: any) {
             // A repository created without `autoInit` has no commit yet.
@@ -144,13 +157,7 @@ export const makeSyncScaffold = (resolve: (repository: string) => ScaffoldFiles)
         const existing = new Map<string, string>();
         if (ref !== undefined) {
           const tree = yield* api(async () => {
-            const { data } = await octokit.rest.git.getTree({
-              owner,
-              repo,
-              tree_sha: ref,
-              recursive: "1",
-            });
-            return data;
+            return github("GET", `/repos/${owner}/${repo}/git/trees/${ref}?recursive=1`);
           });
           for (const entry of tree.tree as Array<{
             path?: string;
@@ -194,9 +201,7 @@ export const makeSyncScaffold = (resolve: (repository: string) => ScaffoldFiles)
         const blobs = yield* Effect.all(
           written.map((path) =>
             api(async () => {
-              const { data } = await octokit.rest.git.createBlob({
-                owner,
-                repo,
+              const data = await github("POST", `/repos/${owner}/${repo}/git/blobs`, {
                 content: Buffer.from(files[path]!, "utf-8").toString("base64"),
                 encoding: "base64",
               });
@@ -207,9 +212,7 @@ export const makeSyncScaffold = (resolve: (repository: string) => ScaffoldFiles)
         );
 
         const tree = yield* api(async () => {
-          const { data } = await octokit.rest.git.createTree({
-            owner,
-            repo,
+          const data = await github("POST", `/repos/${owner}/${repo}/git/trees`, {
             // Without a base tree on an empty repository there is nothing to
             // extend; with one, only the entries below change.
             ...(ref === undefined ? {} : { base_tree: ref }),
@@ -240,9 +243,7 @@ export const makeSyncScaffold = (resolve: (repository: string) => ScaffoldFiles)
           .join(", ");
 
         const commit = yield* api(async () => {
-          const { data } = await octokit.rest.git.createCommit({
-            owner,
-            repo,
+          const data = await github("POST", `/repos/${owner}/${repo}/git/commits`, {
             message: `chore: sync spec-mirror scaffold (${summary})\n\nManaged by the distilled-submodules Alchemy stack in alchemy-run/distilled.`,
             tree,
             parents: ref === undefined ? [] : [ref],
@@ -252,17 +253,12 @@ export const makeSyncScaffold = (resolve: (repository: string) => ScaffoldFiles)
 
         yield* api(async () => {
           if (ref === undefined) {
-            await octokit.rest.git.createRef({
-              owner,
-              repo,
+            await github("POST", `/repos/${owner}/${repo}/git/refs`, {
               ref: `refs/heads/${branch}`,
               sha: commit,
             });
           } else {
-            await octokit.rest.git.updateRef({
-              owner,
-              repo,
-              ref: `heads/${branch}`,
+            await github("PATCH", `/repos/${owner}/${repo}/git/refs/heads/${branch}`, {
               sha: commit,
             });
           }
