@@ -17,16 +17,23 @@
  *
  * and carries the caller's `code.*` attributes.
  *
- * `layerWith({ logRequests: true })` also prints one stderr line per request
- * and per response, whether or not an exporter is installed:
+ * Every SDK also writes the same `Effect.logDebug` lines for each call,
+ * with or without an exporter. They go to the program's logger, so they
+ * show when `References.MinimumLogLevel` admits `Debug`, and a logger that
+ * reads the current span (an OTel log exporter) links them to the trace:
  *
  * ```
- * [distilled] -> GET /zones/{zone_id}
- * [distilled] <- 404 {"success":false,"errors":[...]}
+ * DEBUG distilled.operation=0ms: call S3.PutObject
+ *   distilled.operation: S3.PutObject
+ *   url.template: /{Bucket}/{Key+}
+ * DEBUG distilled.operation=23ms: -> PUT my-bucket.s3.us-east-1.amazonaws.com
+ * DEBUG distilled.operation=25ms: <- 200
+ * DEBUG distilled.operation=27ms: ok S3.PutObject
  * ```
  *
- * Response lines carry up to 400 characters of the body, which can hold
- * secrets the API returns.
+ * The lines hold no request or response body and no full URL (a URL can
+ * carry a presigned signature): the method, host, URL template, status,
+ * and the error's tag on failure.
  */
 import * as Cause from "effect/Cause";
 import * as Effect from "effect/Effect";
@@ -35,6 +42,42 @@ import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
 import * as Tracer from "effect/Tracer";
 import { Debug, type DebugHooks, OperationSpan, tagOf } from "./telemetry.ts";
+
+/**
+ * The call's log lines. Every line inside (the HTTP ones included) carries
+ * the operation and its URL template, and the exit line its duration.
+ */
+const call: DebugHooks["call"] = (info, effect) => {
+  const template = info.attributes["url.template"];
+  const logged = Effect.flatMap(Effect.logDebug(`call ${info.name}`), () =>
+    Effect.onExit(effect, (exit) =>
+      Exit.isSuccess(exit)
+        ? Effect.logDebug(`ok ${info.name}`)
+        : Cause.hasInterruptsOnly(exit.cause)
+          ? Effect.logDebug(`interrupted ${info.name}`)
+          : Effect.logDebug(`failed ${info.name}: ${tagOf(Cause.squash(exit.cause))}`),
+    ),
+  );
+  return Effect.annotateLogs(Effect.withLogSpan(logged, "distilled.operation"), {
+    "distilled.operation": info.name,
+    ...(typeof template === "string" ? { "url.template": template } : {}),
+  });
+};
+
+/** The host of `url`, without the path or query (which can carry secrets). */
+const hostOf = (url: string): string => {
+  try {
+    return new URL(url).host;
+  } catch {
+    return "";
+  }
+};
+
+/** One HTTP exchange: method and host out, status back. */
+const http: DebugHooks["http"] = (request, sent) =>
+  Effect.flatMap(Effect.logDebug(`-> ${request.method} ${hostOf(request.url)}`), () =>
+    Effect.tap(sent, (response) => Effect.logDebug(`<- ${response.status}`)),
+  );
 
 const phase: DebugHooks["phase"] = (name, effect, attributes) =>
   Effect.withSpan(effect, name, { level: "Debug", attributes, captureStackTrace: false });
@@ -113,23 +156,14 @@ const callSite: DebugHooks["callSite"] = (site) => {
   };
 };
 
-export interface Options {
-  /** Print each request and response to stderr. Default `false`. */
-  readonly logRequests?: boolean;
-}
-
-const layerWith = (options: Options = {}): Layer.Layer<never> =>
-  Layer.succeed(Debug, {
+export const TelemetryDebug = {
+  /** Turns on debug spans and debug log lines for every distilled call it is provided to. */
+  layer: /*@__PURE__*/ Layer.succeed(Debug, {
     phase,
     attempt,
     readStream,
     callSite,
-    logRequests: options.logRequests === true,
-  }) as Layer.Layer<never>;
-
-export const TelemetryDebug = {
-  /** Turns on debug spans for every distilled call it is provided to. */
-  layer: /*@__PURE__*/ layerWith(),
-  /** Debug spans, with options (`logRequests`). */
-  layerWith,
+    call,
+    http,
+  }) as Layer.Layer<never>,
 } as const;
