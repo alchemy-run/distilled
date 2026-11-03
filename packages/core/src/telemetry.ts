@@ -116,6 +116,21 @@ export const OperationSpan = /*@__PURE__*/ Context.Reference<Call | undefined>(
   { defaultValue: () => undefined },
 );
 
+/**
+ * The untraced call's propagation (no exporter, so no operation span): the
+ * caller's parent span and the service's header format. Requests carry the
+ * parent's own trace context, as an OTel no-op tracer forwards it.
+ */
+interface Forward {
+  readonly span: Tracer.AnySpan;
+  readonly propagate: NonNullable<ServiceTelemetry["propagate"]>;
+}
+
+const Forward = /*@__PURE__*/ Context.Reference<Forward | undefined>(
+  "@distilled.cloud/core/Telemetry/Forward",
+  { defaultValue: () => undefined },
+);
+
 //#region traits
 
 /**
@@ -508,10 +523,25 @@ export const annotateResponse = (
   }
 };
 
+/** The trace header for `span` in the service's format. */
+const traceHeader = (
+  request: HttpClientRequest.HttpClientRequest,
+  propagate: NonNullable<ServiceTelemetry["propagate"]>,
+  span: Tracer.AnySpan,
+): HttpClientRequest.HttpClientRequest =>
+  propagate === "w3c"
+    ? HttpClientRequest.setHeader(
+        request,
+        "traceparent",
+        `00-${span.traceId}-${span.spanId}-${span.sampled ? "01" : "00"}`,
+      )
+    : HttpClientRequest.setHeader(request, ...propagate(span));
+
 /**
  * `client.execute(request)` for the traced call on this fiber: the
  * request facts before it is sent, the response facts when it returns.
- * Untraced calls pay one context read.
+ * Untraced calls pay two context reads, and forward the caller's trace
+ * header if there is a parent span.
  */
 export const execute = (
   context: Context.Context<any>,
@@ -529,20 +559,15 @@ const tracedExecute = (
   request: HttpClientRequest.HttpClientRequest,
 ): Effect.Effect<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError> => {
   const call = Context.get(context, OperationSpan);
-  if (call === undefined) return client.execute(request);
+  if (call === undefined) {
+    const forward = Context.get(context, Forward);
+    return client.execute(
+      forward === undefined ? request : traceHeader(request, forward.propagate, forward.span),
+    );
+  }
   annotateRequest(context, request.method, request.url);
   const propagate = call.info.propagate;
-  if (propagate !== undefined) {
-    const span = call.attempt ?? call.span;
-    request =
-      propagate === "w3c"
-        ? HttpClientRequest.setHeader(
-            request,
-            "traceparent",
-            `00-${span.traceId}-${span.spanId}-${span.sampled ? "01" : "00"}`,
-          )
-        : HttpClientRequest.setHeader(request, ...propagate(span));
-  }
+  if (propagate !== undefined) request = traceHeader(request, propagate, call.attempt ?? call.span);
   return Effect.map(client.execute(request), (response) => {
     annotateResponse(
       context,
@@ -698,6 +723,8 @@ const withFailureFrame = <A, E, R>(
  *
  *   no exporter: no span. Effect's HTTP span is switched off too (nobody
  *                would see it); the failure frame still names the call.
+ *                Requests still carry the caller's parent span, if any,
+ *                in the service's trace header (`traceparent`, X-Ray).
  *   operation:   one CLIENT span. Effect's HTTP span is switched off and
  *                protocols copy its facts (status, host, request id) onto
  *                this span, so one span per call.
@@ -734,14 +761,15 @@ const traceCall = <A, E, R>(
   run: (input: unknown) => Effect.Effect<A, E, R>,
 ): Effect.Effect<A, E, R> => {
   if (!exporting(fiber)) {
-    const body = run(input);
-    return withFailureFrame(
-      debug !== undefined
-        ? body
-        : Effect.provideService(body, HttpClient.TracerDisabledWhen, always),
-      info.name,
-      callSite,
-    );
+    let body = run(input);
+    if (debug === undefined)
+      body = Effect.provideService(body, HttpClient.TracerDisabledWhen, always);
+    const propagate = info.propagate;
+    if (propagate !== undefined) {
+      const span = Context.getOrUndefined(fiber.context, Tracer.ParentSpan);
+      if (span !== undefined) body = Effect.provideService(body, Forward, { span, propagate });
+    }
+    return withFailureFrame(body, info.name, callSite);
   }
   const attributes: Record<string, unknown> =
     debug !== undefined
