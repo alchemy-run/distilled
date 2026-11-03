@@ -16,11 +16,17 @@
  * on the first mismatch instead; `"closed"` exact decoding also throws on a
  * key the schema does not model (`ResponseValidation.strict`). Only members
  * the schema declares are kept.
+ *
+ * Input and output are redacted independently, each by its own schema: a
+ * type that can hold a sensitive value ({@link holdsSensitive}) never has
+ * its plain (wire) form quoted in a log or an error message, and its parsed
+ * form shows only the sensitive members as `Redacted`.
  */
 import { encodeKeysKey, type Node } from "@distilled.cloud/core/schema-lite-impl";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import type { Operation } from "../client/operation.ts";
+import type { Request } from "../client/request.ts";
 import { ParseError } from "../errors.ts";
 import { codecSymbol, isValidDate, type CodecKind } from "../lite.ts";
 import { toBase64 } from "./base64.ts";
@@ -428,7 +434,7 @@ const decodeUnion = (n: Node, v: unknown, exact: Exactness): unknown => {
 
 //#endregion
 
-/** The message of a failed decode, without the value it found when `withhold`. */
+/** The message of a failed encode or decode, without the value it found when `withhold`. */
 export const decodeFailure = (e: unknown, withhold: boolean): string => {
   if (withhold) return e instanceof CodecError ? e.withheld : "[REDACTED]";
   return e instanceof Error ? e.message : String(e);
@@ -445,14 +451,53 @@ export const outputBody = (operation: Operation<any, any, any>, body: string): s
 export const errorBody = (operation: Operation<any, any, any>, body: string): string =>
   (operation.errors ?? []).some((e) => holdsSensitive(e.ast)) ? "[REDACTED]" : body;
 
-/** An operation input encoder for protocols: encode failures become `ParseError`. */
+/**
+ * An operation input as the `Payload` debug log shows it: when the input can
+ * hold a secret, its sensitive members `Redacted` (by a round trip through
+ * its wire form), whether the caller passed them wrapped or plain. An input
+ * that does not encode is `Redacted` whole; the call itself then fails with
+ * the encoder's `ParseError`.
+ */
+export const inputForLog = (operation: Operation<any, any, any>, input: unknown): unknown => {
+  const ast = operation.input.ast as Node;
+  if (!holdsSensitive(ast)) return input;
+  try {
+    return decode(ast, encode(ast, input));
+  } catch {
+    return Redacted.make(input);
+  }
+};
+
+/**
+ * A serialized request as the `Built Request` debug log shows it: when the
+ * input can hold a secret, everything a member can be bound to (path, query,
+ * headers, body) is `[REDACTED]`.
+ */
+export const requestForLog = (operation: Operation<any, any, any>, request: Request): unknown =>
+  holdsSensitive(operation.input.ast as Node)
+    ? {
+        method: request.method,
+        path: "[REDACTED]",
+        query: "[REDACTED]",
+        headers: "[REDACTED]",
+        body: "[REDACTED]",
+      }
+    : request;
+
+const encodeFailure = (ast: Node, e: unknown): ParseError =>
+  new ParseError({ message: decodeFailure(e, holdsSensitive(ast)) });
+
+/**
+ * An operation input encoder for protocols: encode failures become
+ * `ParseError`, without the value found when the input can hold a secret.
+ */
 export const inputEncoder =
   (ast: Node) =>
   (input: unknown): Effect.Effect<unknown, ParseError> => {
     try {
       return Effect.succeed(encode(ast, input));
     } catch (e) {
-      return Effect.fail(new ParseError({ message: e instanceof Error ? e.message : String(e) }));
+      return Effect.fail(encodeFailure(ast, e));
     }
   };
 
@@ -463,6 +508,6 @@ export const inputEncoderSync =
     try {
       return encode(ast, input);
     } catch (e) {
-      throw new ParseError({ message: e instanceof Error ? e.message : String(e) });
+      throw encodeFailure(ast, e);
     }
   };
