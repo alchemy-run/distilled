@@ -9,8 +9,10 @@ import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import { http2Fetch } from "./http2.ts";
 
 /**
  * Modal production control-plane URL.
@@ -29,6 +31,11 @@ export interface Config {
    * {@link withTaskCommandRouter} for a sandbox's task command router.
    */
   readonly bearerToken?: Redacted.Redacted<string>;
+  /**
+   * Sent as `x-modal-auth-token` with the token pair: the short-lived JWT
+   * Modal's V2 sandbox RPCs and input plane need. Set by `withAuthToken`.
+   */
+  readonly authToken?: Redacted.Redacted<string>;
 }
 
 export class Credentials
@@ -95,7 +102,9 @@ export const anonymous = (apiBaseUrl?: string): Layer.Layer<Credentials> =>
  * `modal.task_command_router.TaskCommandRouter` operations (exec, stdio,
  * filesystem, snapshots, mounts) are served at a per-task URL with a JWT,
  * both returned by `sandboxGetCommandRouterAccess` /
- * `taskGetCommandRouterAccess`.
+ * `taskGetCommandRouterAccess`. The router speaks only HTTP/2, so `effect`
+ * runs with an HTTP/2 `HttpClient` (`node:http2`; not available on
+ * Cloudflare Workers).
  *
  * @example
  * ```ts
@@ -110,7 +119,10 @@ export const withTaskCommandRouter =
   <A, E, R>(effect: Effect.Effect<A, E, R>): Effect.Effect<A, E, R> =>
     Effect.flatMap(Effect.serviceOption(Credentials), (outer) =>
       Effect.provideService(
-        effect,
+        effect.pipe(
+          Effect.provide(FetchHttpClient.layer),
+          Effect.provideService(FetchHttpClient.Fetch, http2Fetch as typeof globalThis.fetch),
+        ),
         Credentials,
         Effect.map(
           outer._tag === "Some"

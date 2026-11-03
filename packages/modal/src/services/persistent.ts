@@ -46,6 +46,19 @@ export class PersistentSandboxBusy
     [{ code: 14 }],
   ) {}
 
+/** The workspace isn't in Modal's persistent sandboxes beta (gRPC PERMISSION_DENIED). */
+export class PersistentSandboxesNotAvailable
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<PersistentSandboxesNotAvailable>()(
+      "PersistentSandboxesNotAvailable",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [{ code: 7, message: { includes: "Persistent Sandboxes are not available" } }],
+  ) {}
+
 /** The persistent sandbox doesn't exist (gRPC NOT_FOUND). */
 export class PersistentSandboxNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -385,7 +398,10 @@ export interface TerminatePersistentSandboxRequest {
   persistentSandboxId?: string;
 }
 export interface TerminatePersistentSandboxResponse {}
-export type CreatePersistentSandboxError = PersistentSandboxAlreadyExists | ModalOpError;
+export type CreatePersistentSandboxError =
+  | PersistentSandboxAlreadyExists
+  | PersistentSandboxesNotAvailable
+  | ModalOpError;
 /** Persistent sandboxes */
 export const createPersistentSandbox: API.OperationMethod<
   CreatePersistentSandboxRequest,
@@ -395,7 +411,7 @@ export const createPersistentSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41, __c1, 9) as any as S.Schema<CreatePersistentSandboxRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<CreatePersistentSandboxResponse>,
-  errors: [PersistentSandboxAlreadyExists, UnknownModalError],
+  errors: [PersistentSandboxAlreadyExists, PersistentSandboxesNotAvailable, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

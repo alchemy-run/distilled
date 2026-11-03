@@ -44,6 +44,16 @@ export class ServiceUserNotFound
     [{ code: 5 }],
   ) {}
 
+/** The workspace's plan doesn't include service users (Modal's Starter plan). */
+export class ServiceUsersNotAvailable
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ServiceUsersNotAvailable>()("ServiceUsersNotAvailable", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 400, message: { includes: "Service users are not available" } }],
+  ) {}
+
 export interface CreateServiceUserRequest {
   name?: string;
   scoped?: boolean;
@@ -111,7 +121,10 @@ export interface ServiceUserInfoRequest {
 export interface ServiceUserInfoResponse {
   serviceUser?: ServiceUser;
 }
-export type CreateServiceUserError = ServiceUserAlreadyExists | ModalOpError;
+export type CreateServiceUserError =
+  | ServiceUserAlreadyExists
+  | ServiceUsersNotAvailable
+  | ModalOpError;
 /** Service users */
 export const createServiceUser: API.OperationMethod<
   CreateServiceUserRequest,
@@ -121,7 +134,7 @@ export const createServiceUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateServiceUserRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<CreateServiceUserResponse>,
-  errors: [ServiceUserAlreadyExists, UnknownModalError],
+  errors: [ServiceUserAlreadyExists, ServiceUsersNotAvailable, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

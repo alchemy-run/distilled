@@ -28,6 +28,12 @@
       "worker": "./src/credentials.ts",
       "default": "./lib/credentials.js"
     },
+    "./AuthToken": {
+      "types": "./lib/auth-token.d.ts",
+      "bun": "./src/auth-token.ts",
+      "worker": "./src/auth-token.ts",
+      "default": "./lib/auth-token.js"
+    },
     "./Errors": {
       "types": "./lib/errors.d.ts",
       "bun": "./src/errors.ts",

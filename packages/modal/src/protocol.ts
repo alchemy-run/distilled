@@ -83,6 +83,9 @@ export const ModalProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeGrpcPr
         : {
             "x-modal-token-id": Redacted.value(creds.tokenId),
             "x-modal-token-secret": Redacted.value(creds.tokenSecret),
+            ...(creds.authToken !== undefined
+              ? { "x-modal-auth-token": Redacted.value(creds.authToken) }
+              : {}),
           }),
     "x-modal-client-type": CLIENT_TYPE_LIBMODAL_JS,
     "x-modal-client-version": CLIENT_VERSION,

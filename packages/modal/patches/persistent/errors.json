@@ -1,5 +1,5 @@
 {
-  "description": "Typed not-found error for persistent sandbox RPCs. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND, 6 = ALREADY_EXISTS), which these matchers key on.",
+  "description": "Typed not-found error for persistent sandbox RPCs. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND, 6 = ALREADY_EXISTS), which these matchers key on. A workspace without the persistent sandboxes beta rejects PersistentSandboxCreate with PERMISSION_DENIED (code 7) and 'Persistent Sandboxes are not available for this workspace yet'.",
   "patches": [
     {
       "op": "add",
@@ -110,6 +110,40 @@
             }
           ]
         }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.persistent#PersistentSandboxesNotAvailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The workspace isn't in Modal's persistent sandboxes beta (gRPC PERMISSION_DENIED).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 7,
+              "message": {
+                "includes": "Persistent Sandboxes are not available"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.persistent#PersistentSandboxCreate/errors/-",
+      "value": {
+        "target": "com.modal.persistent#PersistentSandboxesNotAvailable"
       }
     }
   ]

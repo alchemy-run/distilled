@@ -1,5 +1,5 @@
 {
-  "description": "Typed errors for service user RPCs. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND, 6 = ALREADY_EXISTS), which these matchers key on.",
+  "description": "Typed errors for service user RPCs. The gRPC protocol reports a non-zero grpc-status as `code` (5 = NOT_FOUND, 6 = ALREADY_EXISTS), which these matchers key on. A Starter-plan workspace rejects ServiceUserCreate with INVALID_ARGUMENT/FAILED_PRECONDITION (HTTP 400) and 'Service users are not available on the Starter plan'.",
   "patches": [
     {
       "op": "add",
@@ -75,6 +75,40 @@
           "target": "com.modal.service#ServiceUserAlreadyExists"
         }
       ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.service#ServiceUsersNotAvailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The workspace's plan doesn't include service users (Modal's Starter plan).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Service users are not available"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.service#ServiceUserCreate/errors/-",
+      "value": {
+        "target": "com.modal.service#ServiceUsersNotAvailable"
+      }
     }
   ]
 }
