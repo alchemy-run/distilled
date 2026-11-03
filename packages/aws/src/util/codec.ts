@@ -17,16 +17,19 @@
  * key the schema does not model (`ResponseValidation.strict`). Only members
  * the schema declares are kept.
  *
- * Input and output are redacted independently, each by its own schema: a
- * type that can hold a sensitive value ({@link holdsSensitive}) never has
- * its plain (wire) form quoted in a log or an error message, and its parsed
- * form shows only the sensitive members as `Redacted`.
+ * Which types hold a secret, and how logs and error messages show them, is
+ * core's rule (`@distilled.cloud/core/sensitive`).
  */
 import { encodeKeysKey, type Node } from "@distilled.cloud/core/schema-lite-impl";
+import {
+  holdsSensitive as holdsSensitiveAst,
+  REDACTED,
+  redactPlain,
+} from "@distilled.cloud/core/sensitive";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
+import type * as AST from "effect/SchemaAST";
 import type { Operation } from "../client/operation.ts";
-import type { Request } from "../client/request.ts";
 import { ParseError } from "../errors.ts";
 import { codecSymbol, isValidDate, type CodecKind } from "../lite.ts";
 import { toBase64 } from "./base64.ts";
@@ -44,7 +47,7 @@ export class CodecError extends Error {
   }
   /** The message without the value found, for a type that can hold a secret. */
   get withheld(): string {
-    return `Expected ${this.expected}, got "[REDACTED]"${this.path}`;
+    return `Expected ${this.expected}, got "${REDACTED}"${this.path}`;
   }
 }
 
@@ -85,8 +88,6 @@ interface Shape {
   /** Keys the members take, so a record index skips them. */
   readonly wireKeys: ReadonlySet<string>;
   readonly typeKeys: ReadonlySet<string>;
-  /** Whether a member can hold a `sensitive` value; set by {@link holdsSensitive}. */
-  sensitive?: boolean;
 }
 
 const shapes = /*@__PURE__*/ new WeakMap<Node, Shape>();
@@ -125,45 +126,8 @@ const codecOf = (n: Node): CodecKind | undefined =>
 /** The wire-side node of a `sensitive` value. */
 const innerOf = (n: Node): Node => n.encoding![0]!.to;
 
-/**
- * Whether a value of the type `n` can hold a `sensitive` value, at any
- * depth. The answer is kept on each struct's shape, so a struct is searched
- * once: `true` when the search finds a secret below it, `false` when a
- * whole search from a type that holds no secret visited it.
- */
-export const holdsSensitive = (n: Node): boolean => {
-  const visited: Shape[] = [];
-  const found = searchSensitive(n, new Set(), visited);
-  if (!found) for (const shape of visited) shape.sensitive = false;
-  return found;
-};
-
-const searchSensitive = (n: Node, seen: Set<Node>, visited: Shape[]): boolean => {
-  if (codecOf(n) === "sensitive") return true;
-  if (seen.has(n)) return false;
-  seen.add(n);
-  const any = (types: ReadonlyArray<Node> | undefined) =>
-    types !== undefined && types.some((t) => searchSensitive(t, seen, visited));
-  switch (n._tag) {
-    case "Suspend":
-      return searchSensitive(n.thunk!(), seen, visited);
-    case "Objects": {
-      const shape = shapeOf(n);
-      if (shape.sensitive !== undefined) return shape.sensitive;
-      visited.push(shape);
-      const found =
-        any(shape.members.map((m) => m.type)) || any(n.indexSignatures?.map((i) => i.type));
-      if (found) shape.sensitive = true;
-      return found;
-    }
-    case "Arrays":
-      return any(n.elements) || any(n.rest);
-    case "Union":
-      return any(n.types);
-    default:
-      return false;
-  }
-};
+/** Whether a value of the type `n` can hold a `sensitive` value (core's rule). */
+export const holdsSensitive = (n: Node): boolean => holdsSensitiveAst(n as AST.AST);
 
 /** `v` kept as read by a lenient decode: `Redacted` whole when `n` can hold a secret. */
 const asRead = (n: Node, v: unknown): unknown =>
@@ -436,53 +400,20 @@ const decodeUnion = (n: Node, v: unknown, exact: Exactness): unknown => {
 
 /** The message of a failed encode or decode, without the value it found when `withhold`. */
 export const decodeFailure = (e: unknown, withhold: boolean): string => {
-  if (withhold) return e instanceof CodecError ? e.withheld : "[REDACTED]";
+  if (withhold) return e instanceof CodecError ? e.withheld : REDACTED;
   return e instanceof Error ? e.message : String(e);
 };
 
 /** A 2xx body to quote in an error message: `[REDACTED]` when the output can hold a secret. */
 export const outputBody = (operation: Operation<any, any, any>, body: string): string =>
-  holdsSensitive(operation.output.ast) ? "[REDACTED]" : body;
+  redactPlain(operation.output.ast, body);
 
 /**
  * An error body to quote in an error message: `[REDACTED]` when one of the
  * operation's declared errors can hold a secret.
  */
 export const errorBody = (operation: Operation<any, any, any>, body: string): string =>
-  (operation.errors ?? []).some((e) => holdsSensitive(e.ast)) ? "[REDACTED]" : body;
-
-/**
- * An operation input as the `Payload` debug log shows it: when the input can
- * hold a secret, its sensitive members `Redacted` (by a round trip through
- * its wire form), whether the caller passed them wrapped or plain. An input
- * that does not encode is `Redacted` whole; the call itself then fails with
- * the encoder's `ParseError`.
- */
-export const inputForLog = (operation: Operation<any, any, any>, input: unknown): unknown => {
-  const ast = operation.input.ast as Node;
-  if (!holdsSensitive(ast)) return input;
-  try {
-    return decode(ast, encode(ast, input));
-  } catch {
-    return Redacted.make(input);
-  }
-};
-
-/**
- * A serialized request as the `Built Request` debug log shows it: when the
- * input can hold a secret, everything a member can be bound to (path, query,
- * headers, body) is `[REDACTED]`.
- */
-export const requestForLog = (operation: Operation<any, any, any>, request: Request): unknown =>
-  holdsSensitive(operation.input.ast as Node)
-    ? {
-        method: request.method,
-        path: "[REDACTED]",
-        query: "[REDACTED]",
-        headers: "[REDACTED]",
-        body: "[REDACTED]",
-      }
-    : request;
+  (operation.errors ?? []).some((e) => holdsSensitive(e.ast)) ? REDACTED : body;
 
 const encodeFailure = (ast: Node, e: unknown): ParseError =>
   new ParseError({ message: decodeFailure(e, holdsSensitive(ast)) });

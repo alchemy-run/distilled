@@ -35,3 +35,19 @@ export const getAnn = (ast: AST.AST, symbol: symbol): unknown => {
   }
   return undefined;
 };
+
+/** Resolve wrappers to the real node: Suspend, encoding, optional/null unions. */
+export const resolveNode = (ast: AST.AST): AST.AST => {
+  if (ast._tag === "Suspend") return resolveNode(ast.thunk());
+  if (ast.encoding && ast.encoding.length > 0) return resolveNode(ast.encoding[0]!.to);
+  if (ast._tag === "Union") {
+    const real = (ast as AST.Union).types.filter(
+      (t) =>
+        t._tag !== "Undefined" &&
+        t._tag !== "Null" &&
+        !(t._tag === "Literal" && (t as any).literal === null),
+    );
+    if (real.length === 1) return resolveNode(real[0]!);
+  }
+  return ast;
+};
