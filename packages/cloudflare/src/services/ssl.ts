@@ -109,9 +109,9 @@ export interface CreateAnalyzeRequest {
   /** Identifier. */
   zoneId: string;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: AnalyzeCreateRequestBundleMethod | (string & {});
+  bundleMethod?: AnalyzeCreateRequestBundleMethod | (string & {}) | undefined;
   /** The zone's SSL certificate or certificate and the intermediate(s). */
-  certificate?: string;
+  certificate?: string | undefined;
 }
 export type CreateAnalyzeResponse = unknown;
 export type CertificatePacksCreateRequestCertificateAuthority =
@@ -136,7 +136,7 @@ export interface CreateCertificatePackRequest {
   /** Validity Days selected for the order. */
   validityDays: CertificatePacksCreateRequestValidityDays | (number & {});
   /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
-  cloudflareBranding?: boolean;
+  cloudflareBranding?: boolean | undefined;
 }
 export type CertificatePacksCreateResponseCertificatesItemHostsList = Array<string>;
 export type CertificatePacksCreateResponseCertificatesItemGeoRestrictionsLabel =
@@ -144,7 +144,7 @@ export type CertificatePacksCreateResponseCertificatesItemGeoRestrictionsLabel =
   | "eu"
   | "highest_security";
 export interface CertificatePacksCreateResponseCertificatesItemGeoRestrictions {
-  label?: CertificatePacksCreateResponseCertificatesItemGeoRestrictionsLabel | null;
+  label?: CertificatePacksCreateResponseCertificatesItemGeoRestrictionsLabel | null | undefined;
 }
 export interface CertificatePacksCreateResponseCertificatesItem {
   /** Certificate identifier. */
@@ -154,23 +154,26 @@ export interface CertificatePacksCreateResponseCertificatesItem {
   /** Certificate status. */
   status: string;
   /** Certificate bundle method. */
-  bundleMethod?: string | null;
+  bundleMethod?: string | null | undefined;
   /** When the certificate from the authority expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Specify the region where your private key can be held locally. */
-  geoRestrictions?: CertificatePacksCreateResponseCertificatesItemGeoRestrictions | null;
+  geoRestrictions?:
+    | CertificatePacksCreateResponseCertificatesItemGeoRestrictions
+    | null
+    | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** When the certificate was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The order/priority in which the certificate will be used. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** When the certificate was uploaded to Cloudflare. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
   /** Identifier. */
-  zoneId?: string | null;
+  zoneId?: string | null | undefined;
 }
 export type CertificatePacksCreateResponseCertificatesList =
   Array<CertificatePacksCreateResponseCertificatesItem>;
@@ -213,27 +216,27 @@ export type CertificatePacksCreateResponseCertificateAuthority =
 export type CertificatePacksCreateResponseDcvDelegationRecordsItemEmailsList = Array<string>;
 export interface CertificatePacksCreateResponseDcvDelegationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: CertificatePacksCreateResponseDcvDelegationRecordsItemEmailsList | null;
+  emails?: CertificatePacksCreateResponseDcvDelegationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type CertificatePacksCreateResponseDcvDelegationRecordsList =
   Array<CertificatePacksCreateResponseDcvDelegationRecordsItem>;
 export interface CertificatePacksCreateResponseValidationErrorsItem {
   /** A domain validation error. */
-  message?: string | null;
+  message?: string | null | undefined;
 }
 export type CertificatePacksCreateResponseValidationErrorsList =
   Array<CertificatePacksCreateResponseValidationErrorsItem>;
@@ -241,21 +244,21 @@ export type CertificatePacksCreateResponseValidationMethod = "txt" | "http" | "e
 export type CertificatePacksCreateResponseValidationRecordsItemEmailsList = Array<string>;
 export interface CertificatePacksCreateResponseValidationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: CertificatePacksCreateResponseValidationRecordsItemEmailsList | null;
+  emails?: CertificatePacksCreateResponseValidationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type CertificatePacksCreateResponseValidationRecordsList =
   Array<CertificatePacksCreateResponseValidationRecordsItem>;
@@ -273,21 +276,21 @@ export interface CreateCertificatePackResponse {
   /** Type of certificate pack. */
   type: CertificatePacksCreateResponseType;
   /** Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities). */
-  certificateAuthority?: CertificatePacksCreateResponseCertificateAuthority | null;
+  certificateAuthority?: CertificatePacksCreateResponseCertificateAuthority | null | undefined;
   /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
-  cloudflareBranding?: boolean | null;
+  cloudflareBranding?: boolean | null | undefined;
   /** DCV Delegation records for domain validation. */
-  dcvDelegationRecords?: CertificatePacksCreateResponseDcvDelegationRecordsList | null;
+  dcvDelegationRecords?: CertificatePacksCreateResponseDcvDelegationRecordsList | null | undefined;
   /** Identifier of the primary certificate in a pack. */
-  primaryCertificate?: string | null;
+  primaryCertificate?: string | null | undefined;
   /** Domain validation errors that have been received by the certificate authority (CA). */
-  validationErrors?: CertificatePacksCreateResponseValidationErrorsList | null;
+  validationErrors?: CertificatePacksCreateResponseValidationErrorsList | null | undefined;
   /** Validation Method selected for the order. */
-  validationMethod?: CertificatePacksCreateResponseValidationMethod | null;
+  validationMethod?: CertificatePacksCreateResponseValidationMethod | null | undefined;
   /** Certificates' validation records. */
-  validationRecords?: CertificatePacksCreateResponseValidationRecordsList | null;
+  validationRecords?: CertificatePacksCreateResponseValidationRecordsList | null | undefined;
   /** Validity Days selected for the order. */
-  validityDays?: CertificatePacksCreateResponseValidityDays | null;
+  validityDays?: CertificatePacksCreateResponseValidityDays | null | undefined;
 }
 export interface DeleteCertificatePackRequest {
   /** Identifier. */
@@ -298,7 +301,7 @@ export interface DeleteCertificatePackRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteCertificatePackResponse {
   /** The unique identifier for a certificate_pack. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface GetAutomaticUpgraderRequest {
   zoneId: string;
@@ -314,7 +317,7 @@ export interface GetAutomaticUpgraderResponse {
   /** Current setting of the automatic SSL/TLS. */
   value: GetAutomaticUpgraderResponseValue;
   /** Next time this zone will be scanned by the Automatic SSL/TLS. */
-  nextScheduledScan?: string | null;
+  nextScheduledScan?: string | null | undefined;
 }
 export interface GetAutoOriginTlsKexRequest {
   zoneId: string;
@@ -339,7 +342,7 @@ export type CertificatePacksGetResponseCertificatesItemGeoRestrictionsLabel =
   | "eu"
   | "highest_security";
 export interface CertificatePacksGetResponseCertificatesItemGeoRestrictions {
-  label?: CertificatePacksGetResponseCertificatesItemGeoRestrictionsLabel | null;
+  label?: CertificatePacksGetResponseCertificatesItemGeoRestrictionsLabel | null | undefined;
 }
 export interface CertificatePacksGetResponseCertificatesItem {
   /** Certificate identifier. */
@@ -349,23 +352,23 @@ export interface CertificatePacksGetResponseCertificatesItem {
   /** Certificate status. */
   status: string;
   /** Certificate bundle method. */
-  bundleMethod?: string | null;
+  bundleMethod?: string | null | undefined;
   /** When the certificate from the authority expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Specify the region where your private key can be held locally. */
-  geoRestrictions?: CertificatePacksGetResponseCertificatesItemGeoRestrictions | null;
+  geoRestrictions?: CertificatePacksGetResponseCertificatesItemGeoRestrictions | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** When the certificate was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The order/priority in which the certificate will be used. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** When the certificate was uploaded to Cloudflare. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
   /** Identifier. */
-  zoneId?: string | null;
+  zoneId?: string | null | undefined;
 }
 export type CertificatePacksGetResponseCertificatesList =
   Array<CertificatePacksGetResponseCertificatesItem>;
@@ -405,21 +408,21 @@ export type CertificatePacksGetResponseCertificateAuthority = "google" | "lets_e
 export type CertificatePacksGetResponseDcvDelegationRecordsItemEmailsList = Array<string>;
 export interface CertificatePacksGetResponseDcvDelegationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: CertificatePacksGetResponseDcvDelegationRecordsItemEmailsList | null;
+  emails?: CertificatePacksGetResponseDcvDelegationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type CertificatePacksGetResponseDcvDelegationRecordsList =
   Array<CertificatePacksGetResponseDcvDelegationRecordsItem>;
@@ -431,21 +434,21 @@ export type CertificatePacksGetResponseValidationMethod = "txt" | "http" | "emai
 export type CertificatePacksGetResponseValidationRecordsItemEmailsList = Array<string>;
 export interface CertificatePacksGetResponseValidationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: CertificatePacksGetResponseValidationRecordsItemEmailsList | null;
+  emails?: CertificatePacksGetResponseValidationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type CertificatePacksGetResponseValidationRecordsList =
   Array<CertificatePacksGetResponseValidationRecordsItem>;
@@ -463,21 +466,21 @@ export interface GetCertificatePackResponse {
   /** Type of certificate pack. */
   type: CertificatePacksGetResponseType;
   /** Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities). */
-  certificateAuthority?: CertificatePacksGetResponseCertificateAuthority | null;
+  certificateAuthority?: CertificatePacksGetResponseCertificateAuthority | null | undefined;
   /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
-  cloudflareBranding?: boolean | null;
+  cloudflareBranding?: boolean | null | undefined;
   /** DCV Delegation records for domain validation. */
-  dcvDelegationRecords?: CertificatePacksGetResponseDcvDelegationRecordsList | null;
+  dcvDelegationRecords?: CertificatePacksGetResponseDcvDelegationRecordsList | null | undefined;
   /** Identifier of the primary certificate in a pack. */
-  primaryCertificate?: string | null;
+  primaryCertificate?: string | null | undefined;
   /** Domain validation errors that have been received by the certificate authority (CA). */
-  validationErrors?: CertificatePacksGetResponseValidationErrorsList | null;
+  validationErrors?: CertificatePacksGetResponseValidationErrorsList | null | undefined;
   /** Validation Method selected for the order. */
-  validationMethod?: CertificatePacksGetResponseValidationMethod | null;
+  validationMethod?: CertificatePacksGetResponseValidationMethod | null | undefined;
   /** Certificates' validation records. */
-  validationRecords?: CertificatePacksGetResponseValidationRecordsList | null;
+  validationRecords?: CertificatePacksGetResponseValidationRecordsList | null | undefined;
   /** Validity Days selected for the order. */
-  validityDays?: CertificatePacksGetResponseValidityDays | null;
+  validityDays?: CertificatePacksGetResponseValidityDays | null | undefined;
 }
 export interface GetCertificatePackQuotaRequest {
   /** Identifier. */
@@ -485,13 +488,13 @@ export interface GetCertificatePackQuotaRequest {
 }
 export interface CertificatePacksQuotaGetResponseAdvanced {
   /** Quantity Allocated. */
-  allocated?: number | null;
+  allocated?: number | null | undefined;
   /** Quantity Used. */
-  used?: number | null;
+  used?: number | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCertificatePackQuotaResponse {
-  advanced?: CertificatePacksQuotaGetResponseAdvanced | null;
+  advanced?: CertificatePacksQuotaGetResponseAdvanced | null | undefined;
 }
 export interface GetRecommendationRequest {
   zoneId: string;
@@ -507,7 +510,7 @@ export interface GetRecommendationResponse {
   /** Current setting of the automatic SSL/TLS. */
   value: GetRecommendationResponseValue;
   /** Next time this zone will be scanned by the Automatic SSL/TLS. */
-  nextScheduledScan?: string | null;
+  nextScheduledScan?: string | null | undefined;
 }
 export interface GetUniversalSettingRequest {
   /** Identifier. */
@@ -516,13 +519,13 @@ export interface GetUniversalSettingRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetUniversalSettingResponse {
   /** Disabling Universal SSL removes any currently active Universal SSL certificates for your zone from the edge and prevents any future Universal SSL certificates from being ordered. If there are no advanced certificates or custom certificates uploaded for the domain, visitors will be unable to access the domain over HTTPS. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export interface GetVerificationRequest {
   /** Identifier. */
   zoneId: string;
   /** Immediately retry SSL Verification. */
-  retry?: boolean;
+  retry?: boolean | undefined;
 }
 export type VerificationGetResultItemCertificateStatus =
   | "initializing"
@@ -549,28 +552,28 @@ export type VerificationGetResultItemVerificationInfoRecordTarget =
   | "txt_value";
 export interface VerificationGetResultItemVerificationInfo {
   /** Name of CNAME record. */
-  recordName?: VerificationGetResultItemVerificationInfoRecordName | null;
+  recordName?: VerificationGetResultItemVerificationInfoRecordName | null | undefined;
   /** Target of CNAME record. */
-  recordTarget?: VerificationGetResultItemVerificationInfoRecordTarget | null;
+  recordTarget?: VerificationGetResultItemVerificationInfoRecordTarget | null | undefined;
 }
 export type VerificationGetResultItemVerificationType = "cname" | "meta tag";
 export interface VerificationGetResultItem {
   /** Current status of certificate. */
   certificateStatus: VerificationGetResultItemCertificateStatus;
   /** Certificate Authority is manually reviewing the order. */
-  brandCheck?: boolean | null;
+  brandCheck?: boolean | null | undefined;
   /** Certificate Pack UUID. */
-  certPackUuid?: string | null;
+  certPackUuid?: string | null | undefined;
   /** Certificate's signature algorithm. */
-  signature?: VerificationGetResultItemSignature | null;
+  signature?: VerificationGetResultItemSignature | null | undefined;
   /** Validation method in use for a certificate pack order. */
-  validationMethod?: VerificationGetResultItemValidationMethod | null;
+  validationMethod?: VerificationGetResultItemValidationMethod | null | undefined;
   /** Certificate's required verification information. */
-  verificationInfo?: VerificationGetResultItemVerificationInfo | null;
+  verificationInfo?: VerificationGetResultItemVerificationInfo | null | undefined;
   /** Status of the required verification information, omitted if verification status is unknown. */
-  verificationStatus?: boolean | null;
+  verificationStatus?: boolean | null | undefined;
   /** Method of verification. */
-  verificationType?: VerificationGetResultItemVerificationType | null;
+  verificationType?: VerificationGetResultItemVerificationType | null | undefined;
 }
 export type VerificationGetResultList = Array<VerificationGetResultItem>;
 export type GetVerificationResponse = VerificationGetResultList;
@@ -580,13 +583,13 @@ export interface ListCertificatePacksRequest {
   /** Identifier. */
   zoneId: string;
   /** Specify the deployment environment for the certificate packs. */
-  deploy?: CertificatePacksListRequestDeploy | (string & {});
+  deploy?: CertificatePacksListRequestDeploy | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of certificate packs per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Include Certificate Packs of all statuses, not just active ones. */
-  status?: CertificatePacksListRequestStatus | (string & {});
+  status?: CertificatePacksListRequestStatus | (string & {}) | undefined;
 }
 export type CertificatePacksListResultItemCertificatesItemHostsList = Array<string>;
 export type CertificatePacksListResultItemCertificatesItemGeoRestrictionsLabel =
@@ -594,7 +597,7 @@ export type CertificatePacksListResultItemCertificatesItemGeoRestrictionsLabel =
   | "eu"
   | "highest_security";
 export interface CertificatePacksListResultItemCertificatesItemGeoRestrictions {
-  label?: CertificatePacksListResultItemCertificatesItemGeoRestrictionsLabel | null;
+  label?: CertificatePacksListResultItemCertificatesItemGeoRestrictionsLabel | null | undefined;
 }
 export interface CertificatePacksListResultItemCertificatesItem {
   /** Certificate identifier. */
@@ -604,23 +607,26 @@ export interface CertificatePacksListResultItemCertificatesItem {
   /** Certificate status. */
   status: string;
   /** Certificate bundle method. */
-  bundleMethod?: string | null;
+  bundleMethod?: string | null | undefined;
   /** When the certificate from the authority expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Specify the region where your private key can be held locally. */
-  geoRestrictions?: CertificatePacksListResultItemCertificatesItemGeoRestrictions | null;
+  geoRestrictions?:
+    | CertificatePacksListResultItemCertificatesItemGeoRestrictions
+    | null
+    | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** When the certificate was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The order/priority in which the certificate will be used. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** When the certificate was uploaded to Cloudflare. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
   /** Identifier. */
-  zoneId?: string | null;
+  zoneId?: string | null | undefined;
 }
 export type CertificatePacksListResultItemCertificatesList =
   Array<CertificatePacksListResultItemCertificatesItem>;
@@ -663,21 +669,21 @@ export type CertificatePacksListResultItemCertificateAuthority =
 export type CertificatePacksListResultItemDcvDelegationRecordsItemEmailsList = Array<string>;
 export interface CertificatePacksListResultItemDcvDelegationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: CertificatePacksListResultItemDcvDelegationRecordsItemEmailsList | null;
+  emails?: CertificatePacksListResultItemDcvDelegationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type CertificatePacksListResultItemDcvDelegationRecordsList =
   Array<CertificatePacksListResultItemDcvDelegationRecordsItem>;
@@ -689,21 +695,21 @@ export type CertificatePacksListResultItemValidationMethod = "txt" | "http" | "e
 export type CertificatePacksListResultItemValidationRecordsItemEmailsList = Array<string>;
 export interface CertificatePacksListResultItemValidationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: CertificatePacksListResultItemValidationRecordsItemEmailsList | null;
+  emails?: CertificatePacksListResultItemValidationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type CertificatePacksListResultItemValidationRecordsList =
   Array<CertificatePacksListResultItemValidationRecordsItem>;
@@ -720,21 +726,21 @@ export interface CertificatePacksListResultItem {
   /** Type of certificate pack. */
   type: CertificatePacksListResultItemType;
   /** Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities). */
-  certificateAuthority?: CertificatePacksListResultItemCertificateAuthority | null;
+  certificateAuthority?: CertificatePacksListResultItemCertificateAuthority | null | undefined;
   /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
-  cloudflareBranding?: boolean | null;
+  cloudflareBranding?: boolean | null | undefined;
   /** DCV Delegation records for domain validation. */
-  dcvDelegationRecords?: CertificatePacksListResultItemDcvDelegationRecordsList | null;
+  dcvDelegationRecords?: CertificatePacksListResultItemDcvDelegationRecordsList | null | undefined;
   /** Identifier of the primary certificate in a pack. */
-  primaryCertificate?: string | null;
+  primaryCertificate?: string | null | undefined;
   /** Domain validation errors that have been received by the certificate authority (CA). */
-  validationErrors?: CertificatePacksListResultItemValidationErrorsList | null;
+  validationErrors?: CertificatePacksListResultItemValidationErrorsList | null | undefined;
   /** Validation Method selected for the order. */
-  validationMethod?: CertificatePacksListResultItemValidationMethod | null;
+  validationMethod?: CertificatePacksListResultItemValidationMethod | null | undefined;
   /** Certificates' validation records. */
-  validationRecords?: CertificatePacksListResultItemValidationRecordsList | null;
+  validationRecords?: CertificatePacksListResultItemValidationRecordsList | null | undefined;
   /** Validity Days selected for the order. */
-  validityDays?: CertificatePacksListResultItemValidityDays | null;
+  validityDays?: CertificatePacksListResultItemValidityDays | null | undefined;
 }
 export type CertificatePacksListResultList = Array<CertificatePacksListResultItem>;
 export interface ListCertificatePacksResponse {
@@ -760,7 +766,7 @@ export interface PatchAutomaticUpgraderResponse {
   /** Current setting of the automatic SSL/TLS. */
   value: PatchAutomaticUpgraderResponseValue;
   /** Next time this zone will be scanned by the Automatic SSL/TLS. */
-  nextScheduledScan?: string | null;
+  nextScheduledScan?: string | null | undefined;
 }
 export interface PatchAutoOriginTlsKexRequest {
   zoneId: string;
@@ -781,7 +787,7 @@ export interface PatchCertificatePackRequest {
   /** The unique identifier for a certificate_pack. */
   certificatePackId: string;
   /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
-  cloudflareBranding?: boolean;
+  cloudflareBranding?: boolean | undefined;
 }
 export type CertificatePacksEditResponseCertificatesItemHostsList = Array<string>;
 export type CertificatePacksEditResponseCertificatesItemGeoRestrictionsLabel =
@@ -789,7 +795,7 @@ export type CertificatePacksEditResponseCertificatesItemGeoRestrictionsLabel =
   | "eu"
   | "highest_security";
 export interface CertificatePacksEditResponseCertificatesItemGeoRestrictions {
-  label?: CertificatePacksEditResponseCertificatesItemGeoRestrictionsLabel | null;
+  label?: CertificatePacksEditResponseCertificatesItemGeoRestrictionsLabel | null | undefined;
 }
 export interface CertificatePacksEditResponseCertificatesItem {
   /** Certificate identifier. */
@@ -799,23 +805,23 @@ export interface CertificatePacksEditResponseCertificatesItem {
   /** Certificate status. */
   status: string;
   /** Certificate bundle method. */
-  bundleMethod?: string | null;
+  bundleMethod?: string | null | undefined;
   /** When the certificate from the authority expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** Specify the region where your private key can be held locally. */
-  geoRestrictions?: CertificatePacksEditResponseCertificatesItemGeoRestrictions | null;
+  geoRestrictions?: CertificatePacksEditResponseCertificatesItemGeoRestrictions | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** When the certificate was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The order/priority in which the certificate will be used. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** When the certificate was uploaded to Cloudflare. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
   /** Identifier. */
-  zoneId?: string | null;
+  zoneId?: string | null | undefined;
 }
 export type CertificatePacksEditResponseCertificatesList =
   Array<CertificatePacksEditResponseCertificatesItem>;
@@ -858,21 +864,21 @@ export type CertificatePacksEditResponseCertificateAuthority =
 export type CertificatePacksEditResponseDcvDelegationRecordsItemEmailsList = Array<string>;
 export interface CertificatePacksEditResponseDcvDelegationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: CertificatePacksEditResponseDcvDelegationRecordsItemEmailsList | null;
+  emails?: CertificatePacksEditResponseDcvDelegationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type CertificatePacksEditResponseDcvDelegationRecordsList =
   Array<CertificatePacksEditResponseDcvDelegationRecordsItem>;
@@ -884,21 +890,21 @@ export type CertificatePacksEditResponseValidationMethod = "txt" | "http" | "ema
 export type CertificatePacksEditResponseValidationRecordsItemEmailsList = Array<string>;
 export interface CertificatePacksEditResponseValidationRecordsItem {
   /** The CNAME record hostname for DCV delegation. */
-  cname?: string | null;
+  cname?: string | null | undefined;
   /** The CNAME record target value for DCV delegation. */
-  cnameTarget?: string | null;
+  cnameTarget?: string | null | undefined;
   /** The set of email addresses that the certificate authority (CA) will use to complete domain validation. */
-  emails?: CertificatePacksEditResponseValidationRecordsItemEmailsList | null;
+  emails?: CertificatePacksEditResponseValidationRecordsItemEmailsList | null | undefined;
   /** The content that the certificate authority (CA) will expect to find at the http_url during the domain validation. */
-  httpBody?: string | null;
+  httpBody?: string | null | undefined;
   /** The url that will be checked during domain validation. */
-  httpUrl?: string | null;
+  httpUrl?: string | null | undefined;
   /** Status of the validation record. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The hostname that the certificate authority (CA) will check for a TXT record during domain validation . */
-  txtName?: string | null;
+  txtName?: string | null | undefined;
   /** The TXT record that the certificate authority (CA) will check during domain validation. */
-  txtValue?: string | null;
+  txtValue?: string | null | undefined;
 }
 export type CertificatePacksEditResponseValidationRecordsList =
   Array<CertificatePacksEditResponseValidationRecordsItem>;
@@ -916,32 +922,32 @@ export interface PatchCertificatePackResponse {
   /** Type of certificate pack. */
   type: CertificatePacksEditResponseType;
   /** Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities). */
-  certificateAuthority?: CertificatePacksEditResponseCertificateAuthority | null;
+  certificateAuthority?: CertificatePacksEditResponseCertificateAuthority | null | undefined;
   /** Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true. */
-  cloudflareBranding?: boolean | null;
+  cloudflareBranding?: boolean | null | undefined;
   /** DCV Delegation records for domain validation. */
-  dcvDelegationRecords?: CertificatePacksEditResponseDcvDelegationRecordsList | null;
+  dcvDelegationRecords?: CertificatePacksEditResponseDcvDelegationRecordsList | null | undefined;
   /** Identifier of the primary certificate in a pack. */
-  primaryCertificate?: string | null;
+  primaryCertificate?: string | null | undefined;
   /** Domain validation errors that have been received by the certificate authority (CA). */
-  validationErrors?: CertificatePacksEditResponseValidationErrorsList | null;
+  validationErrors?: CertificatePacksEditResponseValidationErrorsList | null | undefined;
   /** Validation Method selected for the order. */
-  validationMethod?: CertificatePacksEditResponseValidationMethod | null;
+  validationMethod?: CertificatePacksEditResponseValidationMethod | null | undefined;
   /** Certificates' validation records. */
-  validationRecords?: CertificatePacksEditResponseValidationRecordsList | null;
+  validationRecords?: CertificatePacksEditResponseValidationRecordsList | null | undefined;
   /** Validity Days selected for the order. */
-  validityDays?: CertificatePacksEditResponseValidityDays | null;
+  validityDays?: CertificatePacksEditResponseValidityDays | null | undefined;
 }
 export interface PatchUniversalSettingRequest {
   /** Identifier. */
   zoneId: string;
   /** Disabling Universal SSL removes any currently active Universal SSL certificates for your zone from the edge and prevents any future Universal SSL certificates from being ordered. If there are no advanced certificates or custom certificates uploaded for the domain, visitors will be unable to access the domain over HTTPS. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchUniversalSettingResponse {
   /** Disabling Universal SSL removes any currently active Universal SSL certificates for your zone from the edge and prevents any future Universal SSL certificates from being ordered. If there are no advanced certificates or custom certificates uploaded for the domain, visitors will be unable to access the domain over HTTPS. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export type VerificationEditRequestValidationMethod = "http" | "cname" | "txt" | "email";
 export interface PatchVerificationRequest {
@@ -956,9 +962,9 @@ export type VerificationEditResponseValidationMethod = "http" | "cname" | "txt" 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchVerificationResponse {
   /** Result status. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** Desired validation method. */
-  validationMethod?: VerificationEditResponseValidationMethod | null;
+  validationMethod?: VerificationEditResponseValidationMethod | null | undefined;
 }
 export type CreateAnalyzeError = CloudflareOpError;
 /** Returns the set of hostnames, the signature algorithm, and the expiration date of the certificate. */

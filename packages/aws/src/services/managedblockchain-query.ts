@@ -167,37 +167,37 @@ export type ChainAddress = string;
 export type QueryTokenId = string;
 export interface TokenIdentifier {
   network: string;
-  contractAddress?: string;
-  tokenId?: string;
+  contractAddress?: string | undefined;
+  tokenId?: string | undefined;
 }
 export interface OwnerIdentifier {
   address: string;
 }
 export interface BlockchainInstant {
-  time?: Date;
+  time?: Date | undefined;
 }
 export interface BatchGetTokenBalanceInputItem {
   tokenIdentifier: TokenIdentifier;
   ownerIdentifier: OwnerIdentifier;
-  atBlockchainInstant?: BlockchainInstant;
+  atBlockchainInstant?: BlockchainInstant | undefined;
 }
 export type GetTokenBalanceInputList = BatchGetTokenBalanceInputItem[];
 export interface BatchGetTokenBalanceInput {
-  getTokenBalanceInputs?: BatchGetTokenBalanceInputItem[];
+  getTokenBalanceInputs?: BatchGetTokenBalanceInputItem[] | undefined;
 }
 export interface BatchGetTokenBalanceOutputItem {
-  ownerIdentifier?: OwnerIdentifier;
-  tokenIdentifier?: TokenIdentifier;
+  ownerIdentifier?: OwnerIdentifier | undefined;
+  tokenIdentifier?: TokenIdentifier | undefined;
   balance: string;
   atBlockchainInstant: BlockchainInstant;
-  lastUpdatedTime?: BlockchainInstant;
+  lastUpdatedTime?: BlockchainInstant | undefined;
 }
 export type BatchGetTokenBalanceOutputList = BatchGetTokenBalanceOutputItem[];
 export type ErrorType = string;
 export interface BatchGetTokenBalanceErrorItem {
-  tokenIdentifier?: TokenIdentifier;
-  ownerIdentifier?: OwnerIdentifier;
-  atBlockchainInstant?: BlockchainInstant;
+  tokenIdentifier?: TokenIdentifier | undefined;
+  ownerIdentifier?: OwnerIdentifier | undefined;
+  atBlockchainInstant?: BlockchainInstant | undefined;
   errorCode: string;
   errorMessage: string;
   errorType: string;
@@ -216,33 +216,33 @@ export interface GetAssetContractInput {
 }
 export type QueryTokenStandard = string;
 export interface ContractMetadata {
-  name?: string;
-  symbol?: string;
-  decimals?: number;
+  name?: string | undefined;
+  symbol?: string | undefined;
+  decimals?: number | undefined;
 }
 export interface GetAssetContractOutput {
   contractIdentifier: ContractIdentifier;
   tokenStandard: string;
   deployerAddress: string;
-  metadata?: ContractMetadata;
+  metadata?: ContractMetadata | undefined;
 }
 export interface GetTokenBalanceInput {
   tokenIdentifier: TokenIdentifier;
   ownerIdentifier: OwnerIdentifier;
-  atBlockchainInstant?: BlockchainInstant;
+  atBlockchainInstant?: BlockchainInstant | undefined;
 }
 export interface GetTokenBalanceOutput {
-  ownerIdentifier?: OwnerIdentifier;
-  tokenIdentifier?: TokenIdentifier;
+  ownerIdentifier?: OwnerIdentifier | undefined;
+  tokenIdentifier?: TokenIdentifier | undefined;
   balance: string;
   atBlockchainInstant: BlockchainInstant;
-  lastUpdatedTime?: BlockchainInstant;
+  lastUpdatedTime?: BlockchainInstant | undefined;
 }
 export type QueryTransactionHash = string;
 export type QueryTransactionId = string;
 export interface GetTransactionInput {
-  transactionHash?: string;
-  transactionId?: string;
+  transactionHash?: string | undefined;
+  transactionId?: string | undefined;
   network: string;
 }
 export type BlockHash = string;
@@ -250,25 +250,25 @@ export type ConfirmationStatus = string;
 export type ExecutionStatus = string;
 export interface Transaction {
   network: string;
-  blockHash?: string;
+  blockHash?: string | undefined;
   transactionHash: string;
-  blockNumber?: string;
+  blockNumber?: string | undefined;
   transactionTimestamp: Date;
   transactionIndex: number;
   numberOfTransactions: number;
   to: string;
-  from?: string;
-  contractAddress?: string;
-  gasUsed?: string;
-  cumulativeGasUsed?: string;
-  effectiveGasPrice?: string;
-  signatureV?: number;
-  signatureR?: string;
-  signatureS?: string;
-  transactionFee?: string;
-  transactionId?: string;
-  confirmationStatus?: string;
-  executionStatus?: string;
+  from?: string | undefined;
+  contractAddress?: string | undefined;
+  gasUsed?: string | undefined;
+  cumulativeGasUsed?: string | undefined;
+  effectiveGasPrice?: string | undefined;
+  signatureV?: number | undefined;
+  signatureR?: string | undefined;
+  signatureS?: string | undefined;
+  transactionFee?: string | undefined;
+  transactionId?: string | undefined;
+  confirmationStatus?: string | undefined;
+  executionStatus?: string | undefined;
 }
 export interface GetTransactionOutput {
   transaction: Transaction;
@@ -281,8 +281,8 @@ export interface ContractFilter {
 export type NextToken = string;
 export interface ListAssetContractsInput {
   contractFilter: ContractFilter;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssetContract {
   contractIdentifier: ContractIdentifier;
@@ -292,15 +292,15 @@ export interface AssetContract {
 export type AssetContractList = AssetContract[];
 export interface ListAssetContractsOutput {
   contracts: AssetContract[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ChainAddresses = string[];
 export interface AddressIdentifierFilter {
   transactionEventToAddress: string[];
 }
 export interface TimeFilter {
-  from?: BlockchainInstant;
-  to?: BlockchainInstant;
+  from?: BlockchainInstant | undefined;
+  to?: BlockchainInstant | undefined;
 }
 export interface VoutFilter {
   voutSpent: boolean;
@@ -312,106 +312,106 @@ export interface ConfirmationStatusFilter {
 export type ListFilteredTransactionEventsSortBy = string;
 export type SortOrder = string;
 export interface ListFilteredTransactionEventsSort {
-  sortBy?: string;
-  sortOrder?: string;
+  sortBy?: string | undefined;
+  sortOrder?: string | undefined;
 }
 export interface ListFilteredTransactionEventsInput {
   network: string;
   addressIdentifierFilter: AddressIdentifierFilter;
-  timeFilter?: TimeFilter;
-  voutFilter?: VoutFilter;
-  confirmationStatusFilter?: ConfirmationStatusFilter;
-  sort?: ListFilteredTransactionEventsSort;
-  nextToken?: string;
-  maxResults?: number;
+  timeFilter?: TimeFilter | undefined;
+  voutFilter?: VoutFilter | undefined;
+  confirmationStatusFilter?: ConfirmationStatusFilter | undefined;
+  sort?: ListFilteredTransactionEventsSort | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type QueryTransactionEventType = string;
 export interface TransactionEvent {
   network: string;
   transactionHash: string;
   eventType: string;
-  from?: string;
-  to?: string;
-  value?: string;
-  contractAddress?: string;
-  tokenId?: string;
-  transactionId?: string;
-  voutIndex?: number;
-  voutSpent?: boolean;
-  spentVoutTransactionId?: string;
-  spentVoutTransactionHash?: string;
-  spentVoutIndex?: number;
-  blockchainInstant?: BlockchainInstant;
-  confirmationStatus?: string;
+  from?: string | undefined;
+  to?: string | undefined;
+  value?: string | undefined;
+  contractAddress?: string | undefined;
+  tokenId?: string | undefined;
+  transactionId?: string | undefined;
+  voutIndex?: number | undefined;
+  voutSpent?: boolean | undefined;
+  spentVoutTransactionId?: string | undefined;
+  spentVoutTransactionHash?: string | undefined;
+  spentVoutIndex?: number | undefined;
+  blockchainInstant?: BlockchainInstant | undefined;
+  confirmationStatus?: string | undefined;
 }
 export type TransactionEventList = TransactionEvent[];
 export interface ListFilteredTransactionEventsOutput {
   events: TransactionEvent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface OwnerFilter {
   address: string;
 }
 export interface TokenFilter {
   network: string;
-  contractAddress?: string;
-  tokenId?: string;
+  contractAddress?: string | undefined;
+  tokenId?: string | undefined;
 }
 export interface ListTokenBalancesInput {
-  ownerFilter?: OwnerFilter;
+  ownerFilter?: OwnerFilter | undefined;
   tokenFilter: TokenFilter;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface TokenBalance {
-  ownerIdentifier?: OwnerIdentifier;
-  tokenIdentifier?: TokenIdentifier;
+  ownerIdentifier?: OwnerIdentifier | undefined;
+  tokenIdentifier?: TokenIdentifier | undefined;
   balance: string;
   atBlockchainInstant: BlockchainInstant;
-  lastUpdatedTime?: BlockchainInstant;
+  lastUpdatedTime?: BlockchainInstant | undefined;
 }
 export type TokenBalanceList = TokenBalance[];
 export interface ListTokenBalancesOutput {
   tokenBalances: TokenBalance[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTransactionEventsInput {
-  transactionHash?: string;
-  transactionId?: string;
+  transactionHash?: string | undefined;
+  transactionId?: string | undefined;
   network: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListTransactionEventsOutput {
   events: TransactionEvent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListTransactionsSortBy = string;
 export interface ListTransactionsSort {
-  sortBy?: string;
-  sortOrder?: string;
+  sortBy?: string | undefined;
+  sortOrder?: string | undefined;
 }
 export interface ListTransactionsInput {
   address: string;
   network: string;
-  fromBlockchainInstant?: BlockchainInstant;
-  toBlockchainInstant?: BlockchainInstant;
-  sort?: ListTransactionsSort;
-  nextToken?: string;
-  maxResults?: number;
-  confirmationStatusFilter?: ConfirmationStatusFilter;
+  fromBlockchainInstant?: BlockchainInstant | undefined;
+  toBlockchainInstant?: BlockchainInstant | undefined;
+  sort?: ListTransactionsSort | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  confirmationStatusFilter?: ConfirmationStatusFilter | undefined;
 }
 export interface TransactionOutputItem {
   transactionHash: string;
-  transactionId?: string;
+  transactionId?: string | undefined;
   network: string;
   transactionTimestamp: Date;
-  confirmationStatus?: string;
+  confirmationStatus?: string | undefined;
 }
 export type TransactionOutputList = TransactionOutputItem[];
 export interface ListTransactionsOutput {
   transactions: TransactionOutputItem[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ExceptionMessage = string;
 export type ResourceId = string;

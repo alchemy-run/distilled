@@ -103,11 +103,11 @@ export type RulesBulkCreateRequestDeleteRulesList = Array<string>;
 export type RulesBulkCreateRequestRulesItemPathsList = Array<string>;
 export interface RulesBulkCreateRequestRulesItem {
   /** The Web Analytics rule identifier. */
-  id?: string;
-  host?: string;
-  inclusive?: boolean;
-  isPaused?: boolean;
-  paths?: RulesBulkCreateRequestRulesItemPathsList;
+  id?: string | undefined;
+  host?: string | undefined;
+  inclusive?: boolean | undefined;
+  isPaused?: boolean | undefined;
+  paths?: RulesBulkCreateRequestRulesItemPathsList | undefined;
 }
 export type RulesBulkCreateRequestRulesList = Array<RulesBulkCreateRequestRulesItem>;
 export interface BulkCreateRulesRequest {
@@ -116,40 +116,40 @@ export interface BulkCreateRulesRequest {
   /** The Web Analytics ruleset identifier. */
   rulesetId: string;
   /** A list of rule identifiers to delete. */
-  deleteRules?: RulesBulkCreateRequestDeleteRulesList;
+  deleteRules?: RulesBulkCreateRequestDeleteRulesList | undefined;
   /** A list of rules to create or update. */
-  rules?: RulesBulkCreateRequestRulesList;
+  rules?: RulesBulkCreateRequestRulesList | undefined;
 }
 export type RulesBulkCreateResponseRulesItemPathsList = Array<string>;
 export interface RulesBulkCreateResponseRulesItem {
   /** The Web Analytics rule identifier. */
-  id?: string | null;
-  created?: string | null;
+  id?: string | null | undefined;
+  created?: string | null | undefined;
   /** The hostname the rule will be applied to. */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Whether the rule includes or excludes traffic from being measured. */
-  inclusive?: boolean | null;
+  inclusive?: boolean | null | undefined;
   /** Whether the rule is paused or not. */
-  isPaused?: boolean | null;
+  isPaused?: boolean | null | undefined;
   /** The paths the rule will be applied to. */
-  paths?: RulesBulkCreateResponseRulesItemPathsList | null;
-  priority?: number | null;
+  paths?: RulesBulkCreateResponseRulesItemPathsList | null | undefined;
+  priority?: number | null | undefined;
 }
 export type RulesBulkCreateResponseRulesList = Array<RulesBulkCreateResponseRulesItem>;
 export interface RulesBulkCreateResponseRuleset {
   /** The Web Analytics ruleset identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether the ruleset is enabled. */
-  enabled?: boolean | null;
-  zoneName?: string | null;
+  enabled?: boolean | null | undefined;
+  zoneName?: string | null | undefined;
   /** The zone identifier. */
-  zoneTag?: string | null;
+  zoneTag?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface BulkCreateRulesResponse {
   /** A list of rules. */
-  rules?: RulesBulkCreateResponseRulesList | null;
-  ruleset?: RulesBulkCreateResponseRuleset | null;
+  rules?: RulesBulkCreateResponseRulesList | null | undefined;
+  ruleset?: RulesBulkCreateResponseRuleset | null | undefined;
 }
 export type RulesCreateRequestPathsList = Array<string>;
 export interface CreateRuleRequest {
@@ -157,72 +157,72 @@ export interface CreateRuleRequest {
   accountId: string;
   /** The Web Analytics ruleset identifier. */
   rulesetId: string;
-  host?: string;
+  host?: string | undefined;
   /** Whether the rule includes or excludes traffic from being measured. */
-  inclusive?: boolean;
+  inclusive?: boolean | undefined;
   /** Whether the rule is paused or not. */
-  isPaused?: boolean;
-  paths?: RulesCreateRequestPathsList;
+  isPaused?: boolean | undefined;
+  paths?: RulesCreateRequestPathsList | undefined;
 }
 export type RulesCreateResponsePathsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateRuleResponse {
   /** The Web Analytics rule identifier. */
-  id?: string | null;
-  created?: string | null;
+  id?: string | null | undefined;
+  created?: string | null | undefined;
   /** The hostname the rule will be applied to. */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Whether the rule includes or excludes traffic from being measured. */
-  inclusive?: boolean | null;
+  inclusive?: boolean | null | undefined;
   /** Whether the rule is paused or not. */
-  isPaused?: boolean | null;
+  isPaused?: boolean | null | undefined;
   /** The paths the rule will be applied to. */
-  paths?: RulesCreateResponsePathsList | null;
-  priority?: number | null;
+  paths?: RulesCreateResponsePathsList | null | undefined;
+  priority?: number | null | undefined;
 }
 export interface CreateSiteInfoRequest {
   /** Identifier. */
   accountId: string;
   /** If enabled, the JavaScript snippet is automatically injected for orange-clouded sites. */
-  autoInstall?: boolean;
+  autoInstall?: boolean | undefined;
   /** The hostname to use for gray-clouded sites. */
-  host?: string;
+  host?: string | undefined;
   /** The zone identifier. */
-  zoneTag?: string;
+  zoneTag?: string | undefined;
 }
 export type SiteInfoCreateResponseRulesItemPathsList = Array<string>;
 export interface SiteInfoCreateResponseRulesItem {
   /** The Web Analytics rule identifier. */
-  id?: string | null;
-  created?: string | null;
+  id?: string | null | undefined;
+  created?: string | null | undefined;
   /** The hostname the rule will be applied to. */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Whether the rule includes or excludes traffic from being measured. */
-  inclusive?: boolean | null;
+  inclusive?: boolean | null | undefined;
   /** Whether the rule is paused or not. */
-  isPaused?: boolean | null;
+  isPaused?: boolean | null | undefined;
   /** The paths the rule will be applied to. */
-  paths?: SiteInfoCreateResponseRulesItemPathsList | null;
-  priority?: number | null;
+  paths?: SiteInfoCreateResponseRulesItemPathsList | null | undefined;
+  priority?: number | null | undefined;
 }
 export type SiteInfoCreateResponseRulesList = Array<SiteInfoCreateResponseRulesItem>;
 export type SiteInfoCreateResponseRuleset = RulesBulkCreateResponseRuleset;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSiteInfoResponse {
   /** If enabled, the JavaScript snippet is automatically injected for orange-clouded sites. */
-  autoInstall?: boolean | null;
-  created?: string | null;
+  autoInstall?: boolean | null | undefined;
+  created?: string | null | undefined;
   /** A list of rules. */
-  rules?: SiteInfoCreateResponseRulesList | null;
-  ruleset?: RulesBulkCreateResponseRuleset | null;
+  rules?: SiteInfoCreateResponseRulesList | null | undefined;
+  ruleset?: RulesBulkCreateResponseRuleset | null | undefined;
   /** The Web Analytics site identifier. */
-  siteTag?: string | null;
+  siteTag?: string | null | undefined;
   /** The Web Analytics site token. */
-  siteToken?: string | null;
+  siteToken?: string | null | undefined;
   /** Encoded JavaScript snippet. */
-  snippet?: string | null;
+  snippet?: string | null | undefined;
   /** The hostname the site measures (gray-clouded sites). */
-  host?: string | null;
+  host?: string | null | undefined;
 }
 export interface DeleteRuleRequest {
   /** Identifier. */
@@ -235,7 +235,7 @@ export interface DeleteRuleRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteRuleResponse {
   /** The Web Analytics rule identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeleteSiteInfoRequest {
   /** Identifier. */
@@ -246,7 +246,7 @@ export interface DeleteSiteInfoRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteSiteInfoResponse {
   /** The Web Analytics site identifier. */
-  siteTag?: string | null;
+  siteTag?: string | null | undefined;
 }
 export interface GetSiteInfoRequest {
   /** Identifier. */
@@ -257,36 +257,36 @@ export interface GetSiteInfoRequest {
 export type SiteInfoGetResponseRulesItemPathsList = Array<string>;
 export interface SiteInfoGetResponseRulesItem {
   /** The Web Analytics rule identifier. */
-  id?: string | null;
-  created?: string | null;
+  id?: string | null | undefined;
+  created?: string | null | undefined;
   /** The hostname the rule will be applied to. */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Whether the rule includes or excludes traffic from being measured. */
-  inclusive?: boolean | null;
+  inclusive?: boolean | null | undefined;
   /** Whether the rule is paused or not. */
-  isPaused?: boolean | null;
+  isPaused?: boolean | null | undefined;
   /** The paths the rule will be applied to. */
-  paths?: SiteInfoGetResponseRulesItemPathsList | null;
-  priority?: number | null;
+  paths?: SiteInfoGetResponseRulesItemPathsList | null | undefined;
+  priority?: number | null | undefined;
 }
 export type SiteInfoGetResponseRulesList = Array<SiteInfoGetResponseRulesItem>;
 export type SiteInfoGetResponseRuleset = RulesBulkCreateResponseRuleset;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSiteInfoResponse {
   /** If enabled, the JavaScript snippet is automatically injected for orange-clouded sites. */
-  autoInstall?: boolean | null;
-  created?: string | null;
+  autoInstall?: boolean | null | undefined;
+  created?: string | null | undefined;
   /** A list of rules. */
-  rules?: SiteInfoGetResponseRulesList | null;
-  ruleset?: RulesBulkCreateResponseRuleset | null;
+  rules?: SiteInfoGetResponseRulesList | null | undefined;
+  ruleset?: RulesBulkCreateResponseRuleset | null | undefined;
   /** The Web Analytics site identifier. */
-  siteTag?: string | null;
+  siteTag?: string | null | undefined;
   /** The Web Analytics site token. */
-  siteToken?: string | null;
+  siteToken?: string | null | undefined;
   /** Encoded JavaScript snippet. */
-  snippet?: string | null;
+  snippet?: string | null | undefined;
   /** The hostname the site measures (gray-clouded sites). */
-  host?: string | null;
+  host?: string | null | undefined;
 }
 export interface ListRulesRequest {
   /** Identifier. */
@@ -297,69 +297,69 @@ export interface ListRulesRequest {
 export type RulesListResponseRulesItemPathsList = Array<string>;
 export interface RulesListResponseRulesItem {
   /** The Web Analytics rule identifier. */
-  id?: string | null;
-  created?: string | null;
+  id?: string | null | undefined;
+  created?: string | null | undefined;
   /** The hostname the rule will be applied to. */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Whether the rule includes or excludes traffic from being measured. */
-  inclusive?: boolean | null;
+  inclusive?: boolean | null | undefined;
   /** Whether the rule is paused or not. */
-  isPaused?: boolean | null;
+  isPaused?: boolean | null | undefined;
   /** The paths the rule will be applied to. */
-  paths?: RulesListResponseRulesItemPathsList | null;
-  priority?: number | null;
+  paths?: RulesListResponseRulesItemPathsList | null | undefined;
+  priority?: number | null | undefined;
 }
 export type RulesListResponseRulesList = Array<RulesListResponseRulesItem>;
 export type RulesListResponseRuleset = RulesBulkCreateResponseRuleset;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListRulesResponse {
   /** A list of rules. */
-  rules?: RulesListResponseRulesList | null;
-  ruleset?: RulesBulkCreateResponseRuleset | null;
+  rules?: RulesListResponseRulesList | null | undefined;
+  ruleset?: RulesBulkCreateResponseRuleset | null | undefined;
 }
 export type SiteInfoListRequestOrderBy = "host" | "created";
 export interface ListSiteInfosRequest {
   /** Identifier. */
   accountId: string;
   /** The property used to sort the list of results. */
-  orderBy?: SiteInfoListRequestOrderBy | (string & {});
+  orderBy?: SiteInfoListRequestOrderBy | (string & {}) | undefined;
   /** Current page within the paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to return per page of results. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type SiteInfoListResultItemRulesItemPathsList = Array<string>;
 export interface SiteInfoListResultItemRulesItem {
   /** The Web Analytics rule identifier. */
-  id?: string | null;
-  created?: string | null;
+  id?: string | null | undefined;
+  created?: string | null | undefined;
   /** The hostname the rule will be applied to. */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Whether the rule includes or excludes traffic from being measured. */
-  inclusive?: boolean | null;
+  inclusive?: boolean | null | undefined;
   /** Whether the rule is paused or not. */
-  isPaused?: boolean | null;
+  isPaused?: boolean | null | undefined;
   /** The paths the rule will be applied to. */
-  paths?: SiteInfoListResultItemRulesItemPathsList | null;
-  priority?: number | null;
+  paths?: SiteInfoListResultItemRulesItemPathsList | null | undefined;
+  priority?: number | null | undefined;
 }
 export type SiteInfoListResultItemRulesList = Array<SiteInfoListResultItemRulesItem>;
 export type SiteInfoListResultItemRuleset = RulesBulkCreateResponseRuleset;
 export interface SiteInfoListResultItem {
   /** If enabled, the JavaScript snippet is automatically injected for orange-clouded sites. */
-  autoInstall?: boolean | null;
-  created?: string | null;
+  autoInstall?: boolean | null | undefined;
+  created?: string | null | undefined;
   /** A list of rules. */
-  rules?: SiteInfoListResultItemRulesList | null;
-  ruleset?: RulesBulkCreateResponseRuleset | null;
+  rules?: SiteInfoListResultItemRulesList | null | undefined;
+  ruleset?: RulesBulkCreateResponseRuleset | null | undefined;
   /** The Web Analytics site identifier. */
-  siteTag?: string | null;
+  siteTag?: string | null | undefined;
   /** The Web Analytics site token. */
-  siteToken?: string | null;
+  siteToken?: string | null | undefined;
   /** Encoded JavaScript snippet. */
-  snippet?: string | null;
+  snippet?: string | null | undefined;
   /** The hostname the site measures (gray-clouded sites). */
-  host?: string | null;
+  host?: string | null | undefined;
 }
 export type SiteInfoListResultList = Array<SiteInfoListResultItem>;
 export interface ListSiteInfosResponse {
@@ -376,28 +376,28 @@ export interface UpdateRuleRequest {
   rulesetId: string;
   /** The Web Analytics rule identifier. */
   ruleId: string;
-  host?: string;
+  host?: string | undefined;
   /** Whether the rule includes or excludes traffic from being measured. */
-  inclusive?: boolean;
+  inclusive?: boolean | undefined;
   /** Whether the rule is paused or not. */
-  isPaused?: boolean;
-  paths?: RulesUpdateRequestPathsList;
+  isPaused?: boolean | undefined;
+  paths?: RulesUpdateRequestPathsList | undefined;
 }
 export type RulesUpdateResponsePathsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateRuleResponse {
   /** The Web Analytics rule identifier. */
-  id?: string | null;
-  created?: string | null;
+  id?: string | null | undefined;
+  created?: string | null | undefined;
   /** The hostname the rule will be applied to. */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Whether the rule includes or excludes traffic from being measured. */
-  inclusive?: boolean | null;
+  inclusive?: boolean | null | undefined;
   /** Whether the rule is paused or not. */
-  isPaused?: boolean | null;
+  isPaused?: boolean | null | undefined;
   /** The paths the rule will be applied to. */
-  paths?: RulesUpdateResponsePathsList | null;
-  priority?: number | null;
+  paths?: RulesUpdateResponsePathsList | null | undefined;
+  priority?: number | null | undefined;
 }
 export interface UpdateSiteInfoRequest {
   /** Identifier. */
@@ -405,49 +405,49 @@ export interface UpdateSiteInfoRequest {
   /** Identifier. */
   siteId: string;
   /** If enabled, the JavaScript snippet is automatically injected for orange-clouded sites. */
-  autoInstall?: boolean;
+  autoInstall?: boolean | undefined;
   /** Enables or disables RUM. This option can be used only when auto_install is set to true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The hostname to use for gray-clouded sites. */
-  host?: string;
+  host?: string | undefined;
   /** If enabled, the JavaScript snippet will not be injected for visitors from the EU. */
-  lite?: boolean;
+  lite?: boolean | undefined;
   /** The zone identifier. */
-  zoneTag?: string;
+  zoneTag?: string | undefined;
 }
 export type SiteInfoUpdateResponseRulesItemPathsList = Array<string>;
 export interface SiteInfoUpdateResponseRulesItem {
   /** The Web Analytics rule identifier. */
-  id?: string | null;
-  created?: string | null;
+  id?: string | null | undefined;
+  created?: string | null | undefined;
   /** The hostname the rule will be applied to. */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Whether the rule includes or excludes traffic from being measured. */
-  inclusive?: boolean | null;
+  inclusive?: boolean | null | undefined;
   /** Whether the rule is paused or not. */
-  isPaused?: boolean | null;
+  isPaused?: boolean | null | undefined;
   /** The paths the rule will be applied to. */
-  paths?: SiteInfoUpdateResponseRulesItemPathsList | null;
-  priority?: number | null;
+  paths?: SiteInfoUpdateResponseRulesItemPathsList | null | undefined;
+  priority?: number | null | undefined;
 }
 export type SiteInfoUpdateResponseRulesList = Array<SiteInfoUpdateResponseRulesItem>;
 export type SiteInfoUpdateResponseRuleset = RulesBulkCreateResponseRuleset;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateSiteInfoResponse {
   /** If enabled, the JavaScript snippet is automatically injected for orange-clouded sites. */
-  autoInstall?: boolean | null;
-  created?: string | null;
+  autoInstall?: boolean | null | undefined;
+  created?: string | null | undefined;
   /** A list of rules. */
-  rules?: SiteInfoUpdateResponseRulesList | null;
-  ruleset?: RulesBulkCreateResponseRuleset | null;
+  rules?: SiteInfoUpdateResponseRulesList | null | undefined;
+  ruleset?: RulesBulkCreateResponseRuleset | null | undefined;
   /** The Web Analytics site identifier. */
-  siteTag?: string | null;
+  siteTag?: string | null | undefined;
   /** The Web Analytics site token. */
-  siteToken?: string | null;
+  siteToken?: string | null | undefined;
   /** Encoded JavaScript snippet. */
-  snippet?: string | null;
+  snippet?: string | null | undefined;
   /** The hostname the site measures (gray-clouded sites). */
-  host?: string | null;
+  host?: string | null | undefined;
 }
 export type BulkCreateRulesError = CloudflareOpError;
 /** Modifies one or more rules in a Web Analytics ruleset with a single request. */

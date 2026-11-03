@@ -139,13 +139,13 @@ export interface ResponderErrorMaskingForHttpCode {
   httpCode: string;
   action: ResponderErrorMaskingAction;
   loggingTypes: ResponderErrorMaskingLoggingType[];
-  responseLoggingPercentage?: number;
+  responseLoggingPercentage?: number | undefined;
 }
 export type ResponderErrorMasking = ResponderErrorMaskingForHttpCode[];
 export type CustomerProvidedId = string;
 export interface LinkAttributes {
-  responderErrorMasking?: ResponderErrorMaskingForHttpCode[];
-  customerProvidedId?: string;
+  responderErrorMasking?: ResponderErrorMaskingForHttpCode[] | undefined;
+  customerProvidedId?: string | undefined;
 }
 export interface LinkApplicationLogSampling {
   errorLog: number;
@@ -161,9 +161,9 @@ export type LinkTimeoutInMillis = number;
 export interface AcceptLinkRequest {
   gatewayId: string;
   linkId: string;
-  attributes?: LinkAttributes;
+  attributes?: LinkAttributes | undefined;
   logSettings: LinkLogSettings;
-  timeoutInMillis?: number;
+  timeoutInMillis?: number | undefined;
 }
 export type LinkStatus =
   | "PENDING_CREATION"
@@ -185,9 +185,9 @@ export type Version = string;
 export type FlowModuleName = string;
 export type FlowModuleNameList = string[];
 export interface NoBidModuleParameters {
-  reason?: string;
-  reasonCode?: number;
-  passThroughPercentage?: number;
+  reason?: string | undefined;
+  reasonCode?: number | undefined;
+  passThroughPercentage?: number | undefined;
 }
 export type FilterType = "INCLUDE" | "EXCLUDE" | (string & {});
 export type ValueList = string[];
@@ -201,7 +201,7 @@ export interface Filter {
 }
 export type FilterConfiguration = Filter[];
 export interface NoBidAction {
-  noBidReasonCode?: number;
+  noBidReasonCode?: number | undefined;
 }
 export interface HeaderTagAction {
   name: string;
@@ -217,17 +217,17 @@ export interface OpenRtbAttributeModuleParameters {
   holdbackPercentage: number;
 }
 export interface RateLimiterModuleParameters {
-  tps?: number;
+  tps?: number | undefined;
 }
 export type ModuleParameters =
   | { noBid: NoBidModuleParameters; openRtbAttribute?: never; rateLimiter?: never }
   | { noBid?: never; openRtbAttribute: OpenRtbAttributeModuleParameters; rateLimiter?: never }
   | { noBid?: never; openRtbAttribute?: never; rateLimiter: RateLimiterModuleParameters };
 export interface ModuleConfiguration {
-  version?: string;
+  version?: string | undefined;
   name: string;
-  dependsOn?: string[];
-  moduleParameters?: ModuleParameters;
+  dependsOn?: string[] | undefined;
+  moduleParameters?: ModuleParameters | undefined;
 }
 export type ModuleConfigurationList = ModuleConfiguration[];
 export type ConnectivityType =
@@ -242,12 +242,12 @@ export interface AcceptLinkResponse {
   status: LinkStatus;
   createdAt: Date;
   updatedAt: Date;
-  direction?: LinkDirection;
-  flowModules?: ModuleConfiguration[];
-  pendingFlowModules?: ModuleConfiguration[];
-  attributes?: LinkAttributes;
-  logSettings?: LinkLogSettings;
-  connectivityType?: ConnectivityType;
+  direction?: LinkDirection | undefined;
+  flowModules?: ModuleConfiguration[] | undefined;
+  pendingFlowModules?: ModuleConfiguration[] | undefined;
+  attributes?: LinkAttributes | undefined;
+  logSettings?: LinkLogSettings | undefined;
+  connectivityType?: ConnectivityType | undefined;
   linkId: string;
 }
 export type AcmCertificateArn = string;
@@ -274,9 +274,9 @@ export type TagsMap = { [key: string]: string | undefined };
 export interface CreateInboundExternalLinkRequest {
   clientToken: string;
   gatewayId: string;
-  attributes?: LinkAttributes;
+  attributes?: LinkAttributes | undefined;
   logSettings: LinkLogSettings;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DomainName = string;
 export interface CreateInboundExternalLinkResponse {
@@ -288,11 +288,11 @@ export interface CreateInboundExternalLinkResponse {
 export interface CreateLinkRequest {
   gatewayId: string;
   peerGatewayId: string;
-  attributes?: LinkAttributes;
-  httpResponderAllowed?: boolean;
-  tags?: { [key: string]: string | undefined };
+  attributes?: LinkAttributes | undefined;
+  httpResponderAllowed?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   logSettings: LinkLogSettings;
-  timeoutInMillis?: number;
+  timeoutInMillis?: number | undefined;
 }
 export interface CreateLinkResponse {
   gatewayId: string;
@@ -300,14 +300,14 @@ export interface CreateLinkResponse {
   status: LinkStatus;
   createdAt: Date;
   updatedAt: Date;
-  direction?: LinkDirection;
-  flowModules?: ModuleConfiguration[];
-  pendingFlowModules?: ModuleConfiguration[];
-  attributes?: LinkAttributes;
-  logSettings?: LinkLogSettings;
-  connectivityType?: ConnectivityType;
+  direction?: LinkDirection | undefined;
+  flowModules?: ModuleConfiguration[] | undefined;
+  pendingFlowModules?: ModuleConfiguration[] | undefined;
+  attributes?: LinkAttributes | undefined;
+  logSettings?: LinkLogSettings | undefined;
+  connectivityType?: ConnectivityType | undefined;
   linkId: string;
-  customerProvidedId?: string;
+  customerProvidedId?: string | undefined;
 }
 export type RulePriority = number;
 export interface QueryStringKeyValuePair {
@@ -315,12 +315,12 @@ export interface QueryStringKeyValuePair {
   value: string;
 }
 export interface RuleCondition {
-  hostHeader?: string;
-  hostHeaderWildcard?: string;
-  pathPrefix?: string;
-  pathExact?: string;
-  queryStringEquals?: QueryStringKeyValuePair;
-  queryStringExists?: string;
+  hostHeader?: string | undefined;
+  hostHeaderWildcard?: string | undefined;
+  pathPrefix?: string | undefined;
+  pathExact?: string | undefined;
+  queryStringEquals?: QueryStringKeyValuePair | undefined;
+  queryStringExists?: string | undefined;
 }
 export interface CreateLinkRoutingRuleRequest {
   clientToken: string;
@@ -328,7 +328,7 @@ export interface CreateLinkRoutingRuleRequest {
   linkId: string;
   priority: number;
   conditions: RuleCondition;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RuleId = string;
 export type RuleStatus =
@@ -348,10 +348,10 @@ export type URL = string;
 export interface CreateOutboundExternalLinkRequest {
   clientToken: string;
   gatewayId: string;
-  attributes?: LinkAttributes;
+  attributes?: LinkAttributes | undefined;
   publicEndpoint: string;
   logSettings: LinkLogSettings;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateOutboundExternalLinkResponse {
   gatewayId: string;
@@ -368,8 +368,8 @@ export interface CreateRequesterGatewayRequest {
   subnetIds: string[];
   securityGroupIds: string[];
   clientToken: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RequesterGatewayStatus =
   | "PENDING_CREATION"
@@ -403,17 +403,17 @@ export type StatusCodeMatcher = string;
 export interface HealthCheckConfig {
   port: number;
   path: string;
-  protocol?: Protocol;
-  timeoutMs?: number;
-  intervalSeconds?: number;
-  statusCodeMatcher?: string;
-  healthyThresholdCount?: number;
-  unhealthyThresholdCount?: number;
+  protocol?: Protocol | undefined;
+  timeoutMs?: number | undefined;
+  intervalSeconds?: number | undefined;
+  statusCodeMatcher?: string | undefined;
+  healthyThresholdCount?: number | undefined;
+  unhealthyThresholdCount?: number | undefined;
 }
 export interface AutoScalingGroupsConfiguration {
   autoScalingGroupNames: string[];
   roleArn: string;
-  healthCheckConfig?: HealthCheckConfig;
+  healthCheckConfig?: HealthCheckConfig | undefined;
 }
 export type KubernetesEndpointsResourceName = string;
 export type KubernetesNamespace = string;
@@ -439,17 +439,17 @@ export interface CreateResponderGatewayRequest {
   vpcId: string;
   subnetIds: string[];
   securityGroupIds: string[];
-  domainName?: string;
+  domainName?: string | undefined;
   port: number;
   protocol: Protocol;
-  listenerConfig?: ListenerConfig;
-  trustStoreConfiguration?: TrustStoreConfiguration;
-  managedEndpointConfiguration?: ManagedEndpointConfiguration;
+  listenerConfig?: ListenerConfig | undefined;
+  trustStoreConfiguration?: TrustStoreConfiguration | undefined;
+  managedEndpointConfiguration?: ManagedEndpointConfiguration | undefined;
   clientToken: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  gatewayType?: GatewayType;
-  clientRoutingPolicy?: ClientRoutingPolicy;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  gatewayType?: GatewayType | undefined;
+  clientRoutingPolicy?: ClientRoutingPolicy | undefined;
 }
 export type ResponderGatewayStatus =
   | "PENDING_CREATION"
@@ -465,9 +465,9 @@ export type ResponderGatewayStatus =
 export interface CreateResponderGatewayResponse {
   gatewayId: string;
   status: ResponderGatewayStatus;
-  listenerConfig?: ListenerConfig;
-  externalInboundEndpoint?: string;
-  clientRoutingPolicy?: ClientRoutingPolicy;
+  listenerConfig?: ListenerConfig | undefined;
+  externalInboundEndpoint?: string | undefined;
+  clientRoutingPolicy?: ClientRoutingPolicy | undefined;
 }
 export interface DeleteInboundExternalLinkRequest {
   gatewayId: string;
@@ -533,8 +533,8 @@ export interface GetCertificateAssociationResponse {
   gatewayId: string;
   acmCertificateArn: string;
   status: CertificateAssociationStatus;
-  associatedAt?: Date;
-  updatedAt?: Date;
+  associatedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetInboundExternalLinkRequest {
   gatewayId: string;
@@ -545,14 +545,14 @@ export interface GetInboundExternalLinkResponse {
   linkId: string;
   status: LinkStatus;
   domainName: string;
-  flowModules?: ModuleConfiguration[];
-  pendingFlowModules?: ModuleConfiguration[];
-  attributes?: LinkAttributes;
-  createdAt?: Date;
-  updatedAt?: Date;
-  tags?: { [key: string]: string | undefined };
-  logSettings?: LinkLogSettings;
-  connectivityType?: ConnectivityType;
+  flowModules?: ModuleConfiguration[] | undefined;
+  pendingFlowModules?: ModuleConfiguration[] | undefined;
+  attributes?: LinkAttributes | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  logSettings?: LinkLogSettings | undefined;
+  connectivityType?: ConnectivityType | undefined;
 }
 export interface GetLinkRequest {
   gatewayId: string;
@@ -564,16 +564,16 @@ export interface GetLinkResponse {
   status: LinkStatus;
   createdAt: Date;
   updatedAt: Date;
-  direction?: LinkDirection;
-  flowModules?: ModuleConfiguration[];
-  pendingFlowModules?: ModuleConfiguration[];
-  attributes?: LinkAttributes;
-  logSettings?: LinkLogSettings;
-  connectivityType?: ConnectivityType;
+  direction?: LinkDirection | undefined;
+  flowModules?: ModuleConfiguration[] | undefined;
+  pendingFlowModules?: ModuleConfiguration[] | undefined;
+  attributes?: LinkAttributes | undefined;
+  logSettings?: LinkLogSettings | undefined;
+  connectivityType?: ConnectivityType | undefined;
   linkId: string;
-  tags?: { [key: string]: string | undefined };
-  httpResponderAllowed?: boolean;
-  timeoutInMillis?: number;
+  tags?: { [key: string]: string | undefined } | undefined;
+  httpResponderAllowed?: boolean | undefined;
+  timeoutInMillis?: number | undefined;
 }
 export interface GetLinkRoutingRuleRequest {
   gatewayId: string;
@@ -589,7 +589,7 @@ export interface GetLinkRoutingRuleResponse {
   status: RuleStatus;
   createdAt: Date;
   updatedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetOutboundExternalLinkRequest {
   gatewayId: string;
@@ -600,14 +600,14 @@ export interface GetOutboundExternalLinkResponse {
   linkId: string;
   status: LinkStatus;
   publicEndpoint: string;
-  flowModules?: ModuleConfiguration[];
-  pendingFlowModules?: ModuleConfiguration[];
-  attributes?: LinkAttributes;
-  createdAt?: Date;
-  updatedAt?: Date;
-  tags?: { [key: string]: string | undefined };
-  logSettings?: LinkLogSettings;
-  connectivityType?: ConnectivityType;
+  flowModules?: ModuleConfiguration[] | undefined;
+  pendingFlowModules?: ModuleConfiguration[] | undefined;
+  attributes?: LinkAttributes | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  logSettings?: LinkLogSettings | undefined;
+  connectivityType?: ConnectivityType | undefined;
 }
 export interface GetRequesterGatewayRequest {
   gatewayId: string;
@@ -615,16 +615,16 @@ export interface GetRequesterGatewayRequest {
 export interface GetRequesterGatewayResponse {
   status: RequesterGatewayStatus;
   domainName: string;
-  description?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  description?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
   vpcId: string;
   subnetIds: string[];
   securityGroupIds: string[];
   gatewayId: string;
-  tags?: { [key: string]: string | undefined };
-  activeLinksCount?: number;
-  totalLinksCount?: number;
+  tags?: { [key: string]: string | undefined } | undefined;
+  activeLinksCount?: number | undefined;
+  totalLinksCount?: number | undefined;
 }
 export interface GetResponderGatewayRequest {
   gatewayId: string;
@@ -634,45 +634,45 @@ export interface GetResponderGatewayResponse {
   subnetIds: string[];
   securityGroupIds: string[];
   status: ResponderGatewayStatus;
-  description?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  domainName?: string;
+  description?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  domainName?: string | undefined;
   port: number;
   protocol: Protocol;
-  listenerConfig?: ListenerConfig;
-  trustStoreConfiguration?: TrustStoreConfiguration;
-  managedEndpointConfiguration?: ManagedEndpointConfiguration;
+  listenerConfig?: ListenerConfig | undefined;
+  trustStoreConfiguration?: TrustStoreConfiguration | undefined;
+  managedEndpointConfiguration?: ManagedEndpointConfiguration | undefined;
   gatewayId: string;
-  tags?: { [key: string]: string | undefined };
-  activeLinksCount?: number;
-  totalLinksCount?: number;
-  linksRequestedCount?: number;
-  gatewayType?: GatewayType;
-  externalInboundEndpoint?: string;
-  clientRoutingPolicy?: ClientRoutingPolicy;
+  tags?: { [key: string]: string | undefined } | undefined;
+  activeLinksCount?: number | undefined;
+  totalLinksCount?: number | undefined;
+  linksRequestedCount?: number | undefined;
+  gatewayType?: GatewayType | undefined;
+  externalInboundEndpoint?: string | undefined;
+  clientRoutingPolicy?: ClientRoutingPolicy | undefined;
 }
 export interface ListCertificateAssociationsRequest {
   gatewayId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CertificateAssociationSummary {
   acmCertificateArn: string;
   status: CertificateAssociationStatus;
-  associatedAt?: Date;
-  updatedAt?: Date;
+  associatedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type CertificateAssociationSummaryList = CertificateAssociationSummary[];
 export interface ListCertificateAssociationsResponse {
   certificateAssociations: CertificateAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListLinkRoutingRulesRequest {
   gatewayId: string;
   linkId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LinkRoutingRuleSummary {
   ruleId: string;
@@ -684,13 +684,13 @@ export interface LinkRoutingRuleSummary {
 }
 export type LinkRoutingRuleList = LinkRoutingRuleSummary[];
 export interface ListLinkRoutingRulesResponse {
-  rules?: LinkRoutingRuleSummary[];
-  nextToken?: string;
+  rules?: LinkRoutingRuleSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListLinksRequest {
   gatewayId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListLinksResponseStructure {
   gatewayId: string;
@@ -698,44 +698,44 @@ export interface ListLinksResponseStructure {
   status: LinkStatus;
   createdAt: Date;
   updatedAt: Date;
-  direction?: LinkDirection;
-  flowModules?: ModuleConfiguration[];
-  pendingFlowModules?: ModuleConfiguration[];
-  attributes?: LinkAttributes;
-  logSettings?: LinkLogSettings;
-  connectivityType?: ConnectivityType;
+  direction?: LinkDirection | undefined;
+  flowModules?: ModuleConfiguration[] | undefined;
+  pendingFlowModules?: ModuleConfiguration[] | undefined;
+  attributes?: LinkAttributes | undefined;
+  logSettings?: LinkLogSettings | undefined;
+  connectivityType?: ConnectivityType | undefined;
   linkId: string;
-  tags?: { [key: string]: string | undefined };
-  publicEndpoint?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  publicEndpoint?: string | undefined;
 }
 export type LinkList = ListLinksResponseStructure[];
 export interface ListLinksResponse {
-  links?: ListLinksResponseStructure[];
-  nextToken?: string;
+  links?: ListLinksResponseStructure[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRequesterGatewaysRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type GatewayIdList = string[];
 export interface ListRequesterGatewaysResponse {
-  gatewayIds?: string[];
-  nextToken?: string;
+  gatewayIds?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListResponderGatewaysRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListResponderGatewaysResponse {
-  gatewayIds?: string[];
-  nextToken?: string;
+  gatewayIds?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type RtbTaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RejectLinkRequest {
   gatewayId: string;
@@ -747,12 +747,12 @@ export interface RejectLinkResponse {
   status: LinkStatus;
   createdAt: Date;
   updatedAt: Date;
-  direction?: LinkDirection;
-  flowModules?: ModuleConfiguration[];
-  pendingFlowModules?: ModuleConfiguration[];
-  attributes?: LinkAttributes;
-  logSettings?: LinkLogSettings;
-  connectivityType?: ConnectivityType;
+  direction?: LinkDirection | undefined;
+  flowModules?: ModuleConfiguration[] | undefined;
+  pendingFlowModules?: ModuleConfiguration[] | undefined;
+  attributes?: LinkAttributes | undefined;
+  logSettings?: LinkLogSettings | undefined;
+  connectivityType?: ConnectivityType | undefined;
   linkId: string;
 }
 export interface TagResourceRequest {
@@ -769,8 +769,8 @@ export interface UntagResourceResponse {}
 export interface UpdateLinkRequest {
   gatewayId: string;
   linkId: string;
-  logSettings?: LinkLogSettings;
-  timeoutInMillis?: number;
+  logSettings?: LinkLogSettings | undefined;
+  timeoutInMillis?: number | undefined;
 }
 export interface UpdateLinkResponse {
   linkId: string;
@@ -802,28 +802,28 @@ export interface UpdateLinkRoutingRuleResponse {
 export interface UpdateRequesterGatewayRequest {
   clientToken: string;
   gatewayId: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateRequesterGatewayResponse {
   gatewayId: string;
   status: RequesterGatewayStatus;
 }
 export interface UpdateResponderGatewayRequest {
-  domainName?: string;
+  domainName?: string | undefined;
   port: number;
   protocol: Protocol;
-  listenerConfig?: ListenerConfig;
-  trustStoreConfiguration?: TrustStoreConfiguration;
-  managedEndpointConfiguration?: ManagedEndpointConfiguration;
+  listenerConfig?: ListenerConfig | undefined;
+  trustStoreConfiguration?: TrustStoreConfiguration | undefined;
+  managedEndpointConfiguration?: ManagedEndpointConfiguration | undefined;
   clientToken: string;
   gatewayId: string;
-  description?: string;
-  clientRoutingPolicy?: ClientRoutingPolicy;
+  description?: string | undefined;
+  clientRoutingPolicy?: ClientRoutingPolicy | undefined;
 }
 export interface UpdateResponderGatewayResponse {
   gatewayId: string;
   status: ResponderGatewayStatus;
-  clientRoutingPolicy?: ClientRoutingPolicy;
+  clientRoutingPolicy?: ClientRoutingPolicy | undefined;
 }
 export type AcceptLinkError =
   | AccessDeniedException

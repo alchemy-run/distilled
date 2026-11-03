@@ -88,7 +88,7 @@ export interface CreateFeedbackRequest {
   requestsByScoreSrc: CreateFeedbackRequestRequestsByScoreSrcMap;
   /** Type of feedback report. */
   type: CreateFeedbackRequestType | (string & {});
-  subtype?: string;
+  subtype?: string | undefined;
 }
 export interface CreateFeedbackResponse {}
 export interface GetBotManagementRequest {
@@ -111,49 +111,55 @@ export type GetResultBotFightModeConfigurationContentBotsProtection = "block" | 
 export type GetResultBotFightModeConfigurationCrawlerProtection = "enabled" | "disabled";
 export interface GetResultBotFightModeConfigurationStaleZoneConfiguration {
   /** Indicates that the zone's wordpress optimization for SBFM is turned on. */
-  optimizeWordpress?: boolean | null;
+  optimizeWordpress?: boolean | null | undefined;
   /** Indicates that the zone's definitely automated requests are being blocked or challenged. */
-  sbfmDefinitelyAutomated?: string | null;
+  sbfmDefinitelyAutomated?: string | null | undefined;
   /** Indicates that the zone's likely automated requests are being blocked or challenged. */
-  sbfmLikelyAutomated?: string | null;
+  sbfmLikelyAutomated?: string | null | undefined;
   /** Indicates that the zone's static resource protection is turned on. */
-  sbfmStaticResourceProtection?: string | null;
+  sbfmStaticResourceProtection?: string | null | undefined;
   /** Indicates that the zone's verified bot requests are being blocked. */
-  sbfmVerifiedBots?: string | null;
+  sbfmVerifiedBots?: string | null | undefined;
   /** Indicates that the zone's session score tracking is disabled. */
-  suppressSessionScore?: boolean | null;
+  suppressSessionScore?: boolean | null | undefined;
 }
 export interface GetResultBotFightModeConfiguration {
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
-  aiBotsMigrationOptOut?: boolean | null;
+  aiBotsMigrationOptOut?: boolean | null | undefined;
   /** Enable rule to block AI Scrapers and Crawlers. */
-  aiBotsProtection?: GetResultBotFightModeConfigurationAiBotsProtection | null;
+  aiBotsProtection?: GetResultBotFightModeConfigurationAiBotsProtection | null | undefined;
   /** Configure robots.txt policy for AI search bots. */
-  aiSearch?: GetResultBotFightModeConfigurationAiSearch | null;
+  aiSearch?: GetResultBotFightModeConfigurationAiSearch | null | undefined;
   /** Configure robots.txt policy for AI model training bots. */
-  aiTraining?: GetResultBotFightModeConfigurationAiTraining | null;
+  aiTraining?: GetResultBotFightModeConfigurationAiTraining | null | undefined;
   /** Configure robots.txt policy for AI assistant and agent bots. */
-  aiUser?: GetResultBotFightModeConfigurationAiUser | null;
+  aiUser?: GetResultBotFightModeConfigurationAiUser | null | undefined;
   /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
-  botPreferenceSyncEnabled?: boolean | null;
+  botPreferenceSyncEnabled?: boolean | null | undefined;
   /** Specifies the Robots Access Control License variant to use. */
-  cfRobotsVariant?: GetResultBotFightModeConfigurationCfRobotsVariant | null;
+  cfRobotsVariant?: GetResultBotFightModeConfigurationCfRobotsVariant | null | undefined;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
-  contentBotsProtection?: GetResultBotFightModeConfigurationContentBotsProtection | null;
+  contentBotsProtection?:
+    | GetResultBotFightModeConfigurationContentBotsProtection
+    | null
+    | undefined;
   /** Enable rule to punish AI Scrapers and Crawlers via a link maze. */
-  crawlerProtection?: GetResultBotFightModeConfigurationCrawlerProtection | null;
+  crawlerProtection?: GetResultBotFightModeConfigurationCrawlerProtection | null | undefined;
   /** Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/). */
-  enableJs?: boolean | null;
+  enableJs?: boolean | null | undefined;
   /** Whether to enable Bot Fight Mode. */
-  fightMode?: boolean | null;
+  fightMode?: boolean | null | undefined;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
-  isRobotsTxtManaged?: boolean | null;
+  isRobotsTxtManaged?: boolean | null | undefined;
   /** Whether to use JavaScript Detection results submitted through the API for this zone. */
-  jsdApiResultsEnabled?: boolean | null;
+  jsdApiResultsEnabled?: boolean | null | undefined;
   /** A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades. */
-  staleZoneConfiguration?: GetResultBotFightModeConfigurationStaleZoneConfiguration | null;
+  staleZoneConfiguration?:
+    | GetResultBotFightModeConfigurationStaleZoneConfiguration
+    | null
+    | undefined;
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
-  usingLatestModel?: boolean | null;
+  usingLatestModel?: boolean | null | undefined;
 }
 export type GetResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection =
   | "block"
@@ -188,47 +194,68 @@ export type GetResultSuperBotFightModeDefinitelyConfigurationSbfmDefinitelyAutom
 export type GetResultSuperBotFightModeDefinitelyConfigurationSbfmVerifiedBots = "allow" | "block";
 export interface GetResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfiguration {
   /** Indicates that the zone's Bot Fight Mode is turned on. */
-  fightMode?: boolean | null;
+  fightMode?: boolean | null | undefined;
   /** Indicates that the zone's likely automated requests are being blocked or challenged. */
-  sbfmLikelyAutomated?: string | null;
+  sbfmLikelyAutomated?: string | null | undefined;
 }
 export interface GetResultSuperBotFightModeDefinitelyConfiguration {
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
-  aiBotsMigrationOptOut?: boolean | null;
+  aiBotsMigrationOptOut?: boolean | null | undefined;
   /** Enable rule to block AI Scrapers and Crawlers. */
-  aiBotsProtection?: GetResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection | null;
+  aiBotsProtection?:
+    | GetResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection
+    | null
+    | undefined;
   /** Configure robots.txt policy for AI search bots. */
-  aiSearch?: GetResultSuperBotFightModeDefinitelyConfigurationAiSearch | null;
+  aiSearch?: GetResultSuperBotFightModeDefinitelyConfigurationAiSearch | null | undefined;
   /** Configure robots.txt policy for AI model training bots. */
-  aiTraining?: GetResultSuperBotFightModeDefinitelyConfigurationAiTraining | null;
+  aiTraining?: GetResultSuperBotFightModeDefinitelyConfigurationAiTraining | null | undefined;
   /** Configure robots.txt policy for AI assistant and agent bots. */
-  aiUser?: GetResultSuperBotFightModeDefinitelyConfigurationAiUser | null;
+  aiUser?: GetResultSuperBotFightModeDefinitelyConfigurationAiUser | null | undefined;
   /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
-  botPreferenceSyncEnabled?: boolean | null;
+  botPreferenceSyncEnabled?: boolean | null | undefined;
   /** Specifies the Robots Access Control License variant to use. */
-  cfRobotsVariant?: GetResultSuperBotFightModeDefinitelyConfigurationCfRobotsVariant | null;
+  cfRobotsVariant?:
+    | GetResultSuperBotFightModeDefinitelyConfigurationCfRobotsVariant
+    | null
+    | undefined;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
-  contentBotsProtection?: GetResultSuperBotFightModeDefinitelyConfigurationContentBotsProtection | null;
+  contentBotsProtection?:
+    | GetResultSuperBotFightModeDefinitelyConfigurationContentBotsProtection
+    | null
+    | undefined;
   /** Enable rule to punish AI Scrapers and Crawlers via a link maze. */
-  crawlerProtection?: GetResultSuperBotFightModeDefinitelyConfigurationCrawlerProtection | null;
+  crawlerProtection?:
+    | GetResultSuperBotFightModeDefinitelyConfigurationCrawlerProtection
+    | null
+    | undefined;
   /** Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/). */
-  enableJs?: boolean | null;
+  enableJs?: boolean | null | undefined;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
-  isRobotsTxtManaged?: boolean | null;
+  isRobotsTxtManaged?: boolean | null | undefined;
   /** Whether to use JavaScript Detection results submitted through the API for this zone. */
-  jsdApiResultsEnabled?: boolean | null;
+  jsdApiResultsEnabled?: boolean | null | undefined;
   /** Whether to optimize Super Bot Fight Mode protections for Wordpress. */
-  optimizeWordpress?: boolean | null;
+  optimizeWordpress?: boolean | null | undefined;
   /** Super Bot Fight Mode (SBFM) action to take on definitely automated requests. */
-  sbfmDefinitelyAutomated?: GetResultSuperBotFightModeDefinitelyConfigurationSbfmDefinitelyAutomated | null;
+  sbfmDefinitelyAutomated?:
+    | GetResultSuperBotFightModeDefinitelyConfigurationSbfmDefinitelyAutomated
+    | null
+    | undefined;
   /** Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked. */
-  sbfmStaticResourceProtection?: boolean | null;
+  sbfmStaticResourceProtection?: boolean | null | undefined;
   /** Super Bot Fight Mode (SBFM) action to take on verified bots requests. */
-  sbfmVerifiedBots?: GetResultSuperBotFightModeDefinitelyConfigurationSbfmVerifiedBots | null;
+  sbfmVerifiedBots?:
+    | GetResultSuperBotFightModeDefinitelyConfigurationSbfmVerifiedBots
+    | null
+    | undefined;
   /** A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades. */
-  staleZoneConfiguration?: GetResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfiguration | null;
+  staleZoneConfiguration?:
+    | GetResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfiguration
+    | null
+    | undefined;
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
-  usingLatestModel?: boolean | null;
+  usingLatestModel?: boolean | null | undefined;
 }
 export type GetResultSuperBotFightModeLikelyConfigurationAiBotsProtection =
   | "block"
@@ -263,47 +290,68 @@ export type GetResultSuperBotFightModeLikelyConfigurationSbfmLikelyAutomated =
 export type GetResultSuperBotFightModeLikelyConfigurationSbfmVerifiedBots = "allow" | "block";
 export interface GetResultSuperBotFightModeLikelyConfigurationStaleZoneConfiguration {
   /** Indicates that the zone's Bot Fight Mode is turned on. */
-  fightMode?: boolean | null;
+  fightMode?: boolean | null | undefined;
 }
 export interface GetResultSuperBotFightModeLikelyConfiguration {
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
-  aiBotsMigrationOptOut?: boolean | null;
+  aiBotsMigrationOptOut?: boolean | null | undefined;
   /** Enable rule to block AI Scrapers and Crawlers. */
-  aiBotsProtection?: GetResultSuperBotFightModeLikelyConfigurationAiBotsProtection | null;
+  aiBotsProtection?:
+    | GetResultSuperBotFightModeLikelyConfigurationAiBotsProtection
+    | null
+    | undefined;
   /** Configure robots.txt policy for AI search bots. */
-  aiSearch?: GetResultSuperBotFightModeLikelyConfigurationAiSearch | null;
+  aiSearch?: GetResultSuperBotFightModeLikelyConfigurationAiSearch | null | undefined;
   /** Configure robots.txt policy for AI model training bots. */
-  aiTraining?: GetResultSuperBotFightModeLikelyConfigurationAiTraining | null;
+  aiTraining?: GetResultSuperBotFightModeLikelyConfigurationAiTraining | null | undefined;
   /** Configure robots.txt policy for AI assistant and agent bots. */
-  aiUser?: GetResultSuperBotFightModeLikelyConfigurationAiUser | null;
+  aiUser?: GetResultSuperBotFightModeLikelyConfigurationAiUser | null | undefined;
   /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
-  botPreferenceSyncEnabled?: boolean | null;
+  botPreferenceSyncEnabled?: boolean | null | undefined;
   /** Specifies the Robots Access Control License variant to use. */
-  cfRobotsVariant?: GetResultSuperBotFightModeLikelyConfigurationCfRobotsVariant | null;
+  cfRobotsVariant?: GetResultSuperBotFightModeLikelyConfigurationCfRobotsVariant | null | undefined;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
-  contentBotsProtection?: GetResultSuperBotFightModeLikelyConfigurationContentBotsProtection | null;
+  contentBotsProtection?:
+    | GetResultSuperBotFightModeLikelyConfigurationContentBotsProtection
+    | null
+    | undefined;
   /** Enable rule to punish AI Scrapers and Crawlers via a link maze. */
-  crawlerProtection?: GetResultSuperBotFightModeLikelyConfigurationCrawlerProtection | null;
+  crawlerProtection?:
+    | GetResultSuperBotFightModeLikelyConfigurationCrawlerProtection
+    | null
+    | undefined;
   /** Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/). */
-  enableJs?: boolean | null;
+  enableJs?: boolean | null | undefined;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
-  isRobotsTxtManaged?: boolean | null;
+  isRobotsTxtManaged?: boolean | null | undefined;
   /** Whether to use JavaScript Detection results submitted through the API for this zone. */
-  jsdApiResultsEnabled?: boolean | null;
+  jsdApiResultsEnabled?: boolean | null | undefined;
   /** Whether to optimize Super Bot Fight Mode protections for Wordpress. */
-  optimizeWordpress?: boolean | null;
+  optimizeWordpress?: boolean | null | undefined;
   /** Super Bot Fight Mode (SBFM) action to take on definitely automated requests. */
-  sbfmDefinitelyAutomated?: GetResultSuperBotFightModeLikelyConfigurationSbfmDefinitelyAutomated | null;
+  sbfmDefinitelyAutomated?:
+    | GetResultSuperBotFightModeLikelyConfigurationSbfmDefinitelyAutomated
+    | null
+    | undefined;
   /** Super Bot Fight Mode (SBFM) action to take on likely automated requests. */
-  sbfmLikelyAutomated?: GetResultSuperBotFightModeLikelyConfigurationSbfmLikelyAutomated | null;
+  sbfmLikelyAutomated?:
+    | GetResultSuperBotFightModeLikelyConfigurationSbfmLikelyAutomated
+    | null
+    | undefined;
   /** Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked. */
-  sbfmStaticResourceProtection?: boolean | null;
+  sbfmStaticResourceProtection?: boolean | null | undefined;
   /** Super Bot Fight Mode (SBFM) action to take on verified bots requests. */
-  sbfmVerifiedBots?: GetResultSuperBotFightModeLikelyConfigurationSbfmVerifiedBots | null;
+  sbfmVerifiedBots?:
+    | GetResultSuperBotFightModeLikelyConfigurationSbfmVerifiedBots
+    | null
+    | undefined;
   /** A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades. */
-  staleZoneConfiguration?: GetResultSuperBotFightModeLikelyConfigurationStaleZoneConfiguration | null;
+  staleZoneConfiguration?:
+    | GetResultSuperBotFightModeLikelyConfigurationStaleZoneConfiguration
+    | null
+    | undefined;
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
-  usingLatestModel?: boolean | null;
+  usingLatestModel?: boolean | null | undefined;
 }
 export type GetResultSubscriptionConfigurationAiBotsProtection =
   | "block"
@@ -321,53 +369,59 @@ export type GetResultSubscriptionConfigurationContentBotsProtection = "block" | 
 export type GetResultSubscriptionConfigurationCrawlerProtection = "enabled" | "disabled";
 export interface GetResultSubscriptionConfigurationStaleZoneConfiguration {
   /** Indicates that the zone's Bot Fight Mode is turned on. */
-  fightMode?: boolean | null;
+  fightMode?: boolean | null | undefined;
   /** Indicates that the zone's wordpress optimization for SBFM is turned on. */
-  optimizeWordpress?: boolean | null;
+  optimizeWordpress?: boolean | null | undefined;
   /** Indicates that the zone's definitely automated requests are being blocked or challenged. */
-  sbfmDefinitelyAutomated?: string | null;
+  sbfmDefinitelyAutomated?: string | null | undefined;
   /** Indicates that the zone's likely automated requests are being blocked or challenged. */
-  sbfmLikelyAutomated?: string | null;
+  sbfmLikelyAutomated?: string | null | undefined;
   /** Indicates that the zone's static resource protection is turned on. */
-  sbfmStaticResourceProtection?: string | null;
+  sbfmStaticResourceProtection?: string | null | undefined;
   /** Indicates that the zone's verified bot requests are being blocked. */
-  sbfmVerifiedBots?: string | null;
+  sbfmVerifiedBots?: string | null | undefined;
 }
 export interface GetResultSubscriptionConfiguration {
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
-  aiBotsMigrationOptOut?: boolean | null;
+  aiBotsMigrationOptOut?: boolean | null | undefined;
   /** Enable rule to block AI Scrapers and Crawlers. */
-  aiBotsProtection?: GetResultSubscriptionConfigurationAiBotsProtection | null;
+  aiBotsProtection?: GetResultSubscriptionConfigurationAiBotsProtection | null | undefined;
   /** Configure robots.txt policy for AI search bots. */
-  aiSearch?: GetResultSubscriptionConfigurationAiSearch | null;
+  aiSearch?: GetResultSubscriptionConfigurationAiSearch | null | undefined;
   /** Configure robots.txt policy for AI model training bots. */
-  aiTraining?: GetResultSubscriptionConfigurationAiTraining | null;
+  aiTraining?: GetResultSubscriptionConfigurationAiTraining | null | undefined;
   /** Configure robots.txt policy for AI assistant and agent bots. */
-  aiUser?: GetResultSubscriptionConfigurationAiUser | null;
+  aiUser?: GetResultSubscriptionConfigurationAiUser | null | undefined;
   /** Automatically update to the newest bot detection models created by Cloudflare as they are released. [Learn more.](https://developers.cloudflare.com/bots/reference/machine-learning-models#model-versions-and-release-notes) */
-  autoUpdateModel?: boolean | null;
+  autoUpdateModel?: boolean | null | undefined;
   /** Indicates that the bot management cookie can be placed on end user devices accessing the site. Defaults to true */
-  bmCookieEnabled?: boolean | null;
+  bmCookieEnabled?: boolean | null | undefined;
   /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
-  botPreferenceSyncEnabled?: boolean | null;
+  botPreferenceSyncEnabled?: boolean | null | undefined;
   /** Specifies the Robots Access Control License variant to use. */
-  cfRobotsVariant?: GetResultSubscriptionConfigurationCfRobotsVariant | null;
+  cfRobotsVariant?: GetResultSubscriptionConfigurationCfRobotsVariant | null | undefined;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
-  contentBotsProtection?: GetResultSubscriptionConfigurationContentBotsProtection | null;
+  contentBotsProtection?:
+    | GetResultSubscriptionConfigurationContentBotsProtection
+    | null
+    | undefined;
   /** Enable rule to punish AI Scrapers and Crawlers via a link maze. */
-  crawlerProtection?: GetResultSubscriptionConfigurationCrawlerProtection | null;
+  crawlerProtection?: GetResultSubscriptionConfigurationCrawlerProtection | null | undefined;
   /** Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/). */
-  enableJs?: boolean | null;
+  enableJs?: boolean | null | undefined;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
-  isRobotsTxtManaged?: boolean | null;
+  isRobotsTxtManaged?: boolean | null | undefined;
   /** Whether to use JavaScript Detection results submitted through the API for this zone. */
-  jsdApiResultsEnabled?: boolean | null;
+  jsdApiResultsEnabled?: boolean | null | undefined;
   /** A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades. */
-  staleZoneConfiguration?: GetResultSubscriptionConfigurationStaleZoneConfiguration | null;
+  staleZoneConfiguration?:
+    | GetResultSubscriptionConfigurationStaleZoneConfiguration
+    | null
+    | undefined;
   /** Whether to disable tracking the highest bot score for a session in the Bot Management cookie. */
-  suppressSessionScore?: boolean | null;
+  suppressSessionScore?: boolean | null | undefined;
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
-  usingLatestModel?: boolean | null;
+  usingLatestModel?: boolean | null | undefined;
 }
 export type GetResult =
   | GetResultBotFightModeConfiguration
@@ -399,8 +453,8 @@ export interface ListFeedbackResponse {
   requestsByScoreSrc: ListFeedbackResponseRequestsByScoreSrcMap;
   /** Type of feedback report. */
   type: ListFeedbackResponseType;
-  createdAt?: string | null;
-  subtype?: string | null;
+  createdAt?: string | null | undefined;
+  subtype?: string | null | undefined;
 }
 export type UpdateRequestAiBotsProtection = "block" | "disabled" | "only_on_ad_pages";
 export type UpdateRequestAiSearch = "disabled" | "block" | "only_on_ad_pages";
@@ -411,41 +465,41 @@ export type UpdateRequestContentBotsProtection = "block" | "disabled";
 export type UpdateRequestCrawlerProtection = "enabled" | "disabled";
 export interface UpdateRequestStaleZoneConfigurationBotFightModeConfiguration {
   /** Indicates that the zone's wordpress optimization for SBFM is turned on. */
-  optimizeWordpress?: boolean;
+  optimizeWordpress?: boolean | undefined;
   /** Indicates that the zone's definitely automated requests are being blocked or challenged. */
-  sbfmDefinitelyAutomated?: string;
+  sbfmDefinitelyAutomated?: string | undefined;
   /** Indicates that the zone's likely automated requests are being blocked or challenged. */
-  sbfmLikelyAutomated?: string;
+  sbfmLikelyAutomated?: string | undefined;
   /** Indicates that the zone's static resource protection is turned on. */
-  sbfmStaticResourceProtection?: string;
+  sbfmStaticResourceProtection?: string | undefined;
   /** Indicates that the zone's verified bot requests are being blocked. */
-  sbfmVerifiedBots?: string;
+  sbfmVerifiedBots?: string | undefined;
   /** Indicates that the zone's session score tracking is disabled. */
-  suppressSessionScore?: boolean;
+  suppressSessionScore?: boolean | undefined;
 }
 export interface UpdateRequestStaleZoneConfigurationSuperBotFightModeDefinitelyConfiguration {
   /** Indicates that the zone's Bot Fight Mode is turned on. */
-  fightMode?: boolean;
+  fightMode?: boolean | undefined;
   /** Indicates that the zone's likely automated requests are being blocked or challenged. */
-  sbfmLikelyAutomated?: string;
+  sbfmLikelyAutomated?: string | undefined;
 }
 export interface UpdateRequestStaleZoneConfigurationSuperBotFightModeLikelyConfiguration {
   /** Indicates that the zone's Bot Fight Mode is turned on. */
-  fightMode?: boolean;
+  fightMode?: boolean | undefined;
 }
 export interface UpdateRequestStaleZoneConfigurationSubscriptionConfiguration {
   /** Indicates that the zone's Bot Fight Mode is turned on. */
-  fightMode?: boolean;
+  fightMode?: boolean | undefined;
   /** Indicates that the zone's wordpress optimization for SBFM is turned on. */
-  optimizeWordpress?: boolean;
+  optimizeWordpress?: boolean | undefined;
   /** Indicates that the zone's definitely automated requests are being blocked or challenged. */
-  sbfmDefinitelyAutomated?: string;
+  sbfmDefinitelyAutomated?: string | undefined;
   /** Indicates that the zone's likely automated requests are being blocked or challenged. */
-  sbfmLikelyAutomated?: string;
+  sbfmLikelyAutomated?: string | undefined;
   /** Indicates that the zone's static resource protection is turned on. */
-  sbfmStaticResourceProtection?: string;
+  sbfmStaticResourceProtection?: string | undefined;
   /** Indicates that the zone's verified bot requests are being blocked. */
-  sbfmVerifiedBots?: string;
+  sbfmVerifiedBots?: string | undefined;
 }
 export type UpdateRequestStaleZoneConfiguration =
   | UpdateRequestStaleZoneConfigurationBotFightModeConfiguration
@@ -459,51 +513,51 @@ export interface PutBotManagementRequest {
   /** Identifier. */
   zoneId: string;
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
-  aiBotsMigrationOptOut?: boolean;
+  aiBotsMigrationOptOut?: boolean | undefined;
   /** Enable rule to block AI Scrapers and Crawlers. */
-  aiBotsProtection?: UpdateRequestAiBotsProtection | (string & {});
+  aiBotsProtection?: UpdateRequestAiBotsProtection | (string & {}) | undefined;
   /** Configure robots.txt policy for AI search bots. */
-  aiSearch?: UpdateRequestAiSearch | (string & {});
+  aiSearch?: UpdateRequestAiSearch | (string & {}) | undefined;
   /** Configure robots.txt policy for AI model training bots. */
-  aiTraining?: UpdateRequestAiTraining | (string & {});
+  aiTraining?: UpdateRequestAiTraining | (string & {}) | undefined;
   /** Configure robots.txt policy for AI assistant and agent bots. */
-  aiUser?: UpdateRequestAiUser | (string & {});
+  aiUser?: UpdateRequestAiUser | (string & {}) | undefined;
   /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
-  botPreferenceSyncEnabled?: boolean;
+  botPreferenceSyncEnabled?: boolean | undefined;
   /** Specifies the Robots Access Control License variant to use. */
-  cfRobotsVariant?: UpdateRequestCfRobotsVariant | (string & {});
+  cfRobotsVariant?: UpdateRequestCfRobotsVariant | (string & {}) | undefined;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
-  contentBotsProtection?: UpdateRequestContentBotsProtection | (string & {});
+  contentBotsProtection?: UpdateRequestContentBotsProtection | (string & {}) | undefined;
   /** Enable rule to punish AI Scrapers and Crawlers via a link maze. */
-  crawlerProtection?: UpdateRequestCrawlerProtection | (string & {});
+  crawlerProtection?: UpdateRequestCrawlerProtection | (string & {}) | undefined;
   /** Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/). */
-  enableJs?: boolean;
+  enableJs?: boolean | undefined;
   /** Whether to enable Bot Fight Mode. */
-  fightMode?: boolean;
+  fightMode?: boolean | undefined;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
-  isRobotsTxtManaged?: boolean;
+  isRobotsTxtManaged?: boolean | undefined;
   /** Whether to use JavaScript Detection results submitted through the API for this zone. */
-  jsdApiResultsEnabled?: boolean;
+  jsdApiResultsEnabled?: boolean | undefined;
   /** A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades. */
-  staleZoneConfiguration?: UpdateRequestStaleZoneConfiguration;
+  staleZoneConfiguration?: UpdateRequestStaleZoneConfiguration | undefined;
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
-  usingLatestModel?: boolean;
+  usingLatestModel?: boolean | undefined;
   /** Whether to optimize Super Bot Fight Mode protections for Wordpress. */
-  optimizeWordpress?: boolean;
+  optimizeWordpress?: boolean | undefined;
   /** Super Bot Fight Mode (SBFM) action to take on definitely automated requests. */
-  sbfmDefinitelyAutomated?: UpdateRequestSbfmDefinitelyAutomated | (string & {});
+  sbfmDefinitelyAutomated?: UpdateRequestSbfmDefinitelyAutomated | (string & {}) | undefined;
   /** Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked. */
-  sbfmStaticResourceProtection?: boolean;
+  sbfmStaticResourceProtection?: boolean | undefined;
   /** Super Bot Fight Mode (SBFM) action to take on verified bots requests. */
-  sbfmVerifiedBots?: UpdateRequestSbfmVerifiedBots | (string & {});
+  sbfmVerifiedBots?: UpdateRequestSbfmVerifiedBots | (string & {}) | undefined;
   /** Super Bot Fight Mode (SBFM) action to take on likely automated requests. */
-  sbfmLikelyAutomated?: UpdateRequestSbfmLikelyAutomated | (string & {});
+  sbfmLikelyAutomated?: UpdateRequestSbfmLikelyAutomated | (string & {}) | undefined;
   /** Automatically update to the newest bot detection models created by Cloudflare as they are released. [Learn more.](https://developers.cloudflare.com/bots/reference/machine-learning-models#model-versions-and-release-notes) */
-  autoUpdateModel?: boolean;
+  autoUpdateModel?: boolean | undefined;
   /** Indicates that the bot management cookie can be placed on end user devices accessing the site. Defaults to true */
-  bmCookieEnabled?: boolean;
+  bmCookieEnabled?: boolean | undefined;
   /** Whether to disable tracking the highest bot score for a session in the Bot Management cookie. */
-  suppressSessionScore?: boolean;
+  suppressSessionScore?: boolean | undefined;
 }
 export type UpdateResultBotFightModeConfigurationAiBotsProtection =
   | "block"
@@ -526,35 +580,41 @@ export type UpdateResultBotFightModeConfigurationStaleZoneConfiguration =
   GetResultBotFightModeConfigurationStaleZoneConfiguration;
 export interface UpdateResultBotFightModeConfiguration {
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
-  aiBotsMigrationOptOut?: boolean | null;
+  aiBotsMigrationOptOut?: boolean | null | undefined;
   /** Enable rule to block AI Scrapers and Crawlers. */
-  aiBotsProtection?: UpdateResultBotFightModeConfigurationAiBotsProtection | null;
+  aiBotsProtection?: UpdateResultBotFightModeConfigurationAiBotsProtection | null | undefined;
   /** Configure robots.txt policy for AI search bots. */
-  aiSearch?: UpdateResultBotFightModeConfigurationAiSearch | null;
+  aiSearch?: UpdateResultBotFightModeConfigurationAiSearch | null | undefined;
   /** Configure robots.txt policy for AI model training bots. */
-  aiTraining?: UpdateResultBotFightModeConfigurationAiTraining | null;
+  aiTraining?: UpdateResultBotFightModeConfigurationAiTraining | null | undefined;
   /** Configure robots.txt policy for AI assistant and agent bots. */
-  aiUser?: UpdateResultBotFightModeConfigurationAiUser | null;
+  aiUser?: UpdateResultBotFightModeConfigurationAiUser | null | undefined;
   /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
-  botPreferenceSyncEnabled?: boolean | null;
+  botPreferenceSyncEnabled?: boolean | null | undefined;
   /** Specifies the Robots Access Control License variant to use. */
-  cfRobotsVariant?: UpdateResultBotFightModeConfigurationCfRobotsVariant | null;
+  cfRobotsVariant?: UpdateResultBotFightModeConfigurationCfRobotsVariant | null | undefined;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
-  contentBotsProtection?: UpdateResultBotFightModeConfigurationContentBotsProtection | null;
+  contentBotsProtection?:
+    | UpdateResultBotFightModeConfigurationContentBotsProtection
+    | null
+    | undefined;
   /** Enable rule to punish AI Scrapers and Crawlers via a link maze. */
-  crawlerProtection?: UpdateResultBotFightModeConfigurationCrawlerProtection | null;
+  crawlerProtection?: UpdateResultBotFightModeConfigurationCrawlerProtection | null | undefined;
   /** Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/). */
-  enableJs?: boolean | null;
+  enableJs?: boolean | null | undefined;
   /** Whether to enable Bot Fight Mode. */
-  fightMode?: boolean | null;
+  fightMode?: boolean | null | undefined;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
-  isRobotsTxtManaged?: boolean | null;
+  isRobotsTxtManaged?: boolean | null | undefined;
   /** Whether to use JavaScript Detection results submitted through the API for this zone. */
-  jsdApiResultsEnabled?: boolean | null;
+  jsdApiResultsEnabled?: boolean | null | undefined;
   /** A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades. */
-  staleZoneConfiguration?: GetResultBotFightModeConfigurationStaleZoneConfiguration | null;
+  staleZoneConfiguration?:
+    | GetResultBotFightModeConfigurationStaleZoneConfiguration
+    | null
+    | undefined;
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
-  usingLatestModel?: boolean | null;
+  usingLatestModel?: boolean | null | undefined;
 }
 export type UpdateResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection =
   | "block"
@@ -593,41 +653,62 @@ export type UpdateResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfigu
   GetResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfiguration;
 export interface UpdateResultSuperBotFightModeDefinitelyConfiguration {
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
-  aiBotsMigrationOptOut?: boolean | null;
+  aiBotsMigrationOptOut?: boolean | null | undefined;
   /** Enable rule to block AI Scrapers and Crawlers. */
-  aiBotsProtection?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection | null;
+  aiBotsProtection?:
+    | UpdateResultSuperBotFightModeDefinitelyConfigurationAiBotsProtection
+    | null
+    | undefined;
   /** Configure robots.txt policy for AI search bots. */
-  aiSearch?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiSearch | null;
+  aiSearch?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiSearch | null | undefined;
   /** Configure robots.txt policy for AI model training bots. */
-  aiTraining?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiTraining | null;
+  aiTraining?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiTraining | null | undefined;
   /** Configure robots.txt policy for AI assistant and agent bots. */
-  aiUser?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiUser | null;
+  aiUser?: UpdateResultSuperBotFightModeDefinitelyConfigurationAiUser | null | undefined;
   /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
-  botPreferenceSyncEnabled?: boolean | null;
+  botPreferenceSyncEnabled?: boolean | null | undefined;
   /** Specifies the Robots Access Control License variant to use. */
-  cfRobotsVariant?: UpdateResultSuperBotFightModeDefinitelyConfigurationCfRobotsVariant | null;
+  cfRobotsVariant?:
+    | UpdateResultSuperBotFightModeDefinitelyConfigurationCfRobotsVariant
+    | null
+    | undefined;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
-  contentBotsProtection?: UpdateResultSuperBotFightModeDefinitelyConfigurationContentBotsProtection | null;
+  contentBotsProtection?:
+    | UpdateResultSuperBotFightModeDefinitelyConfigurationContentBotsProtection
+    | null
+    | undefined;
   /** Enable rule to punish AI Scrapers and Crawlers via a link maze. */
-  crawlerProtection?: UpdateResultSuperBotFightModeDefinitelyConfigurationCrawlerProtection | null;
+  crawlerProtection?:
+    | UpdateResultSuperBotFightModeDefinitelyConfigurationCrawlerProtection
+    | null
+    | undefined;
   /** Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/). */
-  enableJs?: boolean | null;
+  enableJs?: boolean | null | undefined;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
-  isRobotsTxtManaged?: boolean | null;
+  isRobotsTxtManaged?: boolean | null | undefined;
   /** Whether to use JavaScript Detection results submitted through the API for this zone. */
-  jsdApiResultsEnabled?: boolean | null;
+  jsdApiResultsEnabled?: boolean | null | undefined;
   /** Whether to optimize Super Bot Fight Mode protections for Wordpress. */
-  optimizeWordpress?: boolean | null;
+  optimizeWordpress?: boolean | null | undefined;
   /** Super Bot Fight Mode (SBFM) action to take on definitely automated requests. */
-  sbfmDefinitelyAutomated?: UpdateResultSuperBotFightModeDefinitelyConfigurationSbfmDefinitelyAutomated | null;
+  sbfmDefinitelyAutomated?:
+    | UpdateResultSuperBotFightModeDefinitelyConfigurationSbfmDefinitelyAutomated
+    | null
+    | undefined;
   /** Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked. */
-  sbfmStaticResourceProtection?: boolean | null;
+  sbfmStaticResourceProtection?: boolean | null | undefined;
   /** Super Bot Fight Mode (SBFM) action to take on verified bots requests. */
-  sbfmVerifiedBots?: UpdateResultSuperBotFightModeDefinitelyConfigurationSbfmVerifiedBots | null;
+  sbfmVerifiedBots?:
+    | UpdateResultSuperBotFightModeDefinitelyConfigurationSbfmVerifiedBots
+    | null
+    | undefined;
   /** A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades. */
-  staleZoneConfiguration?: GetResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfiguration | null;
+  staleZoneConfiguration?:
+    | GetResultSuperBotFightModeDefinitelyConfigurationStaleZoneConfiguration
+    | null
+    | undefined;
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
-  usingLatestModel?: boolean | null;
+  usingLatestModel?: boolean | null | undefined;
 }
 export type UpdateResultSuperBotFightModeLikelyConfigurationAiBotsProtection =
   | "block"
@@ -666,43 +747,67 @@ export type UpdateResultSuperBotFightModeLikelyConfigurationStaleZoneConfigurati
   GetResultSuperBotFightModeLikelyConfigurationStaleZoneConfiguration;
 export interface UpdateResultSuperBotFightModeLikelyConfiguration {
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
-  aiBotsMigrationOptOut?: boolean | null;
+  aiBotsMigrationOptOut?: boolean | null | undefined;
   /** Enable rule to block AI Scrapers and Crawlers. */
-  aiBotsProtection?: UpdateResultSuperBotFightModeLikelyConfigurationAiBotsProtection | null;
+  aiBotsProtection?:
+    | UpdateResultSuperBotFightModeLikelyConfigurationAiBotsProtection
+    | null
+    | undefined;
   /** Configure robots.txt policy for AI search bots. */
-  aiSearch?: UpdateResultSuperBotFightModeLikelyConfigurationAiSearch | null;
+  aiSearch?: UpdateResultSuperBotFightModeLikelyConfigurationAiSearch | null | undefined;
   /** Configure robots.txt policy for AI model training bots. */
-  aiTraining?: UpdateResultSuperBotFightModeLikelyConfigurationAiTraining | null;
+  aiTraining?: UpdateResultSuperBotFightModeLikelyConfigurationAiTraining | null | undefined;
   /** Configure robots.txt policy for AI assistant and agent bots. */
-  aiUser?: UpdateResultSuperBotFightModeLikelyConfigurationAiUser | null;
+  aiUser?: UpdateResultSuperBotFightModeLikelyConfigurationAiUser | null | undefined;
   /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
-  botPreferenceSyncEnabled?: boolean | null;
+  botPreferenceSyncEnabled?: boolean | null | undefined;
   /** Specifies the Robots Access Control License variant to use. */
-  cfRobotsVariant?: UpdateResultSuperBotFightModeLikelyConfigurationCfRobotsVariant | null;
+  cfRobotsVariant?:
+    | UpdateResultSuperBotFightModeLikelyConfigurationCfRobotsVariant
+    | null
+    | undefined;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
-  contentBotsProtection?: UpdateResultSuperBotFightModeLikelyConfigurationContentBotsProtection | null;
+  contentBotsProtection?:
+    | UpdateResultSuperBotFightModeLikelyConfigurationContentBotsProtection
+    | null
+    | undefined;
   /** Enable rule to punish AI Scrapers and Crawlers via a link maze. */
-  crawlerProtection?: UpdateResultSuperBotFightModeLikelyConfigurationCrawlerProtection | null;
+  crawlerProtection?:
+    | UpdateResultSuperBotFightModeLikelyConfigurationCrawlerProtection
+    | null
+    | undefined;
   /** Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/). */
-  enableJs?: boolean | null;
+  enableJs?: boolean | null | undefined;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
-  isRobotsTxtManaged?: boolean | null;
+  isRobotsTxtManaged?: boolean | null | undefined;
   /** Whether to use JavaScript Detection results submitted through the API for this zone. */
-  jsdApiResultsEnabled?: boolean | null;
+  jsdApiResultsEnabled?: boolean | null | undefined;
   /** Whether to optimize Super Bot Fight Mode protections for Wordpress. */
-  optimizeWordpress?: boolean | null;
+  optimizeWordpress?: boolean | null | undefined;
   /** Super Bot Fight Mode (SBFM) action to take on definitely automated requests. */
-  sbfmDefinitelyAutomated?: UpdateResultSuperBotFightModeLikelyConfigurationSbfmDefinitelyAutomated | null;
+  sbfmDefinitelyAutomated?:
+    | UpdateResultSuperBotFightModeLikelyConfigurationSbfmDefinitelyAutomated
+    | null
+    | undefined;
   /** Super Bot Fight Mode (SBFM) action to take on likely automated requests. */
-  sbfmLikelyAutomated?: UpdateResultSuperBotFightModeLikelyConfigurationSbfmLikelyAutomated | null;
+  sbfmLikelyAutomated?:
+    | UpdateResultSuperBotFightModeLikelyConfigurationSbfmLikelyAutomated
+    | null
+    | undefined;
   /** Super Bot Fight Mode (SBFM) to enable static resource protection. Enable if static resources on your application need bot protection. Note: Static resource protection can also result in legitimate traffic being blocked. */
-  sbfmStaticResourceProtection?: boolean | null;
+  sbfmStaticResourceProtection?: boolean | null | undefined;
   /** Super Bot Fight Mode (SBFM) action to take on verified bots requests. */
-  sbfmVerifiedBots?: UpdateResultSuperBotFightModeLikelyConfigurationSbfmVerifiedBots | null;
+  sbfmVerifiedBots?:
+    | UpdateResultSuperBotFightModeLikelyConfigurationSbfmVerifiedBots
+    | null
+    | undefined;
   /** A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades. */
-  staleZoneConfiguration?: GetResultSuperBotFightModeLikelyConfigurationStaleZoneConfiguration | null;
+  staleZoneConfiguration?:
+    | GetResultSuperBotFightModeLikelyConfigurationStaleZoneConfiguration
+    | null
+    | undefined;
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
-  usingLatestModel?: boolean | null;
+  usingLatestModel?: boolean | null | undefined;
 }
 export type UpdateResultSubscriptionConfigurationAiBotsProtection =
   | "block"
@@ -725,39 +830,45 @@ export type UpdateResultSubscriptionConfigurationStaleZoneConfiguration =
   GetResultSubscriptionConfigurationStaleZoneConfiguration;
 export interface UpdateResultSubscriptionConfiguration {
   /** Temporary migration flag tracking zones opted out of AI bots managed-rule updates. */
-  aiBotsMigrationOptOut?: boolean | null;
+  aiBotsMigrationOptOut?: boolean | null | undefined;
   /** Enable rule to block AI Scrapers and Crawlers. */
-  aiBotsProtection?: UpdateResultSubscriptionConfigurationAiBotsProtection | null;
+  aiBotsProtection?: UpdateResultSubscriptionConfigurationAiBotsProtection | null | undefined;
   /** Configure robots.txt policy for AI search bots. */
-  aiSearch?: UpdateResultSubscriptionConfigurationAiSearch | null;
+  aiSearch?: UpdateResultSubscriptionConfigurationAiSearch | null | undefined;
   /** Configure robots.txt policy for AI model training bots. */
-  aiTraining?: UpdateResultSubscriptionConfigurationAiTraining | null;
+  aiTraining?: UpdateResultSubscriptionConfigurationAiTraining | null | undefined;
   /** Configure robots.txt policy for AI assistant and agent bots. */
-  aiUser?: UpdateResultSubscriptionConfigurationAiUser | null;
+  aiUser?: UpdateResultSubscriptionConfigurationAiUser | null | undefined;
   /** Automatically update to the newest bot detection models created by Cloudflare as they are released. [Learn more.](https://developers.cloudflare.com/bots/reference/machine-learning-models#model-versions-and-release-notes) */
-  autoUpdateModel?: boolean | null;
+  autoUpdateModel?: boolean | null | undefined;
   /** Indicates that the bot management cookie can be placed on end user devices accessing the site. Defaults to true */
-  bmCookieEnabled?: boolean | null;
+  bmCookieEnabled?: boolean | null | undefined;
   /** Enable Bot Preference Sync for this zone. When enabled, Cloudflare can serve robots.txt content derived from the zone's AI Search, AI User, and AI Training preferences. */
-  botPreferenceSyncEnabled?: boolean | null;
+  botPreferenceSyncEnabled?: boolean | null | undefined;
   /** Specifies the Robots Access Control License variant to use. */
-  cfRobotsVariant?: UpdateResultSubscriptionConfigurationCfRobotsVariant | null;
+  cfRobotsVariant?: UpdateResultSubscriptionConfigurationCfRobotsVariant | null | undefined;
   /** Enable rule to block content bots. When enabled, blocks automated traffic with low bot scores, excluding safe verified bot categories. Exceptions should be managed via skip rules. */
-  contentBotsProtection?: UpdateResultSubscriptionConfigurationContentBotsProtection | null;
+  contentBotsProtection?:
+    | UpdateResultSubscriptionConfigurationContentBotsProtection
+    | null
+    | undefined;
   /** Enable rule to punish AI Scrapers and Crawlers via a link maze. */
-  crawlerProtection?: UpdateResultSubscriptionConfigurationCrawlerProtection | null;
+  crawlerProtection?: UpdateResultSubscriptionConfigurationCrawlerProtection | null | undefined;
   /** Use lightweight, invisible JavaScript detections to improve Bot Management. [Learn more about JavaScript Detections](https://developers.cloudflare.com/bots/reference/javascript-detections/). */
-  enableJs?: boolean | null;
+  enableJs?: boolean | null | undefined;
   /** Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt. */
-  isRobotsTxtManaged?: boolean | null;
+  isRobotsTxtManaged?: boolean | null | undefined;
   /** Whether to use JavaScript Detection results submitted through the API for this zone. */
-  jsdApiResultsEnabled?: boolean | null;
+  jsdApiResultsEnabled?: boolean | null | undefined;
   /** A read-only field that shows which unauthorized settings are currently active on the zone. These settings typically result from upgrades or downgrades. */
-  staleZoneConfiguration?: GetResultSubscriptionConfigurationStaleZoneConfiguration | null;
+  staleZoneConfiguration?:
+    | GetResultSubscriptionConfigurationStaleZoneConfiguration
+    | null
+    | undefined;
   /** Whether to disable tracking the highest bot score for a session in the Bot Management cookie. */
-  suppressSessionScore?: boolean | null;
+  suppressSessionScore?: boolean | null | undefined;
   /** A read-only field that indicates whether the zone currently is running the latest ML model. */
-  usingLatestModel?: boolean | null;
+  usingLatestModel?: boolean | null | undefined;
 }
 export type UpdateResult =
   | UpdateResultBotFightModeConfiguration

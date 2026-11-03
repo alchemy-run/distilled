@@ -205,9 +205,9 @@ export interface DescribeKeyValueStoreResponse {
   KvsARN: string;
   Created: Date;
   ETag: string;
-  LastModified?: Date;
-  Status?: string;
-  FailureReason?: string;
+  LastModified?: Date | undefined;
+  Status?: string | undefined;
+  FailureReason?: string | undefined;
 }
 export interface GetKeyRequest {
   KvsARN: string;
@@ -222,8 +222,8 @@ export interface GetKeyResponse {
 }
 export interface ListKeysRequest {
   KvsARN: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListKeysResponseListItem {
   Key: string;
@@ -231,8 +231,8 @@ export interface ListKeysResponseListItem {
 }
 export type ListKeysResponseList = ListKeysResponseListItem[];
 export interface ListKeysResponse {
-  NextToken?: string;
-  Items?: ListKeysResponseListItem[];
+  NextToken?: string | undefined;
+  Items?: ListKeysResponseListItem[] | undefined;
 }
 export interface PutKeyRequest {
   Key: string;
@@ -257,8 +257,8 @@ export type DeleteKeyRequestsList = DeleteKeyRequestListItem[];
 export interface UpdateKeysRequest {
   KvsARN: string;
   IfMatch: string;
-  Puts?: PutKeyRequestListItem[];
-  Deletes?: DeleteKeyRequestListItem[];
+  Puts?: PutKeyRequestListItem[] | undefined;
+  Deletes?: DeleteKeyRequestListItem[] | undefined;
 }
 export interface UpdateKeysResponse {
   ItemCount: number;

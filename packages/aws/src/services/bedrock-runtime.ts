@@ -187,7 +187,7 @@ export type GuardrailContentQualifier =
 export type GuardrailContentQualifierList = GuardrailContentQualifier[];
 export interface GuardrailTextBlock {
   text: string;
-  qualifiers?: GuardrailContentQualifier[];
+  qualifiers?: GuardrailContentQualifier[] | undefined;
 }
 export type GuardrailImageFormat = "png" | "jpeg" | (string & {});
 export type GuardrailImageSource = { bytes: Uint8Array };
@@ -205,7 +205,7 @@ export interface ApplyGuardrailRequest {
   guardrailVersion: string;
   source: GuardrailContentSource;
   content: GuardrailContentBlock[];
-  outputScope?: GuardrailOutputScope;
+  outputScope?: GuardrailOutputScope | undefined;
 }
 export type GuardrailTopicPolicyUnitsProcessed = number;
 export type GuardrailContentPolicyUnitsProcessed = number;
@@ -223,14 +223,14 @@ export interface GuardrailUsage {
   sensitiveInformationPolicyUnits: number;
   sensitiveInformationPolicyFreeUnits: number;
   contextualGroundingPolicyUnits: number;
-  contentPolicyImageUnits?: number;
-  automatedReasoningPolicyUnits?: number;
-  automatedReasoningPolicies?: number;
+  contentPolicyImageUnits?: number | undefined;
+  automatedReasoningPolicyUnits?: number | undefined;
+  automatedReasoningPolicies?: number | undefined;
 }
 export type GuardrailAction = "NONE" | "GUARDRAIL_INTERVENED" | (string & {});
 export type GuardrailOutputText = string;
 export interface GuardrailOutputContent {
-  text?: string;
+  text?: string | undefined;
 }
 export type GuardrailOutputContentList = GuardrailOutputContent[];
 export type GuardrailTopicType = "DENY" | (string & {});
@@ -239,7 +239,7 @@ export interface GuardrailTopic {
   name: string;
   type: GuardrailTopicType;
   action: GuardrailTopicPolicyAction;
-  detected?: boolean;
+  detected?: boolean | undefined;
 }
 export type GuardrailTopicList = GuardrailTopic[];
 export interface GuardrailTopicPolicyAssessment {
@@ -259,9 +259,9 @@ export type GuardrailContentPolicyAction = "BLOCKED" | "NONE" | (string & {});
 export interface GuardrailContentFilter {
   type: GuardrailContentFilterType;
   confidence: GuardrailContentFilterConfidence;
-  filterStrength?: GuardrailContentFilterStrength;
+  filterStrength?: GuardrailContentFilterStrength | undefined;
   action: GuardrailContentPolicyAction;
-  detected?: boolean;
+  detected?: boolean | undefined;
 }
 export type GuardrailContentFilterList = GuardrailContentFilter[];
 export interface GuardrailContentPolicyAssessment {
@@ -271,7 +271,7 @@ export type GuardrailWordPolicyAction = "BLOCKED" | "NONE" | (string & {});
 export interface GuardrailCustomWord {
   match: string;
   action: GuardrailWordPolicyAction;
-  detected?: boolean;
+  detected?: boolean | undefined;
 }
 export type GuardrailCustomWordList = GuardrailCustomWord[];
 export type GuardrailManagedWordType = "PROFANITY" | (string & {});
@@ -279,7 +279,7 @@ export interface GuardrailManagedWord {
   match: string;
   type: GuardrailManagedWordType;
   action: GuardrailWordPolicyAction;
-  detected?: boolean;
+  detected?: boolean | undefined;
 }
 export type GuardrailManagedWordList = GuardrailManagedWord[];
 export interface GuardrailWordPolicyAssessment {
@@ -328,15 +328,15 @@ export interface GuardrailPiiEntityFilter {
   match: string;
   type: GuardrailPiiEntityType;
   action: GuardrailSensitiveInformationPolicyAction;
-  detected?: boolean;
+  detected?: boolean | undefined;
 }
 export type GuardrailPiiEntityFilterList = GuardrailPiiEntityFilter[];
 export interface GuardrailRegexFilter {
-  name?: string;
-  match?: string;
-  regex?: string;
+  name?: string | undefined;
+  match?: string | undefined;
+  regex?: string | undefined;
   action: GuardrailSensitiveInformationPolicyAction;
-  detected?: boolean;
+  detected?: boolean | undefined;
 }
 export type GuardrailRegexFilterList = GuardrailRegexFilter[];
 export interface GuardrailSensitiveInformationPolicyAssessment {
@@ -350,42 +350,42 @@ export interface GuardrailContextualGroundingFilter {
   threshold: number;
   score: number;
   action: GuardrailContextualGroundingPolicyAction;
-  detected?: boolean;
+  detected?: boolean | undefined;
 }
 export type GuardrailContextualGroundingFilters = GuardrailContextualGroundingFilter[];
 export interface GuardrailContextualGroundingPolicyAssessment {
-  filters?: GuardrailContextualGroundingFilter[];
+  filters?: GuardrailContextualGroundingFilter[] | undefined;
 }
 export type GuardrailAutomatedReasoningStatementLogicContent = string | redacted.Redacted<string>;
 export type GuardrailAutomatedReasoningStatementNaturalLanguageContent =
   | string
   | redacted.Redacted<string>;
 export interface GuardrailAutomatedReasoningStatement {
-  logic?: string | redacted.Redacted<string>;
-  naturalLanguage?: string | redacted.Redacted<string>;
+  logic?: string | redacted.Redacted<string> | undefined;
+  naturalLanguage?: string | redacted.Redacted<string> | undefined;
 }
 export type GuardrailAutomatedReasoningStatementList = GuardrailAutomatedReasoningStatement[];
 export interface GuardrailAutomatedReasoningInputTextReference {
-  text?: string | redacted.Redacted<string>;
+  text?: string | redacted.Redacted<string> | undefined;
 }
 export type GuardrailAutomatedReasoningInputTextReferenceList =
   GuardrailAutomatedReasoningInputTextReference[];
 export type GuardrailAutomatedReasoningTranslationConfidence = number;
 export interface GuardrailAutomatedReasoningTranslation {
-  premises?: GuardrailAutomatedReasoningStatement[];
-  claims?: GuardrailAutomatedReasoningStatement[];
-  untranslatedPremises?: GuardrailAutomatedReasoningInputTextReference[];
-  untranslatedClaims?: GuardrailAutomatedReasoningInputTextReference[];
-  confidence?: number;
+  premises?: GuardrailAutomatedReasoningStatement[] | undefined;
+  claims?: GuardrailAutomatedReasoningStatement[] | undefined;
+  untranslatedPremises?: GuardrailAutomatedReasoningInputTextReference[] | undefined;
+  untranslatedClaims?: GuardrailAutomatedReasoningInputTextReference[] | undefined;
+  confidence?: number | undefined;
 }
 export interface GuardrailAutomatedReasoningScenario {
-  statements?: GuardrailAutomatedReasoningStatement[];
+  statements?: GuardrailAutomatedReasoningStatement[] | undefined;
 }
 export type AutomatedReasoningRuleIdentifier = string;
 export type GuardrailAutomatedReasoningPolicyVersionArn = string;
 export interface GuardrailAutomatedReasoningRule {
-  identifier?: string;
-  policyVersionArn?: string;
+  identifier?: string | undefined;
+  policyVersionArn?: string | undefined;
 }
 export type GuardrailAutomatedReasoningRuleList = GuardrailAutomatedReasoningRule[];
 export type GuardrailAutomatedReasoningLogicWarningType =
@@ -393,43 +393,43 @@ export type GuardrailAutomatedReasoningLogicWarningType =
   | "ALWAYS_TRUE"
   | (string & {});
 export interface GuardrailAutomatedReasoningLogicWarning {
-  type?: GuardrailAutomatedReasoningLogicWarningType;
-  premises?: GuardrailAutomatedReasoningStatement[];
-  claims?: GuardrailAutomatedReasoningStatement[];
+  type?: GuardrailAutomatedReasoningLogicWarningType | undefined;
+  premises?: GuardrailAutomatedReasoningStatement[] | undefined;
+  claims?: GuardrailAutomatedReasoningStatement[] | undefined;
 }
 export interface GuardrailAutomatedReasoningValidFinding {
-  translation?: GuardrailAutomatedReasoningTranslation;
-  claimsTrueScenario?: GuardrailAutomatedReasoningScenario;
-  supportingRules?: GuardrailAutomatedReasoningRule[];
-  logicWarning?: GuardrailAutomatedReasoningLogicWarning;
+  translation?: GuardrailAutomatedReasoningTranslation | undefined;
+  claimsTrueScenario?: GuardrailAutomatedReasoningScenario | undefined;
+  supportingRules?: GuardrailAutomatedReasoningRule[] | undefined;
+  logicWarning?: GuardrailAutomatedReasoningLogicWarning | undefined;
 }
 export interface GuardrailAutomatedReasoningInvalidFinding {
-  translation?: GuardrailAutomatedReasoningTranslation;
-  contradictingRules?: GuardrailAutomatedReasoningRule[];
-  logicWarning?: GuardrailAutomatedReasoningLogicWarning;
+  translation?: GuardrailAutomatedReasoningTranslation | undefined;
+  contradictingRules?: GuardrailAutomatedReasoningRule[] | undefined;
+  logicWarning?: GuardrailAutomatedReasoningLogicWarning | undefined;
 }
 export interface GuardrailAutomatedReasoningSatisfiableFinding {
-  translation?: GuardrailAutomatedReasoningTranslation;
-  claimsTrueScenario?: GuardrailAutomatedReasoningScenario;
-  claimsFalseScenario?: GuardrailAutomatedReasoningScenario;
-  logicWarning?: GuardrailAutomatedReasoningLogicWarning;
+  translation?: GuardrailAutomatedReasoningTranslation | undefined;
+  claimsTrueScenario?: GuardrailAutomatedReasoningScenario | undefined;
+  claimsFalseScenario?: GuardrailAutomatedReasoningScenario | undefined;
+  logicWarning?: GuardrailAutomatedReasoningLogicWarning | undefined;
 }
 export interface GuardrailAutomatedReasoningImpossibleFinding {
-  translation?: GuardrailAutomatedReasoningTranslation;
-  contradictingRules?: GuardrailAutomatedReasoningRule[];
-  logicWarning?: GuardrailAutomatedReasoningLogicWarning;
+  translation?: GuardrailAutomatedReasoningTranslation | undefined;
+  contradictingRules?: GuardrailAutomatedReasoningRule[] | undefined;
+  logicWarning?: GuardrailAutomatedReasoningLogicWarning | undefined;
 }
 export type GuardrailAutomatedReasoningTranslationList = GuardrailAutomatedReasoningTranslation[];
 export interface GuardrailAutomatedReasoningTranslationOption {
-  translations?: GuardrailAutomatedReasoningTranslation[];
+  translations?: GuardrailAutomatedReasoningTranslation[] | undefined;
 }
 export type GuardrailAutomatedReasoningTranslationOptionList =
   GuardrailAutomatedReasoningTranslationOption[];
 export type GuardrailAutomatedReasoningDifferenceScenarioList =
   GuardrailAutomatedReasoningScenario[];
 export interface GuardrailAutomatedReasoningTranslationAmbiguousFinding {
-  options?: GuardrailAutomatedReasoningTranslationOption[];
-  differenceScenarios?: GuardrailAutomatedReasoningScenario[];
+  options?: GuardrailAutomatedReasoningTranslationOption[] | undefined;
+  differenceScenarios?: GuardrailAutomatedReasoningScenario[] | undefined;
 }
 export interface GuardrailAutomatedReasoningTooComplexFinding {}
 export interface GuardrailAutomatedReasoningNoTranslationsFinding {}
@@ -499,29 +499,29 @@ export type GuardrailAutomatedReasoningFinding =
     };
 export type GuardrailAutomatedReasoningFindingList = GuardrailAutomatedReasoningFinding[];
 export interface GuardrailAutomatedReasoningPolicyAssessment {
-  findings?: GuardrailAutomatedReasoningFinding[];
+  findings?: GuardrailAutomatedReasoningFinding[] | undefined;
 }
 export type GuardrailProcessingLatency = number;
 export type TextCharactersGuarded = number;
 export type TextCharactersTotal = number;
 export interface GuardrailTextCharactersCoverage {
-  guarded?: number;
-  total?: number;
+  guarded?: number | undefined;
+  total?: number | undefined;
 }
 export type ImagesGuarded = number;
 export type ImagesTotal = number;
 export interface GuardrailImageCoverage {
-  guarded?: number;
-  total?: number;
+  guarded?: number | undefined;
+  total?: number | undefined;
 }
 export interface GuardrailCoverage {
-  textCharacters?: GuardrailTextCharactersCoverage;
-  images?: GuardrailImageCoverage;
+  textCharacters?: GuardrailTextCharactersCoverage | undefined;
+  images?: GuardrailImageCoverage | undefined;
 }
 export interface GuardrailInvocationMetrics {
-  guardrailProcessingLatency?: number;
-  usage?: GuardrailUsage;
-  guardrailCoverage?: GuardrailCoverage;
+  guardrailProcessingLatency?: number | undefined;
+  usage?: GuardrailUsage | undefined;
+  guardrailCoverage?: GuardrailCoverage | undefined;
 }
 export type GuardrailId = string;
 export type GuardrailArn = string;
@@ -533,30 +533,30 @@ export type GuardrailOrigin =
 export type GuardrailOriginList = GuardrailOrigin[];
 export type GuardrailOwnership = "SELF" | "CROSS_ACCOUNT" | (string & {});
 export interface AppliedGuardrailDetails {
-  guardrailId?: string;
-  guardrailVersion?: string;
-  guardrailArn?: string;
-  guardrailOrigin?: GuardrailOrigin[];
-  guardrailOwnership?: GuardrailOwnership;
+  guardrailId?: string | undefined;
+  guardrailVersion?: string | undefined;
+  guardrailArn?: string | undefined;
+  guardrailOrigin?: GuardrailOrigin[] | undefined;
+  guardrailOwnership?: GuardrailOwnership | undefined;
 }
 export interface GuardrailAssessment {
-  topicPolicy?: GuardrailTopicPolicyAssessment;
-  contentPolicy?: GuardrailContentPolicyAssessment;
-  wordPolicy?: GuardrailWordPolicyAssessment;
-  sensitiveInformationPolicy?: GuardrailSensitiveInformationPolicyAssessment;
-  contextualGroundingPolicy?: GuardrailContextualGroundingPolicyAssessment;
-  automatedReasoningPolicy?: GuardrailAutomatedReasoningPolicyAssessment;
-  invocationMetrics?: GuardrailInvocationMetrics;
-  appliedGuardrailDetails?: AppliedGuardrailDetails;
+  topicPolicy?: GuardrailTopicPolicyAssessment | undefined;
+  contentPolicy?: GuardrailContentPolicyAssessment | undefined;
+  wordPolicy?: GuardrailWordPolicyAssessment | undefined;
+  sensitiveInformationPolicy?: GuardrailSensitiveInformationPolicyAssessment | undefined;
+  contextualGroundingPolicy?: GuardrailContextualGroundingPolicyAssessment | undefined;
+  automatedReasoningPolicy?: GuardrailAutomatedReasoningPolicyAssessment | undefined;
+  invocationMetrics?: GuardrailInvocationMetrics | undefined;
+  appliedGuardrailDetails?: AppliedGuardrailDetails | undefined;
 }
 export type GuardrailAssessmentList = GuardrailAssessment[];
 export interface ApplyGuardrailResponse {
   usage: GuardrailUsage;
   action: GuardrailAction;
-  actionReason?: string;
+  actionReason?: string | undefined;
   outputs: GuardrailOutputContent[];
   assessments: GuardrailAssessment[];
-  guardrailCoverage?: GuardrailCoverage;
+  guardrailCoverage?: GuardrailCoverage | undefined;
 }
 export type ConversationalModelId = string;
 export type ConversationRole = "user" | "assistant" | "system" | (string & {});
@@ -565,18 +565,18 @@ export type S3Uri = string;
 export type AccountId = string;
 export interface S3Location {
   uri: string;
-  bucketOwner?: string;
+  bucketOwner?: string | undefined;
 }
 export type ImageSource =
   | { bytes: Uint8Array; s3Location?: never }
   | { bytes?: never; s3Location: S3Location };
 export interface ErrorBlock {
-  message?: string;
+  message?: string | undefined;
 }
 export interface ImageBlock {
   format: ImageFormat;
   source: ImageSource;
-  error?: ErrorBlock;
+  error?: ErrorBlock | undefined;
 }
 export type DocumentFormat =
   | "pdf"
@@ -600,11 +600,11 @@ export interface CitationsConfig {
   enabled: boolean;
 }
 export interface DocumentBlock {
-  format?: DocumentFormat;
+  format?: DocumentFormat | undefined;
   name: string;
   source: DocumentSource;
-  context?: string;
-  citations?: CitationsConfig;
+  context?: string | undefined;
+  citations?: CitationsConfig | undefined;
 }
 export type VideoFormat =
   | "mkv"
@@ -647,7 +647,7 @@ export type AudioSource =
 export interface AudioBlock {
   format: AudioFormat;
   source: AudioSource;
-  error?: ErrorBlock;
+  error?: ErrorBlock | undefined;
 }
 export type ToolUseId = string;
 export type ToolName = string;
@@ -656,7 +656,7 @@ export interface ToolUseBlock {
   toolUseId: string;
   name: string;
   input: any;
-  type?: ToolUseType;
+  type?: ToolUseType | undefined;
 }
 export interface SearchResultContentBlock {
   text: string;
@@ -666,7 +666,7 @@ export interface SearchResultBlock {
   source: string;
   title: string;
   content: SearchResultContentBlock[];
-  citations?: CitationsConfig;
+  citations?: CitationsConfig | undefined;
 }
 export type ToolResultContentBlock =
   | {
@@ -722,8 +722,8 @@ export type ToolResultStatus = "success" | "error" | (string & {});
 export interface ToolResultBlock {
   toolUseId: string;
   content: ToolResultContentBlock[];
-  status?: ToolResultStatus;
-  type?: string;
+  status?: ToolResultStatus | undefined;
+  type?: string | undefined;
 }
 export type GuardrailConverseContentQualifier =
   | "grounding_source"
@@ -733,7 +733,7 @@ export type GuardrailConverseContentQualifier =
 export type GuardrailConverseContentQualifierList = GuardrailConverseContentQualifier[];
 export interface GuardrailConverseTextBlock {
   text: string;
-  qualifiers?: GuardrailConverseContentQualifier[];
+  qualifiers?: GuardrailConverseContentQualifier[] | undefined;
 }
 export type GuardrailConverseImageFormat = "png" | "jpeg" | (string & {});
 export type GuardrailConverseImageSource = { bytes: Uint8Array };
@@ -748,11 +748,11 @@ export type CachePointType = "default" | (string & {});
 export type CacheTTL = "5m" | "1h" | (string & {});
 export interface CachePointBlock {
   type: CachePointType;
-  ttl?: CacheTTL;
+  ttl?: CacheTTL | undefined;
 }
 export interface ReasoningTextBlock {
   text: string;
-  signature?: string;
+  signature?: string | undefined;
 }
 export type ReasoningContentBlock =
   | { reasoningText: ReasoningTextBlock; redactedContent?: never }
@@ -762,28 +762,28 @@ export type CitationGeneratedContentList = CitationGeneratedContent[];
 export type CitationSourceContent = { text: string };
 export type CitationSourceContentList = CitationSourceContent[];
 export interface WebLocation {
-  url?: string;
-  domain?: string;
+  url?: string | undefined;
+  domain?: string | undefined;
 }
 export interface DocumentCharLocation {
-  documentIndex?: number;
-  start?: number;
-  end?: number;
+  documentIndex?: number | undefined;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 export interface DocumentPageLocation {
-  documentIndex?: number;
-  start?: number;
-  end?: number;
+  documentIndex?: number | undefined;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 export interface DocumentChunkLocation {
-  documentIndex?: number;
-  start?: number;
-  end?: number;
+  documentIndex?: number | undefined;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 export interface SearchResultLocation {
-  searchResultIndex?: number;
-  start?: number;
-  end?: number;
+  searchResultIndex?: number | undefined;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 export type CitationLocation =
   | {
@@ -822,20 +822,20 @@ export type CitationLocation =
       searchResultLocation: SearchResultLocation;
     };
 export interface Citation {
-  title?: string;
-  source?: string;
-  sourceContent?: CitationSourceContent[];
-  location?: CitationLocation;
+  title?: string | undefined;
+  source?: string | undefined;
+  sourceContent?: CitationSourceContent[] | undefined;
+  location?: CitationLocation | undefined;
 }
 export type Citations = Citation[];
 export interface CitationsContentBlock {
-  content?: CitationGeneratedContent[];
-  citations?: Citation[];
+  content?: CitationGeneratedContent[] | undefined;
+  citations?: Citation[] | undefined;
 }
 export interface ToolReference {
-  type?: string;
-  name?: string;
-  serverName?: string;
+  type?: string | undefined;
+  name?: string | undefined;
+  serverName?: string | undefined;
 }
 export interface ToolAdditionBlock {
   tool: ToolReference;
@@ -1082,17 +1082,17 @@ export type SystemContentBlock =
 export type SystemContentBlocks = SystemContentBlock[];
 export type NonEmptyStringList = string[];
 export interface InferenceConfiguration {
-  maxTokens?: number;
-  temperature?: number;
-  topP?: number;
-  stopSequences?: string[];
+  maxTokens?: number | undefined;
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  stopSequences?: string[] | undefined;
 }
 export type ToolInputSchema = { json: any };
 export interface ToolSpecification {
   name: string;
-  description?: string;
+  description?: string | undefined;
   inputSchema: ToolInputSchema;
-  strict?: boolean;
+  strict?: boolean | undefined;
 }
 export interface SystemTool {
   name: string;
@@ -1113,13 +1113,13 @@ export type ToolChoice =
   | { auto?: never; any?: never; tool: SpecificToolChoice };
 export interface ToolConfiguration {
   tools: Tool[];
-  toolChoice?: ToolChoice;
+  toolChoice?: ToolChoice | undefined;
 }
 export type GuardrailTrace = "enabled" | "disabled" | "enabled_full" | (string & {});
 export interface GuardrailConfiguration {
-  guardrailIdentifier?: string;
-  guardrailVersion?: string;
-  trace?: GuardrailTrace;
+  guardrailIdentifier?: string | undefined;
+  guardrailVersion?: string | undefined;
+  trace?: GuardrailTrace | undefined;
 }
 export type PromptVariableValues = { text: string };
 export type PromptVariableMap = { [key: string]: PromptVariableValues | undefined };
@@ -1127,7 +1127,7 @@ export type AdditionalModelResponseFieldPaths = string[];
 export type RequestMetadata = { [key: string]: string | undefined };
 export type PerformanceConfigLatency = "standard" | "optimized" | (string & {});
 export interface PerformanceConfiguration {
-  latency?: PerformanceConfigLatency;
+  latency?: PerformanceConfigLatency | undefined;
 }
 export type ServiceTierType = "priority" | "default" | "flex" | "reserved" | (string & {});
 export interface ServiceTier {
@@ -1136,8 +1136,8 @@ export interface ServiceTier {
 export type OutputFormatType = "json_schema" | (string & {});
 export interface JsonSchemaDefinition {
   schema: string;
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 export type OutputFormatStructure = { jsonSchema: JsonSchemaDefinition };
 export interface OutputFormat {
@@ -1145,23 +1145,23 @@ export interface OutputFormat {
   structure: OutputFormatStructure;
 }
 export interface OutputConfig {
-  textFormat?: OutputFormat;
-  effort?: string;
+  textFormat?: OutputFormat | undefined;
+  effort?: string | undefined;
 }
 export interface ConverseRequest {
   modelId: string;
-  messages?: Message[];
-  system?: SystemContentBlock[];
-  inferenceConfig?: InferenceConfiguration;
-  toolConfig?: ToolConfiguration;
-  guardrailConfig?: GuardrailConfiguration;
-  additionalModelRequestFields?: any;
-  promptVariables?: { [key: string]: PromptVariableValues | undefined };
-  additionalModelResponseFieldPaths?: string[];
-  requestMetadata?: { [key: string]: string | undefined };
-  performanceConfig?: PerformanceConfiguration;
-  serviceTier?: ServiceTier;
-  outputConfig?: OutputConfig;
+  messages?: Message[] | undefined;
+  system?: SystemContentBlock[] | undefined;
+  inferenceConfig?: InferenceConfiguration | undefined;
+  toolConfig?: ToolConfiguration | undefined;
+  guardrailConfig?: GuardrailConfiguration | undefined;
+  additionalModelRequestFields?: any | undefined;
+  promptVariables?: { [key: string]: PromptVariableValues | undefined } | undefined;
+  additionalModelResponseFieldPaths?: string[] | undefined;
+  requestMetadata?: { [key: string]: string | undefined } | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
+  serviceTier?: ServiceTier | undefined;
+  outputConfig?: OutputConfig | undefined;
 }
 export type ConverseOutput = { message: Message };
 export type StopReason =
@@ -1184,9 +1184,9 @@ export interface TokenUsage {
   inputTokens: number;
   outputTokens: number;
   totalTokens: number;
-  cacheReadInputTokens?: number;
-  cacheWriteInputTokens?: number;
-  cacheDetails?: CacheDetail[];
+  cacheReadInputTokens?: number | undefined;
+  cacheWriteInputTokens?: number | undefined;
+  cacheDetails?: CacheDetail[] | undefined;
 }
 export interface ConverseMetrics {
   latencyMs: number;
@@ -1195,50 +1195,50 @@ export type ModelOutputs = string[];
 export type GuardrailAssessmentMap = { [key: string]: GuardrailAssessment | undefined };
 export type GuardrailAssessmentListMap = { [key: string]: GuardrailAssessment[] | undefined };
 export interface GuardrailTraceAssessment {
-  modelOutput?: string[];
-  inputAssessment?: { [key: string]: GuardrailAssessment | undefined };
-  outputAssessments?: { [key: string]: GuardrailAssessment[] | undefined };
-  actionReason?: string;
+  modelOutput?: string[] | undefined;
+  inputAssessment?: { [key: string]: GuardrailAssessment | undefined } | undefined;
+  outputAssessments?: { [key: string]: GuardrailAssessment[] | undefined } | undefined;
+  actionReason?: string | undefined;
 }
 export type InvokedModelId = string;
 export interface PromptRouterTrace {
-  invokedModelId?: string;
+  invokedModelId?: string | undefined;
 }
 export interface ConverseTrace {
-  guardrail?: GuardrailTraceAssessment;
-  promptRouter?: PromptRouterTrace;
+  guardrail?: GuardrailTraceAssessment | undefined;
+  promptRouter?: PromptRouterTrace | undefined;
 }
 export interface ConverseResponse {
   output: ConverseOutput;
   stopReason: StopReason;
   usage: TokenUsage;
   metrics: ConverseMetrics;
-  additionalModelResponseFields?: any;
-  trace?: ConverseTrace;
-  performanceConfig?: PerformanceConfiguration;
-  serviceTier?: ServiceTier;
+  additionalModelResponseFields?: any | undefined;
+  trace?: ConverseTrace | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
+  serviceTier?: ServiceTier | undefined;
 }
 export type GuardrailStreamProcessingMode = "sync" | "async" | (string & {});
 export interface GuardrailStreamConfiguration {
-  guardrailIdentifier?: string;
-  guardrailVersion?: string;
-  trace?: GuardrailTrace;
-  streamProcessingMode?: GuardrailStreamProcessingMode;
+  guardrailIdentifier?: string | undefined;
+  guardrailVersion?: string | undefined;
+  trace?: GuardrailTrace | undefined;
+  streamProcessingMode?: GuardrailStreamProcessingMode | undefined;
 }
 export interface ConverseStreamRequest {
   modelId: string;
-  messages?: Message[];
-  system?: SystemContentBlock[];
-  inferenceConfig?: InferenceConfiguration;
-  toolConfig?: ToolConfiguration;
-  guardrailConfig?: GuardrailStreamConfiguration;
-  additionalModelRequestFields?: any;
-  promptVariables?: { [key: string]: PromptVariableValues | undefined };
-  additionalModelResponseFieldPaths?: string[];
-  requestMetadata?: { [key: string]: string | undefined };
-  performanceConfig?: PerformanceConfiguration;
-  serviceTier?: ServiceTier;
-  outputConfig?: OutputConfig;
+  messages?: Message[] | undefined;
+  system?: SystemContentBlock[] | undefined;
+  inferenceConfig?: InferenceConfiguration | undefined;
+  toolConfig?: ToolConfiguration | undefined;
+  guardrailConfig?: GuardrailStreamConfiguration | undefined;
+  additionalModelRequestFields?: any | undefined;
+  promptVariables?: { [key: string]: PromptVariableValues | undefined } | undefined;
+  additionalModelResponseFieldPaths?: string[] | undefined;
+  requestMetadata?: { [key: string]: string | undefined } | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
+  serviceTier?: ServiceTier | undefined;
+  outputConfig?: OutputConfig | undefined;
 }
 export interface MessageStartEvent {
   role: ConversationRole;
@@ -1246,12 +1246,12 @@ export interface MessageStartEvent {
 export interface ToolUseBlockStart {
   toolUseId: string;
   name: string;
-  type?: ToolUseType;
+  type?: ToolUseType | undefined;
 }
 export interface ToolResultBlockStart {
   toolUseId: string;
-  type?: string;
-  status?: ToolResultStatus;
+  type?: string | undefined;
+  status?: ToolResultStatus | undefined;
 }
 export interface ImageBlockStart {
   format: ImageFormat;
@@ -1275,18 +1275,18 @@ export type ReasoningContentBlockDelta =
   | { text?: never; redactedContent: Uint8Array; signature?: never }
   | { text?: never; redactedContent?: never; signature: string };
 export interface CitationSourceContentDelta {
-  text?: string;
+  text?: string | undefined;
 }
 export type CitationSourceContentListDelta = CitationSourceContentDelta[];
 export interface CitationsDelta {
-  title?: string;
-  source?: string;
-  sourceContent?: CitationSourceContentDelta[];
-  location?: CitationLocation;
+  title?: string | undefined;
+  source?: string | undefined;
+  sourceContent?: CitationSourceContentDelta[] | undefined;
+  location?: CitationLocation | undefined;
 }
 export interface ImageBlockDelta {
-  source?: ImageSource;
-  error?: ErrorBlock;
+  source?: ImageSource | undefined;
+  error?: ErrorBlock | undefined;
 }
 export type ContentBlockDelta =
   | {
@@ -1346,21 +1346,21 @@ export interface ContentBlockStopEvent {
 }
 export interface MessageStopEvent {
   stopReason: StopReason;
-  additionalModelResponseFields?: any;
+  additionalModelResponseFields?: any | undefined;
 }
 export interface ConverseStreamMetrics {
   latencyMs: number;
 }
 export interface ConverseStreamTrace {
-  guardrail?: GuardrailTraceAssessment;
-  promptRouter?: PromptRouterTrace;
+  guardrail?: GuardrailTraceAssessment | undefined;
+  promptRouter?: PromptRouterTrace | undefined;
 }
 export interface ConverseStreamMetadataEvent {
   usage: TokenUsage;
   metrics: ConverseStreamMetrics;
-  trace?: ConverseStreamTrace;
-  performanceConfig?: PerformanceConfiguration;
-  serviceTier?: ServiceTier;
+  trace?: ConverseStreamTrace | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
+  serviceTier?: ServiceTier | undefined;
 }
 export type NonBlankString = string;
 export type StatusCode = number;
@@ -1509,7 +1509,7 @@ export type ConverseStreamOutput =
       serviceUnavailableException: ServiceUnavailableException;
     };
 export interface ConverseStreamResponse {
-  stream?: stream.Stream<ConverseStreamOutput, Error, never>;
+  stream?: stream.Stream<ConverseStreamOutput, Error, never> | undefined;
 }
 export type FoundationModelVersionIdentifier = string;
 export type Body = Uint8Array | redacted.Redacted<Uint8Array>;
@@ -1517,10 +1517,10 @@ export interface InvokeModelTokensRequest {
   body: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export interface ConverseTokensRequest {
-  messages?: Message[];
-  system?: SystemContentBlock[];
-  toolConfig?: ToolConfiguration;
-  additionalModelRequestFields?: any;
+  messages?: Message[] | undefined;
+  system?: SystemContentBlock[] | undefined;
+  toolConfig?: ToolConfiguration | undefined;
+  additionalModelRequestFields?: any | undefined;
 }
 export type CountTokensInput =
   | { invokeModel: InvokeModelTokensRequest; converse?: never }
@@ -1543,19 +1543,19 @@ export type AsyncInvokeMessage = string | redacted.Redacted<string>;
 export type KmsKeyId = string;
 export interface AsyncInvokeS3OutputDataConfig {
   s3Uri: string;
-  kmsKeyId?: string;
-  bucketOwner?: string;
+  kmsKeyId?: string | undefined;
+  bucketOwner?: string | undefined;
 }
 export type AsyncInvokeOutputDataConfig = { s3OutputDataConfig: AsyncInvokeS3OutputDataConfig };
 export interface GetAsyncInvokeResponse {
   invocationArn: string;
   modelArn: string;
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   status: AsyncInvokeStatus;
-  failureMessage?: string | redacted.Redacted<string>;
+  failureMessage?: string | redacted.Redacted<string> | undefined;
   submitTime: Date;
-  lastModifiedTime?: Date;
-  endTime?: Date;
+  lastModifiedTime?: Date | undefined;
+  endTime?: Date | undefined;
   outputDataConfig: AsyncInvokeOutputDataConfig;
 }
 export type GuardrailChecksRole = "user" | "assistant" | "system" | (string & {});
@@ -1637,9 +1637,9 @@ export interface GuardrailChecksSensitiveInformationConfig {
   entities: GuardrailChecksSensitiveInformationEntityConfig[];
 }
 export interface GuardrailChecksConfig {
-  contentFilter?: GuardrailChecksContentFilterConfig;
-  promptAttack?: GuardrailChecksPromptAttackConfig;
-  sensitiveInformation?: GuardrailChecksSensitiveInformationConfig;
+  contentFilter?: GuardrailChecksContentFilterConfig | undefined;
+  promptAttack?: GuardrailChecksPromptAttackConfig | undefined;
+  sensitiveInformation?: GuardrailChecksSensitiveInformationConfig | undefined;
 }
 export interface InvokeGuardrailChecksRequest {
   messages: GuardrailChecksMessage[];
@@ -1673,12 +1673,12 @@ export type GuardrailChecksSensitiveInformationResultList =
   GuardrailChecksSensitiveInformationResultEntry[];
 export interface GuardrailChecksSensitiveInformationResult {
   results: GuardrailChecksSensitiveInformationResultEntry[];
-  truncated?: boolean;
+  truncated?: boolean | undefined;
 }
 export interface GuardrailChecksResults {
-  contentFilter?: GuardrailChecksContentFilterResult;
-  promptAttack?: GuardrailChecksPromptAttackResult;
-  sensitiveInformation?: GuardrailChecksSensitiveInformationResult;
+  contentFilter?: GuardrailChecksContentFilterResult | undefined;
+  promptAttack?: GuardrailChecksPromptAttackResult | undefined;
+  sensitiveInformation?: GuardrailChecksSensitiveInformationResult | undefined;
 }
 export interface GuardrailChecksContentFilterUsage {
   textUnits: number;
@@ -1690,9 +1690,9 @@ export interface GuardrailChecksSensitiveInformationUsage {
   textUnits: number;
 }
 export interface GuardrailChecksUsageResults {
-  contentFilter?: GuardrailChecksContentFilterUsage;
-  promptAttack?: GuardrailChecksPromptAttackUsage;
-  sensitiveInformation?: GuardrailChecksSensitiveInformationUsage;
+  contentFilter?: GuardrailChecksContentFilterUsage | undefined;
+  promptAttack?: GuardrailChecksPromptAttackUsage | undefined;
+  sensitiveInformation?: GuardrailChecksSensitiveInformationUsage | undefined;
 }
 export interface InvokeGuardrailChecksResponse {
   results: GuardrailChecksResults;
@@ -1703,26 +1703,26 @@ export type InvokeModelIdentifier = string;
 export type Trace = "ENABLED" | "DISABLED" | "ENABLED_FULL" | (string & {});
 export type RequestMetadataJson = string | redacted.Redacted<string>;
 export interface InvokeModelRequest {
-  body?: T.StreamingInputBody;
-  contentType?: string;
-  accept?: string;
+  body?: T.StreamingInputBody | undefined;
+  contentType?: string | undefined;
+  accept?: string | undefined;
   modelId: string;
-  trace?: Trace;
-  guardrailIdentifier?: string;
-  guardrailVersion?: string;
-  performanceConfigLatency?: PerformanceConfigLatency;
-  serviceTier?: ServiceTierType;
-  requestMetadata?: string | redacted.Redacted<string>;
+  trace?: Trace | undefined;
+  guardrailIdentifier?: string | undefined;
+  guardrailVersion?: string | undefined;
+  performanceConfigLatency?: PerformanceConfigLatency | undefined;
+  serviceTier?: ServiceTierType | undefined;
+  requestMetadata?: string | redacted.Redacted<string> | undefined;
 }
 export interface InvokeModelResponse {
   body: T.StreamingOutputBody;
   contentType: string;
-  performanceConfigLatency?: PerformanceConfigLatency;
-  serviceTier?: ServiceTierType;
+  performanceConfigLatency?: PerformanceConfigLatency | undefined;
+  serviceTier?: ServiceTierType | undefined;
 }
 export type PartBody = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface BidirectionalInputPayloadPart {
-  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export type InvokeModelWithBidirectionalStreamInput = { chunk: BidirectionalInputPayloadPart };
 export interface InvokeModelWithBidirectionalStreamRequest {
@@ -1730,7 +1730,7 @@ export interface InvokeModelWithBidirectionalStreamRequest {
   body: stream.Stream<InvokeModelWithBidirectionalStreamInput, Error, never>;
 }
 export interface BidirectionalOutputPayloadPart {
-  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export type InvokeModelWithBidirectionalStreamOutput =
   | {
@@ -1800,19 +1800,19 @@ export interface InvokeModelWithBidirectionalStreamResponse {
   body: stream.Stream<InvokeModelWithBidirectionalStreamOutput, Error, never>;
 }
 export interface InvokeModelWithResponseStreamRequest {
-  body?: T.StreamingInputBody;
-  contentType?: string;
-  accept?: string;
+  body?: T.StreamingInputBody | undefined;
+  contentType?: string | undefined;
+  accept?: string | undefined;
   modelId: string;
-  trace?: Trace;
-  guardrailIdentifier?: string;
-  guardrailVersion?: string;
-  performanceConfigLatency?: PerformanceConfigLatency;
-  serviceTier?: ServiceTierType;
-  requestMetadata?: string | redacted.Redacted<string>;
+  trace?: Trace | undefined;
+  guardrailIdentifier?: string | undefined;
+  guardrailVersion?: string | undefined;
+  performanceConfigLatency?: PerformanceConfigLatency | undefined;
+  serviceTier?: ServiceTierType | undefined;
+  requestMetadata?: string | redacted.Redacted<string> | undefined;
 }
 export interface PayloadPart {
-  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export type ResponseStream =
   | {
@@ -1881,37 +1881,37 @@ export type ResponseStream =
 export interface InvokeModelWithResponseStreamResponse {
   body: stream.Stream<ResponseStream, Error, never>;
   contentType: string;
-  performanceConfigLatency?: PerformanceConfigLatency;
-  serviceTier?: ServiceTierType;
+  performanceConfigLatency?: PerformanceConfigLatency | undefined;
+  serviceTier?: ServiceTierType | undefined;
 }
 export type MaxResults = number;
 export type PaginationToken = string;
 export type SortAsyncInvocationBy = "SubmissionTime" | (string & {});
 export type SortOrder = "Ascending" | "Descending" | (string & {});
 export interface ListAsyncInvokesRequest {
-  submitTimeAfter?: Date;
-  submitTimeBefore?: Date;
-  statusEquals?: AsyncInvokeStatus;
-  maxResults?: number;
-  nextToken?: string;
-  sortBy?: SortAsyncInvocationBy;
-  sortOrder?: SortOrder;
+  submitTimeAfter?: Date | undefined;
+  submitTimeBefore?: Date | undefined;
+  statusEquals?: AsyncInvokeStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortBy?: SortAsyncInvocationBy | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface AsyncInvokeSummary {
   invocationArn: string;
   modelArn: string;
-  clientRequestToken?: string;
-  status?: AsyncInvokeStatus;
-  failureMessage?: string | redacted.Redacted<string>;
+  clientRequestToken?: string | undefined;
+  status?: AsyncInvokeStatus | undefined;
+  failureMessage?: string | redacted.Redacted<string> | undefined;
   submitTime: Date;
-  lastModifiedTime?: Date;
-  endTime?: Date;
+  lastModifiedTime?: Date | undefined;
+  endTime?: Date | undefined;
   outputDataConfig: AsyncInvokeOutputDataConfig;
 }
 export type AsyncInvokeSummaries = AsyncInvokeSummary[];
 export interface ListAsyncInvokesResponse {
-  nextToken?: string;
-  asyncInvokeSummaries?: AsyncInvokeSummary[];
+  nextToken?: string | undefined;
+  asyncInvokeSummaries?: AsyncInvokeSummary[] | undefined;
 }
 export type AsyncInvokeIdentifier = string;
 export type ModelInputPayload = unknown;
@@ -1923,11 +1923,11 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface StartAsyncInvokeRequest {
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   modelId: string;
   modelInput: any;
   outputDataConfig: AsyncInvokeOutputDataConfig;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface StartAsyncInvokeResponse {
   invocationArn: string;

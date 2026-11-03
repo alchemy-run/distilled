@@ -145,13 +145,13 @@ export type Values = string[];
 export type Configuration = { [key: string]: string[] | undefined };
 export interface AdditionalDataset {
   Name: string;
-  Configuration?: { [key: string]: string[] | undefined };
+  Configuration?: { [key: string]: string[] | undefined } | undefined;
 }
 export type AdditionalDatasets = AdditionalDataset[];
 export interface DataConfig {
   DatasetGroupArn: string;
-  AttributeConfigs?: AttributeConfig[];
-  AdditionalDatasets?: AdditionalDataset[];
+  AttributeConfigs?: AttributeConfig[] | undefined;
+  AdditionalDatasets?: AdditionalDataset[] | undefined;
 }
 export type KMSKeyArn = string;
 export interface EncryptionConfig {
@@ -201,28 +201,28 @@ export type DayOfWeek =
   | (string & {});
 export type Hour = number;
 export interface TimeAlignmentBoundary {
-  Month?: Month;
-  DayOfMonth?: number;
-  DayOfWeek?: DayOfWeek;
-  Hour?: number;
+  Month?: Month | undefined;
+  DayOfMonth?: number | undefined;
+  DayOfWeek?: DayOfWeek | undefined;
+  Hour?: number | undefined;
 }
 export interface CreateAutoPredictorRequest {
   PredictorName: string;
-  ForecastHorizon?: number;
-  ForecastTypes?: string[];
-  ForecastDimensions?: string[];
-  ForecastFrequency?: string;
-  DataConfig?: DataConfig;
-  EncryptionConfig?: EncryptionConfig;
-  ReferencePredictorArn?: string;
-  OptimizationMetric?: OptimizationMetric;
-  ExplainPredictor?: boolean;
-  Tags?: Tag[];
-  MonitorConfig?: MonitorConfig;
-  TimeAlignmentBoundary?: TimeAlignmentBoundary;
+  ForecastHorizon?: number | undefined;
+  ForecastTypes?: string[] | undefined;
+  ForecastDimensions?: string[] | undefined;
+  ForecastFrequency?: string | undefined;
+  DataConfig?: DataConfig | undefined;
+  EncryptionConfig?: EncryptionConfig | undefined;
+  ReferencePredictorArn?: string | undefined;
+  OptimizationMetric?: OptimizationMetric | undefined;
+  ExplainPredictor?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  MonitorConfig?: MonitorConfig | undefined;
+  TimeAlignmentBoundary?: TimeAlignmentBoundary | undefined;
 }
 export interface CreateAutoPredictorResponse {
-  PredictorArn?: string;
+  PredictorArn?: string | undefined;
 }
 export type Domain =
   | "RETAIL"
@@ -246,40 +246,40 @@ export type AttributeType =
   | "geolocation"
   | (string & {});
 export interface SchemaAttribute {
-  AttributeName?: string;
-  AttributeType?: AttributeType;
+  AttributeName?: string | undefined;
+  AttributeType?: AttributeType | undefined;
 }
 export type SchemaAttributes = SchemaAttribute[];
 export interface Schema {
-  Attributes?: SchemaAttribute[];
+  Attributes?: SchemaAttribute[] | undefined;
 }
 export interface CreateDatasetRequest {
   DatasetName: string;
   Domain: Domain;
   DatasetType: DatasetType;
-  DataFrequency?: string;
+  DataFrequency?: string | undefined;
   Schema: Schema;
-  EncryptionConfig?: EncryptionConfig;
-  Tags?: Tag[];
+  EncryptionConfig?: EncryptionConfig | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateDatasetResponse {
-  DatasetArn?: string;
+  DatasetArn?: string | undefined;
 }
 export type ArnList = string[];
 export interface CreateDatasetGroupRequest {
   DatasetGroupName: string;
   Domain: Domain;
-  DatasetArns?: string[];
-  Tags?: Tag[];
+  DatasetArns?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateDatasetGroupResponse {
-  DatasetGroupArn?: string;
+  DatasetGroupArn?: string | undefined;
 }
 export type S3Path = string;
 export interface S3Config {
   Path: string;
   RoleArn: string;
-  KMSKeyArn?: string;
+  KMSKeyArn?: string | undefined;
 }
 export interface DataSource {
   S3Config: S3Config;
@@ -294,16 +294,16 @@ export interface CreateDatasetImportJobRequest {
   DatasetImportJobName: string;
   DatasetArn: string;
   DataSource: DataSource;
-  TimestampFormat?: string;
-  TimeZone?: string;
-  UseGeolocationForTimeZone?: boolean;
-  GeolocationFormat?: string;
-  Tags?: Tag[];
-  Format?: string;
-  ImportMode?: ImportMode;
+  TimestampFormat?: string | undefined;
+  TimeZone?: string | undefined;
+  UseGeolocationForTimeZone?: boolean | undefined;
+  GeolocationFormat?: string | undefined;
+  Tags?: Tag[] | undefined;
+  Format?: string | undefined;
+  ImportMode?: ImportMode | undefined;
 }
 export interface CreateDatasetImportJobResponse {
-  DatasetImportJobArn?: string;
+  DatasetImportJobArn?: string | undefined;
 }
 export type TimeSeriesGranularity = "ALL" | "SPECIFIC" | (string & {});
 export type TimePointGranularity = "ALL" | "SPECIFIC" | (string & {});
@@ -316,15 +316,15 @@ export interface CreateExplainabilityRequest {
   ExplainabilityName: string;
   ResourceArn: string;
   ExplainabilityConfig: ExplainabilityConfig;
-  DataSource?: DataSource;
-  Schema?: Schema;
-  EnableVisualization?: boolean;
-  StartDateTime?: string;
-  EndDateTime?: string;
-  Tags?: Tag[];
+  DataSource?: DataSource | undefined;
+  Schema?: Schema | undefined;
+  EnableVisualization?: boolean | undefined;
+  StartDateTime?: string | undefined;
+  EndDateTime?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateExplainabilityResponse {
-  ExplainabilityArn?: string;
+  ExplainabilityArn?: string | undefined;
 }
 export interface DataDestination {
   S3Config: S3Config;
@@ -333,55 +333,55 @@ export interface CreateExplainabilityExportRequest {
   ExplainabilityExportName: string;
   ExplainabilityArn: string;
   Destination: DataDestination;
-  Tags?: Tag[];
-  Format?: string;
+  Tags?: Tag[] | undefined;
+  Format?: string | undefined;
 }
 export interface CreateExplainabilityExportResponse {
-  ExplainabilityExportArn?: string;
+  ExplainabilityExportArn?: string | undefined;
 }
 export interface TimeSeriesIdentifiers {
-  DataSource?: DataSource;
-  Schema?: Schema;
-  Format?: string;
+  DataSource?: DataSource | undefined;
+  Schema?: Schema | undefined;
+  Format?: string | undefined;
 }
 export interface TimeSeriesSelector {
-  TimeSeriesIdentifiers?: TimeSeriesIdentifiers;
+  TimeSeriesIdentifiers?: TimeSeriesIdentifiers | undefined;
 }
 export interface CreateForecastRequest {
   ForecastName: string;
   PredictorArn: string;
-  ForecastTypes?: string[];
-  Tags?: Tag[];
-  TimeSeriesSelector?: TimeSeriesSelector;
+  ForecastTypes?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  TimeSeriesSelector?: TimeSeriesSelector | undefined;
 }
 export interface CreateForecastResponse {
-  ForecastArn?: string;
+  ForecastArn?: string | undefined;
 }
 export interface CreateForecastExportJobRequest {
   ForecastExportJobName: string;
   ForecastArn: string;
   Destination: DataDestination;
-  Tags?: Tag[];
-  Format?: string;
+  Tags?: Tag[] | undefined;
+  Format?: string | undefined;
 }
 export interface CreateForecastExportJobResponse {
-  ForecastExportJobArn?: string;
+  ForecastExportJobArn?: string | undefined;
 }
 export interface CreateMonitorRequest {
   MonitorName: string;
   ResourceArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateMonitorResponse {
-  MonitorArn?: string;
+  MonitorArn?: string | undefined;
 }
 export type AutoMLOverrideStrategy = "LatencyOptimized" | "AccuracyOptimized" | (string & {});
 export type ParameterKey = string;
 export type ParameterValue = string;
 export type TrainingParameters = { [key: string]: string | undefined };
 export interface EvaluationParameters {
-  NumberOfBacktestWindows?: number;
-  BackTestWindowOffset?: number;
+  NumberOfBacktestWindows?: number | undefined;
+  BackTestWindowOffset?: number | undefined;
 }
 export interface CategoricalParameterRange {
   Name: string;
@@ -393,23 +393,23 @@ export interface ContinuousParameterRange {
   Name: string;
   MaxValue: number;
   MinValue: number;
-  ScalingType?: ScalingType;
+  ScalingType?: ScalingType | undefined;
 }
 export type ContinuousParameterRanges = ContinuousParameterRange[];
 export interface IntegerParameterRange {
   Name: string;
   MaxValue: number;
   MinValue: number;
-  ScalingType?: ScalingType;
+  ScalingType?: ScalingType | undefined;
 }
 export type IntegerParameterRanges = IntegerParameterRange[];
 export interface ParameterRanges {
-  CategoricalParameterRanges?: CategoricalParameterRange[];
-  ContinuousParameterRanges?: ContinuousParameterRange[];
-  IntegerParameterRanges?: IntegerParameterRange[];
+  CategoricalParameterRanges?: CategoricalParameterRange[] | undefined;
+  ContinuousParameterRanges?: ContinuousParameterRange[] | undefined;
+  IntegerParameterRanges?: IntegerParameterRange[] | undefined;
 }
 export interface HyperParameterTuningJobConfig {
-  ParameterRanges?: ParameterRanges;
+  ParameterRanges?: ParameterRanges | undefined;
 }
 export interface SupplementaryFeature {
   Name: string;
@@ -418,63 +418,63 @@ export interface SupplementaryFeature {
 export type SupplementaryFeatures = SupplementaryFeature[];
 export interface InputDataConfig {
   DatasetGroupArn: string;
-  SupplementaryFeatures?: SupplementaryFeature[];
+  SupplementaryFeatures?: SupplementaryFeature[] | undefined;
 }
 export type FeaturizationMethodName = "filling" | (string & {});
 export type FeaturizationMethodParameters = { [key: string]: string | undefined };
 export interface FeaturizationMethod {
   FeaturizationMethodName: FeaturizationMethodName;
-  FeaturizationMethodParameters?: { [key: string]: string | undefined };
+  FeaturizationMethodParameters?: { [key: string]: string | undefined } | undefined;
 }
 export type FeaturizationPipeline = FeaturizationMethod[];
 export interface Featurization {
   AttributeName: string;
-  FeaturizationPipeline?: FeaturizationMethod[];
+  FeaturizationPipeline?: FeaturizationMethod[] | undefined;
 }
 export type Featurizations = Featurization[];
 export interface FeaturizationConfig {
   ForecastFrequency: string;
-  ForecastDimensions?: string[];
-  Featurizations?: Featurization[];
+  ForecastDimensions?: string[] | undefined;
+  Featurizations?: Featurization[] | undefined;
 }
 export interface CreatePredictorRequest {
   PredictorName: string;
-  AlgorithmArn?: string;
+  AlgorithmArn?: string | undefined;
   ForecastHorizon: number;
-  ForecastTypes?: string[];
-  PerformAutoML?: boolean;
-  AutoMLOverrideStrategy?: AutoMLOverrideStrategy;
-  PerformHPO?: boolean;
-  TrainingParameters?: { [key: string]: string | undefined };
-  EvaluationParameters?: EvaluationParameters;
-  HPOConfig?: HyperParameterTuningJobConfig;
+  ForecastTypes?: string[] | undefined;
+  PerformAutoML?: boolean | undefined;
+  AutoMLOverrideStrategy?: AutoMLOverrideStrategy | undefined;
+  PerformHPO?: boolean | undefined;
+  TrainingParameters?: { [key: string]: string | undefined } | undefined;
+  EvaluationParameters?: EvaluationParameters | undefined;
+  HPOConfig?: HyperParameterTuningJobConfig | undefined;
   InputDataConfig: InputDataConfig;
   FeaturizationConfig: FeaturizationConfig;
-  EncryptionConfig?: EncryptionConfig;
-  Tags?: Tag[];
-  OptimizationMetric?: OptimizationMetric;
+  EncryptionConfig?: EncryptionConfig | undefined;
+  Tags?: Tag[] | undefined;
+  OptimizationMetric?: OptimizationMetric | undefined;
 }
 export interface CreatePredictorResponse {
-  PredictorArn?: string;
+  PredictorArn?: string | undefined;
 }
 export interface CreatePredictorBacktestExportJobRequest {
   PredictorBacktestExportJobName: string;
   PredictorArn: string;
   Destination: DataDestination;
-  Tags?: Tag[];
-  Format?: string;
+  Tags?: Tag[] | undefined;
+  Format?: string | undefined;
 }
 export interface CreatePredictorBacktestExportJobResponse {
-  PredictorBacktestExportJobArn?: string;
+  PredictorBacktestExportJobArn?: string | undefined;
 }
 export interface CreateWhatIfAnalysisRequest {
   WhatIfAnalysisName: string;
   ForecastArn: string;
-  TimeSeriesSelector?: TimeSeriesSelector;
-  Tags?: Tag[];
+  TimeSeriesSelector?: TimeSeriesSelector | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateWhatIfAnalysisResponse {
-  WhatIfAnalysisArn?: string;
+  WhatIfAnalysisArn?: string | undefined;
 }
 export type Operation = "ADD" | "SUBTRACT" | "MULTIPLY" | "DIVIDE" | (string & {});
 export interface Action {
@@ -491,37 +491,37 @@ export interface TimeSeriesCondition {
 }
 export type TimeSeriesConditions = TimeSeriesCondition[];
 export interface TimeSeriesTransformation {
-  Action?: Action;
-  TimeSeriesConditions?: TimeSeriesCondition[];
+  Action?: Action | undefined;
+  TimeSeriesConditions?: TimeSeriesCondition[] | undefined;
 }
 export type TimeSeriesTransformations = TimeSeriesTransformation[];
 export interface TimeSeriesReplacementsDataSource {
   S3Config: S3Config;
   Schema: Schema;
-  Format?: string;
-  TimestampFormat?: string;
+  Format?: string | undefined;
+  TimestampFormat?: string | undefined;
 }
 export interface CreateWhatIfForecastRequest {
   WhatIfForecastName: string;
   WhatIfAnalysisArn: string;
-  TimeSeriesTransformations?: TimeSeriesTransformation[];
-  TimeSeriesReplacementsDataSource?: TimeSeriesReplacementsDataSource;
-  Tags?: Tag[];
+  TimeSeriesTransformations?: TimeSeriesTransformation[] | undefined;
+  TimeSeriesReplacementsDataSource?: TimeSeriesReplacementsDataSource | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type LongArn = string;
 export interface CreateWhatIfForecastResponse {
-  WhatIfForecastArn?: string;
+  WhatIfForecastArn?: string | undefined;
 }
 export type WhatIfForecastArnListForExport = string[];
 export interface CreateWhatIfForecastExportRequest {
   WhatIfForecastExportName: string;
   WhatIfForecastArns: string[];
   Destination: DataDestination;
-  Tags?: Tag[];
-  Format?: string;
+  Tags?: Tag[] | undefined;
+  Format?: string | undefined;
 }
 export interface CreateWhatIfForecastExportResponse {
-  WhatIfForecastExportArn?: string;
+  WhatIfForecastExportArn?: string | undefined;
 }
 export interface DeleteDatasetRequest {
   DatasetArn: string;
@@ -584,358 +584,358 @@ export interface DescribeAutoPredictorRequest {
 }
 export type State = "Active" | "Deleted" | (string & {});
 export interface ReferencePredictorSummary {
-  Arn?: string;
-  State?: State;
+  Arn?: string | undefined;
+  State?: State | undefined;
 }
 export type Status = string;
 export type Message = string;
 export interface ExplainabilityInfo {
-  ExplainabilityArn?: string;
-  Status?: string;
+  ExplainabilityArn?: string | undefined;
+  Status?: string | undefined;
 }
 export interface MonitorInfo {
-  MonitorArn?: string;
-  Status?: string;
+  MonitorArn?: string | undefined;
+  Status?: string | undefined;
 }
 export interface DescribeAutoPredictorResponse {
-  PredictorArn?: string;
-  PredictorName?: string;
-  ForecastHorizon?: number;
-  ForecastTypes?: string[];
-  ForecastFrequency?: string;
-  ForecastDimensions?: string[];
-  DatasetImportJobArns?: string[];
-  DataConfig?: DataConfig;
-  EncryptionConfig?: EncryptionConfig;
-  ReferencePredictorSummary?: ReferencePredictorSummary;
-  EstimatedTimeRemainingInMinutes?: number;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
-  OptimizationMetric?: OptimizationMetric;
-  ExplainabilityInfo?: ExplainabilityInfo;
-  MonitorInfo?: MonitorInfo;
-  TimeAlignmentBoundary?: TimeAlignmentBoundary;
+  PredictorArn?: string | undefined;
+  PredictorName?: string | undefined;
+  ForecastHorizon?: number | undefined;
+  ForecastTypes?: string[] | undefined;
+  ForecastFrequency?: string | undefined;
+  ForecastDimensions?: string[] | undefined;
+  DatasetImportJobArns?: string[] | undefined;
+  DataConfig?: DataConfig | undefined;
+  EncryptionConfig?: EncryptionConfig | undefined;
+  ReferencePredictorSummary?: ReferencePredictorSummary | undefined;
+  EstimatedTimeRemainingInMinutes?: number | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
+  OptimizationMetric?: OptimizationMetric | undefined;
+  ExplainabilityInfo?: ExplainabilityInfo | undefined;
+  MonitorInfo?: MonitorInfo | undefined;
+  TimeAlignmentBoundary?: TimeAlignmentBoundary | undefined;
 }
 export interface DescribeDatasetRequest {
   DatasetArn: string;
 }
 export interface DescribeDatasetResponse {
-  DatasetArn?: string;
-  DatasetName?: string;
-  Domain?: Domain;
-  DatasetType?: DatasetType;
-  DataFrequency?: string;
-  Schema?: Schema;
-  EncryptionConfig?: EncryptionConfig;
-  Status?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  DatasetArn?: string | undefined;
+  DatasetName?: string | undefined;
+  Domain?: Domain | undefined;
+  DatasetType?: DatasetType | undefined;
+  DataFrequency?: string | undefined;
+  Schema?: Schema | undefined;
+  EncryptionConfig?: EncryptionConfig | undefined;
+  Status?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export interface DescribeDatasetGroupRequest {
   DatasetGroupArn: string;
 }
 export interface DescribeDatasetGroupResponse {
-  DatasetGroupName?: string;
-  DatasetGroupArn?: string;
-  DatasetArns?: string[];
-  Domain?: Domain;
-  Status?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  DatasetGroupName?: string | undefined;
+  DatasetGroupArn?: string | undefined;
+  DatasetArns?: string[] | undefined;
+  Domain?: Domain | undefined;
+  Status?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export interface DescribeDatasetImportJobRequest {
   DatasetImportJobArn: string;
 }
 export interface Statistics {
-  Count?: number;
-  CountDistinct?: number;
-  CountNull?: number;
-  CountNan?: number;
-  Min?: string;
-  Max?: string;
-  Avg?: number;
-  Stddev?: number;
-  CountLong?: number;
-  CountDistinctLong?: number;
-  CountNullLong?: number;
-  CountNanLong?: number;
+  Count?: number | undefined;
+  CountDistinct?: number | undefined;
+  CountNull?: number | undefined;
+  CountNan?: number | undefined;
+  Min?: string | undefined;
+  Max?: string | undefined;
+  Avg?: number | undefined;
+  Stddev?: number | undefined;
+  CountLong?: number | undefined;
+  CountDistinctLong?: number | undefined;
+  CountNullLong?: number | undefined;
+  CountNanLong?: number | undefined;
 }
 export type FieldStatistics = { [key: string]: Statistics | undefined };
 export interface DescribeDatasetImportJobResponse {
-  DatasetImportJobName?: string;
-  DatasetImportJobArn?: string;
-  DatasetArn?: string;
-  TimestampFormat?: string;
-  TimeZone?: string;
-  UseGeolocationForTimeZone?: boolean;
-  GeolocationFormat?: string;
-  DataSource?: DataSource;
-  EstimatedTimeRemainingInMinutes?: number;
-  FieldStatistics?: { [key: string]: Statistics | undefined };
-  DataSize?: number;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
-  Format?: string;
-  ImportMode?: ImportMode;
+  DatasetImportJobName?: string | undefined;
+  DatasetImportJobArn?: string | undefined;
+  DatasetArn?: string | undefined;
+  TimestampFormat?: string | undefined;
+  TimeZone?: string | undefined;
+  UseGeolocationForTimeZone?: boolean | undefined;
+  GeolocationFormat?: string | undefined;
+  DataSource?: DataSource | undefined;
+  EstimatedTimeRemainingInMinutes?: number | undefined;
+  FieldStatistics?: { [key: string]: Statistics | undefined } | undefined;
+  DataSize?: number | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
+  Format?: string | undefined;
+  ImportMode?: ImportMode | undefined;
 }
 export interface DescribeExplainabilityRequest {
   ExplainabilityArn: string;
 }
 export interface DescribeExplainabilityResponse {
-  ExplainabilityArn?: string;
-  ExplainabilityName?: string;
-  ResourceArn?: string;
-  ExplainabilityConfig?: ExplainabilityConfig;
-  EnableVisualization?: boolean;
-  DataSource?: DataSource;
-  Schema?: Schema;
-  StartDateTime?: string;
-  EndDateTime?: string;
-  EstimatedTimeRemainingInMinutes?: number;
-  Message?: string;
-  Status?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  ExplainabilityArn?: string | undefined;
+  ExplainabilityName?: string | undefined;
+  ResourceArn?: string | undefined;
+  ExplainabilityConfig?: ExplainabilityConfig | undefined;
+  EnableVisualization?: boolean | undefined;
+  DataSource?: DataSource | undefined;
+  Schema?: Schema | undefined;
+  StartDateTime?: string | undefined;
+  EndDateTime?: string | undefined;
+  EstimatedTimeRemainingInMinutes?: number | undefined;
+  Message?: string | undefined;
+  Status?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export interface DescribeExplainabilityExportRequest {
   ExplainabilityExportArn: string;
 }
 export interface DescribeExplainabilityExportResponse {
-  ExplainabilityExportArn?: string;
-  ExplainabilityExportName?: string;
-  ExplainabilityArn?: string;
-  Destination?: DataDestination;
-  Message?: string;
-  Status?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
-  Format?: string;
+  ExplainabilityExportArn?: string | undefined;
+  ExplainabilityExportName?: string | undefined;
+  ExplainabilityArn?: string | undefined;
+  Destination?: DataDestination | undefined;
+  Message?: string | undefined;
+  Status?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
+  Format?: string | undefined;
 }
 export interface DescribeForecastRequest {
   ForecastArn: string;
 }
 export type ErrorMessage = string;
 export interface DescribeForecastResponse {
-  ForecastArn?: string;
-  ForecastName?: string;
-  ForecastTypes?: string[];
-  PredictorArn?: string;
-  DatasetGroupArn?: string;
-  EstimatedTimeRemainingInMinutes?: number;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
-  TimeSeriesSelector?: TimeSeriesSelector;
+  ForecastArn?: string | undefined;
+  ForecastName?: string | undefined;
+  ForecastTypes?: string[] | undefined;
+  PredictorArn?: string | undefined;
+  DatasetGroupArn?: string | undefined;
+  EstimatedTimeRemainingInMinutes?: number | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
+  TimeSeriesSelector?: TimeSeriesSelector | undefined;
 }
 export interface DescribeForecastExportJobRequest {
   ForecastExportJobArn: string;
 }
 export interface DescribeForecastExportJobResponse {
-  ForecastExportJobArn?: string;
-  ForecastExportJobName?: string;
-  ForecastArn?: string;
-  Destination?: DataDestination;
-  Message?: string;
-  Status?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
-  Format?: string;
+  ForecastExportJobArn?: string | undefined;
+  ForecastExportJobName?: string | undefined;
+  ForecastArn?: string | undefined;
+  Destination?: DataDestination | undefined;
+  Message?: string | undefined;
+  Status?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
+  Format?: string | undefined;
 }
 export interface DescribeMonitorRequest {
   MonitorArn: string;
 }
 export type EvaluationState = string;
 export interface BaselineMetric {
-  Name?: string;
-  Value?: number;
+  Name?: string | undefined;
+  Value?: number | undefined;
 }
 export type BaselineMetrics = BaselineMetric[];
 export interface PredictorBaseline {
-  BaselineMetrics?: BaselineMetric[];
+  BaselineMetrics?: BaselineMetric[] | undefined;
 }
 export interface Baseline {
-  PredictorBaseline?: PredictorBaseline;
+  PredictorBaseline?: PredictorBaseline | undefined;
 }
 export interface DescribeMonitorResponse {
-  MonitorName?: string;
-  MonitorArn?: string;
-  ResourceArn?: string;
-  Status?: string;
-  LastEvaluationTime?: Date;
-  LastEvaluationState?: string;
-  Baseline?: Baseline;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
-  EstimatedEvaluationTimeRemainingInMinutes?: number;
+  MonitorName?: string | undefined;
+  MonitorArn?: string | undefined;
+  ResourceArn?: string | undefined;
+  Status?: string | undefined;
+  LastEvaluationTime?: Date | undefined;
+  LastEvaluationState?: string | undefined;
+  Baseline?: Baseline | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
+  EstimatedEvaluationTimeRemainingInMinutes?: number | undefined;
 }
 export interface DescribePredictorRequest {
   PredictorArn: string;
 }
 export interface TestWindowSummary {
-  TestWindowStart?: Date;
-  TestWindowEnd?: Date;
-  Status?: string;
-  Message?: string;
+  TestWindowStart?: Date | undefined;
+  TestWindowEnd?: Date | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
 }
 export type TestWindowDetails = TestWindowSummary[];
 export interface PredictorExecution {
-  AlgorithmArn?: string;
-  TestWindows?: TestWindowSummary[];
+  AlgorithmArn?: string | undefined;
+  TestWindows?: TestWindowSummary[] | undefined;
 }
 export type PredictorExecutions = PredictorExecution[];
 export interface PredictorExecutionDetails {
-  PredictorExecutions?: PredictorExecution[];
+  PredictorExecutions?: PredictorExecution[] | undefined;
 }
 export interface DescribePredictorResponse {
-  PredictorArn?: string;
-  PredictorName?: string;
-  AlgorithmArn?: string;
-  AutoMLAlgorithmArns?: string[];
-  ForecastHorizon?: number;
-  ForecastTypes?: string[];
-  PerformAutoML?: boolean;
-  AutoMLOverrideStrategy?: AutoMLOverrideStrategy;
-  PerformHPO?: boolean;
-  TrainingParameters?: { [key: string]: string | undefined };
-  EvaluationParameters?: EvaluationParameters;
-  HPOConfig?: HyperParameterTuningJobConfig;
-  InputDataConfig?: InputDataConfig;
-  FeaturizationConfig?: FeaturizationConfig;
-  EncryptionConfig?: EncryptionConfig;
-  PredictorExecutionDetails?: PredictorExecutionDetails;
-  EstimatedTimeRemainingInMinutes?: number;
-  IsAutoPredictor?: boolean;
-  DatasetImportJobArns?: string[];
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
-  OptimizationMetric?: OptimizationMetric;
+  PredictorArn?: string | undefined;
+  PredictorName?: string | undefined;
+  AlgorithmArn?: string | undefined;
+  AutoMLAlgorithmArns?: string[] | undefined;
+  ForecastHorizon?: number | undefined;
+  ForecastTypes?: string[] | undefined;
+  PerformAutoML?: boolean | undefined;
+  AutoMLOverrideStrategy?: AutoMLOverrideStrategy | undefined;
+  PerformHPO?: boolean | undefined;
+  TrainingParameters?: { [key: string]: string | undefined } | undefined;
+  EvaluationParameters?: EvaluationParameters | undefined;
+  HPOConfig?: HyperParameterTuningJobConfig | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  FeaturizationConfig?: FeaturizationConfig | undefined;
+  EncryptionConfig?: EncryptionConfig | undefined;
+  PredictorExecutionDetails?: PredictorExecutionDetails | undefined;
+  EstimatedTimeRemainingInMinutes?: number | undefined;
+  IsAutoPredictor?: boolean | undefined;
+  DatasetImportJobArns?: string[] | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
+  OptimizationMetric?: OptimizationMetric | undefined;
 }
 export interface DescribePredictorBacktestExportJobRequest {
   PredictorBacktestExportJobArn: string;
 }
 export interface DescribePredictorBacktestExportJobResponse {
-  PredictorBacktestExportJobArn?: string;
-  PredictorBacktestExportJobName?: string;
-  PredictorArn?: string;
-  Destination?: DataDestination;
-  Message?: string;
-  Status?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
-  Format?: string;
+  PredictorBacktestExportJobArn?: string | undefined;
+  PredictorBacktestExportJobName?: string | undefined;
+  PredictorArn?: string | undefined;
+  Destination?: DataDestination | undefined;
+  Message?: string | undefined;
+  Status?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
+  Format?: string | undefined;
 }
 export interface DescribeWhatIfAnalysisRequest {
   WhatIfAnalysisArn: string;
 }
 export interface DescribeWhatIfAnalysisResponse {
-  WhatIfAnalysisName?: string;
-  WhatIfAnalysisArn?: string;
-  ForecastArn?: string;
-  EstimatedTimeRemainingInMinutes?: number;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
-  TimeSeriesSelector?: TimeSeriesSelector;
+  WhatIfAnalysisName?: string | undefined;
+  WhatIfAnalysisArn?: string | undefined;
+  ForecastArn?: string | undefined;
+  EstimatedTimeRemainingInMinutes?: number | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
+  TimeSeriesSelector?: TimeSeriesSelector | undefined;
 }
 export interface DescribeWhatIfForecastRequest {
   WhatIfForecastArn: string;
 }
 export interface DescribeWhatIfForecastResponse {
-  WhatIfForecastName?: string;
-  WhatIfForecastArn?: string;
-  WhatIfAnalysisArn?: string;
-  EstimatedTimeRemainingInMinutes?: number;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
-  TimeSeriesTransformations?: TimeSeriesTransformation[];
-  TimeSeriesReplacementsDataSource?: TimeSeriesReplacementsDataSource;
-  ForecastTypes?: string[];
+  WhatIfForecastName?: string | undefined;
+  WhatIfForecastArn?: string | undefined;
+  WhatIfAnalysisArn?: string | undefined;
+  EstimatedTimeRemainingInMinutes?: number | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
+  TimeSeriesTransformations?: TimeSeriesTransformation[] | undefined;
+  TimeSeriesReplacementsDataSource?: TimeSeriesReplacementsDataSource | undefined;
+  ForecastTypes?: string[] | undefined;
 }
 export interface DescribeWhatIfForecastExportRequest {
   WhatIfForecastExportArn: string;
 }
 export type LongArnList = string[];
 export interface DescribeWhatIfForecastExportResponse {
-  WhatIfForecastExportArn?: string;
-  WhatIfForecastExportName?: string;
-  WhatIfForecastArns?: string[];
-  Destination?: DataDestination;
-  Message?: string;
-  Status?: string;
-  CreationTime?: Date;
-  EstimatedTimeRemainingInMinutes?: number;
-  LastModificationTime?: Date;
-  Format?: string;
+  WhatIfForecastExportArn?: string | undefined;
+  WhatIfForecastExportName?: string | undefined;
+  WhatIfForecastArns?: string[] | undefined;
+  Destination?: DataDestination | undefined;
+  Message?: string | undefined;
+  Status?: string | undefined;
+  CreationTime?: Date | undefined;
+  EstimatedTimeRemainingInMinutes?: number | undefined;
+  LastModificationTime?: Date | undefined;
+  Format?: string | undefined;
 }
 export interface GetAccuracyMetricsRequest {
   PredictorArn: string;
 }
 export type EvaluationType = "SUMMARY" | "COMPUTED" | (string & {});
 export interface WeightedQuantileLoss {
-  Quantile?: number;
-  LossValue?: number;
+  Quantile?: number | undefined;
+  LossValue?: number | undefined;
 }
 export type WeightedQuantileLosses = WeightedQuantileLoss[];
 export interface ErrorMetric {
-  ForecastType?: string;
-  WAPE?: number;
-  RMSE?: number;
-  MASE?: number;
-  MAPE?: number;
+  ForecastType?: string | undefined;
+  WAPE?: number | undefined;
+  RMSE?: number | undefined;
+  MASE?: number | undefined;
+  MAPE?: number | undefined;
 }
 export type ErrorMetrics = ErrorMetric[];
 export interface Metrics {
-  RMSE?: number;
-  WeightedQuantileLosses?: WeightedQuantileLoss[];
-  ErrorMetrics?: ErrorMetric[];
-  AverageWeightedQuantileLoss?: number;
+  RMSE?: number | undefined;
+  WeightedQuantileLosses?: WeightedQuantileLoss[] | undefined;
+  ErrorMetrics?: ErrorMetric[] | undefined;
+  AverageWeightedQuantileLoss?: number | undefined;
 }
 export interface WindowSummary {
-  TestWindowStart?: Date;
-  TestWindowEnd?: Date;
-  ItemCount?: number;
-  EvaluationType?: EvaluationType;
-  Metrics?: Metrics;
+  TestWindowStart?: Date | undefined;
+  TestWindowEnd?: Date | undefined;
+  ItemCount?: number | undefined;
+  EvaluationType?: EvaluationType | undefined;
+  Metrics?: Metrics | undefined;
 }
 export type TestWindows = WindowSummary[];
 export interface EvaluationResult {
-  AlgorithmArn?: string;
-  TestWindows?: WindowSummary[];
+  AlgorithmArn?: string | undefined;
+  TestWindows?: WindowSummary[] | undefined;
 }
 export type PredictorEvaluationResults = EvaluationResult[];
 export interface GetAccuracyMetricsResponse {
-  PredictorEvaluationResults?: EvaluationResult[];
-  IsAutoPredictor?: boolean;
-  AutoMLOverrideStrategy?: AutoMLOverrideStrategy;
-  OptimizationMetric?: OptimizationMetric;
+  PredictorEvaluationResults?: EvaluationResult[] | undefined;
+  IsAutoPredictor?: boolean | undefined;
+  AutoMLOverrideStrategy?: AutoMLOverrideStrategy | undefined;
+  OptimizationMetric?: OptimizationMetric | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListDatasetGroupsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DatasetGroupSummary {
-  DatasetGroupArn?: string;
-  DatasetGroupName?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  DatasetGroupArn?: string | undefined;
+  DatasetGroupName?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export type DatasetGroups = DatasetGroupSummary[];
 export interface ListDatasetGroupsResponse {
-  DatasetGroups?: DatasetGroupSummary[];
-  NextToken?: string;
+  DatasetGroups?: DatasetGroupSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type FilterConditionString = "IS" | "IS_NOT" | (string & {});
 export interface Filter {
@@ -945,282 +945,282 @@ export interface Filter {
 }
 export type Filters = Filter[];
 export interface ListDatasetImportJobsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: Filter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface DatasetImportJobSummary {
-  DatasetImportJobArn?: string;
-  DatasetImportJobName?: string;
-  DataSource?: DataSource;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
-  ImportMode?: ImportMode;
+  DatasetImportJobArn?: string | undefined;
+  DatasetImportJobName?: string | undefined;
+  DataSource?: DataSource | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
+  ImportMode?: ImportMode | undefined;
 }
 export type DatasetImportJobs = DatasetImportJobSummary[];
 export interface ListDatasetImportJobsResponse {
-  DatasetImportJobs?: DatasetImportJobSummary[];
-  NextToken?: string;
+  DatasetImportJobs?: DatasetImportJobSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDatasetsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DatasetSummary {
-  DatasetArn?: string;
-  DatasetName?: string;
-  DatasetType?: DatasetType;
-  Domain?: Domain;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  DatasetArn?: string | undefined;
+  DatasetName?: string | undefined;
+  DatasetType?: DatasetType | undefined;
+  Domain?: Domain | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export type Datasets = DatasetSummary[];
 export interface ListDatasetsResponse {
-  Datasets?: DatasetSummary[];
-  NextToken?: string;
+  Datasets?: DatasetSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListExplainabilitiesRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: Filter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface ExplainabilitySummary {
-  ExplainabilityArn?: string;
-  ExplainabilityName?: string;
-  ResourceArn?: string;
-  ExplainabilityConfig?: ExplainabilityConfig;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  ExplainabilityArn?: string | undefined;
+  ExplainabilityName?: string | undefined;
+  ResourceArn?: string | undefined;
+  ExplainabilityConfig?: ExplainabilityConfig | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export type Explainabilities = ExplainabilitySummary[];
 export interface ListExplainabilitiesResponse {
-  Explainabilities?: ExplainabilitySummary[];
-  NextToken?: string;
+  Explainabilities?: ExplainabilitySummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListExplainabilityExportsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: Filter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface ExplainabilityExportSummary {
-  ExplainabilityExportArn?: string;
-  ExplainabilityExportName?: string;
-  Destination?: DataDestination;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  ExplainabilityExportArn?: string | undefined;
+  ExplainabilityExportName?: string | undefined;
+  Destination?: DataDestination | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export type ExplainabilityExports = ExplainabilityExportSummary[];
 export interface ListExplainabilityExportsResponse {
-  ExplainabilityExports?: ExplainabilityExportSummary[];
-  NextToken?: string;
+  ExplainabilityExports?: ExplainabilityExportSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListForecastExportJobsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: Filter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface ForecastExportJobSummary {
-  ForecastExportJobArn?: string;
-  ForecastExportJobName?: string;
-  Destination?: DataDestination;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  ForecastExportJobArn?: string | undefined;
+  ForecastExportJobName?: string | undefined;
+  Destination?: DataDestination | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export type ForecastExportJobs = ForecastExportJobSummary[];
 export interface ListForecastExportJobsResponse {
-  ForecastExportJobs?: ForecastExportJobSummary[];
-  NextToken?: string;
+  ForecastExportJobs?: ForecastExportJobSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListForecastsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: Filter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface ForecastSummary {
-  ForecastArn?: string;
-  ForecastName?: string;
-  PredictorArn?: string;
-  CreatedUsingAutoPredictor?: boolean;
-  DatasetGroupArn?: string;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  ForecastArn?: string | undefined;
+  ForecastName?: string | undefined;
+  PredictorArn?: string | undefined;
+  CreatedUsingAutoPredictor?: boolean | undefined;
+  DatasetGroupArn?: string | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export type Forecasts = ForecastSummary[];
 export interface ListForecastsResponse {
-  Forecasts?: ForecastSummary[];
-  NextToken?: string;
+  Forecasts?: ForecastSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMonitorEvaluationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   MonitorArn: string;
-  Filters?: Filter[];
+  Filters?: Filter[] | undefined;
 }
 export type Detail = string;
 export interface PredictorEvent {
-  Detail?: string;
-  Datetime?: Date;
+  Detail?: string | undefined;
+  Datetime?: Date | undefined;
 }
 export interface MonitorDataSource {
-  DatasetImportJobArn?: string;
-  ForecastArn?: string;
-  PredictorArn?: string;
+  DatasetImportJobArn?: string | undefined;
+  ForecastArn?: string | undefined;
+  PredictorArn?: string | undefined;
 }
 export type MetricName = string;
 export interface MetricResult {
-  MetricName?: string;
-  MetricValue?: number;
+  MetricName?: string | undefined;
+  MetricValue?: number | undefined;
 }
 export type MetricResults = MetricResult[];
 export interface PredictorMonitorEvaluation {
-  ResourceArn?: string;
-  MonitorArn?: string;
-  EvaluationTime?: Date;
-  EvaluationState?: string;
-  WindowStartDatetime?: Date;
-  WindowEndDatetime?: Date;
-  PredictorEvent?: PredictorEvent;
-  MonitorDataSource?: MonitorDataSource;
-  MetricResults?: MetricResult[];
-  NumItemsEvaluated?: number;
-  Message?: string;
+  ResourceArn?: string | undefined;
+  MonitorArn?: string | undefined;
+  EvaluationTime?: Date | undefined;
+  EvaluationState?: string | undefined;
+  WindowStartDatetime?: Date | undefined;
+  WindowEndDatetime?: Date | undefined;
+  PredictorEvent?: PredictorEvent | undefined;
+  MonitorDataSource?: MonitorDataSource | undefined;
+  MetricResults?: MetricResult[] | undefined;
+  NumItemsEvaluated?: number | undefined;
+  Message?: string | undefined;
 }
 export type PredictorMonitorEvaluations = PredictorMonitorEvaluation[];
 export interface ListMonitorEvaluationsResponse {
-  NextToken?: string;
-  PredictorMonitorEvaluations?: PredictorMonitorEvaluation[];
+  NextToken?: string | undefined;
+  PredictorMonitorEvaluations?: PredictorMonitorEvaluation[] | undefined;
 }
 export interface ListMonitorsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: Filter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface MonitorSummary {
-  MonitorArn?: string;
-  MonitorName?: string;
-  ResourceArn?: string;
-  Status?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  MonitorArn?: string | undefined;
+  MonitorName?: string | undefined;
+  ResourceArn?: string | undefined;
+  Status?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export type Monitors = MonitorSummary[];
 export interface ListMonitorsResponse {
-  Monitors?: MonitorSummary[];
-  NextToken?: string;
+  Monitors?: MonitorSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPredictorBacktestExportJobsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: Filter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface PredictorBacktestExportJobSummary {
-  PredictorBacktestExportJobArn?: string;
-  PredictorBacktestExportJobName?: string;
-  Destination?: DataDestination;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  PredictorBacktestExportJobArn?: string | undefined;
+  PredictorBacktestExportJobName?: string | undefined;
+  Destination?: DataDestination | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export type PredictorBacktestExportJobs = PredictorBacktestExportJobSummary[];
 export interface ListPredictorBacktestExportJobsResponse {
-  PredictorBacktestExportJobs?: PredictorBacktestExportJobSummary[];
-  NextToken?: string;
+  PredictorBacktestExportJobs?: PredictorBacktestExportJobSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPredictorsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: Filter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface PredictorSummary {
-  PredictorArn?: string;
-  PredictorName?: string;
-  DatasetGroupArn?: string;
-  IsAutoPredictor?: boolean;
-  ReferencePredictorSummary?: ReferencePredictorSummary;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  PredictorArn?: string | undefined;
+  PredictorName?: string | undefined;
+  DatasetGroupArn?: string | undefined;
+  IsAutoPredictor?: boolean | undefined;
+  ReferencePredictorSummary?: ReferencePredictorSummary | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export type Predictors = PredictorSummary[];
 export interface ListPredictorsResponse {
-  Predictors?: PredictorSummary[];
-  NextToken?: string;
+  Predictors?: PredictorSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ListWhatIfAnalysesRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: Filter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface WhatIfAnalysisSummary {
-  WhatIfAnalysisArn?: string;
-  WhatIfAnalysisName?: string;
-  ForecastArn?: string;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  WhatIfAnalysisArn?: string | undefined;
+  WhatIfAnalysisName?: string | undefined;
+  ForecastArn?: string | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export type WhatIfAnalyses = WhatIfAnalysisSummary[];
 export interface ListWhatIfAnalysesResponse {
-  WhatIfAnalyses?: WhatIfAnalysisSummary[];
-  NextToken?: string;
+  WhatIfAnalyses?: WhatIfAnalysisSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListWhatIfForecastExportsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: Filter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface WhatIfForecastExportSummary {
-  WhatIfForecastExportArn?: string;
-  WhatIfForecastArns?: string[];
-  WhatIfForecastExportName?: string;
-  Destination?: DataDestination;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  WhatIfForecastExportArn?: string | undefined;
+  WhatIfForecastArns?: string[] | undefined;
+  WhatIfForecastExportName?: string | undefined;
+  Destination?: DataDestination | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export type WhatIfForecastExports = WhatIfForecastExportSummary[];
 export interface ListWhatIfForecastExportsResponse {
-  WhatIfForecastExports?: WhatIfForecastExportSummary[];
-  NextToken?: string;
+  WhatIfForecastExports?: WhatIfForecastExportSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListWhatIfForecastsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: Filter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface WhatIfForecastSummary {
-  WhatIfForecastArn?: string;
-  WhatIfForecastName?: string;
-  WhatIfAnalysisArn?: string;
-  Status?: string;
-  Message?: string;
-  CreationTime?: Date;
-  LastModificationTime?: Date;
+  WhatIfForecastArn?: string | undefined;
+  WhatIfForecastName?: string | undefined;
+  WhatIfAnalysisArn?: string | undefined;
+  Status?: string | undefined;
+  Message?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastModificationTime?: Date | undefined;
 }
 export type WhatIfForecasts = WhatIfForecastSummary[];
 export interface ListWhatIfForecastsResponse {
-  WhatIfForecasts?: WhatIfForecastSummary[];
-  NextToken?: string;
+  WhatIfForecasts?: WhatIfForecastSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ResumeResourceRequest {
   ResourceArn: string;

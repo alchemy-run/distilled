@@ -265,7 +265,7 @@ export interface CreateAdvancedTcpProtectionSynProtectionRuleRequest {
   /** The scope for the SYN Protection rule. Must be one of 'global', 'region', or 'datacenter'. */
   scope: string;
   /** The type of mitigation. Must be one of 'challenge' or 'retransmit'. Optional. Defaults to 'challenge'. */
-  mitigationType?: string;
+  mitigationType?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateAdvancedTcpProtectionSynProtectionRuleResponse {
@@ -528,13 +528,13 @@ export interface ListAdvancedTcpProtectionAllowlistsRequest {
   /** Identifier. */
   accountId: string;
   /** The direction of ordering (ASC or DESC). Defaults to 'ASC'. */
-  direction?: string;
+  direction?: string | undefined;
   /** The field to order by. Defaults to 'prefix'. */
-  order?: string;
+  order?: string | undefined;
   /** The page number for pagination. Defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** The number of items per page. Must be between 10 and 1000. Defaults to 25. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface AdvancedTcpProtectionAllowlistListResultItem {
   /** The unique ID of the allowlist prefix. */
@@ -562,13 +562,13 @@ export interface ListAdvancedTcpProtectionPrefixesRequest {
   /** Identifier. */
   accountId: string;
   /** The direction of ordering (ASC or DESC). Defaults to 'ASC'. */
-  direction?: string;
+  direction?: string | undefined;
   /** The field to order by. Defaults to 'prefix'. */
-  order?: string;
+  order?: string | undefined;
   /** The page number for pagination. Defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** The number of items per page. Must be between 10 and 1000. Defaults to 25. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type AdvancedTcpProtectionPrefixesListResultItem =
   AdvancedTcpProtectionPrefixesBulkCreateResultItem;
@@ -584,15 +584,15 @@ export interface ListAdvancedTcpProtectionSynProtectionFiltersRequest {
   /** Identifier. */
   accountId: string;
   /** The direction of ordering (ASC or DESC). Defaults to 'ASC'. */
-  direction?: string;
+  direction?: string | undefined;
   /** The mode of the filters to get. Optional. Valid values: 'enabled', 'disabled', 'monitoring'. */
-  mode?: string;
+  mode?: string | undefined;
   /** The field to order by. Defaults to 'prefix'. */
-  order?: string;
+  order?: string | undefined;
   /** The page number for pagination. Defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** The number of items per page. Must be between 10 and 1000. Defaults to 25. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface AdvancedTcpProtectionSynProtectionFiltersListResultItem {
   /** The unique ID of the expression filter. */
@@ -618,13 +618,13 @@ export interface ListAdvancedTcpProtectionSynProtectionRulesRequest {
   /** Identifier. */
   accountId: string;
   /** The direction of ordering (ASC or DESC). Defaults to 'ASC'. */
-  direction?: string;
+  direction?: string | undefined;
   /** The field to order by. Defaults to 'prefix'. */
-  order?: string;
+  order?: string | undefined;
   /** The page number for pagination. Defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** The number of items per page. Must be between 10 and 1000. Defaults to 25. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface AdvancedTcpProtectionSynProtectionRulesListResultItem {
   /** The unique ID of the SYN Protection rule. */
@@ -658,15 +658,15 @@ export interface ListAdvancedTcpProtectionTcpFlowProtectionFiltersRequest {
   /** Identifier. */
   accountId: string;
   /** The direction of ordering (ASC or DESC). Defaults to 'ASC'. */
-  direction?: string;
+  direction?: string | undefined;
   /** The mode of the filters to get. Optional. Valid values: 'enabled', 'disabled', 'monitoring'. */
-  mode?: string;
+  mode?: string | undefined;
   /** The field to order by. Defaults to 'prefix'. */
-  order?: string;
+  order?: string | undefined;
   /** The page number for pagination. Defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** The number of items per page. Must be between 10 and 1000. Defaults to 25. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type AdvancedTcpProtectionTcpFlowProtectionFiltersListResultItem =
   AdvancedTcpProtectionSynProtectionFiltersListResultItem;
@@ -682,13 +682,13 @@ export interface ListAdvancedTcpProtectionTcpFlowProtectionRulesRequest {
   /** Identifier. */
   accountId: string;
   /** The direction of ordering (ASC or DESC). Defaults to 'ASC'. */
-  direction?: string;
+  direction?: string | undefined;
   /** The field to order by. Defaults to 'prefix'. */
-  order?: string;
+  order?: string | undefined;
   /** The page number for pagination. Defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** The number of items per page. Must be between 10 and 1000. Defaults to 25. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface AdvancedTcpProtectionTcpFlowProtectionRulesListResultItem {
   /** The unique ID of the TCP Flow Protection rule. */
@@ -722,9 +722,9 @@ export interface PatchAdvancedTcpProtectionAllowlistItemRequest {
   /** UUID. */
   prefixId: string;
   /** A comment describing the allowlist prefix. Optional. */
-  comment?: string;
+  comment?: string | undefined;
   /** Whether to enable the allowlist prefix into effect. Optional. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchAdvancedTcpProtectionAllowlistItemResponse {
@@ -747,9 +747,9 @@ export interface PatchAdvancedTcpProtectionPrefixItemRequest {
   /** UUID. */
   prefixId: string;
   /** A new comment for the prefix. Optional. */
-  comment?: string;
+  comment?: string | undefined;
   /** Whether to exclude the prefix from protection. Optional. */
-  excluded?: boolean;
+  excluded?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchAdvancedTcpProtectionPrefixItemResponse {
@@ -782,9 +782,9 @@ export interface PatchAdvancedTcpProtectionSynProtectionFilterItemRequest {
   /** UUID. */
   filterId: string;
   /** The new filter expression. Optional. */
-  expression?: string;
+  expression?: string | undefined;
   /** The new mode for the filter. Optional. Must be one of 'enabled', 'disabled', 'monitoring'. */
-  mode?: string;
+  mode?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchAdvancedTcpProtectionSynProtectionFilterItemResponse {
@@ -805,13 +805,13 @@ export interface PatchAdvancedTcpProtectionSynProtectionRuleItemRequest {
   /** UUID. */
   ruleId: string;
   /** The new burst sensitivity. Optional. Must be one of 'low', 'medium', 'high'. */
-  burstSensitivity?: string;
+  burstSensitivity?: string | undefined;
   /** The new mitigation type. Optional. Must be one of 'challenge' or 'retransmit'. */
-  mitigationType?: string;
+  mitigationType?: string | undefined;
   /** The new mode for SYN Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'. */
-  mode?: string;
+  mode?: string | undefined;
   /** The new rate sensitivity. Optional. Must be one of 'low', 'medium', 'high'. */
-  rateSensitivity?: string;
+  rateSensitivity?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchAdvancedTcpProtectionSynProtectionRuleItemResponse {
@@ -840,9 +840,9 @@ export interface PatchAdvancedTcpProtectionTcpFlowProtectionFilterItemRequest {
   /** UUID. */
   filterId: string;
   /** The new filter expression. Optional. */
-  expression?: string;
+  expression?: string | undefined;
   /** The new mode for the filter. Optional. Must be one of 'enabled', 'disabled', 'monitoring'. */
-  mode?: string;
+  mode?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchAdvancedTcpProtectionTcpFlowProtectionFilterItemResponse {
@@ -863,11 +863,11 @@ export interface PatchAdvancedTcpProtectionTcpFlowProtectionRuleItemRequest {
   /** UUID. */
   ruleId: string;
   /** The new burst sensitivity. Optional. Must be one of 'low', 'medium', 'high'. */
-  burstSensitivity?: string;
+  burstSensitivity?: string | undefined;
   /** The new mode for TCP Flow Protection. Optional. Must be one of 'enabled', 'disabled', 'monitoring'. */
-  mode?: string;
+  mode?: string | undefined;
   /** The new rate sensitivity. Optional. Must be one of 'low', 'medium', 'high'. */
-  rateSensitivity?: string;
+  rateSensitivity?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchAdvancedTcpProtectionTcpFlowProtectionRuleItemResponse {

@@ -111,7 +111,7 @@ export interface OidcCustomSub {
   /** Array of unique strings. Each claim key can only contain alphanumeric characters and underscores. */
   include_claim_keys: OidcCustomSubIncludeClaimKeysList;
   /** Whether to opt in to the immutable OIDC subject claim format for the organization. When `true`, new OIDC tokens will use a stable, repository-ID-based `sub` claim instead of the name-based format. */
-  use_immutable_subject?: boolean;
+  use_immutable_subject?: boolean | undefined;
 }
 export interface ListOidcCustomPropertyInclusionsForEnterpriseRequest {
   /** The slug version of the enterprise name. */
@@ -135,9 +135,9 @@ export interface UpdateOidcCustomSubTemplateForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** Array of unique strings. Each claim key can only contain alphanumeric characters and underscores. */
-  include_claim_keys?: UpdateOidcCustomSubTemplateForOrgRequestIncludeClaimKeysList;
+  include_claim_keys?: UpdateOidcCustomSubTemplateForOrgRequestIncludeClaimKeysList | undefined;
   /** Whether to opt in to the immutable OIDC subject claim format for the organization. When `true`, new OIDC tokens will use a stable, repository-ID-based `sub` claim instead of the name-based format. */
-  use_immutable_subject?: boolean;
+  use_immutable_subject?: boolean | undefined;
 }
 export type UpdateOidcCustomSubTemplateForOrgResponse = unknown;
 export type CreateOidcCustomPropertyInclusionForEnterpriseError =

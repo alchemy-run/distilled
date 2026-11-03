@@ -651,7 +651,7 @@ export interface ChangeInfo {
   Id: string;
   Status: ChangeStatus;
   SubmittedAt: Date;
-  Comment?: string;
+  Comment?: string | undefined;
 }
 export interface ActivateKeySigningKeyResponse {
   ChangeInfo: ChangeInfo;
@@ -706,14 +706,14 @@ export type VPCRegion =
   | (string & {});
 export type VPCId = string;
 export interface VPC {
-  VPCRegion?: VPCRegion;
-  VPCId?: string;
+  VPCRegion?: VPCRegion | undefined;
+  VPCId?: string | undefined;
 }
 export type AssociateVPCComment = string;
 export interface AssociateVPCWithHostedZoneRequest {
   HostedZoneId: string;
   VPC: VPC;
-  Comment?: string;
+  Comment?: string | undefined;
 }
 export interface AssociateVPCWithHostedZoneResponse {
   ChangeInfo: ChangeInfo;
@@ -732,7 +732,7 @@ export interface CidrCollectionChange {
 export type CidrCollectionChanges = CidrCollectionChange[];
 export interface ChangeCidrCollectionRequest {
   Id: string;
-  CollectionVersion?: number;
+  CollectionVersion?: number | undefined;
   Changes: CidrCollectionChange[];
 }
 export type ChangeId = string;
@@ -807,9 +807,9 @@ export type GeoLocationContinentCode = string;
 export type GeoLocationCountryCode = string;
 export type GeoLocationSubdivisionCode = string;
 export interface GeoLocation {
-  ContinentCode?: string;
-  CountryCode?: string;
-  SubdivisionCode?: string;
+  ContinentCode?: string | undefined;
+  CountryCode?: string | undefined;
+  SubdivisionCode?: string | undefined;
 }
 export type ResourceRecordSetFailover = "PRIMARY" | "SECONDARY" | (string & {});
 export type ResourceRecordSetMultiValueAnswer = boolean;
@@ -842,27 +842,27 @@ export interface Coordinates {
 }
 export type Bias = number;
 export interface GeoProximityLocation {
-  AWSRegion?: string;
-  LocalZoneGroup?: string;
-  Coordinates?: Coordinates;
-  Bias?: number;
+  AWSRegion?: string | undefined;
+  LocalZoneGroup?: string | undefined;
+  Coordinates?: Coordinates | undefined;
+  Bias?: number | undefined;
 }
 export interface ResourceRecordSet {
   Name: string;
   Type: RRType;
-  SetIdentifier?: string;
-  Weight?: number;
-  Region?: ResourceRecordSetRegion;
-  GeoLocation?: GeoLocation;
-  Failover?: ResourceRecordSetFailover;
-  MultiValueAnswer?: boolean;
-  TTL?: number;
-  ResourceRecords?: ResourceRecord[];
-  AliasTarget?: AliasTarget;
-  HealthCheckId?: string;
-  TrafficPolicyInstanceId?: string;
-  CidrRoutingConfig?: CidrRoutingConfig;
-  GeoProximityLocation?: GeoProximityLocation;
+  SetIdentifier?: string | undefined;
+  Weight?: number | undefined;
+  Region?: ResourceRecordSetRegion | undefined;
+  GeoLocation?: GeoLocation | undefined;
+  Failover?: ResourceRecordSetFailover | undefined;
+  MultiValueAnswer?: boolean | undefined;
+  TTL?: number | undefined;
+  ResourceRecords?: ResourceRecord[] | undefined;
+  AliasTarget?: AliasTarget | undefined;
+  HealthCheckId?: string | undefined;
+  TrafficPolicyInstanceId?: string | undefined;
+  CidrRoutingConfig?: CidrRoutingConfig | undefined;
+  GeoProximityLocation?: GeoProximityLocation | undefined;
 }
 export interface Change {
   Action: ChangeAction;
@@ -870,7 +870,7 @@ export interface Change {
 }
 export type Changes = Change[];
 export interface ChangeBatch {
-  Comment?: string;
+  Comment?: string | undefined;
   Changes: Change[];
 }
 export interface ChangeResourceRecordSetsRequest {
@@ -885,16 +885,16 @@ export type TagResourceId = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export type TagKeyList = string[];
 export interface ChangeTagsForResourceRequest {
   ResourceType: TagResourceType;
   ResourceId: string;
-  AddTags?: Tag[];
-  RemoveTagKeys?: string[];
+  AddTags?: Tag[] | undefined;
+  RemoveTagKeys?: string[] | undefined;
 }
 export interface ChangeTagsForResourceResponse {}
 export type CollectionName = string;
@@ -905,15 +905,15 @@ export interface CreateCidrCollectionRequest {
 }
 export type ARN = string;
 export interface CidrCollection {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Version?: number;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Version?: number | undefined;
 }
 export type ResourceURI = string;
 export interface CreateCidrCollectionResponse {
-  Collection?: CidrCollection;
-  Location?: string;
+  Collection?: CidrCollection | undefined;
+  Location?: string | undefined;
 }
 export type HealthCheckNonce = string;
 export type IPAddress = string;
@@ -1010,24 +1010,24 @@ export type InsufficientDataHealthStatus =
   | (string & {});
 export type RoutingControlArn = string;
 export interface HealthCheckConfig {
-  IPAddress?: string;
-  Port?: number;
+  IPAddress?: string | undefined;
+  Port?: number | undefined;
   Type: HealthCheckType;
-  ResourcePath?: string;
-  FullyQualifiedDomainName?: string;
-  SearchString?: string;
-  RequestInterval?: number;
-  FailureThreshold?: number;
-  MeasureLatency?: boolean;
-  Inverted?: boolean;
-  Disabled?: boolean;
-  HealthThreshold?: number;
-  ChildHealthChecks?: string[];
-  EnableSNI?: boolean;
-  Regions?: HealthCheckRegion[];
-  AlarmIdentifier?: AlarmIdentifier;
-  InsufficientDataHealthStatus?: InsufficientDataHealthStatus;
-  RoutingControlArn?: string;
+  ResourcePath?: string | undefined;
+  FullyQualifiedDomainName?: string | undefined;
+  SearchString?: string | undefined;
+  RequestInterval?: number | undefined;
+  FailureThreshold?: number | undefined;
+  MeasureLatency?: boolean | undefined;
+  Inverted?: boolean | undefined;
+  Disabled?: boolean | undefined;
+  HealthThreshold?: number | undefined;
+  ChildHealthChecks?: string[] | undefined;
+  EnableSNI?: boolean | undefined;
+  Regions?: HealthCheckRegion[] | undefined;
+  AlarmIdentifier?: AlarmIdentifier | undefined;
+  InsufficientDataHealthStatus?: InsufficientDataHealthStatus | undefined;
+  RoutingControlArn?: string | undefined;
 }
 export interface CreateHealthCheckRequest {
   CallerReference: string;
@@ -1035,8 +1035,8 @@ export interface CreateHealthCheckRequest {
 }
 export type ServicePrincipal = string;
 export interface LinkedService {
-  ServicePrincipal?: string;
-  Description?: string;
+  ServicePrincipal?: string | undefined;
+  Description?: string | undefined;
 }
 export type HealthCheckVersion = number;
 export type EvaluationPeriods = number;
@@ -1065,15 +1065,15 @@ export interface CloudWatchAlarmConfiguration {
   MetricName: string;
   Namespace: string;
   Statistic: Statistic;
-  Dimensions?: Dimension[];
+  Dimensions?: Dimension[] | undefined;
 }
 export interface HealthCheck {
   Id: string;
   CallerReference: string;
-  LinkedService?: LinkedService;
+  LinkedService?: LinkedService | undefined;
   HealthCheckConfig: HealthCheckConfig;
   HealthCheckVersion: number;
-  CloudWatchAlarmConfiguration?: CloudWatchAlarmConfiguration;
+  CloudWatchAlarmConfiguration?: CloudWatchAlarmConfiguration | undefined;
 }
 export interface CreateHealthCheckResponse {
   HealthCheck: HealthCheck;
@@ -1082,15 +1082,15 @@ export interface CreateHealthCheckResponse {
 export type Nonce = string;
 export type IsPrivateZone = boolean;
 export interface HostedZoneConfig {
-  Comment?: string;
-  PrivateZone?: boolean;
+  Comment?: string | undefined;
+  PrivateZone?: boolean | undefined;
 }
 export interface CreateHostedZoneRequest {
   Name: string;
-  VPC?: VPC;
+  VPC?: VPC | undefined;
   CallerReference: string;
-  HostedZoneConfig?: HostedZoneConfig;
-  DelegationSetId?: string;
+  HostedZoneConfig?: HostedZoneConfig | undefined;
+  DelegationSetId?: string | undefined;
 }
 export type HostedZoneRRSetCount = number;
 export type AcceleratedRecoveryStatus =
@@ -1105,32 +1105,32 @@ export type AcceleratedRecoveryStatus =
   | (string & {});
 export type FailureReason = string;
 export interface HostedZoneFailureReasons {
-  AcceleratedRecovery?: string;
+  AcceleratedRecovery?: string | undefined;
 }
 export interface HostedZoneFeatures {
-  AcceleratedRecoveryStatus?: AcceleratedRecoveryStatus;
-  FailureReasons?: HostedZoneFailureReasons;
+  AcceleratedRecoveryStatus?: AcceleratedRecoveryStatus | undefined;
+  FailureReasons?: HostedZoneFailureReasons | undefined;
 }
 export interface HostedZone {
   Id: string;
   Name: string;
   CallerReference: string;
-  Config?: HostedZoneConfig;
-  ResourceRecordSetCount?: number;
-  LinkedService?: LinkedService;
-  Features?: HostedZoneFeatures;
+  Config?: HostedZoneConfig | undefined;
+  ResourceRecordSetCount?: number | undefined;
+  LinkedService?: LinkedService | undefined;
+  Features?: HostedZoneFeatures | undefined;
 }
 export type DelegationSetNameServers = string[];
 export interface DelegationSet {
-  Id?: string;
-  CallerReference?: string;
+  Id?: string | undefined;
+  CallerReference?: string | undefined;
   NameServers: string[];
 }
 export interface CreateHostedZoneResponse {
   HostedZone: HostedZone;
   ChangeInfo: ChangeInfo;
-  DelegationSet?: DelegationSet;
-  VPC?: VPC;
+  DelegationSet?: DelegationSet | undefined;
+  VPC?: VPC | undefined;
   Location: string;
 }
 export type SigningKeyString = string;
@@ -1146,22 +1146,22 @@ export type SigningKeyInteger = number;
 export type SigningKeyTag = number;
 export type SigningKeyStatusMessage = string;
 export interface KeySigningKey {
-  Name?: string;
-  KmsArn?: string;
-  Flag?: number;
-  SigningAlgorithmMnemonic?: string;
-  SigningAlgorithmType?: number;
-  DigestAlgorithmMnemonic?: string;
-  DigestAlgorithmType?: number;
-  KeyTag?: number;
-  DigestValue?: string;
-  PublicKey?: string;
-  DSRecord?: string;
-  DNSKEYRecord?: string;
-  Status?: string;
-  StatusMessage?: string;
-  CreatedDate?: Date;
-  LastModifiedDate?: Date;
+  Name?: string | undefined;
+  KmsArn?: string | undefined;
+  Flag?: number | undefined;
+  SigningAlgorithmMnemonic?: string | undefined;
+  SigningAlgorithmType?: number | undefined;
+  DigestAlgorithmMnemonic?: string | undefined;
+  DigestAlgorithmType?: number | undefined;
+  KeyTag?: number | undefined;
+  DigestValue?: string | undefined;
+  PublicKey?: string | undefined;
+  DSRecord?: string | undefined;
+  DNSKEYRecord?: string | undefined;
+  Status?: string | undefined;
+  StatusMessage?: string | undefined;
+  CreatedDate?: Date | undefined;
+  LastModifiedDate?: Date | undefined;
 }
 export interface CreateKeySigningKeyResponse {
   ChangeInfo: ChangeInfo;
@@ -1185,7 +1185,7 @@ export interface CreateQueryLoggingConfigResponse {
 }
 export interface CreateReusableDelegationSetRequest {
   CallerReference: string;
-  HostedZoneId?: string;
+  HostedZoneId?: string | undefined;
 }
 export interface CreateReusableDelegationSetResponse {
   DelegationSet: DelegationSet;
@@ -1197,7 +1197,7 @@ export type TrafficPolicyComment = string;
 export interface CreateTrafficPolicyRequest {
   Name: string;
   Document: string;
-  Comment?: string;
+  Comment?: string | undefined;
 }
 export type TrafficPolicyId = string;
 export type TrafficPolicyVersion = number;
@@ -1207,7 +1207,7 @@ export interface TrafficPolicy {
   Name: string;
   Type: RRType;
   Document: string;
-  Comment?: string;
+  Comment?: string | undefined;
 }
 export interface CreateTrafficPolicyResponse {
   TrafficPolicy: TrafficPolicy;
@@ -1240,7 +1240,7 @@ export interface CreateTrafficPolicyInstanceResponse {
 export interface CreateTrafficPolicyVersionRequest {
   Id: string;
   Document: string;
-  Comment?: string;
+  Comment?: string | undefined;
 }
 export interface CreateTrafficPolicyVersionResponse {
   TrafficPolicy: TrafficPolicy;
@@ -1314,7 +1314,7 @@ export type DisassociateVPCComment = string;
 export interface DisassociateVPCFromHostedZoneRequest {
   HostedZoneId: string;
   VPC: VPC;
-  Comment?: string;
+  Comment?: string | undefined;
 }
 export interface DisassociateVPCFromHostedZoneResponse {
   ChangeInfo: ChangeInfo;
@@ -1362,8 +1362,8 @@ export interface GetDNSSECRequest {
 }
 export type ServeSignature = string;
 export interface DNSSECStatus {
-  ServeSignature?: string;
-  StatusMessage?: string;
+  ServeSignature?: string | undefined;
+  StatusMessage?: string | undefined;
 }
 export type KeySigningKeys = KeySigningKey[];
 export interface GetDNSSECResponse {
@@ -1371,20 +1371,20 @@ export interface GetDNSSECResponse {
   KeySigningKeys: KeySigningKey[];
 }
 export interface GetGeoLocationRequest {
-  ContinentCode?: string;
-  CountryCode?: string;
-  SubdivisionCode?: string;
+  ContinentCode?: string | undefined;
+  CountryCode?: string | undefined;
+  SubdivisionCode?: string | undefined;
 }
 export type GeoLocationContinentName = string;
 export type GeoLocationCountryName = string;
 export type GeoLocationSubdivisionName = string;
 export interface GeoLocationDetails {
-  ContinentCode?: string;
-  ContinentName?: string;
-  CountryCode?: string;
-  CountryName?: string;
-  SubdivisionCode?: string;
-  SubdivisionName?: string;
+  ContinentCode?: string | undefined;
+  ContinentName?: string | undefined;
+  CountryCode?: string | undefined;
+  CountryName?: string | undefined;
+  SubdivisionCode?: string | undefined;
+  SubdivisionName?: string | undefined;
 }
 export interface GetGeoLocationResponse {
   GeoLocationDetails: GeoLocationDetails;
@@ -1405,13 +1405,13 @@ export interface GetHealthCheckLastFailureReasonRequest {
 }
 export type Status = string;
 export interface StatusReport {
-  Status?: string;
-  CheckedTime?: Date;
+  Status?: string | undefined;
+  CheckedTime?: Date | undefined;
 }
 export interface HealthCheckObservation {
-  Region?: HealthCheckRegion;
-  IPAddress?: string;
-  StatusReport?: StatusReport;
+  Region?: HealthCheckRegion | undefined;
+  IPAddress?: string | undefined;
+  StatusReport?: StatusReport | undefined;
 }
 export type HealthCheckObservations = HealthCheckObservation[];
 export interface GetHealthCheckLastFailureReasonResponse {
@@ -1429,8 +1429,8 @@ export interface GetHostedZoneRequest {
 export type VPCs = VPC[];
 export interface GetHostedZoneResponse {
   HostedZone: HostedZone;
-  DelegationSet?: DelegationSet;
-  VPCs?: VPC[];
+  DelegationSet?: DelegationSet | undefined;
+  VPCs?: VPC[] | undefined;
 }
 export interface GetHostedZoneCountRequest {}
 export type HostedZoneCount = number;
@@ -1499,116 +1499,116 @@ export interface GetTrafficPolicyInstanceCountResponse {
 export type PaginationToken = string;
 export interface ListCidrBlocksRequest {
   CollectionId: string;
-  LocationName?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  LocationName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface CidrBlockSummary {
-  CidrBlock?: string;
-  LocationName?: string;
+  CidrBlock?: string | undefined;
+  LocationName?: string | undefined;
 }
 export type CidrBlockSummaries = CidrBlockSummary[];
 export interface ListCidrBlocksResponse {
-  NextToken?: string;
-  CidrBlocks?: CidrBlockSummary[];
+  NextToken?: string | undefined;
+  CidrBlocks?: CidrBlockSummary[] | undefined;
 }
 export interface ListCidrCollectionsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface CollectionSummary {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Version?: number;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Version?: number | undefined;
 }
 export type CollectionSummaries = CollectionSummary[];
 export interface ListCidrCollectionsResponse {
-  NextToken?: string;
-  CidrCollections?: CollectionSummary[];
+  NextToken?: string | undefined;
+  CidrCollections?: CollectionSummary[] | undefined;
 }
 export interface ListCidrLocationsRequest {
   CollectionId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface LocationSummary {
-  LocationName?: string;
+  LocationName?: string | undefined;
 }
 export type LocationSummaries = LocationSummary[];
 export interface ListCidrLocationsResponse {
-  NextToken?: string;
-  CidrLocations?: LocationSummary[];
+  NextToken?: string | undefined;
+  CidrLocations?: LocationSummary[] | undefined;
 }
 export interface ListGeoLocationsRequest {
-  StartContinentCode?: string;
-  StartCountryCode?: string;
-  StartSubdivisionCode?: string;
-  MaxItems?: number;
+  StartContinentCode?: string | undefined;
+  StartCountryCode?: string | undefined;
+  StartSubdivisionCode?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type GeoLocationDetailsList = GeoLocationDetails[];
 export type PageTruncated = boolean;
 export interface ListGeoLocationsResponse {
   GeoLocationDetailsList: GeoLocationDetails[];
   IsTruncated: boolean;
-  NextContinentCode?: string;
-  NextCountryCode?: string;
-  NextSubdivisionCode?: string;
+  NextContinentCode?: string | undefined;
+  NextCountryCode?: string | undefined;
+  NextSubdivisionCode?: string | undefined;
   MaxItems: number;
 }
 export type PageMarker = string;
 export interface ListHealthChecksRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type HealthChecks = HealthCheck[];
 export interface ListHealthChecksResponse {
-  HealthChecks?: HealthCheck[];
-  Marker?: string;
+  HealthChecks?: HealthCheck[] | undefined;
+  Marker?: string | undefined;
   IsTruncated: boolean;
-  NextMarker?: string;
+  NextMarker?: string | undefined;
   MaxItems: number;
 }
 export type HostedZoneType = "PrivateHostedZone" | (string & {});
 export interface ListHostedZonesRequest {
-  Marker?: string;
-  MaxItems?: number;
-  DelegationSetId?: string;
-  HostedZoneType?: HostedZoneType;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
+  DelegationSetId?: string | undefined;
+  HostedZoneType?: HostedZoneType | undefined;
 }
 export type HostedZones = HostedZone[];
 export interface ListHostedZonesResponse {
-  HostedZones?: HostedZone[];
-  Marker?: string;
+  HostedZones?: HostedZone[] | undefined;
+  Marker?: string | undefined;
   IsTruncated: boolean;
-  NextMarker?: string;
+  NextMarker?: string | undefined;
   MaxItems: number;
 }
 export interface ListHostedZonesByNameRequest {
-  DNSName?: string;
-  HostedZoneId?: string;
-  MaxItems?: number;
+  DNSName?: string | undefined;
+  HostedZoneId?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListHostedZonesByNameResponse {
-  HostedZones?: HostedZone[];
-  DNSName?: string;
-  HostedZoneId?: string;
+  HostedZones?: HostedZone[] | undefined;
+  DNSName?: string | undefined;
+  HostedZoneId?: string | undefined;
   IsTruncated: boolean;
-  NextDNSName?: string;
-  NextHostedZoneId?: string;
+  NextDNSName?: string | undefined;
+  NextHostedZoneId?: string | undefined;
   MaxItems: number;
 }
 export interface ListHostedZonesByVPCRequest {
   VPCId: string;
   VPCRegion: VPCRegion;
-  MaxItems?: number;
-  NextToken?: string;
+  MaxItems?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AWSAccountID = string;
 export type HostedZoneOwningService = string;
 export interface HostedZoneOwner {
-  OwningAccount?: string;
-  OwningService?: string;
+  OwningAccount?: string | undefined;
+  OwningService?: string | undefined;
 }
 export interface HostedZoneSummary {
   HostedZoneId: string;
@@ -1619,44 +1619,44 @@ export type HostedZoneSummaries = HostedZoneSummary[];
 export interface ListHostedZonesByVPCResponse {
   HostedZoneSummaries: HostedZoneSummary[];
   MaxItems: number;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListQueryLoggingConfigsRequest {
-  HostedZoneId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  HostedZoneId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type QueryLoggingConfigs = QueryLoggingConfig[];
 export interface ListQueryLoggingConfigsResponse {
-  QueryLoggingConfigs?: QueryLoggingConfig[];
-  NextToken?: string;
+  QueryLoggingConfigs?: QueryLoggingConfig[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListResourceRecordSetsRequest {
   HostedZoneId: string;
-  StartRecordName?: string;
-  StartRecordType?: RRType;
-  StartRecordIdentifier?: string;
-  MaxItems?: number;
+  StartRecordName?: string | undefined;
+  StartRecordType?: RRType | undefined;
+  StartRecordIdentifier?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type ResourceRecordSets = ResourceRecordSet[];
 export interface ListResourceRecordSetsResponse {
-  ResourceRecordSets?: ResourceRecordSet[];
+  ResourceRecordSets?: ResourceRecordSet[] | undefined;
   IsTruncated: boolean;
-  NextRecordName?: string;
-  NextRecordType?: RRType;
-  NextRecordIdentifier?: string;
+  NextRecordName?: string | undefined;
+  NextRecordType?: RRType | undefined;
+  NextRecordIdentifier?: string | undefined;
   MaxItems: number;
 }
 export interface ListReusableDelegationSetsRequest {
-  Marker?: string;
-  MaxItems?: number;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type DelegationSets = DelegationSet[];
 export interface ListReusableDelegationSetsResponse {
   DelegationSets: DelegationSet[];
   Marker: string;
   IsTruncated: boolean;
-  NextMarker?: string;
+  NextMarker?: string | undefined;
   MaxItems: number;
 }
 export interface ListTagsForResourceRequest {
@@ -1664,9 +1664,9 @@ export interface ListTagsForResourceRequest {
   ResourceId: string;
 }
 export interface ResourceTagSet {
-  ResourceType?: TagResourceType;
-  ResourceId?: string;
-  Tags?: Tag[];
+  ResourceType?: TagResourceType | undefined;
+  ResourceId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ListTagsForResourceResponse {
   ResourceTagSet: ResourceTagSet;
@@ -1681,8 +1681,8 @@ export interface ListTagsForResourcesResponse {
   ResourceTagSets: ResourceTagSet[];
 }
 export interface ListTrafficPoliciesRequest {
-  TrafficPolicyIdMarker?: string;
-  MaxItems?: number;
+  TrafficPolicyIdMarker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface TrafficPolicySummary {
   Id: string;
@@ -1699,54 +1699,54 @@ export interface ListTrafficPoliciesResponse {
   MaxItems: number;
 }
 export interface ListTrafficPolicyInstancesRequest {
-  HostedZoneIdMarker?: string;
-  TrafficPolicyInstanceNameMarker?: string;
-  TrafficPolicyInstanceTypeMarker?: RRType;
-  MaxItems?: number;
+  HostedZoneIdMarker?: string | undefined;
+  TrafficPolicyInstanceNameMarker?: string | undefined;
+  TrafficPolicyInstanceTypeMarker?: RRType | undefined;
+  MaxItems?: number | undefined;
 }
 export type TrafficPolicyInstances = TrafficPolicyInstance[];
 export interface ListTrafficPolicyInstancesResponse {
   TrafficPolicyInstances: TrafficPolicyInstance[];
-  HostedZoneIdMarker?: string;
-  TrafficPolicyInstanceNameMarker?: string;
-  TrafficPolicyInstanceTypeMarker?: RRType;
+  HostedZoneIdMarker?: string | undefined;
+  TrafficPolicyInstanceNameMarker?: string | undefined;
+  TrafficPolicyInstanceTypeMarker?: RRType | undefined;
   IsTruncated: boolean;
   MaxItems: number;
 }
 export interface ListTrafficPolicyInstancesByHostedZoneRequest {
   HostedZoneId: string;
-  TrafficPolicyInstanceNameMarker?: string;
-  TrafficPolicyInstanceTypeMarker?: RRType;
-  MaxItems?: number;
+  TrafficPolicyInstanceNameMarker?: string | undefined;
+  TrafficPolicyInstanceTypeMarker?: RRType | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListTrafficPolicyInstancesByHostedZoneResponse {
   TrafficPolicyInstances: TrafficPolicyInstance[];
-  TrafficPolicyInstanceNameMarker?: string;
-  TrafficPolicyInstanceTypeMarker?: RRType;
+  TrafficPolicyInstanceNameMarker?: string | undefined;
+  TrafficPolicyInstanceTypeMarker?: RRType | undefined;
   IsTruncated: boolean;
   MaxItems: number;
 }
 export interface ListTrafficPolicyInstancesByPolicyRequest {
   TrafficPolicyId: string;
   TrafficPolicyVersion: number;
-  HostedZoneIdMarker?: string;
-  TrafficPolicyInstanceNameMarker?: string;
-  TrafficPolicyInstanceTypeMarker?: RRType;
-  MaxItems?: number;
+  HostedZoneIdMarker?: string | undefined;
+  TrafficPolicyInstanceNameMarker?: string | undefined;
+  TrafficPolicyInstanceTypeMarker?: RRType | undefined;
+  MaxItems?: number | undefined;
 }
 export interface ListTrafficPolicyInstancesByPolicyResponse {
   TrafficPolicyInstances: TrafficPolicyInstance[];
-  HostedZoneIdMarker?: string;
-  TrafficPolicyInstanceNameMarker?: string;
-  TrafficPolicyInstanceTypeMarker?: RRType;
+  HostedZoneIdMarker?: string | undefined;
+  TrafficPolicyInstanceNameMarker?: string | undefined;
+  TrafficPolicyInstanceTypeMarker?: RRType | undefined;
   IsTruncated: boolean;
   MaxItems: number;
 }
 export type TrafficPolicyVersionMarker = string;
 export interface ListTrafficPolicyVersionsRequest {
   Id: string;
-  TrafficPolicyVersionMarker?: string;
-  MaxItems?: number;
+  TrafficPolicyVersionMarker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type TrafficPolicies = TrafficPolicy[];
 export interface ListTrafficPolicyVersionsResponse {
@@ -1757,22 +1757,22 @@ export interface ListTrafficPolicyVersionsResponse {
 }
 export interface ListVPCAssociationAuthorizationsRequest {
   HostedZoneId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListVPCAssociationAuthorizationsResponse {
   HostedZoneId: string;
-  NextToken?: string;
-  VPCs?: VPC[];
+  NextToken?: string | undefined;
+  VPCs?: VPC[] | undefined;
 }
 export type SubnetMask = string;
 export interface TestDNSAnswerRequest {
   HostedZoneId: string;
   RecordName: string;
   RecordType: RRType;
-  ResolverIP?: string;
-  EDNS0ClientSubnetIP?: string;
-  EDNS0ClientSubnetMask?: string;
+  ResolverIP?: string | undefined;
+  EDNS0ClientSubnetIP?: string | undefined;
+  EDNS0ClientSubnetMask?: string | undefined;
 }
 export type Nameserver = string;
 export type RecordDataEntry = string;
@@ -1796,29 +1796,29 @@ export type ResettableElementName =
 export type ResettableElementNameList = ResettableElementName[];
 export interface UpdateHealthCheckRequest {
   HealthCheckId: string;
-  HealthCheckVersion?: number;
-  IPAddress?: string;
-  Port?: number;
-  ResourcePath?: string;
-  FullyQualifiedDomainName?: string;
-  SearchString?: string;
-  FailureThreshold?: number;
-  Inverted?: boolean;
-  Disabled?: boolean;
-  HealthThreshold?: number;
-  ChildHealthChecks?: string[];
-  EnableSNI?: boolean;
-  Regions?: HealthCheckRegion[];
-  AlarmIdentifier?: AlarmIdentifier;
-  InsufficientDataHealthStatus?: InsufficientDataHealthStatus;
-  ResetElements?: ResettableElementName[];
+  HealthCheckVersion?: number | undefined;
+  IPAddress?: string | undefined;
+  Port?: number | undefined;
+  ResourcePath?: string | undefined;
+  FullyQualifiedDomainName?: string | undefined;
+  SearchString?: string | undefined;
+  FailureThreshold?: number | undefined;
+  Inverted?: boolean | undefined;
+  Disabled?: boolean | undefined;
+  HealthThreshold?: number | undefined;
+  ChildHealthChecks?: string[] | undefined;
+  EnableSNI?: boolean | undefined;
+  Regions?: HealthCheckRegion[] | undefined;
+  AlarmIdentifier?: AlarmIdentifier | undefined;
+  InsufficientDataHealthStatus?: InsufficientDataHealthStatus | undefined;
+  ResetElements?: ResettableElementName[] | undefined;
 }
 export interface UpdateHealthCheckResponse {
   HealthCheck: HealthCheck;
 }
 export interface UpdateHostedZoneCommentRequest {
   Id: string;
-  Comment?: string;
+  Comment?: string | undefined;
 }
 export interface UpdateHostedZoneCommentResponse {
   HostedZone: HostedZone;
@@ -1826,7 +1826,7 @@ export interface UpdateHostedZoneCommentResponse {
 export type AcceleratedRecoveryEnabled = boolean;
 export interface UpdateHostedZoneFeaturesRequest {
   HostedZoneId: string;
-  EnableAcceleratedRecovery?: boolean;
+  EnableAcceleratedRecovery?: boolean | undefined;
 }
 export interface UpdateHostedZoneFeaturesResponse {}
 export interface UpdateTrafficPolicyCommentRequest {

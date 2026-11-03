@@ -142,9 +142,9 @@ export type PortfolioShareType =
   | "AWS_ORGANIZATIONS"
   | (string & {});
 export interface AcceptPortfolioShareInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  PortfolioShareType?: PortfolioShareType;
+  PortfolioShareType?: PortfolioShareType | undefined;
 }
 export interface AcceptPortfolioShareOutput {}
 export type BudgetName = string;
@@ -156,17 +156,17 @@ export interface AssociateBudgetWithResourceOutput {}
 export type PrincipalARN = string;
 export type PrincipalType = "IAM" | "IAM_PATTERN" | (string & {});
 export interface AssociatePrincipalWithPortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
   PrincipalARN: string;
   PrincipalType: PrincipalType;
 }
 export interface AssociatePrincipalWithPortfolioOutput {}
 export interface AssociateProductWithPortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
   PortfolioId: string;
-  SourcePortfolioId?: string;
+  SourcePortfolioId?: string | undefined;
 }
 export interface AssociateProductWithPortfolioOutput {}
 export type IdempotencyToken = string;
@@ -174,8 +174,8 @@ export interface AssociateServiceActionWithProvisioningArtifactInput {
   ProductId: string;
   ProvisioningArtifactId: string;
   ServiceActionId: string;
-  AcceptLanguage?: string;
-  IdempotencyToken?: string;
+  AcceptLanguage?: string | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface AssociateServiceActionWithProvisioningArtifactOutput {}
 export type ResourceId = string;
@@ -193,7 +193,7 @@ export interface ServiceActionAssociation {
 export type ServiceActionAssociations = ServiceActionAssociation[];
 export interface BatchAssociateServiceActionWithProvisioningArtifactInput {
   ServiceActionAssociations: ServiceActionAssociation[];
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
 }
 export type ServiceActionAssociationErrorCode =
   | "DUPLICATE_RESOURCE"
@@ -205,71 +205,71 @@ export type ServiceActionAssociationErrorCode =
   | (string & {});
 export type ServiceActionAssociationErrorMessage = string;
 export interface FailedServiceActionAssociation {
-  ServiceActionId?: string;
-  ProductId?: string;
-  ProvisioningArtifactId?: string;
-  ErrorCode?: ServiceActionAssociationErrorCode;
-  ErrorMessage?: string;
+  ServiceActionId?: string | undefined;
+  ProductId?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  ErrorCode?: ServiceActionAssociationErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type FailedServiceActionAssociations = FailedServiceActionAssociation[];
 export interface BatchAssociateServiceActionWithProvisioningArtifactOutput {
-  FailedServiceActionAssociations?: FailedServiceActionAssociation[];
+  FailedServiceActionAssociations?: FailedServiceActionAssociation[] | undefined;
 }
 export interface BatchDisassociateServiceActionFromProvisioningArtifactInput {
   ServiceActionAssociations: ServiceActionAssociation[];
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
 }
 export interface BatchDisassociateServiceActionFromProvisioningArtifactOutput {
-  FailedServiceActionAssociations?: FailedServiceActionAssociation[];
+  FailedServiceActionAssociations?: FailedServiceActionAssociation[] | undefined;
 }
 export type ProductArn = string;
 export type ProductViewName = string;
 export type ProvisioningArtifactPropertyName = "Id" | (string & {});
 export type ProvisioningArtifactPropertyValue = string;
 export type SourceProvisioningArtifactPropertiesMap = {
-  [key in ProvisioningArtifactPropertyName]?: string;
+  [key in ProvisioningArtifactPropertyName]?: string | undefined;
 };
 export type SourceProvisioningArtifactProperties = { [key: string]: string | undefined }[];
 export type CopyOption = "CopyTags" | (string & {});
 export type CopyOptions = CopyOption[];
 export interface CopyProductInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   SourceProductArn: string;
-  TargetProductId?: string;
-  TargetProductName?: string;
-  SourceProvisioningArtifactIdentifiers?: { [key: string]: string | undefined }[];
-  CopyOptions?: CopyOption[];
+  TargetProductId?: string | undefined;
+  TargetProductName?: string | undefined;
+  SourceProvisioningArtifactIdentifiers?: { [key: string]: string | undefined }[] | undefined;
+  CopyOptions?: CopyOption[] | undefined;
   IdempotencyToken: string;
 }
 export interface CopyProductOutput {
-  CopyProductToken?: string;
+  CopyProductToken?: string | undefined;
 }
 export type ConstraintParameters = string;
 export type ConstraintType = string;
 export type ConstraintDescription = string;
 export interface CreateConstraintInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
   ProductId: string;
   Parameters: string;
   Type: string;
-  Description?: string;
+  Description?: string | undefined;
   IdempotencyToken: string;
 }
 export type AccountId = string;
 export interface ConstraintDetail {
-  ConstraintId?: string;
-  Type?: string;
-  Description?: string;
-  Owner?: string;
-  ProductId?: string;
-  PortfolioId?: string;
+  ConstraintId?: string | undefined;
+  Type?: string | undefined;
+  Description?: string | undefined;
+  Owner?: string | undefined;
+  ProductId?: string | undefined;
+  PortfolioId?: string | undefined;
 }
 export type Status = "AVAILABLE" | "CREATING" | "FAILED" | (string & {});
 export interface CreateConstraintOutput {
-  ConstraintDetail?: ConstraintDetail;
-  ConstraintParameters?: string;
-  Status?: Status;
+  ConstraintDetail?: ConstraintDetail | undefined;
+  ConstraintParameters?: string | undefined;
+  Status?: Status | undefined;
 }
 export type PortfolioDisplayName = string;
 export type PortfolioDescription = string;
@@ -282,27 +282,27 @@ export interface Tag {
 }
 export type AddTags = Tag[];
 export interface CreatePortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   DisplayName: string;
-  Description?: string;
+  Description?: string | undefined;
   ProviderName: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   IdempotencyToken: string;
 }
 export type ResourceARN = string;
 export type CreationTime = Date;
 export interface PortfolioDetail {
-  Id?: string;
-  ARN?: string;
-  DisplayName?: string;
-  Description?: string;
-  CreatedTime?: Date;
-  ProviderName?: string;
+  Id?: string | undefined;
+  ARN?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | undefined;
+  CreatedTime?: Date | undefined;
+  ProviderName?: string | undefined;
 }
 export type Tags = Tag[];
 export interface CreatePortfolioOutput {
-  PortfolioDetail?: PortfolioDetail;
-  Tags?: Tag[];
+  PortfolioDetail?: PortfolioDetail | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type OrganizationNodeType =
   | "ORGANIZATION"
@@ -311,19 +311,19 @@ export type OrganizationNodeType =
   | (string & {});
 export type OrganizationNodeValue = string;
 export interface OrganizationNode {
-  Type?: OrganizationNodeType;
-  Value?: string;
+  Type?: OrganizationNodeType | undefined;
+  Value?: string | undefined;
 }
 export interface CreatePortfolioShareInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  AccountId?: string;
-  OrganizationNode?: OrganizationNode;
-  ShareTagOptions?: boolean;
-  SharePrincipals?: boolean;
+  AccountId?: string | undefined;
+  OrganizationNode?: OrganizationNode | undefined;
+  ShareTagOptions?: boolean | undefined;
+  SharePrincipals?: boolean | undefined;
 }
 export interface CreatePortfolioShareOutput {
-  PortfolioShareToken?: string;
+  PortfolioShareToken?: string | undefined;
 }
 export type ProductViewOwner = string;
 export type ProductViewShortDescription = string;
@@ -352,11 +352,11 @@ export type ProvisioningArtifactType =
   | (string & {});
 export type DisableTemplateValidation = boolean;
 export interface ProvisioningArtifactProperties {
-  Name?: string;
-  Description?: string;
-  Info?: { [key: string]: string | undefined };
-  Type?: ProvisioningArtifactType;
-  DisableTemplateValidation?: boolean;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Info?: { [key: string]: string | undefined } | undefined;
+  Type?: ProvisioningArtifactType | undefined;
+  DisableTemplateValidation?: boolean | undefined;
 }
 export type SourceType = "CODESTAR" | (string & {});
 export type CodeStarConnectionArn = string;
@@ -370,41 +370,41 @@ export interface CodeStarParameters {
   ArtifactPath: string;
 }
 export interface SourceConnectionParameters {
-  CodeStar?: CodeStarParameters;
+  CodeStar?: CodeStarParameters | undefined;
 }
 export interface SourceConnection {
-  Type?: SourceType;
+  Type?: SourceType | undefined;
   ConnectionParameters: SourceConnectionParameters;
 }
 export interface CreateProductInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Name: string;
   Owner: string;
-  Description?: string;
-  Distributor?: string;
-  SupportDescription?: string;
-  SupportEmail?: string;
-  SupportUrl?: string;
+  Description?: string | undefined;
+  Distributor?: string | undefined;
+  SupportDescription?: string | undefined;
+  SupportEmail?: string | undefined;
+  SupportUrl?: string | undefined;
   ProductType: ProductType;
-  Tags?: Tag[];
-  ProvisioningArtifactParameters?: ProvisioningArtifactProperties;
+  Tags?: Tag[] | undefined;
+  ProvisioningArtifactParameters?: ProvisioningArtifactProperties | undefined;
   IdempotencyToken: string;
-  SourceConnection?: SourceConnection;
+  SourceConnection?: SourceConnection | undefined;
 }
 export type ProductViewDistributor = string;
 export type HasDefaultPath = boolean;
 export interface ProductViewSummary {
-  Id?: string;
-  ProductId?: string;
-  Name?: string;
-  Owner?: string;
-  ShortDescription?: string;
-  Type?: ProductType;
-  Distributor?: string;
-  HasDefaultPath?: boolean;
-  SupportEmail?: string;
-  SupportDescription?: string;
-  SupportUrl?: string;
+  Id?: string | undefined;
+  ProductId?: string | undefined;
+  Name?: string | undefined;
+  Owner?: string | undefined;
+  ShortDescription?: string | undefined;
+  Type?: ProductType | undefined;
+  Distributor?: string | undefined;
+  HasDefaultPath?: boolean | undefined;
+  SupportEmail?: string | undefined;
+  SupportDescription?: string | undefined;
+  SupportUrl?: string | undefined;
 }
 export type CreatedTime = Date;
 export type LastSyncTime = Date;
@@ -412,41 +412,41 @@ export type LastSyncStatus = "SUCCEEDED" | "FAILED" | (string & {});
 export type LastSyncStatusMessage = string;
 export type LastSuccessfulSyncTime = Date;
 export interface LastSync {
-  LastSyncTime?: Date;
-  LastSyncStatus?: LastSyncStatus;
-  LastSyncStatusMessage?: string;
-  LastSuccessfulSyncTime?: Date;
-  LastSuccessfulSyncProvisioningArtifactId?: string;
+  LastSyncTime?: Date | undefined;
+  LastSyncStatus?: LastSyncStatus | undefined;
+  LastSyncStatusMessage?: string | undefined;
+  LastSuccessfulSyncTime?: Date | undefined;
+  LastSuccessfulSyncProvisioningArtifactId?: string | undefined;
 }
 export interface SourceConnectionDetail {
-  Type?: SourceType;
-  ConnectionParameters?: SourceConnectionParameters;
-  LastSync?: LastSync;
+  Type?: SourceType | undefined;
+  ConnectionParameters?: SourceConnectionParameters | undefined;
+  LastSync?: LastSync | undefined;
 }
 export interface ProductViewDetail {
-  ProductViewSummary?: ProductViewSummary;
-  Status?: Status;
-  ProductARN?: string;
-  CreatedTime?: Date;
-  SourceConnection?: SourceConnectionDetail;
+  ProductViewSummary?: ProductViewSummary | undefined;
+  Status?: Status | undefined;
+  ProductARN?: string | undefined;
+  CreatedTime?: Date | undefined;
+  SourceConnection?: SourceConnectionDetail | undefined;
 }
 export type ProvisioningArtifactActive = boolean;
 export type ProvisioningArtifactGuidance = "DEFAULT" | "DEPRECATED" | (string & {});
 export type SourceRevision = string;
 export interface ProvisioningArtifactDetail {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  Type?: ProvisioningArtifactType;
-  CreatedTime?: Date;
-  Active?: boolean;
-  Guidance?: ProvisioningArtifactGuidance;
-  SourceRevision?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Type?: ProvisioningArtifactType | undefined;
+  CreatedTime?: Date | undefined;
+  Active?: boolean | undefined;
+  Guidance?: ProvisioningArtifactGuidance | undefined;
+  SourceRevision?: string | undefined;
 }
 export interface CreateProductOutput {
-  ProductViewDetail?: ProductViewDetail;
-  ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Tags?: Tag[];
+  ProductViewDetail?: ProductViewDetail | undefined;
+  ProvisioningArtifactDetail?: ProvisioningArtifactDetail | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ProvisionedProductPlanName = string;
 export type ProvisionedProductPlanType = "CLOUDFORMATION" | (string & {});
@@ -457,41 +457,41 @@ export type ParameterKey = string;
 export type ParameterValue = string;
 export type UsePreviousValue = boolean;
 export interface UpdateProvisioningParameter {
-  Key?: string;
-  Value?: string;
-  UsePreviousValue?: boolean;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  UsePreviousValue?: boolean | undefined;
 }
 export type UpdateProvisioningParameters = UpdateProvisioningParameter[];
 export interface CreateProvisionedProductPlanInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PlanName: string;
   PlanType: ProvisionedProductPlanType;
-  NotificationArns?: string[];
-  PathId?: string;
+  NotificationArns?: string[] | undefined;
+  PathId?: string | undefined;
   ProductId: string;
   ProvisionedProductName: string;
   ProvisioningArtifactId: string;
-  ProvisioningParameters?: UpdateProvisioningParameter[];
+  ProvisioningParameters?: UpdateProvisioningParameter[] | undefined;
   IdempotencyToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateProvisionedProductPlanOutput {
-  PlanName?: string;
-  PlanId?: string;
-  ProvisionProductId?: string;
-  ProvisionedProductName?: string;
-  ProvisioningArtifactId?: string;
+  PlanName?: string | undefined;
+  PlanId?: string | undefined;
+  ProvisionProductId?: string | undefined;
+  ProvisionedProductName?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
 }
 export interface CreateProvisioningArtifactInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
   Parameters: ProvisioningArtifactProperties;
   IdempotencyToken: string;
 }
 export interface CreateProvisioningArtifactOutput {
-  ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Info?: { [key: string]: string | undefined };
-  Status?: Status;
+  ProvisioningArtifactDetail?: ProvisioningArtifactDetail | undefined;
+  Info?: { [key: string]: string | undefined } | undefined;
+  Status?: Status | undefined;
 }
 export type ServiceActionName = string;
 export type ServiceActionDefinitionType = "SSM_AUTOMATION" | (string & {});
@@ -502,28 +502,30 @@ export type ServiceActionDefinitionKey =
   | "Parameters"
   | (string & {});
 export type ServiceActionDefinitionValue = string;
-export type ServiceActionDefinitionMap = { [key in ServiceActionDefinitionKey]?: string };
+export type ServiceActionDefinitionMap = {
+  [key in ServiceActionDefinitionKey]?: string | undefined;
+};
 export type ServiceActionDescription = string;
 export interface CreateServiceActionInput {
   Name: string;
   DefinitionType: ServiceActionDefinitionType;
   Definition: { [key: string]: string | undefined };
-  Description?: string;
-  AcceptLanguage?: string;
+  Description?: string | undefined;
+  AcceptLanguage?: string | undefined;
   IdempotencyToken: string;
 }
 export interface ServiceActionSummary {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  DefinitionType?: ServiceActionDefinitionType;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  DefinitionType?: ServiceActionDefinitionType | undefined;
 }
 export interface ServiceActionDetail {
-  ServiceActionSummary?: ServiceActionSummary;
-  Definition?: { [key: string]: string | undefined };
+  ServiceActionSummary?: ServiceActionSummary | undefined;
+  Definition?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateServiceActionOutput {
-  ServiceActionDetail?: ServiceActionDetail;
+  ServiceActionDetail?: ServiceActionDetail | undefined;
 }
 export type TagOptionKey = string;
 export type TagOptionValue = string;
@@ -534,56 +536,56 @@ export interface CreateTagOptionInput {
 export type TagOptionActive = boolean;
 export type Owner = string;
 export interface TagOptionDetail {
-  Key?: string;
-  Value?: string;
-  Active?: boolean;
-  Id?: string;
-  Owner?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  Active?: boolean | undefined;
+  Id?: string | undefined;
+  Owner?: string | undefined;
 }
 export interface CreateTagOptionOutput {
-  TagOptionDetail?: TagOptionDetail;
+  TagOptionDetail?: TagOptionDetail | undefined;
 }
 export interface DeleteConstraintInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
 }
 export interface DeleteConstraintOutput {}
 export interface DeletePortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
 }
 export interface DeletePortfolioOutput {}
 export interface DeletePortfolioShareInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  AccountId?: string;
-  OrganizationNode?: OrganizationNode;
+  AccountId?: string | undefined;
+  OrganizationNode?: OrganizationNode | undefined;
 }
 export interface DeletePortfolioShareOutput {
-  PortfolioShareToken?: string;
+  PortfolioShareToken?: string | undefined;
 }
 export interface DeleteProductInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
 }
 export interface DeleteProductOutput {}
 export type IgnoreErrors = boolean;
 export interface DeleteProvisionedProductPlanInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PlanId: string;
-  IgnoreErrors?: boolean;
+  IgnoreErrors?: boolean | undefined;
 }
 export interface DeleteProvisionedProductPlanOutput {}
 export interface DeleteProvisioningArtifactInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
   ProvisioningArtifactId: string;
 }
 export interface DeleteProvisioningArtifactOutput {}
 export interface DeleteServiceActionInput {
   Id: string;
-  AcceptLanguage?: string;
-  IdempotencyToken?: string;
+  AcceptLanguage?: string | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface DeleteServiceActionOutput {}
 export interface DeleteTagOptionInput {
@@ -591,39 +593,39 @@ export interface DeleteTagOptionInput {
 }
 export interface DeleteTagOptionOutput {}
 export interface DescribeConstraintInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
 }
 export interface DescribeConstraintOutput {
-  ConstraintDetail?: ConstraintDetail;
-  ConstraintParameters?: string;
-  Status?: Status;
+  ConstraintDetail?: ConstraintDetail | undefined;
+  ConstraintParameters?: string | undefined;
+  Status?: Status | undefined;
 }
 export interface DescribeCopyProductStatusInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   CopyProductToken: string;
 }
 export type CopyProductStatus = "SUCCEEDED" | "IN_PROGRESS" | "FAILED" | (string & {});
 export type StatusDetail = string;
 export interface DescribeCopyProductStatusOutput {
-  CopyProductStatus?: CopyProductStatus;
-  TargetProductId?: string;
-  StatusDetail?: string;
+  CopyProductStatus?: CopyProductStatus | undefined;
+  TargetProductId?: string | undefined;
+  StatusDetail?: string | undefined;
 }
 export interface DescribePortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
 }
 export type TagOptionDetails = TagOptionDetail[];
 export interface BudgetDetail {
-  BudgetName?: string;
+  BudgetName?: string | undefined;
 }
 export type Budgets = BudgetDetail[];
 export interface DescribePortfolioOutput {
-  PortfolioDetail?: PortfolioDetail;
-  Tags?: Tag[];
-  TagOptions?: TagOptionDetail[];
-  Budgets?: BudgetDetail[];
+  PortfolioDetail?: PortfolioDetail | undefined;
+  Tags?: Tag[] | undefined;
+  TagOptions?: TagOptionDetail[] | undefined;
+  Budgets?: BudgetDetail[] | undefined;
 }
 export type DescribePortfolioShareType =
   | "ACCOUNT"
@@ -636,20 +638,20 @@ export type PageSizeMax100 = number;
 export interface DescribePortfolioSharesInput {
   PortfolioId: string;
   Type: DescribePortfolioShareType;
-  PageToken?: string;
-  PageSize?: number;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface PortfolioShareDetail {
-  PrincipalId?: string;
-  Type?: DescribePortfolioShareType;
-  Accepted?: boolean;
-  ShareTagOptions?: boolean;
-  SharePrincipals?: boolean;
+  PrincipalId?: string | undefined;
+  Type?: DescribePortfolioShareType | undefined;
+  Accepted?: boolean | undefined;
+  ShareTagOptions?: boolean | undefined;
+  SharePrincipals?: boolean | undefined;
 }
 export type PortfolioShareDetails = PortfolioShareDetail[];
 export interface DescribePortfolioSharesOutput {
-  NextPageToken?: string;
-  PortfolioShareDetails?: PortfolioShareDetail[];
+  NextPageToken?: string | undefined;
+  PortfolioShareDetails?: PortfolioShareDetail[] | undefined;
 }
 export interface DescribePortfolioShareStatusInput {
   PortfolioShareToken: string;
@@ -665,81 +667,81 @@ export type SuccessfulShares = string[];
 export type Namespaces = string[];
 export type Message = string;
 export interface ShareError {
-  Accounts?: string[];
-  Message?: string;
-  Error?: string;
+  Accounts?: string[] | undefined;
+  Message?: string | undefined;
+  Error?: string | undefined;
 }
 export type ShareErrors = ShareError[];
 export interface ShareDetails {
-  SuccessfulShares?: string[];
-  ShareErrors?: ShareError[];
+  SuccessfulShares?: string[] | undefined;
+  ShareErrors?: ShareError[] | undefined;
 }
 export interface DescribePortfolioShareStatusOutput {
-  PortfolioShareToken?: string;
-  PortfolioId?: string;
-  OrganizationNodeValue?: string;
-  Status?: ShareStatus;
-  ShareDetails?: ShareDetails;
+  PortfolioShareToken?: string | undefined;
+  PortfolioId?: string | undefined;
+  OrganizationNodeValue?: string | undefined;
+  Status?: ShareStatus | undefined;
+  ShareDetails?: ShareDetails | undefined;
 }
 export interface DescribeProductInput {
-  AcceptLanguage?: string;
-  Id?: string;
-  Name?: string;
+  AcceptLanguage?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
 }
 export type ProvisioningArtifactCreatedTime = Date;
 export interface ProvisioningArtifact {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  CreatedTime?: Date;
-  Guidance?: ProvisioningArtifactGuidance;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedTime?: Date | undefined;
+  Guidance?: ProvisioningArtifactGuidance | undefined;
 }
 export type ProvisioningArtifacts = ProvisioningArtifact[];
 export type PortfolioName = string;
 export interface LaunchPath {
-  Id?: string;
-  Name?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
 }
 export type LaunchPaths = LaunchPath[];
 export interface DescribeProductOutput {
-  ProductViewSummary?: ProductViewSummary;
-  ProvisioningArtifacts?: ProvisioningArtifact[];
-  Budgets?: BudgetDetail[];
-  LaunchPaths?: LaunchPath[];
+  ProductViewSummary?: ProductViewSummary | undefined;
+  ProvisioningArtifacts?: ProvisioningArtifact[] | undefined;
+  Budgets?: BudgetDetail[] | undefined;
+  LaunchPaths?: LaunchPath[] | undefined;
 }
 export interface DescribeProductAsAdminInput {
-  AcceptLanguage?: string;
-  Id?: string;
-  Name?: string;
-  SourcePortfolioId?: string;
+  AcceptLanguage?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  SourcePortfolioId?: string | undefined;
 }
 export interface ProvisioningArtifactSummary {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  CreatedTime?: Date;
-  ProvisioningArtifactMetadata?: { [key: string]: string | undefined };
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedTime?: Date | undefined;
+  ProvisioningArtifactMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export type ProvisioningArtifactSummaries = ProvisioningArtifactSummary[];
 export interface DescribeProductAsAdminOutput {
-  ProductViewDetail?: ProductViewDetail;
-  ProvisioningArtifactSummaries?: ProvisioningArtifactSummary[];
-  Tags?: Tag[];
-  TagOptions?: TagOptionDetail[];
-  Budgets?: BudgetDetail[];
+  ProductViewDetail?: ProductViewDetail | undefined;
+  ProvisioningArtifactSummaries?: ProvisioningArtifactSummary[] | undefined;
+  Tags?: Tag[] | undefined;
+  TagOptions?: TagOptionDetail[] | undefined;
+  Budgets?: BudgetDetail[] | undefined;
 }
 export interface DescribeProductViewInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
 }
 export interface DescribeProductViewOutput {
-  ProductViewSummary?: ProductViewSummary;
-  ProvisioningArtifacts?: ProvisioningArtifact[];
+  ProductViewSummary?: ProductViewSummary | undefined;
+  ProvisioningArtifacts?: ProvisioningArtifact[] | undefined;
 }
 export interface DescribeProvisionedProductInput {
-  AcceptLanguage?: string;
-  Id?: string;
-  Name?: string;
+  AcceptLanguage?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
 }
 export type ProvisionedProductNameOrArn = string;
 export type ProvisionedProductType = string;
@@ -755,36 +757,36 @@ export type ProvisionedProductStatusMessage = string;
 export type LastRequestId = string;
 export type RoleArn = string;
 export interface ProvisionedProductDetail {
-  Name?: string;
-  Arn?: string;
-  Type?: string;
-  Id?: string;
-  Status?: ProvisionedProductStatus;
-  StatusMessage?: string;
-  CreatedTime?: Date;
-  IdempotencyToken?: string;
-  LastRecordId?: string;
-  LastProvisioningRecordId?: string;
-  LastSuccessfulProvisioningRecordId?: string;
-  ProductId?: string;
-  ProvisioningArtifactId?: string;
-  LaunchRoleArn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Type?: string | undefined;
+  Id?: string | undefined;
+  Status?: ProvisionedProductStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreatedTime?: Date | undefined;
+  IdempotencyToken?: string | undefined;
+  LastRecordId?: string | undefined;
+  LastProvisioningRecordId?: string | undefined;
+  LastSuccessfulProvisioningRecordId?: string | undefined;
+  ProductId?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  LaunchRoleArn?: string | undefined;
 }
 export type CloudWatchDashboardName = string;
 export interface CloudWatchDashboard {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type CloudWatchDashboards = CloudWatchDashboard[];
 export interface DescribeProvisionedProductOutput {
-  ProvisionedProductDetail?: ProvisionedProductDetail;
-  CloudWatchDashboards?: CloudWatchDashboard[];
+  ProvisionedProductDetail?: ProvisionedProductDetail | undefined;
+  CloudWatchDashboards?: CloudWatchDashboard[] | undefined;
 }
 export type PageSize = number;
 export interface DescribeProvisionedProductPlanInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PlanId: string;
-  PageSize?: number;
-  PageToken?: string;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export type ProvisionedProductPlanStatus =
   | "CREATE_IN_PROGRESS"
@@ -797,21 +799,21 @@ export type ProvisionedProductPlanStatus =
 export type UpdatedTime = Date;
 export type StatusMessage = string;
 export interface ProvisionedProductPlanDetails {
-  CreatedTime?: Date;
-  PathId?: string;
-  ProductId?: string;
-  PlanName?: string;
-  PlanId?: string;
-  ProvisionProductId?: string;
-  ProvisionProductName?: string;
-  PlanType?: ProvisionedProductPlanType;
-  ProvisioningArtifactId?: string;
-  Status?: ProvisionedProductPlanStatus;
-  UpdatedTime?: Date;
-  NotificationArns?: string[];
-  ProvisioningParameters?: UpdateProvisioningParameter[];
-  Tags?: Tag[];
-  StatusMessage?: string;
+  CreatedTime?: Date | undefined;
+  PathId?: string | undefined;
+  ProductId?: string | undefined;
+  PlanName?: string | undefined;
+  PlanId?: string | undefined;
+  ProvisionProductId?: string | undefined;
+  ProvisionProductName?: string | undefined;
+  PlanType?: ProvisionedProductPlanType | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  Status?: ProvisionedProductPlanStatus | undefined;
+  UpdatedTime?: Date | undefined;
+  NotificationArns?: string[] | undefined;
+  ProvisioningParameters?: UpdateProvisioningParameter[] | undefined;
+  Tags?: Tag[] | undefined;
+  StatusMessage?: string | undefined;
 }
 export type ChangeAction = "ADD" | "MODIFY" | "REMOVE" | (string & {});
 export type LogicalResourceId = string;
@@ -830,42 +832,42 @@ export type Scope = ResourceAttribute[];
 export type PropertyName = string;
 export type RequiresRecreation = "NEVER" | "CONDITIONALLY" | "ALWAYS" | (string & {});
 export interface ResourceTargetDefinition {
-  Attribute?: ResourceAttribute;
-  Name?: string;
-  RequiresRecreation?: RequiresRecreation;
+  Attribute?: ResourceAttribute | undefined;
+  Name?: string | undefined;
+  RequiresRecreation?: RequiresRecreation | undefined;
 }
 export type EvaluationType = "STATIC" | "DYNAMIC" | (string & {});
 export type CausingEntity = string;
 export interface ResourceChangeDetail {
-  Target?: ResourceTargetDefinition;
-  Evaluation?: EvaluationType;
-  CausingEntity?: string;
+  Target?: ResourceTargetDefinition | undefined;
+  Evaluation?: EvaluationType | undefined;
+  CausingEntity?: string | undefined;
 }
 export type ResourceChangeDetails = ResourceChangeDetail[];
 export interface ResourceChange {
-  Action?: ChangeAction;
-  LogicalResourceId?: string;
-  PhysicalResourceId?: string;
-  ResourceType?: string;
-  Replacement?: Replacement;
-  Scope?: ResourceAttribute[];
-  Details?: ResourceChangeDetail[];
+  Action?: ChangeAction | undefined;
+  LogicalResourceId?: string | undefined;
+  PhysicalResourceId?: string | undefined;
+  ResourceType?: string | undefined;
+  Replacement?: Replacement | undefined;
+  Scope?: ResourceAttribute[] | undefined;
+  Details?: ResourceChangeDetail[] | undefined;
 }
 export type ResourceChanges = ResourceChange[];
 export interface DescribeProvisionedProductPlanOutput {
-  ProvisionedProductPlanDetails?: ProvisionedProductPlanDetails;
-  ResourceChanges?: ResourceChange[];
-  NextPageToken?: string;
+  ProvisionedProductPlanDetails?: ProvisionedProductPlanDetails | undefined;
+  ResourceChanges?: ResourceChange[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type Verbose = boolean;
 export interface DescribeProvisioningArtifactInput {
-  AcceptLanguage?: string;
-  ProvisioningArtifactId?: string;
-  ProductId?: string;
-  ProvisioningArtifactName?: string;
-  ProductName?: string;
-  Verbose?: boolean;
-  IncludeProvisioningArtifactParameters?: boolean;
+  AcceptLanguage?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  ProductId?: string | undefined;
+  ProvisioningArtifactName?: string | undefined;
+  ProductName?: string | undefined;
+  Verbose?: boolean | undefined;
+  IncludeProvisioningArtifactParameters?: boolean | undefined;
 }
 export type DefaultValue = string;
 export type ParameterType = string;
@@ -873,84 +875,84 @@ export type NoEcho = boolean;
 export type Description = string;
 export type AllowedValues = string[];
 export interface ParameterConstraints {
-  AllowedValues?: string[];
-  AllowedPattern?: string;
-  ConstraintDescription?: string;
-  MaxLength?: string;
-  MinLength?: string;
-  MaxValue?: string;
-  MinValue?: string;
+  AllowedValues?: string[] | undefined;
+  AllowedPattern?: string | undefined;
+  ConstraintDescription?: string | undefined;
+  MaxLength?: string | undefined;
+  MinLength?: string | undefined;
+  MaxValue?: string | undefined;
+  MinValue?: string | undefined;
 }
 export interface ProvisioningArtifactParameter {
-  ParameterKey?: string;
-  DefaultValue?: string;
-  ParameterType?: string;
-  IsNoEcho?: boolean;
-  Description?: string;
-  ParameterConstraints?: ParameterConstraints;
+  ParameterKey?: string | undefined;
+  DefaultValue?: string | undefined;
+  ParameterType?: string | undefined;
+  IsNoEcho?: boolean | undefined;
+  Description?: string | undefined;
+  ParameterConstraints?: ParameterConstraints | undefined;
 }
 export type ProvisioningArtifactParameters = ProvisioningArtifactParameter[];
 export interface DescribeProvisioningArtifactOutput {
-  ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Info?: { [key: string]: string | undefined };
-  Status?: Status;
-  ProvisioningArtifactParameters?: ProvisioningArtifactParameter[];
+  ProvisioningArtifactDetail?: ProvisioningArtifactDetail | undefined;
+  Info?: { [key: string]: string | undefined } | undefined;
+  Status?: Status | undefined;
+  ProvisioningArtifactParameters?: ProvisioningArtifactParameter[] | undefined;
 }
 export interface DescribeProvisioningParametersInput {
-  AcceptLanguage?: string;
-  ProductId?: string;
-  ProductName?: string;
-  ProvisioningArtifactId?: string;
-  ProvisioningArtifactName?: string;
-  PathId?: string;
-  PathName?: string;
+  AcceptLanguage?: string | undefined;
+  ProductId?: string | undefined;
+  ProductName?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  ProvisioningArtifactName?: string | undefined;
+  PathId?: string | undefined;
+  PathName?: string | undefined;
 }
 export interface ConstraintSummary {
-  Type?: string;
-  Description?: string;
+  Type?: string | undefined;
+  Description?: string | undefined;
 }
 export type ConstraintSummaries = ConstraintSummary[];
 export type InstructionType = string;
 export type InstructionValue = string;
 export interface UsageInstruction {
-  Type?: string;
-  Value?: string;
+  Type?: string | undefined;
+  Value?: string | undefined;
 }
 export type UsageInstructions = UsageInstruction[];
 export type TagOptionValues = string[];
 export interface TagOptionSummary {
-  Key?: string;
-  Values?: string[];
+  Key?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type TagOptionSummaries = TagOptionSummary[];
 export type StackSetAccounts = string[];
 export type Region = string;
 export type StackSetRegions = string[];
 export interface ProvisioningArtifactPreferences {
-  StackSetAccounts?: string[];
-  StackSetRegions?: string[];
+  StackSetAccounts?: string[] | undefined;
+  StackSetRegions?: string[] | undefined;
 }
 export type ProvisioningArtifactOutputKey = string;
 export type OutputDescription = string;
 export interface ProvisioningArtifactOutput {
-  Key?: string;
-  Description?: string;
+  Key?: string | undefined;
+  Description?: string | undefined;
 }
 export type ProvisioningArtifactOutputs = ProvisioningArtifactOutput[];
 export interface DescribeProvisioningParametersOutput {
-  ProvisioningArtifactParameters?: ProvisioningArtifactParameter[];
-  ConstraintSummaries?: ConstraintSummary[];
-  UsageInstructions?: UsageInstruction[];
-  TagOptions?: TagOptionSummary[];
-  ProvisioningArtifactPreferences?: ProvisioningArtifactPreferences;
-  ProvisioningArtifactOutputs?: ProvisioningArtifactOutput[];
-  ProvisioningArtifactOutputKeys?: ProvisioningArtifactOutput[];
+  ProvisioningArtifactParameters?: ProvisioningArtifactParameter[] | undefined;
+  ConstraintSummaries?: ConstraintSummary[] | undefined;
+  UsageInstructions?: UsageInstruction[] | undefined;
+  TagOptions?: TagOptionSummary[] | undefined;
+  ProvisioningArtifactPreferences?: ProvisioningArtifactPreferences | undefined;
+  ProvisioningArtifactOutputs?: ProvisioningArtifactOutput[] | undefined;
+  ProvisioningArtifactOutputKeys?: ProvisioningArtifactOutput[] | undefined;
 }
 export interface DescribeRecordInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
-  PageToken?: string;
-  PageSize?: number;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type RecordStatus =
   | "CREATED"
@@ -963,76 +965,76 @@ export type RecordType = string;
 export type ErrorCode = string;
 export type ErrorDescription = string;
 export interface RecordError {
-  Code?: string;
-  Description?: string;
+  Code?: string | undefined;
+  Description?: string | undefined;
 }
 export type RecordErrors = RecordError[];
 export type RecordTagKey = string;
 export type RecordTagValue = string;
 export interface RecordTag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type RecordTags = RecordTag[];
 export interface RecordDetail {
-  RecordId?: string;
-  ProvisionedProductName?: string;
-  Status?: RecordStatus;
-  CreatedTime?: Date;
-  UpdatedTime?: Date;
-  ProvisionedProductType?: string;
-  RecordType?: string;
-  ProvisionedProductId?: string;
-  ProductId?: string;
-  ProvisioningArtifactId?: string;
-  PathId?: string;
-  RecordErrors?: RecordError[];
-  RecordTags?: RecordTag[];
-  LaunchRoleArn?: string;
+  RecordId?: string | undefined;
+  ProvisionedProductName?: string | undefined;
+  Status?: RecordStatus | undefined;
+  CreatedTime?: Date | undefined;
+  UpdatedTime?: Date | undefined;
+  ProvisionedProductType?: string | undefined;
+  RecordType?: string | undefined;
+  ProvisionedProductId?: string | undefined;
+  ProductId?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  PathId?: string | undefined;
+  RecordErrors?: RecordError[] | undefined;
+  RecordTags?: RecordTag[] | undefined;
+  LaunchRoleArn?: string | undefined;
 }
 export type OutputKey = string;
 export type OutputValue = string;
 export interface RecordOutput {
-  OutputKey?: string;
-  OutputValue?: string;
-  Description?: string;
+  OutputKey?: string | undefined;
+  OutputValue?: string | undefined;
+  Description?: string | undefined;
 }
 export type RecordOutputs = RecordOutput[];
 export interface DescribeRecordOutput {
-  RecordDetail?: RecordDetail;
-  RecordOutputs?: RecordOutput[];
-  NextPageToken?: string;
+  RecordDetail?: RecordDetail | undefined;
+  RecordOutputs?: RecordOutput[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface DescribeServiceActionInput {
   Id: string;
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
 }
 export interface DescribeServiceActionOutput {
-  ServiceActionDetail?: ServiceActionDetail;
+  ServiceActionDetail?: ServiceActionDetail | undefined;
 }
 export interface DescribeServiceActionExecutionParametersInput {
   ProvisionedProductId: string;
   ServiceActionId: string;
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
 }
 export type ExecutionParameterKey = string;
 export type ExecutionParameterType = string;
 export type ExecutionParameterValue = string;
 export type ExecutionParameterValueList = string[];
 export interface ExecutionParameter {
-  Name?: string;
-  Type?: string;
-  DefaultValues?: string[];
+  Name?: string | undefined;
+  Type?: string | undefined;
+  DefaultValues?: string[] | undefined;
 }
 export type ExecutionParameters = ExecutionParameter[];
 export interface DescribeServiceActionExecutionParametersOutput {
-  ServiceActionParameters?: ExecutionParameter[];
+  ServiceActionParameters?: ExecutionParameter[] | undefined;
 }
 export interface DescribeTagOptionInput {
   Id: string;
 }
 export interface DescribeTagOptionOutput {
-  TagOptionDetail?: TagOptionDetail;
+  TagOptionDetail?: TagOptionDetail | undefined;
 }
 export interface DisableAWSOrganizationsAccessInput {}
 export interface DisableAWSOrganizationsAccessOutput {}
@@ -1042,14 +1044,14 @@ export interface DisassociateBudgetFromResourceInput {
 }
 export interface DisassociateBudgetFromResourceOutput {}
 export interface DisassociatePrincipalFromPortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
   PrincipalARN: string;
-  PrincipalType?: PrincipalType;
+  PrincipalType?: PrincipalType | undefined;
 }
 export interface DisassociatePrincipalFromPortfolioOutput {}
 export interface DisassociateProductFromPortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
   PortfolioId: string;
 }
@@ -1058,8 +1060,8 @@ export interface DisassociateServiceActionFromProvisioningArtifactInput {
   ProductId: string;
   ProvisioningArtifactId: string;
   ServiceActionId: string;
-  AcceptLanguage?: string;
-  IdempotencyToken?: string;
+  AcceptLanguage?: string | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface DisassociateServiceActionFromProvisioningArtifactOutput {}
 export interface DisassociateTagOptionFromResourceInput {
@@ -1070,45 +1072,45 @@ export interface DisassociateTagOptionFromResourceOutput {}
 export interface EnableAWSOrganizationsAccessInput {}
 export interface EnableAWSOrganizationsAccessOutput {}
 export interface ExecuteProvisionedProductPlanInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PlanId: string;
   IdempotencyToken: string;
 }
 export interface ExecuteProvisionedProductPlanOutput {
-  RecordDetail?: RecordDetail;
+  RecordDetail?: RecordDetail | undefined;
 }
 export type ExecutionParameterMap = { [key: string]: string[] | undefined };
 export interface ExecuteProvisionedProductServiceActionInput {
   ProvisionedProductId: string;
   ServiceActionId: string;
   ExecuteToken: string;
-  AcceptLanguage?: string;
-  Parameters?: { [key: string]: string[] | undefined };
+  AcceptLanguage?: string | undefined;
+  Parameters?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface ExecuteProvisionedProductServiceActionOutput {
-  RecordDetail?: RecordDetail;
+  RecordDetail?: RecordDetail | undefined;
 }
 export interface GetAWSOrganizationsAccessStatusInput {}
 export type AccessStatus = "ENABLED" | "UNDER_CHANGE" | "DISABLED" | (string & {});
 export interface GetAWSOrganizationsAccessStatusOutput {
-  AccessStatus?: AccessStatus;
+  AccessStatus?: AccessStatus | undefined;
 }
 export type OutputKeys = string[];
 export interface GetProvisionedProductOutputsInput {
-  AcceptLanguage?: string;
-  ProvisionedProductId?: string;
-  ProvisionedProductName?: string;
-  OutputKeys?: string[];
-  PageSize?: number;
-  PageToken?: string;
+  AcceptLanguage?: string | undefined;
+  ProvisionedProductId?: string | undefined;
+  ProvisionedProductName?: string | undefined;
+  OutputKeys?: string[] | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export interface GetProvisionedProductOutputsOutput {
-  Outputs?: RecordOutput[];
-  NextPageToken?: string;
+  Outputs?: RecordOutput[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type PhysicalId = string;
 export interface ImportAsProvisionedProductInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
   ProvisioningArtifactId: string;
   ProvisionedProductName: string;
@@ -1116,190 +1118,190 @@ export interface ImportAsProvisionedProductInput {
   IdempotencyToken: string;
 }
 export interface ImportAsProvisionedProductOutput {
-  RecordDetail?: RecordDetail;
+  RecordDetail?: RecordDetail | undefined;
 }
 export interface ListAcceptedPortfolioSharesInput {
-  AcceptLanguage?: string;
-  PageToken?: string;
-  PageSize?: number;
-  PortfolioShareType?: PortfolioShareType;
+  AcceptLanguage?: string | undefined;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
+  PortfolioShareType?: PortfolioShareType | undefined;
 }
 export type PortfolioDetails = PortfolioDetail[];
 export interface ListAcceptedPortfolioSharesOutput {
-  PortfolioDetails?: PortfolioDetail[];
-  NextPageToken?: string;
+  PortfolioDetails?: PortfolioDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListBudgetsForResourceInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ResourceId: string;
-  PageSize?: number;
-  PageToken?: string;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export interface ListBudgetsForResourceOutput {
-  Budgets?: BudgetDetail[];
-  NextPageToken?: string;
+  Budgets?: BudgetDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListConstraintsForPortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  ProductId?: string;
-  PageSize?: number;
-  PageToken?: string;
+  ProductId?: string | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export type ConstraintDetails = ConstraintDetail[];
 export interface ListConstraintsForPortfolioOutput {
-  ConstraintDetails?: ConstraintDetail[];
-  NextPageToken?: string;
+  ConstraintDetails?: ConstraintDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListLaunchPathsInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
-  PageSize?: number;
-  PageToken?: string;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export interface LaunchPathSummary {
-  Id?: string;
-  ConstraintSummaries?: ConstraintSummary[];
-  Tags?: Tag[];
-  Name?: string;
+  Id?: string | undefined;
+  ConstraintSummaries?: ConstraintSummary[] | undefined;
+  Tags?: Tag[] | undefined;
+  Name?: string | undefined;
 }
 export type LaunchPathSummaries = LaunchPathSummary[];
 export interface ListLaunchPathsOutput {
-  LaunchPathSummaries?: LaunchPathSummary[];
-  NextPageToken?: string;
+  LaunchPathSummaries?: LaunchPathSummary[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListOrganizationPortfolioAccessInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
   OrganizationNodeType: OrganizationNodeType;
-  PageToken?: string;
-  PageSize?: number;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type OrganizationNodes = OrganizationNode[];
 export interface ListOrganizationPortfolioAccessOutput {
-  OrganizationNodes?: OrganizationNode[];
-  NextPageToken?: string;
+  OrganizationNodes?: OrganizationNode[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListPortfolioAccessInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  OrganizationParentId?: string;
-  PageToken?: string;
-  PageSize?: number;
+  OrganizationParentId?: string | undefined;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type AccountIds = string[];
 export interface ListPortfolioAccessOutput {
-  AccountIds?: string[];
-  NextPageToken?: string;
+  AccountIds?: string[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListPortfoliosInput {
-  AcceptLanguage?: string;
-  PageToken?: string;
-  PageSize?: number;
+  AcceptLanguage?: string | undefined;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface ListPortfoliosOutput {
-  PortfolioDetails?: PortfolioDetail[];
-  NextPageToken?: string;
+  PortfolioDetails?: PortfolioDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListPortfoliosForProductInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
-  PageToken?: string;
-  PageSize?: number;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface ListPortfoliosForProductOutput {
-  PortfolioDetails?: PortfolioDetail[];
-  NextPageToken?: string;
+  PortfolioDetails?: PortfolioDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListPrincipalsForPortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  PageSize?: number;
-  PageToken?: string;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export interface Principal {
-  PrincipalARN?: string;
-  PrincipalType?: PrincipalType;
+  PrincipalARN?: string | undefined;
+  PrincipalType?: PrincipalType | undefined;
 }
 export type Principals = Principal[];
 export interface ListPrincipalsForPortfolioOutput {
-  Principals?: Principal[];
-  NextPageToken?: string;
+  Principals?: Principal[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type AccessLevelFilterKey = "Account" | "Role" | "User" | (string & {});
 export type AccessLevelFilterValue = string;
 export interface AccessLevelFilter {
-  Key?: AccessLevelFilterKey;
-  Value?: string;
+  Key?: AccessLevelFilterKey | undefined;
+  Value?: string | undefined;
 }
 export interface ListProvisionedProductPlansInput {
-  AcceptLanguage?: string;
-  ProvisionProductId?: string;
-  PageSize?: number;
-  PageToken?: string;
-  AccessLevelFilter?: AccessLevelFilter;
+  AcceptLanguage?: string | undefined;
+  ProvisionProductId?: string | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
+  AccessLevelFilter?: AccessLevelFilter | undefined;
 }
 export interface ProvisionedProductPlanSummary {
-  PlanName?: string;
-  PlanId?: string;
-  ProvisionProductId?: string;
-  ProvisionProductName?: string;
-  PlanType?: ProvisionedProductPlanType;
-  ProvisioningArtifactId?: string;
+  PlanName?: string | undefined;
+  PlanId?: string | undefined;
+  ProvisionProductId?: string | undefined;
+  ProvisionProductName?: string | undefined;
+  PlanType?: ProvisionedProductPlanType | undefined;
+  ProvisioningArtifactId?: string | undefined;
 }
 export type ProvisionedProductPlans = ProvisionedProductPlanSummary[];
 export interface ListProvisionedProductPlansOutput {
-  ProvisionedProductPlans?: ProvisionedProductPlanSummary[];
-  NextPageToken?: string;
+  ProvisionedProductPlans?: ProvisionedProductPlanSummary[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListProvisioningArtifactsInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
 }
 export type ProvisioningArtifactDetails = ProvisioningArtifactDetail[];
 export interface ListProvisioningArtifactsOutput {
-  ProvisioningArtifactDetails?: ProvisioningArtifactDetail[];
-  NextPageToken?: string;
+  ProvisioningArtifactDetails?: ProvisioningArtifactDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListProvisioningArtifactsForServiceActionInput {
   ServiceActionId: string;
-  PageSize?: number;
-  PageToken?: string;
-  AcceptLanguage?: string;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
+  AcceptLanguage?: string | undefined;
 }
 export interface ProvisioningArtifactView {
-  ProductViewSummary?: ProductViewSummary;
-  ProvisioningArtifact?: ProvisioningArtifact;
+  ProductViewSummary?: ProductViewSummary | undefined;
+  ProvisioningArtifact?: ProvisioningArtifact | undefined;
 }
 export type ProvisioningArtifactViews = ProvisioningArtifactView[];
 export interface ListProvisioningArtifactsForServiceActionOutput {
-  ProvisioningArtifactViews?: ProvisioningArtifactView[];
-  NextPageToken?: string;
+  ProvisioningArtifactViews?: ProvisioningArtifactView[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type SearchFilterKey = string;
 export type SearchFilterValue = string;
 export interface ListRecordHistorySearchFilter {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export interface ListRecordHistoryInput {
-  AcceptLanguage?: string;
-  AccessLevelFilter?: AccessLevelFilter;
-  SearchFilter?: ListRecordHistorySearchFilter;
-  PageSize?: number;
-  PageToken?: string;
+  AcceptLanguage?: string | undefined;
+  AccessLevelFilter?: AccessLevelFilter | undefined;
+  SearchFilter?: ListRecordHistorySearchFilter | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export type RecordDetails = RecordDetail[];
 export interface ListRecordHistoryOutput {
-  RecordDetails?: RecordDetail[];
-  NextPageToken?: string;
+  RecordDetails?: RecordDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type ResourceType = string;
 export interface ListResourcesForTagOptionInput {
   TagOptionId: string;
-  ResourceType?: string;
-  PageSize?: number;
-  PageToken?: string;
+  ResourceType?: string | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export type ResourceDetailId = string;
 export type ResourceDetailARN = string;
@@ -1307,68 +1309,68 @@ export type ResourceDetailName = string;
 export type ResourceDetailDescription = string;
 export type ResourceDetailCreatedTime = Date;
 export interface ResourceDetail {
-  Id?: string;
-  ARN?: string;
-  Name?: string;
-  Description?: string;
-  CreatedTime?: Date;
+  Id?: string | undefined;
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedTime?: Date | undefined;
 }
 export type ResourceDetails = ResourceDetail[];
 export interface ListResourcesForTagOptionOutput {
-  ResourceDetails?: ResourceDetail[];
-  PageToken?: string;
+  ResourceDetails?: ResourceDetail[] | undefined;
+  PageToken?: string | undefined;
 }
 export interface ListServiceActionsInput {
-  AcceptLanguage?: string;
-  PageSize?: number;
-  PageToken?: string;
+  AcceptLanguage?: string | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export type ServiceActionSummaries = ServiceActionSummary[];
 export interface ListServiceActionsOutput {
-  ServiceActionSummaries?: ServiceActionSummary[];
-  NextPageToken?: string;
+  ServiceActionSummaries?: ServiceActionSummary[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListServiceActionsForProvisioningArtifactInput {
   ProductId: string;
   ProvisioningArtifactId: string;
-  PageSize?: number;
-  PageToken?: string;
-  AcceptLanguage?: string;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
+  AcceptLanguage?: string | undefined;
 }
 export interface ListServiceActionsForProvisioningArtifactOutput {
-  ServiceActionSummaries?: ServiceActionSummary[];
-  NextPageToken?: string;
+  ServiceActionSummaries?: ServiceActionSummary[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListStackInstancesForProvisionedProductInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProvisionedProductId: string;
-  PageToken?: string;
-  PageSize?: number;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type StackInstanceStatus = "CURRENT" | "OUTDATED" | "INOPERABLE" | (string & {});
 export interface StackInstance {
-  Account?: string;
-  Region?: string;
-  StackInstanceStatus?: StackInstanceStatus;
+  Account?: string | undefined;
+  Region?: string | undefined;
+  StackInstanceStatus?: StackInstanceStatus | undefined;
 }
 export type StackInstances = StackInstance[];
 export interface ListStackInstancesForProvisionedProductOutput {
-  StackInstances?: StackInstance[];
-  NextPageToken?: string;
+  StackInstances?: StackInstance[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListTagOptionsFilters {
-  Key?: string;
-  Value?: string;
-  Active?: boolean;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  Active?: boolean | undefined;
 }
 export interface ListTagOptionsInput {
-  Filters?: ListTagOptionsFilters;
-  PageSize?: number;
-  PageToken?: string;
+  Filters?: ListTagOptionsFilters | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export interface ListTagOptionsOutput {
-  TagOptionDetails?: TagOptionDetail[];
-  PageToken?: string;
+  TagOptionDetails?: TagOptionDetail[] | undefined;
+  PageToken?: string | undefined;
 }
 export type EngineWorkflowToken = string;
 export type EngineWorkflowStatus = "SUCCEEDED" | "FAILED" | (string & {});
@@ -1376,19 +1378,19 @@ export type EngineWorkflowFailureReason = string;
 export type UniqueTagKey = string;
 export type UniqueTagValue = string;
 export interface UniqueTagResourceIdentifier {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export interface EngineWorkflowResourceIdentifier {
-  UniqueTag?: UniqueTagResourceIdentifier;
+  UniqueTag?: UniqueTagResourceIdentifier | undefined;
 }
 export interface NotifyProvisionProductEngineWorkflowResultInput {
   WorkflowToken: string;
   RecordId: string;
   Status: EngineWorkflowStatus;
-  FailureReason?: string;
-  ResourceIdentifier?: EngineWorkflowResourceIdentifier;
-  Outputs?: RecordOutput[];
+  FailureReason?: string | undefined;
+  ResourceIdentifier?: EngineWorkflowResourceIdentifier | undefined;
+  Outputs?: RecordOutput[] | undefined;
   IdempotencyToken: string;
 }
 export interface NotifyProvisionProductEngineWorkflowResultOutput {}
@@ -1396,7 +1398,7 @@ export interface NotifyTerminateProvisionedProductEngineWorkflowResultInput {
   WorkflowToken: string;
   RecordId: string;
   Status: EngineWorkflowStatus;
-  FailureReason?: string;
+  FailureReason?: string | undefined;
   IdempotencyToken: string;
 }
 export interface NotifyTerminateProvisionedProductEngineWorkflowResultOutput {}
@@ -1404,14 +1406,14 @@ export interface NotifyUpdateProvisionedProductEngineWorkflowResultInput {
   WorkflowToken: string;
   RecordId: string;
   Status: EngineWorkflowStatus;
-  FailureReason?: string;
-  Outputs?: RecordOutput[];
+  FailureReason?: string | undefined;
+  Outputs?: RecordOutput[] | undefined;
   IdempotencyToken: string;
 }
 export interface NotifyUpdateProvisionedProductEngineWorkflowResultOutput {}
 export interface ProvisioningParameter {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type ProvisioningParameters = ProvisioningParameter[];
 export type StackSetFailureToleranceCount = number;
@@ -1419,47 +1421,47 @@ export type StackSetFailureTolerancePercentage = number;
 export type StackSetMaxConcurrencyCount = number;
 export type StackSetMaxConcurrencyPercentage = number;
 export interface ProvisioningPreferences {
-  StackSetAccounts?: string[];
-  StackSetRegions?: string[];
-  StackSetFailureToleranceCount?: number;
-  StackSetFailureTolerancePercentage?: number;
-  StackSetMaxConcurrencyCount?: number;
-  StackSetMaxConcurrencyPercentage?: number;
+  StackSetAccounts?: string[] | undefined;
+  StackSetRegions?: string[] | undefined;
+  StackSetFailureToleranceCount?: number | undefined;
+  StackSetFailureTolerancePercentage?: number | undefined;
+  StackSetMaxConcurrencyCount?: number | undefined;
+  StackSetMaxConcurrencyPercentage?: number | undefined;
 }
 export interface ProvisionProductInput {
-  AcceptLanguage?: string;
-  ProductId?: string;
-  ProductName?: string;
-  ProvisioningArtifactId?: string;
-  ProvisioningArtifactName?: string;
-  PathId?: string;
-  PathName?: string;
+  AcceptLanguage?: string | undefined;
+  ProductId?: string | undefined;
+  ProductName?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  ProvisioningArtifactName?: string | undefined;
+  PathId?: string | undefined;
+  PathName?: string | undefined;
   ProvisionedProductName: string;
-  ProvisioningParameters?: ProvisioningParameter[];
-  ProvisioningPreferences?: ProvisioningPreferences;
-  Tags?: Tag[];
-  NotificationArns?: string[];
+  ProvisioningParameters?: ProvisioningParameter[] | undefined;
+  ProvisioningPreferences?: ProvisioningPreferences | undefined;
+  Tags?: Tag[] | undefined;
+  NotificationArns?: string[] | undefined;
   ProvisionToken: string;
 }
 export interface ProvisionProductOutput {
-  RecordDetail?: RecordDetail;
+  RecordDetail?: RecordDetail | undefined;
 }
 export interface RejectPortfolioShareInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  PortfolioShareType?: PortfolioShareType;
+  PortfolioShareType?: PortfolioShareType | undefined;
 }
 export interface RejectPortfolioShareOutput {}
 export interface ScanProvisionedProductsInput {
-  AcceptLanguage?: string;
-  AccessLevelFilter?: AccessLevelFilter;
-  PageSize?: number;
-  PageToken?: string;
+  AcceptLanguage?: string | undefined;
+  AccessLevelFilter?: AccessLevelFilter | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export type ProvisionedProductDetails = ProvisionedProductDetail[];
 export interface ScanProvisionedProductsOutput {
-  ProvisionedProducts?: ProvisionedProductDetail[];
-  NextPageToken?: string;
+  ProvisionedProducts?: ProvisionedProductDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type ProductViewFilterBy =
   | "FullTextSearch"
@@ -1469,234 +1471,238 @@ export type ProductViewFilterBy =
   | (string & {});
 export type ProductViewFilterValue = string;
 export type ProductViewFilterValues = string[];
-export type ProductViewFilters = { [key in ProductViewFilterBy]?: string[] };
+export type ProductViewFilters = { [key in ProductViewFilterBy]?: string[] | undefined };
 export type ProductViewSortBy = "Title" | "VersionCount" | "CreationDate" | (string & {});
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface SearchProductsInput {
-  AcceptLanguage?: string;
-  Filters?: { [key: string]: string[] | undefined };
-  PageSize?: number;
-  SortBy?: ProductViewSortBy;
-  SortOrder?: SortOrder;
-  PageToken?: string;
+  AcceptLanguage?: string | undefined;
+  Filters?: { [key: string]: string[] | undefined } | undefined;
+  PageSize?: number | undefined;
+  SortBy?: ProductViewSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
+  PageToken?: string | undefined;
 }
 export type ProductViewSummaries = ProductViewSummary[];
 export type ProductViewAggregationType = string;
 export type AttributeValue = string;
 export type ApproximateCount = number;
 export interface ProductViewAggregationValue {
-  Value?: string;
-  ApproximateCount?: number;
+  Value?: string | undefined;
+  ApproximateCount?: number | undefined;
 }
 export type ProductViewAggregationValues = ProductViewAggregationValue[];
 export type ProductViewAggregations = { [key: string]: ProductViewAggregationValue[] | undefined };
 export interface SearchProductsOutput {
-  ProductViewSummaries?: ProductViewSummary[];
-  ProductViewAggregations?: { [key: string]: ProductViewAggregationValue[] | undefined };
-  NextPageToken?: string;
+  ProductViewSummaries?: ProductViewSummary[] | undefined;
+  ProductViewAggregations?:
+    | { [key: string]: ProductViewAggregationValue[] | undefined }
+    | undefined;
+  NextPageToken?: string | undefined;
 }
 export type ProductSource = "ACCOUNT" | (string & {});
 export interface SearchProductsAsAdminInput {
-  AcceptLanguage?: string;
-  PortfolioId?: string;
-  Filters?: { [key: string]: string[] | undefined };
-  SortBy?: ProductViewSortBy;
-  SortOrder?: SortOrder;
-  PageToken?: string;
-  PageSize?: number;
-  ProductSource?: ProductSource;
+  AcceptLanguage?: string | undefined;
+  PortfolioId?: string | undefined;
+  Filters?: { [key: string]: string[] | undefined } | undefined;
+  SortBy?: ProductViewSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
+  ProductSource?: ProductSource | undefined;
 }
 export type ProductViewDetails = ProductViewDetail[];
 export interface SearchProductsAsAdminOutput {
-  ProductViewDetails?: ProductViewDetail[];
-  NextPageToken?: string;
+  ProductViewDetails?: ProductViewDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type ProvisionedProductViewFilterBy = "SearchQuery" | (string & {});
 export type ProvisionedProductViewFilterValue = string;
 export type ProvisionedProductViewFilterValues = string[];
-export type ProvisionedProductFilters = { [key in ProvisionedProductViewFilterBy]?: string[] };
+export type ProvisionedProductFilters = {
+  [key in ProvisionedProductViewFilterBy]?: string[] | undefined;
+};
 export type SortField = string;
 export type SearchProvisionedProductsPageSize = number;
 export interface SearchProvisionedProductsInput {
-  AcceptLanguage?: string;
-  AccessLevelFilter?: AccessLevelFilter;
-  Filters?: { [key: string]: string[] | undefined };
-  SortBy?: string;
-  SortOrder?: SortOrder;
-  PageSize?: number;
-  PageToken?: string;
+  AcceptLanguage?: string | undefined;
+  AccessLevelFilter?: AccessLevelFilter | undefined;
+  Filters?: { [key: string]: string[] | undefined } | undefined;
+  SortBy?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export type UserArn = string;
 export type UserArnSession = string;
 export interface ProvisionedProductAttribute {
-  Name?: string;
-  Arn?: string;
-  Type?: string;
-  Id?: string;
-  Status?: ProvisionedProductStatus;
-  StatusMessage?: string;
-  CreatedTime?: Date;
-  IdempotencyToken?: string;
-  LastRecordId?: string;
-  LastProvisioningRecordId?: string;
-  LastSuccessfulProvisioningRecordId?: string;
-  Tags?: Tag[];
-  PhysicalId?: string;
-  ProductId?: string;
-  ProductName?: string;
-  ProvisioningArtifactId?: string;
-  ProvisioningArtifactName?: string;
-  UserArn?: string;
-  UserArnSession?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Type?: string | undefined;
+  Id?: string | undefined;
+  Status?: ProvisionedProductStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreatedTime?: Date | undefined;
+  IdempotencyToken?: string | undefined;
+  LastRecordId?: string | undefined;
+  LastProvisioningRecordId?: string | undefined;
+  LastSuccessfulProvisioningRecordId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  PhysicalId?: string | undefined;
+  ProductId?: string | undefined;
+  ProductName?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  ProvisioningArtifactName?: string | undefined;
+  UserArn?: string | undefined;
+  UserArnSession?: string | undefined;
 }
 export type ProvisionedProductAttributes = ProvisionedProductAttribute[];
 export type TotalResultsCount = number;
 export interface SearchProvisionedProductsOutput {
-  ProvisionedProducts?: ProvisionedProductAttribute[];
-  TotalResultsCount?: number;
-  NextPageToken?: string;
+  ProvisionedProducts?: ProvisionedProductAttribute[] | undefined;
+  TotalResultsCount?: number | undefined;
+  NextPageToken?: string | undefined;
 }
 export type RetainPhysicalResources = boolean;
 export interface TerminateProvisionedProductInput {
-  ProvisionedProductName?: string;
-  ProvisionedProductId?: string;
+  ProvisionedProductName?: string | undefined;
+  ProvisionedProductId?: string | undefined;
   TerminateToken: string;
-  IgnoreErrors?: boolean;
-  AcceptLanguage?: string;
-  RetainPhysicalResources?: boolean;
+  IgnoreErrors?: boolean | undefined;
+  AcceptLanguage?: string | undefined;
+  RetainPhysicalResources?: boolean | undefined;
 }
 export interface TerminateProvisionedProductOutput {
-  RecordDetail?: RecordDetail;
+  RecordDetail?: RecordDetail | undefined;
 }
 export interface UpdateConstraintInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
-  Description?: string;
-  Parameters?: string;
+  Description?: string | undefined;
+  Parameters?: string | undefined;
 }
 export interface UpdateConstraintOutput {
-  ConstraintDetail?: ConstraintDetail;
-  ConstraintParameters?: string;
-  Status?: Status;
+  ConstraintDetail?: ConstraintDetail | undefined;
+  ConstraintParameters?: string | undefined;
+  Status?: Status | undefined;
 }
 export type TagKeys = string[];
 export interface UpdatePortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
-  DisplayName?: string;
-  Description?: string;
-  ProviderName?: string;
-  AddTags?: Tag[];
-  RemoveTags?: string[];
+  DisplayName?: string | undefined;
+  Description?: string | undefined;
+  ProviderName?: string | undefined;
+  AddTags?: Tag[] | undefined;
+  RemoveTags?: string[] | undefined;
 }
 export interface UpdatePortfolioOutput {
-  PortfolioDetail?: PortfolioDetail;
-  Tags?: Tag[];
+  PortfolioDetail?: PortfolioDetail | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface UpdatePortfolioShareInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  AccountId?: string;
-  OrganizationNode?: OrganizationNode;
-  ShareTagOptions?: boolean;
-  SharePrincipals?: boolean;
+  AccountId?: string | undefined;
+  OrganizationNode?: OrganizationNode | undefined;
+  ShareTagOptions?: boolean | undefined;
+  SharePrincipals?: boolean | undefined;
 }
 export interface UpdatePortfolioShareOutput {
-  PortfolioShareToken?: string;
-  Status?: ShareStatus;
+  PortfolioShareToken?: string | undefined;
+  Status?: ShareStatus | undefined;
 }
 export interface UpdateProductInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
-  Name?: string;
-  Owner?: string;
-  Description?: string;
-  Distributor?: string;
-  SupportDescription?: string;
-  SupportEmail?: string;
-  SupportUrl?: string;
-  AddTags?: Tag[];
-  RemoveTags?: string[];
-  SourceConnection?: SourceConnection;
+  Name?: string | undefined;
+  Owner?: string | undefined;
+  Description?: string | undefined;
+  Distributor?: string | undefined;
+  SupportDescription?: string | undefined;
+  SupportEmail?: string | undefined;
+  SupportUrl?: string | undefined;
+  AddTags?: Tag[] | undefined;
+  RemoveTags?: string[] | undefined;
+  SourceConnection?: SourceConnection | undefined;
 }
 export interface UpdateProductOutput {
-  ProductViewDetail?: ProductViewDetail;
-  Tags?: Tag[];
+  ProductViewDetail?: ProductViewDetail | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type StackSetOperationType = "CREATE" | "UPDATE" | "DELETE" | (string & {});
 export interface UpdateProvisioningPreferences {
-  StackSetAccounts?: string[];
-  StackSetRegions?: string[];
-  StackSetFailureToleranceCount?: number;
-  StackSetFailureTolerancePercentage?: number;
-  StackSetMaxConcurrencyCount?: number;
-  StackSetMaxConcurrencyPercentage?: number;
-  StackSetOperationType?: StackSetOperationType;
+  StackSetAccounts?: string[] | undefined;
+  StackSetRegions?: string[] | undefined;
+  StackSetFailureToleranceCount?: number | undefined;
+  StackSetFailureTolerancePercentage?: number | undefined;
+  StackSetMaxConcurrencyCount?: number | undefined;
+  StackSetMaxConcurrencyPercentage?: number | undefined;
+  StackSetOperationType?: StackSetOperationType | undefined;
 }
 export interface UpdateProvisionedProductInput {
-  AcceptLanguage?: string;
-  ProvisionedProductName?: string;
-  ProvisionedProductId?: string;
-  ProductId?: string;
-  ProductName?: string;
-  ProvisioningArtifactId?: string;
-  ProvisioningArtifactName?: string;
-  PathId?: string;
-  PathName?: string;
-  ProvisioningParameters?: UpdateProvisioningParameter[];
-  ProvisioningPreferences?: UpdateProvisioningPreferences;
-  Tags?: Tag[];
+  AcceptLanguage?: string | undefined;
+  ProvisionedProductName?: string | undefined;
+  ProvisionedProductId?: string | undefined;
+  ProductId?: string | undefined;
+  ProductName?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  ProvisioningArtifactName?: string | undefined;
+  PathId?: string | undefined;
+  PathName?: string | undefined;
+  ProvisioningParameters?: UpdateProvisioningParameter[] | undefined;
+  ProvisioningPreferences?: UpdateProvisioningPreferences | undefined;
+  Tags?: Tag[] | undefined;
   UpdateToken: string;
 }
 export interface UpdateProvisionedProductOutput {
-  RecordDetail?: RecordDetail;
+  RecordDetail?: RecordDetail | undefined;
 }
 export type PropertyKey = "OWNER" | "LAUNCH_ROLE" | (string & {});
 export type PropertyValue = string;
-export type ProvisionedProductProperties = { [key in PropertyKey]?: string };
+export type ProvisionedProductProperties = { [key in PropertyKey]?: string | undefined };
 export interface UpdateProvisionedProductPropertiesInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProvisionedProductId: string;
   ProvisionedProductProperties: { [key: string]: string | undefined };
   IdempotencyToken: string;
 }
 export interface UpdateProvisionedProductPropertiesOutput {
-  ProvisionedProductId?: string;
-  ProvisionedProductProperties?: { [key: string]: string | undefined };
-  RecordId?: string;
-  Status?: RecordStatus;
+  ProvisionedProductId?: string | undefined;
+  ProvisionedProductProperties?: { [key: string]: string | undefined } | undefined;
+  RecordId?: string | undefined;
+  Status?: RecordStatus | undefined;
 }
 export interface UpdateProvisioningArtifactInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
   ProvisioningArtifactId: string;
-  Name?: string;
-  Description?: string;
-  Active?: boolean;
-  Guidance?: ProvisioningArtifactGuidance;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Active?: boolean | undefined;
+  Guidance?: ProvisioningArtifactGuidance | undefined;
 }
 export interface UpdateProvisioningArtifactOutput {
-  ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Info?: { [key: string]: string | undefined };
-  Status?: Status;
+  ProvisioningArtifactDetail?: ProvisioningArtifactDetail | undefined;
+  Info?: { [key: string]: string | undefined } | undefined;
+  Status?: Status | undefined;
 }
 export interface UpdateServiceActionInput {
   Id: string;
-  Name?: string;
-  Definition?: { [key: string]: string | undefined };
-  Description?: string;
-  AcceptLanguage?: string;
+  Name?: string | undefined;
+  Definition?: { [key: string]: string | undefined } | undefined;
+  Description?: string | undefined;
+  AcceptLanguage?: string | undefined;
 }
 export interface UpdateServiceActionOutput {
-  ServiceActionDetail?: ServiceActionDetail;
+  ServiceActionDetail?: ServiceActionDetail | undefined;
 }
 export interface UpdateTagOptionInput {
   Id: string;
-  Value?: string;
-  Active?: boolean;
+  Value?: string | undefined;
+  Active?: boolean | undefined;
 }
 export interface UpdateTagOptionOutput {
-  TagOptionDetail?: TagOptionDetail;
+  TagOptionDetail?: TagOptionDetail | undefined;
 }
 export type ErrorMessage = string;
 export type AcceptPortfolioShareError =

@@ -165,15 +165,15 @@ export type KeyUsage = string;
 export type KeyClass = string;
 export type KeyAlgorithm = string;
 export interface KeyModesOfUse {
-  Encrypt?: boolean;
-  Decrypt?: boolean;
-  Wrap?: boolean;
-  Unwrap?: boolean;
-  Generate?: boolean;
-  Sign?: boolean;
-  Verify?: boolean;
-  DeriveKey?: boolean;
-  NoRestrictions?: boolean;
+  Encrypt?: boolean | undefined;
+  Decrypt?: boolean | undefined;
+  Wrap?: boolean | undefined;
+  Unwrap?: boolean | undefined;
+  Generate?: boolean | undefined;
+  Sign?: boolean | undefined;
+  Verify?: boolean | undefined;
+  DeriveKey?: boolean | undefined;
+  NoRestrictions?: boolean | undefined;
 }
 export interface KeyAttributes {
   KeyUsage: string;
@@ -190,7 +190,7 @@ export type MultiRegionKeyType = string;
 export type KeyReplicationState = string;
 export interface ReplicationStatusType {
   Status: string;
-  StatusMessage?: string;
+  StatusMessage?: string | undefined;
 }
 export type ReplicationStatus = { [key: string]: ReplicationStatusType | undefined };
 export type MpaSessionArn = string;
@@ -200,7 +200,7 @@ export interface MpaStatus {
   MpaSessionArn: string;
   Status: string;
   InitiationDate: Date;
-  StatusMessage?: string;
+  StatusMessage?: string | undefined;
 }
 export interface Key {
   KeyArn: string;
@@ -212,16 +212,16 @@ export interface Key {
   KeyState: string;
   KeyOrigin: string;
   CreateTimestamp: Date;
-  UsageStartTimestamp?: Date;
-  UsageStopTimestamp?: Date;
-  DeletePendingTimestamp?: Date;
-  DeleteTimestamp?: Date;
-  DeriveKeyUsage?: string;
-  MultiRegionKeyType?: string;
-  PrimaryRegion?: string;
-  ReplicationStatus?: { [key: string]: ReplicationStatusType | undefined };
-  UsingDefaultReplicationRegions?: boolean;
-  MpaStatus?: MpaStatus;
+  UsageStartTimestamp?: Date | undefined;
+  UsageStopTimestamp?: Date | undefined;
+  DeletePendingTimestamp?: Date | undefined;
+  DeleteTimestamp?: Date | undefined;
+  DeriveKeyUsage?: string | undefined;
+  MultiRegionKeyType?: string | undefined;
+  PrimaryRegion?: string | undefined;
+  ReplicationStatus?: { [key: string]: ReplicationStatusType | undefined } | undefined;
+  UsingDefaultReplicationRegions?: boolean | undefined;
+  MpaStatus?: MpaStatus | undefined;
 }
 export interface AddKeyReplicationRegionsOutput {
   Key: Key;
@@ -232,14 +232,14 @@ export type MpaRequesterComment = string | redacted.Redacted<string>;
 export interface AssociateMpaTeamInput {
   Action: string;
   MpaTeamArn: string;
-  RequesterComment?: string | redacted.Redacted<string>;
+  RequesterComment?: string | redacted.Redacted<string> | undefined;
 }
 export type AssociationState = string;
 export interface MpaTeamAssociation {
   Action: string;
   MpaTeamArn: string;
   AssociationState: string;
-  MpaStatus?: MpaStatus;
+  MpaStatus?: MpaStatus | undefined;
 }
 export interface AssociateMpaTeamOutput {
   MpaTeamAssociation: MpaTeamAssociation;
@@ -247,11 +247,11 @@ export interface AssociateMpaTeamOutput {
 export type AliasName = string;
 export interface CreateAliasInput {
   AliasName: string;
-  KeyArn?: string;
+  KeyArn?: string | undefined;
 }
 export interface Alias {
   AliasName: string;
-  KeyArn?: string;
+  KeyArn?: string | undefined;
 }
 export interface CreateAliasOutput {
   Alias: Alias;
@@ -260,17 +260,17 @@ export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type Tags = Tag[];
 export interface CreateKeyInput {
   KeyAttributes: KeyAttributes;
-  KeyCheckValueAlgorithm?: string;
+  KeyCheckValueAlgorithm?: string | undefined;
   Exportable: boolean;
-  Enabled?: boolean;
-  Tags?: Tag[];
-  DeriveKeyUsage?: string;
-  ReplicationRegions?: string[];
+  Enabled?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  DeriveKeyUsage?: string | undefined;
+  ReplicationRegions?: string[] | undefined;
 }
 export interface CreateKeyOutput {
   Key: Key;
@@ -281,7 +281,7 @@ export interface DeleteAliasInput {
 export interface DeleteAliasOutput {}
 export interface DeleteKeyInput {
   KeyIdentifier: string;
-  DeleteKeyInDays?: number;
+  DeleteKeyInDays?: number | undefined;
 }
 export interface DeleteKeyOutput {
   Key: Key;
@@ -299,7 +299,7 @@ export interface DisableDefaultKeyReplicationRegionsOutput {
 }
 export interface DisassociateMpaTeamInput {
   Action: string;
-  RequesterComment?: string | redacted.Redacted<string>;
+  RequesterComment?: string | redacted.Redacted<string> | undefined;
 }
 export interface DisassociateMpaTeamOutput {
   MpaTeamAssociation: MpaTeamAssociation;
@@ -316,14 +316,14 @@ export type OptionalBlockId = string | redacted.Redacted<string>;
 export type OptionalBlockValue = string | redacted.Redacted<string>;
 export type OptionalBlocks = { [key: string]: string | redacted.Redacted<string> | undefined };
 export interface KeyBlockHeaders {
-  KeyModesOfUse?: KeyModesOfUse;
-  KeyExportability?: string;
-  KeyVersion?: string;
-  OptionalBlocks?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  KeyModesOfUse?: KeyModesOfUse | undefined;
+  KeyExportability?: string | undefined;
+  KeyVersion?: string | undefined;
+  OptionalBlocks?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export interface ExportTr31KeyBlock {
   WrappingKeyIdentifier: string;
-  KeyBlockHeaders?: KeyBlockHeaders;
+  KeyBlockHeaders?: KeyBlockHeaders | undefined;
 }
 export type CertificateType = string;
 export type ExportTokenId = string;
@@ -332,18 +332,18 @@ export type EvenHexLengthBetween16And32 = string;
 export interface ExportTr34KeyBlock {
   CertificateAuthorityPublicKeyIdentifier: string;
   WrappingKeyCertificate: string;
-  ExportToken?: string;
-  SigningKeyIdentifier?: string;
-  SigningKeyCertificate?: string;
+  ExportToken?: string | undefined;
+  SigningKeyIdentifier?: string | undefined;
+  SigningKeyCertificate?: string | undefined;
   KeyBlockFormat: string;
-  RandomNonce?: string;
-  KeyBlockHeaders?: KeyBlockHeaders;
+  RandomNonce?: string | undefined;
+  KeyBlockHeaders?: KeyBlockHeaders | undefined;
 }
 export type WrappingKeySpec = string;
 export interface ExportKeyCryptogram {
   CertificateAuthorityPublicKeyIdentifier: string;
   WrappingKeyCertificate: string;
-  WrappingSpec?: string;
+  WrappingSpec?: string | undefined;
 }
 export type SymmetricKeyAlgorithm =
   | "TDES_2KEY"
@@ -368,7 +368,7 @@ export interface ExportDiffieHellmanTr31KeyBlock {
   KeyDerivationFunction: KeyDerivationFunction;
   KeyDerivationHashAlgorithm: KeyDerivationHashAlgorithm;
   DerivationData: DiffieHellmanDerivationData;
-  KeyBlockHeaders?: KeyBlockHeaders;
+  KeyBlockHeaders?: KeyBlockHeaders | undefined;
 }
 export type As2805KeyVariant =
   | "TERMINAL_MAJOR_KEY_VARIANT_00"
@@ -421,13 +421,13 @@ export interface ExportDukptInitialKey {
   KeySerialNumber: string;
 }
 export interface ExportAttributes {
-  ExportDukptInitialKey?: ExportDukptInitialKey;
-  KeyCheckValueAlgorithm?: string;
+  ExportDukptInitialKey?: ExportDukptInitialKey | undefined;
+  KeyCheckValueAlgorithm?: string | undefined;
 }
 export interface ExportKeyInput {
   KeyMaterial: ExportKeyMaterial;
   ExportKeyIdentifier: string;
-  ExportAttributes?: ExportAttributes;
+  ExportAttributes?: ExportAttributes | undefined;
 }
 export type WrappedKeyMaterialFormat = string;
 export type KeyMaterial = string | redacted.Redacted<string>;
@@ -435,11 +435,11 @@ export interface WrappedKey {
   WrappingKeyArn: string;
   WrappedKeyMaterialFormat: string;
   KeyMaterial: string | redacted.Redacted<string>;
-  KeyCheckValue?: string;
-  KeyCheckValueAlgorithm?: string;
+  KeyCheckValue?: string | undefined;
+  KeyCheckValueAlgorithm?: string | undefined;
 }
 export interface ExportKeyOutput {
-  WrappedKey?: WrappedKey;
+  WrappedKey?: WrappedKey | undefined;
 }
 export interface GetAliasInput {
   AliasName: string;
@@ -450,12 +450,12 @@ export interface GetAliasOutput {
 export type SigningAlgorithmType = string;
 export interface CertificateSubjectType {
   CommonName: string;
-  OrganizationUnit?: string;
-  Organization?: string;
-  City?: string;
-  Country?: string;
-  StateOrProvince?: string;
-  EmailAddress?: string;
+  OrganizationUnit?: string | undefined;
+  Organization?: string | undefined;
+  City?: string | undefined;
+  Country?: string | undefined;
+  StateOrProvince?: string | undefined;
+  EmailAddress?: string | undefined;
 }
 export interface GetCertificateSigningRequestInput {
   KeyIdentifier: string;
@@ -486,7 +486,7 @@ export type KeyMaterialType = string;
 export interface GetParametersForExportInput {
   KeyMaterialType: string;
   SigningKeyAlgorithm: string;
-  ReuseLastGeneratedToken?: boolean;
+  ReuseLastGeneratedToken?: boolean | undefined;
 }
 export interface GetParametersForExportOutput {
   SigningKeyCertificate: string;
@@ -498,7 +498,7 @@ export interface GetParametersForExportOutput {
 export interface GetParametersForImportInput {
   KeyMaterialType: string;
   WrappingKeyAlgorithm: string;
-  ReuseLastGeneratedToken?: boolean;
+  ReuseLastGeneratedToken?: boolean | undefined;
 }
 export type ImportTokenId = string;
 export interface GetParametersForImportOutput {
@@ -541,12 +541,12 @@ export type Tr34WrappedKeyBlock = string | redacted.Redacted<string>;
 export interface ImportTr34KeyBlock {
   CertificateAuthorityPublicKeyIdentifier: string;
   SigningKeyCertificate: string;
-  ImportToken?: string;
-  WrappingKeyIdentifier?: string;
-  WrappingKeyCertificate?: string;
+  ImportToken?: string | undefined;
+  WrappingKeyIdentifier?: string | undefined;
+  WrappingKeyCertificate?: string | undefined;
   WrappedKeyBlock: string | redacted.Redacted<string>;
   KeyBlockFormat: string;
-  RandomNonce?: string;
+  RandomNonce?: string | undefined;
 }
 export type WrappedKeyCryptogram = string | redacted.Redacted<string>;
 export interface ImportKeyCryptogram {
@@ -554,7 +554,7 @@ export interface ImportKeyCryptogram {
   Exportable: boolean;
   WrappedKeyCryptogram: string | redacted.Redacted<string>;
   ImportToken: string;
-  WrappingSpec?: string;
+  WrappingSpec?: string | undefined;
 }
 export interface ImportDiffieHellmanTr31KeyBlock {
   PrivateKeyIdentifier: string;
@@ -640,11 +640,11 @@ export type ImportKeyMaterial =
     };
 export interface ImportKeyInput {
   KeyMaterial: ImportKeyMaterial;
-  KeyCheckValueAlgorithm?: string;
-  Enabled?: boolean;
-  Tags?: Tag[];
-  ReplicationRegions?: string[];
-  RequesterComment?: string | redacted.Redacted<string>;
+  KeyCheckValueAlgorithm?: string | undefined;
+  Enabled?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  ReplicationRegions?: string[] | undefined;
+  RequesterComment?: string | redacted.Redacted<string> | undefined;
 }
 export interface ImportKeyOutput {
   Key: Key;
@@ -652,19 +652,19 @@ export interface ImportKeyOutput {
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListAliasesInput {
-  KeyArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  KeyArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Aliases = Alias[];
 export interface ListAliasesOutput {
   Aliases: Alias[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListKeysInput {
-  KeyState?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  KeyState?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface KeySummary {
   KeyArn: string;
@@ -673,22 +673,22 @@ export interface KeySummary {
   KeyCheckValue: string;
   Exportable: boolean;
   Enabled: boolean;
-  MultiRegionKeyType?: string;
-  PrimaryRegion?: string;
+  MultiRegionKeyType?: string | undefined;
+  PrimaryRegion?: string | undefined;
 }
 export type KeySummaryList = KeySummary[];
 export interface ListKeysOutput {
   Keys: KeySummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   ResourceArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListTagsForResourceOutput {
   Tags: (Tag & { Value: TagValue })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface PutResourcePolicyInput {
   ResourceArn: string;
@@ -736,7 +736,7 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateAliasInput {
   AliasName: string;
-  KeyArn?: string;
+  KeyArn?: string | undefined;
 }
 export interface UpdateAliasOutput {
   Alias: Alias;

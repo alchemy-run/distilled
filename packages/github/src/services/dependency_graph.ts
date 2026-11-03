@@ -62,7 +62,7 @@ export interface CreateRepositorySnapshotRequestJob {
   /** Correlator provides a key that is used to group snapshots submitted over time. Only the "latest" submitted snapshot for a given combination of `job.correlator` and `detector.name` will be considered when calculating a repository's current dependencies. Correlator should be as unique as it takes to distinguish all detection runs for a given "wave" of CI workflow you run. If you're using GitHub Actions, a good default value for this could be the environment variables GITHUB_WORKFLOW and GITHUB_JOB concatenated together. If you're using a build matrix, then you'll also need to add additional key(s) to distinguish between each submission inside a matrix variation. */
   correlator: string;
   /** The url for the job. */
-  html_url?: string;
+  html_url?: string | undefined;
 }
 /** A description of the detector used. */
 export interface CreateRepositorySnapshotRequestDetector {
@@ -78,7 +78,7 @@ export type MetadataValue = string | number | boolean;
 export type Metadata = { [key: string]: MetadataValue | null | undefined };
 export interface ManifestFile {
   /** The path of the manifest file relative to the root of the Git repository. */
-  source_location?: string;
+  source_location?: string | undefined;
 }
 /** A notation of whether a dependency is requested directly by this manifest or is a dependency of another dependency. */
 export type DependencyRelationship = "direct" | "indirect";
@@ -88,24 +88,24 @@ export type DependencyScope = "runtime" | "development";
 export type DependencyDependenciesList = Array<string>;
 export interface Dependency {
   /** Package-url (PURL) of dependency. See https://github.com/package-url/purl-spec for more details. */
-  package_url?: string;
-  metadata?: Metadata;
+  package_url?: string | undefined;
+  metadata?: Metadata | undefined;
   /** A notation of whether a dependency is requested directly by this manifest or is a dependency of another dependency. */
-  relationship?: DependencyRelationship | (string & {});
+  relationship?: DependencyRelationship | (string & {}) | undefined;
   /** A notation of whether the dependency is required for the primary build artifact (runtime) or is only used for development. Future versions of this specification may allow for more granular scopes. */
-  scope?: DependencyScope | (string & {});
+  scope?: DependencyScope | (string & {}) | undefined;
   /** Array of package-url (PURLs) of direct child dependencies. */
-  dependencies?: DependencyDependenciesList;
+  dependencies?: DependencyDependenciesList | undefined;
 }
 /** A collection of resolved package dependencies. */
 export type ManifestResolvedMap = { [key: string]: Dependency | undefined };
 export interface Manifest {
   /** The name of the manifest. */
   name: string;
-  file?: ManifestFile;
-  metadata?: Metadata;
+  file?: ManifestFile | undefined;
+  metadata?: Metadata | undefined;
   /** A collection of resolved package dependencies. */
-  resolved?: ManifestResolvedMap;
+  resolved?: ManifestResolvedMap | undefined;
 }
 /** A collection of package manifests, which are a collection of related dependencies declared in a file or representing a logical group of dependencies. */
 export type CreateRepositorySnapshotRequestManifestsMap = { [key: string]: Manifest | undefined };
@@ -123,9 +123,9 @@ export interface CreateRepositorySnapshotRequest {
   ref: string;
   /** A description of the detector used. */
   detector: CreateRepositorySnapshotRequestDetector;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
   /** A collection of package manifests, which are a collection of related dependencies declared in a file or representing a logical group of dependencies. */
-  manifests?: CreateRepositorySnapshotRequestManifestsMap;
+  manifests?: CreateRepositorySnapshotRequestManifestsMap | undefined;
   /** The time at which the snapshot was scanned. */
   scanned: string;
 }
@@ -147,7 +147,7 @@ export interface DiffRangeRequest {
   /** The base and head Git revisions to compare. The Git revisions will be resolved to commit SHAs. Named revisions will be resolved to their corresponding HEAD commits, and an appropriate merge base will be determined. This parameter expects the format `{base}...{head}`. */
   basehead: string;
   /** The full path, relative to the repository root, of the dependency manifest file. */
-  name?: string;
+  name?: string | undefined;
 }
 export type DependencyGraphDiffItemChangeType = "added" | "removed";
 export interface DependencyGraphDiffItemVulnerabilitiesItem {
@@ -193,7 +193,7 @@ export interface GenerateSbomReportRequest {
 }
 export interface GenerateSbomReportResponse {
   /** URL to poll for the SBOM export result. */
-  sbom_url?: string;
+  sbom_url?: string | undefined;
 }
 export type CreateRepositorySnapshotError = GithubOpError;
 /** Create a snapshot of dependencies for a repository Create a new snapshot of a repository's dependencies. The authenticated user must have access to the repository. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */

@@ -127,67 +127,67 @@ export type ContentType = string;
 export type NonNegativeLong = number;
 export type StringPrimitive = string;
 export interface DescribeObjectResponse {
-  ETag?: string;
-  ContentType?: string;
-  ContentLength?: number;
-  CacheControl?: string;
-  LastModified?: Date;
+  ETag?: string | undefined;
+  ContentType?: string | undefined;
+  ContentLength?: number | undefined;
+  CacheControl?: string | undefined;
+  LastModified?: Date | undefined;
 }
 export type RangePattern = string;
 export interface GetObjectRequest {
   Path: string;
-  Range?: string;
+  Range?: string | undefined;
 }
 export type ContentRangePattern = string;
 export type StatusCode = number;
 export interface GetObjectResponse {
-  Body?: T.StreamingOutputBody;
-  CacheControl?: string;
-  ContentRange?: string;
-  ContentLength?: number;
-  ContentType?: string;
-  ETag?: string;
-  LastModified?: Date;
+  Body?: T.StreamingOutputBody | undefined;
+  CacheControl?: string | undefined;
+  ContentRange?: string | undefined;
+  ContentLength?: number | undefined;
+  ContentType?: string | undefined;
+  ETag?: string | undefined;
+  LastModified?: Date | undefined;
   StatusCode: number;
 }
 export type ListPathNaming = string;
 export type ListLimit = number;
 export type PaginationToken = string;
 export interface ListItemsRequest {
-  Path?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  Path?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ItemName = string;
 export type ItemType = "OBJECT" | "FOLDER" | (string & {});
 export interface Item {
-  Name?: string;
-  Type?: ItemType;
-  ETag?: string;
-  LastModified?: Date;
-  ContentType?: string;
-  ContentLength?: number;
+  Name?: string | undefined;
+  Type?: ItemType | undefined;
+  ETag?: string | undefined;
+  LastModified?: Date | undefined;
+  ContentType?: string | undefined;
+  ContentLength?: number | undefined;
 }
 export type ItemList = Item[];
 export interface ListItemsResponse {
-  Items?: Item[];
-  NextToken?: string;
+  Items?: Item[] | undefined;
+  NextToken?: string | undefined;
 }
 export type StorageClass = "TEMPORAL" | (string & {});
 export type UploadAvailability = "STANDARD" | "STREAMING" | (string & {});
 export interface PutObjectRequest {
   Body: T.StreamingInputBody;
   Path: string;
-  ContentType?: string;
-  CacheControl?: string;
-  StorageClass?: StorageClass;
-  UploadAvailability?: UploadAvailability;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
+  StorageClass?: StorageClass | undefined;
+  UploadAvailability?: UploadAvailability | undefined;
 }
 export type SHA256Hash = string;
 export interface PutObjectResponse {
-  ContentSHA256?: string;
-  ETag?: string;
-  StorageClass?: StorageClass;
+  ContentSHA256?: string | undefined;
+  ETag?: string | undefined;
+  StorageClass?: StorageClass | undefined;
 }
 export type ErrorMessage = string;
 export type DeleteObjectError =

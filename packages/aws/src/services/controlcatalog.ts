@@ -137,19 +137,19 @@ export type RegionCode = string;
 export type DeployableRegions = string[];
 export interface RegionConfiguration {
   Scope: ControlScope;
-  DeployableRegions?: string[];
+  DeployableRegions?: string[] | undefined;
 }
 export type ImplementationType = string;
 export type ImplementationIdentifier = string;
 export interface ImplementationDetails {
   Type: string;
-  Identifier?: string;
+  Identifier?: string | undefined;
 }
 export type ParameterRequirementSummary = "REQUIRED" | "OPTIONAL" | "NONE" | (string & {});
 export type ControlParameterRequirement = "REQUIRED" | "OPTIONAL" | (string & {});
 export interface ControlParameter {
   Name: string;
-  Requirement?: ControlParameterRequirement;
+  Requirement?: ControlParameterRequirement | undefined;
 }
 export type ControlParameters = ControlParameter[];
 export type GovernedResource = string;
@@ -158,43 +158,43 @@ export type GovernedProvider = string;
 export type GovernedProviders = string[];
 export interface GetControlResponse {
   Arn: string;
-  Aliases?: string[];
+  Aliases?: string[] | undefined;
   Name: string;
   Description: string;
   Behavior: ControlBehavior;
-  Severity?: ControlSeverity;
+  Severity?: ControlSeverity | undefined;
   RegionConfiguration: RegionConfiguration;
-  Implementation?: ImplementationDetails;
-  ParameterRequirementSummary?: ParameterRequirementSummary;
-  Parameters?: ControlParameter[];
-  CreateTime?: Date;
-  GovernedResources?: string[];
-  GovernedProviders?: string[];
+  Implementation?: ImplementationDetails | undefined;
+  ParameterRequirementSummary?: ParameterRequirementSummary | undefined;
+  Parameters?: ControlParameter[] | undefined;
+  CreateTime?: Date | undefined;
+  GovernedResources?: string[] | undefined;
+  GovernedProviders?: string[] | undefined;
 }
 export type MaxListCommonControlsResults = number;
 export type PaginationToken = string;
 export type ObjectiveArn = string;
 export interface ObjectiveResourceFilter {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type ObjectiveResourceFilterList = ObjectiveResourceFilter[];
 export interface CommonControlFilter {
-  Objectives?: ObjectiveResourceFilter[];
+  Objectives?: ObjectiveResourceFilter[] | undefined;
 }
 export interface ListCommonControlsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  CommonControlFilter?: CommonControlFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  CommonControlFilter?: CommonControlFilter | undefined;
 }
 export type CommonControlArn = string;
 export type DomainArn = string;
 export interface AssociatedDomainSummary {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface AssociatedObjectiveSummary {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CommonControlSummary {
   Arn: string;
@@ -208,7 +208,7 @@ export interface CommonControlSummary {
 export type CommonControlSummaryList = CommonControlSummary[];
 export interface ListCommonControlsResponse {
   CommonControls: CommonControlSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxListControlMappingsResults = number;
 export type ControlArnFilterList = string[];
@@ -216,14 +216,14 @@ export type CommonControlArnFilterList = string[];
 export type MappingType = "FRAMEWORK" | "COMMON_CONTROL" | "RELATED_CONTROL" | (string & {});
 export type MappingTypeFilterList = MappingType[];
 export interface ControlMappingFilter {
-  ControlArns?: string[];
-  CommonControlArns?: string[];
-  MappingTypes?: MappingType[];
+  ControlArns?: string[] | undefined;
+  CommonControlArns?: string[] | undefined;
+  MappingTypes?: MappingType[] | undefined;
 }
 export interface ListControlMappingsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filter?: ControlMappingFilter;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filter?: ControlMappingFilter | undefined;
 }
 export type FrameworkName = string;
 export type FrameworkItem = string;
@@ -240,7 +240,7 @@ export type ControlRelationType =
   | "MUTUALLY_EXCLUSIVE"
   | (string & {});
 export interface RelatedControlMappingDetails {
-  ControlArn?: string;
+  ControlArn?: string | undefined;
   RelationType: ControlRelationType;
 }
 export type Mapping =
@@ -255,51 +255,51 @@ export interface ControlMapping {
 export type ControlMappings = ControlMapping[];
 export interface ListControlMappingsResponse {
   ControlMappings: ControlMapping[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxListControlsResults = number;
 export type ImplementationTypeFilterList = string[];
 export type ImplementationIdentifierFilterList = string[];
 export interface ImplementationFilter {
-  Types?: string[];
-  Identifiers?: string[];
+  Types?: string[] | undefined;
+  Identifiers?: string[] | undefined;
 }
 export type GovernedProviderFilterList = string[];
 export interface ControlFilter {
-  Implementations?: ImplementationFilter;
-  GovernedProviders?: string[];
+  Implementations?: ImplementationFilter | undefined;
+  GovernedProviders?: string[] | undefined;
 }
 export interface ListControlsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filter?: ControlFilter;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filter?: ControlFilter | undefined;
 }
 export interface ImplementationSummary {
   Type: string;
-  Identifier?: string;
+  Identifier?: string | undefined;
 }
 export interface ControlSummary {
   Arn: string;
-  Aliases?: string[];
+  Aliases?: string[] | undefined;
   Name: string;
   Description: string;
-  Behavior?: ControlBehavior;
-  Severity?: ControlSeverity;
-  ParameterRequirementSummary?: ParameterRequirementSummary;
-  Implementation?: ImplementationSummary;
-  CreateTime?: Date;
-  GovernedResources?: string[];
-  GovernedProviders?: string[];
+  Behavior?: ControlBehavior | undefined;
+  Severity?: ControlSeverity | undefined;
+  ParameterRequirementSummary?: ParameterRequirementSummary | undefined;
+  Implementation?: ImplementationSummary | undefined;
+  CreateTime?: Date | undefined;
+  GovernedResources?: string[] | undefined;
+  GovernedProviders?: string[] | undefined;
 }
 export type Controls = ControlSummary[];
 export interface ListControlsResponse {
   Controls: ControlSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxListDomainsResults = number;
 export interface ListDomainsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DomainSummary {
   Arn: string;
@@ -311,20 +311,20 @@ export interface DomainSummary {
 export type DomainSummaryList = DomainSummary[];
 export interface ListDomainsResponse {
   Domains: DomainSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxListObjectivesResults = number;
 export interface DomainResourceFilter {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type DomainResourceFilterList = DomainResourceFilter[];
 export interface ObjectiveFilter {
-  Domains?: DomainResourceFilter[];
+  Domains?: DomainResourceFilter[] | undefined;
 }
 export interface ListObjectivesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  ObjectiveFilter?: ObjectiveFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ObjectiveFilter?: ObjectiveFilter | undefined;
 }
 export interface ObjectiveSummary {
   Arn: string;
@@ -337,7 +337,7 @@ export interface ObjectiveSummary {
 export type ObjectiveSummaryList = ObjectiveSummary[];
 export interface ListObjectivesResponse {
   Objectives: ObjectiveSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type GetControlError =
   | AccessDeniedException

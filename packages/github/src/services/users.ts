@@ -69,7 +69,7 @@ export type AddEmailForAuthenticatedUserRequestBody =
   | AddEmailForAuthenticatedUserRequestBodyCase1List
   | string;
 export interface AddEmailForAuthenticatedUserRequest {
-  body?: AddEmailForAuthenticatedUserRequestBody;
+  body?: AddEmailForAuthenticatedUserRequestBody | undefined;
 }
 /** Email */
 export interface Email {
@@ -117,39 +117,39 @@ export interface CheckPersonIsFollowedByAuthenticatedRequest {
 export interface CheckPersonIsFollowedByAuthenticatedResponse {}
 export interface CreateGpgKeyForAuthenticatedUserRequest {
   /** A descriptive name for the new key. */
-  name?: string;
+  name?: string | undefined;
   /** A GPG key in ASCII-armored format. */
   armored_public_key: string;
 }
 export interface GpgKeyEmailsItem {
-  email?: string;
-  verified?: boolean;
+  email?: string | undefined;
+  verified?: boolean | undefined;
 }
 export type GpgKeyEmailsList = Array<GpgKeyEmailsItem>;
 export type GpgKeySubkeysItemEmailsItem = GpgKeyEmailsItem;
 export type GpgKeySubkeysItemEmailsList = Array<GpgKeyEmailsItem>;
 export type GpgKeySubkeysItemSubkeysList = Array<unknown>;
 export interface GpgKeySubkeysItem {
-  id?: number;
-  primary_key_id?: number;
-  key_id?: string;
-  public_key?: string;
-  emails?: GpgKeySubkeysItemEmailsList;
-  subkeys?: GpgKeySubkeysItemSubkeysList;
-  can_sign?: boolean;
-  can_encrypt_comms?: boolean;
-  can_encrypt_storage?: boolean;
-  can_certify?: boolean;
-  created_at?: string;
-  expires_at?: string | null;
-  raw_key?: string | null;
-  revoked?: boolean;
+  id?: number | undefined;
+  primary_key_id?: number | undefined;
+  key_id?: string | undefined;
+  public_key?: string | undefined;
+  emails?: GpgKeySubkeysItemEmailsList | undefined;
+  subkeys?: GpgKeySubkeysItemSubkeysList | undefined;
+  can_sign?: boolean | undefined;
+  can_encrypt_comms?: boolean | undefined;
+  can_encrypt_storage?: boolean | undefined;
+  can_certify?: boolean | undefined;
+  created_at?: string | undefined;
+  expires_at?: string | null | undefined;
+  raw_key?: string | null | undefined;
+  revoked?: boolean | undefined;
 }
 export type GpgKeySubkeysList = Array<GpgKeySubkeysItem>;
 /** A unique encryption key */
 export interface GpgKey {
   id: number;
-  name?: string | null;
+  name?: string | null | undefined;
   primary_key_id: number | null;
   key_id: string;
   public_key: string;
@@ -166,7 +166,7 @@ export interface GpgKey {
 }
 export interface CreatePublicSshKeyForAuthenticatedUserRequest {
   /** A descriptive name for the new key. */
-  title?: string;
+  title?: string | undefined;
   /** The public SSH key to add to your GitHub account. */
   key: string;
 }
@@ -179,11 +179,11 @@ export interface Key {
   created_at: string;
   verified: boolean;
   read_only: boolean;
-  last_used?: string | null;
+  last_used?: string | null | undefined;
 }
 export interface CreateSshSigningKeyForAuthenticatedUserRequest {
   /** A descriptive name for the new key. */
-  title?: string;
+  title?: string | undefined;
   /** The public SSH key to add to your GitHub account. For more information, see "[Checking for existing SSH keys](https://docs.github.com/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys)." */
   key: string;
 }
@@ -243,7 +243,7 @@ export type DeleteEmailForAuthenticatedUserRequestBody =
   | DeleteEmailForAuthenticatedUserRequestBodyCase1List
   | string;
 export interface DeleteEmailForAuthenticatedUserRequest {
-  body?: DeleteEmailForAuthenticatedUserRequestBody;
+  body?: DeleteEmailForAuthenticatedUserRequestBody | undefined;
 }
 export interface DeleteEmailForAuthenticatedUserResponse {}
 export interface DeleteGpgKeyForAuthenticatedUserRequest {
@@ -284,7 +284,7 @@ export interface PrivateUserPlan {
 export interface PrivateUser {
   login: string;
   id: number;
-  user_view_type?: string;
+  user_view_type?: string | undefined;
   node_id: string;
   avatar_url: string;
   gravatar_id: string | null;
@@ -306,10 +306,10 @@ export interface PrivateUser {
   blog: string | null;
   location: string | null;
   email: string | null;
-  notification_email?: string | null;
+  notification_email?: string | null | undefined;
   hireable: boolean | null;
   bio: string | null;
-  twitter_username?: string | null;
+  twitter_username?: string | null | undefined;
   public_repos: number;
   public_gists: number;
   followers: number;
@@ -322,16 +322,16 @@ export interface PrivateUser {
   disk_usage: number;
   collaborators: number;
   two_factor_authentication: boolean;
-  plan?: PrivateUserPlan;
-  business_plus?: boolean;
-  ldap_dn?: string;
+  plan?: PrivateUserPlan | undefined;
+  business_plus?: boolean | undefined;
+  ldap_dn?: string | undefined;
 }
 export type PublicUserPlan = PrivateUserPlan;
 /** Public User */
 export interface PublicUser {
   login: string;
   id: number;
-  user_view_type?: string;
+  user_view_type?: string | undefined;
   node_id: string;
   avatar_url: string;
   gravatar_id: string | null;
@@ -353,22 +353,22 @@ export interface PublicUser {
   blog: string | null;
   location: string | null;
   email: string | null;
-  notification_email?: string | null;
+  notification_email?: string | null | undefined;
   hireable: boolean | null;
   bio: string | null;
-  twitter_username?: string | null;
+  twitter_username?: string | null | undefined;
   public_repos: number;
   public_gists: number;
   followers: number;
   following: number;
   created_at: string;
   updated_at: string;
-  plan?: PrivateUserPlan;
-  private_gists?: number;
-  total_private_repos?: number;
-  owned_private_repos?: number;
-  disk_usage?: number;
-  collaborators?: number;
+  plan?: PrivateUserPlan | undefined;
+  private_gists?: number | undefined;
+  total_private_repos?: number | undefined;
+  owned_private_repos?: number | undefined;
+  disk_usage?: number | undefined;
+  collaborators?: number | undefined;
 }
 export type GetAuthenticatedResponseBody = PrivateUser | PublicUser;
 export type GetAuthenticatedResponse = GetAuthenticatedResponseBody;
@@ -393,9 +393,9 @@ export interface GetContextForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** Identifies which additional information you'd like to receive about the person's hovercard. Can be `organization`, `repository`, `issue`, `pull_request`. **Required** when using `subject_id`. */
-  subject_type?: GetContextForUserRequestSubjectType | (string & {});
+  subject_type?: GetContextForUserRequestSubjectType | (string & {}) | undefined;
   /** Uses the ID for the `subject_type` you specified. **Required** when using `subject_type`. */
-  subject_id?: string;
+  subject_id?: string | undefined;
 }
 export interface HovercardContextsItem {
   message: string;
@@ -420,14 +420,14 @@ export interface GetSshSigningKeyForAuthenticatedUserRequest {
 }
 export interface ListRequest {
   /** A user ID. Only return users with an ID greater than this ID. */
-  since?: number;
+  since?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** A GitHub user. */
 export interface SimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -446,8 +446,8 @@ export interface SimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 export type ListResponseBodyList = Array<SimpleUser>;
 export type ListResponse = ListResponseBodyList;
@@ -457,13 +457,13 @@ export interface ListAttestationsRequest {
   /** Subject Digest */
   subject_digest: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, `release`, or freeform text for custom predicate types. */
-  predicate_type?: string;
+  predicate_type?: string | undefined;
 }
 export type ListAttestationsResponseAttestationsItemBundleVerificationMaterialMap = {
   [key: string]: unknown | undefined;
@@ -473,21 +473,23 @@ export type ListAttestationsResponseAttestationsItemBundleDsseEnvelopeMap = {
 };
 /** The attestation's Sigstore Bundle. Refer to the [Sigstore Bundle Specification](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_bundle.proto) for more information. */
 export interface ListAttestationsResponseAttestationsItemBundle {
-  mediaType?: string;
-  verificationMaterial?: ListAttestationsResponseAttestationsItemBundleVerificationMaterialMap;
-  dsseEnvelope?: ListAttestationsResponseAttestationsItemBundleDsseEnvelopeMap;
+  mediaType?: string | undefined;
+  verificationMaterial?:
+    | ListAttestationsResponseAttestationsItemBundleVerificationMaterialMap
+    | undefined;
+  dsseEnvelope?: ListAttestationsResponseAttestationsItemBundleDsseEnvelopeMap | undefined;
 }
 export interface ListAttestationsResponseAttestationsItem {
   /** The attestation's Sigstore Bundle. Refer to the [Sigstore Bundle Specification](https://github.com/sigstore/protobuf-specs/blob/main/protos/sigstore_bundle.proto) for more information. */
-  bundle?: ListAttestationsResponseAttestationsItemBundle;
-  repository_id?: number;
-  bundle_url?: string;
-  initiator?: string;
+  bundle?: ListAttestationsResponseAttestationsItemBundle | undefined;
+  repository_id?: number | undefined;
+  bundle_url?: string | undefined;
+  initiator?: string | undefined;
 }
 export type ListAttestationsResponseAttestationsList =
   Array<ListAttestationsResponseAttestationsItem>;
 export interface ListAttestationsResponse {
-  attestations?: ListAttestationsResponseAttestationsList;
+  attestations?: ListAttestationsResponseAttestationsList | undefined;
 }
 /** List of subject digests to fetch attestations for. */
 export type ListAttestationsBulkRequestSubjectDigestsList = Array<string>;
@@ -495,15 +497,15 @@ export interface ListAttestationsBulkRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** List of subject digests to fetch attestations for. */
   subject_digests: ListAttestationsBulkRequestSubjectDigestsList;
   /** Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, `release`, or freeform text for custom predicate types. */
-  predicate_type?: string;
+  predicate_type?: string | undefined;
 }
 export type ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundleVerificationMaterialMap =
   { [key: string]: unknown | undefined };
@@ -512,15 +514,19 @@ export type ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundl
 };
 /** The bundle of the attestation. */
 export interface ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundle {
-  mediaType?: string;
-  verificationMaterial?: ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundleVerificationMaterialMap;
-  dsseEnvelope?: ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundleDsseEnvelopeMap;
+  mediaType?: string | undefined;
+  verificationMaterial?:
+    | ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundleVerificationMaterialMap
+    | undefined;
+  dsseEnvelope?:
+    | ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundleDsseEnvelopeMap
+    | undefined;
 }
 export interface ListAttestationsBulkResponseAttestationsSubjectDigestsValueItem {
   /** The bundle of the attestation. */
-  bundle?: ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundle;
-  repository_id?: number;
-  bundle_url?: string;
+  bundle?: ListAttestationsBulkResponseAttestationsSubjectDigestsValueItemBundle | undefined;
+  repository_id?: number | undefined;
+  bundle_url?: string | undefined;
 }
 export type ListAttestationsBulkResponseAttestationsSubjectDigestsValueList =
   Array<ListAttestationsBulkResponseAttestationsSubjectDigestsValueItem>;
@@ -531,50 +537,52 @@ export type ListAttestationsBulkResponseAttestationsSubjectDigestsMap = {
 /** Information about the current page. */
 export interface ListAttestationsBulkResponsePageInfo {
   /** Indicates whether there is a next page. */
-  has_next?: boolean;
+  has_next?: boolean | undefined;
   /** Indicates whether there is a previous page. */
-  has_previous?: boolean;
+  has_previous?: boolean | undefined;
   /** The cursor to the next page. */
-  next?: string;
+  next?: string | undefined;
   /** The cursor to the previous page. */
-  previous?: string;
+  previous?: string | undefined;
 }
 export interface ListAttestationsBulkResponse {
   /** Mapping of subject digest to bundles. */
-  attestations_subject_digests?: ListAttestationsBulkResponseAttestationsSubjectDigestsMap;
+  attestations_subject_digests?:
+    | ListAttestationsBulkResponseAttestationsSubjectDigestsMap
+    | undefined;
   /** Information about the current page. */
-  page_info?: ListAttestationsBulkResponsePageInfo;
+  page_info?: ListAttestationsBulkResponsePageInfo | undefined;
 }
 export interface ListBlockedByAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListBlockedByAuthenticatedUserResponseBodyList = Array<SimpleUser>;
 export type ListBlockedByAuthenticatedUserResponse = ListBlockedByAuthenticatedUserResponseBodyList;
 export interface ListEmailsForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListEmailsForAuthenticatedUserResponseBodyList = Array<Email>;
 export type ListEmailsForAuthenticatedUserResponse = ListEmailsForAuthenticatedUserResponseBodyList;
 export interface ListFollowedByAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListFollowedByAuthenticatedUserResponseBodyList = Array<SimpleUser>;
 export type ListFollowedByAuthenticatedUserResponse =
   ListFollowedByAuthenticatedUserResponseBodyList;
 export interface ListFollowersForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListFollowersForAuthenticatedUserResponseBodyList = Array<SimpleUser>;
 export type ListFollowersForAuthenticatedUserResponse =
@@ -583,9 +591,9 @@ export interface ListFollowersForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListFollowersForUserResponseBodyList = Array<SimpleUser>;
 export type ListFollowersForUserResponse = ListFollowersForUserResponseBodyList;
@@ -593,17 +601,17 @@ export interface ListFollowingForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListFollowingForUserResponseBodyList = Array<SimpleUser>;
 export type ListFollowingForUserResponse = ListFollowingForUserResponseBodyList;
 export interface ListGpgKeysForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListGpgKeysForAuthenticatedUserResponseBodyList = Array<GpgKey>;
 export type ListGpgKeysForAuthenticatedUserResponse =
@@ -612,17 +620,17 @@ export interface ListGpgKeysForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListGpgKeysForUserResponseBodyList = Array<GpgKey>;
 export type ListGpgKeysForUserResponse = ListGpgKeysForUserResponseBodyList;
 export interface ListPublicEmailsForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListPublicEmailsForAuthenticatedUserResponseBodyList = Array<Email>;
 export type ListPublicEmailsForAuthenticatedUserResponse =
@@ -631,33 +639,33 @@ export interface ListPublicKeysForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** Key Simple */
 export interface KeySimple {
   id: number;
   key: string;
-  created_at?: string;
-  last_used?: string | null;
+  created_at?: string | undefined;
+  last_used?: string | null | undefined;
 }
 export type ListPublicKeysForUserResponseBodyList = Array<KeySimple>;
 export type ListPublicKeysForUserResponse = ListPublicKeysForUserResponseBodyList;
 export interface ListPublicSshKeysForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListPublicSshKeysForAuthenticatedUserResponseBodyList = Array<Key>;
 export type ListPublicSshKeysForAuthenticatedUserResponse =
   ListPublicSshKeysForAuthenticatedUserResponseBodyList;
 export interface ListSocialAccountsForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSocialAccountsForAuthenticatedUserResponseBodyList = Array<SocialAccount>;
 export type ListSocialAccountsForAuthenticatedUserResponse =
@@ -666,17 +674,17 @@ export interface ListSocialAccountsForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSocialAccountsForUserResponseBodyList = Array<SocialAccount>;
 export type ListSocialAccountsForUserResponse = ListSocialAccountsForUserResponseBodyList;
 export interface ListSshSigningKeysForAuthenticatedUserRequest {
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSshSigningKeysForAuthenticatedUserResponseBodyList = Array<SshSigningKey>;
 export type ListSshSigningKeysForAuthenticatedUserResponse =
@@ -685,9 +693,9 @@ export interface ListSshSigningKeysForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSshSigningKeysForUserResponseBodyList = Array<SshSigningKey>;
 export type ListSshSigningKeysForUserResponse = ListSshSigningKeysForUserResponseBodyList;
@@ -712,21 +720,21 @@ export interface UnfollowRequest {
 export interface UnfollowResponse {}
 export interface UpdateAuthenticatedRequest {
   /** The new name of the user. */
-  name?: string;
+  name?: string | undefined;
   /** The publicly visible email address of the user. */
-  email?: string;
+  email?: string | undefined;
   /** The new blog URL of the user. */
-  blog?: string;
+  blog?: string | undefined;
   /** The new Twitter username of the user. */
-  twitter_username?: string | null;
+  twitter_username?: string | null | undefined;
   /** The new company of the user. */
-  company?: string;
+  company?: string | undefined;
   /** The new location of the user. */
-  location?: string;
+  location?: string | undefined;
   /** The new hiring availability of the user. */
-  hireable?: boolean;
+  hireable?: boolean | undefined;
   /** The new short biography of the user. */
-  bio?: string;
+  bio?: string | undefined;
 }
 export type AddEmailForAuthenticatedUserError =
   | Forbidden

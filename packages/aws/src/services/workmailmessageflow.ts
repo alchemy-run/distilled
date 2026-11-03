@@ -124,7 +124,7 @@ export type S3VersionType = string;
 export interface S3Reference {
   bucket: string;
   key: string;
-  objectVersion?: string;
+  objectVersion?: string | undefined;
 }
 export interface RawMessageContent {
   s3Reference: S3Reference;

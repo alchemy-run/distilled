@@ -164,29 +164,29 @@ export class TokenNotFound
 export type TokensCreateRequestPoliciesItemEffect = "allow" | "deny";
 export interface TokensCreateRequestPoliciesItemPermissionGroupsItemMeta {
   /** A category used to group permission groups. */
-  category?: string;
+  category?: string | undefined;
   /** Indicates whether the permission group is deprecated. */
-  deprecated?: string;
+  deprecated?: string | undefined;
   /** Additional information about the permission group. */
-  description?: string;
+  description?: string | undefined;
   /** Indicates whether the permission group can be edited. */
-  editable?: string;
+  editable?: string | undefined;
   /** The planned end-of-life date and time, when provided. */
-  eolAt?: string;
+  eolAt?: string | undefined;
   /** A label identifying the permission group. */
-  label?: string;
+  label?: string | undefined;
   /** The scope associated with the permission group. */
-  scopes?: string;
+  scopes?: string | undefined;
   /** Indicates the permission group's availability or visibility. */
-  visibility?: string;
+  visibility?: string | undefined;
 }
 export interface TokensCreateRequestPoliciesItemPermissionGroupsItem {
   /** Identifier of the permission group. */
   id: string;
   /** Attributes associated to the permission group. */
-  meta?: TokensCreateRequestPoliciesItemPermissionGroupsItemMeta;
+  meta?: TokensCreateRequestPoliciesItemPermissionGroupsItemMeta | undefined;
   /** Name of the permission group. */
-  name?: string;
+  name?: string | undefined;
 }
 export type TokensCreateRequestPoliciesItemPermissionGroupsList =
   Array<TokensCreateRequestPoliciesItemPermissionGroupsItem>;
@@ -212,63 +212,63 @@ export type TokensCreateRequestConditionRequestIpInList = Array<string>;
 export type TokensCreateRequestConditionRequestIpNotInList = Array<string>;
 export interface TokensCreateRequestConditionRequestIp {
   /** List of IPv4/IPv6 CIDR addresses. */
-  in?: TokensCreateRequestConditionRequestIpInList;
+  in?: TokensCreateRequestConditionRequestIpInList | undefined;
   /** List of IPv4/IPv6 CIDR addresses. */
-  notIn?: TokensCreateRequestConditionRequestIpNotInList;
+  notIn?: TokensCreateRequestConditionRequestIpNotInList | undefined;
 }
 export interface TokensCreateRequestCondition {
   /** Client IP restrictions. */
-  requestIp?: TokensCreateRequestConditionRequestIp;
+  requestIp?: TokensCreateRequestConditionRequestIp | undefined;
 }
 export interface CreateTokenRequest {
   /** Token name. */
   name: string;
   /** List of access policies assigned to the token. */
   policies: TokensCreateRequestPoliciesList;
-  condition?: TokensCreateRequestCondition;
+  condition?: TokensCreateRequestCondition | undefined;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string;
+  expiresOn?: string | undefined;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string;
+  notBefore?: string | undefined;
 }
 export type TokensCreateResponseConditionRequestIpInList = Array<string>;
 export type TokensCreateResponseConditionRequestIpNotInList = Array<string>;
 export interface TokensCreateResponseConditionRequestIp {
   /** List of IPv4/IPv6 CIDR addresses. */
-  in?: TokensCreateResponseConditionRequestIpInList | null;
+  in?: TokensCreateResponseConditionRequestIpInList | null | undefined;
   /** List of IPv4/IPv6 CIDR addresses. */
-  notIn?: TokensCreateResponseConditionRequestIpNotInList | null;
+  notIn?: TokensCreateResponseConditionRequestIpNotInList | null | undefined;
 }
 export interface TokensCreateResponseCondition {
   /** Client IP restrictions. */
-  requestIp?: TokensCreateResponseConditionRequestIp | null;
+  requestIp?: TokensCreateResponseConditionRequestIp | null | undefined;
 }
 export type TokensCreateResponsePoliciesItemEffect = "allow" | "deny";
 export interface TokensCreateResponsePoliciesItemPermissionGroupsItemMeta {
   /** A category used to group permission groups. */
-  category?: string | null;
+  category?: string | null | undefined;
   /** Indicates whether the permission group is deprecated. */
-  deprecated?: string | null;
+  deprecated?: string | null | undefined;
   /** Additional information about the permission group. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Indicates whether the permission group can be edited. */
-  editable?: string | null;
+  editable?: string | null | undefined;
   /** The planned end-of-life date and time, when provided. */
-  eolAt?: string | null;
+  eolAt?: string | null | undefined;
   /** A label identifying the permission group. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** The scope associated with the permission group. */
-  scopes?: string | null;
+  scopes?: string | null | undefined;
   /** Indicates the permission group's availability or visibility. */
-  visibility?: string | null;
+  visibility?: string | null | undefined;
 }
 export interface TokensCreateResponsePoliciesItemPermissionGroupsItem {
   /** Identifier of the permission group. */
   id: string;
   /** Attributes associated to the permission group. */
-  meta?: TokensCreateResponsePoliciesItemPermissionGroupsItemMeta | null;
+  meta?: TokensCreateResponsePoliciesItemPermissionGroupsItemMeta | null | undefined;
   /** Name of the permission group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type TokensCreateResponsePoliciesItemPermissionGroupsList =
   Array<TokensCreateResponsePoliciesItemPermissionGroupsItem>;
@@ -296,32 +296,32 @@ export type TokensCreateResponseStatus = "active" | "disabled" | "expired";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTokenResponse {
   /** Token identifier tag. */
-  id?: string | null;
-  condition?: TokensCreateResponseCondition | null;
+  id?: string | null | undefined;
+  condition?: TokensCreateResponseCondition | null | undefined;
   /** The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available. */
-  creatorEmailAtCreation?: string | null;
+  creatorEmailAtCreation?: string | null | undefined;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The time on which the token was created. */
-  issuedOn?: string | null;
+  issuedOn?: string | null | undefined;
   /** Last time the token was used. */
-  lastUsedOn?: string | null;
+  lastUsedOn?: string | null | undefined;
   /** Last time the token was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Token name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string | null;
+  notBefore?: string | null | undefined;
   /** List of access policies assigned to the token. */
-  policies?: TokensCreateResponsePoliciesList | null;
+  policies?: TokensCreateResponsePoliciesList | null | undefined;
   /** The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable. */
-  provisionerId?: string | null;
+  provisionerId?: string | null | undefined;
   /** The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens. */
-  provisionerType?: string | null;
+  provisionerType?: string | null | undefined;
   /** Status of the token. */
-  status?: TokensCreateResponseStatus | null;
+  status?: TokensCreateResponseStatus | null | undefined;
   /** The token value. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface DeleteOrganizationRequest {
   /** Identifier */
@@ -330,7 +330,7 @@ export interface DeleteOrganizationRequest {
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface DeleteOrganizationResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeleteSubscriptionRequest {
   /** Subscription identifier tag. */
@@ -339,7 +339,7 @@ export interface DeleteSubscriptionRequest {
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface DeleteSubscriptionResponse {
   /** Subscription identifier tag. */
-  subscriptionId?: string | null;
+  subscriptionId?: string | null | undefined;
 }
 export interface DeleteTokenRequest {
   /** Token identifier tag. */
@@ -354,44 +354,44 @@ export interface GetBillingProfileRequest {}
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetBillingProfileResponse {
   /** Billing item identifier tag. */
-  id?: string | null;
-  accountType?: string | null;
-  address?: string | null;
-  address2?: string | null;
-  balance?: string | null;
-  cardExpiryMonth?: number | null;
-  cardExpiryYear?: number | null;
-  cardNumber?: string | null;
-  city?: string | null;
-  company?: string | null;
-  country?: string | null;
-  createdOn?: string | null;
-  deviceData?: string | null;
-  editedOn?: string | null;
-  enterpriseBillingEmail?: string | null;
-  enterprisePrimaryEmail?: string | null;
-  firstName?: string | null;
-  isPartner?: boolean | null;
-  lastName?: string | null;
-  nextBillDate?: string | null;
-  paymentAddress?: string | null;
-  paymentAddress2?: string | null;
-  paymentCity?: string | null;
-  paymentCountry?: string | null;
-  paymentEmail?: string | null;
-  paymentFirstName?: string | null;
-  paymentGateway?: string | null;
-  paymentLastName?: string | null;
-  paymentNonce?: string | null;
-  paymentState?: string | null;
-  paymentZipcode?: string | null;
-  primaryEmail?: string | null;
-  state?: string | null;
-  taxIdType?: string | null;
-  telephone?: string | null;
-  validationCode?: string | null;
-  vat?: string | null;
-  zipcode?: string | null;
+  id?: string | null | undefined;
+  accountType?: string | null | undefined;
+  address?: string | null | undefined;
+  address2?: string | null | undefined;
+  balance?: string | null | undefined;
+  cardExpiryMonth?: number | null | undefined;
+  cardExpiryYear?: number | null | undefined;
+  cardNumber?: string | null | undefined;
+  city?: string | null | undefined;
+  company?: string | null | undefined;
+  country?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deviceData?: string | null | undefined;
+  editedOn?: string | null | undefined;
+  enterpriseBillingEmail?: string | null | undefined;
+  enterprisePrimaryEmail?: string | null | undefined;
+  firstName?: string | null | undefined;
+  isPartner?: boolean | null | undefined;
+  lastName?: string | null | undefined;
+  nextBillDate?: string | null | undefined;
+  paymentAddress?: string | null | undefined;
+  paymentAddress2?: string | null | undefined;
+  paymentCity?: string | null | undefined;
+  paymentCountry?: string | null | undefined;
+  paymentEmail?: string | null | undefined;
+  paymentFirstName?: string | null | undefined;
+  paymentGateway?: string | null | undefined;
+  paymentLastName?: string | null | undefined;
+  paymentNonce?: string | null | undefined;
+  paymentState?: string | null | undefined;
+  paymentZipcode?: string | null | undefined;
+  primaryEmail?: string | null | undefined;
+  state?: string | null | undefined;
+  taxIdType?: string | null | undefined;
+  telephone?: string | null | undefined;
+  validationCode?: string | null | undefined;
+  vat?: string | null | undefined;
+  zipcode?: string | null | undefined;
 }
 export interface GetInviteRequest {
   /** Invite identifier tag. */
@@ -406,22 +406,22 @@ export interface GetInviteResponse {
   /** ID of the organization the user will be added to. */
   organizationId: string;
   /** Invite identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** When the invite is no longer active. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The email address of the user who created the invite. */
-  invitedBy?: string | null;
+  invitedBy?: string | null | undefined;
   /** Email address of the user to add to the organization. */
-  invitedMemberEmail?: string | null;
+  invitedMemberEmail?: string | null | undefined;
   /** When the invite was sent. */
-  invitedOn?: string | null;
-  organizationIsEnforcingTwofactor?: boolean | null;
+  invitedOn?: string | null | undefined;
+  organizationIsEnforcingTwofactor?: boolean | null | undefined;
   /** Organization name. */
-  organizationName?: string | null;
+  organizationName?: string | null | undefined;
   /** List of role names the membership has for this account. */
-  roles?: InvitesGetResponseRolesList | null;
+  roles?: InvitesGetResponseRolesList | null | undefined;
   /** Current status of the invitation. */
-  status?: InvitesGetResponseStatus | null;
+  status?: InvitesGetResponseStatus | null | undefined;
 }
 export interface GetOrganizationRequest {
   /** Identifier */
@@ -430,11 +430,11 @@ export interface GetOrganizationRequest {
 export type GetOrganizationResponse = unknown;
 export interface GetSpectrumAnalyticsZonesReportRequest {
   /** Include CDN traffic in the bandwidth aggregation. */
-  cdnTraffic?: boolean;
+  cdnTraffic?: boolean | undefined;
   /** Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified. */
-  since?: string;
+  since?: string | undefined;
   /** End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified. */
-  until?: string;
+  until?: string | undefined;
 }
 export interface GetSpectrumAnalyticsZonesReportResultItemTotalsBandwidth {
   /** Sum of ingress and egress bytes transferred. */
@@ -471,19 +471,19 @@ export type SubscriptionsGetResultItemRatePlanId =
 export type SubscriptionsGetResultItemRatePlanSetsList = Array<string>;
 export interface SubscriptionsGetResultItemRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsGetResultItemRatePlanId | null;
+  id?: SubscriptionsGetResultItemRatePlanId | null | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean | null;
+  externallyManaged?: boolean | null | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean | null;
+  isContract?: boolean | null | undefined;
   /** The full name of the rate plan. */
-  publicName?: string | null;
+  publicName?: string | null | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string | null;
+  scope?: string | null | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsGetResultItemRatePlanSetsList | null;
+  sets?: SubscriptionsGetResultItemRatePlanSetsList | null | undefined;
 }
 export type SubscriptionsGetResultItemState =
   | "Trial"
@@ -495,21 +495,21 @@ export type SubscriptionsGetResultItemState =
   | "Expired";
 export interface SubscriptionsGetResultItem {
   /** Subscription identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The end of the current period and also when the next billing is due. */
-  currentPeriodEnd?: string | null;
+  currentPeriodEnd?: string | null | undefined;
   /** When the current billing period started. May match initial_period_start if this is the first period. */
-  currentPeriodStart?: string | null;
+  currentPeriodStart?: string | null | undefined;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsGetResultItemFrequency | null;
+  frequency?: SubscriptionsGetResultItemFrequency | null | undefined;
   /** The price of the subscription that will be billed, in US dollars. */
-  price?: number | null;
+  price?: number | null | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsGetResultItemRatePlan | null;
+  ratePlan?: SubscriptionsGetResultItemRatePlan | null | undefined;
   /** The state that the subscription is in. */
-  state?: SubscriptionsGetResultItemState | null;
+  state?: SubscriptionsGetResultItemState | null | undefined;
 }
 export type SubscriptionsGetResultList = Array<SubscriptionsGetResultItem>;
 export interface GetSubscriptionResponse {
@@ -526,13 +526,13 @@ export type TokensGetResponseConditionRequestIpInList = Array<string>;
 export type TokensGetResponseConditionRequestIpNotInList = Array<string>;
 export interface TokensGetResponseConditionRequestIp {
   /** List of IPv4/IPv6 CIDR addresses. */
-  in?: TokensGetResponseConditionRequestIpInList | null;
+  in?: TokensGetResponseConditionRequestIpInList | null | undefined;
   /** List of IPv4/IPv6 CIDR addresses. */
-  notIn?: TokensGetResponseConditionRequestIpNotInList | null;
+  notIn?: TokensGetResponseConditionRequestIpNotInList | null | undefined;
 }
 export interface TokensGetResponseCondition {
   /** Client IP restrictions. */
-  requestIp?: TokensGetResponseConditionRequestIp | null;
+  requestIp?: TokensGetResponseConditionRequestIp | null | undefined;
 }
 export type TokensGetResponsePoliciesItemEffect = "allow" | "deny";
 export type TokensGetResponsePoliciesItemPermissionGroupsItemMeta =
@@ -565,30 +565,30 @@ export type TokensGetResponseStatus = "active" | "disabled" | "expired";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetTokenResponse {
   /** Token identifier tag. */
-  id?: string | null;
-  condition?: TokensGetResponseCondition | null;
+  id?: string | null | undefined;
+  condition?: TokensGetResponseCondition | null | undefined;
   /** The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available. */
-  creatorEmailAtCreation?: string | null;
+  creatorEmailAtCreation?: string | null | undefined;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The time on which the token was created. */
-  issuedOn?: string | null;
+  issuedOn?: string | null | undefined;
   /** Last time the token was used. */
-  lastUsedOn?: string | null;
+  lastUsedOn?: string | null | undefined;
   /** Last time the token was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Token name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string | null;
+  notBefore?: string | null | undefined;
   /** List of access policies assigned to the token. */
-  policies?: TokensGetResponsePoliciesList | null;
+  policies?: TokensGetResponsePoliciesList | null | undefined;
   /** The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable. */
-  provisionerId?: string | null;
+  provisionerId?: string | null | undefined;
   /** The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens. */
-  provisionerType?: string | null;
+  provisionerType?: string | null | undefined;
   /** Status of the token. */
-  status?: TokensGetResponseStatus | null;
+  status?: TokensGetResponseStatus | null | undefined;
 }
 export interface GetUserRequest {}
 export type GetResponseBetasList = Array<string>;
@@ -597,15 +597,15 @@ export type GetResponseOrganizationsItemRolesList = Array<string>;
 export type GetResponseOrganizationsItemStatus = "member" | "invited";
 export interface GetResponseOrganizationsItem {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Organization name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Access permissions for this User. */
-  permissions?: GetResponseOrganizationsItemPermissionsList | null;
+  permissions?: GetResponseOrganizationsItemPermissionsList | null | undefined;
   /** List of roles that a user has within an organization. */
-  roles?: GetResponseOrganizationsItemRolesList | null;
+  roles?: GetResponseOrganizationsItemRolesList | null | undefined;
   /** Whether the user is a member of the organization or has an invitation pending. */
-  status?: GetResponseOrganizationsItemStatus | null;
+  status?: GetResponseOrganizationsItemStatus | null | undefined;
 }
 export type GetResponseOrganizationsList = Array<GetResponseOrganizationsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -615,111 +615,111 @@ export interface GetUserResponse {
   /** Current email address of the user. */
   email: string;
   /** Lists the betas that the user is participating in. */
-  betas?: GetResponseBetasList | null;
+  betas?: GetResponseBetasList | null | undefined;
   /** The country in which the user lives. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** User's first name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Indicates whether user has any business zones */
-  hasBusinessZones?: boolean | null;
+  hasBusinessZones?: boolean | null | undefined;
   /** Indicates whether user has any enterprise zones */
-  hasEnterpriseZones?: boolean | null;
+  hasEnterpriseZones?: boolean | null | undefined;
   /** Indicates whether user has any pro zones */
-  hasProZones?: boolean | null;
+  hasProZones?: boolean | null | undefined;
   /** User's last name */
-  lastName?: string | null;
-  organizations?: GetResponseOrganizationsList | null;
+  lastName?: string | null | undefined;
+  organizations?: GetResponseOrganizationsList | null | undefined;
   /** Indicates whether user has been suspended */
-  suspended?: boolean | null;
+  suspended?: boolean | null | undefined;
   /** User's telephone number */
-  telephone?: string | null;
+  telephone?: string | null | undefined;
   /** Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication. */
-  twoFactorAuthenticationEnabled?: boolean | null;
+  twoFactorAuthenticationEnabled?: boolean | null | undefined;
   /** Indicates whether two-factor authentication is required by one of the accounts that the user is a member of. */
-  twoFactorAuthenticationLocked?: boolean | null;
+  twoFactorAuthenticationLocked?: boolean | null | undefined;
   /** The zipcode or postal code where the user lives. */
-  zipcode?: string | null;
+  zipcode?: string | null | undefined;
 }
 export interface AuditLogsListRequestAction {
   /** Filters by the action type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface AuditLogsListRequestActor {
   /** Filters by the email address of the actor that made the change. */
-  email?: string;
+  email?: string | undefined;
   /** Filters by the IP address of the request that made the change by specific IP address or valid CIDR Range. */
-  ip?: string;
+  ip?: string | undefined;
 }
 export type AuditLogsListRequestDirection = "desc" | "asc";
 export interface AuditLogsListRequestZone {
   /** Filters by the name of the zone associated to the change. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ListAuditLogsRequest {
   /** Finds a specific log by its ID. */
-  id?: string;
-  action?: AuditLogsListRequestAction;
-  actor?: AuditLogsListRequestActor;
+  id?: string | undefined;
+  action?: AuditLogsListRequestAction | undefined;
+  actor?: AuditLogsListRequestActor | undefined;
   /** Limits the returned results to logs older than the specified date. A `full-date` that conforms to RFC3339. */
-  before?: string;
+  before?: string | undefined;
   /** Changes the direction of the chronological sorting. */
-  direction?: AuditLogsListRequestDirection | (string & {});
+  direction?: AuditLogsListRequestDirection | (string & {}) | undefined;
   /** Indicates that this request is an export of logs in CSV format. */
-  export?: boolean;
+  export?: boolean | undefined;
   /** Indicates whether or not to hide user level audit logs. */
-  hideUserLogs?: boolean;
+  hideUserLogs?: boolean | undefined;
   /** Defines which page of results to return. */
-  page?: number;
+  page?: number | undefined;
   /** Sets the number of results to return per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Limits the returned results to logs newer than the specified date. A `full-date` that conforms to RFC3339. */
-  since?: string;
-  zone?: AuditLogsListRequestZone;
+  since?: string | undefined;
+  zone?: AuditLogsListRequestZone | undefined;
 }
 export interface AuditLogsListResultItemAction {
   /** A boolean that indicates if the action attempted was successful. */
-  result?: boolean | null;
+  result?: boolean | null | undefined;
   /** A short string that describes the action that was performed. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type AuditLogsListResultItemActorType = "user" | "admin" | "Cloudflare";
 export interface AuditLogsListResultItemActor {
   /** The ID of the actor that performed the action. If a user performed the action, this will be their User ID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The email of the user that performed the action. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The IP address of the request that performed the action. */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** The type of actor, whether a User, Cloudflare Admin, or an Automated System. */
-  type?: AuditLogsListResultItemActorType | null;
+  type?: AuditLogsListResultItemActorType | null | undefined;
 }
 export interface AuditLogsListResultItemOwner {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface AuditLogsListResultItemResource {
   /** An identifier for the resource that was affected by the action. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** A short string that describes the resource that was affected by the action. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export interface AuditLogsListResultItem {
   /** A string that uniquely identifies the audit log. */
-  id?: string | null;
-  action?: AuditLogsListResultItemAction | null;
-  actor?: AuditLogsListResultItemActor | null;
+  id?: string | null | undefined;
+  action?: AuditLogsListResultItemAction | null | undefined;
+  actor?: AuditLogsListResultItemActor | null | undefined;
   /** The source of the event. */
-  interface?: string | null;
+  interface?: string | null | undefined;
   /** An object which can lend more context to the action being logged. This is a flexible value and varies between different actions. */
-  metadata?: unknown | null;
+  metadata?: unknown | null | undefined;
   /** The new value of the resource that was modified. */
-  newValue?: string | null;
+  newValue?: string | null | undefined;
   /** The value of the resource before it was modified. */
-  oldValue?: string | null;
-  owner?: AuditLogsListResultItemOwner | null;
-  resource?: AuditLogsListResultItemResource | null;
+  oldValue?: string | null | undefined;
+  owner?: AuditLogsListResultItemOwner | null | undefined;
+  resource?: AuditLogsListResultItemResource | null | undefined;
   /** A UTC RFC3339 timestamp that specifies when the action being logged occured. */
-  when?: string | null;
+  when?: string | null | undefined;
 }
 export type AuditLogsListResultList = Array<AuditLogsListResultItem>;
 export interface ListAuditLogsResponse {
@@ -731,20 +731,20 @@ export interface ListAuditLogsResponse {
 export type BillingHistoryListRequestOrder = "type" | "occurred_at" | "action";
 export interface ListBillingHistoriesRequest {
   /** The billing item action. */
-  action?: string;
+  action?: string | undefined;
   /** When the billing item was created. */
-  occurredAt?: string;
+  occurredAt?: string | undefined;
   /** Field to order billing history by. */
-  order?: BillingHistoryListRequestOrder | (string & {});
+  order?: BillingHistoryListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** The billing item type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface BillingHistoryListResultItemZone {
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface BillingHistoryListResultItem {
   /** Billing item identifier tag. */
@@ -779,22 +779,22 @@ export interface InvitesListResultItem {
   /** ID of the organization the user will be added to. */
   organizationId: string;
   /** Invite identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** When the invite is no longer active. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The email address of the user who created the invite. */
-  invitedBy?: string | null;
+  invitedBy?: string | null | undefined;
   /** Email address of the user to add to the organization. */
-  invitedMemberEmail?: string | null;
+  invitedMemberEmail?: string | null | undefined;
   /** When the invite was sent. */
-  invitedOn?: string | null;
-  organizationIsEnforcingTwofactor?: boolean | null;
+  invitedOn?: string | null | undefined;
+  organizationIsEnforcingTwofactor?: boolean | null | undefined;
   /** Organization name. */
-  organizationName?: string | null;
+  organizationName?: string | null | undefined;
   /** List of role names the membership has for this account. */
-  roles?: InvitesListResultItemRolesList | null;
+  roles?: InvitesListResultItemRolesList | null | undefined;
   /** Current status of the invitation. */
-  status?: InvitesListResultItemStatus | null;
+  status?: InvitesListResultItemStatus | null | undefined;
 }
 export type InvitesListResultList = Array<InvitesListResultItem>;
 export interface ListInvitesResponse {
@@ -809,34 +809,34 @@ export type OrganizationsListRequestOrder = "id" | "name" | "status";
 export type OrganizationsListRequestStatus = "member" | "invited";
 export interface ListOrganizationsRequest {
   /** Direction to order organizations. */
-  direction?: OrganizationsListRequestDirection | (string & {});
+  direction?: OrganizationsListRequestDirection | (string & {}) | undefined;
   /** Whether to match all search requirements or at least one (any). */
-  match?: OrganizationsListRequestMatch | (string & {});
+  match?: OrganizationsListRequestMatch | (string & {}) | undefined;
   /** Organization name. */
-  name?: string;
+  name?: string | undefined;
   /** Field to order organizations by. */
-  order?: OrganizationsListRequestOrder | (string & {});
+  order?: OrganizationsListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of organizations per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Whether the user is a member of the organization or has an inivitation pending. */
-  status?: OrganizationsListRequestStatus | (string & {});
+  status?: OrganizationsListRequestStatus | (string & {}) | undefined;
 }
 export type OrganizationsListResultItemPermissionsList = Array<unknown>;
 export type OrganizationsListResultItemRolesList = Array<string>;
 export type OrganizationsListResultItemStatus = "member" | "invited";
 export interface OrganizationsListResultItem {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Organization name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Access permissions for this User. */
-  permissions?: OrganizationsListResultItemPermissionsList | null;
+  permissions?: OrganizationsListResultItemPermissionsList | null | undefined;
   /** List of roles that a user has within an organization. */
-  roles?: OrganizationsListResultItemRolesList | null;
+  roles?: OrganizationsListResultItemRolesList | null | undefined;
   /** Whether the user is a member of the organization or has an invitation pending. */
-  status?: OrganizationsListResultItemStatus | null;
+  status?: OrganizationsListResultItemStatus | null | undefined;
 }
 export type OrganizationsListResultList = Array<OrganizationsListResultItem>;
 export interface ListOrganizationsResponse {
@@ -859,10 +859,10 @@ export interface TenantsListResultItemMetaTenantFlags {
 }
 export interface TenantsListResultItemMeta {
   /** Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy. */
-  hierarchyTags?: TenantsListResultItemMetaHierarchyTagsList | null;
-  managedBy?: string | null;
+  hierarchyTags?: TenantsListResultItemMetaHierarchyTagsList | null | undefined;
+  managedBy?: string | null | undefined;
   /** Enable features for Organizations. */
-  tenantFlags?: TenantsListResultItemMetaTenantFlags | null;
+  tenantFlags?: TenantsListResultItemMetaTenantFlags | null | undefined;
 }
 export interface TenantsListResultItemParent {
   id: string;
@@ -880,8 +880,8 @@ export interface TenantsListResultItem {
   createTime: string;
   meta: TenantsListResultItemMeta;
   name: string;
-  parent?: TenantsListResultItemParent | null;
-  profile?: TenantsListResultItemProfile | null;
+  parent?: TenantsListResultItemParent | null | undefined;
+  profile?: TenantsListResultItemProfile | null | undefined;
 }
 export type TenantsListResultList = Array<TenantsListResultItem>;
 export interface ListTenantsResponse {
@@ -892,9 +892,9 @@ export interface ListTenantsResponse {
 }
 export interface ListTokenPermissionGroupsRequest {
   /** Filter by the name of the permission group. The value must be URL-encoded. */
-  name?: string;
+  name?: string | undefined;
   /** Filter by the scope of the permission group. The value must be URL-encoded. */
-  scope?: string;
+  scope?: string | undefined;
 }
 export type TokensPermissionGroupsListResultItemCategory =
   | "developer_platform"
@@ -919,15 +919,15 @@ export type TokensPermissionGroupsListResultItemScopesList =
   Array<TokensPermissionGroupsListResultItemScopesItem>;
 export interface TokensPermissionGroupsListResultItem {
   /** Public ID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Product category that this permission group belongs to. */
-  category?: TokensPermissionGroupsListResultItemCategory | null;
+  category?: TokensPermissionGroupsListResultItemCategory | null | undefined;
   /** Whether the caller can select this permission group when creating a token. */
-  isSelectable?: boolean | null;
+  isSelectable?: boolean | null | undefined;
   /** Permission Group Name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Resources to which the Permission Group is scoped */
-  scopes?: TokensPermissionGroupsListResultItemScopesList | null;
+  scopes?: TokensPermissionGroupsListResultItemScopesList | null | undefined;
 }
 export type TokensPermissionGroupsListResultList = Array<TokensPermissionGroupsListResultItem>;
 export interface ListTokenPermissionGroupsResponse {
@@ -939,25 +939,25 @@ export interface ListTokenPermissionGroupsResponse {
 export type TokensListRequestDirection = "asc" | "desc";
 export interface ListTokensRequest {
   /** Direction to order results. */
-  direction?: TokensListRequestDirection | (string & {});
+  direction?: TokensListRequestDirection | (string & {}) | undefined;
   /** When true, includes recently-expired tokens in the response. */
-  includeExpired?: boolean;
+  includeExpired?: boolean | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type TokensListResultItemConditionRequestIpInList = Array<string>;
 export type TokensListResultItemConditionRequestIpNotInList = Array<string>;
 export interface TokensListResultItemConditionRequestIp {
   /** List of IPv4/IPv6 CIDR addresses. */
-  in?: TokensListResultItemConditionRequestIpInList | null;
+  in?: TokensListResultItemConditionRequestIpInList | null | undefined;
   /** List of IPv4/IPv6 CIDR addresses. */
-  notIn?: TokensListResultItemConditionRequestIpNotInList | null;
+  notIn?: TokensListResultItemConditionRequestIpNotInList | null | undefined;
 }
 export interface TokensListResultItemCondition {
   /** Client IP restrictions. */
-  requestIp?: TokensListResultItemConditionRequestIp | null;
+  requestIp?: TokensListResultItemConditionRequestIp | null | undefined;
 }
 export type TokensListResultItemPoliciesItemEffect = "allow" | "deny";
 export type TokensListResultItemPoliciesItemPermissionGroupsItemMeta =
@@ -989,30 +989,30 @@ export type TokensListResultItemPoliciesList = Array<TokensListResultItemPolicie
 export type TokensListResultItemStatus = "active" | "disabled" | "expired";
 export interface TokensListResultItem {
   /** Token identifier tag. */
-  id?: string | null;
-  condition?: TokensListResultItemCondition | null;
+  id?: string | null | undefined;
+  condition?: TokensListResultItemCondition | null | undefined;
   /** The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available. */
-  creatorEmailAtCreation?: string | null;
+  creatorEmailAtCreation?: string | null | undefined;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The time on which the token was created. */
-  issuedOn?: string | null;
+  issuedOn?: string | null | undefined;
   /** Last time the token was used. */
-  lastUsedOn?: string | null;
+  lastUsedOn?: string | null | undefined;
   /** Last time the token was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Token name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string | null;
+  notBefore?: string | null | undefined;
   /** List of access policies assigned to the token. */
-  policies?: TokensListResultItemPoliciesList | null;
+  policies?: TokensListResultItemPoliciesList | null | undefined;
   /** The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable. */
-  provisionerId?: string | null;
+  provisionerId?: string | null | undefined;
   /** The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens. */
-  provisionerType?: string | null;
+  provisionerType?: string | null | undefined;
   /** Status of the token. */
-  status?: TokensListResultItemStatus | null;
+  status?: TokensListResultItemStatus | null | undefined;
 }
 export type TokensListResultList = Array<TokensListResultItem>;
 export interface ListTokensResponse {
@@ -1037,34 +1037,34 @@ export interface PatchInviteResponse {
   /** ID of the organization the user will be added to. */
   organizationId: string;
   /** Invite identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** When the invite is no longer active. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The email address of the user who created the invite. */
-  invitedBy?: string | null;
+  invitedBy?: string | null | undefined;
   /** Email address of the user to add to the organization. */
-  invitedMemberEmail?: string | null;
+  invitedMemberEmail?: string | null | undefined;
   /** When the invite was sent. */
-  invitedOn?: string | null;
-  organizationIsEnforcingTwofactor?: boolean | null;
+  invitedOn?: string | null | undefined;
+  organizationIsEnforcingTwofactor?: boolean | null | undefined;
   /** Organization name. */
-  organizationName?: string | null;
+  organizationName?: string | null | undefined;
   /** List of role names the membership has for this account. */
-  roles?: InvitesEditResponseRolesList | null;
+  roles?: InvitesEditResponseRolesList | null | undefined;
   /** Current status of the invitation. */
-  status?: InvitesEditResponseStatus | null;
+  status?: InvitesEditResponseStatus | null | undefined;
 }
 export interface PatchUserRequest {
   /** The country in which the user lives. */
-  country?: string;
+  country?: string | undefined;
   /** User's first name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** User's last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** User's telephone number */
-  telephone?: string;
+  telephone?: string | undefined;
   /** The zipcode or postal code where the user lives. */
-  zipcode?: string;
+  zipcode?: string | undefined;
 }
 export type EditResponseBetasList = Array<string>;
 export type EditResponseOrganizationsItemPermissionsList = Array<unknown>;
@@ -1072,15 +1072,15 @@ export type EditResponseOrganizationsItemRolesList = Array<string>;
 export type EditResponseOrganizationsItemStatus = "member" | "invited";
 export interface EditResponseOrganizationsItem {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Organization name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Access permissions for this User. */
-  permissions?: EditResponseOrganizationsItemPermissionsList | null;
+  permissions?: EditResponseOrganizationsItemPermissionsList | null | undefined;
   /** List of roles that a user has within an organization. */
-  roles?: EditResponseOrganizationsItemRolesList | null;
+  roles?: EditResponseOrganizationsItemRolesList | null | undefined;
   /** Whether the user is a member of the organization or has an invitation pending. */
-  status?: EditResponseOrganizationsItemStatus | null;
+  status?: EditResponseOrganizationsItemStatus | null | undefined;
 }
 export type EditResponseOrganizationsList = Array<EditResponseOrganizationsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -1090,30 +1090,30 @@ export interface PatchUserResponse {
   /** Current email address of the user. */
   email: string;
   /** Lists the betas that the user is participating in. */
-  betas?: EditResponseBetasList | null;
+  betas?: EditResponseBetasList | null | undefined;
   /** The country in which the user lives. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** User's first name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Indicates whether user has any business zones */
-  hasBusinessZones?: boolean | null;
+  hasBusinessZones?: boolean | null | undefined;
   /** Indicates whether user has any enterprise zones */
-  hasEnterpriseZones?: boolean | null;
+  hasEnterpriseZones?: boolean | null | undefined;
   /** Indicates whether user has any pro zones */
-  hasProZones?: boolean | null;
+  hasProZones?: boolean | null | undefined;
   /** User's last name */
-  lastName?: string | null;
-  organizations?: EditResponseOrganizationsList | null;
+  lastName?: string | null | undefined;
+  organizations?: EditResponseOrganizationsList | null | undefined;
   /** Indicates whether user has been suspended */
-  suspended?: boolean | null;
+  suspended?: boolean | null | undefined;
   /** User's telephone number */
-  telephone?: string | null;
+  telephone?: string | null | undefined;
   /** Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication. */
-  twoFactorAuthenticationEnabled?: boolean | null;
+  twoFactorAuthenticationEnabled?: boolean | null | undefined;
   /** Indicates whether two-factor authentication is required by one of the accounts that the user is a member of. */
-  twoFactorAuthenticationLocked?: boolean | null;
+  twoFactorAuthenticationLocked?: boolean | null | undefined;
   /** The zipcode or postal code where the user lives. */
-  zipcode?: string | null;
+  zipcode?: string | null | undefined;
 }
 export type SubscriptionsUpdateRequestFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
 export type SubscriptionsUpdateRequestRatePlanId =
@@ -1130,27 +1130,27 @@ export type SubscriptionsUpdateRequestRatePlanId =
 export type SubscriptionsUpdateRequestRatePlanSetsList = Array<string>;
 export interface SubscriptionsUpdateRequestRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsUpdateRequestRatePlanId | (string & {});
+  id?: SubscriptionsUpdateRequestRatePlanId | (string & {}) | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string;
+  currency?: string | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean;
+  externallyManaged?: boolean | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean;
+  isContract?: boolean | undefined;
   /** The full name of the rate plan. */
-  publicName?: string;
+  publicName?: string | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string;
+  scope?: string | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsUpdateRequestRatePlanSetsList;
+  sets?: SubscriptionsUpdateRequestRatePlanSetsList | undefined;
 }
 export interface PutSubscriptionRequest {
   /** Subscription identifier tag. */
   identifier: string;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsUpdateRequestFrequency | (string & {});
+  frequency?: SubscriptionsUpdateRequestFrequency | (string & {}) | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsUpdateRequestRatePlan;
+  ratePlan?: SubscriptionsUpdateRequestRatePlan | undefined;
 }
 export type PutSubscriptionResponse = unknown;
 export interface PutTokenValueRequest {
@@ -1187,13 +1187,13 @@ export type TokensUpdateRequestConditionRequestIpInList = Array<string>;
 export type TokensUpdateRequestConditionRequestIpNotInList = Array<string>;
 export interface TokensUpdateRequestConditionRequestIp {
   /** List of IPv4/IPv6 CIDR addresses. */
-  in?: TokensUpdateRequestConditionRequestIpInList;
+  in?: TokensUpdateRequestConditionRequestIpInList | undefined;
   /** List of IPv4/IPv6 CIDR addresses. */
-  notIn?: TokensUpdateRequestConditionRequestIpNotInList;
+  notIn?: TokensUpdateRequestConditionRequestIpNotInList | undefined;
 }
 export interface TokensUpdateRequestCondition {
   /** Client IP restrictions. */
-  requestIp?: TokensUpdateRequestConditionRequestIp;
+  requestIp?: TokensUpdateRequestConditionRequestIp | undefined;
 }
 export type TokensUpdateRequestStatus = "active" | "disabled" | "expired";
 export interface UpdateTokenRequest {
@@ -1203,25 +1203,25 @@ export interface UpdateTokenRequest {
   name: string;
   /** List of access policies assigned to the token. */
   policies: TokensUpdateRequestPoliciesList;
-  condition?: TokensUpdateRequestCondition;
+  condition?: TokensUpdateRequestCondition | undefined;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string;
+  expiresOn?: string | undefined;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string;
+  notBefore?: string | undefined;
   /** Status of the token. */
-  status?: TokensUpdateRequestStatus | (string & {});
+  status?: TokensUpdateRequestStatus | (string & {}) | undefined;
 }
 export type TokensUpdateResponseConditionRequestIpInList = Array<string>;
 export type TokensUpdateResponseConditionRequestIpNotInList = Array<string>;
 export interface TokensUpdateResponseConditionRequestIp {
   /** List of IPv4/IPv6 CIDR addresses. */
-  in?: TokensUpdateResponseConditionRequestIpInList | null;
+  in?: TokensUpdateResponseConditionRequestIpInList | null | undefined;
   /** List of IPv4/IPv6 CIDR addresses. */
-  notIn?: TokensUpdateResponseConditionRequestIpNotInList | null;
+  notIn?: TokensUpdateResponseConditionRequestIpNotInList | null | undefined;
 }
 export interface TokensUpdateResponseCondition {
   /** Client IP restrictions. */
-  requestIp?: TokensUpdateResponseConditionRequestIp | null;
+  requestIp?: TokensUpdateResponseConditionRequestIp | null | undefined;
 }
 export type TokensUpdateResponsePoliciesItemEffect = "allow" | "deny";
 export type TokensUpdateResponsePoliciesItemPermissionGroupsItemMeta =
@@ -1254,30 +1254,30 @@ export type TokensUpdateResponseStatus = "active" | "disabled" | "expired";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateTokenResponse {
   /** Token identifier tag. */
-  id?: string | null;
-  condition?: TokensUpdateResponseCondition | null;
+  id?: string | null | undefined;
+  condition?: TokensUpdateResponseCondition | null | undefined;
   /** The email address of the user who created the token at the time of creation. Only present for Account Owned API Tokens when a creator email was available. */
-  creatorEmailAtCreation?: string | null;
+  creatorEmailAtCreation?: string | null | undefined;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The time on which the token was created. */
-  issuedOn?: string | null;
+  issuedOn?: string | null | undefined;
   /** Last time the token was used. */
-  lastUsedOn?: string | null;
+  lastUsedOn?: string | null | undefined;
   /** Last time the token was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Token name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string | null;
+  notBefore?: string | null | undefined;
   /** List of access policies assigned to the token. */
-  policies?: TokensUpdateResponsePoliciesList | null;
+  policies?: TokensUpdateResponsePoliciesList | null | undefined;
   /** The identifier of the service that provisioned the token. For an OAuth-provisioned token, this is the OAuth client identifier. Present when `provisioner_type` is present and null when the identifier is unavailable. */
-  provisionerId?: string | null;
+  provisionerId?: string | null | undefined;
   /** The type of service that provisioned the token. Only present for provisioned Account Owned API Tokens. */
-  provisionerType?: string | null;
+  provisionerType?: string | null | undefined;
   /** Status of the token. */
-  status?: TokensUpdateResponseStatus | null;
+  status?: TokensUpdateResponseStatus | null | undefined;
 }
 export interface VerifyTokenRequest {}
 export type TokensVerifyResponseStatus = "active" | "disabled" | "expired";
@@ -1288,9 +1288,9 @@ export interface VerifyTokenResponse {
   /** Status of the token. */
   status: TokensVerifyResponseStatus;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string | null;
+  notBefore?: string | null | undefined;
 }
 export type CreateTokenError =
   | InvalidRoute

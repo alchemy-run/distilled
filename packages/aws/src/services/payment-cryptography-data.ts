@@ -153,11 +153,11 @@ export type InitializationVectorType = string | redacted.Redacted<string>;
 export type PaddingType = "PKCS1" | "OAEP_SHA1" | "OAEP_SHA256" | "OAEP_SHA512" | (string & {});
 export interface SymmetricEncryptionAttributes {
   Mode: EncryptionMode;
-  InitializationVector?: string | redacted.Redacted<string>;
-  PaddingType?: PaddingType;
+  InitializationVector?: string | redacted.Redacted<string> | undefined;
+  PaddingType?: PaddingType | undefined;
 }
 export interface AsymmetricEncryptionAttributes {
-  PaddingType?: PaddingType;
+  PaddingType?: PaddingType | undefined;
 }
 export type HexLength16Or20Or24 = string;
 export type DukptEncryptionMode = "ECB" | "CBC" | (string & {});
@@ -171,10 +171,10 @@ export type DukptDerivationType =
 export type DukptKeyVariant = "BIDIRECTIONAL" | "REQUEST" | "RESPONSE" | (string & {});
 export interface DukptEncryptionAttributes {
   KeySerialNumber: string;
-  Mode?: DukptEncryptionMode;
-  DukptKeyDerivationType?: DukptDerivationType;
-  DukptKeyVariant?: DukptKeyVariant;
-  InitializationVector?: string | redacted.Redacted<string>;
+  Mode?: DukptEncryptionMode | undefined;
+  DukptKeyDerivationType?: DukptDerivationType | undefined;
+  DukptKeyVariant?: DukptKeyVariant | undefined;
+  InitializationVector?: string | redacted.Redacted<string> | undefined;
 }
 export type EmvMajorKeyDerivationMode = "EMV_OPTION_A" | "EMV_OPTION_B" | (string & {});
 export type PrimaryAccountNumberType = string | redacted.Redacted<string>;
@@ -186,8 +186,8 @@ export interface EmvEncryptionAttributes {
   PrimaryAccountNumber: string | redacted.Redacted<string>;
   PanSequenceNumber: string;
   SessionDerivationData: string | redacted.Redacted<string>;
-  Mode?: EmvEncryptionMode;
-  InitializationVector?: string | redacted.Redacted<string>;
+  Mode?: EmvEncryptionMode | undefined;
+  InitializationVector?: string | redacted.Redacted<string> | undefined;
 }
 export type EncryptionDecryptionAttributes =
   | { Symmetric: SymmetricEncryptionAttributes; Asymmetric?: never; Dukpt?: never; Emv?: never }
@@ -224,13 +224,13 @@ export type WrappedKeyMaterial =
 export type KeyCheckValueAlgorithm = string;
 export interface WrappedKey {
   WrappedKeyMaterial: WrappedKeyMaterial;
-  KeyCheckValueAlgorithm?: string;
+  KeyCheckValueAlgorithm?: string | undefined;
 }
 export interface DecryptDataInput {
   KeyIdentifier: string;
   CipherText: string | redacted.Redacted<string>;
   DecryptionAttributes: EncryptionDecryptionAttributes;
-  WrappedKey?: WrappedKey;
+  WrappedKey?: WrappedKey | undefined;
 }
 export type KeyArn = string;
 export type KeyCheckValue = string;
@@ -245,17 +245,17 @@ export interface EncryptDataInput {
   KeyIdentifier: string;
   PlainText: string | redacted.Redacted<string>;
   EncryptionAttributes: EncryptionDecryptionAttributes;
-  WrappedKey?: WrappedKey;
+  WrappedKey?: WrappedKey | undefined;
 }
 export interface EncryptDataOutput {
   KeyArn: string;
-  KeyCheckValue?: string;
+  KeyCheckValue?: string | undefined;
   CipherText: string | redacted.Redacted<string>;
 }
 export type RandomKeyMaxLength = "BYTES_8" | "BYTES_16" | "BYTES_24" | (string & {});
 export interface KekValidationRequest {
   DeriveKeyAlgorithm: SymmetricKeyAlgorithm;
-  RandomKeyMaxLength?: RandomKeyMaxLength;
+  RandomKeyMaxLength?: RandomKeyMaxLength | undefined;
 }
 export type As2805RandomKeyMaterial = string | redacted.Redacted<string>;
 export interface KekValidationResponse {
@@ -475,7 +475,7 @@ export interface GenerateCardValidationDataInput {
   KeyIdentifier: string;
   PrimaryAccountNumber: string | redacted.Redacted<string>;
   GenerationAttributes: CardGenerationAttributes;
-  ValidationDataLength?: number;
+  ValidationDataLength?: number | undefined;
 }
 export type ValidationDataType = string | redacted.Redacted<string>;
 export interface GenerateCardValidationDataOutput {
@@ -520,7 +520,7 @@ export interface MacAlgorithmEmv {
 export interface MacAlgorithmDukpt {
   KeySerialNumber: string;
   DukptKeyVariant: DukptKeyVariant;
-  DukptDerivationType?: DukptDerivationType;
+  DukptDerivationType?: DukptDerivationType | undefined;
 }
 export type MacAttributes =
   | {
@@ -563,7 +563,7 @@ export interface GenerateMacInput {
   KeyIdentifier: string;
   MessageData: string | redacted.Redacted<string>;
   GenerationAttributes: MacAttributes;
-  MacLength?: number;
+  MacLength?: number | undefined;
 }
 export type MacOutputType = string | redacted.Redacted<string>;
 export interface GenerateMacOutput {
@@ -599,7 +599,7 @@ export interface AmexAttributes {
   PanSequenceNumber: string;
   ApplicationTransactionCounter: string;
   AuthorizationRequestKeyIdentifier: string;
-  CurrentPinAttributes?: CurrentPinAttributes;
+  CurrentPinAttributes?: CurrentPinAttributes | undefined;
 }
 export interface VisaAttributes {
   MajorKeyDerivationMode: MajorKeyDerivationMode;
@@ -607,7 +607,7 @@ export interface VisaAttributes {
   PanSequenceNumber: string;
   ApplicationTransactionCounter: string;
   AuthorizationRequestKeyIdentifier: string;
-  CurrentPinAttributes?: CurrentPinAttributes;
+  CurrentPinAttributes?: CurrentPinAttributes | undefined;
 }
 export interface Emv2000Attributes {
   MajorKeyDerivationMode: MajorKeyDerivationMode;
@@ -659,8 +659,8 @@ export type EncryptedPinBlockType = string | redacted.Redacted<string>;
 export interface VisaAmexDerivationOutputs {
   AuthorizationRequestKeyArn: string;
   AuthorizationRequestKeyCheckValue: string;
-  CurrentPinPekArn?: string;
-  CurrentPinPekKeyCheckValue?: string;
+  CurrentPinPekArn?: string | undefined;
+  CurrentPinPekKeyCheckValue?: string | undefined;
 }
 export interface GenerateMacEmvPinChangeOutput {
   NewPinPekArn: string;
@@ -671,7 +671,7 @@ export interface GenerateMacEmvPinChangeOutput {
   NewPinPekKeyCheckValue: string;
   SecureMessagingIntegrityKeyCheckValue: string;
   SecureMessagingConfidentialityKeyCheckValue: string;
-  VisaAmexDerivationOutputs?: VisaAmexDerivationOutputs;
+  VisaAmexDerivationOutputs?: VisaAmexDerivationOutputs | undefined;
 }
 export type IntegerRangeBetween0And6 = number;
 export interface VisaPin {
@@ -767,10 +767,10 @@ export interface GeneratePinDataInput {
   GenerationKeyIdentifier: string;
   EncryptionKeyIdentifier: string;
   GenerationAttributes: PinGenerationAttributes;
-  PinDataLength?: number;
-  PrimaryAccountNumber?: string | redacted.Redacted<string>;
+  PinDataLength?: number | undefined;
+  PrimaryAccountNumber?: string | redacted.Redacted<string> | undefined;
   PinBlockFormat: PinBlockFormatForPinData;
-  EncryptionWrappedKey?: WrappedKey;
+  EncryptionWrappedKey?: WrappedKey | undefined;
 }
 export type VerificationValueType = string | redacted.Redacted<string>;
 export type PinData =
@@ -794,8 +794,8 @@ export interface ReEncryptDataInput {
   CipherText: string | redacted.Redacted<string>;
   IncomingEncryptionAttributes: ReEncryptionAttributes;
   OutgoingEncryptionAttributes: ReEncryptionAttributes;
-  IncomingWrappedKey?: WrappedKey;
-  OutgoingWrappedKey?: WrappedKey;
+  IncomingWrappedKey?: WrappedKey | undefined;
+  OutgoingWrappedKey?: WrappedKey | undefined;
 }
 export interface ReEncryptDataOutput {
   KeyArn: string;
@@ -821,7 +821,7 @@ export type OutgoingKeyMaterial = { Tr31KeyBlock: OutgoingTr31KeyBlock };
 export interface TranslateKeyMaterialInput {
   IncomingKeyMaterial: IncomingKeyMaterial;
   OutgoingKeyMaterial: OutgoingKeyMaterial;
-  KeyCheckValueAlgorithm?: string;
+  KeyCheckValueAlgorithm?: string | undefined;
 }
 export type KeyMaterial = string | redacted.Redacted<string>;
 export type WrappedKeyMaterialFormat = string;
@@ -879,8 +879,8 @@ export type TranslationIsoFormats =
 export type HexEvenLengthBetween16And32 = string | redacted.Redacted<string>;
 export interface DukptDerivationAttributes {
   KeySerialNumber: string;
-  DukptKeyDerivationType?: DukptDerivationType;
-  DukptKeyVariant?: DukptKeyVariant;
+  DukptKeyDerivationType?: DukptDerivationType | undefined;
+  DukptKeyVariant?: DukptKeyVariant | undefined;
 }
 export type SystemTraceAuditNumberType = string;
 export type TransactionAmountType = string;
@@ -894,11 +894,11 @@ export interface TranslatePinDataInput {
   IncomingTranslationAttributes: TranslationIsoFormats;
   OutgoingTranslationAttributes: TranslationIsoFormats;
   EncryptedPinBlock: string | redacted.Redacted<string>;
-  IncomingDukptAttributes?: DukptDerivationAttributes;
-  OutgoingDukptAttributes?: DukptDerivationAttributes;
-  IncomingWrappedKey?: WrappedKey;
-  OutgoingWrappedKey?: WrappedKey;
-  IncomingAs2805Attributes?: As2805PekDerivationAttributes;
+  IncomingDukptAttributes?: DukptDerivationAttributes | undefined;
+  OutgoingDukptAttributes?: DukptDerivationAttributes | undefined;
+  IncomingWrappedKey?: WrappedKey | undefined;
+  OutgoingWrappedKey?: WrappedKey | undefined;
+  IncomingAs2805Attributes?: As2805PekDerivationAttributes | undefined;
 }
 export interface TranslatePinDataOutput {
   PinBlock: string | redacted.Redacted<string>;
@@ -911,7 +911,7 @@ export interface CryptogramVerificationArpcMethod1 {
 export type ProprietaryAuthenticationDataType = string | redacted.Redacted<string>;
 export interface CryptogramVerificationArpcMethod2 {
   CardStatusUpdate: string;
-  ProprietaryAuthenticationData?: string | redacted.Redacted<string>;
+  ProprietaryAuthenticationData?: string | redacted.Redacted<string> | undefined;
 }
 export type CryptogramAuthResponse =
   | { ArpcMethod1: CryptogramVerificationArpcMethod1; ArpcMethod2?: never }
@@ -922,13 +922,13 @@ export interface VerifyAuthRequestCryptogramInput {
   AuthRequestCryptogram: string | redacted.Redacted<string>;
   MajorKeyDerivationMode: MajorKeyDerivationMode;
   SessionKeyDerivationAttributes: SessionKeyDerivation;
-  AuthResponseAttributes?: CryptogramAuthResponse;
+  AuthResponseAttributes?: CryptogramAuthResponse | undefined;
 }
 export type AuthResponseValueType = string | redacted.Redacted<string>;
 export interface VerifyAuthRequestCryptogramOutput {
   KeyArn: string;
   KeyCheckValue: string;
-  AuthResponseValue?: string | redacted.Redacted<string>;
+  AuthResponseValue?: string | redacted.Redacted<string> | undefined;
 }
 export interface DiscoverDynamicCardVerificationCode {
   CardExpiryDate: string | redacted.Redacted<string>;
@@ -1032,7 +1032,7 @@ export interface VerifyMacInput {
   MessageData: string | redacted.Redacted<string>;
   Mac: string | redacted.Redacted<string>;
   VerificationAttributes: MacAttributes;
-  MacLength?: number;
+  MacLength?: number | undefined;
 }
 export interface VerifyMacOutput {
   KeyArn: string;
@@ -1060,11 +1060,11 @@ export interface VerifyPinDataInput {
   EncryptionKeyIdentifier: string;
   VerificationAttributes: PinVerificationAttributes;
   EncryptedPinBlock: string | redacted.Redacted<string>;
-  PrimaryAccountNumber?: string | redacted.Redacted<string>;
+  PrimaryAccountNumber?: string | redacted.Redacted<string> | undefined;
   PinBlockFormat: PinBlockFormatForPinData;
-  PinDataLength?: number;
-  DukptAttributes?: DukptAttributes;
-  EncryptionWrappedKey?: WrappedKey;
+  PinDataLength?: number | undefined;
+  DukptAttributes?: DukptAttributes | undefined;
+  EncryptionWrappedKey?: WrappedKey | undefined;
 }
 export interface VerifyPinDataOutput {
   VerificationKeyArn: string;

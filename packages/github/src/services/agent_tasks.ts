@@ -74,20 +74,20 @@ export interface CreateTaskInRepoRequest {
   /** The user's prompt for the agent */
   prompt: string;
   /** The model to use for this task. The allowed models may change over time and depend on the user's GitHub Copilot plan and organization policies. Currently supported values: `claude-sonnet-4.6`, `claude-opus-4.6`, `gpt-5.2-codex`, `gpt-5.3-codex`, `gpt-5.4`, `claude-sonnet-4.5`, `claude-opus-4.5` */
-  model?: string;
+  model?: string | undefined;
   /** Optional identifier for a custom agent to use for this task. Use the custom agent's filename without the extension - for example, for a `.github/agents/performance-optimizer.agent.md` custom agent, use `performance-optimizer`. */
-  custom_agent?: string;
+  custom_agent?: string | undefined;
   /** Whether to create a PR. */
-  create_pull_request?: boolean;
+  create_pull_request?: boolean | undefined;
   /** Base ref for new branch/PR */
-  base_ref?: string;
+  base_ref?: string | undefined;
   /** Head ref for existing branch/PR. If provided with `base_ref`, the agent looks up open PR context for `head_ref` targeting `base_ref` and commits to `head_ref` instead of creating a new branch. */
-  head_ref?: string;
+  head_ref?: string | undefined;
 }
 /** A GitHub user */
 export interface CreateTaskInRepoResponseCreator {
   /** The unique identifier of the user */
-  id?: number;
+  id?: number | undefined;
 }
 /** Type of the task creator */
 export type CreateTaskInRepoResponseCreatorType = "user" | "organization";
@@ -100,7 +100,7 @@ export type CreateTaskInRepoResponseOwner = CreateTaskInRepoResponseCreator;
 /** The repository this task belongs to */
 export interface CreateTaskInRepoResponseRepository {
   /** The unique identifier of the repository */
-  id?: number;
+  id?: number | undefined;
 }
 /** Current state of the task, derived from its most recent session */
 export type CreateTaskInRepoResponseState =
@@ -121,7 +121,7 @@ export interface CreateTaskInRepoResponseArtifactsItemDataCase0 {
   /** GitHub resource ID */
   id: number;
   /** GraphQL global ID */
-  global_id?: string;
+  global_id?: string | undefined;
 }
 /** A Git branch reference */
 export interface CreateTaskInRepoResponseArtifactsItemDataCase1 {
@@ -148,41 +148,41 @@ export type CreateTaskInRepoResponseArtifactsList = Array<CreateTaskInRepoRespon
 /** Custom agent metadata associated with this task */
 export interface CreateTaskInRepoResponseCustomAgent {
   /** The custom agent's filename without the extension - for example, `performance-optimizer` for a `.github/agents/performance-optimizer.agent.md` custom agent. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface CreateTaskInRepoResponse {
   /** Unique task identifier */
   id: string;
   /** API URL for this task */
-  url?: string;
+  url?: string | undefined;
   /** Web URL for this task */
-  html_url?: string;
+  html_url?: string | undefined;
   /** Human-readable name derived from the task prompt */
-  name?: string;
+  name?: string | undefined;
   /** The entity who created this task */
-  creator?: CreateTaskInRepoResponseCreator;
+  creator?: CreateTaskInRepoResponseCreator | undefined;
   /** Type of the task creator */
-  creator_type?: CreateTaskInRepoResponseCreatorType;
+  creator_type?: CreateTaskInRepoResponseCreatorType | undefined;
   /** User objects of collaborators on this task */
-  user_collaborators?: CreateTaskInRepoResponseUserCollaboratorsList;
+  user_collaborators?: CreateTaskInRepoResponseUserCollaboratorsList | undefined;
   /** The owner of the repository */
-  owner?: CreateTaskInRepoResponseCreator;
+  owner?: CreateTaskInRepoResponseCreator | undefined;
   /** The repository this task belongs to */
-  repository?: CreateTaskInRepoResponseRepository;
+  repository?: CreateTaskInRepoResponseRepository | undefined;
   /** Current state of the task, derived from its most recent session */
   state: CreateTaskInRepoResponseState;
   /** Number of sessions in this task */
-  session_count?: number;
+  session_count?: number | undefined;
   /** Resources created by this task (PRs, branches, etc.) */
-  artifacts?: CreateTaskInRepoResponseArtifactsList;
+  artifacts?: CreateTaskInRepoResponseArtifactsList | undefined;
   /** Timestamp when the task was archived, null if not archived */
-  archived_at?: string | null;
+  archived_at?: string | null | undefined;
   /** Timestamp of the most recent update */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Timestamp when the task was created */
   created_at: string;
   /** Custom agent metadata associated with this task */
-  custom_agent?: CreateTaskInRepoResponseCustomAgent;
+  custom_agent?: CreateTaskInRepoResponseCustomAgent | undefined;
 }
 export interface GetTaskByIdRequest {
   /** The unique identifier of the task. */
@@ -265,42 +265,42 @@ export interface GetTaskByIdResponseSessionsItemUsage {
 /** Error details for a failed session */
 export interface GetTaskByIdResponseSessionsItemError {
   /** Error message */
-  message?: string;
+  message?: string | undefined;
 }
 /** Full session details within a task */
 export interface GetTaskByIdResponseSessionsItem {
   /** Session ID */
   id: string;
   /** Session name */
-  name?: string;
+  name?: string | undefined;
   /** The user who created this session */
-  user?: CreateTaskInRepoResponseCreator;
+  user?: CreateTaskInRepoResponseCreator | undefined;
   /** The owner of the repository */
-  owner?: CreateTaskInRepoResponseCreator;
+  owner?: CreateTaskInRepoResponseCreator | undefined;
   /** The repository this session belongs to */
-  repository?: CreateTaskInRepoResponseRepository;
+  repository?: CreateTaskInRepoResponseRepository | undefined;
   /** Task ID this session belongs to */
-  task_id?: string;
+  task_id?: string | undefined;
   /** Current state of a session */
   state: GetTaskByIdResponseSessionsItemState;
   /** Creation timestamp */
   created_at: string;
   /** Last update timestamp */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Completion timestamp */
-  completed_at?: string;
+  completed_at?: string | undefined;
   /** Content of the triggering event */
-  prompt?: string;
+  prompt?: string | undefined;
   /** Head branch name */
-  head_ref?: string;
+  head_ref?: string | undefined;
   /** Base branch name */
-  base_ref?: string;
+  base_ref?: string | undefined;
   /** Model used for this session */
-  model?: string;
+  model?: string | undefined;
   /** Structured information about billing units consumed by the session. */
-  usage?: GetTaskByIdResponseSessionsItemUsage;
+  usage?: GetTaskByIdResponseSessionsItemUsage | undefined;
   /** Error details for a failed session */
-  error?: GetTaskByIdResponseSessionsItemError;
+  error?: GetTaskByIdResponseSessionsItemError | undefined;
 }
 /** Sessions associated with this task */
 export type GetTaskByIdResponseSessionsList = Array<GetTaskByIdResponseSessionsItem>;
@@ -308,37 +308,37 @@ export interface GetTaskByIdResponse {
   /** Unique task identifier */
   id: string;
   /** API URL for this task */
-  url?: string;
+  url?: string | undefined;
   /** Web URL for this task */
-  html_url?: string;
+  html_url?: string | undefined;
   /** Human-readable name derived from the task prompt */
-  name?: string;
+  name?: string | undefined;
   /** The entity who created this task */
-  creator?: CreateTaskInRepoResponseCreator;
+  creator?: CreateTaskInRepoResponseCreator | undefined;
   /** Type of the task creator */
-  creator_type?: GetTaskByIdResponseCreatorType;
+  creator_type?: GetTaskByIdResponseCreatorType | undefined;
   /** User objects of collaborators on this task */
-  user_collaborators?: GetTaskByIdResponseUserCollaboratorsList;
+  user_collaborators?: GetTaskByIdResponseUserCollaboratorsList | undefined;
   /** The owner of the repository */
-  owner?: CreateTaskInRepoResponseCreator;
+  owner?: CreateTaskInRepoResponseCreator | undefined;
   /** The repository this task belongs to */
-  repository?: CreateTaskInRepoResponseRepository;
+  repository?: CreateTaskInRepoResponseRepository | undefined;
   /** Current state of the task, derived from its most recent session */
   state: GetTaskByIdResponseState;
   /** Number of sessions in this task */
-  session_count?: number;
+  session_count?: number | undefined;
   /** Resources created by this task (PRs, branches, etc.) */
-  artifacts?: GetTaskByIdResponseArtifactsList;
+  artifacts?: GetTaskByIdResponseArtifactsList | undefined;
   /** Timestamp when the task was archived, null if not archived */
-  archived_at?: string | null;
+  archived_at?: string | null | undefined;
   /** Timestamp of the most recent update */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Timestamp when the task was created */
   created_at: string;
   /** Custom agent metadata associated with this task */
-  custom_agent?: CreateTaskInRepoResponseCustomAgent;
+  custom_agent?: CreateTaskInRepoResponseCustomAgent | undefined;
   /** Sessions associated with this task */
-  sessions?: GetTaskByIdResponseSessionsList;
+  sessions?: GetTaskByIdResponseSessionsList | undefined;
 }
 export interface GetTaskByRepoAndIdRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -431,35 +431,35 @@ export interface GetTaskByRepoAndIdResponseSessionsItem {
   /** Session ID */
   id: string;
   /** Session name */
-  name?: string;
+  name?: string | undefined;
   /** The user who created this session */
-  user?: CreateTaskInRepoResponseCreator;
+  user?: CreateTaskInRepoResponseCreator | undefined;
   /** The owner of the repository */
-  owner?: CreateTaskInRepoResponseCreator;
+  owner?: CreateTaskInRepoResponseCreator | undefined;
   /** The repository this session belongs to */
-  repository?: CreateTaskInRepoResponseRepository;
+  repository?: CreateTaskInRepoResponseRepository | undefined;
   /** Task ID this session belongs to */
-  task_id?: string;
+  task_id?: string | undefined;
   /** Current state of a session */
   state: GetTaskByRepoAndIdResponseSessionsItemState;
   /** Creation timestamp */
   created_at: string;
   /** Last update timestamp */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Completion timestamp */
-  completed_at?: string;
+  completed_at?: string | undefined;
   /** Content of the triggering event */
-  prompt?: string;
+  prompt?: string | undefined;
   /** Head branch name */
-  head_ref?: string;
+  head_ref?: string | undefined;
   /** Base branch name */
-  base_ref?: string;
+  base_ref?: string | undefined;
   /** Model used for this session */
-  model?: string;
+  model?: string | undefined;
   /** Structured information about billing units consumed by the session. */
-  usage?: GetTaskByRepoAndIdResponseSessionsItemUsage;
+  usage?: GetTaskByRepoAndIdResponseSessionsItemUsage | undefined;
   /** Error details for a failed session */
-  error?: GetTaskByIdResponseSessionsItemError;
+  error?: GetTaskByIdResponseSessionsItemError | undefined;
 }
 /** Sessions associated with this task */
 export type GetTaskByRepoAndIdResponseSessionsList = Array<GetTaskByRepoAndIdResponseSessionsItem>;
@@ -467,55 +467,55 @@ export interface GetTaskByRepoAndIdResponse {
   /** Unique task identifier */
   id: string;
   /** API URL for this task */
-  url?: string;
+  url?: string | undefined;
   /** Web URL for this task */
-  html_url?: string;
+  html_url?: string | undefined;
   /** Human-readable name derived from the task prompt */
-  name?: string;
+  name?: string | undefined;
   /** The entity who created this task */
-  creator?: CreateTaskInRepoResponseCreator;
+  creator?: CreateTaskInRepoResponseCreator | undefined;
   /** Type of the task creator */
-  creator_type?: GetTaskByRepoAndIdResponseCreatorType;
+  creator_type?: GetTaskByRepoAndIdResponseCreatorType | undefined;
   /** User objects of collaborators on this task */
-  user_collaborators?: GetTaskByRepoAndIdResponseUserCollaboratorsList;
+  user_collaborators?: GetTaskByRepoAndIdResponseUserCollaboratorsList | undefined;
   /** The owner of the repository */
-  owner?: CreateTaskInRepoResponseCreator;
+  owner?: CreateTaskInRepoResponseCreator | undefined;
   /** The repository this task belongs to */
-  repository?: CreateTaskInRepoResponseRepository;
+  repository?: CreateTaskInRepoResponseRepository | undefined;
   /** Current state of the task, derived from its most recent session */
   state: GetTaskByRepoAndIdResponseState;
   /** Number of sessions in this task */
-  session_count?: number;
+  session_count?: number | undefined;
   /** Resources created by this task (PRs, branches, etc.) */
-  artifacts?: GetTaskByRepoAndIdResponseArtifactsList;
+  artifacts?: GetTaskByRepoAndIdResponseArtifactsList | undefined;
   /** Timestamp when the task was archived, null if not archived */
-  archived_at?: string | null;
+  archived_at?: string | null | undefined;
   /** Timestamp of the most recent update */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Timestamp when the task was created */
   created_at: string;
   /** Custom agent metadata associated with this task */
-  custom_agent?: CreateTaskInRepoResponseCustomAgent;
+  custom_agent?: CreateTaskInRepoResponseCustomAgent | undefined;
   /** Sessions associated with this task */
-  sessions?: GetTaskByRepoAndIdResponseSessionsList;
+  sessions?: GetTaskByRepoAndIdResponseSessionsList | undefined;
 }
 export type ListTasksRequestSort = "updated_at" | "created_at";
 export type ListTasksRequestDirection = "asc" | "desc";
 export interface ListTasksRequest {
   /** The number of results per page (max 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. */
-  page?: number;
+  page?: number | undefined;
   /** The field to sort results by. Can be `updated_at` or `created_at`. */
-  sort?: ListTasksRequestSort | (string & {});
+  sort?: ListTasksRequestSort | (string & {}) | undefined;
   /** The direction to sort results. Can be `asc` or `desc`. */
-  direction?: ListTasksRequestDirection | (string & {});
+  direction?: ListTasksRequestDirection | (string & {}) | undefined;
   /** Comma-separated list of task states to filter by. Can be any combination of: `queued`, `in_progress`, `completed`, `failed`, `idle`, `waiting_for_user`, `timed_out`, `cancelled`. */
-  state?: string;
+  state?: string | undefined;
   /** Filter by archived status. When `true`, returns only archived tasks. When `false` or omitted, returns only non-archived tasks. Defaults to `false`. */
-  is_archived?: boolean;
+  is_archived?: boolean | undefined;
   /** Only show tasks updated at or after this time (ISO 8601 timestamp) */
-  since?: string;
+  since?: string | undefined;
 }
 /** A GitHub user */
 export type ListTasksResponseTasksItemCreator = CreateTaskInRepoResponseCreator;
@@ -572,35 +572,35 @@ export interface ListTasksResponseTasksItem {
   /** Unique task identifier */
   id: string;
   /** API URL for this task */
-  url?: string;
+  url?: string | undefined;
   /** Web URL for this task */
-  html_url?: string;
+  html_url?: string | undefined;
   /** Human-readable name derived from the task prompt */
-  name?: string;
+  name?: string | undefined;
   /** The entity who created this task */
-  creator?: CreateTaskInRepoResponseCreator;
+  creator?: CreateTaskInRepoResponseCreator | undefined;
   /** Type of the task creator */
-  creator_type?: ListTasksResponseTasksItemCreatorType;
+  creator_type?: ListTasksResponseTasksItemCreatorType | undefined;
   /** User objects of collaborators on this task */
-  user_collaborators?: ListTasksResponseTasksItemUserCollaboratorsList;
+  user_collaborators?: ListTasksResponseTasksItemUserCollaboratorsList | undefined;
   /** The owner of the repository */
-  owner?: CreateTaskInRepoResponseCreator;
+  owner?: CreateTaskInRepoResponseCreator | undefined;
   /** The repository this task belongs to */
-  repository?: CreateTaskInRepoResponseRepository;
+  repository?: CreateTaskInRepoResponseRepository | undefined;
   /** Current state of the task, derived from its most recent session */
   state: ListTasksResponseTasksItemState;
   /** Number of sessions in this task */
-  session_count?: number;
+  session_count?: number | undefined;
   /** Resources created by this task (PRs, branches, etc.) */
-  artifacts?: ListTasksResponseTasksItemArtifactsList;
+  artifacts?: ListTasksResponseTasksItemArtifactsList | undefined;
   /** Timestamp when the task was archived, null if not archived */
-  archived_at?: string | null;
+  archived_at?: string | null | undefined;
   /** Timestamp of the most recent update */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Timestamp when the task was created */
   created_at: string;
   /** Custom agent metadata associated with this task */
-  custom_agent?: CreateTaskInRepoResponseCustomAgent;
+  custom_agent?: CreateTaskInRepoResponseCustomAgent | undefined;
 }
 /** List of tasks */
 export type ListTasksResponseTasksList = Array<ListTasksResponseTasksItem>;
@@ -608,9 +608,9 @@ export interface ListTasksResponse {
   /** List of tasks */
   tasks: ListTasksResponseTasksList;
   /** Total count of active (non-archived) tasks */
-  total_active_count?: number;
+  total_active_count?: number | undefined;
   /** Total count of archived tasks */
-  total_archived_count?: number;
+  total_archived_count?: number | undefined;
 }
 export type ListTasksForRepoRequestSort = "updated_at" | "created_at";
 export type ListTasksForRepoRequestDirection = "asc" | "desc";
@@ -621,21 +621,21 @@ export interface ListTasksForRepoRequest {
   /** The name of the repository. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. */
-  page?: number;
+  page?: number | undefined;
   /** The field to sort results by. Can be `updated_at` or `created_at`. */
-  sort?: ListTasksForRepoRequestSort | (string & {});
+  sort?: ListTasksForRepoRequestSort | (string & {}) | undefined;
   /** The direction to sort results. Can be `asc` or `desc`. */
-  direction?: ListTasksForRepoRequestDirection | (string & {});
+  direction?: ListTasksForRepoRequestDirection | (string & {}) | undefined;
   /** Comma-separated list of task states to filter by. Can be any combination of: `queued`, `in_progress`, `completed`, `failed`, `idle`, `waiting_for_user`, `timed_out`, `cancelled`. */
-  state?: string;
+  state?: string | undefined;
   /** Filter by archived status. When `true`, returns only archived tasks. When `false` or omitted, returns only non-archived tasks. Defaults to `false`. */
-  is_archived?: boolean;
+  is_archived?: boolean | undefined;
   /** Only show tasks updated at or after this time (ISO 8601 timestamp) */
-  since?: string;
+  since?: string | undefined;
   /** Filter tasks by creator user ID. Accepts one or more user IDs. */
-  creator_id?: ListTasksForRepoRequestCreatorIdList;
+  creator_id?: ListTasksForRepoRequestCreatorIdList | undefined;
 }
 /** A GitHub user */
 export type ListTasksForRepoResponseTasksItemCreator = CreateTaskInRepoResponseCreator;
@@ -693,35 +693,35 @@ export interface ListTasksForRepoResponseTasksItem {
   /** Unique task identifier */
   id: string;
   /** API URL for this task */
-  url?: string;
+  url?: string | undefined;
   /** Web URL for this task */
-  html_url?: string;
+  html_url?: string | undefined;
   /** Human-readable name derived from the task prompt */
-  name?: string;
+  name?: string | undefined;
   /** The entity who created this task */
-  creator?: CreateTaskInRepoResponseCreator;
+  creator?: CreateTaskInRepoResponseCreator | undefined;
   /** Type of the task creator */
-  creator_type?: ListTasksForRepoResponseTasksItemCreatorType;
+  creator_type?: ListTasksForRepoResponseTasksItemCreatorType | undefined;
   /** User objects of collaborators on this task */
-  user_collaborators?: ListTasksForRepoResponseTasksItemUserCollaboratorsList;
+  user_collaborators?: ListTasksForRepoResponseTasksItemUserCollaboratorsList | undefined;
   /** The owner of the repository */
-  owner?: CreateTaskInRepoResponseCreator;
+  owner?: CreateTaskInRepoResponseCreator | undefined;
   /** The repository this task belongs to */
-  repository?: CreateTaskInRepoResponseRepository;
+  repository?: CreateTaskInRepoResponseRepository | undefined;
   /** Current state of the task, derived from its most recent session */
   state: ListTasksForRepoResponseTasksItemState;
   /** Number of sessions in this task */
-  session_count?: number;
+  session_count?: number | undefined;
   /** Resources created by this task (PRs, branches, etc.) */
-  artifacts?: ListTasksForRepoResponseTasksItemArtifactsList;
+  artifacts?: ListTasksForRepoResponseTasksItemArtifactsList | undefined;
   /** Timestamp when the task was archived, null if not archived */
-  archived_at?: string | null;
+  archived_at?: string | null | undefined;
   /** Timestamp of the most recent update */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Timestamp when the task was created */
   created_at: string;
   /** Custom agent metadata associated with this task */
-  custom_agent?: CreateTaskInRepoResponseCustomAgent;
+  custom_agent?: CreateTaskInRepoResponseCustomAgent | undefined;
 }
 /** List of tasks */
 export type ListTasksForRepoResponseTasksList = Array<ListTasksForRepoResponseTasksItem>;
@@ -729,9 +729,9 @@ export interface ListTasksForRepoResponse {
   /** List of tasks */
   tasks: ListTasksForRepoResponseTasksList;
   /** Total count of active (non-archived) tasks */
-  total_active_count?: number;
+  total_active_count?: number | undefined;
   /** Total count of archived tasks */
-  total_archived_count?: number;
+  total_archived_count?: number | undefined;
 }
 export type CreateTaskInRepoError = BadRequest | Forbidden | UnprocessableEntity | GithubOpError;
 /** Start a task > [!NOTE] > This endpoint is in public preview and is subject to change. Starts a new Copilot cloud agent task for a repository. This endpoint is only available to users with a Copilot Business or Copilot Enterprise subscription. **Fine-grained access tokens for "Start a task"** This endpoint works with the following fine-grained token types: * [GitHub App user access tokens](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app) * [Fine-grained personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token) The fine-grained token must have the following permission set: * "Agent tasks" repository permissions (read and write) GitHub App installation access tokens are not supported for this endpoint. */

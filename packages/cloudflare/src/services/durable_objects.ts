@@ -71,15 +71,15 @@ export interface ListNamespaceObjectsRequest {
   /** ID of the namespace. */
   id: string;
   /** Opaque token indicating the position from which to continue when requesting the next set of records. A valid value for the cursor can be obtained from the cursors object in the result_info structure. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of objects to return. The cursor attribute may be used to iterate over the next batch of objects if there are more than the limit. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface NamespacesObjectsListResultItem {
   /** ID of the Durable Object. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether the Durable Object has stored data. */
-  hasStoredData?: boolean | null;
+  hasStoredData?: boolean | null | undefined;
 }
 export type NamespacesObjectsListResultList = Array<NamespacesObjectsListResultItem>;
 export interface ListNamespaceObjectsResponse {
@@ -92,18 +92,18 @@ export interface ListNamespacesRequest {
   /** Identifier. */
   accountId: string;
   /** Current page. */
-  page?: number;
+  page?: number | undefined;
   /** Items per-page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface NamespacesListResultItem {
-  id?: string | null;
-  class?: string | null;
-  name?: string | null;
-  script?: string | null;
-  useSqlite?: boolean | null;
+  id?: string | null | undefined;
+  class?: string | null | undefined;
+  name?: string | null | undefined;
+  script?: string | null | undefined;
+  useSqlite?: boolean | null | undefined;
   /** Workers for Platforms dispatch namespace of the script that owns this namespace; absent for account-level scripts. */
-  dispatchNamespace?: string | null;
+  dispatchNamespace?: string | null | undefined;
 }
 export type NamespacesListResultList = Array<NamespacesListResultItem>;
 export interface ListNamespacesResponse {

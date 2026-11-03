@@ -135,7 +135,7 @@ export type StopConditionSource = string;
 export type StopConditionValue = string;
 export interface CreateExperimentTemplateStopConditionInput {
   source: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type CreateExperimentTemplateStopConditionInputList =
   CreateExperimentTemplateStopConditionInput[];
@@ -160,11 +160,11 @@ export type ExperimentTemplateTargetParameterValue = string;
 export type ExperimentTemplateTargetParameterMap = { [key: string]: string | undefined };
 export interface CreateExperimentTemplateTargetInput {
   resourceType: string;
-  resourceArns?: string[];
-  resourceTags?: { [key: string]: string | undefined };
-  filters?: ExperimentTemplateTargetInputFilter[];
+  resourceArns?: string[] | undefined;
+  resourceTags?: { [key: string]: string | undefined } | undefined;
+  filters?: ExperimentTemplateTargetInputFilter[] | undefined;
   selectionMode: string;
-  parameters?: { [key: string]: string | undefined };
+  parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type CreateExperimentTemplateTargetInputMap = {
   [key: string]: CreateExperimentTemplateTargetInput | undefined;
@@ -181,10 +181,10 @@ export type ExperimentTemplateActionStartAfter = string;
 export type ExperimentTemplateActionStartAfterList = string[];
 export interface CreateExperimentTemplateActionInput {
   actionId: string;
-  description?: string;
-  parameters?: { [key: string]: string | undefined };
-  targets?: { [key: string]: string | undefined };
-  startAfter?: string[];
+  description?: string | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  targets?: { [key: string]: string | undefined } | undefined;
+  startAfter?: string[] | undefined;
 }
 export type CreateExperimentTemplateActionInputMap = {
   [key: string]: CreateExperimentTemplateActionInput | undefined;
@@ -198,172 +198,172 @@ export type S3BucketName = string;
 export type S3ObjectKey = string;
 export interface ExperimentTemplateS3LogConfigurationInput {
   bucketName: string;
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export type LogSchemaVersion = number;
 export interface CreateExperimentTemplateLogConfigurationInput {
-  cloudWatchLogsConfiguration?: ExperimentTemplateCloudWatchLogsLogConfigurationInput;
-  s3Configuration?: ExperimentTemplateS3LogConfigurationInput;
+  cloudWatchLogsConfiguration?: ExperimentTemplateCloudWatchLogsLogConfigurationInput | undefined;
+  s3Configuration?: ExperimentTemplateS3LogConfigurationInput | undefined;
   logSchemaVersion: number;
 }
 export type AccountTargeting = "single-account" | "multi-account" | (string & {});
 export type EmptyTargetResolutionMode = "fail" | "skip" | (string & {});
 export interface CreateExperimentTemplateExperimentOptionsInput {
-  accountTargeting?: AccountTargeting;
-  emptyTargetResolutionMode?: EmptyTargetResolutionMode;
+  accountTargeting?: AccountTargeting | undefined;
+  emptyTargetResolutionMode?: EmptyTargetResolutionMode | undefined;
 }
 export type ReportConfigurationS3OutputPrefix = string;
 export interface ReportConfigurationS3OutputInput {
-  bucketName?: string;
-  prefix?: string;
+  bucketName?: string | undefined;
+  prefix?: string | undefined;
 }
 export interface ExperimentTemplateReportConfigurationOutputsInput {
-  s3Configuration?: ReportConfigurationS3OutputInput;
+  s3Configuration?: ReportConfigurationS3OutputInput | undefined;
 }
 export type ReportConfigurationCloudWatchDashboardIdentifier = string;
 export interface ReportConfigurationCloudWatchDashboardInput {
-  dashboardIdentifier?: string;
+  dashboardIdentifier?: string | undefined;
 }
 export type ReportConfigurationCloudWatchDashboardInputList =
   ReportConfigurationCloudWatchDashboardInput[];
 export interface ExperimentTemplateReportConfigurationDataSourcesInput {
-  cloudWatchDashboards?: ReportConfigurationCloudWatchDashboardInput[];
+  cloudWatchDashboards?: ReportConfigurationCloudWatchDashboardInput[] | undefined;
 }
 export type ReportConfigurationDuration = string;
 export interface CreateExperimentTemplateReportConfigurationInput {
-  outputs?: ExperimentTemplateReportConfigurationOutputsInput;
-  dataSources?: ExperimentTemplateReportConfigurationDataSourcesInput;
-  preExperimentDuration?: string;
-  postExperimentDuration?: string;
+  outputs?: ExperimentTemplateReportConfigurationOutputsInput | undefined;
+  dataSources?: ExperimentTemplateReportConfigurationDataSourcesInput | undefined;
+  preExperimentDuration?: string | undefined;
+  postExperimentDuration?: string | undefined;
 }
 export interface CreateExperimentTemplateRequest {
   clientToken: string;
   description: string;
   stopConditions: CreateExperimentTemplateStopConditionInput[];
-  targets?: { [key: string]: CreateExperimentTemplateTargetInput | undefined };
+  targets?: { [key: string]: CreateExperimentTemplateTargetInput | undefined } | undefined;
   actions: { [key: string]: CreateExperimentTemplateActionInput | undefined };
   roleArn: string;
-  tags?: { [key: string]: string | undefined };
-  logConfiguration?: CreateExperimentTemplateLogConfigurationInput;
-  experimentOptions?: CreateExperimentTemplateExperimentOptionsInput;
-  experimentReportConfiguration?: CreateExperimentTemplateReportConfigurationInput;
+  tags?: { [key: string]: string | undefined } | undefined;
+  logConfiguration?: CreateExperimentTemplateLogConfigurationInput | undefined;
+  experimentOptions?: CreateExperimentTemplateExperimentOptionsInput | undefined;
+  experimentReportConfiguration?: CreateExperimentTemplateReportConfigurationInput | undefined;
 }
 export type ExperimentTemplateId = string;
 export interface ExperimentTemplateTargetFilter {
-  path?: string;
-  values?: string[];
+  path?: string | undefined;
+  values?: string[] | undefined;
 }
 export type ExperimentTemplateTargetFilterList = ExperimentTemplateTargetFilter[];
 export interface ExperimentTemplateTarget {
-  resourceType?: string;
-  resourceArns?: string[];
-  resourceTags?: { [key: string]: string | undefined };
-  filters?: ExperimentTemplateTargetFilter[];
-  selectionMode?: string;
-  parameters?: { [key: string]: string | undefined };
+  resourceType?: string | undefined;
+  resourceArns?: string[] | undefined;
+  resourceTags?: { [key: string]: string | undefined } | undefined;
+  filters?: ExperimentTemplateTargetFilter[] | undefined;
+  selectionMode?: string | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type ExperimentTemplateTargetMap = { [key: string]: ExperimentTemplateTarget | undefined };
 export interface ExperimentTemplateAction {
-  actionId?: string;
-  description?: string;
-  parameters?: { [key: string]: string | undefined };
-  targets?: { [key: string]: string | undefined };
-  startAfter?: string[];
+  actionId?: string | undefined;
+  description?: string | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  targets?: { [key: string]: string | undefined } | undefined;
+  startAfter?: string[] | undefined;
 }
 export type ExperimentTemplateActionMap = { [key: string]: ExperimentTemplateAction | undefined };
 export interface ExperimentTemplateStopCondition {
-  source?: string;
-  value?: string;
+  source?: string | undefined;
+  value?: string | undefined;
 }
 export type ExperimentTemplateStopConditionList = ExperimentTemplateStopCondition[];
 export type CreationTime = Date;
 export type LastUpdateTime = Date;
 export interface ExperimentTemplateCloudWatchLogsLogConfiguration {
-  logGroupArn?: string;
+  logGroupArn?: string | undefined;
 }
 export interface ExperimentTemplateS3LogConfiguration {
-  bucketName?: string;
-  prefix?: string;
+  bucketName?: string | undefined;
+  prefix?: string | undefined;
 }
 export interface ExperimentTemplateLogConfiguration {
-  cloudWatchLogsConfiguration?: ExperimentTemplateCloudWatchLogsLogConfiguration;
-  s3Configuration?: ExperimentTemplateS3LogConfiguration;
-  logSchemaVersion?: number;
+  cloudWatchLogsConfiguration?: ExperimentTemplateCloudWatchLogsLogConfiguration | undefined;
+  s3Configuration?: ExperimentTemplateS3LogConfiguration | undefined;
+  logSchemaVersion?: number | undefined;
 }
 export interface ExperimentTemplateExperimentOptions {
-  accountTargeting?: AccountTargeting;
-  emptyTargetResolutionMode?: EmptyTargetResolutionMode;
+  accountTargeting?: AccountTargeting | undefined;
+  emptyTargetResolutionMode?: EmptyTargetResolutionMode | undefined;
 }
 export type TargetAccountConfigurationsCount = number;
 export interface ReportConfigurationS3Output {
-  bucketName?: string;
-  prefix?: string;
+  bucketName?: string | undefined;
+  prefix?: string | undefined;
 }
 export interface ExperimentTemplateReportConfigurationOutputs {
-  s3Configuration?: ReportConfigurationS3Output;
+  s3Configuration?: ReportConfigurationS3Output | undefined;
 }
 export interface ExperimentTemplateReportConfigurationCloudWatchDashboard {
-  dashboardIdentifier?: string;
+  dashboardIdentifier?: string | undefined;
 }
 export type ExperimentTemplateReportConfigurationCloudWatchDashboardList =
   ExperimentTemplateReportConfigurationCloudWatchDashboard[];
 export interface ExperimentTemplateReportConfigurationDataSources {
-  cloudWatchDashboards?: ExperimentTemplateReportConfigurationCloudWatchDashboard[];
+  cloudWatchDashboards?: ExperimentTemplateReportConfigurationCloudWatchDashboard[] | undefined;
 }
 export interface ExperimentTemplateReportConfiguration {
-  outputs?: ExperimentTemplateReportConfigurationOutputs;
-  dataSources?: ExperimentTemplateReportConfigurationDataSources;
-  preExperimentDuration?: string;
-  postExperimentDuration?: string;
+  outputs?: ExperimentTemplateReportConfigurationOutputs | undefined;
+  dataSources?: ExperimentTemplateReportConfigurationDataSources | undefined;
+  preExperimentDuration?: string | undefined;
+  postExperimentDuration?: string | undefined;
 }
 export interface ExperimentTemplate {
-  id?: string;
-  arn?: string;
-  description?: string;
-  targets?: { [key: string]: ExperimentTemplateTarget | undefined };
-  actions?: { [key: string]: ExperimentTemplateAction | undefined };
-  stopConditions?: ExperimentTemplateStopCondition[];
-  creationTime?: Date;
-  lastUpdateTime?: Date;
-  roleArn?: string;
-  tags?: { [key: string]: string | undefined };
-  logConfiguration?: ExperimentTemplateLogConfiguration;
-  experimentOptions?: ExperimentTemplateExperimentOptions;
-  targetAccountConfigurationsCount?: number;
-  experimentReportConfiguration?: ExperimentTemplateReportConfiguration;
+  id?: string | undefined;
+  arn?: string | undefined;
+  description?: string | undefined;
+  targets?: { [key: string]: ExperimentTemplateTarget | undefined } | undefined;
+  actions?: { [key: string]: ExperimentTemplateAction | undefined } | undefined;
+  stopConditions?: ExperimentTemplateStopCondition[] | undefined;
+  creationTime?: Date | undefined;
+  lastUpdateTime?: Date | undefined;
+  roleArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  logConfiguration?: ExperimentTemplateLogConfiguration | undefined;
+  experimentOptions?: ExperimentTemplateExperimentOptions | undefined;
+  targetAccountConfigurationsCount?: number | undefined;
+  experimentReportConfiguration?: ExperimentTemplateReportConfiguration | undefined;
 }
 export interface CreateExperimentTemplateResponse {
-  experimentTemplate?: ExperimentTemplate;
+  experimentTemplate?: ExperimentTemplate | undefined;
 }
 export type TargetAccountId = string;
 export type TargetAccountConfigurationDescription = string;
 export interface CreateTargetAccountConfigurationRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   experimentTemplateId: string;
   accountId: string;
   roleArn: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface TargetAccountConfiguration {
-  roleArn?: string;
-  accountId?: string;
-  description?: string;
+  roleArn?: string | undefined;
+  accountId?: string | undefined;
+  description?: string | undefined;
 }
 export interface CreateTargetAccountConfigurationResponse {
-  targetAccountConfiguration?: TargetAccountConfiguration;
+  targetAccountConfiguration?: TargetAccountConfiguration | undefined;
 }
 export interface DeleteExperimentTemplateRequest {
   id: string;
 }
 export interface DeleteExperimentTemplateResponse {
-  experimentTemplate?: ExperimentTemplate;
+  experimentTemplate?: ExperimentTemplate | undefined;
 }
 export interface DeleteTargetAccountConfigurationRequest {
   experimentTemplateId: string;
   accountId: string;
 }
 export interface DeleteTargetAccountConfigurationResponse {
-  targetAccountConfiguration?: TargetAccountConfiguration;
+  targetAccountConfiguration?: TargetAccountConfiguration | undefined;
 }
 export interface GetActionRequest {
   id: string;
@@ -373,25 +373,25 @@ export type ActionParameterName = string;
 export type ActionParameterDescription = string;
 export type ActionParameterRequired = boolean;
 export interface ActionParameter {
-  description?: string;
-  required?: boolean;
+  description?: string | undefined;
+  required?: boolean | undefined;
 }
 export type ActionParameterMap = { [key: string]: ActionParameter | undefined };
 export type ActionTargetName = string;
 export interface ActionTarget {
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 export type ActionTargetMap = { [key: string]: ActionTarget | undefined };
 export interface Action {
-  id?: string;
-  arn?: string;
-  description?: string;
-  parameters?: { [key: string]: ActionParameter | undefined };
-  targets?: { [key: string]: ActionTarget | undefined };
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  description?: string | undefined;
+  parameters?: { [key: string]: ActionParameter | undefined } | undefined;
+  targets?: { [key: string]: ActionTarget | undefined } | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetActionResponse {
-  action?: Action;
+  action?: Action | undefined;
 }
 export type ExperimentId = string;
 export interface GetExperimentRequest {
@@ -412,22 +412,22 @@ export type ExperimentErrorAccountId = string;
 export type ExperimentErrorCode = string;
 export type ExperimentErrorLocation = string;
 export interface ExperimentError {
-  accountId?: string;
-  code?: string;
-  location?: string;
+  accountId?: string | undefined;
+  code?: string | undefined;
+  location?: string | undefined;
 }
 export interface ExperimentState {
-  status?: ExperimentStatus;
-  reason?: string;
-  error?: ExperimentError;
+  status?: ExperimentStatus | undefined;
+  reason?: string | undefined;
+  error?: ExperimentError | undefined;
 }
 export type ExperimentTargetName = string;
 export type ExperimentTargetFilterPath = string;
 export type ExperimentTargetFilterValue = string;
 export type ExperimentTargetFilterValues = string[];
 export interface ExperimentTargetFilter {
-  path?: string;
-  values?: string[];
+  path?: string | undefined;
+  values?: string[] | undefined;
 }
 export type ExperimentTargetFilterList = ExperimentTargetFilter[];
 export type ExperimentTargetSelectionMode = string;
@@ -435,12 +435,12 @@ export type ExperimentTargetParameterName = string;
 export type ExperimentTargetParameterValue = string;
 export type ExperimentTargetParameterMap = { [key: string]: string | undefined };
 export interface ExperimentTarget {
-  resourceType?: string;
-  resourceArns?: string[];
-  resourceTags?: { [key: string]: string | undefined };
-  filters?: ExperimentTargetFilter[];
-  selectionMode?: string;
-  parameters?: { [key: string]: string | undefined };
+  resourceType?: string | undefined;
+  resourceArns?: string[] | undefined;
+  resourceTags?: { [key: string]: string | undefined } | undefined;
+  filters?: ExperimentTargetFilter[] | undefined;
+  selectionMode?: string | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type ExperimentTargetMap = { [key: string]: ExperimentTarget | undefined };
 export type ExperimentActionName = string;
@@ -465,67 +465,67 @@ export type ExperimentActionStatus =
   | (string & {});
 export type ExperimentActionStatusReason = string;
 export interface ExperimentActionState {
-  status?: ExperimentActionStatus;
-  reason?: string;
+  status?: ExperimentActionStatus | undefined;
+  reason?: string | undefined;
 }
 export type ExperimentActionStartTime = Date;
 export type ExperimentActionEndTime = Date;
 export interface ExperimentAction {
-  actionId?: string;
-  description?: string;
-  parameters?: { [key: string]: string | undefined };
-  targets?: { [key: string]: string | undefined };
-  startAfter?: string[];
-  state?: ExperimentActionState;
-  startTime?: Date;
-  endTime?: Date;
+  actionId?: string | undefined;
+  description?: string | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  targets?: { [key: string]: string | undefined } | undefined;
+  startAfter?: string[] | undefined;
+  state?: ExperimentActionState | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type ExperimentActionMap = { [key: string]: ExperimentAction | undefined };
 export interface ExperimentStopCondition {
-  source?: string;
-  value?: string;
+  source?: string | undefined;
+  value?: string | undefined;
 }
 export type ExperimentStopConditionList = ExperimentStopCondition[];
 export type ExperimentStartTime = Date;
 export type ExperimentEndTime = Date;
 export interface ExperimentCloudWatchLogsLogConfiguration {
-  logGroupArn?: string;
+  logGroupArn?: string | undefined;
 }
 export interface ExperimentS3LogConfiguration {
-  bucketName?: string;
-  prefix?: string;
+  bucketName?: string | undefined;
+  prefix?: string | undefined;
 }
 export interface ExperimentLogConfiguration {
-  cloudWatchLogsConfiguration?: ExperimentCloudWatchLogsLogConfiguration;
-  s3Configuration?: ExperimentS3LogConfiguration;
-  logSchemaVersion?: number;
+  cloudWatchLogsConfiguration?: ExperimentCloudWatchLogsLogConfiguration | undefined;
+  s3Configuration?: ExperimentS3LogConfiguration | undefined;
+  logSchemaVersion?: number | undefined;
 }
 export type ActionsMode = "skip-all" | "run-all" | (string & {});
 export interface ExperimentOptions {
-  accountTargeting?: AccountTargeting;
-  emptyTargetResolutionMode?: EmptyTargetResolutionMode;
-  actionsMode?: ActionsMode;
+  accountTargeting?: AccountTargeting | undefined;
+  emptyTargetResolutionMode?: EmptyTargetResolutionMode | undefined;
+  actionsMode?: ActionsMode | undefined;
 }
 export interface ExperimentReportConfigurationOutputsS3Configuration {
-  bucketName?: string;
-  prefix?: string;
+  bucketName?: string | undefined;
+  prefix?: string | undefined;
 }
 export interface ExperimentReportConfigurationOutputs {
-  s3Configuration?: ExperimentReportConfigurationOutputsS3Configuration;
+  s3Configuration?: ExperimentReportConfigurationOutputsS3Configuration | undefined;
 }
 export interface ExperimentReportConfigurationCloudWatchDashboard {
-  dashboardIdentifier?: string;
+  dashboardIdentifier?: string | undefined;
 }
 export type ExperimentReportConfigurationCloudWatchDashboardList =
   ExperimentReportConfigurationCloudWatchDashboard[];
 export interface ExperimentReportConfigurationDataSources {
-  cloudWatchDashboards?: ExperimentReportConfigurationCloudWatchDashboard[];
+  cloudWatchDashboards?: ExperimentReportConfigurationCloudWatchDashboard[] | undefined;
 }
 export interface ExperimentReportConfiguration {
-  outputs?: ExperimentReportConfigurationOutputs;
-  dataSources?: ExperimentReportConfigurationDataSources;
-  preExperimentDuration?: string;
-  postExperimentDuration?: string;
+  outputs?: ExperimentReportConfigurationOutputs | undefined;
+  dataSources?: ExperimentReportConfigurationDataSources | undefined;
+  preExperimentDuration?: string | undefined;
+  postExperimentDuration?: string | undefined;
 }
 export type ExperimentReportStatus =
   | "pending"
@@ -537,63 +537,63 @@ export type ExperimentReportStatus =
 export type ExperimentReportReason = string;
 export type ExperimentReportErrorCode = string;
 export interface ExperimentReportError {
-  code?: string;
+  code?: string | undefined;
 }
 export interface ExperimentReportState {
-  status?: ExperimentReportStatus;
-  reason?: string;
-  error?: ExperimentReportError;
+  status?: ExperimentReportStatus | undefined;
+  reason?: string | undefined;
+  error?: ExperimentReportError | undefined;
 }
 export type ExperimentReportS3ReportArn = string;
 export type ExperimentReportS3ReportType = string;
 export interface ExperimentReportS3Report {
-  arn?: string;
-  reportType?: string;
+  arn?: string | undefined;
+  reportType?: string | undefined;
 }
 export type ExperimentReportS3ReportList = ExperimentReportS3Report[];
 export interface ExperimentReport {
-  state?: ExperimentReportState;
-  s3Reports?: ExperimentReportS3Report[];
+  state?: ExperimentReportState | undefined;
+  s3Reports?: ExperimentReportS3Report[] | undefined;
 }
 export interface Experiment {
-  id?: string;
-  arn?: string;
-  experimentTemplateId?: string;
-  roleArn?: string;
-  state?: ExperimentState;
-  targets?: { [key: string]: ExperimentTarget | undefined };
-  actions?: { [key: string]: ExperimentAction | undefined };
-  stopConditions?: ExperimentStopCondition[];
-  creationTime?: Date;
-  startTime?: Date;
-  endTime?: Date;
-  tags?: { [key: string]: string | undefined };
-  logConfiguration?: ExperimentLogConfiguration;
-  experimentOptions?: ExperimentOptions;
-  targetAccountConfigurationsCount?: number;
-  experimentReportConfiguration?: ExperimentReportConfiguration;
-  experimentReport?: ExperimentReport;
+  id?: string | undefined;
+  arn?: string | undefined;
+  experimentTemplateId?: string | undefined;
+  roleArn?: string | undefined;
+  state?: ExperimentState | undefined;
+  targets?: { [key: string]: ExperimentTarget | undefined } | undefined;
+  actions?: { [key: string]: ExperimentAction | undefined } | undefined;
+  stopConditions?: ExperimentStopCondition[] | undefined;
+  creationTime?: Date | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  logConfiguration?: ExperimentLogConfiguration | undefined;
+  experimentOptions?: ExperimentOptions | undefined;
+  targetAccountConfigurationsCount?: number | undefined;
+  experimentReportConfiguration?: ExperimentReportConfiguration | undefined;
+  experimentReport?: ExperimentReport | undefined;
 }
 export interface GetExperimentResponse {
-  experiment?: Experiment;
+  experiment?: Experiment | undefined;
 }
 export interface GetExperimentTargetAccountConfigurationRequest {
   experimentId: string;
   accountId: string;
 }
 export interface ExperimentTargetAccountConfiguration {
-  roleArn?: string;
-  accountId?: string;
-  description?: string;
+  roleArn?: string | undefined;
+  accountId?: string | undefined;
+  description?: string | undefined;
 }
 export interface GetExperimentTargetAccountConfigurationResponse {
-  targetAccountConfiguration?: ExperimentTargetAccountConfiguration;
+  targetAccountConfiguration?: ExperimentTargetAccountConfiguration | undefined;
 }
 export interface GetExperimentTemplateRequest {
   id: string;
 }
 export interface GetExperimentTemplateResponse {
-  experimentTemplate?: ExperimentTemplate;
+  experimentTemplate?: ExperimentTemplate | undefined;
 }
 export type SafetyLeverId = string;
 export interface GetSafetyLeverRequest {
@@ -602,23 +602,23 @@ export interface GetSafetyLeverRequest {
 export type SafetyLeverStatus = "disengaged" | "engaged" | "engaging" | (string & {});
 export type SafetyLeverStatusReason = string;
 export interface SafetyLeverState {
-  status?: SafetyLeverStatus;
-  reason?: string;
+  status?: SafetyLeverStatus | undefined;
+  reason?: string | undefined;
 }
 export interface SafetyLever {
-  id?: string;
-  arn?: string;
-  state?: SafetyLeverState;
+  id?: string | undefined;
+  arn?: string | undefined;
+  state?: SafetyLeverState | undefined;
 }
 export interface GetSafetyLeverResponse {
-  safetyLever?: SafetyLever;
+  safetyLever?: SafetyLever | undefined;
 }
 export interface GetTargetAccountConfigurationRequest {
   experimentTemplateId: string;
   accountId: string;
 }
 export interface GetTargetAccountConfigurationResponse {
-  targetAccountConfiguration?: TargetAccountConfiguration;
+  targetAccountConfiguration?: TargetAccountConfiguration | undefined;
 }
 export interface GetTargetResourceTypeRequest {
   resourceType: string;
@@ -628,165 +628,165 @@ export type TargetResourceTypeParameterName = string;
 export type TargetResourceTypeParameterDescription = string;
 export type TargetResourceTypeParameterRequired = boolean;
 export interface TargetResourceTypeParameter {
-  description?: string;
-  required?: boolean;
+  description?: string | undefined;
+  required?: boolean | undefined;
 }
 export type TargetResourceTypeParameterMap = {
   [key: string]: TargetResourceTypeParameter | undefined;
 };
 export interface TargetResourceType {
-  resourceType?: string;
-  description?: string;
-  parameters?: { [key: string]: TargetResourceTypeParameter | undefined };
+  resourceType?: string | undefined;
+  description?: string | undefined;
+  parameters?: { [key: string]: TargetResourceTypeParameter | undefined } | undefined;
 }
 export interface GetTargetResourceTypeResponse {
-  targetResourceType?: TargetResourceType;
+  targetResourceType?: TargetResourceType | undefined;
 }
 export type ListActionsMaxResults = number;
 export type NextToken = string;
 export interface ListActionsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ActionSummary {
-  id?: string;
-  arn?: string;
-  description?: string;
-  targets?: { [key: string]: ActionTarget | undefined };
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  description?: string | undefined;
+  targets?: { [key: string]: ActionTarget | undefined } | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ActionSummaryList = ActionSummary[];
 export interface ListActionsResponse {
-  actions?: ActionSummary[];
-  nextToken?: string;
+  actions?: ActionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListExperimentResolvedTargetsMaxResults = number;
 export type TargetName = string;
 export interface ListExperimentResolvedTargetsRequest {
   experimentId: string;
-  maxResults?: number;
-  nextToken?: string;
-  targetName?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  targetName?: string | undefined;
 }
 export type TargetInformationKey = string;
 export type TargetInformationValue = string;
 export type TargetInformationMap = { [key: string]: string | undefined };
 export interface ResolvedTarget {
-  resourceType?: string;
-  targetName?: string;
-  targetInformation?: { [key: string]: string | undefined };
+  resourceType?: string | undefined;
+  targetName?: string | undefined;
+  targetInformation?: { [key: string]: string | undefined } | undefined;
 }
 export type ResolvedTargetList = ResolvedTarget[];
 export interface ListExperimentResolvedTargetsResponse {
-  resolvedTargets?: ResolvedTarget[];
-  nextToken?: string;
+  resolvedTargets?: ResolvedTarget[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListExperimentsMaxResults = number;
 export interface ListExperimentsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  experimentTemplateId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  experimentTemplateId?: string | undefined;
 }
 export interface ExperimentSummary {
-  id?: string;
-  arn?: string;
-  experimentTemplateId?: string;
-  state?: ExperimentState;
-  creationTime?: Date;
-  tags?: { [key: string]: string | undefined };
-  experimentOptions?: ExperimentOptions;
+  id?: string | undefined;
+  arn?: string | undefined;
+  experimentTemplateId?: string | undefined;
+  state?: ExperimentState | undefined;
+  creationTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  experimentOptions?: ExperimentOptions | undefined;
 }
 export type ExperimentSummaryList = ExperimentSummary[];
 export interface ListExperimentsResponse {
-  experiments?: ExperimentSummary[];
-  nextToken?: string;
+  experiments?: ExperimentSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListExperimentTargetAccountConfigurationsRequest {
   experimentId: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ExperimentTargetAccountConfigurationSummary {
-  roleArn?: string;
-  accountId?: string;
-  description?: string;
+  roleArn?: string | undefined;
+  accountId?: string | undefined;
+  description?: string | undefined;
 }
 export type ExperimentTargetAccountConfigurationList =
   ExperimentTargetAccountConfigurationSummary[];
 export interface ListExperimentTargetAccountConfigurationsResponse {
-  targetAccountConfigurations?: ExperimentTargetAccountConfigurationSummary[];
-  nextToken?: string;
+  targetAccountConfigurations?: ExperimentTargetAccountConfigurationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListExperimentTemplatesMaxResults = number;
 export interface ListExperimentTemplatesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ExperimentTemplateSummary {
-  id?: string;
-  arn?: string;
-  description?: string;
-  creationTime?: Date;
-  lastUpdateTime?: Date;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  description?: string | undefined;
+  creationTime?: Date | undefined;
+  lastUpdateTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ExperimentTemplateSummaryList = ExperimentTemplateSummary[];
 export interface ListExperimentTemplatesResponse {
-  experimentTemplates?: ExperimentTemplateSummary[];
-  nextToken?: string;
+  experimentTemplates?: ExperimentTemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ListTargetAccountConfigurationsMaxResults = number;
 export interface ListTargetAccountConfigurationsRequest {
   experimentTemplateId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface TargetAccountConfigurationSummary {
-  roleArn?: string;
-  accountId?: string;
-  description?: string;
+  roleArn?: string | undefined;
+  accountId?: string | undefined;
+  description?: string | undefined;
 }
 export type TargetAccountConfigurationList = TargetAccountConfigurationSummary[];
 export interface ListTargetAccountConfigurationsResponse {
-  targetAccountConfigurations?: TargetAccountConfigurationSummary[];
-  nextToken?: string;
+  targetAccountConfigurations?: TargetAccountConfigurationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListTargetResourceTypesMaxResults = number;
 export interface ListTargetResourceTypesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface TargetResourceTypeSummary {
-  resourceType?: string;
-  description?: string;
+  resourceType?: string | undefined;
+  description?: string | undefined;
 }
 export type TargetResourceTypeSummaryList = TargetResourceTypeSummary[];
 export interface ListTargetResourceTypesResponse {
-  targetResourceTypes?: TargetResourceTypeSummary[];
-  nextToken?: string;
+  targetResourceTypes?: TargetResourceTypeSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface StartExperimentExperimentOptionsInput {
-  actionsMode?: ActionsMode;
+  actionsMode?: ActionsMode | undefined;
 }
 export interface StartExperimentRequest {
   clientToken: string;
   experimentTemplateId: string;
-  experimentOptions?: StartExperimentExperimentOptionsInput;
-  tags?: { [key: string]: string | undefined };
+  experimentOptions?: StartExperimentExperimentOptionsInput | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartExperimentResponse {
-  experiment?: Experiment;
+  experiment?: Experiment | undefined;
 }
 export interface StopExperimentRequest {
   id: string;
 }
 export interface StopExperimentResponse {
-  experiment?: Experiment;
+  experiment?: Experiment | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -796,63 +796,63 @@ export interface TagResourceResponse {}
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys?: string[];
+  tagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateExperimentTemplateStopConditionInput {
   source: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type UpdateExperimentTemplateStopConditionInputList =
   UpdateExperimentTemplateStopConditionInput[];
 export interface UpdateExperimentTemplateTargetInput {
   resourceType: string;
-  resourceArns?: string[];
-  resourceTags?: { [key: string]: string | undefined };
-  filters?: ExperimentTemplateTargetInputFilter[];
+  resourceArns?: string[] | undefined;
+  resourceTags?: { [key: string]: string | undefined } | undefined;
+  filters?: ExperimentTemplateTargetInputFilter[] | undefined;
   selectionMode: string;
-  parameters?: { [key: string]: string | undefined };
+  parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type UpdateExperimentTemplateTargetInputMap = {
   [key: string]: UpdateExperimentTemplateTargetInput | undefined;
 };
 export interface UpdateExperimentTemplateActionInputItem {
-  actionId?: string;
-  description?: string;
-  parameters?: { [key: string]: string | undefined };
-  targets?: { [key: string]: string | undefined };
-  startAfter?: string[];
+  actionId?: string | undefined;
+  description?: string | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  targets?: { [key: string]: string | undefined } | undefined;
+  startAfter?: string[] | undefined;
 }
 export type UpdateExperimentTemplateActionInputMap = {
   [key: string]: UpdateExperimentTemplateActionInputItem | undefined;
 };
 export interface UpdateExperimentTemplateLogConfigurationInput {
-  cloudWatchLogsConfiguration?: ExperimentTemplateCloudWatchLogsLogConfigurationInput;
-  s3Configuration?: ExperimentTemplateS3LogConfigurationInput;
-  logSchemaVersion?: number;
+  cloudWatchLogsConfiguration?: ExperimentTemplateCloudWatchLogsLogConfigurationInput | undefined;
+  s3Configuration?: ExperimentTemplateS3LogConfigurationInput | undefined;
+  logSchemaVersion?: number | undefined;
 }
 export interface UpdateExperimentTemplateExperimentOptionsInput {
-  emptyTargetResolutionMode?: EmptyTargetResolutionMode;
+  emptyTargetResolutionMode?: EmptyTargetResolutionMode | undefined;
 }
 export interface UpdateExperimentTemplateReportConfigurationInput {
-  outputs?: ExperimentTemplateReportConfigurationOutputsInput;
-  dataSources?: ExperimentTemplateReportConfigurationDataSourcesInput;
-  preExperimentDuration?: string;
-  postExperimentDuration?: string;
+  outputs?: ExperimentTemplateReportConfigurationOutputsInput | undefined;
+  dataSources?: ExperimentTemplateReportConfigurationDataSourcesInput | undefined;
+  preExperimentDuration?: string | undefined;
+  postExperimentDuration?: string | undefined;
 }
 export interface UpdateExperimentTemplateRequest {
   id: string;
-  description?: string;
-  stopConditions?: UpdateExperimentTemplateStopConditionInput[];
-  targets?: { [key: string]: UpdateExperimentTemplateTargetInput | undefined };
-  actions?: { [key: string]: UpdateExperimentTemplateActionInputItem | undefined };
-  roleArn?: string;
-  logConfiguration?: UpdateExperimentTemplateLogConfigurationInput;
-  experimentOptions?: UpdateExperimentTemplateExperimentOptionsInput;
-  experimentReportConfiguration?: UpdateExperimentTemplateReportConfigurationInput;
+  description?: string | undefined;
+  stopConditions?: UpdateExperimentTemplateStopConditionInput[] | undefined;
+  targets?: { [key: string]: UpdateExperimentTemplateTargetInput | undefined } | undefined;
+  actions?: { [key: string]: UpdateExperimentTemplateActionInputItem | undefined } | undefined;
+  roleArn?: string | undefined;
+  logConfiguration?: UpdateExperimentTemplateLogConfigurationInput | undefined;
+  experimentOptions?: UpdateExperimentTemplateExperimentOptionsInput | undefined;
+  experimentReportConfiguration?: UpdateExperimentTemplateReportConfigurationInput | undefined;
 }
 export interface UpdateExperimentTemplateResponse {
-  experimentTemplate?: ExperimentTemplate;
+  experimentTemplate?: ExperimentTemplate | undefined;
 }
 export type SafetyLeverStatusInput = "disengaged" | "engaged" | (string & {});
 export interface UpdateSafetyLeverStateInput {
@@ -864,16 +864,16 @@ export interface UpdateSafetyLeverStateRequest {
   state: UpdateSafetyLeverStateInput;
 }
 export interface UpdateSafetyLeverStateResponse {
-  safetyLever?: SafetyLever;
+  safetyLever?: SafetyLever | undefined;
 }
 export interface UpdateTargetAccountConfigurationRequest {
   experimentTemplateId: string;
   accountId: string;
-  roleArn?: string;
-  description?: string;
+  roleArn?: string | undefined;
+  description?: string | undefined;
 }
 export interface UpdateTargetAccountConfigurationResponse {
-  targetAccountConfiguration?: TargetAccountConfiguration;
+  targetAccountConfiguration?: TargetAccountConfiguration | undefined;
 }
 export type ExceptionMessage = string;
 export type CreateExperimentTemplateError =

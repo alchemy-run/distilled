@@ -197,20 +197,20 @@ export type TagMap = { [key: string]: string | undefined };
 export interface AddTagsToVaultInput {
   accountId: string;
   vaultName: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface AddTagsToVaultResponse {}
 export interface CompleteMultipartUploadInput {
   accountId: string;
   vaultName: string;
   uploadId: string;
-  archiveSize?: string;
-  checksum?: string;
+  archiveSize?: string | undefined;
+  checksum?: string | undefined;
 }
 export interface ArchiveCreationOutput {
-  location?: string;
-  checksum?: string;
-  archiveId?: string;
+  location?: string | undefined;
+  checksum?: string | undefined;
+  archiveId?: string | undefined;
 }
 export interface CompleteVaultLockInput {
   accountId: string;
@@ -223,7 +223,7 @@ export interface CreateVaultInput {
   vaultName: string;
 }
 export interface CreateVaultOutput {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteArchiveInput {
   accountId: string;
@@ -255,47 +255,47 @@ export type ActionCode = "ArchiveRetrieval" | "InventoryRetrieval" | "Select" | 
 export type StatusCode = "InProgress" | "Succeeded" | "Failed" | (string & {});
 export type Size = number;
 export interface InventoryRetrievalJobDescription {
-  Format?: string;
-  StartDate?: string;
-  EndDate?: string;
-  Limit?: string;
-  Marker?: string;
+  Format?: string | undefined;
+  StartDate?: string | undefined;
+  EndDate?: string | undefined;
+  Limit?: string | undefined;
+  Marker?: string | undefined;
 }
 export type FileHeaderInfo = "USE" | "IGNORE" | "NONE" | (string & {});
 export interface CSVInput {
-  FileHeaderInfo?: FileHeaderInfo;
-  Comments?: string;
-  QuoteEscapeCharacter?: string;
-  RecordDelimiter?: string;
-  FieldDelimiter?: string;
-  QuoteCharacter?: string;
+  FileHeaderInfo?: FileHeaderInfo | undefined;
+  Comments?: string | undefined;
+  QuoteEscapeCharacter?: string | undefined;
+  RecordDelimiter?: string | undefined;
+  FieldDelimiter?: string | undefined;
+  QuoteCharacter?: string | undefined;
 }
 export interface InputSerialization {
-  csv?: CSVInput;
+  csv?: CSVInput | undefined;
 }
 export type ExpressionType = "SQL" | (string & {});
 export type QuoteFields = "ALWAYS" | "ASNEEDED" | (string & {});
 export interface CSVOutput {
-  QuoteFields?: QuoteFields;
-  QuoteEscapeCharacter?: string;
-  RecordDelimiter?: string;
-  FieldDelimiter?: string;
-  QuoteCharacter?: string;
+  QuoteFields?: QuoteFields | undefined;
+  QuoteEscapeCharacter?: string | undefined;
+  RecordDelimiter?: string | undefined;
+  FieldDelimiter?: string | undefined;
+  QuoteCharacter?: string | undefined;
 }
 export interface OutputSerialization {
-  csv?: CSVOutput;
+  csv?: CSVOutput | undefined;
 }
 export interface SelectParameters {
-  InputSerialization?: InputSerialization;
-  ExpressionType?: ExpressionType;
-  Expression?: string;
-  OutputSerialization?: OutputSerialization;
+  InputSerialization?: InputSerialization | undefined;
+  ExpressionType?: ExpressionType | undefined;
+  Expression?: string | undefined;
+  OutputSerialization?: OutputSerialization | undefined;
 }
 export type EncryptionType = "aws:kms" | "AES256" | (string & {});
 export interface Encryption {
-  EncryptionType?: EncryptionType;
-  KMSKeyId?: string;
-  KMSContext?: string;
+  EncryptionType?: EncryptionType | undefined;
+  KMSKeyId?: string | undefined;
+  KMSContext?: string | undefined;
 }
 export type CannedACL =
   | "private"
@@ -309,10 +309,10 @@ export type CannedACL =
 export type Type = "AmazonCustomerByEmail" | "CanonicalUser" | "Group" | (string & {});
 export interface Grantee {
   Type: Type;
-  DisplayName?: string;
-  URI?: string;
-  ID?: string;
-  EmailAddress?: string;
+  DisplayName?: string | undefined;
+  URI?: string | undefined;
+  ID?: string | undefined;
+  EmailAddress?: string | undefined;
 }
 export type Permission =
   | "FULL_CONTROL"
@@ -322,109 +322,109 @@ export type Permission =
   | "READ_ACP"
   | (string & {});
 export interface Grant {
-  Grantee?: Grantee;
-  Permission?: Permission;
+  Grantee?: Grantee | undefined;
+  Permission?: Permission | undefined;
 }
 export type AccessControlPolicyList = Grant[];
 export type Hashmap = { [key: string]: string | undefined };
 export type StorageClass = "STANDARD" | "REDUCED_REDUNDANCY" | "STANDARD_IA" | (string & {});
 export interface S3Location {
-  BucketName?: string;
-  Prefix?: string;
-  Encryption?: Encryption;
-  CannedACL?: CannedACL;
-  AccessControlList?: Grant[];
-  Tagging?: { [key: string]: string | undefined };
-  UserMetadata?: { [key: string]: string | undefined };
-  StorageClass?: StorageClass;
+  BucketName?: string | undefined;
+  Prefix?: string | undefined;
+  Encryption?: Encryption | undefined;
+  CannedACL?: CannedACL | undefined;
+  AccessControlList?: Grant[] | undefined;
+  Tagging?: { [key: string]: string | undefined } | undefined;
+  UserMetadata?: { [key: string]: string | undefined } | undefined;
+  StorageClass?: StorageClass | undefined;
 }
 export interface OutputLocation {
-  S3?: S3Location;
+  S3?: S3Location | undefined;
 }
 export interface GlacierJobDescription {
-  JobId?: string;
-  JobDescription?: string;
-  Action?: ActionCode;
-  ArchiveId?: string;
-  VaultARN?: string;
-  CreationDate?: string;
-  Completed?: boolean;
-  StatusCode?: StatusCode;
-  StatusMessage?: string;
-  ArchiveSizeInBytes?: number;
-  InventorySizeInBytes?: number;
-  SNSTopic?: string;
-  CompletionDate?: string;
-  SHA256TreeHash?: string;
-  ArchiveSHA256TreeHash?: string;
-  RetrievalByteRange?: string;
-  Tier?: string;
-  InventoryRetrievalParameters?: InventoryRetrievalJobDescription;
-  JobOutputPath?: string;
-  SelectParameters?: SelectParameters;
-  OutputLocation?: OutputLocation;
+  JobId?: string | undefined;
+  JobDescription?: string | undefined;
+  Action?: ActionCode | undefined;
+  ArchiveId?: string | undefined;
+  VaultARN?: string | undefined;
+  CreationDate?: string | undefined;
+  Completed?: boolean | undefined;
+  StatusCode?: StatusCode | undefined;
+  StatusMessage?: string | undefined;
+  ArchiveSizeInBytes?: number | undefined;
+  InventorySizeInBytes?: number | undefined;
+  SNSTopic?: string | undefined;
+  CompletionDate?: string | undefined;
+  SHA256TreeHash?: string | undefined;
+  ArchiveSHA256TreeHash?: string | undefined;
+  RetrievalByteRange?: string | undefined;
+  Tier?: string | undefined;
+  InventoryRetrievalParameters?: InventoryRetrievalJobDescription | undefined;
+  JobOutputPath?: string | undefined;
+  SelectParameters?: SelectParameters | undefined;
+  OutputLocation?: OutputLocation | undefined;
 }
 export interface DescribeVaultInput {
   accountId: string;
   vaultName: string;
 }
 export interface DescribeVaultOutput {
-  VaultARN?: string;
-  VaultName?: string;
-  CreationDate?: string;
-  LastInventoryDate?: string;
-  NumberOfArchives?: number;
-  SizeInBytes?: number;
+  VaultARN?: string | undefined;
+  VaultName?: string | undefined;
+  CreationDate?: string | undefined;
+  LastInventoryDate?: string | undefined;
+  NumberOfArchives?: number | undefined;
+  SizeInBytes?: number | undefined;
 }
 export interface GetDataRetrievalPolicyInput {
   accountId: string;
 }
 export interface DataRetrievalRule {
-  Strategy?: string;
-  BytesPerHour?: number;
+  Strategy?: string | undefined;
+  BytesPerHour?: number | undefined;
 }
 export type DataRetrievalRulesList = DataRetrievalRule[];
 export interface DataRetrievalPolicy {
-  Rules?: DataRetrievalRule[];
+  Rules?: DataRetrievalRule[] | undefined;
 }
 export interface GetDataRetrievalPolicyOutput {
-  Policy?: DataRetrievalPolicy;
+  Policy?: DataRetrievalPolicy | undefined;
 }
 export interface GetJobOutputInput {
   accountId: string;
   vaultName: string;
   jobId: string;
-  range?: string;
+  range?: string | undefined;
 }
 export type Httpstatus = number;
 export interface GetJobOutputOutput {
-  body?: T.StreamingOutputBody;
-  checksum?: string;
-  status?: number;
-  contentRange?: string;
-  acceptRanges?: string;
-  contentType?: string;
-  archiveDescription?: string;
+  body?: T.StreamingOutputBody | undefined;
+  checksum?: string | undefined;
+  status?: number | undefined;
+  contentRange?: string | undefined;
+  acceptRanges?: string | undefined;
+  contentType?: string | undefined;
+  archiveDescription?: string | undefined;
 }
 export interface GetVaultAccessPolicyInput {
   accountId: string;
   vaultName: string;
 }
 export interface VaultAccessPolicy {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface GetVaultAccessPolicyOutput {
-  policy?: VaultAccessPolicy;
+  policy?: VaultAccessPolicy | undefined;
 }
 export interface GetVaultLockInput {
   accountId: string;
   vaultName: string;
 }
 export interface GetVaultLockOutput {
-  Policy?: string;
-  State?: string;
-  ExpirationDate?: string;
-  CreationDate?: string;
+  Policy?: string | undefined;
+  State?: string | undefined;
+  ExpirationDate?: string | undefined;
+  CreationDate?: string | undefined;
 }
 export interface GetVaultNotificationsInput {
   accountId: string;
@@ -432,189 +432,189 @@ export interface GetVaultNotificationsInput {
 }
 export type NotificationEventList = string[];
 export interface VaultNotificationConfig {
-  SNSTopic?: string;
-  Events?: string[];
+  SNSTopic?: string | undefined;
+  Events?: string[] | undefined;
 }
 export interface GetVaultNotificationsOutput {
-  vaultNotificationConfig?: VaultNotificationConfig;
+  vaultNotificationConfig?: VaultNotificationConfig | undefined;
 }
 export interface InventoryRetrievalJobInput {
-  StartDate?: string;
-  EndDate?: string;
-  Limit?: string;
-  Marker?: string;
+  StartDate?: string | undefined;
+  EndDate?: string | undefined;
+  Limit?: string | undefined;
+  Marker?: string | undefined;
 }
 export interface JobParameters {
-  Format?: string;
-  Type?: string;
-  ArchiveId?: string;
-  Description?: string;
-  SNSTopic?: string;
-  RetrievalByteRange?: string;
-  Tier?: string;
-  InventoryRetrievalParameters?: InventoryRetrievalJobInput;
-  SelectParameters?: SelectParameters;
-  OutputLocation?: OutputLocation;
+  Format?: string | undefined;
+  Type?: string | undefined;
+  ArchiveId?: string | undefined;
+  Description?: string | undefined;
+  SNSTopic?: string | undefined;
+  RetrievalByteRange?: string | undefined;
+  Tier?: string | undefined;
+  InventoryRetrievalParameters?: InventoryRetrievalJobInput | undefined;
+  SelectParameters?: SelectParameters | undefined;
+  OutputLocation?: OutputLocation | undefined;
 }
 export interface InitiateJobInput {
   accountId: string;
   vaultName: string;
-  jobParameters?: JobParameters;
+  jobParameters?: JobParameters | undefined;
 }
 export interface InitiateJobOutput {
-  location?: string;
-  jobId?: string;
-  jobOutputPath?: string;
+  location?: string | undefined;
+  jobId?: string | undefined;
+  jobOutputPath?: string | undefined;
 }
 export interface InitiateMultipartUploadInput {
   accountId: string;
   vaultName: string;
-  archiveDescription?: string;
-  partSize?: string;
+  archiveDescription?: string | undefined;
+  partSize?: string | undefined;
 }
 export interface InitiateMultipartUploadOutput {
-  location?: string;
-  uploadId?: string;
+  location?: string | undefined;
+  uploadId?: string | undefined;
 }
 export interface VaultLockPolicy {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface InitiateVaultLockInput {
   accountId: string;
   vaultName: string;
-  policy?: VaultLockPolicy;
+  policy?: VaultLockPolicy | undefined;
 }
 export interface InitiateVaultLockOutput {
-  lockId?: string;
+  lockId?: string | undefined;
 }
 export interface ListJobsInput {
   accountId: string;
   vaultName: string;
-  limit?: number;
-  marker?: string;
-  statuscode?: string;
-  completed?: string;
+  limit?: number | undefined;
+  marker?: string | undefined;
+  statuscode?: string | undefined;
+  completed?: string | undefined;
 }
 export type JobList = GlacierJobDescription[];
 export interface ListJobsOutput {
-  JobList?: GlacierJobDescription[];
-  Marker?: string;
+  JobList?: GlacierJobDescription[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ListMultipartUploadsInput {
   accountId: string;
   vaultName: string;
-  limit?: number;
-  marker?: string;
+  limit?: number | undefined;
+  marker?: string | undefined;
 }
 export interface UploadListElement {
-  MultipartUploadId?: string;
-  VaultARN?: string;
-  ArchiveDescription?: string;
-  PartSizeInBytes?: number;
-  CreationDate?: string;
+  MultipartUploadId?: string | undefined;
+  VaultARN?: string | undefined;
+  ArchiveDescription?: string | undefined;
+  PartSizeInBytes?: number | undefined;
+  CreationDate?: string | undefined;
 }
 export type UploadsList = UploadListElement[];
 export interface ListMultipartUploadsOutput {
-  UploadsList?: UploadListElement[];
-  Marker?: string;
+  UploadsList?: UploadListElement[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ListPartsInput {
   accountId: string;
   vaultName: string;
   uploadId: string;
-  marker?: string;
-  limit?: number;
+  marker?: string | undefined;
+  limit?: number | undefined;
 }
 export interface PartListElement {
-  RangeInBytes?: string;
-  SHA256TreeHash?: string;
+  RangeInBytes?: string | undefined;
+  SHA256TreeHash?: string | undefined;
 }
 export type PartList = PartListElement[];
 export interface ListPartsOutput {
-  MultipartUploadId?: string;
-  VaultARN?: string;
-  ArchiveDescription?: string;
-  PartSizeInBytes?: number;
-  CreationDate?: string;
-  Parts?: PartListElement[];
-  Marker?: string;
+  MultipartUploadId?: string | undefined;
+  VaultARN?: string | undefined;
+  ArchiveDescription?: string | undefined;
+  PartSizeInBytes?: number | undefined;
+  CreationDate?: string | undefined;
+  Parts?: PartListElement[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ListProvisionedCapacityInput {
   accountId: string;
 }
 export interface ProvisionedCapacityDescription {
-  CapacityId?: string;
-  StartDate?: string;
-  ExpirationDate?: string;
+  CapacityId?: string | undefined;
+  StartDate?: string | undefined;
+  ExpirationDate?: string | undefined;
 }
 export type ProvisionedCapacityList = ProvisionedCapacityDescription[];
 export interface ListProvisionedCapacityOutput {
-  ProvisionedCapacityList?: ProvisionedCapacityDescription[];
+  ProvisionedCapacityList?: ProvisionedCapacityDescription[] | undefined;
 }
 export interface ListTagsForVaultInput {
   accountId: string;
   vaultName: string;
 }
 export interface ListTagsForVaultOutput {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListVaultsInput {
   accountId: string;
-  marker?: string;
-  limit?: number;
+  marker?: string | undefined;
+  limit?: number | undefined;
 }
 export type VaultList = DescribeVaultOutput[];
 export interface ListVaultsOutput {
-  VaultList?: DescribeVaultOutput[];
-  Marker?: string;
+  VaultList?: DescribeVaultOutput[] | undefined;
+  Marker?: string | undefined;
 }
 export interface PurchaseProvisionedCapacityInput {
   accountId: string;
 }
 export interface PurchaseProvisionedCapacityOutput {
-  capacityId?: string;
+  capacityId?: string | undefined;
 }
 export type TagKeyList = string[];
 export interface RemoveTagsFromVaultInput {
   accountId: string;
   vaultName: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface RemoveTagsFromVaultResponse {}
 export interface SetDataRetrievalPolicyInput {
   accountId: string;
-  Policy?: DataRetrievalPolicy;
+  Policy?: DataRetrievalPolicy | undefined;
 }
 export interface SetDataRetrievalPolicyResponse {}
 export interface SetVaultAccessPolicyInput {
   accountId: string;
   vaultName: string;
-  policy?: VaultAccessPolicy;
+  policy?: VaultAccessPolicy | undefined;
 }
 export interface SetVaultAccessPolicyResponse {}
 export interface SetVaultNotificationsInput {
   accountId: string;
   vaultName: string;
-  vaultNotificationConfig?: VaultNotificationConfig;
+  vaultNotificationConfig?: VaultNotificationConfig | undefined;
 }
 export interface SetVaultNotificationsResponse {}
 export interface UploadArchiveInput {
   vaultName: string;
   accountId: string;
-  archiveDescription?: string;
-  checksum?: string;
-  body?: T.StreamingInputBody;
+  archiveDescription?: string | undefined;
+  checksum?: string | undefined;
+  body?: T.StreamingInputBody | undefined;
 }
 export interface UploadMultipartPartInput {
   accountId: string;
   vaultName: string;
   uploadId: string;
-  checksum?: string;
-  range?: string;
-  body?: T.StreamingInputBody;
+  checksum?: string | undefined;
+  range?: string | undefined;
+  body?: T.StreamingInputBody | undefined;
 }
 export interface UploadMultipartPartOutput {
-  checksum?: string;
+  checksum?: string | undefined;
 }
 export type AbortMultipartUploadError =
   | InvalidParameterValueException

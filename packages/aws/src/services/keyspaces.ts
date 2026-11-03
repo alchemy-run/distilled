@@ -163,12 +163,12 @@ export type Region = string;
 export type RegionList = string[];
 export interface ReplicationSpecification {
   replicationStrategy: string;
-  regionList?: string[];
+  regionList?: string[] | undefined;
 }
 export interface CreateKeyspaceRequest {
   keyspaceName: string;
-  tags?: Tag[];
-  replicationSpecification?: ReplicationSpecification;
+  tags?: Tag[] | undefined;
+  replicationSpecification?: ReplicationSpecification | undefined;
 }
 export type ARN = string;
 export interface CreateKeyspaceResponse {
@@ -197,8 +197,8 @@ export type StaticColumnList = StaticColumn[];
 export interface SchemaDefinition {
   allColumns: ColumnDefinition[];
   partitionKeys: PartitionKey[];
-  clusteringKeys?: ClusteringKey[];
-  staticColumns?: StaticColumn[];
+  clusteringKeys?: ClusteringKey[] | undefined;
+  staticColumns?: StaticColumn[] | undefined;
 }
 export interface Comment {
   message: string;
@@ -207,14 +207,14 @@ export type ThroughputMode = string;
 export type CapacityUnits = number;
 export interface CapacitySpecification {
   throughputMode: string;
-  readCapacityUnits?: number;
-  writeCapacityUnits?: number;
+  readCapacityUnits?: number | undefined;
+  writeCapacityUnits?: number | undefined;
 }
 export type EncryptionType = string;
 export type KmsKeyARN = string;
 export interface EncryptionSpecification {
   type: string;
-  kmsKeyIdentifier?: string;
+  kmsKeyIdentifier?: string | undefined;
 }
 export type PointInTimeRecoveryStatus = string;
 export interface PointInTimeRecovery {
@@ -232,28 +232,28 @@ export interface ClientSideTimestamps {
 export type IntegerObject = number;
 export type DoubleObject = number;
 export interface TargetTrackingScalingPolicyConfiguration {
-  disableScaleIn?: boolean;
-  scaleInCooldown?: number;
-  scaleOutCooldown?: number;
+  disableScaleIn?: boolean | undefined;
+  scaleInCooldown?: number | undefined;
+  scaleOutCooldown?: number | undefined;
   targetValue: number;
 }
 export interface AutoScalingPolicy {
-  targetTrackingScalingPolicyConfiguration?: TargetTrackingScalingPolicyConfiguration;
+  targetTrackingScalingPolicyConfiguration?: TargetTrackingScalingPolicyConfiguration | undefined;
 }
 export interface AutoScalingSettings {
-  autoScalingDisabled?: boolean;
-  minimumUnits?: number;
-  maximumUnits?: number;
-  scalingPolicy?: AutoScalingPolicy;
+  autoScalingDisabled?: boolean | undefined;
+  minimumUnits?: number | undefined;
+  maximumUnits?: number | undefined;
+  scalingPolicy?: AutoScalingPolicy | undefined;
 }
 export interface AutoScalingSpecification {
-  writeCapacityAutoScaling?: AutoScalingSettings;
-  readCapacityAutoScaling?: AutoScalingSettings;
+  writeCapacityAutoScaling?: AutoScalingSettings | undefined;
+  readCapacityAutoScaling?: AutoScalingSettings | undefined;
 }
 export interface ReplicaSpecification {
   region: string;
-  readCapacityUnits?: number;
-  readCapacityAutoScaling?: AutoScalingSettings;
+  readCapacityUnits?: number | undefined;
+  readCapacityAutoScaling?: AutoScalingSettings | undefined;
 }
 export type ReplicaSpecificationList = ReplicaSpecification[];
 export type CdcStatus = string;
@@ -261,30 +261,30 @@ export type ViewType = string;
 export type CdcPropagateTags = string;
 export interface CdcSpecification {
   status: string;
-  viewType?: string;
-  tags?: Tag[];
-  propagateTags?: string;
+  viewType?: string | undefined;
+  tags?: Tag[] | undefined;
+  propagateTags?: string | undefined;
 }
 export interface WarmThroughputSpecification {
-  readUnitsPerSecond?: number;
-  writeUnitsPerSecond?: number;
+  readUnitsPerSecond?: number | undefined;
+  writeUnitsPerSecond?: number | undefined;
 }
 export interface CreateTableRequest {
   keyspaceName: string;
   tableName: string;
   schemaDefinition: SchemaDefinition;
-  comment?: Comment;
-  capacitySpecification?: CapacitySpecification;
-  encryptionSpecification?: EncryptionSpecification;
-  pointInTimeRecovery?: PointInTimeRecovery;
-  ttl?: TimeToLive;
-  defaultTimeToLive?: number;
-  tags?: Tag[];
-  clientSideTimestamps?: ClientSideTimestamps;
-  autoScalingSpecification?: AutoScalingSpecification;
-  replicaSpecifications?: ReplicaSpecification[];
-  cdcSpecification?: CdcSpecification;
-  warmThroughputSpecification?: WarmThroughputSpecification;
+  comment?: Comment | undefined;
+  capacitySpecification?: CapacitySpecification | undefined;
+  encryptionSpecification?: EncryptionSpecification | undefined;
+  pointInTimeRecovery?: PointInTimeRecovery | undefined;
+  ttl?: TimeToLive | undefined;
+  defaultTimeToLive?: number | undefined;
+  tags?: Tag[] | undefined;
+  clientSideTimestamps?: ClientSideTimestamps | undefined;
+  autoScalingSpecification?: AutoScalingSpecification | undefined;
+  replicaSpecifications?: ReplicaSpecification[] | undefined;
+  cdcSpecification?: CdcSpecification | undefined;
+  warmThroughputSpecification?: WarmThroughputSpecification | undefined;
 }
 export interface CreateTableResponse {
   resourceArn: string;
@@ -329,15 +329,15 @@ export type TablesReplicationProgress = string;
 export interface ReplicationGroupStatus {
   region: string;
   keyspaceStatus: string;
-  tablesReplicationProgress?: string;
+  tablesReplicationProgress?: string | undefined;
 }
 export type ReplicationGroupStatusList = ReplicationGroupStatus[];
 export interface GetKeyspaceResponse {
   keyspaceName: string;
   resourceArn: string;
   replicationStrategy: string;
-  replicationRegions?: string[];
-  replicationGroupStatuses?: ReplicationGroupStatus[];
+  replicationRegions?: string[] | undefined;
+  replicationGroupStatuses?: ReplicationGroupStatus[] | undefined;
 }
 export interface GetTableRequest {
   keyspaceName: string;
@@ -346,13 +346,13 @@ export interface GetTableRequest {
 export type TableStatus = string;
 export interface CapacitySpecificationSummary {
   throughputMode: string;
-  readCapacityUnits?: number;
-  writeCapacityUnits?: number;
-  lastUpdateToPayPerRequestTimestamp?: Date;
+  readCapacityUnits?: number | undefined;
+  writeCapacityUnits?: number | undefined;
+  lastUpdateToPayPerRequestTimestamp?: Date | undefined;
 }
 export interface PointInTimeRecoverySummary {
   status: string;
-  earliestRestorableTimestamp?: Date;
+  earliestRestorableTimestamp?: Date | undefined;
 }
 export type WarmThroughputStatus = string;
 export interface WarmThroughputSpecificationSummary {
@@ -361,51 +361,51 @@ export interface WarmThroughputSpecificationSummary {
   status: string;
 }
 export interface ReplicaSpecificationSummary {
-  region?: string;
-  status?: string;
-  capacitySpecification?: CapacitySpecificationSummary;
-  warmThroughputSpecification?: WarmThroughputSpecificationSummary;
+  region?: string | undefined;
+  status?: string | undefined;
+  capacitySpecification?: CapacitySpecificationSummary | undefined;
+  warmThroughputSpecification?: WarmThroughputSpecificationSummary | undefined;
 }
 export type ReplicaSpecificationSummaryList = ReplicaSpecificationSummary[];
 export type StreamArn = string;
 export interface CdcSpecificationSummary {
   status: string;
-  viewType?: string;
+  viewType?: string | undefined;
 }
 export interface GetTableResponse {
   keyspaceName: string;
   tableName: string;
   resourceArn: string;
-  creationTimestamp?: Date;
-  status?: string;
-  schemaDefinition?: SchemaDefinition;
-  capacitySpecification?: CapacitySpecificationSummary;
-  encryptionSpecification?: EncryptionSpecification;
-  pointInTimeRecovery?: PointInTimeRecoverySummary;
-  ttl?: TimeToLive;
-  defaultTimeToLive?: number;
-  comment?: Comment;
-  clientSideTimestamps?: ClientSideTimestamps;
-  replicaSpecifications?: ReplicaSpecificationSummary[];
-  latestStreamArn?: string;
-  cdcSpecification?: CdcSpecificationSummary;
-  warmThroughputSpecification?: WarmThroughputSpecificationSummary;
+  creationTimestamp?: Date | undefined;
+  status?: string | undefined;
+  schemaDefinition?: SchemaDefinition | undefined;
+  capacitySpecification?: CapacitySpecificationSummary | undefined;
+  encryptionSpecification?: EncryptionSpecification | undefined;
+  pointInTimeRecovery?: PointInTimeRecoverySummary | undefined;
+  ttl?: TimeToLive | undefined;
+  defaultTimeToLive?: number | undefined;
+  comment?: Comment | undefined;
+  clientSideTimestamps?: ClientSideTimestamps | undefined;
+  replicaSpecifications?: ReplicaSpecificationSummary[] | undefined;
+  latestStreamArn?: string | undefined;
+  cdcSpecification?: CdcSpecificationSummary | undefined;
+  warmThroughputSpecification?: WarmThroughputSpecificationSummary | undefined;
 }
 export interface GetTableAutoScalingSettingsRequest {
   keyspaceName: string;
   tableName: string;
 }
 export interface ReplicaAutoScalingSpecification {
-  region?: string;
-  autoScalingSpecification?: AutoScalingSpecification;
+  region?: string | undefined;
+  autoScalingSpecification?: AutoScalingSpecification | undefined;
 }
 export type ReplicaAutoScalingSpecificationList = ReplicaAutoScalingSpecification[];
 export interface GetTableAutoScalingSettingsResponse {
   keyspaceName: string;
   tableName: string;
   resourceArn: string;
-  autoScalingSpecification?: AutoScalingSpecification;
-  replicaSpecifications?: ReplicaAutoScalingSpecification[];
+  autoScalingSpecification?: AutoScalingSpecification | undefined;
+  replicaSpecifications?: ReplicaAutoScalingSpecification[] | undefined;
 }
 export interface GetTypeRequest {
   keyspaceName: string;
@@ -418,34 +418,34 @@ export type Depth = number;
 export interface GetTypeResponse {
   keyspaceName: string;
   typeName: string;
-  fieldDefinitions?: FieldDefinition[];
-  lastModifiedTimestamp?: Date;
-  status?: string;
-  directReferringTables?: string[];
-  directParentTypes?: string[];
-  maxNestingDepth?: number;
+  fieldDefinitions?: FieldDefinition[] | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  status?: string | undefined;
+  directReferringTables?: string[] | undefined;
+  directParentTypes?: string[] | undefined;
+  maxNestingDepth?: number | undefined;
   keyspaceArn: string;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListKeyspacesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface KeyspaceSummary {
   keyspaceName: string;
   resourceArn: string;
   replicationStrategy: string;
-  replicationRegions?: string[];
+  replicationRegions?: string[] | undefined;
 }
 export type KeyspaceSummaryList = KeyspaceSummary[];
 export interface ListKeyspacesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   keyspaces: KeyspaceSummary[];
 }
 export interface ListTablesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   keyspaceName: string;
 }
 export interface TableSummary {
@@ -455,25 +455,25 @@ export interface TableSummary {
 }
 export type TableSummaryList = TableSummary[];
 export interface ListTablesResponse {
-  nextToken?: string;
-  tables?: TableSummary[];
+  nextToken?: string | undefined;
+  tables?: TableSummary[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListTagsForResourceResponse {
-  nextToken?: string;
-  tags?: Tag[];
+  nextToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface ListTypesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   keyspaceName: string;
 }
 export interface ListTypesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   types: string[];
 }
 export interface RestoreTableRequest {
@@ -481,13 +481,13 @@ export interface RestoreTableRequest {
   sourceTableName: string;
   targetKeyspaceName: string;
   targetTableName: string;
-  restoreTimestamp?: Date;
-  capacitySpecificationOverride?: CapacitySpecification;
-  encryptionSpecificationOverride?: EncryptionSpecification;
-  pointInTimeRecoveryOverride?: PointInTimeRecovery;
-  tagsOverride?: Tag[];
-  autoScalingSpecification?: AutoScalingSpecification;
-  replicaSpecifications?: ReplicaSpecification[];
+  restoreTimestamp?: Date | undefined;
+  capacitySpecificationOverride?: CapacitySpecification | undefined;
+  encryptionSpecificationOverride?: EncryptionSpecification | undefined;
+  pointInTimeRecoveryOverride?: PointInTimeRecovery | undefined;
+  tagsOverride?: Tag[] | undefined;
+  autoScalingSpecification?: AutoScalingSpecification | undefined;
+  replicaSpecifications?: ReplicaSpecification[] | undefined;
 }
 export interface RestoreTableResponse {
   restoredTableARN: string;
@@ -505,7 +505,7 @@ export interface UntagResourceResponse {}
 export interface UpdateKeyspaceRequest {
   keyspaceName: string;
   replicationSpecification: ReplicationSpecification;
-  clientSideTimestamps?: ClientSideTimestamps;
+  clientSideTimestamps?: ClientSideTimestamps | undefined;
 }
 export interface UpdateKeyspaceResponse {
   resourceArn: string;
@@ -513,17 +513,17 @@ export interface UpdateKeyspaceResponse {
 export interface UpdateTableRequest {
   keyspaceName: string;
   tableName: string;
-  addColumns?: ColumnDefinition[];
-  capacitySpecification?: CapacitySpecification;
-  encryptionSpecification?: EncryptionSpecification;
-  pointInTimeRecovery?: PointInTimeRecovery;
-  ttl?: TimeToLive;
-  defaultTimeToLive?: number;
-  clientSideTimestamps?: ClientSideTimestamps;
-  autoScalingSpecification?: AutoScalingSpecification;
-  replicaSpecifications?: ReplicaSpecification[];
-  cdcSpecification?: CdcSpecification;
-  warmThroughputSpecification?: WarmThroughputSpecification;
+  addColumns?: ColumnDefinition[] | undefined;
+  capacitySpecification?: CapacitySpecification | undefined;
+  encryptionSpecification?: EncryptionSpecification | undefined;
+  pointInTimeRecovery?: PointInTimeRecovery | undefined;
+  ttl?: TimeToLive | undefined;
+  defaultTimeToLive?: number | undefined;
+  clientSideTimestamps?: ClientSideTimestamps | undefined;
+  autoScalingSpecification?: AutoScalingSpecification | undefined;
+  replicaSpecifications?: ReplicaSpecification[] | undefined;
+  cdcSpecification?: CdcSpecification | undefined;
+  warmThroughputSpecification?: WarmThroughputSpecification | undefined;
 }
 export interface UpdateTableResponse {
   resourceArn: string;

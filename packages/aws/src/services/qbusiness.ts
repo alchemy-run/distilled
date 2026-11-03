@@ -198,11 +198,11 @@ export interface AssociatePermissionRequest {
   applicationId: string;
   statementId: string;
   actions: string[];
-  conditions?: PermissionCondition[];
+  conditions?: PermissionCondition[] | undefined;
   principal: string;
 }
 export interface AssociatePermissionResponse {
-  statement?: string;
+  statement?: string | undefined;
 }
 export type IndexId = string;
 export type DocumentId = string;
@@ -215,7 +215,7 @@ export interface BatchDeleteDocumentRequest {
   applicationId: string;
   indexId: string;
   documents: DeleteDocument[];
-  dataSourceSyncId?: string;
+  dataSourceSyncId?: string | undefined;
 }
 export type ErrorMessage = string;
 export type ErrorCode =
@@ -225,18 +225,18 @@ export type ErrorCode =
   | "ResourceNotFound"
   | (string & {});
 export interface ErrorDetail {
-  errorMessage?: string;
-  errorCode?: ErrorCode;
+  errorMessage?: string | undefined;
+  errorCode?: ErrorCode | undefined;
 }
 export type DataSourceId = string;
 export interface FailedDocument {
-  id?: string;
-  error?: ErrorDetail;
-  dataSourceId?: string;
+  id?: string | undefined;
+  error?: ErrorDetail | undefined;
+  dataSourceId?: string | undefined;
 }
 export type FailedDocuments = FailedDocument[];
 export interface BatchDeleteDocumentResponse {
-  failedDocuments?: FailedDocument[];
+  failedDocuments?: FailedDocument[] | undefined;
 }
 export type DocumentAttributeKey = string;
 export type DocumentAttributeStringValue = string;
@@ -277,15 +277,15 @@ export type UserId = string;
 export type ReadAccessType = "ALLOW" | "DENY" | (string & {});
 export type MembershipType = "INDEX" | "DATASOURCE" | (string & {});
 export interface PrincipalUser {
-  id?: string;
+  id?: string | undefined;
   access: ReadAccessType;
-  membershipType?: MembershipType;
+  membershipType?: MembershipType | undefined;
 }
 export type GroupName = string;
 export interface PrincipalGroup {
-  name?: string;
+  name?: string | undefined;
   access: ReadAccessType;
-  membershipType?: MembershipType;
+  membershipType?: MembershipType | undefined;
 }
 export type Principal =
   | { user: PrincipalUser; group?: never }
@@ -294,12 +294,12 @@ export type Principals = Principal[];
 export type MemberRelation = "AND" | "OR" | (string & {});
 export interface AccessControl {
   principals: Principal[];
-  memberRelation?: MemberRelation;
+  memberRelation?: MemberRelation | undefined;
 }
 export type AccessControls = AccessControl[];
 export interface AccessConfiguration {
   accessControls: AccessControl[];
-  memberRelation?: MemberRelation;
+  memberRelation?: MemberRelation | undefined;
 }
 export type DocumentEnrichmentConditionOperator =
   | "GREATER_THAN"
@@ -317,33 +317,33 @@ export type DocumentEnrichmentConditionOperator =
 export interface DocumentAttributeCondition {
   key: string;
   operator: DocumentEnrichmentConditionOperator;
-  value?: DocumentAttributeValue;
+  value?: DocumentAttributeValue | undefined;
 }
 export type AttributeValueOperator = "DELETE" | (string & {});
 export interface DocumentAttributeTarget {
   key: string;
-  value?: DocumentAttributeValue;
-  attributeValueOperator?: AttributeValueOperator;
+  value?: DocumentAttributeValue | undefined;
+  attributeValueOperator?: AttributeValueOperator | undefined;
 }
 export type DocumentContentOperator = "DELETE" | (string & {});
 export interface InlineDocumentEnrichmentConfiguration {
-  condition?: DocumentAttributeCondition;
-  target?: DocumentAttributeTarget;
-  documentContentOperator?: DocumentContentOperator;
+  condition?: DocumentAttributeCondition | undefined;
+  target?: DocumentAttributeTarget | undefined;
+  documentContentOperator?: DocumentContentOperator | undefined;
 }
 export type InlineDocumentEnrichmentConfigurations = InlineDocumentEnrichmentConfiguration[];
 export type LambdaArn = string;
 export type RoleArn = string;
 export interface HookConfiguration {
-  invocationCondition?: DocumentAttributeCondition;
-  lambdaArn?: string;
-  s3BucketName?: string;
-  roleArn?: string;
+  invocationCondition?: DocumentAttributeCondition | undefined;
+  lambdaArn?: string | undefined;
+  s3BucketName?: string | undefined;
+  roleArn?: string | undefined;
 }
 export interface DocumentEnrichmentConfiguration {
-  inlineConfigurations?: InlineDocumentEnrichmentConfiguration[];
-  preExtractionHookConfiguration?: HookConfiguration;
-  postExtractionHookConfiguration?: HookConfiguration;
+  inlineConfigurations?: InlineDocumentEnrichmentConfiguration[] | undefined;
+  preExtractionHookConfiguration?: HookConfiguration | undefined;
+  postExtractionHookConfiguration?: HookConfiguration | undefined;
 }
 export type ImageExtractionStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface ImageExtractionConfiguration {
@@ -358,30 +358,30 @@ export interface VideoExtractionConfiguration {
   videoExtractionStatus: VideoExtractionStatus;
 }
 export interface MediaExtractionConfiguration {
-  imageExtractionConfiguration?: ImageExtractionConfiguration;
-  audioExtractionConfiguration?: AudioExtractionConfiguration;
-  videoExtractionConfiguration?: VideoExtractionConfiguration;
+  imageExtractionConfiguration?: ImageExtractionConfiguration | undefined;
+  audioExtractionConfiguration?: AudioExtractionConfiguration | undefined;
+  videoExtractionConfiguration?: VideoExtractionConfiguration | undefined;
 }
 export interface Document {
   id: string;
-  attributes?: DocumentAttribute[];
-  content?: DocumentContent;
-  contentType?: ContentType;
-  title?: string;
-  accessConfiguration?: AccessConfiguration;
-  documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration;
-  mediaExtractionConfiguration?: MediaExtractionConfiguration;
+  attributes?: DocumentAttribute[] | undefined;
+  content?: DocumentContent | undefined;
+  contentType?: ContentType | undefined;
+  title?: string | undefined;
+  accessConfiguration?: AccessConfiguration | undefined;
+  documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration | undefined;
+  mediaExtractionConfiguration?: MediaExtractionConfiguration | undefined;
 }
 export type Documents = Document[];
 export interface BatchPutDocumentRequest {
   applicationId: string;
   indexId: string;
   documents: Document[];
-  roleArn?: string;
-  dataSourceSyncId?: string;
+  roleArn?: string | undefined;
+  dataSourceSyncId?: string | undefined;
 }
 export interface BatchPutDocumentResponse {
-  failedDocuments?: FailedDocument[];
+  failedDocuments?: FailedDocument[] | undefined;
 }
 export type SubscriptionId = string;
 export interface CancelSubscriptionRequest {
@@ -391,12 +391,12 @@ export interface CancelSubscriptionRequest {
 export type SubscriptionArn = string;
 export type SubscriptionType = "Q_LITE" | "Q_BUSINESS" | (string & {});
 export interface SubscriptionDetails {
-  type?: SubscriptionType;
+  type?: SubscriptionType | undefined;
 }
 export interface CancelSubscriptionResponse {
-  subscriptionArn?: string;
-  currentSubscription?: SubscriptionDetails;
-  nextSubscription?: SubscriptionDetails;
+  subscriptionArn?: string | undefined;
+  currentSubscription?: SubscriptionDetails | undefined;
+  nextSubscription?: SubscriptionDetails | undefined;
 }
 export type UserGroups = string[];
 export type ConversationId = string;
@@ -410,21 +410,21 @@ export interface PluginConfiguration {
 export type ChatModeConfiguration = { pluginConfiguration: PluginConfiguration };
 export type AttributeFilters = AttributeFilter[];
 export interface AttributeFilter {
-  andAllFilters?: AttributeFilter[];
-  orAllFilters?: AttributeFilter[];
-  notFilter?: AttributeFilter;
-  equalsTo?: DocumentAttribute;
-  containsAll?: DocumentAttribute;
-  containsAny?: DocumentAttribute;
-  greaterThan?: DocumentAttribute;
-  greaterThanOrEquals?: DocumentAttribute;
-  lessThan?: DocumentAttribute;
-  lessThanOrEquals?: DocumentAttribute;
+  andAllFilters?: AttributeFilter[] | undefined;
+  orAllFilters?: AttributeFilter[] | undefined;
+  notFilter?: AttributeFilter | undefined;
+  equalsTo?: DocumentAttribute | undefined;
+  containsAll?: DocumentAttribute | undefined;
+  containsAny?: DocumentAttribute | undefined;
+  greaterThan?: DocumentAttribute | undefined;
+  greaterThanOrEquals?: DocumentAttribute | undefined;
+  lessThan?: DocumentAttribute | undefined;
+  lessThanOrEquals?: DocumentAttribute | undefined;
 }
 export interface ConfigurationEvent {
-  chatMode?: ChatMode;
-  chatModeConfiguration?: ChatModeConfiguration;
-  attributeFilter?: AttributeFilter;
+  chatMode?: ChatMode | undefined;
+  chatModeConfiguration?: ChatModeConfiguration | undefined;
+  attributeFilter?: AttributeFilter | undefined;
 }
 export type UserMessage = string;
 export interface TextInputEvent {
@@ -438,12 +438,12 @@ export interface ConversationSource {
 }
 export type CopyFromSource = { conversation: ConversationSource };
 export interface AttachmentInput {
-  data?: Uint8Array;
-  name?: string;
-  copyFrom?: CopyFromSource;
+  data?: Uint8Array | undefined;
+  name?: string | undefined;
+  copyFrom?: CopyFromSource | undefined;
 }
 export interface AttachmentInputEvent {
-  attachment?: AttachmentInput;
+  attachment?: AttachmentInput | undefined;
 }
 export type ActionPayloadFieldKey = string;
 export type ActionPayloadFieldValue = unknown;
@@ -515,46 +515,46 @@ export type ChatInputStream =
     };
 export interface ChatInput {
   applicationId: string;
-  userId?: string;
-  userGroups?: string[];
-  conversationId?: string;
-  parentMessageId?: string;
-  clientToken?: string;
-  inputStream?: stream.Stream<ChatInputStream, Error, never>;
+  userId?: string | undefined;
+  userGroups?: string[] | undefined;
+  conversationId?: string | undefined;
+  parentMessageId?: string | undefined;
+  clientToken?: string | undefined;
+  inputStream?: stream.Stream<ChatInputStream, Error, never> | undefined;
 }
 export type SystemMessageType = "RESPONSE" | "GROUNDED_RESPONSE" | (string & {});
 export interface TextOutputEvent {
-  systemMessageType?: SystemMessageType;
-  conversationId?: string;
-  userMessageId?: string;
-  systemMessageId?: string;
-  systemMessage?: string;
+  systemMessageType?: SystemMessageType | undefined;
+  conversationId?: string | undefined;
+  userMessageId?: string | undefined;
+  systemMessageId?: string | undefined;
+  systemMessage?: string | undefined;
 }
 export type SnippetExcerptText = string;
 export interface SnippetExcerpt {
-  text?: string;
+  text?: string | undefined;
 }
 export type SourceAttributionMediaId = string;
 export type MediaId = string;
 export interface ImageSourceDetails {
-  mediaId?: string;
-  mediaMimeType?: string;
+  mediaId?: string | undefined;
+  mediaMimeType?: string | undefined;
 }
 export type AudioExtractionType = "TRANSCRIPT" | "SUMMARY" | (string & {});
 export interface AudioSourceDetails {
-  mediaId?: string;
-  mediaMimeType?: string;
-  startTimeMilliseconds?: number;
-  endTimeMilliseconds?: number;
-  audioExtractionType?: AudioExtractionType;
+  mediaId?: string | undefined;
+  mediaMimeType?: string | undefined;
+  startTimeMilliseconds?: number | undefined;
+  endTimeMilliseconds?: number | undefined;
+  audioExtractionType?: AudioExtractionType | undefined;
 }
 export type VideoExtractionType = "TRANSCRIPT" | "SUMMARY" | (string & {});
 export interface VideoSourceDetails {
-  mediaId?: string;
-  mediaMimeType?: string;
-  startTimeMilliseconds?: number;
-  endTimeMilliseconds?: number;
-  videoExtractionType?: VideoExtractionType;
+  mediaId?: string | undefined;
+  mediaMimeType?: string | undefined;
+  startTimeMilliseconds?: number | undefined;
+  endTimeMilliseconds?: number | undefined;
+  videoExtractionType?: VideoExtractionType | undefined;
 }
 export type SourceDetails =
   | {
@@ -573,32 +573,32 @@ export type SourceDetails =
       videoSourceDetails: VideoSourceDetails;
     };
 export interface TextSegment {
-  beginOffset?: number;
-  endOffset?: number;
-  snippetExcerpt?: SnippetExcerpt;
-  mediaId?: string;
-  mediaMimeType?: string;
-  sourceDetails?: SourceDetails;
+  beginOffset?: number | undefined;
+  endOffset?: number | undefined;
+  snippetExcerpt?: SnippetExcerpt | undefined;
+  mediaId?: string | undefined;
+  mediaMimeType?: string | undefined;
+  sourceDetails?: SourceDetails | undefined;
 }
 export type TextSegmentList = TextSegment[];
 export interface SourceAttribution {
-  title?: string;
-  snippet?: string;
-  url?: string;
-  citationNumber?: number;
-  updatedAt?: Date;
-  textMessageSegments?: TextSegment[];
-  documentId?: string;
-  indexId?: string;
-  datasourceId?: string;
+  title?: string | undefined;
+  snippet?: string | undefined;
+  url?: string | undefined;
+  citationNumber?: number | undefined;
+  updatedAt?: Date | undefined;
+  textMessageSegments?: TextSegment[] | undefined;
+  documentId?: string | undefined;
+  indexId?: string | undefined;
+  datasourceId?: string | undefined;
 }
 export type SourceAttributions = SourceAttribution[];
 export interface MetadataEvent {
-  conversationId?: string;
-  userMessageId?: string;
-  systemMessageId?: string;
-  sourceAttributions?: SourceAttribution[];
-  finalTextMessage?: string;
+  conversationId?: string | undefined;
+  userMessageId?: string | undefined;
+  systemMessageId?: string | undefined;
+  sourceAttributions?: SourceAttribution[] | undefined;
+  finalTextMessage?: string | undefined;
 }
 export type PluginType =
   | "SERVICE_NOW"
@@ -621,45 +621,45 @@ export type PluginType =
   | (string & {});
 export type ActionPayloadFieldType = "STRING" | "NUMBER" | "ARRAY" | "BOOLEAN" | (string & {});
 export interface ActionReviewPayloadFieldAllowedValue {
-  value?: any;
-  displayValue?: any;
+  value?: any | undefined;
+  displayValue?: any | undefined;
 }
 export type ActionReviewPayloadFieldAllowedValues = ActionReviewPayloadFieldAllowedValue[];
 export type ActionReviewPayloadFieldArrayItemJsonSchema = unknown;
 export interface ActionReviewPayloadField {
-  displayName?: string;
-  displayOrder?: number;
-  displayDescription?: string;
-  type?: ActionPayloadFieldType;
-  value?: any;
-  allowedValues?: ActionReviewPayloadFieldAllowedValue[];
-  allowedFormat?: string;
-  arrayItemJsonSchema?: any;
-  required?: boolean;
+  displayName?: string | undefined;
+  displayOrder?: number | undefined;
+  displayDescription?: string | undefined;
+  type?: ActionPayloadFieldType | undefined;
+  value?: any | undefined;
+  allowedValues?: ActionReviewPayloadFieldAllowedValue[] | undefined;
+  allowedFormat?: string | undefined;
+  arrayItemJsonSchema?: any | undefined;
+  required?: boolean | undefined;
 }
 export type ActionReviewPayload = { [key: string]: ActionReviewPayloadField | undefined };
 export interface ActionReviewEvent {
-  conversationId?: string;
-  userMessageId?: string;
-  systemMessageId?: string;
-  pluginId?: string;
-  pluginType?: PluginType;
-  payload?: { [key: string]: ActionReviewPayloadField | undefined };
-  payloadFieldNameSeparator?: string;
+  conversationId?: string | undefined;
+  userMessageId?: string | undefined;
+  systemMessageId?: string | undefined;
+  pluginId?: string | undefined;
+  pluginType?: PluginType | undefined;
+  payload?: { [key: string]: ActionReviewPayloadField | undefined } | undefined;
+  payloadFieldNameSeparator?: string | undefined;
 }
 export type AttachmentStatus = "FAILED" | "SUCCESS" | (string & {});
 export interface AttachmentOutput {
-  name?: string;
-  status?: AttachmentStatus;
-  error?: ErrorDetail;
-  attachmentId?: string;
-  conversationId?: string;
+  name?: string | undefined;
+  status?: AttachmentStatus | undefined;
+  error?: ErrorDetail | undefined;
+  attachmentId?: string | undefined;
+  conversationId?: string | undefined;
 }
 export interface FailedAttachmentEvent {
-  conversationId?: string;
-  userMessageId?: string;
-  systemMessageId?: string;
-  attachment?: AttachmentOutput;
+  conversationId?: string | undefined;
+  userMessageId?: string | undefined;
+  systemMessageId?: string | undefined;
+  attachment?: AttachmentOutput | undefined;
 }
 export type Url = string;
 export interface AuthChallengeRequestEvent {
@@ -702,7 +702,7 @@ export type ChatOutputStream =
       authChallengeRequestEvent: AuthChallengeRequestEvent;
     };
 export interface ChatOutput {
-  outputStream?: stream.Stream<ChatOutputStream, Error, never>;
+  outputStream?: stream.Stream<ChatOutputStream, Error, never> | undefined;
 }
 export type AttachmentsInput = AttachmentInput[];
 export interface ActionExecution {
@@ -715,95 +715,95 @@ export interface AuthChallengeResponse {
 }
 export interface ChatSyncInput {
   applicationId: string;
-  userId?: string;
-  userGroups?: string[];
-  userMessage?: string;
-  attachments?: AttachmentInput[];
-  actionExecution?: ActionExecution;
-  authChallengeResponse?: AuthChallengeResponse;
-  conversationId?: string;
-  parentMessageId?: string;
-  attributeFilter?: AttributeFilter;
-  chatMode?: ChatMode;
-  chatModeConfiguration?: ChatModeConfiguration;
-  clientToken?: string;
+  userId?: string | undefined;
+  userGroups?: string[] | undefined;
+  userMessage?: string | undefined;
+  attachments?: AttachmentInput[] | undefined;
+  actionExecution?: ActionExecution | undefined;
+  authChallengeResponse?: AuthChallengeResponse | undefined;
+  conversationId?: string | undefined;
+  parentMessageId?: string | undefined;
+  attributeFilter?: AttributeFilter | undefined;
+  chatMode?: ChatMode | undefined;
+  chatModeConfiguration?: ChatModeConfiguration | undefined;
+  clientToken?: string | undefined;
 }
 export interface ActionReview {
-  pluginId?: string;
-  pluginType?: PluginType;
-  payload?: { [key: string]: ActionReviewPayloadField | undefined };
-  payloadFieldNameSeparator?: string;
+  pluginId?: string | undefined;
+  pluginType?: PluginType | undefined;
+  payload?: { [key: string]: ActionReviewPayloadField | undefined } | undefined;
+  payloadFieldNameSeparator?: string | undefined;
 }
 export interface AuthChallengeRequest {
   authorizationUrl: string;
 }
 export type AttachmentsOutput = AttachmentOutput[];
 export interface ChatSyncOutput {
-  conversationId?: string;
-  systemMessage?: string;
-  systemMessageId?: string;
-  userMessageId?: string;
-  actionReview?: ActionReview;
-  authChallengeRequest?: AuthChallengeRequest;
-  sourceAttributions?: SourceAttribution[];
-  failedAttachments?: AttachmentOutput[];
+  conversationId?: string | undefined;
+  systemMessage?: string | undefined;
+  systemMessageId?: string | undefined;
+  userMessageId?: string | undefined;
+  actionReview?: ActionReview | undefined;
+  authChallengeRequest?: AuthChallengeRequest | undefined;
+  sourceAttributions?: SourceAttribution[] | undefined;
+  failedAttachments?: AttachmentOutput[] | undefined;
 }
 export interface CheckDocumentAccessRequest {
   applicationId: string;
   indexId: string;
   userId: string;
   documentId: string;
-  dataSourceId?: string;
+  dataSourceId?: string | undefined;
 }
 export interface AssociatedGroup {
-  name?: string;
-  type?: MembershipType;
+  name?: string | undefined;
+  type?: MembershipType | undefined;
 }
 export type AssociatedGroups = AssociatedGroup[];
 export interface AssociatedUser {
-  id?: string;
-  type?: MembershipType;
+  id?: string | undefined;
+  type?: MembershipType | undefined;
 }
 export type AssociatedUsers = AssociatedUser[];
 export interface DocumentAclUser {
-  id?: string;
-  type?: MembershipType;
+  id?: string | undefined;
+  type?: MembershipType | undefined;
 }
 export type DocumentAclUsers = DocumentAclUser[];
 export interface DocumentAclGroup {
-  name?: string;
-  type?: MembershipType;
+  name?: string | undefined;
+  type?: MembershipType | undefined;
 }
 export type DocumentAclGroups = DocumentAclGroup[];
 export interface DocumentAclCondition {
-  memberRelation?: MemberRelation;
-  users?: DocumentAclUser[];
-  groups?: DocumentAclGroup[];
+  memberRelation?: MemberRelation | undefined;
+  users?: DocumentAclUser[] | undefined;
+  groups?: DocumentAclGroup[] | undefined;
 }
 export type DocumentAclConditions = DocumentAclCondition[];
 export interface DocumentAclMembership {
-  memberRelation?: MemberRelation;
-  conditions?: DocumentAclCondition[];
+  memberRelation?: MemberRelation | undefined;
+  conditions?: DocumentAclCondition[] | undefined;
 }
 export interface DocumentAcl {
-  allowlist?: DocumentAclMembership;
-  denyList?: DocumentAclMembership;
+  allowlist?: DocumentAclMembership | undefined;
+  denyList?: DocumentAclMembership | undefined;
 }
 export interface CheckDocumentAccessResponse {
-  userGroups?: AssociatedGroup[];
-  userAliases?: AssociatedUser[];
-  hasAccess?: boolean;
-  documentAcl?: DocumentAcl;
+  userGroups?: AssociatedGroup[] | undefined;
+  userAliases?: AssociatedUser[] | undefined;
+  hasAccess?: boolean | undefined;
+  documentAcl?: DocumentAcl | undefined;
 }
 export type WebExperienceId = string;
 export type SessionDurationInMinutes = number;
 export interface CreateAnonymousWebExperienceUrlRequest {
   applicationId: string;
   webExperienceId: string;
-  sessionDurationInMinutes?: number;
+  sessionDurationInMinutes?: number | undefined;
 }
 export interface CreateAnonymousWebExperienceUrlResponse {
-  anonymousUrl?: string;
+  anonymousUrl?: string | undefined;
 }
 export type ApplicationName = string;
 export type IdentityType =
@@ -820,7 +820,7 @@ export type ClientIdsForOIDC = string[];
 export type Description = string;
 export type KmsKeyId = string | redacted.Redacted<string>;
 export interface EncryptionConfiguration {
-  kmsKeyId?: string | redacted.Redacted<string>;
+  kmsKeyId?: string | redacted.Redacted<string> | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -847,48 +847,50 @@ export interface QuickSightConfiguration {
 }
 export interface CreateApplicationRequest {
   displayName: string;
-  roleArn?: string;
-  identityType?: IdentityType;
-  iamIdentityProviderArn?: string;
-  identityCenterInstanceArn?: string;
-  clientIdsForOIDC?: string[];
-  description?: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tags?: Tag[];
-  clientToken?: string;
-  attachmentsConfiguration?: AttachmentsConfiguration;
-  qAppsConfiguration?: QAppsConfiguration;
-  personalizationConfiguration?: PersonalizationConfiguration;
-  quickSightConfiguration?: QuickSightConfiguration;
+  roleArn?: string | undefined;
+  identityType?: IdentityType | undefined;
+  iamIdentityProviderArn?: string | undefined;
+  identityCenterInstanceArn?: string | undefined;
+  clientIdsForOIDC?: string[] | undefined;
+  description?: string | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
+  attachmentsConfiguration?: AttachmentsConfiguration | undefined;
+  qAppsConfiguration?: QAppsConfiguration | undefined;
+  personalizationConfiguration?: PersonalizationConfiguration | undefined;
+  quickSightConfiguration?: QuickSightConfiguration | undefined;
 }
 export type ApplicationArn = string;
 export interface CreateApplicationResponse {
-  applicationId?: string;
-  applicationArn?: string;
+  applicationId?: string | undefined;
+  applicationArn?: string | undefined;
 }
 export type DisplayName = string;
 export type ResponseConfigurationType = "ALL" | (string & {});
 export type Instruction = string;
 export interface InstructionCollection {
-  responseLength?: string;
-  targetAudience?: string;
-  perspective?: string;
-  outputStyle?: string;
-  identity?: string;
-  tone?: string;
-  customInstructions?: string;
-  examples?: string;
+  responseLength?: string | undefined;
+  targetAudience?: string | undefined;
+  perspective?: string | undefined;
+  outputStyle?: string | undefined;
+  identity?: string | undefined;
+  tone?: string | undefined;
+  customInstructions?: string | undefined;
+  examples?: string | undefined;
 }
 export interface ResponseConfiguration {
-  instructionCollection?: InstructionCollection;
+  instructionCollection?: InstructionCollection | undefined;
 }
-export type ResponseConfigurations = { [key in ResponseConfigurationType]?: ResponseConfiguration };
+export type ResponseConfigurations = {
+  [key in ResponseConfigurationType]?: ResponseConfiguration | undefined;
+};
 export interface CreateChatResponseConfigurationRequest {
   applicationId: string;
   displayName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   responseConfigurations: { [key: string]: ResponseConfiguration | undefined };
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type ChatResponseConfigurationId = string;
 export type ChatResponseConfigurationArn = string;
@@ -901,7 +903,7 @@ export interface ActionFilterConfiguration {
 }
 export interface ActionConfiguration {
   action: string;
-  filterConfiguration?: ActionFilterConfiguration;
+  filterConfiguration?: ActionFilterConfiguration | undefined;
 }
 export type ActionConfigurationList = ActionConfiguration[];
 export type DataAccessorName = string | redacted.Redacted<string>;
@@ -920,17 +922,17 @@ export type DataAccessorExternalId = string;
 export type DataAccessorExternalIds = string[];
 export interface DataAccessorAuthenticationDetail {
   authenticationType: DataAccessorAuthenticationType;
-  authenticationConfiguration?: DataAccessorAuthenticationConfiguration;
-  externalIds?: string[];
+  authenticationConfiguration?: DataAccessorAuthenticationConfiguration | undefined;
+  externalIds?: string[] | undefined;
 }
 export interface CreateDataAccessorRequest {
   applicationId: string;
   principal: string;
   actionConfigurations: ActionConfiguration[];
-  clientToken?: string;
+  clientToken?: string | undefined;
   displayName: string | redacted.Redacted<string>;
-  authenticationDetail?: DataAccessorAuthenticationDetail;
-  tags?: Tag[];
+  authenticationDetail?: DataAccessorAuthenticationDetail | undefined;
+  tags?: Tag[] | undefined;
 }
 export type DataAccessorId = string;
 export type IdcApplicationArn = string;
@@ -956,39 +958,39 @@ export interface CreateDataSourceRequest {
   indexId: string;
   displayName: string;
   configuration: any;
-  vpcConfiguration?: DataSourceVpcConfiguration;
-  description?: string;
-  tags?: Tag[];
-  syncSchedule?: string;
-  roleArn?: string;
-  clientToken?: string;
-  documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration;
-  mediaExtractionConfiguration?: MediaExtractionConfiguration;
+  vpcConfiguration?: DataSourceVpcConfiguration | undefined;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  syncSchedule?: string | undefined;
+  roleArn?: string | undefined;
+  clientToken?: string | undefined;
+  documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration | undefined;
+  mediaExtractionConfiguration?: MediaExtractionConfiguration | undefined;
 }
 export type DataSourceArn = string;
 export interface CreateDataSourceResponse {
-  dataSourceId?: string;
-  dataSourceArn?: string;
+  dataSourceId?: string | undefined;
+  dataSourceArn?: string | undefined;
 }
 export type IndexName = string;
 export type IndexType = "ENTERPRISE" | "STARTER" | (string & {});
 export type IndexCapacityInteger = number;
 export interface IndexCapacityConfiguration {
-  units?: number;
+  units?: number | undefined;
 }
 export interface CreateIndexRequest {
   applicationId: string;
   displayName: string;
-  description?: string;
-  type?: IndexType;
-  tags?: Tag[];
-  capacityConfiguration?: IndexCapacityConfiguration;
-  clientToken?: string;
+  description?: string | undefined;
+  type?: IndexType | undefined;
+  tags?: Tag[] | undefined;
+  capacityConfiguration?: IndexCapacityConfiguration | undefined;
+  clientToken?: string | undefined;
 }
 export type IndexArn = string;
 export interface CreateIndexResponse {
-  indexId?: string;
-  indexArn?: string;
+  indexId?: string | undefined;
+  indexArn?: string | undefined;
 }
 export type PluginName = string;
 export type SecretArn = string;
@@ -999,8 +1001,8 @@ export interface BasicAuthConfiguration {
 export interface OAuth2ClientCredentialConfiguration {
   secretArn: string;
   roleArn: string;
-  authorizationUrl?: string;
-  tokenUrl?: string;
+  authorizationUrl?: string | undefined;
+  tokenUrl?: string | undefined;
 }
 export interface NoAuthConfiguration {}
 export interface IdcAuthConfiguration {
@@ -1041,17 +1043,17 @@ export type APISchema =
 export interface CustomPluginConfiguration {
   description: string;
   apiSchemaType: APISchemaType;
-  apiSchema?: APISchema;
+  apiSchema?: APISchema | undefined;
 }
 export interface CreatePluginRequest {
   applicationId: string;
   displayName: string;
   type: PluginType;
   authConfiguration: PluginAuthConfiguration;
-  serverUrl?: string;
-  customPluginConfiguration?: CustomPluginConfiguration;
-  tags?: Tag[];
-  clientToken?: string;
+  serverUrl?: string | undefined;
+  customPluginConfiguration?: CustomPluginConfiguration | undefined;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
 }
 export type PluginArn = string;
 export type PluginBuildStatus =
@@ -1064,9 +1066,9 @@ export type PluginBuildStatus =
   | "DELETE_FAILED"
   | (string & {});
 export interface CreatePluginResponse {
-  pluginId?: string;
-  pluginArn?: string;
-  buildStatus?: PluginBuildStatus;
+  pluginId?: string | undefined;
+  pluginArn?: string | undefined;
+  buildStatus?: PluginBuildStatus | undefined;
 }
 export type RetrieverType = "NATIVE_INDEX" | "KENDRA_INDEX" | (string & {});
 export type RetrieverName = string;
@@ -1085,7 +1087,7 @@ export type NumberAttributeBoostingType =
   | (string & {});
 export interface NumberAttributeBoostingConfiguration {
   boostingLevel: DocumentAttributeBoostingLevel;
-  boostingType?: NumberAttributeBoostingType;
+  boostingType?: NumberAttributeBoostingType | undefined;
 }
 export type StringAttributeValueBoostingLevel =
   | "LOW"
@@ -1103,12 +1105,14 @@ export type StringAttributeValueBoosting = {
 };
 export interface StringAttributeBoostingConfiguration {
   boostingLevel: DocumentAttributeBoostingLevel;
-  attributeValueBoosting?: { [key: string]: StringAttributeValueBoostingLevel | undefined };
+  attributeValueBoosting?:
+    | { [key: string]: StringAttributeValueBoostingLevel | undefined }
+    | undefined;
 }
 export type BoostingDurationInSeconds = number;
 export interface DateAttributeBoostingConfiguration {
   boostingLevel: DocumentAttributeBoostingLevel;
-  boostingDurationInSeconds?: number;
+  boostingDurationInSeconds?: number | undefined;
 }
 export interface StringListAttributeBoostingConfiguration {
   boostingLevel: DocumentAttributeBoostingLevel;
@@ -1143,8 +1147,10 @@ export type DocumentAttributeBoostingOverrideMap = {
 };
 export interface NativeIndexConfiguration {
   indexId: string;
-  version?: number;
-  boostingOverride?: { [key: string]: DocumentAttributeBoostingConfiguration | undefined };
+  version?: number | undefined;
+  boostingOverride?:
+    | { [key: string]: DocumentAttributeBoostingConfiguration | undefined }
+    | undefined;
 }
 export type KendraIndexId = string;
 export interface KendraIndexConfiguration {
@@ -1158,15 +1164,15 @@ export interface CreateRetrieverRequest {
   type: RetrieverType;
   displayName: string;
   configuration: RetrieverConfiguration;
-  roleArn?: string;
-  clientToken?: string;
-  tags?: Tag[];
+  roleArn?: string | undefined;
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type RetrieverId = string;
 export type RetrieverArn = string;
 export interface CreateRetrieverResponse {
-  retrieverId?: string;
-  retrieverArn?: string;
+  retrieverId?: string | undefined;
+  retrieverArn?: string | undefined;
 }
 export type UserIdentifier = string;
 export type GroupIdentifier = string;
@@ -1177,25 +1183,25 @@ export interface CreateSubscriptionRequest {
   applicationId: string;
   principal: SubscriptionPrincipal;
   type: SubscriptionType;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateSubscriptionResponse {
-  subscriptionId?: string;
-  subscriptionArn?: string;
-  currentSubscription?: SubscriptionDetails;
-  nextSubscription?: SubscriptionDetails;
+  subscriptionId?: string | undefined;
+  subscriptionArn?: string | undefined;
+  currentSubscription?: SubscriptionDetails | undefined;
+  nextSubscription?: SubscriptionDetails | undefined;
 }
 export interface UserAlias {
-  indexId?: string;
-  dataSourceId?: string;
+  indexId?: string | undefined;
+  dataSourceId?: string | undefined;
   userId: string;
 }
 export type UserAliases = UserAlias[];
 export interface CreateUserRequest {
   applicationId: string;
   userId: string;
-  userAliases?: UserAlias[];
-  clientToken?: string;
+  userAliases?: UserAlias[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateUserResponse {}
 export type WebExperienceTitle = string;
@@ -1225,29 +1231,29 @@ export type LogoUrl = string;
 export type FontUrl = string;
 export type FaviconUrl = string;
 export interface CustomizationConfiguration {
-  customCSSUrl?: string;
-  logoUrl?: string;
-  fontUrl?: string;
-  faviconUrl?: string;
+  customCSSUrl?: string | undefined;
+  logoUrl?: string | undefined;
+  fontUrl?: string | undefined;
+  faviconUrl?: string | undefined;
 }
 export interface CreateWebExperienceRequest {
   applicationId: string;
-  title?: string;
-  subtitle?: string;
-  welcomeMessage?: string;
-  samplePromptsControlMode?: WebExperienceSamplePromptsControlMode;
-  origins?: string[];
-  roleArn?: string;
-  tags?: Tag[];
-  clientToken?: string;
-  identityProviderConfiguration?: IdentityProviderConfiguration;
-  browserExtensionConfiguration?: BrowserExtensionConfiguration;
-  customizationConfiguration?: CustomizationConfiguration;
+  title?: string | undefined;
+  subtitle?: string | undefined;
+  welcomeMessage?: string | undefined;
+  samplePromptsControlMode?: WebExperienceSamplePromptsControlMode | undefined;
+  origins?: string[] | undefined;
+  roleArn?: string | undefined;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
+  identityProviderConfiguration?: IdentityProviderConfiguration | undefined;
+  browserExtensionConfiguration?: BrowserExtensionConfiguration | undefined;
+  customizationConfiguration?: CustomizationConfiguration | undefined;
 }
 export type WebExperienceArn = string;
 export interface CreateWebExperienceResponse {
-  webExperienceId?: string;
-  webExperienceArn?: string;
+  webExperienceId?: string | undefined;
+  webExperienceArn?: string | undefined;
 }
 export interface DeleteApplicationRequest {
   applicationId: string;
@@ -1257,7 +1263,7 @@ export interface DeleteAttachmentRequest {
   applicationId: string;
   conversationId: string;
   attachmentId: string;
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface DeleteAttachmentResponse {}
 export interface DeleteChatControlsConfigurationRequest {
@@ -1272,7 +1278,7 @@ export interface DeleteChatResponseConfigurationResponse {}
 export interface DeleteConversationRequest {
   conversationId: string;
   applicationId: string;
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface DeleteConversationResponse {}
 export interface DeleteDataAccessorRequest {
@@ -1290,7 +1296,7 @@ export interface DeleteGroupRequest {
   applicationId: string;
   indexId: string;
   groupName: string;
-  dataSourceId?: string;
+  dataSourceId?: string | undefined;
 }
 export interface DeleteGroupResponse {}
 export interface DeleteIndexRequest {
@@ -1334,40 +1340,40 @@ export type ApplicationStatus =
   | "UPDATING"
   | (string & {});
 export interface AppliedAttachmentsConfiguration {
-  attachmentsControlMode?: AttachmentsControlMode;
+  attachmentsControlMode?: AttachmentsControlMode | undefined;
 }
 export type AutoSubscriptionStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface AutoSubscriptionConfiguration {
-  autoSubscribe?: AutoSubscriptionStatus;
-  defaultSubscriptionType?: SubscriptionType;
+  autoSubscribe?: AutoSubscriptionStatus | undefined;
+  defaultSubscriptionType?: SubscriptionType | undefined;
 }
 export interface GetApplicationResponse {
-  displayName?: string;
-  applicationId?: string;
-  applicationArn?: string;
-  identityType?: IdentityType;
-  iamIdentityProviderArn?: string;
-  identityCenterApplicationArn?: string;
-  roleArn?: string;
-  status?: ApplicationStatus;
-  description?: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  createdAt?: Date;
-  updatedAt?: Date;
-  error?: ErrorDetail;
-  attachmentsConfiguration?: AppliedAttachmentsConfiguration;
-  qAppsConfiguration?: QAppsConfiguration;
-  personalizationConfiguration?: PersonalizationConfiguration;
-  autoSubscriptionConfiguration?: AutoSubscriptionConfiguration;
-  clientIdsForOIDC?: string[];
-  quickSightConfiguration?: QuickSightConfiguration;
+  displayName?: string | undefined;
+  applicationId?: string | undefined;
+  applicationArn?: string | undefined;
+  identityType?: IdentityType | undefined;
+  iamIdentityProviderArn?: string | undefined;
+  identityCenterApplicationArn?: string | undefined;
+  roleArn?: string | undefined;
+  status?: ApplicationStatus | undefined;
+  description?: string | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  error?: ErrorDetail | undefined;
+  attachmentsConfiguration?: AppliedAttachmentsConfiguration | undefined;
+  qAppsConfiguration?: QAppsConfiguration | undefined;
+  personalizationConfiguration?: PersonalizationConfiguration | undefined;
+  autoSubscriptionConfiguration?: AutoSubscriptionConfiguration | undefined;
+  clientIdsForOIDC?: string[] | undefined;
+  quickSightConfiguration?: QuickSightConfiguration | undefined;
 }
 export type MaxResultsIntegerForGetTopicConfigurations = number;
 export type NextToken = string;
 export interface GetChatControlsConfigurationRequest {
   applicationId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ResponseScope =
   | "ENTERPRISE_CONTENT_ONLY"
@@ -1381,8 +1387,8 @@ export type BlockedPhrase = string;
 export type BlockedPhrases = string[];
 export type SystemMessageOverride = string;
 export interface BlockedPhrasesConfiguration {
-  blockedPhrases?: string[];
-  systemMessageOverride?: string;
+  blockedPhrases?: string[] | undefined;
+  systemMessageOverride?: string | undefined;
 }
 export type TopicConfigurationName = string;
 export type TopicDescription = string;
@@ -1390,35 +1396,35 @@ export type ExampleChatMessage = string;
 export type ExampleChatMessages = string[];
 export type UserIds = string[];
 export interface UsersAndGroups {
-  userIds?: string[];
-  userGroups?: string[];
+  userIds?: string[] | undefined;
+  userGroups?: string[] | undefined;
 }
 export type RuleType = "CONTENT_BLOCKER_RULE" | "CONTENT_RETRIEVAL_RULE" | (string & {});
 export interface ContentBlockerRule {
-  systemMessageOverride?: string;
+  systemMessageOverride?: string | undefined;
 }
 export interface EligibleDataSource {
-  indexId?: string;
-  dataSourceId?: string;
+  indexId?: string | undefined;
+  dataSourceId?: string | undefined;
 }
 export type EligibleDataSources = EligibleDataSource[];
 export interface ContentRetrievalRule {
-  eligibleDataSources?: EligibleDataSource[];
+  eligibleDataSources?: EligibleDataSource[] | undefined;
 }
 export type RuleConfiguration =
   | { contentBlockerRule: ContentBlockerRule; contentRetrievalRule?: never }
   | { contentBlockerRule?: never; contentRetrievalRule: ContentRetrievalRule };
 export interface Rule {
-  includedUsersAndGroups?: UsersAndGroups;
-  excludedUsersAndGroups?: UsersAndGroups;
+  includedUsersAndGroups?: UsersAndGroups | undefined;
+  excludedUsersAndGroups?: UsersAndGroups | undefined;
   ruleType: RuleType;
-  ruleConfiguration?: RuleConfiguration;
+  ruleConfiguration?: RuleConfiguration | undefined;
 }
 export type Rules = Rule[];
 export interface TopicConfiguration {
   name: string;
-  description?: string;
-  exampleChatMessages?: string[];
+  description?: string | undefined;
+  exampleChatMessages?: string[] | undefined;
   rules: Rule[];
 }
 export type TopicConfigurations = TopicConfiguration[];
@@ -1428,16 +1434,16 @@ export interface AppliedCreatorModeConfiguration {
 }
 export type HallucinationReductionControl = "ENABLED" | "DISABLED" | (string & {});
 export interface HallucinationReductionConfiguration {
-  hallucinationReductionControl?: HallucinationReductionControl;
+  hallucinationReductionControl?: HallucinationReductionControl | undefined;
 }
 export interface GetChatControlsConfigurationResponse {
-  responseScope?: ResponseScope;
-  orchestrationConfiguration?: AppliedOrchestrationConfiguration;
-  blockedPhrases?: BlockedPhrasesConfiguration;
-  topicConfigurations?: TopicConfiguration[];
-  creatorModeConfiguration?: AppliedCreatorModeConfiguration;
-  nextToken?: string;
-  hallucinationReductionConfiguration?: HallucinationReductionConfiguration;
+  responseScope?: ResponseScope | undefined;
+  orchestrationConfiguration?: AppliedOrchestrationConfiguration | undefined;
+  blockedPhrases?: BlockedPhrasesConfiguration | undefined;
+  topicConfigurations?: TopicConfiguration[] | undefined;
+  creatorModeConfiguration?: AppliedCreatorModeConfiguration | undefined;
+  nextToken?: string | undefined;
+  hallucinationReductionConfiguration?: HallucinationReductionConfiguration | undefined;
 }
 export interface GetChatResponseConfigurationRequest {
   applicationId: string;
@@ -1450,35 +1456,35 @@ export type ChatResponseConfigurationStatus =
   | "ACTIVE"
   | (string & {});
 export interface ChatResponseConfigurationDetail {
-  responseConfigurations?: { [key: string]: ResponseConfiguration | undefined };
-  responseConfigurationSummary?: string;
-  status?: ChatResponseConfigurationStatus;
-  error?: ErrorDetail;
-  updatedAt?: Date;
+  responseConfigurations?: { [key: string]: ResponseConfiguration | undefined } | undefined;
+  responseConfigurationSummary?: string | undefined;
+  status?: ChatResponseConfigurationStatus | undefined;
+  error?: ErrorDetail | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetChatResponseConfigurationResponse {
-  chatResponseConfigurationId?: string;
-  chatResponseConfigurationArn?: string;
-  displayName?: string;
-  createdAt?: Date;
-  inUseConfiguration?: ChatResponseConfigurationDetail;
-  lastUpdateConfiguration?: ChatResponseConfigurationDetail;
+  chatResponseConfigurationId?: string | undefined;
+  chatResponseConfigurationArn?: string | undefined;
+  displayName?: string | undefined;
+  createdAt?: Date | undefined;
+  inUseConfiguration?: ChatResponseConfigurationDetail | undefined;
+  lastUpdateConfiguration?: ChatResponseConfigurationDetail | undefined;
 }
 export interface GetDataAccessorRequest {
   applicationId: string;
   dataAccessorId: string;
 }
 export interface GetDataAccessorResponse {
-  displayName?: string | redacted.Redacted<string>;
-  dataAccessorId?: string;
-  dataAccessorArn?: string;
-  applicationId?: string;
-  idcApplicationArn?: string;
-  principal?: string;
-  actionConfigurations?: ActionConfiguration[];
-  authenticationDetail?: DataAccessorAuthenticationDetail;
-  createdAt?: Date;
-  updatedAt?: Date;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  dataAccessorId?: string | undefined;
+  dataAccessorArn?: string | undefined;
+  applicationId?: string | undefined;
+  idcApplicationArn?: string | undefined;
+  principal?: string | undefined;
+  actionConfigurations?: ActionConfiguration[] | undefined;
+  authenticationDetail?: DataAccessorAuthenticationDetail | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetDataSourceRequest {
   applicationId: string;
@@ -1494,31 +1500,31 @@ export type DataSourceStatus =
   | "UPDATING"
   | (string & {});
 export interface GetDataSourceResponse {
-  applicationId?: string;
-  indexId?: string;
-  dataSourceId?: string;
-  dataSourceArn?: string;
-  displayName?: string;
-  type?: string;
-  configuration?: any;
-  vpcConfiguration?: DataSourceVpcConfiguration;
-  createdAt?: Date;
-  updatedAt?: Date;
-  description?: string;
-  status?: DataSourceStatus;
-  syncSchedule?: string;
-  roleArn?: string;
-  error?: ErrorDetail;
-  documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration;
-  mediaExtractionConfiguration?: MediaExtractionConfiguration;
+  applicationId?: string | undefined;
+  indexId?: string | undefined;
+  dataSourceId?: string | undefined;
+  dataSourceArn?: string | undefined;
+  displayName?: string | undefined;
+  type?: string | undefined;
+  configuration?: any | undefined;
+  vpcConfiguration?: DataSourceVpcConfiguration | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  description?: string | undefined;
+  status?: DataSourceStatus | undefined;
+  syncSchedule?: string | undefined;
+  roleArn?: string | undefined;
+  error?: ErrorDetail | undefined;
+  documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration | undefined;
+  mediaExtractionConfiguration?: MediaExtractionConfiguration | undefined;
 }
 export type OutputFormat = "RAW" | "EXTRACTED" | (string & {});
 export interface GetDocumentContentRequest {
   applicationId: string;
   indexId: string;
-  dataSourceId?: string;
+  dataSourceId?: string | undefined;
   documentId: string;
-  outputFormat?: OutputFormat;
+  outputFormat?: OutputFormat | undefined;
 }
 export interface GetDocumentContentResponse {
   presignedUrl: string;
@@ -1528,7 +1534,7 @@ export interface GetGroupRequest {
   applicationId: string;
   indexId: string;
   groupName: string;
-  dataSourceId?: string;
+  dataSourceId?: string | undefined;
 }
 export type GroupStatus =
   | "FAILED"
@@ -1538,14 +1544,14 @@ export type GroupStatus =
   | "DELETED"
   | (string & {});
 export interface GroupStatusDetail {
-  status?: GroupStatus;
-  lastUpdatedAt?: Date;
-  errorDetail?: ErrorDetail;
+  status?: GroupStatus | undefined;
+  lastUpdatedAt?: Date | undefined;
+  errorDetail?: ErrorDetail | undefined;
 }
 export type GroupStatusDetails = GroupStatusDetail[];
 export interface GetGroupResponse {
-  status?: GroupStatusDetail;
-  statusHistory?: GroupStatusDetail[];
+  status?: GroupStatusDetail | undefined;
+  statusHistory?: GroupStatusDetail[] | undefined;
 }
 export interface GetIndexRequest {
   applicationId: string;
@@ -1562,34 +1568,34 @@ export type DocumentMetadataConfigurationName = string;
 export type AttributeType = "STRING" | "STRING_LIST" | "NUMBER" | "DATE" | (string & {});
 export type Status = "ENABLED" | "DISABLED" | (string & {});
 export interface DocumentAttributeConfiguration {
-  name?: string;
-  type?: AttributeType;
-  search?: Status;
+  name?: string | undefined;
+  type?: AttributeType | undefined;
+  search?: Status | undefined;
 }
 export type DocumentAttributeConfigurations = DocumentAttributeConfiguration[];
 export type IndexedTextBytes = number;
 export type IndexedTextDocument = number;
 export interface TextDocumentStatistics {
-  indexedTextBytes?: number;
-  indexedTextDocumentCount?: number;
+  indexedTextBytes?: number | undefined;
+  indexedTextDocumentCount?: number | undefined;
 }
 export interface IndexStatistics {
-  textDocumentStatistics?: TextDocumentStatistics;
+  textDocumentStatistics?: TextDocumentStatistics | undefined;
 }
 export interface GetIndexResponse {
-  applicationId?: string;
-  indexId?: string;
-  displayName?: string;
-  indexArn?: string;
-  status?: IndexStatus;
-  type?: IndexType;
-  description?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  capacityConfiguration?: IndexCapacityConfiguration;
-  documentAttributeConfigurations?: DocumentAttributeConfiguration[];
-  error?: ErrorDetail;
-  indexStatistics?: IndexStatistics;
+  applicationId?: string | undefined;
+  indexId?: string | undefined;
+  displayName?: string | undefined;
+  indexArn?: string | undefined;
+  status?: IndexStatus | undefined;
+  type?: IndexType | undefined;
+  description?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  capacityConfiguration?: IndexCapacityConfiguration | undefined;
+  documentAttributeConfigurations?: DocumentAttributeConfiguration[] | undefined;
+  error?: ErrorDetail | undefined;
+  indexStatistics?: IndexStatistics | undefined;
 }
 export interface GetMediaRequest {
   applicationId: string;
@@ -1598,8 +1604,8 @@ export interface GetMediaRequest {
   mediaId: string;
 }
 export interface GetMediaResponse {
-  mediaBytes?: Uint8Array;
-  mediaMimeType?: string;
+  mediaBytes?: Uint8Array | undefined;
+  mediaMimeType?: string | undefined;
 }
 export interface GetPluginRequest {
   applicationId: string;
@@ -1607,24 +1613,24 @@ export interface GetPluginRequest {
 }
 export type PluginState = "ENABLED" | "DISABLED" | (string & {});
 export interface GetPluginResponse {
-  applicationId?: string;
-  pluginId?: string;
-  displayName?: string;
-  type?: PluginType;
-  serverUrl?: string;
-  authConfiguration?: PluginAuthConfiguration;
-  customPluginConfiguration?: CustomPluginConfiguration;
-  buildStatus?: PluginBuildStatus;
-  pluginArn?: string;
-  state?: PluginState;
-  createdAt?: Date;
-  updatedAt?: Date;
+  applicationId?: string | undefined;
+  pluginId?: string | undefined;
+  displayName?: string | undefined;
+  type?: PluginType | undefined;
+  serverUrl?: string | undefined;
+  authConfiguration?: PluginAuthConfiguration | undefined;
+  customPluginConfiguration?: CustomPluginConfiguration | undefined;
+  buildStatus?: PluginBuildStatus | undefined;
+  pluginArn?: string | undefined;
+  state?: PluginState | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetPolicyRequest {
   applicationId: string;
 }
 export interface GetPolicyResponse {
-  policy?: string;
+  policy?: string | undefined;
 }
 export interface GetRetrieverRequest {
   applicationId: string;
@@ -1632,23 +1638,23 @@ export interface GetRetrieverRequest {
 }
 export type RetrieverStatus = "CREATING" | "ACTIVE" | "FAILED" | (string & {});
 export interface GetRetrieverResponse {
-  applicationId?: string;
-  retrieverId?: string;
-  retrieverArn?: string;
-  type?: RetrieverType;
-  status?: RetrieverStatus;
-  displayName?: string;
-  configuration?: RetrieverConfiguration;
-  roleArn?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  applicationId?: string | undefined;
+  retrieverId?: string | undefined;
+  retrieverArn?: string | undefined;
+  type?: RetrieverType | undefined;
+  status?: RetrieverStatus | undefined;
+  displayName?: string | undefined;
+  configuration?: RetrieverConfiguration | undefined;
+  roleArn?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetUserRequest {
   applicationId: string;
   userId: string;
 }
 export interface GetUserResponse {
-  userAliases?: UserAlias[];
+  userAliases?: UserAlias[] | undefined;
 }
 export interface GetWebExperienceRequest {
   applicationId: string;
@@ -1667,152 +1673,152 @@ export interface SamlConfiguration {
   metadataXML: string;
   roleArn: string;
   userIdAttribute: string;
-  userGroupAttribute?: string;
+  userGroupAttribute?: string | undefined;
 }
 export type WebExperienceAuthConfiguration = { samlConfiguration: SamlConfiguration };
 export interface GetWebExperienceResponse {
-  applicationId?: string;
-  webExperienceId?: string;
-  webExperienceArn?: string;
-  defaultEndpoint?: string;
-  status?: WebExperienceStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  title?: string;
-  subtitle?: string;
-  welcomeMessage?: string;
-  samplePromptsControlMode?: WebExperienceSamplePromptsControlMode;
-  origins?: string[];
-  roleArn?: string;
-  identityProviderConfiguration?: IdentityProviderConfiguration;
-  authenticationConfiguration?: WebExperienceAuthConfiguration;
-  error?: ErrorDetail;
-  browserExtensionConfiguration?: BrowserExtensionConfiguration;
-  customizationConfiguration?: CustomizationConfiguration;
+  applicationId?: string | undefined;
+  webExperienceId?: string | undefined;
+  webExperienceArn?: string | undefined;
+  defaultEndpoint?: string | undefined;
+  status?: WebExperienceStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  title?: string | undefined;
+  subtitle?: string | undefined;
+  welcomeMessage?: string | undefined;
+  samplePromptsControlMode?: WebExperienceSamplePromptsControlMode | undefined;
+  origins?: string[] | undefined;
+  roleArn?: string | undefined;
+  identityProviderConfiguration?: IdentityProviderConfiguration | undefined;
+  authenticationConfiguration?: WebExperienceAuthConfiguration | undefined;
+  error?: ErrorDetail | undefined;
+  browserExtensionConfiguration?: BrowserExtensionConfiguration | undefined;
+  customizationConfiguration?: CustomizationConfiguration | undefined;
 }
 export type MaxResultsIntegerForListApplications = number;
 export interface ListApplicationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface Application {
-  displayName?: string;
-  applicationId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  status?: ApplicationStatus;
-  identityType?: IdentityType;
-  quickSightConfiguration?: QuickSightConfiguration;
+  displayName?: string | undefined;
+  applicationId?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  status?: ApplicationStatus | undefined;
+  identityType?: IdentityType | undefined;
+  quickSightConfiguration?: QuickSightConfiguration | undefined;
 }
 export type Applications = Application[];
 export interface ListApplicationsResponse {
-  nextToken?: string;
-  applications?: Application[];
+  nextToken?: string | undefined;
+  applications?: Application[] | undefined;
 }
 export type MaxResultsIntegerForListAttachments = number;
 export interface ListAttachmentsRequest {
   applicationId: string;
-  conversationId?: string;
-  userId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  conversationId?: string | undefined;
+  userId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface Attachment {
-  attachmentId?: string;
-  conversationId?: string;
-  name?: string;
-  copyFrom?: CopyFromSource;
-  fileType?: string;
-  fileSize?: number;
-  md5chksum?: string;
-  createdAt?: Date;
-  status?: AttachmentStatus;
-  error?: ErrorDetail;
+  attachmentId?: string | undefined;
+  conversationId?: string | undefined;
+  name?: string | undefined;
+  copyFrom?: CopyFromSource | undefined;
+  fileType?: string | undefined;
+  fileSize?: number | undefined;
+  md5chksum?: string | undefined;
+  createdAt?: Date | undefined;
+  status?: AttachmentStatus | undefined;
+  error?: ErrorDetail | undefined;
 }
 export type AttachmentList = Attachment[];
 export interface ListAttachmentsResponse {
-  attachments?: Attachment[];
-  nextToken?: string;
+  attachments?: Attachment[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListChatResponseConfigurationsRequest {
   applicationId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ResponseConfigurationSummary = string;
 export interface ChatResponseConfiguration {
   chatResponseConfigurationId: string;
   chatResponseConfigurationArn: string;
   displayName: string;
-  responseConfigurationSummary?: string;
+  responseConfigurationSummary?: string | undefined;
   status: ChatResponseConfigurationStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ChatResponseConfigurations = ChatResponseConfiguration[];
 export interface ListChatResponseConfigurationsResponse {
-  chatResponseConfigurations?: ChatResponseConfiguration[];
-  nextToken?: string;
+  chatResponseConfigurations?: ChatResponseConfiguration[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MaxResultsIntegerForListConversations = number;
 export interface ListConversationsRequest {
   applicationId: string;
-  userId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  userId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ConversationTitle = string;
 export interface Conversation {
-  conversationId?: string;
-  title?: string;
-  startTime?: Date;
+  conversationId?: string | undefined;
+  title?: string | undefined;
+  startTime?: Date | undefined;
 }
 export type Conversations = Conversation[];
 export interface ListConversationsResponse {
-  nextToken?: string;
-  conversations?: Conversation[];
+  nextToken?: string | undefined;
+  conversations?: Conversation[] | undefined;
 }
 export type NextToken1500 = string;
 export type MaxResultsIntegerForListDataAccessors = number;
 export interface ListDataAccessorsRequest {
   applicationId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DataAccessor {
-  displayName?: string | redacted.Redacted<string>;
-  dataAccessorId?: string;
-  dataAccessorArn?: string;
-  idcApplicationArn?: string;
-  principal?: string;
-  authenticationDetail?: DataAccessorAuthenticationDetail;
-  createdAt?: Date;
-  updatedAt?: Date;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  dataAccessorId?: string | undefined;
+  dataAccessorArn?: string | undefined;
+  idcApplicationArn?: string | undefined;
+  principal?: string | undefined;
+  authenticationDetail?: DataAccessorAuthenticationDetail | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type DataAccessors = DataAccessor[];
 export interface ListDataAccessorsResponse {
-  dataAccessors?: DataAccessor[];
-  nextToken?: string;
+  dataAccessors?: DataAccessor[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MaxResultsIntegerForListDataSources = number;
 export interface ListDataSourcesRequest {
   applicationId: string;
   indexId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DataSource {
-  displayName?: string;
-  dataSourceId?: string;
-  type?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  status?: DataSourceStatus;
+  displayName?: string | undefined;
+  dataSourceId?: string | undefined;
+  type?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  status?: DataSourceStatus | undefined;
 }
 export type DataSources = DataSource[];
 export interface ListDataSourcesResponse {
-  dataSources?: DataSource[];
-  nextToken?: string;
+  dataSources?: DataSource[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MaxResultsIntegerForListDataSourcesSyncJobs = number;
 export type DataSourceSyncJobStatus =
@@ -1828,42 +1834,42 @@ export interface ListDataSourceSyncJobsRequest {
   dataSourceId: string;
   applicationId: string;
   indexId: string;
-  nextToken?: string;
-  maxResults?: number;
-  startTime?: Date;
-  endTime?: Date;
-  statusFilter?: DataSourceSyncJobStatus;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  statusFilter?: DataSourceSyncJobStatus | undefined;
 }
 export type MetricValue = string;
 export interface DataSourceSyncJobMetrics {
-  documentsAdded?: string;
-  documentsModified?: string;
-  documentsDeleted?: string;
-  documentsFailed?: string;
-  documentsScanned?: string;
+  documentsAdded?: string | undefined;
+  documentsModified?: string | undefined;
+  documentsDeleted?: string | undefined;
+  documentsFailed?: string | undefined;
+  documentsScanned?: string | undefined;
 }
 export interface DataSourceSyncJob {
-  executionId?: string;
-  startTime?: Date;
-  endTime?: Date;
-  status?: DataSourceSyncJobStatus;
-  error?: ErrorDetail;
-  dataSourceErrorCode?: string;
-  metrics?: DataSourceSyncJobMetrics;
+  executionId?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  status?: DataSourceSyncJobStatus | undefined;
+  error?: ErrorDetail | undefined;
+  dataSourceErrorCode?: string | undefined;
+  metrics?: DataSourceSyncJobMetrics | undefined;
 }
 export type DataSourceSyncJobs = DataSourceSyncJob[];
 export interface ListDataSourceSyncJobsResponse {
-  history?: DataSourceSyncJob[];
-  nextToken?: string;
+  history?: DataSourceSyncJob[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DataSourceIds = string[];
 export type MaxResultsIntegerForListDocuments = number;
 export interface ListDocumentsRequest {
   applicationId: string;
   indexId: string;
-  dataSourceIds?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  dataSourceIds?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DocumentStatus =
   | "RECEIVED"
@@ -1876,130 +1882,130 @@ export type DocumentStatus =
   | "DOCUMENT_FAILED_TO_INDEX"
   | (string & {});
 export interface DocumentDetails {
-  documentId?: string;
-  status?: DocumentStatus;
-  error?: ErrorDetail;
-  createdAt?: Date;
-  updatedAt?: Date;
+  documentId?: string | undefined;
+  status?: DocumentStatus | undefined;
+  error?: ErrorDetail | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type DocumentDetailList = DocumentDetails[];
 export interface ListDocumentsResponse {
-  documentDetailList?: DocumentDetails[];
-  nextToken?: string;
+  documentDetailList?: DocumentDetails[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MaxResultsIntegerForListGroupsRequest = number;
 export interface ListGroupsRequest {
   applicationId: string;
   indexId: string;
   updatedEarlierThan: Date;
-  dataSourceId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  dataSourceId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface GroupSummary {
-  groupName?: string;
+  groupName?: string | undefined;
 }
 export type GroupSummaryList = GroupSummary[];
 export interface ListGroupsResponse {
-  nextToken?: string;
-  items?: GroupSummary[];
+  nextToken?: string | undefined;
+  items?: GroupSummary[] | undefined;
 }
 export type MaxResultsIntegerForListIndices = number;
 export interface ListIndicesRequest {
   applicationId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface Index {
-  displayName?: string;
-  indexId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  status?: IndexStatus;
+  displayName?: string | undefined;
+  indexId?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  status?: IndexStatus | undefined;
 }
 export type Indices = Index[];
 export interface ListIndicesResponse {
-  nextToken?: string;
-  indices?: Index[];
+  nextToken?: string | undefined;
+  indices?: Index[] | undefined;
 }
 export type MaxResultsIntegerForListMessages = number;
 export interface ListMessagesRequest {
   conversationId: string;
   applicationId: string;
-  userId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  userId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type MessageBody = string;
 export type MessageType = "USER" | "SYSTEM" | (string & {});
 export interface Message {
-  messageId?: string;
-  body?: string;
-  time?: Date;
-  type?: MessageType;
-  attachments?: AttachmentOutput[];
-  sourceAttribution?: SourceAttribution[];
-  actionReview?: ActionReview;
-  actionExecution?: ActionExecution;
+  messageId?: string | undefined;
+  body?: string | undefined;
+  time?: Date | undefined;
+  type?: MessageType | undefined;
+  attachments?: AttachmentOutput[] | undefined;
+  sourceAttribution?: SourceAttribution[] | undefined;
+  actionReview?: ActionReview | undefined;
+  actionExecution?: ActionExecution | undefined;
 }
 export type Messages = Message[];
 export interface ListMessagesResponse {
-  messages?: Message[];
-  nextToken?: string;
+  messages?: Message[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MaxResultsIntegerForListPluginActions = number;
 export interface ListPluginActionsRequest {
   applicationId: string;
   pluginId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ActionSummary {
-  actionIdentifier?: string;
-  displayName?: string;
-  instructionExample?: string;
-  description?: string;
+  actionIdentifier?: string | undefined;
+  displayName?: string | undefined;
+  instructionExample?: string | undefined;
+  description?: string | undefined;
 }
 export type Actions = ActionSummary[];
 export interface ListPluginActionsResponse {
-  nextToken?: string;
-  items?: ActionSummary[];
+  nextToken?: string | undefined;
+  items?: ActionSummary[] | undefined;
 }
 export type MaxResultsIntegerForListPlugins = number;
 export interface ListPluginsRequest {
   applicationId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface Plugin {
-  pluginId?: string;
-  displayName?: string;
-  type?: PluginType;
-  serverUrl?: string;
-  state?: PluginState;
-  buildStatus?: PluginBuildStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  pluginId?: string | undefined;
+  displayName?: string | undefined;
+  type?: PluginType | undefined;
+  serverUrl?: string | undefined;
+  state?: PluginState | undefined;
+  buildStatus?: PluginBuildStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type Plugins = Plugin[];
 export interface ListPluginsResponse {
-  nextToken?: string;
-  plugins?: Plugin[];
+  nextToken?: string | undefined;
+  plugins?: Plugin[] | undefined;
 }
 export type MaxResultsIntegerForListPluginTypeActions = number;
 export interface ListPluginTypeActionsRequest {
   pluginType: PluginType;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListPluginTypeActionsResponse {
-  nextToken?: string;
-  items?: ActionSummary[];
+  nextToken?: string | undefined;
+  items?: ActionSummary[] | undefined;
 }
 export type MaxResultsIntegerForListPluginTypeMetadata = number;
 export interface ListPluginTypeMetadataRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type PluginTypeCategory =
   | "Customer relationship management (CRM)"
@@ -2009,75 +2015,75 @@ export type PluginTypeCategory =
   | "Ticketing and incident management"
   | (string & {});
 export interface PluginTypeMetadataSummary {
-  type?: PluginType;
-  category?: PluginTypeCategory;
-  description?: string;
+  type?: PluginType | undefined;
+  category?: PluginTypeCategory | undefined;
+  description?: string | undefined;
 }
 export type ListPluginTypeMetadataSummaries = PluginTypeMetadataSummary[];
 export interface ListPluginTypeMetadataResponse {
-  nextToken?: string;
-  items?: PluginTypeMetadataSummary[];
+  nextToken?: string | undefined;
+  items?: PluginTypeMetadataSummary[] | undefined;
 }
 export type MaxResultsIntegerForListRetrieversRequest = number;
 export interface ListRetrieversRequest {
   applicationId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface Retriever {
-  applicationId?: string;
-  retrieverId?: string;
-  type?: RetrieverType;
-  status?: RetrieverStatus;
-  displayName?: string;
+  applicationId?: string | undefined;
+  retrieverId?: string | undefined;
+  type?: RetrieverType | undefined;
+  status?: RetrieverStatus | undefined;
+  displayName?: string | undefined;
 }
 export type Retrievers = Retriever[];
 export interface ListRetrieversResponse {
-  retrievers?: Retriever[];
-  nextToken?: string;
+  retrievers?: Retriever[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MaxResultsIntegerForListSubscriptions = number;
 export interface ListSubscriptionsRequest {
   applicationId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface Subscription {
-  subscriptionId?: string;
-  subscriptionArn?: string;
-  principal?: SubscriptionPrincipal;
-  currentSubscription?: SubscriptionDetails;
-  nextSubscription?: SubscriptionDetails;
+  subscriptionId?: string | undefined;
+  subscriptionArn?: string | undefined;
+  principal?: SubscriptionPrincipal | undefined;
+  currentSubscription?: SubscriptionDetails | undefined;
+  nextSubscription?: SubscriptionDetails | undefined;
 }
 export type Subscriptions = Subscription[];
 export interface ListSubscriptionsResponse {
-  nextToken?: string;
-  subscriptions?: Subscription[];
+  nextToken?: string | undefined;
+  subscriptions?: Subscription[] | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   resourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type MaxResultsIntegerForListWebExperiencesRequest = number;
 export interface ListWebExperiencesRequest {
   applicationId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface WebExperience {
-  webExperienceId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  defaultEndpoint?: string;
-  status?: WebExperienceStatus;
+  webExperienceId?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  defaultEndpoint?: string | undefined;
+  status?: WebExperienceStatus | undefined;
 }
 export type WebExperiences = WebExperience[];
 export interface ListWebExperiencesResponse {
-  webExperiences?: WebExperience[];
-  nextToken?: string;
+  webExperiences?: WebExperience[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SystemMessageId = string;
 export type MessageUsefulness = "USEFUL" | "NOT_USEFUL" | (string & {});
@@ -2098,43 +2104,43 @@ export type MessageUsefulnessReason =
 export type MessageUsefulnessComment = string;
 export interface MessageUsefulnessFeedback {
   usefulness: MessageUsefulness;
-  reason?: MessageUsefulnessReason;
-  comment?: string;
+  reason?: MessageUsefulnessReason | undefined;
+  comment?: string | undefined;
   submittedAt: Date;
 }
 export interface PutFeedbackRequest {
   applicationId: string;
-  userId?: string;
+  userId?: string | undefined;
   conversationId: string;
   messageId: string;
-  messageCopiedAt?: Date;
-  messageUsefulness?: MessageUsefulnessFeedback;
+  messageCopiedAt?: Date | undefined;
+  messageUsefulness?: MessageUsefulnessFeedback | undefined;
 }
 export interface PutFeedbackResponse {}
 export interface MemberGroup {
   groupName: string;
-  type?: MembershipType;
+  type?: MembershipType | undefined;
 }
 export type MemberGroups = MemberGroup[];
 export type DataSourceUserId = string;
 export interface MemberUser {
   userId: string;
-  type?: MembershipType;
+  type?: MembershipType | undefined;
 }
 export type MemberUsers = MemberUser[];
 export interface GroupMembers {
-  memberGroups?: MemberGroup[];
-  memberUsers?: MemberUser[];
-  s3PathForGroupMembers?: S3;
+  memberGroups?: MemberGroup[] | undefined;
+  memberUsers?: MemberUser[] | undefined;
+  s3PathForGroupMembers?: S3 | undefined;
 }
 export interface PutGroupRequest {
   applicationId: string;
   indexId: string;
   groupName: string;
-  dataSourceId?: string;
+  dataSourceId?: string | undefined;
   type: MembershipType;
   groupMembers: GroupMembers;
-  roleArn?: string;
+  roleArn?: string | undefined;
 }
 export interface PutGroupResponse {}
 export type QueryText = string;
@@ -2147,9 +2153,9 @@ export interface SearchRelevantContentRequest {
   applicationId: string;
   queryText: string;
   contentSource: ContentSource;
-  attributeFilter?: AttributeFilter;
-  maxResults?: number;
-  nextToken?: string;
+  attributeFilter?: AttributeFilter | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ScoreConfidence =
   | "VERY_HIGH"
@@ -2159,20 +2165,20 @@ export type ScoreConfidence =
   | "NOT_AVAILABLE"
   | (string & {});
 export interface ScoreAttributes {
-  scoreConfidence?: ScoreConfidence;
+  scoreConfidence?: ScoreConfidence | undefined;
 }
 export interface RelevantContent {
-  content?: string;
-  documentId?: string;
-  documentTitle?: string;
-  documentUri?: string;
-  documentAttributes?: DocumentAttribute[];
-  scoreAttributes?: ScoreAttributes;
+  content?: string | undefined;
+  documentId?: string | undefined;
+  documentTitle?: string | undefined;
+  documentUri?: string | undefined;
+  documentAttributes?: DocumentAttribute[] | undefined;
+  scoreAttributes?: ScoreAttributes | undefined;
 }
 export type RelevantContentList = RelevantContent[];
 export interface SearchRelevantContentResponse {
-  relevantContent?: RelevantContent[];
-  nextToken?: string;
+  relevantContent?: RelevantContent[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface StartDataSourceSyncJobRequest {
   dataSourceId: string;
@@ -2180,7 +2186,7 @@ export interface StartDataSourceSyncJobRequest {
   indexId: string;
 }
 export interface StartDataSourceSyncJobResponse {
-  executionId?: string;
+  executionId?: string | undefined;
 }
 export interface StopDataSourceSyncJobRequest {
   dataSourceId: string;
@@ -2201,94 +2207,94 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateApplicationRequest {
   applicationId: string;
-  identityCenterInstanceArn?: string;
-  displayName?: string;
-  description?: string;
-  roleArn?: string;
-  attachmentsConfiguration?: AttachmentsConfiguration;
-  qAppsConfiguration?: QAppsConfiguration;
-  personalizationConfiguration?: PersonalizationConfiguration;
-  autoSubscriptionConfiguration?: AutoSubscriptionConfiguration;
+  identityCenterInstanceArn?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
+  roleArn?: string | undefined;
+  attachmentsConfiguration?: AttachmentsConfiguration | undefined;
+  qAppsConfiguration?: QAppsConfiguration | undefined;
+  personalizationConfiguration?: PersonalizationConfiguration | undefined;
+  autoSubscriptionConfiguration?: AutoSubscriptionConfiguration | undefined;
 }
 export interface UpdateApplicationResponse {}
 export interface OrchestrationConfiguration {
   control: OrchestrationControl;
 }
 export interface BlockedPhrasesConfigurationUpdate {
-  blockedPhrasesToCreateOrUpdate?: string[];
-  blockedPhrasesToDelete?: string[];
-  systemMessageOverride?: string;
+  blockedPhrasesToCreateOrUpdate?: string[] | undefined;
+  blockedPhrasesToDelete?: string[] | undefined;
+  systemMessageOverride?: string | undefined;
 }
 export interface CreatorModeConfiguration {
   creatorModeControl: CreatorModeControl;
 }
 export interface UpdateChatControlsConfigurationRequest {
   applicationId: string;
-  clientToken?: string;
-  responseScope?: ResponseScope;
-  orchestrationConfiguration?: OrchestrationConfiguration;
-  blockedPhrasesConfigurationUpdate?: BlockedPhrasesConfigurationUpdate;
-  topicConfigurationsToCreateOrUpdate?: TopicConfiguration[];
-  topicConfigurationsToDelete?: TopicConfiguration[];
-  creatorModeConfiguration?: CreatorModeConfiguration;
-  hallucinationReductionConfiguration?: HallucinationReductionConfiguration;
+  clientToken?: string | undefined;
+  responseScope?: ResponseScope | undefined;
+  orchestrationConfiguration?: OrchestrationConfiguration | undefined;
+  blockedPhrasesConfigurationUpdate?: BlockedPhrasesConfigurationUpdate | undefined;
+  topicConfigurationsToCreateOrUpdate?: TopicConfiguration[] | undefined;
+  topicConfigurationsToDelete?: TopicConfiguration[] | undefined;
+  creatorModeConfiguration?: CreatorModeConfiguration | undefined;
+  hallucinationReductionConfiguration?: HallucinationReductionConfiguration | undefined;
 }
 export interface UpdateChatControlsConfigurationResponse {}
 export interface UpdateChatResponseConfigurationRequest {
   applicationId: string;
   chatResponseConfigurationId: string;
-  displayName?: string;
+  displayName?: string | undefined;
   responseConfigurations: { [key: string]: ResponseConfiguration | undefined };
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateChatResponseConfigurationResponse {}
 export interface UpdateDataAccessorRequest {
   applicationId: string;
   dataAccessorId: string;
   actionConfigurations: ActionConfiguration[];
-  authenticationDetail?: DataAccessorAuthenticationDetail;
-  displayName?: string | redacted.Redacted<string>;
+  authenticationDetail?: DataAccessorAuthenticationDetail | undefined;
+  displayName?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateDataAccessorResponse {}
 export interface UpdateDataSourceRequest {
   applicationId: string;
   indexId: string;
   dataSourceId: string;
-  displayName?: string;
-  configuration?: any;
-  vpcConfiguration?: DataSourceVpcConfiguration;
-  description?: string;
-  syncSchedule?: string;
-  roleArn?: string;
-  documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration;
-  mediaExtractionConfiguration?: MediaExtractionConfiguration;
+  displayName?: string | undefined;
+  configuration?: any | undefined;
+  vpcConfiguration?: DataSourceVpcConfiguration | undefined;
+  description?: string | undefined;
+  syncSchedule?: string | undefined;
+  roleArn?: string | undefined;
+  documentEnrichmentConfiguration?: DocumentEnrichmentConfiguration | undefined;
+  mediaExtractionConfiguration?: MediaExtractionConfiguration | undefined;
 }
 export interface UpdateDataSourceResponse {}
 export interface UpdateIndexRequest {
   applicationId: string;
   indexId: string;
-  displayName?: string;
-  description?: string;
-  capacityConfiguration?: IndexCapacityConfiguration;
-  documentAttributeConfigurations?: DocumentAttributeConfiguration[];
+  displayName?: string | undefined;
+  description?: string | undefined;
+  capacityConfiguration?: IndexCapacityConfiguration | undefined;
+  documentAttributeConfigurations?: DocumentAttributeConfiguration[] | undefined;
 }
 export interface UpdateIndexResponse {}
 export interface UpdatePluginRequest {
   applicationId: string;
   pluginId: string;
-  displayName?: string;
-  state?: PluginState;
-  serverUrl?: string;
-  customPluginConfiguration?: CustomPluginConfiguration;
-  authConfiguration?: PluginAuthConfiguration;
+  displayName?: string | undefined;
+  state?: PluginState | undefined;
+  serverUrl?: string | undefined;
+  customPluginConfiguration?: CustomPluginConfiguration | undefined;
+  authConfiguration?: PluginAuthConfiguration | undefined;
 }
 export interface UpdatePluginResponse {}
 export interface UpdateRetrieverRequest {
   applicationId: string;
   retrieverId: string;
-  configuration?: RetrieverConfiguration;
-  displayName?: string;
-  roleArn?: string;
+  configuration?: RetrieverConfiguration | undefined;
+  displayName?: string | undefined;
+  roleArn?: string | undefined;
 }
 export interface UpdateRetrieverResponse {}
 export interface UpdateSubscriptionRequest {
@@ -2297,34 +2303,34 @@ export interface UpdateSubscriptionRequest {
   type: SubscriptionType;
 }
 export interface UpdateSubscriptionResponse {
-  subscriptionArn?: string;
-  currentSubscription?: SubscriptionDetails;
-  nextSubscription?: SubscriptionDetails;
+  subscriptionArn?: string | undefined;
+  currentSubscription?: SubscriptionDetails | undefined;
+  nextSubscription?: SubscriptionDetails | undefined;
 }
 export interface UpdateUserRequest {
   applicationId: string;
   userId: string;
-  userAliasesToUpdate?: UserAlias[];
-  userAliasesToDelete?: UserAlias[];
+  userAliasesToUpdate?: UserAlias[] | undefined;
+  userAliasesToDelete?: UserAlias[] | undefined;
 }
 export interface UpdateUserResponse {
-  userAliasesAdded?: UserAlias[];
-  userAliasesUpdated?: UserAlias[];
-  userAliasesDeleted?: UserAlias[];
+  userAliasesAdded?: UserAlias[] | undefined;
+  userAliasesUpdated?: UserAlias[] | undefined;
+  userAliasesDeleted?: UserAlias[] | undefined;
 }
 export interface UpdateWebExperienceRequest {
   applicationId: string;
   webExperienceId: string;
-  roleArn?: string;
-  authenticationConfiguration?: WebExperienceAuthConfiguration;
-  title?: string;
-  subtitle?: string;
-  welcomeMessage?: string;
-  samplePromptsControlMode?: WebExperienceSamplePromptsControlMode;
-  identityProviderConfiguration?: IdentityProviderConfiguration;
-  origins?: string[];
-  browserExtensionConfiguration?: BrowserExtensionConfiguration;
-  customizationConfiguration?: CustomizationConfiguration;
+  roleArn?: string | undefined;
+  authenticationConfiguration?: WebExperienceAuthConfiguration | undefined;
+  title?: string | undefined;
+  subtitle?: string | undefined;
+  welcomeMessage?: string | undefined;
+  samplePromptsControlMode?: WebExperienceSamplePromptsControlMode | undefined;
+  identityProviderConfiguration?: IdentityProviderConfiguration | undefined;
+  origins?: string[] | undefined;
+  browserExtensionConfiguration?: BrowserExtensionConfiguration | undefined;
+  customizationConfiguration?: CustomizationConfiguration | undefined;
 }
 export interface UpdateWebExperienceResponse {}
 export type ValidationExceptionReason =

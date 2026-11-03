@@ -196,12 +196,12 @@ export type DayOfWeekList = DayOfWeek[];
 export type ApplyTimeOf = "UTC" | "DEVICE" | (string & {});
 export interface MaintenanceWindow {
   type: MaintenanceWindowType;
-  startTimeHour?: number;
-  startTimeMinute?: number;
-  endTimeHour?: number;
-  endTimeMinute?: number;
-  daysOfTheWeek?: DayOfWeek[];
-  applyTimeOf?: ApplyTimeOf;
+  startTimeHour?: number | undefined;
+  startTimeMinute?: number | undefined;
+  endTimeHour?: number | undefined;
+  endTimeMinute?: number | undefined;
+  daysOfTheWeek?: DayOfWeek[] | undefined;
+  applyTimeOf?: ApplyTimeOf | undefined;
 }
 export type SoftwareSetUpdateMode = "USE_LATEST" | "USE_DESIRED" | (string & {});
 export type SoftwareSetId = string;
@@ -212,56 +212,56 @@ export type DeviceCreationTagKey = string;
 export type DeviceCreationTagValue = string;
 export type DeviceCreationTagsMap = { [key: string]: string | undefined };
 export interface CreateEnvironmentRequest {
-  name?: string | redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string> | undefined;
   desktopArn: string;
-  desktopEndpoint?: string | redacted.Redacted<string>;
-  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule;
-  maintenanceWindow?: MaintenanceWindow;
-  softwareSetUpdateMode?: SoftwareSetUpdateMode;
-  desiredSoftwareSetId?: string;
-  kmsKeyArn?: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
-  deviceCreationTags?: { [key: string]: string | undefined };
+  desktopEndpoint?: string | redacted.Redacted<string> | undefined;
+  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  softwareSetUpdateMode?: SoftwareSetUpdateMode | undefined;
+  desiredSoftwareSetId?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  deviceCreationTags?: { [key: string]: string | undefined } | undefined;
 }
 export type EnvironmentId = string;
 export type DesktopType = "workspaces" | "appstream" | "workspaces-web" | (string & {});
 export type ActivationCode = string | redacted.Redacted<string>;
 export interface EnvironmentSummary {
-  id?: string;
-  name?: string | redacted.Redacted<string>;
-  desktopArn?: string;
-  desktopEndpoint?: string | redacted.Redacted<string>;
-  desktopType?: DesktopType;
-  activationCode?: string | redacted.Redacted<string>;
-  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule;
-  maintenanceWindow?: MaintenanceWindow;
-  softwareSetUpdateMode?: SoftwareSetUpdateMode;
-  desiredSoftwareSetId?: string;
-  pendingSoftwareSetId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  arn?: string;
+  id?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  desktopArn?: string | undefined;
+  desktopEndpoint?: string | redacted.Redacted<string> | undefined;
+  desktopType?: DesktopType | undefined;
+  activationCode?: string | redacted.Redacted<string> | undefined;
+  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  softwareSetUpdateMode?: SoftwareSetUpdateMode | undefined;
+  desiredSoftwareSetId?: string | undefined;
+  pendingSoftwareSetId?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  arn?: string | undefined;
 }
 export interface CreateEnvironmentResponse {
-  environment?: EnvironmentSummary;
+  environment?: EnvironmentSummary | undefined;
 }
 export type DeviceId = string;
 export interface DeleteDeviceRequest {
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteDeviceResponse {}
 export interface DeleteEnvironmentRequest {
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteEnvironmentResponse {}
 export type TargetDeviceStatus = "DEREGISTERED" | "ARCHIVED" | (string & {});
 export interface DeregisterDeviceRequest {
   id: string;
-  targetDeviceStatus?: TargetDeviceStatus;
-  clientToken?: string;
+  targetDeviceStatus?: TargetDeviceStatus | undefined;
+  clientToken?: string | undefined;
 }
 export interface DeregisterDeviceResponse {}
 export interface GetDeviceRequest {
@@ -282,30 +282,30 @@ export type DeviceSoftwareSetComplianceStatus =
 export type SoftwareSetUpdateStatus = "AVAILABLE" | "IN_PROGRESS" | "UP_TO_DATE" | (string & {});
 export type UserId = string | redacted.Redacted<string>;
 export interface Device {
-  id?: string;
-  serialNumber?: string;
-  name?: string | redacted.Redacted<string>;
-  model?: string;
-  environmentId?: string;
-  status?: DeviceStatus;
-  currentSoftwareSetId?: string;
-  currentSoftwareSetVersion?: string;
-  desiredSoftwareSetId?: string;
-  pendingSoftwareSetId?: string;
-  pendingSoftwareSetVersion?: string;
-  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule;
-  softwareSetComplianceStatus?: DeviceSoftwareSetComplianceStatus;
-  softwareSetUpdateStatus?: SoftwareSetUpdateStatus;
-  lastConnectedAt?: Date;
-  lastPostureAt?: Date;
-  createdAt?: Date;
-  updatedAt?: Date;
-  arn?: string;
-  kmsKeyArn?: string;
-  lastUserId?: string | redacted.Redacted<string>;
+  id?: string | undefined;
+  serialNumber?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  model?: string | undefined;
+  environmentId?: string | undefined;
+  status?: DeviceStatus | undefined;
+  currentSoftwareSetId?: string | undefined;
+  currentSoftwareSetVersion?: string | undefined;
+  desiredSoftwareSetId?: string | undefined;
+  pendingSoftwareSetId?: string | undefined;
+  pendingSoftwareSetVersion?: string | undefined;
+  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule | undefined;
+  softwareSetComplianceStatus?: DeviceSoftwareSetComplianceStatus | undefined;
+  softwareSetUpdateStatus?: SoftwareSetUpdateStatus | undefined;
+  lastConnectedAt?: Date | undefined;
+  lastPostureAt?: Date | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  arn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  lastUserId?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetDeviceResponse {
-  device?: Device;
+  device?: Device | undefined;
 }
 export interface GetEnvironmentRequest {
   id: string;
@@ -316,110 +316,110 @@ export type EnvironmentSoftwareSetComplianceStatus =
   | "NOT_COMPLIANT"
   | (string & {});
 export interface Environment {
-  id?: string;
-  name?: string | redacted.Redacted<string>;
-  desktopArn?: string;
-  desktopEndpoint?: string | redacted.Redacted<string>;
-  desktopType?: DesktopType;
-  activationCode?: string | redacted.Redacted<string>;
-  registeredDevicesCount?: number;
-  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule;
-  maintenanceWindow?: MaintenanceWindow;
-  softwareSetUpdateMode?: SoftwareSetUpdateMode;
-  desiredSoftwareSetId?: string;
-  pendingSoftwareSetId?: string;
-  pendingSoftwareSetVersion?: string;
-  softwareSetComplianceStatus?: EnvironmentSoftwareSetComplianceStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  arn?: string;
-  kmsKeyArn?: string;
-  deviceCreationTags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  desktopArn?: string | undefined;
+  desktopEndpoint?: string | redacted.Redacted<string> | undefined;
+  desktopType?: DesktopType | undefined;
+  activationCode?: string | redacted.Redacted<string> | undefined;
+  registeredDevicesCount?: number | undefined;
+  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  softwareSetUpdateMode?: SoftwareSetUpdateMode | undefined;
+  desiredSoftwareSetId?: string | undefined;
+  pendingSoftwareSetId?: string | undefined;
+  pendingSoftwareSetVersion?: string | undefined;
+  softwareSetComplianceStatus?: EnvironmentSoftwareSetComplianceStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  arn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  deviceCreationTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetEnvironmentResponse {
-  environment?: Environment;
+  environment?: Environment | undefined;
 }
 export interface GetSoftwareSetRequest {
   id: string;
 }
 export type SoftwareSetValidationStatus = "VALIDATED" | "NOT_VALIDATED" | (string & {});
 export interface Software {
-  name?: string;
-  version?: string;
+  name?: string | undefined;
+  version?: string | undefined;
 }
 export type SoftwareList = Software[];
 export interface SoftwareSet {
-  id?: string;
-  version?: string;
-  releasedAt?: Date;
-  supportedUntil?: Date;
-  validationStatus?: SoftwareSetValidationStatus;
-  software?: Software[];
-  arn?: string;
+  id?: string | undefined;
+  version?: string | undefined;
+  releasedAt?: Date | undefined;
+  supportedUntil?: Date | undefined;
+  validationStatus?: SoftwareSetValidationStatus | undefined;
+  software?: Software[] | undefined;
+  arn?: string | undefined;
 }
 export interface GetSoftwareSetResponse {
-  softwareSet?: SoftwareSet;
+  softwareSet?: SoftwareSet | undefined;
 }
 export type PaginationToken = string;
 export type MaxResults = number;
 export interface ListDevicesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DeviceSummary {
-  id?: string;
-  serialNumber?: string;
-  name?: string | redacted.Redacted<string>;
-  model?: string;
-  environmentId?: string;
-  status?: DeviceStatus;
-  currentSoftwareSetId?: string;
-  desiredSoftwareSetId?: string;
-  pendingSoftwareSetId?: string;
-  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule;
-  lastConnectedAt?: Date;
-  lastPostureAt?: Date;
-  createdAt?: Date;
-  updatedAt?: Date;
-  arn?: string;
-  lastUserId?: string | redacted.Redacted<string>;
+  id?: string | undefined;
+  serialNumber?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  model?: string | undefined;
+  environmentId?: string | undefined;
+  status?: DeviceStatus | undefined;
+  currentSoftwareSetId?: string | undefined;
+  desiredSoftwareSetId?: string | undefined;
+  pendingSoftwareSetId?: string | undefined;
+  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule | undefined;
+  lastConnectedAt?: Date | undefined;
+  lastPostureAt?: Date | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  arn?: string | undefined;
+  lastUserId?: string | redacted.Redacted<string> | undefined;
 }
 export type DeviceList = DeviceSummary[];
 export interface ListDevicesResponse {
-  devices?: DeviceSummary[];
-  nextToken?: string;
+  devices?: DeviceSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListEnvironmentsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type EnvironmentList = EnvironmentSummary[];
 export interface ListEnvironmentsResponse {
-  environments?: EnvironmentSummary[];
-  nextToken?: string;
+  environments?: EnvironmentSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSoftwareSetsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SoftwareSetSummary {
-  id?: string;
-  version?: string;
-  releasedAt?: Date;
-  supportedUntil?: Date;
-  validationStatus?: SoftwareSetValidationStatus;
-  arn?: string;
+  id?: string | undefined;
+  version?: string | undefined;
+  releasedAt?: Date | undefined;
+  supportedUntil?: Date | undefined;
+  validationStatus?: SoftwareSetValidationStatus | undefined;
+  arn?: string | undefined;
 }
 export type SoftwareSetList = SoftwareSetSummary[];
 export interface ListSoftwareSetsResponse {
-  softwareSets?: SoftwareSetSummary[];
-  nextToken?: string;
+  softwareSets?: SoftwareSetSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -434,27 +434,27 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateDeviceRequest {
   id: string;
-  name?: string | redacted.Redacted<string>;
-  desiredSoftwareSetId?: string;
-  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule;
+  name?: string | redacted.Redacted<string> | undefined;
+  desiredSoftwareSetId?: string | undefined;
+  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule | undefined;
 }
 export interface UpdateDeviceResponse {
-  device?: DeviceSummary;
+  device?: DeviceSummary | undefined;
 }
 export type SoftwareSetIdOrEmptyString = string;
 export interface UpdateEnvironmentRequest {
   id: string;
-  name?: string | redacted.Redacted<string>;
-  desktopArn?: string;
-  desktopEndpoint?: string | redacted.Redacted<string>;
-  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule;
-  maintenanceWindow?: MaintenanceWindow;
-  softwareSetUpdateMode?: SoftwareSetUpdateMode;
-  desiredSoftwareSetId?: string;
-  deviceCreationTags?: { [key: string]: string | undefined };
+  name?: string | redacted.Redacted<string> | undefined;
+  desktopArn?: string | undefined;
+  desktopEndpoint?: string | redacted.Redacted<string> | undefined;
+  softwareSetUpdateSchedule?: SoftwareSetUpdateSchedule | undefined;
+  maintenanceWindow?: MaintenanceWindow | undefined;
+  softwareSetUpdateMode?: SoftwareSetUpdateMode | undefined;
+  desiredSoftwareSetId?: string | undefined;
+  deviceCreationTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateEnvironmentResponse {
-  environment?: EnvironmentSummary;
+  environment?: EnvironmentSummary | undefined;
 }
 export interface UpdateSoftwareSetRequest {
   id: string;

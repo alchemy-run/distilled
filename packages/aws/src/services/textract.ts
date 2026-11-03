@@ -201,13 +201,13 @@ export type S3Bucket = string;
 export type S3ObjectName = string;
 export type S3ObjectVersion = string;
 export interface S3Object {
-  Bucket?: string;
-  Name?: string;
-  Version?: string;
+  Bucket?: string | undefined;
+  Name?: string | undefined;
+  Version?: string | undefined;
 }
 export interface Document {
-  Bytes?: Uint8Array;
-  S3Object?: S3Object;
+  Bytes?: Uint8Array | undefined;
+  S3Object?: S3Object | undefined;
 }
 export type FeatureType = "TABLES" | "FORMS" | "QUERIES" | "SIGNATURES" | "LAYOUT" | (string & {});
 export type FeatureTypes = FeatureType[];
@@ -219,20 +219,20 @@ export type ContentClassifier =
   | (string & {});
 export type ContentClassifiers = ContentClassifier[];
 export interface HumanLoopDataAttributes {
-  ContentClassifiers?: ContentClassifier[];
+  ContentClassifiers?: ContentClassifier[] | undefined;
 }
 export interface HumanLoopConfig {
   HumanLoopName: string;
   FlowDefinitionArn: string;
-  DataAttributes?: HumanLoopDataAttributes;
+  DataAttributes?: HumanLoopDataAttributes | undefined;
 }
 export type QueryInput = string;
 export type QueryPage = string;
 export type QueryPages = string[];
 export interface Query {
   Text: string;
-  Alias?: string;
-  Pages?: string[];
+  Alias?: string | undefined;
+  Pages?: string[] | undefined;
 }
 export type Queries = Query[];
 export interface QueriesConfig {
@@ -244,7 +244,7 @@ export type AdapterPages = string[];
 export type AdapterVersion = string;
 export interface Adapter {
   AdapterId: string;
-  Pages?: string[];
+  Pages?: string[] | undefined;
   Version: string;
 }
 export type Adapters = Adapter[];
@@ -254,13 +254,13 @@ export interface AdaptersConfig {
 export interface AnalyzeDocumentRequest {
   Document: Document;
   FeatureTypes: FeatureType[];
-  HumanLoopConfig?: HumanLoopConfig;
-  QueriesConfig?: QueriesConfig;
-  AdaptersConfig?: AdaptersConfig;
+  HumanLoopConfig?: HumanLoopConfig | undefined;
+  QueriesConfig?: QueriesConfig | undefined;
+  AdaptersConfig?: AdaptersConfig | undefined;
 }
 export type UInteger = number;
 export interface DocumentMetadata {
-  Pages?: number;
+  Pages?: number | undefined;
 }
 export type BlockType =
   | "KEY_VALUE_SET"
@@ -291,21 +291,21 @@ export type BlockType =
 export type Percent = number;
 export type TextType = "HANDWRITING" | "PRINTED" | (string & {});
 export interface BoundingBox {
-  Width?: number;
-  Height?: number;
-  Left?: number;
-  Top?: number;
+  Width?: number | undefined;
+  Height?: number | undefined;
+  Left?: number | undefined;
+  Top?: number | undefined;
 }
 export interface Point {
-  X?: number;
-  Y?: number;
+  X?: number | undefined;
+  Y?: number | undefined;
 }
 export type Polygon = Point[];
 export type Angle = number;
 export interface Geometry {
-  BoundingBox?: BoundingBox;
-  Polygon?: Point[];
-  RotationAngle?: number;
+  BoundingBox?: BoundingBox | undefined;
+  Polygon?: Point[] | undefined;
+  RotationAngle?: number | undefined;
 }
 export type NonEmptyString = string;
 export type RelationshipType =
@@ -321,8 +321,8 @@ export type RelationshipType =
   | (string & {});
 export type IdList = string[];
 export interface Relationship {
-  Type?: RelationshipType;
-  Ids?: string[];
+  Type?: RelationshipType | undefined;
+  Ids?: string[] | undefined;
 }
 export type RelationshipList = Relationship[];
 export type EntityType =
@@ -339,21 +339,21 @@ export type EntityType =
 export type EntityTypes = EntityType[];
 export type SelectionStatus = "SELECTED" | "NOT_SELECTED" | (string & {});
 export interface Block {
-  BlockType?: BlockType;
-  Confidence?: number;
-  Text?: string;
-  TextType?: TextType;
-  RowIndex?: number;
-  ColumnIndex?: number;
-  RowSpan?: number;
-  ColumnSpan?: number;
-  Geometry?: Geometry;
-  Id?: string;
-  Relationships?: Relationship[];
-  EntityTypes?: EntityType[];
-  SelectionStatus?: SelectionStatus;
-  Page?: number;
-  Query?: Query;
+  BlockType?: BlockType | undefined;
+  Confidence?: number | undefined;
+  Text?: string | undefined;
+  TextType?: TextType | undefined;
+  RowIndex?: number | undefined;
+  ColumnIndex?: number | undefined;
+  RowSpan?: number | undefined;
+  ColumnSpan?: number | undefined;
+  Geometry?: Geometry | undefined;
+  Id?: string | undefined;
+  Relationships?: Relationship[] | undefined;
+  EntityTypes?: EntityType[] | undefined;
+  SelectionStatus?: SelectionStatus | undefined;
+  Page?: number | undefined;
+  Query?: Query | undefined;
 }
 export type BlockList = Block[];
 export type HumanLoopArn = string;
@@ -361,66 +361,66 @@ export type HumanLoopActivationReason = string;
 export type HumanLoopActivationReasons = string[];
 export type SynthesizedJsonHumanLoopActivationConditionsEvaluationResults = string;
 export interface HumanLoopActivationOutput {
-  HumanLoopArn?: string;
-  HumanLoopActivationReasons?: string[];
-  HumanLoopActivationConditionsEvaluationResults?: string;
+  HumanLoopArn?: string | undefined;
+  HumanLoopActivationReasons?: string[] | undefined;
+  HumanLoopActivationConditionsEvaluationResults?: string | undefined;
 }
 export interface AnalyzeDocumentResponse {
-  DocumentMetadata?: DocumentMetadata;
-  Blocks?: Block[];
-  HumanLoopActivationOutput?: HumanLoopActivationOutput;
-  AnalyzeDocumentModelVersion?: string;
+  DocumentMetadata?: DocumentMetadata | undefined;
+  Blocks?: Block[] | undefined;
+  HumanLoopActivationOutput?: HumanLoopActivationOutput | undefined;
+  AnalyzeDocumentModelVersion?: string | undefined;
 }
 export interface AnalyzeExpenseRequest {
   Document: Document;
 }
 export interface ExpenseType {
-  Text?: string;
-  Confidence?: number;
+  Text?: string | undefined;
+  Confidence?: number | undefined;
 }
 export interface ExpenseDetection {
-  Text?: string;
-  Geometry?: Geometry;
-  Confidence?: number;
+  Text?: string | undefined;
+  Geometry?: Geometry | undefined;
+  Confidence?: number | undefined;
 }
 export interface ExpenseCurrency {
-  Code?: string;
-  Confidence?: number;
+  Code?: string | undefined;
+  Confidence?: number | undefined;
 }
 export type StringList = string[];
 export interface ExpenseGroupProperty {
-  Types?: string[];
-  Id?: string;
+  Types?: string[] | undefined;
+  Id?: string | undefined;
 }
 export type ExpenseGroupPropertyList = ExpenseGroupProperty[];
 export interface ExpenseField {
-  Type?: ExpenseType;
-  LabelDetection?: ExpenseDetection;
-  ValueDetection?: ExpenseDetection;
-  PageNumber?: number;
-  Currency?: ExpenseCurrency;
-  GroupProperties?: ExpenseGroupProperty[];
+  Type?: ExpenseType | undefined;
+  LabelDetection?: ExpenseDetection | undefined;
+  ValueDetection?: ExpenseDetection | undefined;
+  PageNumber?: number | undefined;
+  Currency?: ExpenseCurrency | undefined;
+  GroupProperties?: ExpenseGroupProperty[] | undefined;
 }
 export type ExpenseFieldList = ExpenseField[];
 export interface LineItemFields {
-  LineItemExpenseFields?: ExpenseField[];
+  LineItemExpenseFields?: ExpenseField[] | undefined;
 }
 export type LineItemList = LineItemFields[];
 export interface LineItemGroup {
-  LineItemGroupIndex?: number;
-  LineItems?: LineItemFields[];
+  LineItemGroupIndex?: number | undefined;
+  LineItems?: LineItemFields[] | undefined;
 }
 export type LineItemGroupList = LineItemGroup[];
 export interface ExpenseDocument {
-  ExpenseIndex?: number;
-  SummaryFields?: ExpenseField[];
-  LineItemGroups?: LineItemGroup[];
-  Blocks?: Block[];
+  ExpenseIndex?: number | undefined;
+  SummaryFields?: ExpenseField[] | undefined;
+  LineItemGroups?: LineItemGroup[] | undefined;
+  Blocks?: Block[] | undefined;
 }
 export type ExpenseDocumentList = ExpenseDocument[];
 export interface AnalyzeExpenseResponse {
-  DocumentMetadata?: DocumentMetadata;
-  ExpenseDocuments?: ExpenseDocument[];
+  DocumentMetadata?: DocumentMetadata | undefined;
+  ExpenseDocuments?: ExpenseDocument[] | undefined;
 }
 export type DocumentPages = Document[];
 export interface AnalyzeIDRequest {
@@ -428,29 +428,29 @@ export interface AnalyzeIDRequest {
 }
 export type ValueType = "DATE" | (string & {});
 export interface NormalizedValue {
-  Value?: string;
-  ValueType?: ValueType;
+  Value?: string | undefined;
+  ValueType?: ValueType | undefined;
 }
 export interface AnalyzeIDDetections {
   Text: string;
-  NormalizedValue?: NormalizedValue;
-  Confidence?: number;
+  NormalizedValue?: NormalizedValue | undefined;
+  Confidence?: number | undefined;
 }
 export interface IdentityDocumentField {
-  Type?: AnalyzeIDDetections;
-  ValueDetection?: AnalyzeIDDetections;
+  Type?: AnalyzeIDDetections | undefined;
+  ValueDetection?: AnalyzeIDDetections | undefined;
 }
 export type IdentityDocumentFieldList = IdentityDocumentField[];
 export interface IdentityDocument {
-  DocumentIndex?: number;
-  IdentityDocumentFields?: IdentityDocumentField[];
-  Blocks?: Block[];
+  DocumentIndex?: number | undefined;
+  IdentityDocumentFields?: IdentityDocumentField[] | undefined;
+  Blocks?: Block[] | undefined;
 }
 export type IdentityDocumentList = IdentityDocument[];
 export interface AnalyzeIDResponse {
-  IdentityDocuments?: IdentityDocument[];
-  DocumentMetadata?: DocumentMetadata;
-  AnalyzeIDModelVersion?: string;
+  IdentityDocuments?: IdentityDocument[] | undefined;
+  DocumentMetadata?: DocumentMetadata | undefined;
+  AnalyzeIDModelVersion?: string | undefined;
 }
 export type AdapterName = string;
 export type ClientRequestToken = string;
@@ -461,34 +461,34 @@ export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateAdapterRequest {
   AdapterName: string;
-  ClientRequestToken?: string;
-  Description?: string;
+  ClientRequestToken?: string | undefined;
+  Description?: string | undefined;
   FeatureTypes: FeatureType[];
-  AutoUpdate?: AutoUpdate;
-  Tags?: { [key: string]: string | undefined };
+  AutoUpdate?: AutoUpdate | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAdapterResponse {
-  AdapterId?: string;
+  AdapterId?: string | undefined;
 }
 export interface AdapterVersionDatasetConfig {
-  ManifestS3Object?: S3Object;
+  ManifestS3Object?: S3Object | undefined;
 }
 export type KMSKeyId = string;
 export interface OutputConfig {
   S3Bucket: string;
-  S3Prefix?: string;
+  S3Prefix?: string | undefined;
 }
 export interface CreateAdapterVersionRequest {
   AdapterId: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
   DatasetConfig: AdapterVersionDatasetConfig;
-  KMSKeyId?: string;
+  KMSKeyId?: string | undefined;
   OutputConfig: OutputConfig;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAdapterVersionResponse {
-  AdapterId?: string;
-  AdapterVersion?: string;
+  AdapterId?: string | undefined;
+  AdapterVersion?: string | undefined;
 }
 export interface DeleteAdapterRequest {
   AdapterId: string;
@@ -503,21 +503,21 @@ export interface DetectDocumentTextRequest {
   Document: Document;
 }
 export interface DetectDocumentTextResponse {
-  DocumentMetadata?: DocumentMetadata;
-  Blocks?: Block[];
-  DetectDocumentTextModelVersion?: string;
+  DocumentMetadata?: DocumentMetadata | undefined;
+  Blocks?: Block[] | undefined;
+  DetectDocumentTextModelVersion?: string | undefined;
 }
 export interface GetAdapterRequest {
   AdapterId: string;
 }
 export interface GetAdapterResponse {
-  AdapterId?: string;
-  AdapterName?: string;
-  CreationTime?: Date;
-  Description?: string;
-  FeatureTypes?: FeatureType[];
-  AutoUpdate?: AutoUpdate;
-  Tags?: { [key: string]: string | undefined };
+  AdapterId?: string | undefined;
+  AdapterName?: string | undefined;
+  CreationTime?: Date | undefined;
+  Description?: string | undefined;
+  FeatureTypes?: FeatureType[] | undefined;
+  AutoUpdate?: AutoUpdate | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetAdapterVersionRequest {
   AdapterId: string;
@@ -532,91 +532,91 @@ export type AdapterVersionStatus =
   | (string & {});
 export type AdapterVersionStatusMessage = string;
 export interface EvaluationMetric {
-  F1Score?: number;
-  Precision?: number;
-  Recall?: number;
+  F1Score?: number | undefined;
+  Precision?: number | undefined;
+  Recall?: number | undefined;
 }
 export interface AdapterVersionEvaluationMetric {
-  Baseline?: EvaluationMetric;
-  AdapterVersion?: EvaluationMetric;
-  FeatureType?: FeatureType;
+  Baseline?: EvaluationMetric | undefined;
+  AdapterVersion?: EvaluationMetric | undefined;
+  FeatureType?: FeatureType | undefined;
 }
 export type AdapterVersionEvaluationMetrics = AdapterVersionEvaluationMetric[];
 export interface GetAdapterVersionResponse {
-  AdapterId?: string;
-  AdapterVersion?: string;
-  CreationTime?: Date;
-  FeatureTypes?: FeatureType[];
-  Status?: AdapterVersionStatus;
-  StatusMessage?: string;
-  DatasetConfig?: AdapterVersionDatasetConfig;
-  KMSKeyId?: string;
-  OutputConfig?: OutputConfig;
-  EvaluationMetrics?: AdapterVersionEvaluationMetric[];
-  Tags?: { [key: string]: string | undefined };
+  AdapterId?: string | undefined;
+  AdapterVersion?: string | undefined;
+  CreationTime?: Date | undefined;
+  FeatureTypes?: FeatureType[] | undefined;
+  Status?: AdapterVersionStatus | undefined;
+  StatusMessage?: string | undefined;
+  DatasetConfig?: AdapterVersionDatasetConfig | undefined;
+  KMSKeyId?: string | undefined;
+  OutputConfig?: OutputConfig | undefined;
+  EvaluationMetrics?: AdapterVersionEvaluationMetric[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type JobId = string;
 export type MaxResults = number;
 export type PaginationToken = string;
 export interface GetDocumentAnalysisRequest {
   JobId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type JobStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | "PARTIAL_SUCCESS" | (string & {});
 export type ErrorCode = string;
 export type Pages = number[];
 export interface Warning {
-  ErrorCode?: string;
-  Pages?: number[];
+  ErrorCode?: string | undefined;
+  Pages?: number[] | undefined;
 }
 export type Warnings = Warning[];
 export type StatusMessage = string;
 export interface GetDocumentAnalysisResponse {
-  DocumentMetadata?: DocumentMetadata;
-  JobStatus?: JobStatus;
-  NextToken?: string;
-  Blocks?: Block[];
-  Warnings?: Warning[];
-  StatusMessage?: string;
-  AnalyzeDocumentModelVersion?: string;
+  DocumentMetadata?: DocumentMetadata | undefined;
+  JobStatus?: JobStatus | undefined;
+  NextToken?: string | undefined;
+  Blocks?: Block[] | undefined;
+  Warnings?: Warning[] | undefined;
+  StatusMessage?: string | undefined;
+  AnalyzeDocumentModelVersion?: string | undefined;
 }
 export interface GetDocumentTextDetectionRequest {
   JobId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetDocumentTextDetectionResponse {
-  DocumentMetadata?: DocumentMetadata;
-  JobStatus?: JobStatus;
-  NextToken?: string;
-  Blocks?: Block[];
-  Warnings?: Warning[];
-  StatusMessage?: string;
-  DetectDocumentTextModelVersion?: string;
+  DocumentMetadata?: DocumentMetadata | undefined;
+  JobStatus?: JobStatus | undefined;
+  NextToken?: string | undefined;
+  Blocks?: Block[] | undefined;
+  Warnings?: Warning[] | undefined;
+  StatusMessage?: string | undefined;
+  DetectDocumentTextModelVersion?: string | undefined;
 }
 export interface GetExpenseAnalysisRequest {
   JobId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetExpenseAnalysisResponse {
-  DocumentMetadata?: DocumentMetadata;
-  JobStatus?: JobStatus;
-  NextToken?: string;
-  ExpenseDocuments?: ExpenseDocument[];
-  Warnings?: Warning[];
-  StatusMessage?: string;
-  AnalyzeExpenseModelVersion?: string;
+  DocumentMetadata?: DocumentMetadata | undefined;
+  JobStatus?: JobStatus | undefined;
+  NextToken?: string | undefined;
+  ExpenseDocuments?: ExpenseDocument[] | undefined;
+  Warnings?: Warning[] | undefined;
+  StatusMessage?: string | undefined;
+  AnalyzeExpenseModelVersion?: string | undefined;
 }
 export interface GetLendingAnalysisRequest {
   JobId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Prediction {
-  Value?: string;
-  Confidence?: number;
+  Value?: string | undefined;
+  Confidence?: number | undefined;
 }
 export type PredictionList = Prediction[];
 export interface PageClassification {
@@ -624,131 +624,131 @@ export interface PageClassification {
   PageNumber: Prediction[];
 }
 export interface LendingDetection {
-  Text?: string;
-  SelectionStatus?: SelectionStatus;
-  Geometry?: Geometry;
-  Confidence?: number;
+  Text?: string | undefined;
+  SelectionStatus?: SelectionStatus | undefined;
+  Geometry?: Geometry | undefined;
+  Confidence?: number | undefined;
 }
 export type LendingDetectionList = LendingDetection[];
 export interface LendingField {
-  Type?: string;
-  KeyDetection?: LendingDetection;
-  ValueDetections?: LendingDetection[];
+  Type?: string | undefined;
+  KeyDetection?: LendingDetection | undefined;
+  ValueDetections?: LendingDetection[] | undefined;
 }
 export type LendingFieldList = LendingField[];
 export interface SignatureDetection {
-  Confidence?: number;
-  Geometry?: Geometry;
+  Confidence?: number | undefined;
+  Geometry?: Geometry | undefined;
 }
 export type SignatureDetectionList = SignatureDetection[];
 export interface LendingDocument {
-  LendingFields?: LendingField[];
-  SignatureDetections?: SignatureDetection[];
+  LendingFields?: LendingField[] | undefined;
+  SignatureDetections?: SignatureDetection[] | undefined;
 }
 export interface Extraction {
-  LendingDocument?: LendingDocument;
-  ExpenseDocument?: ExpenseDocument;
-  IdentityDocument?: IdentityDocument;
+  LendingDocument?: LendingDocument | undefined;
+  ExpenseDocument?: ExpenseDocument | undefined;
+  IdentityDocument?: IdentityDocument | undefined;
 }
 export type ExtractionList = Extraction[];
 export interface LendingResult {
-  Page?: number;
-  PageClassification?: PageClassification;
-  Extractions?: Extraction[];
+  Page?: number | undefined;
+  PageClassification?: PageClassification | undefined;
+  Extractions?: Extraction[] | undefined;
 }
 export type LendingResultList = LendingResult[];
 export interface GetLendingAnalysisResponse {
-  DocumentMetadata?: DocumentMetadata;
-  JobStatus?: JobStatus;
-  NextToken?: string;
-  Results?: LendingResult[];
-  Warnings?: Warning[];
-  StatusMessage?: string;
-  AnalyzeLendingModelVersion?: string;
+  DocumentMetadata?: DocumentMetadata | undefined;
+  JobStatus?: JobStatus | undefined;
+  NextToken?: string | undefined;
+  Results?: LendingResult[] | undefined;
+  Warnings?: Warning[] | undefined;
+  StatusMessage?: string | undefined;
+  AnalyzeLendingModelVersion?: string | undefined;
 }
 export interface GetLendingAnalysisSummaryRequest {
   JobId: string;
 }
 export type PageList = number[];
 export interface SplitDocument {
-  Index?: number;
-  Pages?: number[];
+  Index?: number | undefined;
+  Pages?: number[] | undefined;
 }
 export type SplitDocumentList = SplitDocument[];
 export interface DetectedSignature {
-  Page?: number;
+  Page?: number | undefined;
 }
 export type DetectedSignatureList = DetectedSignature[];
 export interface UndetectedSignature {
-  Page?: number;
+  Page?: number | undefined;
 }
 export type UndetectedSignatureList = UndetectedSignature[];
 export interface DocumentGroup {
-  Type?: string;
-  SplitDocuments?: SplitDocument[];
-  DetectedSignatures?: DetectedSignature[];
-  UndetectedSignatures?: UndetectedSignature[];
+  Type?: string | undefined;
+  SplitDocuments?: SplitDocument[] | undefined;
+  DetectedSignatures?: DetectedSignature[] | undefined;
+  UndetectedSignatures?: UndetectedSignature[] | undefined;
 }
 export type DocumentGroupList = DocumentGroup[];
 export type UndetectedDocumentTypeList = string[];
 export interface LendingSummary {
-  DocumentGroups?: DocumentGroup[];
-  UndetectedDocumentTypes?: string[];
+  DocumentGroups?: DocumentGroup[] | undefined;
+  UndetectedDocumentTypes?: string[] | undefined;
 }
 export interface GetLendingAnalysisSummaryResponse {
-  DocumentMetadata?: DocumentMetadata;
-  JobStatus?: JobStatus;
-  Summary?: LendingSummary;
-  Warnings?: Warning[];
-  StatusMessage?: string;
-  AnalyzeLendingModelVersion?: string;
+  DocumentMetadata?: DocumentMetadata | undefined;
+  JobStatus?: JobStatus | undefined;
+  Summary?: LendingSummary | undefined;
+  Warnings?: Warning[] | undefined;
+  StatusMessage?: string | undefined;
+  AnalyzeLendingModelVersion?: string | undefined;
 }
 export interface ListAdaptersRequest {
-  AfterCreationTime?: Date;
-  BeforeCreationTime?: Date;
-  MaxResults?: number;
-  NextToken?: string;
+  AfterCreationTime?: Date | undefined;
+  BeforeCreationTime?: Date | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AdapterOverview {
-  AdapterId?: string;
-  AdapterName?: string;
-  CreationTime?: Date;
-  FeatureTypes?: FeatureType[];
+  AdapterId?: string | undefined;
+  AdapterName?: string | undefined;
+  CreationTime?: Date | undefined;
+  FeatureTypes?: FeatureType[] | undefined;
 }
 export type AdapterList = AdapterOverview[];
 export interface ListAdaptersResponse {
-  Adapters?: AdapterOverview[];
-  NextToken?: string;
+  Adapters?: AdapterOverview[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAdapterVersionsRequest {
-  AdapterId?: string;
-  AfterCreationTime?: Date;
-  BeforeCreationTime?: Date;
-  MaxResults?: number;
-  NextToken?: string;
+  AdapterId?: string | undefined;
+  AfterCreationTime?: Date | undefined;
+  BeforeCreationTime?: Date | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AdapterVersionOverview {
-  AdapterId?: string;
-  AdapterVersion?: string;
-  CreationTime?: Date;
-  FeatureTypes?: FeatureType[];
-  Status?: AdapterVersionStatus;
-  StatusMessage?: string;
+  AdapterId?: string | undefined;
+  AdapterVersion?: string | undefined;
+  CreationTime?: Date | undefined;
+  FeatureTypes?: FeatureType[] | undefined;
+  Status?: AdapterVersionStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export type AdapterVersionList = AdapterVersionOverview[];
 export interface ListAdapterVersionsResponse {
-  AdapterVersions?: AdapterVersionOverview[];
-  NextToken?: string;
+  AdapterVersions?: AdapterVersionOverview[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DocumentLocation {
-  S3Object?: S3Object;
+  S3Object?: S3Object | undefined;
 }
 export type JobTag = string;
 export type SNSTopicArn = string;
@@ -760,49 +760,49 @@ export interface NotificationChannel {
 export interface StartDocumentAnalysisRequest {
   DocumentLocation: DocumentLocation;
   FeatureTypes: FeatureType[];
-  ClientRequestToken?: string;
-  JobTag?: string;
-  NotificationChannel?: NotificationChannel;
-  OutputConfig?: OutputConfig;
-  KMSKeyId?: string;
-  QueriesConfig?: QueriesConfig;
-  AdaptersConfig?: AdaptersConfig;
+  ClientRequestToken?: string | undefined;
+  JobTag?: string | undefined;
+  NotificationChannel?: NotificationChannel | undefined;
+  OutputConfig?: OutputConfig | undefined;
+  KMSKeyId?: string | undefined;
+  QueriesConfig?: QueriesConfig | undefined;
+  AdaptersConfig?: AdaptersConfig | undefined;
 }
 export interface StartDocumentAnalysisResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StartDocumentTextDetectionRequest {
   DocumentLocation: DocumentLocation;
-  ClientRequestToken?: string;
-  JobTag?: string;
-  NotificationChannel?: NotificationChannel;
-  OutputConfig?: OutputConfig;
-  KMSKeyId?: string;
+  ClientRequestToken?: string | undefined;
+  JobTag?: string | undefined;
+  NotificationChannel?: NotificationChannel | undefined;
+  OutputConfig?: OutputConfig | undefined;
+  KMSKeyId?: string | undefined;
 }
 export interface StartDocumentTextDetectionResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StartExpenseAnalysisRequest {
   DocumentLocation: DocumentLocation;
-  ClientRequestToken?: string;
-  JobTag?: string;
-  NotificationChannel?: NotificationChannel;
-  OutputConfig?: OutputConfig;
-  KMSKeyId?: string;
+  ClientRequestToken?: string | undefined;
+  JobTag?: string | undefined;
+  NotificationChannel?: NotificationChannel | undefined;
+  OutputConfig?: OutputConfig | undefined;
+  KMSKeyId?: string | undefined;
 }
 export interface StartExpenseAnalysisResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface StartLendingAnalysisRequest {
   DocumentLocation: DocumentLocation;
-  ClientRequestToken?: string;
-  JobTag?: string;
-  NotificationChannel?: NotificationChannel;
-  OutputConfig?: OutputConfig;
-  KMSKeyId?: string;
+  ClientRequestToken?: string | undefined;
+  JobTag?: string | undefined;
+  NotificationChannel?: NotificationChannel | undefined;
+  OutputConfig?: OutputConfig | undefined;
+  KMSKeyId?: string | undefined;
 }
 export interface StartLendingAnalysisResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -817,17 +817,17 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAdapterRequest {
   AdapterId: string;
-  Description?: string;
-  AdapterName?: string;
-  AutoUpdate?: AutoUpdate;
+  Description?: string | undefined;
+  AdapterName?: string | undefined;
+  AutoUpdate?: AutoUpdate | undefined;
 }
 export interface UpdateAdapterResponse {
-  AdapterId?: string;
-  AdapterName?: string;
-  CreationTime?: Date;
-  Description?: string;
-  FeatureTypes?: FeatureType[];
-  AutoUpdate?: AutoUpdate;
+  AdapterId?: string | undefined;
+  AdapterName?: string | undefined;
+  CreationTime?: Date | undefined;
+  Description?: string | undefined;
+  FeatureTypes?: FeatureType[] | undefined;
+  AutoUpdate?: AutoUpdate | undefined;
 }
 export type AnalyzeDocumentError =
   | AccessDeniedException

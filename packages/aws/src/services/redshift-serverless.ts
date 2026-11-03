@@ -190,38 +190,38 @@ export type TagList = Tag[];
 export interface ConvertRecoveryPointToSnapshotRequest {
   recoveryPointId: string;
   snapshotName: string;
-  retentionPeriod?: number;
-  tags?: Tag[];
+  retentionPeriod?: number | undefined;
+  tags?: Tag[] | undefined;
 }
 export type SnapshotStatus = string;
 export type KmsKeyId = string;
 export type AccountIdList = string[];
 export interface Snapshot {
-  namespaceName?: string;
-  namespaceArn?: string;
-  snapshotName?: string;
-  snapshotCreateTime?: Date;
-  adminUsername?: string;
-  status?: string;
-  kmsKeyId?: string;
-  ownerAccount?: string;
-  totalBackupSizeInMegaBytes?: number;
-  actualIncrementalBackupSizeInMegaBytes?: number;
-  backupProgressInMegaBytes?: number;
-  currentBackupRateInMegaBytesPerSecond?: number;
-  estimatedSecondsToCompletion?: number;
-  elapsedTimeInSeconds?: number;
-  snapshotRetentionPeriod?: number;
-  snapshotRemainingDays?: number;
-  snapshotRetentionStartTime?: Date;
-  snapshotArn?: string;
-  accountsWithRestoreAccess?: string[];
-  accountsWithProvisionedRestoreAccess?: string[];
-  adminPasswordSecretArn?: string;
-  adminPasswordSecretKmsKeyId?: string;
+  namespaceName?: string | undefined;
+  namespaceArn?: string | undefined;
+  snapshotName?: string | undefined;
+  snapshotCreateTime?: Date | undefined;
+  adminUsername?: string | undefined;
+  status?: string | undefined;
+  kmsKeyId?: string | undefined;
+  ownerAccount?: string | undefined;
+  totalBackupSizeInMegaBytes?: number | undefined;
+  actualIncrementalBackupSizeInMegaBytes?: number | undefined;
+  backupProgressInMegaBytes?: number | undefined;
+  currentBackupRateInMegaBytesPerSecond?: number | undefined;
+  estimatedSecondsToCompletion?: number | undefined;
+  elapsedTimeInSeconds?: number | undefined;
+  snapshotRetentionPeriod?: number | undefined;
+  snapshotRemainingDays?: number | undefined;
+  snapshotRetentionStartTime?: Date | undefined;
+  snapshotArn?: string | undefined;
+  accountsWithRestoreAccess?: string[] | undefined;
+  accountsWithProvisionedRestoreAccess?: string[] | undefined;
+  adminPasswordSecretArn?: string | undefined;
+  adminPasswordSecretKmsKeyId?: string | undefined;
 }
 export interface ConvertRecoveryPointToSnapshotResponse {
-  snapshot?: Snapshot;
+  snapshot?: Snapshot | undefined;
 }
 export type WorkgroupName = string;
 export type CustomDomainName = string;
@@ -232,10 +232,10 @@ export interface CreateCustomDomainAssociationRequest {
   customDomainCertificateArn: string;
 }
 export interface CreateCustomDomainAssociationResponse {
-  customDomainName?: string;
-  workgroupName?: string;
-  customDomainCertificateArn?: string;
-  customDomainCertificateExpiryTime?: Date;
+  customDomainName?: string | undefined;
+  workgroupName?: string | undefined;
+  customDomainCertificateArn?: string | undefined;
+  customDomainCertificateExpiryTime?: Date | undefined;
 }
 export type SubnetId = string;
 export type SubnetIdList = string[];
@@ -246,41 +246,41 @@ export interface CreateEndpointAccessRequest {
   endpointName: string;
   subnetIds: string[];
   workgroupName: string;
-  vpcSecurityGroupIds?: string[];
-  ownerAccount?: string;
+  vpcSecurityGroupIds?: string[] | undefined;
+  ownerAccount?: string | undefined;
 }
 export interface VpcSecurityGroupMembership {
-  vpcSecurityGroupId?: string;
-  status?: string;
+  vpcSecurityGroupId?: string | undefined;
+  status?: string | undefined;
 }
 export type VpcSecurityGroupMembershipList = VpcSecurityGroupMembership[];
 export interface NetworkInterface {
-  networkInterfaceId?: string;
-  subnetId?: string;
-  privateIpAddress?: string;
-  availabilityZone?: string;
-  ipv6Address?: string;
+  networkInterfaceId?: string | undefined;
+  subnetId?: string | undefined;
+  privateIpAddress?: string | undefined;
+  availabilityZone?: string | undefined;
+  ipv6Address?: string | undefined;
 }
 export type NetworkInterfaceList = NetworkInterface[];
 export interface VpcEndpoint {
-  vpcEndpointId?: string;
-  vpcId?: string;
-  networkInterfaces?: NetworkInterface[];
+  vpcEndpointId?: string | undefined;
+  vpcId?: string | undefined;
+  networkInterfaces?: NetworkInterface[] | undefined;
 }
 export interface EndpointAccess {
-  endpointName?: string;
-  endpointStatus?: string;
-  workgroupName?: string;
-  endpointCreateTime?: Date;
-  port?: number;
-  address?: string;
-  subnetIds?: string[];
-  vpcSecurityGroups?: VpcSecurityGroupMembership[];
-  vpcEndpoint?: VpcEndpoint;
-  endpointArn?: string;
+  endpointName?: string | undefined;
+  endpointStatus?: string | undefined;
+  workgroupName?: string | undefined;
+  endpointCreateTime?: Date | undefined;
+  port?: number | undefined;
+  address?: string | undefined;
+  subnetIds?: string[] | undefined;
+  vpcSecurityGroups?: VpcSecurityGroupMembership[] | undefined;
+  vpcEndpoint?: VpcEndpoint | undefined;
+  endpointArn?: string | undefined;
 }
 export interface CreateEndpointAccessResponse {
-  endpoint?: EndpointAccess;
+  endpoint?: EndpointAccess | undefined;
 }
 export type NamespaceName = string;
 export type DbUser = string | redacted.Redacted<string>;
@@ -292,17 +292,17 @@ export type LogExportList = string[];
 export type RedshiftIdcApplicationArn = string;
 export interface CreateNamespaceRequest {
   namespaceName: string;
-  adminUsername?: string | redacted.Redacted<string>;
-  adminUserPassword?: string | redacted.Redacted<string>;
-  dbName?: string;
-  kmsKeyId?: string;
-  defaultIamRoleArn?: string;
-  iamRoles?: string[];
-  logExports?: string[];
-  tags?: Tag[];
-  manageAdminPassword?: boolean;
-  adminPasswordSecretKmsKeyId?: string;
-  redshiftIdcApplicationArn?: string;
+  adminUsername?: string | redacted.Redacted<string> | undefined;
+  adminUserPassword?: string | redacted.Redacted<string> | undefined;
+  dbName?: string | undefined;
+  kmsKeyId?: string | undefined;
+  defaultIamRoleArn?: string | undefined;
+  iamRoles?: string[] | undefined;
+  logExports?: string[] | undefined;
+  tags?: Tag[] | undefined;
+  manageAdminPassword?: boolean | undefined;
+  adminPasswordSecretKmsKeyId?: string | undefined;
+  redshiftIdcApplicationArn?: string | undefined;
 }
 export type NamespaceStatus = string;
 export type S3TableName = string;
@@ -310,39 +310,39 @@ export type S3TableNameList = string[];
 export type S3TableGranularity = string;
 export type S3TableLastIngestionTimeMap = { [key: string]: string | undefined };
 export interface S3TablePublishStatus {
-  s3Tables?: string[];
-  s3TableNamespace?: string;
-  s3TableGranularity?: string;
-  enabledAll?: boolean;
-  lastIngestionTimes?: { [key: string]: string | undefined };
+  s3Tables?: string[] | undefined;
+  s3TableNamespace?: string | undefined;
+  s3TableGranularity?: string | undefined;
+  enabledAll?: boolean | undefined;
+  lastIngestionTimes?: { [key: string]: string | undefined } | undefined;
 }
 export interface Namespace {
-  namespaceArn?: string;
-  namespaceId?: string;
-  namespaceName?: string;
-  adminUsername?: string | redacted.Redacted<string>;
-  dbName?: string;
-  kmsKeyId?: string;
-  defaultIamRoleArn?: string;
-  iamRoles?: string[];
-  logExports?: string[];
-  status?: string;
-  creationDate?: Date;
-  adminPasswordSecretArn?: string;
-  adminPasswordSecretKmsKeyId?: string;
-  lakehouseRegistrationStatus?: string;
-  catalogArn?: string;
-  s3TablePublishStatus?: S3TablePublishStatus;
+  namespaceArn?: string | undefined;
+  namespaceId?: string | undefined;
+  namespaceName?: string | undefined;
+  adminUsername?: string | redacted.Redacted<string> | undefined;
+  dbName?: string | undefined;
+  kmsKeyId?: string | undefined;
+  defaultIamRoleArn?: string | undefined;
+  iamRoles?: string[] | undefined;
+  logExports?: string[] | undefined;
+  status?: string | undefined;
+  creationDate?: Date | undefined;
+  adminPasswordSecretArn?: string | undefined;
+  adminPasswordSecretKmsKeyId?: string | undefined;
+  lakehouseRegistrationStatus?: string | undefined;
+  catalogArn?: string | undefined;
+  s3TablePublishStatus?: S3TablePublishStatus | undefined;
 }
 export interface CreateNamespaceResponse {
-  namespace?: Namespace;
+  namespace?: Namespace | undefined;
 }
 export type Capacity = number;
 export type OfferingId = string;
 export interface CreateReservationRequest {
   capacity: number;
   offeringId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type ReservationId = string;
 export type ReservationArn = string;
@@ -351,33 +351,33 @@ export type Charge = number;
 export type CurrencyCode = string;
 export type OfferingType = string;
 export interface ReservationOffering {
-  offeringId?: string;
-  duration?: number;
-  upfrontCharge?: number;
-  hourlyCharge?: number;
-  currencyCode?: string;
-  offeringType?: string;
+  offeringId?: string | undefined;
+  duration?: number | undefined;
+  upfrontCharge?: number | undefined;
+  hourlyCharge?: number | undefined;
+  currencyCode?: string | undefined;
+  offeringType?: string | undefined;
 }
 export type Status = string;
 export interface Reservation {
-  reservationId?: string;
-  reservationArn?: string;
-  startDate?: Date;
-  endDate?: Date;
-  capacity?: number;
-  offering?: ReservationOffering;
-  status?: string;
+  reservationId?: string | undefined;
+  reservationArn?: string | undefined;
+  startDate?: Date | undefined;
+  endDate?: Date | undefined;
+  capacity?: number | undefined;
+  offering?: ReservationOffering | undefined;
+  status?: string | undefined;
 }
 export interface CreateReservationResponse {
-  reservation?: Reservation;
+  reservation?: Reservation | undefined;
 }
 export type ScheduledActionName = string;
 export type SnapshotNamePrefix = string;
 export interface CreateSnapshotScheduleActionParameters {
   namespaceName: string;
   snapshotNamePrefix: string;
-  retentionPeriod?: number;
-  tags?: Tag[];
+  retentionPeriod?: number | undefined;
+  tags?: Tag[] | undefined;
 }
 export type TargetAction = { createSnapshot: CreateSnapshotScheduleActionParameters };
 export type Schedule = { at: Date; cron?: never } | { at?: never; cron: string };
@@ -387,51 +387,51 @@ export interface CreateScheduledActionRequest {
   schedule: Schedule;
   roleArn: string;
   namespaceName: string;
-  enabled?: boolean;
-  scheduledActionDescription?: string;
-  startTime?: Date;
-  endTime?: Date;
+  enabled?: boolean | undefined;
+  scheduledActionDescription?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type NextInvocationsList = Date[];
 export type State = string;
 export interface ScheduledActionResponse {
-  scheduledActionName?: string;
-  schedule?: Schedule;
-  scheduledActionDescription?: string;
-  nextInvocations?: Date[];
-  roleArn?: string;
-  state?: string;
-  startTime?: Date;
-  endTime?: Date;
-  targetAction?: TargetAction;
-  namespaceName?: string;
-  scheduledActionUuid?: string;
+  scheduledActionName?: string | undefined;
+  schedule?: Schedule | undefined;
+  scheduledActionDescription?: string | undefined;
+  nextInvocations?: Date[] | undefined;
+  roleArn?: string | undefined;
+  state?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  targetAction?: TargetAction | undefined;
+  namespaceName?: string | undefined;
+  scheduledActionUuid?: string | undefined;
 }
 export interface CreateScheduledActionResponse {
-  scheduledAction?: ScheduledActionResponse;
+  scheduledAction?: ScheduledActionResponse | undefined;
 }
 export interface CreateSnapshotRequest {
   namespaceName: string;
   snapshotName: string;
-  retentionPeriod?: number;
-  tags?: Tag[];
+  retentionPeriod?: number | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateSnapshotResponse {
-  snapshot?: Snapshot;
+  snapshot?: Snapshot | undefined;
 }
 export interface CreateSnapshotCopyConfigurationRequest {
   namespaceName: string;
   destinationRegion: string;
-  snapshotRetentionPeriod?: number;
-  destinationKmsKeyId?: string;
+  snapshotRetentionPeriod?: number | undefined;
+  destinationKmsKeyId?: string | undefined;
 }
 export interface SnapshotCopyConfiguration {
-  snapshotCopyConfigurationId?: string;
-  snapshotCopyConfigurationArn?: string;
-  namespaceName?: string;
-  destinationRegion?: string;
-  snapshotRetentionPeriod?: number;
-  destinationKmsKeyId?: string;
+  snapshotCopyConfigurationId?: string | undefined;
+  snapshotCopyConfigurationArn?: string | undefined;
+  namespaceName?: string | undefined;
+  destinationRegion?: string | undefined;
+  snapshotRetentionPeriod?: number | undefined;
+  destinationKmsKeyId?: string | undefined;
 }
 export interface CreateSnapshotCopyConfigurationResponse {
   snapshotCopyConfiguration: SnapshotCopyConfiguration;
@@ -443,93 +443,93 @@ export interface CreateUsageLimitRequest {
   resourceArn: string;
   usageType: string;
   amount: number;
-  period?: string;
-  breachAction?: string;
+  period?: string | undefined;
+  breachAction?: string | undefined;
 }
 export interface UsageLimit {
-  usageLimitId?: string;
-  usageLimitArn?: string;
-  resourceArn?: string;
-  usageType?: string;
-  amount?: number;
-  period?: string;
-  breachAction?: string;
+  usageLimitId?: string | undefined;
+  usageLimitArn?: string | undefined;
+  resourceArn?: string | undefined;
+  usageType?: string | undefined;
+  amount?: number | undefined;
+  period?: string | undefined;
+  breachAction?: string | undefined;
 }
 export interface CreateUsageLimitResponse {
-  usageLimit?: UsageLimit;
+  usageLimit?: UsageLimit | undefined;
 }
 export type ParameterKey = string;
 export type ParameterValue = string;
 export interface ConfigParameter {
-  parameterKey?: string;
-  parameterValue?: string;
+  parameterKey?: string | undefined;
+  parameterValue?: string | undefined;
 }
 export type ConfigParameterList = ConfigParameter[];
 export type SecurityGroupId = string;
 export type SecurityGroupIdList = string[];
 export type PerformanceTargetStatus = string;
 export interface PerformanceTarget {
-  status?: string;
-  level?: number;
+  status?: string | undefined;
+  level?: number | undefined;
 }
 export type IpAddressType = string;
 export type TrackName = string;
 export interface CreateWorkgroupRequest {
   workgroupName: string;
   namespaceName: string;
-  baseCapacity?: number;
-  enhancedVpcRouting?: boolean;
-  configParameters?: ConfigParameter[];
-  securityGroupIds?: string[];
-  subnetIds?: string[];
-  publiclyAccessible?: boolean;
-  tags?: Tag[];
-  port?: number;
-  maxCapacity?: number;
-  pricePerformanceTarget?: PerformanceTarget;
-  ipAddressType?: string;
-  trackName?: string;
-  extraComputeForAutomaticOptimization?: boolean;
+  baseCapacity?: number | undefined;
+  enhancedVpcRouting?: boolean | undefined;
+  configParameters?: ConfigParameter[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  subnetIds?: string[] | undefined;
+  publiclyAccessible?: boolean | undefined;
+  tags?: Tag[] | undefined;
+  port?: number | undefined;
+  maxCapacity?: number | undefined;
+  pricePerformanceTarget?: PerformanceTarget | undefined;
+  ipAddressType?: string | undefined;
+  trackName?: string | undefined;
+  extraComputeForAutomaticOptimization?: boolean | undefined;
 }
 export type WorkgroupStatus = string;
 export type VpcEndpointList = VpcEndpoint[];
 export interface Endpoint {
-  address?: string;
-  port?: number;
-  vpcEndpoints?: VpcEndpoint[];
+  address?: string | undefined;
+  port?: number | undefined;
+  vpcEndpoints?: VpcEndpoint[] | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c1, 4) as any as S.Schema<Endpoint>;
 export type VpcIds = string[];
 export interface Workgroup {
-  workgroupId?: string;
-  workgroupArn?: string;
-  workgroupName?: string;
-  namespaceName?: string;
-  baseCapacity?: number;
-  enhancedVpcRouting?: boolean;
-  configParameters?: ConfigParameter[];
-  securityGroupIds?: string[];
-  subnetIds?: string[];
-  status?: string;
-  endpoint?: Endpoint;
-  publiclyAccessible?: boolean;
-  creationDate?: Date;
-  port?: number;
-  customDomainName?: string;
-  customDomainCertificateArn?: string;
-  customDomainCertificateExpiryTime?: Date;
-  workgroupVersion?: string;
-  patchVersion?: string;
-  maxCapacity?: number;
-  crossAccountVpcs?: string[];
-  ipAddressType?: string;
-  pricePerformanceTarget?: PerformanceTarget;
-  trackName?: string;
-  pendingTrackName?: string;
-  extraComputeForAutomaticOptimization?: boolean;
+  workgroupId?: string | undefined;
+  workgroupArn?: string | undefined;
+  workgroupName?: string | undefined;
+  namespaceName?: string | undefined;
+  baseCapacity?: number | undefined;
+  enhancedVpcRouting?: boolean | undefined;
+  configParameters?: ConfigParameter[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  subnetIds?: string[] | undefined;
+  status?: string | undefined;
+  endpoint?: Endpoint | undefined;
+  publiclyAccessible?: boolean | undefined;
+  creationDate?: Date | undefined;
+  port?: number | undefined;
+  customDomainName?: string | undefined;
+  customDomainCertificateArn?: string | undefined;
+  customDomainCertificateExpiryTime?: Date | undefined;
+  workgroupVersion?: string | undefined;
+  patchVersion?: string | undefined;
+  maxCapacity?: number | undefined;
+  crossAccountVpcs?: string[] | undefined;
+  ipAddressType?: string | undefined;
+  pricePerformanceTarget?: PerformanceTarget | undefined;
+  trackName?: string | undefined;
+  pendingTrackName?: string | undefined;
+  extraComputeForAutomaticOptimization?: boolean | undefined;
 }
 export interface CreateWorkgroupResponse {
-  workgroup?: Workgroup;
+  workgroup?: Workgroup | undefined;
 }
 export interface DeleteCustomDomainAssociationRequest {
   workgroupName: string;
@@ -540,12 +540,12 @@ export interface DeleteEndpointAccessRequest {
   endpointName: string;
 }
 export interface DeleteEndpointAccessResponse {
-  endpoint?: EndpointAccess;
+  endpoint?: EndpointAccess | undefined;
 }
 export interface DeleteNamespaceRequest {
   namespaceName: string;
-  finalSnapshotName?: string;
-  finalSnapshotRetentionPeriod?: number;
+  finalSnapshotName?: string | undefined;
+  finalSnapshotRetentionPeriod?: number | undefined;
 }
 export interface DeleteNamespaceResponse {
   namespace: Namespace;
@@ -558,13 +558,13 @@ export interface DeleteScheduledActionRequest {
   scheduledActionName: string;
 }
 export interface DeleteScheduledActionResponse {
-  scheduledAction?: ScheduledActionResponse;
+  scheduledAction?: ScheduledActionResponse | undefined;
 }
 export interface DeleteSnapshotRequest {
   snapshotName: string;
 }
 export interface DeleteSnapshotResponse {
-  snapshot?: Snapshot;
+  snapshot?: Snapshot | undefined;
 }
 export interface DeleteSnapshotCopyConfigurationRequest {
   snapshotCopyConfigurationId: string;
@@ -576,7 +576,7 @@ export interface DeleteUsageLimitRequest {
   usageLimitId: string;
 }
 export interface DeleteUsageLimitResponse {
-  usageLimit?: UsageLimit;
+  usageLimit?: UsageLimit | undefined;
 }
 export interface DeleteWorkgroupRequest {
   workgroupName: string;
@@ -586,40 +586,40 @@ export interface DeleteWorkgroupResponse {
 }
 export type DbName = string;
 export interface GetCredentialsRequest {
-  dbName?: string;
-  durationSeconds?: number;
-  workgroupName?: string;
-  customDomainName?: string;
+  dbName?: string | undefined;
+  durationSeconds?: number | undefined;
+  workgroupName?: string | undefined;
+  customDomainName?: string | undefined;
 }
 export interface GetCredentialsResponse {
-  dbUser?: string | redacted.Redacted<string>;
-  dbPassword?: string | redacted.Redacted<string>;
-  expiration?: Date;
-  nextRefreshTime?: Date;
+  dbUser?: string | redacted.Redacted<string> | undefined;
+  dbPassword?: string | redacted.Redacted<string> | undefined;
+  expiration?: Date | undefined;
+  nextRefreshTime?: Date | undefined;
 }
 export interface GetCustomDomainAssociationRequest {
   customDomainName: string;
   workgroupName: string;
 }
 export interface GetCustomDomainAssociationResponse {
-  customDomainName?: string;
-  workgroupName?: string;
-  customDomainCertificateArn?: string;
-  customDomainCertificateExpiryTime?: Date;
+  customDomainName?: string | undefined;
+  workgroupName?: string | undefined;
+  customDomainCertificateArn?: string | undefined;
+  customDomainCertificateExpiryTime?: Date | undefined;
 }
 export interface GetEndpointAccessRequest {
   endpointName: string;
 }
 export interface GetEndpointAccessResponse {
-  endpoint?: EndpointAccess;
+  endpoint?: EndpointAccess | undefined;
 }
 export type WorkgroupNameList = string[];
 export interface GetIdentityCenterAuthTokenRequest {
   workgroupNames: string[];
 }
 export interface GetIdentityCenterAuthTokenResponse {
-  token?: string | redacted.Redacted<string>;
-  expirationTime?: Date;
+  token?: string | redacted.Redacted<string> | undefined;
+  expirationTime?: Date | undefined;
 }
 export interface GetNamespaceRequest {
   namespaceName: string;
@@ -631,15 +631,15 @@ export interface GetRecoveryPointRequest {
   recoveryPointId: string;
 }
 export interface RecoveryPoint {
-  recoveryPointId?: string;
-  recoveryPointCreateTime?: Date;
-  totalSizeInMegaBytes?: number;
-  namespaceName?: string;
-  workgroupName?: string;
-  namespaceArn?: string;
+  recoveryPointId?: string | undefined;
+  recoveryPointCreateTime?: Date | undefined;
+  totalSizeInMegaBytes?: number | undefined;
+  namespaceName?: string | undefined;
+  workgroupName?: string | undefined;
+  namespaceArn?: string | undefined;
 }
 export interface GetRecoveryPointResponse {
-  recoveryPoint?: RecoveryPoint;
+  recoveryPoint?: RecoveryPoint | undefined;
 }
 export interface GetReservationRequest {
   reservationId: string;
@@ -657,71 +657,71 @@ export interface GetResourcePolicyRequest {
   resourceArn: string;
 }
 export interface ResourcePolicy {
-  resourceArn?: string;
-  policy?: string;
+  resourceArn?: string | undefined;
+  policy?: string | undefined;
 }
 export interface GetResourcePolicyResponse {
-  resourcePolicy?: ResourcePolicy;
+  resourcePolicy?: ResourcePolicy | undefined;
 }
 export interface GetScheduledActionRequest {
   scheduledActionName: string;
 }
 export interface GetScheduledActionResponse {
-  scheduledAction?: ScheduledActionResponse;
+  scheduledAction?: ScheduledActionResponse | undefined;
 }
 export interface GetSnapshotRequest {
-  snapshotName?: string;
-  ownerAccount?: string;
-  snapshotArn?: string;
+  snapshotName?: string | undefined;
+  ownerAccount?: string | undefined;
+  snapshotArn?: string | undefined;
 }
 export interface GetSnapshotResponse {
-  snapshot?: Snapshot;
+  snapshot?: Snapshot | undefined;
 }
 export interface GetTableRestoreStatusRequest {
   tableRestoreRequestId: string;
 }
 export interface TableRestoreStatus {
-  tableRestoreRequestId?: string;
-  status?: string;
-  message?: string;
-  requestTime?: Date;
-  namespaceName?: string;
-  workgroupName?: string;
-  snapshotName?: string;
-  progressInMegaBytes?: number;
-  totalDataInMegaBytes?: number;
-  sourceDatabaseName?: string;
-  sourceSchemaName?: string;
-  sourceTableName?: string;
-  targetDatabaseName?: string;
-  targetSchemaName?: string;
-  newTableName?: string;
-  recoveryPointId?: string;
+  tableRestoreRequestId?: string | undefined;
+  status?: string | undefined;
+  message?: string | undefined;
+  requestTime?: Date | undefined;
+  namespaceName?: string | undefined;
+  workgroupName?: string | undefined;
+  snapshotName?: string | undefined;
+  progressInMegaBytes?: number | undefined;
+  totalDataInMegaBytes?: number | undefined;
+  sourceDatabaseName?: string | undefined;
+  sourceSchemaName?: string | undefined;
+  sourceTableName?: string | undefined;
+  targetDatabaseName?: string | undefined;
+  targetSchemaName?: string | undefined;
+  newTableName?: string | undefined;
+  recoveryPointId?: string | undefined;
 }
 export interface GetTableRestoreStatusResponse {
-  tableRestoreStatus?: TableRestoreStatus;
+  tableRestoreStatus?: TableRestoreStatus | undefined;
 }
 export interface GetTrackRequest {
   trackName: string;
 }
 export interface UpdateTarget {
-  trackName?: string;
-  workgroupVersion?: string;
+  trackName?: string | undefined;
+  workgroupVersion?: string | undefined;
 }
 export type UpdateTargetsList = UpdateTarget[];
 export interface ServerlessTrack {
-  trackName?: string;
-  workgroupVersion?: string;
-  updateTargets?: UpdateTarget[];
+  trackName?: string | undefined;
+  workgroupVersion?: string | undefined;
+  updateTargets?: UpdateTarget[] | undefined;
 }
 export interface GetTrackResponse {
-  track?: ServerlessTrack;
+  track?: ServerlessTrack | undefined;
 }
 export interface GetUsageLimitRequest {
   usageLimitId: string;
 }
 export interface GetUsageLimitResponse {
-  usageLimit?: UsageLimit;
+  usageLimit?: UsageLimit | undefined;
 }
 export interface GetWorkgroupRequest {
   workgroupName: string;
@@ -731,39 +731,39 @@ export interface GetWorkgroupResponse {
 }
 export type PaginationToken = string;
 export interface ListCustomDomainAssociationsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  customDomainName?: string;
-  customDomainCertificateArn?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  customDomainName?: string | undefined;
+  customDomainCertificateArn?: string | undefined;
 }
 export interface Association {
-  customDomainCertificateArn?: string;
-  customDomainCertificateExpiryTime?: Date;
-  customDomainName?: string;
-  workgroupName?: string;
+  customDomainCertificateArn?: string | undefined;
+  customDomainCertificateExpiryTime?: Date | undefined;
+  customDomainName?: string | undefined;
+  workgroupName?: string | undefined;
 }
 export type AssociationList = Association[];
 export interface ListCustomDomainAssociationsResponse {
-  nextToken?: string;
-  associations?: Association[];
+  nextToken?: string | undefined;
+  associations?: Association[] | undefined;
 }
 export interface ListEndpointAccessRequest {
-  nextToken?: string;
-  maxResults?: number;
-  workgroupName?: string;
-  vpcId?: string;
-  ownerAccount?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  workgroupName?: string | undefined;
+  vpcId?: string | undefined;
+  ownerAccount?: string | undefined;
 }
 export type EndpointAccessList = EndpointAccess[];
 export interface ListEndpointAccessResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   endpoints: EndpointAccess[];
 }
 export type SourceArn = string;
 export interface ListManagedWorkgroupsRequest {
-  sourceArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  sourceArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ManagedWorkgroupName = string;
 export type ManagedWorkgroupStatus =
@@ -774,141 +774,141 @@ export type ManagedWorkgroupStatus =
   | "NOT_AVAILABLE"
   | (string & {});
 export interface ManagedWorkgroupListItem {
-  managedWorkgroupName?: string;
-  managedWorkgroupId?: string;
-  sourceArn?: string;
-  status?: ManagedWorkgroupStatus;
-  creationDate?: Date;
+  managedWorkgroupName?: string | undefined;
+  managedWorkgroupId?: string | undefined;
+  sourceArn?: string | undefined;
+  status?: ManagedWorkgroupStatus | undefined;
+  creationDate?: Date | undefined;
 }
 export type ManagedWorkgroups = ManagedWorkgroupListItem[];
 export interface ListManagedWorkgroupsResponse {
-  nextToken?: string;
-  managedWorkgroups?: ManagedWorkgroupListItem[];
+  nextToken?: string | undefined;
+  managedWorkgroups?: ManagedWorkgroupListItem[] | undefined;
 }
 export interface ListNamespacesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type NamespaceList = Namespace[];
 export interface ListNamespacesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   namespaces: Namespace[];
 }
 export interface ListRecoveryPointsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  startTime?: Date;
-  endTime?: Date;
-  namespaceName?: string;
-  namespaceArn?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  namespaceName?: string | undefined;
+  namespaceArn?: string | undefined;
 }
 export type RecoveryPointList = RecoveryPoint[];
 export interface ListRecoveryPointsResponse {
-  recoveryPoints?: RecoveryPoint[];
-  nextToken?: string;
+  recoveryPoints?: RecoveryPoint[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListReservationOfferingsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ReservationOfferingsList = ReservationOffering[];
 export interface ListReservationOfferingsResponse {
   reservationOfferingsList: ReservationOffering[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListReservationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ReservationsList = Reservation[];
 export interface ListReservationsResponse {
   reservationsList: Reservation[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListScheduledActionsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  namespaceName?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  namespaceName?: string | undefined;
 }
 export interface ScheduledActionAssociation {
-  namespaceName?: string;
-  scheduledActionName?: string;
+  namespaceName?: string | undefined;
+  scheduledActionName?: string | undefined;
 }
 export type ScheduledActionsList = ScheduledActionAssociation[];
 export interface ListScheduledActionsResponse {
-  nextToken?: string;
-  scheduledActions?: ScheduledActionAssociation[];
+  nextToken?: string | undefined;
+  scheduledActions?: ScheduledActionAssociation[] | undefined;
 }
 export interface ListSnapshotCopyConfigurationsRequest {
-  namespaceName?: string;
-  nextToken?: string;
-  maxResults?: number;
+  namespaceName?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SnapshotCopyConfigurations = SnapshotCopyConfiguration[];
 export interface ListSnapshotCopyConfigurationsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   snapshotCopyConfigurations: SnapshotCopyConfiguration[];
 }
 export interface ListSnapshotsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  namespaceName?: string;
-  namespaceArn?: string;
-  ownerAccount?: string;
-  startTime?: Date;
-  endTime?: Date;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  namespaceName?: string | undefined;
+  namespaceArn?: string | undefined;
+  ownerAccount?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type SnapshotList = Snapshot[];
 export interface ListSnapshotsResponse {
-  nextToken?: string;
-  snapshots?: Snapshot[];
+  nextToken?: string | undefined;
+  snapshots?: Snapshot[] | undefined;
 }
 export interface ListTableRestoreStatusRequest {
-  nextToken?: string;
-  maxResults?: number;
-  namespaceName?: string;
-  workgroupName?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  namespaceName?: string | undefined;
+  workgroupName?: string | undefined;
 }
 export type TableRestoreStatusList = TableRestoreStatus[];
 export interface ListTableRestoreStatusResponse {
-  nextToken?: string;
-  tableRestoreStatuses?: TableRestoreStatus[];
+  nextToken?: string | undefined;
+  tableRestoreStatuses?: TableRestoreStatus[] | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface ListTracksRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type TrackList = ServerlessTrack[];
 export interface ListTracksResponse {
-  tracks?: ServerlessTrack[];
-  nextToken?: string;
+  tracks?: ServerlessTrack[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListUsageLimitsRequest {
-  resourceArn?: string;
-  usageType?: string;
-  nextToken?: string;
-  maxResults?: number;
+  resourceArn?: string | undefined;
+  usageType?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type UsageLimits = UsageLimit[];
 export interface ListUsageLimitsResponse {
-  usageLimits?: UsageLimit[];
-  nextToken?: string;
+  usageLimits?: UsageLimit[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListWorkgroupsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  ownerAccount?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  ownerAccount?: string | undefined;
 }
 export type WorkgroupList = Workgroup[];
 export interface ListWorkgroupsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   workgroups: Workgroup[];
 }
 export interface PutResourcePolicyRequest {
@@ -916,62 +916,62 @@ export interface PutResourcePolicyRequest {
   policy: string;
 }
 export interface PutResourcePolicyResponse {
-  resourcePolicy?: ResourcePolicy;
+  resourcePolicy?: ResourcePolicy | undefined;
 }
 export interface RestoreFromRecoveryPointRequest {
   recoveryPointId: string;
   namespaceName: string;
   workgroupName: string;
-  maintainIntegration?: boolean;
+  maintainIntegration?: boolean | undefined;
 }
 export interface RestoreFromRecoveryPointResponse {
-  recoveryPointId?: string;
-  namespace?: Namespace;
+  recoveryPointId?: string | undefined;
+  namespace?: Namespace | undefined;
 }
 export interface RestoreFromSnapshotRequest {
   namespaceName: string;
   workgroupName: string;
-  snapshotName?: string;
-  snapshotArn?: string;
-  ownerAccount?: string;
-  manageAdminPassword?: boolean;
-  adminPasswordSecretKmsKeyId?: string;
-  maintainIntegration?: boolean;
+  snapshotName?: string | undefined;
+  snapshotArn?: string | undefined;
+  ownerAccount?: string | undefined;
+  manageAdminPassword?: boolean | undefined;
+  adminPasswordSecretKmsKeyId?: string | undefined;
+  maintainIntegration?: boolean | undefined;
 }
 export interface RestoreFromSnapshotResponse {
-  snapshotName?: string;
-  ownerAccount?: string;
-  namespace?: Namespace;
+  snapshotName?: string | undefined;
+  ownerAccount?: string | undefined;
+  namespace?: Namespace | undefined;
 }
 export interface RestoreTableFromRecoveryPointRequest {
   namespaceName: string;
   workgroupName: string;
   recoveryPointId: string;
   sourceDatabaseName: string;
-  sourceSchemaName?: string;
+  sourceSchemaName?: string | undefined;
   sourceTableName: string;
-  targetDatabaseName?: string;
-  targetSchemaName?: string;
+  targetDatabaseName?: string | undefined;
+  targetSchemaName?: string | undefined;
   newTableName: string;
-  activateCaseSensitiveIdentifier?: boolean;
+  activateCaseSensitiveIdentifier?: boolean | undefined;
 }
 export interface RestoreTableFromRecoveryPointResponse {
-  tableRestoreStatus?: TableRestoreStatus;
+  tableRestoreStatus?: TableRestoreStatus | undefined;
 }
 export interface RestoreTableFromSnapshotRequest {
   namespaceName: string;
   workgroupName: string;
   snapshotName: string;
   sourceDatabaseName: string;
-  sourceSchemaName?: string;
+  sourceSchemaName?: string | undefined;
   sourceTableName: string;
-  targetDatabaseName?: string;
-  targetSchemaName?: string;
+  targetDatabaseName?: string | undefined;
+  targetSchemaName?: string | undefined;
   newTableName: string;
-  activateCaseSensitiveIdentifier?: boolean;
+  activateCaseSensitiveIdentifier?: boolean | undefined;
 }
 export interface RestoreTableFromSnapshotResponse {
-  tableRestoreStatus?: TableRestoreStatus;
+  tableRestoreStatus?: TableRestoreStatus | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -990,105 +990,105 @@ export interface UpdateCustomDomainAssociationRequest {
   customDomainCertificateArn: string;
 }
 export interface UpdateCustomDomainAssociationResponse {
-  customDomainName?: string;
-  workgroupName?: string;
-  customDomainCertificateArn?: string;
-  customDomainCertificateExpiryTime?: Date;
+  customDomainName?: string | undefined;
+  workgroupName?: string | undefined;
+  customDomainCertificateArn?: string | undefined;
+  customDomainCertificateExpiryTime?: Date | undefined;
 }
 export interface UpdateEndpointAccessRequest {
   endpointName: string;
-  vpcSecurityGroupIds?: string[];
+  vpcSecurityGroupIds?: string[] | undefined;
 }
 export interface UpdateEndpointAccessResponse {
-  endpoint?: EndpointAccess;
+  endpoint?: EndpointAccess | undefined;
 }
 export type LakehouseRegistration = string;
 export type CatalogNameString = string;
 export type LakehouseIdcRegistration = string;
 export interface UpdateLakehouseConfigurationRequest {
   namespaceName: string;
-  lakehouseRegistration?: string;
-  catalogName?: string;
-  lakehouseIdcRegistration?: string;
-  lakehouseIdcApplicationArn?: string;
-  dryRun?: boolean;
+  lakehouseRegistration?: string | undefined;
+  catalogName?: string | undefined;
+  lakehouseIdcRegistration?: string | undefined;
+  lakehouseIdcApplicationArn?: string | undefined;
+  dryRun?: boolean | undefined;
 }
 export interface UpdateLakehouseConfigurationResponse {
-  namespaceName?: string;
-  lakehouseIdcApplicationArn?: string;
-  lakehouseRegistrationStatus?: string;
-  catalogArn?: string;
+  namespaceName?: string | undefined;
+  lakehouseIdcApplicationArn?: string | undefined;
+  lakehouseRegistrationStatus?: string | undefined;
+  catalogArn?: string | undefined;
 }
 export type LogDestinationType = string;
 export type S3TableAction = string;
 export interface UpdateNamespaceRequest {
   namespaceName: string;
-  adminUserPassword?: string | redacted.Redacted<string>;
-  adminUsername?: string | redacted.Redacted<string>;
-  kmsKeyId?: string;
-  defaultIamRoleArn?: string;
-  iamRoles?: string[];
-  logExports?: string[];
-  manageAdminPassword?: boolean;
-  adminPasswordSecretKmsKeyId?: string;
-  logDestinationType?: string;
-  s3TableAction?: string;
-  s3TableNames?: string[];
-  s3TableKmsKeyId?: string;
-  s3TableGranularity?: string;
+  adminUserPassword?: string | redacted.Redacted<string> | undefined;
+  adminUsername?: string | redacted.Redacted<string> | undefined;
+  kmsKeyId?: string | undefined;
+  defaultIamRoleArn?: string | undefined;
+  iamRoles?: string[] | undefined;
+  logExports?: string[] | undefined;
+  manageAdminPassword?: boolean | undefined;
+  adminPasswordSecretKmsKeyId?: string | undefined;
+  logDestinationType?: string | undefined;
+  s3TableAction?: string | undefined;
+  s3TableNames?: string[] | undefined;
+  s3TableKmsKeyId?: string | undefined;
+  s3TableGranularity?: string | undefined;
 }
 export interface UpdateNamespaceResponse {
   namespace: Namespace;
 }
 export interface UpdateScheduledActionRequest {
   scheduledActionName: string;
-  targetAction?: TargetAction;
-  schedule?: Schedule;
-  roleArn?: string;
-  enabled?: boolean;
-  scheduledActionDescription?: string;
-  startTime?: Date;
-  endTime?: Date;
+  targetAction?: TargetAction | undefined;
+  schedule?: Schedule | undefined;
+  roleArn?: string | undefined;
+  enabled?: boolean | undefined;
+  scheduledActionDescription?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export interface UpdateScheduledActionResponse {
-  scheduledAction?: ScheduledActionResponse;
+  scheduledAction?: ScheduledActionResponse | undefined;
 }
 export interface UpdateSnapshotRequest {
   snapshotName: string;
-  retentionPeriod?: number;
+  retentionPeriod?: number | undefined;
 }
 export interface UpdateSnapshotResponse {
-  snapshot?: Snapshot;
+  snapshot?: Snapshot | undefined;
 }
 export interface UpdateSnapshotCopyConfigurationRequest {
   snapshotCopyConfigurationId: string;
-  snapshotRetentionPeriod?: number;
+  snapshotRetentionPeriod?: number | undefined;
 }
 export interface UpdateSnapshotCopyConfigurationResponse {
   snapshotCopyConfiguration: SnapshotCopyConfiguration;
 }
 export interface UpdateUsageLimitRequest {
   usageLimitId: string;
-  amount?: number;
-  breachAction?: string;
+  amount?: number | undefined;
+  breachAction?: string | undefined;
 }
 export interface UpdateUsageLimitResponse {
-  usageLimit?: UsageLimit;
+  usageLimit?: UsageLimit | undefined;
 }
 export interface UpdateWorkgroupRequest {
   workgroupName: string;
-  baseCapacity?: number;
-  enhancedVpcRouting?: boolean;
-  configParameters?: ConfigParameter[];
-  publiclyAccessible?: boolean;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  port?: number;
-  maxCapacity?: number;
-  ipAddressType?: string;
-  pricePerformanceTarget?: PerformanceTarget;
-  trackName?: string;
-  extraComputeForAutomaticOptimization?: boolean;
+  baseCapacity?: number | undefined;
+  enhancedVpcRouting?: boolean | undefined;
+  configParameters?: ConfigParameter[] | undefined;
+  publiclyAccessible?: boolean | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  port?: number | undefined;
+  maxCapacity?: number | undefined;
+  ipAddressType?: string | undefined;
+  pricePerformanceTarget?: PerformanceTarget | undefined;
+  trackName?: string | undefined;
+  extraComputeForAutomaticOptimization?: boolean | undefined;
 }
 export interface UpdateWorkgroupResponse {
   workgroup: Workgroup;

@@ -167,8 +167,8 @@ export type ProxyType = string;
 export type ApiGatewayEndpointType = string;
 export type StageName = string;
 export interface ApiGatewayProxyInput {
-  EndpointType?: string;
-  StageName?: string;
+  EndpointType?: string | undefined;
+  StageName?: string | undefined;
 }
 export type TagMap = { [key: string]: string | undefined };
 export type ClientToken = string;
@@ -177,57 +177,57 @@ export interface CreateApplicationRequest {
   EnvironmentIdentifier: string;
   VpcId: string;
   ProxyType: string;
-  ApiGatewayProxy?: ApiGatewayProxyInput;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  ApiGatewayProxy?: ApiGatewayProxyInput | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export type ResourceArn = string;
 export type AccountId = string;
 export type ApplicationId = string;
 export type ApplicationState = string;
 export interface CreateApplicationResponse {
-  Name?: string;
-  Arn?: string;
-  OwnerAccountId?: string;
-  CreatedByAccountId?: string;
-  ApplicationId?: string;
-  EnvironmentId?: string;
-  VpcId?: string;
-  ProxyType?: string;
-  ApiGatewayProxy?: ApiGatewayProxyInput;
-  State?: string;
-  Tags?: { [key: string]: string | undefined };
-  LastUpdatedTime?: Date;
-  CreatedTime?: Date;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  CreatedByAccountId?: string | undefined;
+  ApplicationId?: string | undefined;
+  EnvironmentId?: string | undefined;
+  VpcId?: string | undefined;
+  ProxyType?: string | undefined;
+  ApiGatewayProxy?: ApiGatewayProxyInput | undefined;
+  State?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export type EnvironmentName = string;
 export type Description = string;
 export type NetworkFabricType = string;
 export interface CreateEnvironmentRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   NetworkFabricType: string;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export type EnvironmentState = string;
 export interface CreateEnvironmentResponse {
-  Name?: string;
-  Arn?: string;
-  Description?: string;
-  EnvironmentId?: string;
-  NetworkFabricType?: string;
-  OwnerAccountId?: string;
-  State?: string;
-  Tags?: { [key: string]: string | undefined };
-  LastUpdatedTime?: Date;
-  CreatedTime?: Date;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  EnvironmentId?: string | undefined;
+  NetworkFabricType?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  State?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export type ServiceId = string;
 export type RouteType = string;
 export type RouteActivationState = string;
 export interface DefaultRouteInput {
-  ActivationState?: string;
+  ActivationState?: string | undefined;
 }
 export type UriPath = string;
 export type HttpMethod = string;
@@ -235,42 +235,42 @@ export type HttpMethods = string[];
 export interface UriPathRouteInput {
   SourcePath: string;
   ActivationState: string;
-  Methods?: string[];
-  IncludeChildPaths?: boolean;
-  AppendSourcePath?: boolean;
+  Methods?: string[] | undefined;
+  IncludeChildPaths?: boolean | undefined;
+  AppendSourcePath?: boolean | undefined;
 }
 export interface CreateRouteRequest {
   EnvironmentIdentifier: string;
   ApplicationIdentifier: string;
   ServiceIdentifier: string;
   RouteType: string;
-  DefaultRoute?: DefaultRouteInput;
-  UriPathRoute?: UriPathRouteInput;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  DefaultRoute?: DefaultRouteInput | undefined;
+  UriPathRoute?: UriPathRouteInput | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export type RouteId = string;
 export type RouteState = string;
 export interface CreateRouteResponse {
-  RouteId?: string;
-  Arn?: string;
-  OwnerAccountId?: string;
-  CreatedByAccountId?: string;
-  RouteType?: string;
-  ServiceId?: string;
-  ApplicationId?: string;
-  UriPathRoute?: UriPathRouteInput;
-  State?: string;
-  Tags?: { [key: string]: string | undefined };
-  LastUpdatedTime?: Date;
-  CreatedTime?: Date;
+  RouteId?: string | undefined;
+  Arn?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  CreatedByAccountId?: string | undefined;
+  RouteType?: string | undefined;
+  ServiceId?: string | undefined;
+  ApplicationId?: string | undefined;
+  UriPathRoute?: UriPathRouteInput | undefined;
+  State?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export type ServiceName = string;
 export type ServiceEndpointType = string;
 export type Uri = string;
 export interface UrlEndpointInput {
   Url: string;
-  HealthUrl?: string;
+  HealthUrl?: string | undefined;
 }
 export type LambdaArn = string;
 export interface LambdaEndpointInput {
@@ -278,56 +278,56 @@ export interface LambdaEndpointInput {
 }
 export interface CreateServiceRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   EnvironmentIdentifier: string;
   ApplicationIdentifier: string;
-  VpcId?: string;
+  VpcId?: string | undefined;
   EndpointType: string;
-  UrlEndpoint?: UrlEndpointInput;
-  LambdaEndpoint?: LambdaEndpointInput;
-  Tags?: { [key: string]: string | undefined };
-  ClientToken?: string;
+  UrlEndpoint?: UrlEndpointInput | undefined;
+  LambdaEndpoint?: LambdaEndpointInput | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
 }
 export type ServiceState = string;
 export interface CreateServiceResponse {
-  ServiceId?: string;
-  Name?: string;
-  Arn?: string;
-  OwnerAccountId?: string;
-  CreatedByAccountId?: string;
-  Description?: string;
-  EnvironmentId?: string;
-  ApplicationId?: string;
-  VpcId?: string;
-  EndpointType?: string;
-  UrlEndpoint?: UrlEndpointInput;
-  LambdaEndpoint?: LambdaEndpointInput;
-  State?: string;
-  Tags?: { [key: string]: string | undefined };
-  LastUpdatedTime?: Date;
-  CreatedTime?: Date;
+  ServiceId?: string | undefined;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  CreatedByAccountId?: string | undefined;
+  Description?: string | undefined;
+  EnvironmentId?: string | undefined;
+  ApplicationId?: string | undefined;
+  VpcId?: string | undefined;
+  EndpointType?: string | undefined;
+  UrlEndpoint?: UrlEndpointInput | undefined;
+  LambdaEndpoint?: LambdaEndpointInput | undefined;
+  State?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export interface DeleteApplicationRequest {
   EnvironmentIdentifier: string;
   ApplicationIdentifier: string;
 }
 export interface DeleteApplicationResponse {
-  Name?: string;
-  Arn?: string;
-  ApplicationId?: string;
-  EnvironmentId?: string;
-  State?: string;
-  LastUpdatedTime?: Date;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  ApplicationId?: string | undefined;
+  EnvironmentId?: string | undefined;
+  State?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export interface DeleteEnvironmentRequest {
   EnvironmentIdentifier: string;
 }
 export interface DeleteEnvironmentResponse {
-  Name?: string;
-  Arn?: string;
-  EnvironmentId?: string;
-  State?: string;
-  LastUpdatedTime?: Date;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  EnvironmentId?: string | undefined;
+  State?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type ResourcePolicyIdentifier = string;
 export interface DeleteResourcePolicyRequest {
@@ -340,12 +340,12 @@ export interface DeleteRouteRequest {
   RouteIdentifier: string;
 }
 export interface DeleteRouteResponse {
-  RouteId?: string;
-  Arn?: string;
-  ServiceId?: string;
-  ApplicationId?: string;
-  State?: string;
-  LastUpdatedTime?: Date;
+  RouteId?: string | undefined;
+  Arn?: string | undefined;
+  ServiceId?: string | undefined;
+  ApplicationId?: string | undefined;
+  State?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export interface DeleteServiceRequest {
   EnvironmentIdentifier: string;
@@ -353,13 +353,13 @@ export interface DeleteServiceRequest {
   ServiceIdentifier: string;
 }
 export interface DeleteServiceResponse {
-  ServiceId?: string;
-  Name?: string;
-  Arn?: string;
-  EnvironmentId?: string;
-  ApplicationId?: string;
-  State?: string;
-  LastUpdatedTime?: Date;
+  ServiceId?: string | undefined;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  EnvironmentId?: string | undefined;
+  ApplicationId?: string | undefined;
+  State?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export interface GetApplicationRequest {
   EnvironmentIdentifier: string;
@@ -370,13 +370,13 @@ export type VpcLinkId = string;
 export type NlbArn = string;
 export type NlbName = string;
 export interface ApiGatewayProxyConfig {
-  ProxyUrl?: string;
-  ApiGatewayId?: string;
-  VpcLinkId?: string;
-  NlbArn?: string;
-  NlbName?: string;
-  EndpointType?: string;
-  StageName?: string;
+  ProxyUrl?: string | undefined;
+  ApiGatewayId?: string | undefined;
+  VpcLinkId?: string | undefined;
+  NlbArn?: string | undefined;
+  NlbName?: string | undefined;
+  EndpointType?: string | undefined;
+  StageName?: string | undefined;
 }
 export type ErrorCode = string;
 export type ErrorMessage = string;
@@ -386,53 +386,53 @@ export type AdditionalDetailsKey = string;
 export type AdditionalDetailsValue = string;
 export type AdditionalDetails = { [key: string]: string | undefined };
 export interface ErrorResponse {
-  Code?: string;
-  Message?: string;
-  AccountId?: string;
-  ResourceIdentifier?: string;
-  ResourceType?: string;
-  AdditionalDetails?: { [key: string]: string | undefined };
+  Code?: string | undefined;
+  Message?: string | undefined;
+  AccountId?: string | undefined;
+  ResourceIdentifier?: string | undefined;
+  ResourceType?: string | undefined;
+  AdditionalDetails?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetApplicationResponse {
-  Name?: string;
-  Arn?: string;
-  OwnerAccountId?: string;
-  CreatedByAccountId?: string;
-  ApplicationId?: string;
-  EnvironmentId?: string;
-  VpcId?: string;
-  ProxyType?: string;
-  ApiGatewayProxy?: ApiGatewayProxyConfig;
-  State?: string;
-  Tags?: { [key: string]: string | undefined };
-  Error?: ErrorResponse;
-  LastUpdatedTime?: Date;
-  CreatedTime?: Date;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  CreatedByAccountId?: string | undefined;
+  ApplicationId?: string | undefined;
+  EnvironmentId?: string | undefined;
+  VpcId?: string | undefined;
+  ProxyType?: string | undefined;
+  ApiGatewayProxy?: ApiGatewayProxyConfig | undefined;
+  State?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Error?: ErrorResponse | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export interface GetEnvironmentRequest {
   EnvironmentIdentifier: string;
 }
 export type TransitGatewayId = string;
 export interface GetEnvironmentResponse {
-  Name?: string;
-  Arn?: string;
-  Description?: string;
-  EnvironmentId?: string;
-  NetworkFabricType?: string;
-  OwnerAccountId?: string;
-  TransitGatewayId?: string;
-  State?: string;
-  Tags?: { [key: string]: string | undefined };
-  Error?: ErrorResponse;
-  LastUpdatedTime?: Date;
-  CreatedTime?: Date;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  EnvironmentId?: string | undefined;
+  NetworkFabricType?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  TransitGatewayId?: string | undefined;
+  State?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Error?: ErrorResponse | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export interface GetResourcePolicyRequest {
   Identifier: string;
 }
 export type PolicyString = string;
 export interface GetResourcePolicyResponse {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface GetRouteRequest {
   EnvironmentIdentifier: string;
@@ -443,24 +443,24 @@ export type PathResourceToIdKey = string;
 export type PathResourceToIdValue = string;
 export type PathResourceToId = { [key: string]: string | undefined };
 export interface GetRouteResponse {
-  RouteId?: string;
-  Arn?: string;
-  OwnerAccountId?: string;
-  CreatedByAccountId?: string;
-  RouteType?: string;
-  ServiceId?: string;
-  ApplicationId?: string;
-  EnvironmentId?: string;
-  SourcePath?: string;
-  Methods?: string[];
-  IncludeChildPaths?: boolean;
-  PathResourceToId?: { [key: string]: string | undefined };
-  State?: string;
-  Tags?: { [key: string]: string | undefined };
-  Error?: ErrorResponse;
-  LastUpdatedTime?: Date;
-  CreatedTime?: Date;
-  AppendSourcePath?: boolean;
+  RouteId?: string | undefined;
+  Arn?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  CreatedByAccountId?: string | undefined;
+  RouteType?: string | undefined;
+  ServiceId?: string | undefined;
+  ApplicationId?: string | undefined;
+  EnvironmentId?: string | undefined;
+  SourcePath?: string | undefined;
+  Methods?: string[] | undefined;
+  IncludeChildPaths?: boolean | undefined;
+  PathResourceToId?: { [key: string]: string | undefined } | undefined;
+  State?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Error?: ErrorResponse | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
+  AppendSourcePath?: boolean | undefined;
 }
 export interface GetServiceRequest {
   EnvironmentIdentifier: string;
@@ -468,186 +468,186 @@ export interface GetServiceRequest {
   ServiceIdentifier: string;
 }
 export interface UrlEndpointConfig {
-  Url?: string;
-  HealthUrl?: string;
+  Url?: string | undefined;
+  HealthUrl?: string | undefined;
 }
 export interface LambdaEndpointConfig {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface GetServiceResponse {
-  ServiceId?: string;
-  Name?: string;
-  Arn?: string;
-  OwnerAccountId?: string;
-  CreatedByAccountId?: string;
-  Description?: string;
-  EnvironmentId?: string;
-  ApplicationId?: string;
-  VpcId?: string;
-  EndpointType?: string;
-  UrlEndpoint?: UrlEndpointConfig;
-  LambdaEndpoint?: LambdaEndpointConfig;
-  State?: string;
-  Tags?: { [key: string]: string | undefined };
-  Error?: ErrorResponse;
-  LastUpdatedTime?: Date;
-  CreatedTime?: Date;
+  ServiceId?: string | undefined;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  CreatedByAccountId?: string | undefined;
+  Description?: string | undefined;
+  EnvironmentId?: string | undefined;
+  ApplicationId?: string | undefined;
+  VpcId?: string | undefined;
+  EndpointType?: string | undefined;
+  UrlEndpoint?: UrlEndpointConfig | undefined;
+  LambdaEndpoint?: LambdaEndpointConfig | undefined;
+  State?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Error?: ErrorResponse | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListApplicationsRequest {
   EnvironmentIdentifier: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ApiGatewayProxySummary {
-  ProxyUrl?: string;
-  ApiGatewayId?: string;
-  VpcLinkId?: string;
-  NlbArn?: string;
-  NlbName?: string;
-  EndpointType?: string;
-  StageName?: string;
+  ProxyUrl?: string | undefined;
+  ApiGatewayId?: string | undefined;
+  VpcLinkId?: string | undefined;
+  NlbArn?: string | undefined;
+  NlbName?: string | undefined;
+  EndpointType?: string | undefined;
+  StageName?: string | undefined;
 }
 export interface ApplicationSummary {
-  Name?: string;
-  Arn?: string;
-  OwnerAccountId?: string;
-  CreatedByAccountId?: string;
-  ApplicationId?: string;
-  EnvironmentId?: string;
-  VpcId?: string;
-  ProxyType?: string;
-  ApiGatewayProxy?: ApiGatewayProxySummary;
-  State?: string;
-  Tags?: { [key: string]: string | undefined };
-  Error?: ErrorResponse;
-  LastUpdatedTime?: Date;
-  CreatedTime?: Date;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  CreatedByAccountId?: string | undefined;
+  ApplicationId?: string | undefined;
+  EnvironmentId?: string | undefined;
+  VpcId?: string | undefined;
+  ProxyType?: string | undefined;
+  ApiGatewayProxy?: ApiGatewayProxySummary | undefined;
+  State?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Error?: ErrorResponse | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export type ApplicationSummaries = ApplicationSummary[];
 export interface ListApplicationsResponse {
-  ApplicationSummaryList?: ApplicationSummary[];
-  NextToken?: string;
+  ApplicationSummaryList?: ApplicationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEnvironmentsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface EnvironmentSummary {
-  Name?: string;
-  Arn?: string;
-  Description?: string;
-  EnvironmentId?: string;
-  NetworkFabricType?: string;
-  OwnerAccountId?: string;
-  TransitGatewayId?: string;
-  State?: string;
-  Tags?: { [key: string]: string | undefined };
-  Error?: ErrorResponse;
-  LastUpdatedTime?: Date;
-  CreatedTime?: Date;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  EnvironmentId?: string | undefined;
+  NetworkFabricType?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  TransitGatewayId?: string | undefined;
+  State?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Error?: ErrorResponse | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export type EnvironmentSummaries = EnvironmentSummary[];
 export interface ListEnvironmentsResponse {
-  EnvironmentSummaryList?: EnvironmentSummary[];
-  NextToken?: string;
+  EnvironmentSummaryList?: EnvironmentSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEnvironmentVpcsRequest {
   EnvironmentIdentifier: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type CidrBlock = string;
 export type CidrBlocks = string[];
 export type Ec2TagValue = string;
 export interface EnvironmentVpc {
-  EnvironmentId?: string;
-  VpcId?: string;
-  AccountId?: string;
-  CidrBlocks?: string[];
-  VpcName?: string;
-  LastUpdatedTime?: Date;
-  CreatedTime?: Date;
+  EnvironmentId?: string | undefined;
+  VpcId?: string | undefined;
+  AccountId?: string | undefined;
+  CidrBlocks?: string[] | undefined;
+  VpcName?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export type EnvironmentVpcs = EnvironmentVpc[];
 export interface ListEnvironmentVpcsResponse {
-  EnvironmentVpcList?: EnvironmentVpc[];
-  NextToken?: string;
+  EnvironmentVpcList?: EnvironmentVpc[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRoutesRequest {
   EnvironmentIdentifier: string;
   ApplicationIdentifier: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RouteSummary {
-  RouteId?: string;
-  Arn?: string;
-  OwnerAccountId?: string;
-  CreatedByAccountId?: string;
-  RouteType?: string;
-  ServiceId?: string;
-  ApplicationId?: string;
-  EnvironmentId?: string;
-  SourcePath?: string;
-  Methods?: string[];
-  IncludeChildPaths?: boolean;
-  PathResourceToId?: { [key: string]: string | undefined };
-  State?: string;
-  Tags?: { [key: string]: string | undefined };
-  Error?: ErrorResponse;
-  LastUpdatedTime?: Date;
-  CreatedTime?: Date;
-  AppendSourcePath?: boolean;
+  RouteId?: string | undefined;
+  Arn?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  CreatedByAccountId?: string | undefined;
+  RouteType?: string | undefined;
+  ServiceId?: string | undefined;
+  ApplicationId?: string | undefined;
+  EnvironmentId?: string | undefined;
+  SourcePath?: string | undefined;
+  Methods?: string[] | undefined;
+  IncludeChildPaths?: boolean | undefined;
+  PathResourceToId?: { [key: string]: string | undefined } | undefined;
+  State?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Error?: ErrorResponse | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
+  AppendSourcePath?: boolean | undefined;
 }
 export type RouteSummaries = RouteSummary[];
 export interface ListRoutesResponse {
-  RouteSummaryList?: RouteSummary[];
-  NextToken?: string;
+  RouteSummaryList?: RouteSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListServicesRequest {
   EnvironmentIdentifier: string;
   ApplicationIdentifier: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface UrlEndpointSummary {
-  Url?: string;
-  HealthUrl?: string;
+  Url?: string | undefined;
+  HealthUrl?: string | undefined;
 }
 export interface LambdaEndpointSummary {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface ServiceSummary {
-  ServiceId?: string;
-  Name?: string;
-  Arn?: string;
-  OwnerAccountId?: string;
-  CreatedByAccountId?: string;
-  Description?: string;
-  EnvironmentId?: string;
-  ApplicationId?: string;
-  VpcId?: string;
-  EndpointType?: string;
-  UrlEndpoint?: UrlEndpointSummary;
-  LambdaEndpoint?: LambdaEndpointSummary;
-  State?: string;
-  Tags?: { [key: string]: string | undefined };
-  Error?: ErrorResponse;
-  LastUpdatedTime?: Date;
-  CreatedTime?: Date;
+  ServiceId?: string | undefined;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  CreatedByAccountId?: string | undefined;
+  Description?: string | undefined;
+  EnvironmentId?: string | undefined;
+  ApplicationId?: string | undefined;
+  VpcId?: string | undefined;
+  EndpointType?: string | undefined;
+  UrlEndpoint?: UrlEndpointSummary | undefined;
+  LambdaEndpoint?: LambdaEndpointSummary | undefined;
+  State?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Error?: ErrorResponse | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreatedTime?: Date | undefined;
 }
 export type ServiceSummaries = ServiceSummary[];
 export interface ListServicesResponse {
-  ServiceSummaryList?: ServiceSummary[];
-  NextToken?: string;
+  ServiceSummaryList?: ServiceSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
@@ -672,12 +672,12 @@ export interface UpdateRouteRequest {
   ActivationState: string;
 }
 export interface UpdateRouteResponse {
-  RouteId?: string;
-  Arn?: string;
-  ServiceId?: string;
-  ApplicationId?: string;
-  State?: string;
-  LastUpdatedTime?: Date;
+  RouteId?: string | undefined;
+  Arn?: string | undefined;
+  ServiceId?: string | undefined;
+  ApplicationId?: string | undefined;
+  State?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type RetryAfterSeconds = number;
 export type CreateApplicationError =

@@ -166,7 +166,7 @@ export class ValidationException
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export interface AgenticRetrieveMessageContent {
-  text?: string;
+  text?: string | undefined;
 }
 export type ConversationRole = "user" | "assistant" | (string & {});
 export interface AgenticRetrieveMessage {
@@ -379,16 +379,16 @@ export type RetrievalFilter =
       orAll: RetrievalFilter[];
     };
 export interface RetrievalOverrides {
-  filter?: RetrievalFilter;
-  maxNumberOfResults?: number;
+  filter?: RetrievalFilter | undefined;
+  maxNumberOfResults?: number | undefined;
 }
 export interface KnowledgeBaseRetrieverConfiguration {
   knowledgeBaseId: string;
-  retrievalOverrides?: RetrievalOverrides;
+  retrievalOverrides?: RetrievalOverrides | undefined;
 }
 export type RetrieverConfiguration = { knowledgeBase: KnowledgeBaseRetrieverConfiguration };
 export interface AgenticRetriever {
-  description?: string;
+  description?: string | undefined;
   configuration: RetrieverConfiguration;
 }
 export type AgenticRetrievers = AgenticRetriever[];
@@ -407,15 +407,15 @@ export interface BedrockFoundationModelConfiguration {
 export type MantleProjectId = string;
 export interface MantleFoundationModelModelConfiguration {
   modelArn: string;
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export interface MantleFoundationModelConfiguration {
   modelConfiguration: MantleFoundationModelModelConfiguration;
 }
 export interface FoundationModelConfiguration {
   type: FoundationModelConfigurationType;
-  bedrockFoundationModelConfiguration?: BedrockFoundationModelConfiguration;
-  mantleFoundationModelConfiguration?: MantleFoundationModelConfiguration;
+  bedrockFoundationModelConfiguration?: BedrockFoundationModelConfiguration | undefined;
+  mantleFoundationModelConfiguration?: MantleFoundationModelConfiguration | undefined;
 }
 export type AgenticRetrieveRerankingModelType = "CUSTOM" | "MANAGED" | "NONE" | (string & {});
 export type AgenticRetrieveRerankingConfigurationType = "BEDROCK_RERANKING_MODEL" | (string & {});
@@ -427,21 +427,21 @@ export interface AgenticRetrieveBedrockRerankingConfiguration {
 }
 export interface AgenticRetrieveRerankingConfiguration {
   type: AgenticRetrieveRerankingConfigurationType;
-  bedrockRerankingConfiguration?: AgenticRetrieveBedrockRerankingConfiguration;
+  bedrockRerankingConfiguration?: AgenticRetrieveBedrockRerankingConfiguration | undefined;
 }
 export interface AgenticRetrieveConfiguration {
-  foundationModelType?: FoundationModelType;
-  foundationModelConfiguration?: FoundationModelConfiguration;
-  rerankingModelType?: AgenticRetrieveRerankingModelType;
-  rerankingConfiguration?: AgenticRetrieveRerankingConfiguration;
-  maxAgentIteration?: number;
+  foundationModelType?: FoundationModelType | undefined;
+  foundationModelConfiguration?: FoundationModelConfiguration | undefined;
+  rerankingModelType?: AgenticRetrieveRerankingModelType | undefined;
+  rerankingConfiguration?: AgenticRetrieveRerankingConfiguration | undefined;
+  maxAgentIteration?: number | undefined;
 }
 export interface AgenticRetrieveBedrockGuardrailConfiguration {
   guardrailId: string;
   guardrailVersion: string;
 }
 export interface AgenticRetrievePolicyConfiguration {
-  bedrockGuardrailConfiguration?: AgenticRetrieveBedrockGuardrailConfiguration;
+  bedrockGuardrailConfiguration?: AgenticRetrieveBedrockGuardrailConfiguration | undefined;
 }
 export type NextToken = string;
 export interface UserContext {
@@ -484,37 +484,37 @@ export type AgenticRetrieveMemoryMetadataFilterRight = {
 export interface AgenticRetrieveMemoryMetadataFilter {
   left: AgenticRetrieveMemoryMetadataFilterLeft;
   operator: AgenticRetrieveMemoryMetadataFilterOperator;
-  right?: AgenticRetrieveMemoryMetadataFilterRight;
+  right?: AgenticRetrieveMemoryMetadataFilterRight | undefined;
 }
 export type AgenticRetrieveMemoryMetadataFilterList = AgenticRetrieveMemoryMetadataFilter[];
 export interface AgenticRetrieveMemoryRetrievalConfig {
-  namespace?: string;
-  namespacePath?: string;
-  strategyId?: string;
-  metadataFilters?: AgenticRetrieveMemoryMetadataFilter[];
+  namespace?: string | undefined;
+  namespacePath?: string | undefined;
+  strategyId?: string | undefined;
+  metadataFilters?: AgenticRetrieveMemoryMetadataFilter[] | undefined;
 }
 export type AgenticRetrieveMemoryRetrievalConfigList = AgenticRetrieveMemoryRetrievalConfig[];
 export type AgenticRetrieveMemoryPersistenceMode = "DEFAULT" | "NONE" | (string & {});
 export interface AgenticRetrieveMemoryConfiguration {
   memoryId: string;
-  sessionBinding?: AgenticRetrieveMemorySessionBinding;
-  retrievalConfigs?: AgenticRetrieveMemoryRetrievalConfig[];
-  persistenceMode?: AgenticRetrieveMemoryPersistenceMode;
+  sessionBinding?: AgenticRetrieveMemorySessionBinding | undefined;
+  retrievalConfigs?: AgenticRetrieveMemoryRetrievalConfig[] | undefined;
+  persistenceMode?: AgenticRetrieveMemoryPersistenceMode | undefined;
 }
 export interface AgenticRetrieveStreamRequest {
   messages: AgenticRetrieveMessage[];
   retrievers: AgenticRetriever[];
   agenticRetrieveConfiguration: AgenticRetrieveConfiguration;
-  policyConfiguration?: AgenticRetrievePolicyConfiguration;
-  nextToken?: string;
-  userContext?: UserContext;
-  memoryConfiguration?: AgenticRetrieveMemoryConfiguration;
-  generateResponse?: boolean;
+  policyConfiguration?: AgenticRetrievePolicyConfiguration | undefined;
+  nextToken?: string | undefined;
+  userContext?: UserContext | undefined;
+  memoryConfiguration?: AgenticRetrieveMemoryConfiguration | undefined;
+  generateResponse?: boolean | undefined;
 }
 export type MimeType = string;
 export interface RetrievalContent {
-  byteContent?: Uint8Array;
-  text?: string;
+  byteContent?: Uint8Array | undefined;
+  text?: string | undefined;
   mimeType: string;
 }
 export type AgenticRetrieveMetadata = { [key: string]: any | undefined };
@@ -523,7 +523,7 @@ export interface AgenticRetrieveSourceRetriever {
 }
 export interface AgenticRetrieveResultItem {
   content: RetrievalContent;
-  metadata?: { [key: string]: any | undefined };
+  metadata?: { [key: string]: any | undefined } | undefined;
   sourceRetriever: AgenticRetrieveSourceRetriever;
 }
 export type AgenticRetrieveResults = AgenticRetrieveResultItem[];
@@ -539,12 +539,12 @@ export interface AgenticRetrieveCitation {
 export type AgenticRetrieveCitationList = AgenticRetrieveCitation[];
 export interface AgenticRetrieveGeneratedResponse {
   answer: string;
-  citations?: AgenticRetrieveCitation[];
+  citations?: AgenticRetrieveCitation[] | undefined;
 }
 export interface AgenticRetrieveResultEvent {
   results: AgenticRetrieveResultItem[];
-  generatedResponse?: AgenticRetrieveGeneratedResponse;
-  nextToken?: string;
+  generatedResponse?: AgenticRetrieveGeneratedResponse | undefined;
+  nextToken?: string | undefined;
 }
 export type AgenticRetrieveStep =
   | "Planning"
@@ -560,20 +560,20 @@ export interface AgenticRetrieveActionDetails {
   sourceRetrievers: AgenticRetrieveSourceRetriever[];
 }
 export interface AgenticRetrieveFullDocExpansionDetails {
-  documentId?: string;
-  sourceRetriever?: AgenticRetrieveSourceRetriever;
+  documentId?: string | undefined;
+  sourceRetriever?: AgenticRetrieveSourceRetriever | undefined;
 }
 export interface AgenticRetrieveMemoryRetrieveDetails {
   inputQuery: AgenticRetrieveMessageContent;
   memoryId: string;
-  namespace?: string;
-  namespacePath?: string;
-  strategyId?: string;
+  namespace?: string | undefined;
+  namespacePath?: string | undefined;
+  strategyId?: string | undefined;
 }
 export interface AgenticRetrieveAction {
-  retrieve?: AgenticRetrieveActionDetails;
-  fullDocumentExpansion?: AgenticRetrieveFullDocExpansionDetails;
-  memoryRetrieve?: AgenticRetrieveMemoryRetrieveDetails;
+  retrieve?: AgenticRetrieveActionDetails | undefined;
+  fullDocumentExpansion?: AgenticRetrieveFullDocExpansionDetails | undefined;
+  memoryRetrieve?: AgenticRetrieveMemoryRetrieveDetails | undefined;
 }
 export type AgenticRetrieveActions = AgenticRetrieveAction[];
 export interface AgenticRetrieveWarningMessage {
@@ -584,7 +584,7 @@ export interface AgenticRetrieveGuardrailWarning {
   id: string;
   version: string;
   action: GuardrailAction;
-  message?: string;
+  message?: string | undefined;
 }
 export type AgenticRetrieveWarning =
   | { message: AgenticRetrieveWarningMessage; guardrail?: never }
@@ -596,25 +596,25 @@ export interface AgenticRetrieveFailure {
 export type AgenticRetrieveFailures = AgenticRetrieveFailure[];
 export type AgenticRetrieveType = "BedrockKnowledgeBase" | "BedrockAgentCoreMemory" | (string & {});
 export interface AgenticRetrieveSourceMetadata {
-  identifier?: string;
-  retrievalType?: AgenticRetrieveType;
+  identifier?: string | undefined;
+  retrievalType?: AgenticRetrieveType | undefined;
 }
 export type AgenticRetrieveSourceMetadataList = AgenticRetrieveSourceMetadata[];
 export interface AgenticRetrieveTraceResultItem {
-  content?: RetrievalContent;
-  metadata?: { [key: string]: any | undefined };
-  sourceRetriever?: AgenticRetrieveSourceRetriever;
+  content?: RetrievalContent | undefined;
+  metadata?: { [key: string]: any | undefined } | undefined;
+  sourceRetriever?: AgenticRetrieveSourceRetriever | undefined;
 }
 export type AgenticRetrieveTraceResults = AgenticRetrieveTraceResultItem[];
 export interface AgenticRetrieveTraceEventAttributes {
   step: AgenticRetrieveStep;
   status: AgenticRetrieveStatus;
   message: string;
-  actions?: AgenticRetrieveAction[];
-  warnings?: AgenticRetrieveWarning[];
-  failures?: AgenticRetrieveFailure[];
-  retrievalMetadata?: AgenticRetrieveSourceMetadata[];
-  retrievalResponse?: AgenticRetrieveTraceResultItem[];
+  actions?: AgenticRetrieveAction[] | undefined;
+  warnings?: AgenticRetrieveWarning[] | undefined;
+  failures?: AgenticRetrieveFailure[] | undefined;
+  retrievalMetadata?: AgenticRetrieveSourceMetadata[] | undefined;
+  retrievalResponse?: AgenticRetrieveTraceResultItem[] | undefined;
 }
 export interface AgenticRetrieveTraceEvent {
   id: string;
@@ -813,8 +813,8 @@ export type Uuid = string;
 export type InvocationDescription = string;
 export type SessionIdentifier = string;
 export interface CreateInvocationRequest {
-  invocationId?: string;
-  description?: string;
+  invocationId?: string | undefined;
+  description?: string | undefined;
   sessionIdentifier: string;
 }
 export interface CreateInvocationResponse {
@@ -830,9 +830,9 @@ export type TagKey = string;
 export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateSessionRequest {
-  sessionMetadata?: { [key: string]: string | undefined };
-  encryptionKeyArn?: string;
-  tags?: { [key: string]: string | undefined };
+  sessionMetadata?: { [key: string]: string | undefined } | undefined;
+  encryptionKeyArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SessionArn = string;
 export type SessionStatus = "ACTIVE" | "EXPIRED" | "ENDED" | (string & {});
@@ -849,8 +849,8 @@ export type SessionId = string;
 export interface DeleteAgentMemoryRequest {
   agentId: string;
   agentAliasId: string;
-  memoryId?: string;
-  sessionId?: string;
+  memoryId?: string | undefined;
+  sessionId?: string | undefined;
 }
 export interface DeleteAgentMemoryResponse {}
 export interface DeleteSessionRequest {
@@ -878,11 +878,11 @@ export interface TextToSqlKnowledgeBaseConfiguration {
 }
 export interface TextToSqlConfiguration {
   type: TextToSqlConfigurationType;
-  knowledgeBaseConfiguration?: TextToSqlKnowledgeBaseConfiguration;
+  knowledgeBaseConfiguration?: TextToSqlKnowledgeBaseConfiguration | undefined;
 }
 export interface TransformationConfiguration {
   mode: QueryTransformationMode;
-  textToSqlConfiguration?: TextToSqlConfiguration;
+  textToSqlConfiguration?: TextToSqlConfiguration | undefined;
 }
 export interface GenerateQueryRequest {
   queryGenerationInput: QueryGenerationInput;
@@ -890,18 +890,18 @@ export interface GenerateQueryRequest {
 }
 export type GeneratedQueryType = "REDSHIFT_SQL" | (string & {});
 export interface GeneratedQuery {
-  type?: GeneratedQueryType;
-  sql?: string;
+  type?: GeneratedQueryType | undefined;
+  sql?: string | undefined;
 }
 export type GeneratedQueries = GeneratedQuery[];
 export interface GenerateQueryResponse {
-  queries?: GeneratedQuery[];
+  queries?: GeneratedQuery[] | undefined;
 }
 export type MaxResults = number;
 export type MemoryType = "SESSION_SUMMARY" | (string & {});
 export interface GetAgentMemoryRequest {
-  nextToken?: string;
-  maxItems?: number;
+  nextToken?: string | undefined;
+  maxItems?: number | undefined;
   agentId: string;
   agentAliasId: string;
   memoryType: MemoryType;
@@ -909,31 +909,31 @@ export interface GetAgentMemoryRequest {
 }
 export type SummaryText = string;
 export interface MemorySessionSummary {
-  memoryId?: string;
-  sessionId?: string;
-  sessionStartTime?: Date;
-  sessionExpiryTime?: Date;
-  summaryText?: string;
+  memoryId?: string | undefined;
+  sessionId?: string | undefined;
+  sessionStartTime?: Date | undefined;
+  sessionExpiryTime?: Date | undefined;
+  summaryText?: string | undefined;
 }
 export type Memory = { sessionSummary: MemorySessionSummary };
 export type Memories = Memory[];
 export interface GetAgentMemoryResponse {
-  nextToken?: string;
-  memoryContents?: Memory[];
+  nextToken?: string | undefined;
+  memoryContents?: Memory[] | undefined;
 }
 export type DocumentOutputFormat = "RAW" | "EXTRACTED" | (string & {});
 export interface GetDocumentContentRequest {
   knowledgeBaseId: string;
   dataSourceId: string;
   documentId: string;
-  outputFormat?: DocumentOutputFormat;
-  userContext?: UserContext;
+  outputFormat?: DocumentOutputFormat | undefined;
+  userContext?: UserContext | undefined;
 }
 export type PresignedUrl = string | redacted.Redacted<string>;
 export interface GetDocumentContentResponse {
   mimeType: string;
   presignedUrl: string | redacted.Redacted<string>;
-  documentContentLength?: number;
+  documentContentLength?: number | undefined;
 }
 export type FlowIdentifier = string;
 export type FlowAliasIdentifier = string;
@@ -951,7 +951,7 @@ export interface GetExecutionFlowSnapshotResponse {
   flowVersion: string;
   executionRoleArn: string;
   definition: string;
-  customerEncryptionKeyArn?: string;
+  customerEncryptionKeyArn?: string | undefined;
 }
 export interface GetFlowExecutionRequest {
   flowIdentifier: string;
@@ -968,17 +968,17 @@ export type FlowExecutionStatus =
 export type NodeName = string;
 export type FlowExecutionErrorType = "ExecutionTimedOut" | (string & {});
 export interface FlowExecutionError {
-  nodeName?: string;
-  error?: FlowExecutionErrorType;
-  message?: string;
+  nodeName?: string | undefined;
+  error?: FlowExecutionErrorType | undefined;
+  message?: string | undefined;
 }
 export type FlowExecutionErrors = FlowExecutionError[];
 export interface GetFlowExecutionResponse {
   executionArn: string;
   status: FlowExecutionStatus;
   startedAt: Date;
-  endedAt?: Date;
-  errors?: FlowExecutionError[];
+  endedAt?: Date | undefined;
+  errors?: FlowExecutionError[] | undefined;
   flowAliasIdentifier: string;
   flowIdentifier: string;
   flowVersion: string;
@@ -1001,18 +1001,18 @@ export interface DocumentAclGroup {
 }
 export type DocumentAclGroupList = DocumentAclGroup[];
 export interface DocumentAclCondition {
-  conditionOperator?: DocumentAclMemberRelation;
-  users?: DocumentAclUser[];
-  groups?: DocumentAclGroup[];
+  conditionOperator?: DocumentAclMemberRelation | undefined;
+  users?: DocumentAclUser[] | undefined;
+  groups?: DocumentAclGroup[] | undefined;
 }
 export type DocumentAclConditionList = DocumentAclCondition[];
 export interface DocumentAclMembership {
-  memberRelation?: DocumentAclMemberRelation;
-  conditions?: DocumentAclCondition[];
+  memberRelation?: DocumentAclMemberRelation | undefined;
+  conditions?: DocumentAclCondition[] | undefined;
 }
 export interface DocumentAcl {
-  allowList?: DocumentAclMembership;
-  denyList?: DocumentAclMembership;
+  allowList?: DocumentAclMembership | undefined;
+  denyList?: DocumentAclMembership | undefined;
 }
 export interface GetIngestedDocumentAclResponse {
   documentAcl: DocumentAcl;
@@ -1059,8 +1059,8 @@ export interface GetSessionResponse {
   sessionStatus: SessionStatus;
   createdAt: Date;
   lastUpdatedAt: Date;
-  sessionMetadata?: { [key: string]: string | undefined };
-  encryptionKeyArn?: string;
+  sessionMetadata?: { [key: string]: string | undefined } | undefined;
+  encryptionKeyArn?: string | undefined;
 }
 export type SessionAttributesMap = { [key: string]: string | undefined };
 export type PromptSessionAttributesMap = { [key: string]: string | undefined };
@@ -1075,27 +1075,27 @@ export interface ImageInput {
 }
 export type ImageInputs = ImageInput[];
 export interface ContentBody {
-  body?: string;
-  images?: ImageInput[];
+  body?: string | undefined;
+  images?: ImageInput[] | undefined;
 }
 export type ResponseBody = { [key: string]: ContentBody | undefined };
 export interface ApiResult {
   actionGroup: string;
-  httpMethod?: string;
-  apiPath?: string | redacted.Redacted<string>;
-  confirmationState?: ConfirmationState;
-  responseState?: ResponseState;
-  httpStatusCode?: number;
-  responseBody?: { [key: string]: ContentBody | undefined };
-  agentId?: string;
+  httpMethod?: string | undefined;
+  apiPath?: string | redacted.Redacted<string> | undefined;
+  confirmationState?: ConfirmationState | undefined;
+  responseState?: ResponseState | undefined;
+  httpStatusCode?: number | undefined;
+  responseBody?: { [key: string]: ContentBody | undefined } | undefined;
+  agentId?: string | undefined;
 }
 export interface FunctionResult {
   actionGroup: string;
-  confirmationState?: ConfirmationState;
-  function?: string;
-  responseBody?: { [key: string]: ContentBody | undefined };
-  responseState?: ResponseState;
-  agentId?: string;
+  confirmationState?: ConfirmationState | undefined;
+  function?: string | undefined;
+  responseBody?: { [key: string]: ContentBody | undefined } | undefined;
+  responseState?: ResponseState | undefined;
+  agentId?: string | undefined;
 }
 export type InvocationResultMember =
   | { apiResult: ApiResult; functionResult?: never }
@@ -1112,8 +1112,8 @@ export interface ByteContentFile {
 }
 export interface FileSource {
   sourceType: FileSourceType;
-  s3Location?: S3ObjectFile;
-  byteContent?: ByteContentFile;
+  s3Location?: S3ObjectFile | undefined;
+  byteContent?: ByteContentFile | undefined;
 }
 export type FileUseCase = "CODE_INTERPRETER" | "CHAT" | (string & {});
 export interface InputFile {
@@ -1130,7 +1130,7 @@ export type AdditionalModelRequestFieldsValue = unknown;
 export type AdditionalModelRequestFields = { [key: string]: any | undefined };
 export interface VectorSearchBedrockRerankingModelConfiguration {
   modelArn: string;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
 }
 export type RerankingMetadataSelectionMode = "SELECTIVE" | "ALL" | (string & {});
 export interface FieldForReranking {
@@ -1142,16 +1142,16 @@ export type RerankingMetadataSelectiveModeConfiguration =
   | { fieldsToInclude?: never; fieldsToExclude: FieldForReranking[] };
 export interface MetadataConfigurationForReranking {
   selectionMode: RerankingMetadataSelectionMode;
-  selectiveModeConfiguration?: RerankingMetadataSelectiveModeConfiguration;
+  selectiveModeConfiguration?: RerankingMetadataSelectiveModeConfiguration | undefined;
 }
 export interface VectorSearchBedrockRerankingConfiguration {
   modelConfiguration: VectorSearchBedrockRerankingModelConfiguration;
-  numberOfRerankedResults?: number;
-  metadataConfiguration?: MetadataConfigurationForReranking;
+  numberOfRerankedResults?: number | undefined;
+  metadataConfiguration?: MetadataConfigurationForReranking | undefined;
 }
 export interface VectorSearchRerankingConfiguration {
   type: VectorSearchRerankingConfigurationType;
-  bedrockRerankingConfiguration?: VectorSearchBedrockRerankingConfiguration;
+  bedrockRerankingConfiguration?: VectorSearchBedrockRerankingConfiguration | undefined;
 }
 export type AttributeType = "STRING" | "NUMBER" | "BOOLEAN" | "STRING_LIST" | (string & {});
 export interface MetadataAttributeSchema {
@@ -1165,36 +1165,36 @@ export interface ImplicitFilterConfiguration {
   modelArn: string;
 }
 export interface KnowledgeBaseVectorSearchConfiguration {
-  numberOfResults?: number;
-  overrideSearchType?: SearchType;
-  filter?: RetrievalFilter;
-  rerankingConfiguration?: VectorSearchRerankingConfiguration;
-  implicitFilterConfiguration?: ImplicitFilterConfiguration;
+  numberOfResults?: number | undefined;
+  overrideSearchType?: SearchType | undefined;
+  filter?: RetrievalFilter | undefined;
+  rerankingConfiguration?: VectorSearchRerankingConfiguration | undefined;
+  implicitFilterConfiguration?: ImplicitFilterConfiguration | undefined;
 }
 export type RerankingModelType = "CUSTOM" | "MANAGED" | "NONE" | (string & {});
 export type ManagedSearchRerankingConfigurationType = "BEDROCK_RERANKING_MODEL" | (string & {});
 export interface ManagedSearchBedrockRerankingModelConfiguration {
   modelArn: string;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
 }
 export interface ManagedSearchBedrockRerankingConfiguration {
   modelConfiguration: ManagedSearchBedrockRerankingModelConfiguration;
-  numberOfRerankedResults?: number;
-  metadataConfiguration?: MetadataConfigurationForReranking;
+  numberOfRerankedResults?: number | undefined;
+  metadataConfiguration?: MetadataConfigurationForReranking | undefined;
 }
 export interface ManagedSearchRerankingConfiguration {
   type: ManagedSearchRerankingConfigurationType;
-  bedrockRerankingConfiguration?: ManagedSearchBedrockRerankingConfiguration;
+  bedrockRerankingConfiguration?: ManagedSearchBedrockRerankingConfiguration | undefined;
 }
 export interface ManagedSearchConfiguration {
-  numberOfResults?: number;
-  filter?: RetrievalFilter;
-  rerankingModelType?: RerankingModelType;
-  rerankingConfiguration?: ManagedSearchRerankingConfiguration;
+  numberOfResults?: number | undefined;
+  filter?: RetrievalFilter | undefined;
+  rerankingModelType?: RerankingModelType | undefined;
+  rerankingConfiguration?: ManagedSearchRerankingConfiguration | undefined;
 }
 export interface KnowledgeBaseRetrievalConfiguration {
-  vectorSearchConfiguration?: KnowledgeBaseVectorSearchConfiguration;
-  managedSearchConfiguration?: ManagedSearchConfiguration;
+  vectorSearchConfiguration?: KnowledgeBaseVectorSearchConfiguration | undefined;
+  managedSearchConfiguration?: ManagedSearchConfiguration | undefined;
 }
 export interface KnowledgeBaseConfiguration {
   knowledgeBaseId: string;
@@ -1209,59 +1209,59 @@ export interface Message {
 }
 export type Messages = Message[];
 export interface ConversationHistory {
-  messages?: Message[];
+  messages?: Message[] | undefined;
 }
 export interface SessionState {
-  sessionAttributes?: { [key: string]: string | undefined };
-  promptSessionAttributes?: { [key: string]: string | undefined };
-  returnControlInvocationResults?: InvocationResultMember[];
-  invocationId?: string;
-  files?: InputFile[];
-  knowledgeBaseConfigurations?: KnowledgeBaseConfiguration[];
-  conversationHistory?: ConversationHistory;
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
+  promptSessionAttributes?: { [key: string]: string | undefined } | undefined;
+  returnControlInvocationResults?: InvocationResultMember[] | undefined;
+  invocationId?: string | undefined;
+  files?: InputFile[] | undefined;
+  knowledgeBaseConfigurations?: KnowledgeBaseConfiguration[] | undefined;
+  conversationHistory?: ConversationHistory | undefined;
 }
 export type InputText = string | redacted.Redacted<string>;
 export type PerformanceConfigLatency = "standard" | "optimized" | (string & {});
 export interface PerformanceConfiguration {
-  latency?: PerformanceConfigLatency;
+  latency?: PerformanceConfigLatency | undefined;
 }
 export interface BedrockModelConfigurations {
-  performanceConfig?: PerformanceConfiguration;
+  performanceConfig?: PerformanceConfiguration | undefined;
 }
 export interface StreamingConfigurations {
-  streamFinalResponse?: boolean;
-  applyGuardrailInterval?: number;
+  streamFinalResponse?: boolean | undefined;
+  applyGuardrailInterval?: number | undefined;
 }
 export interface PromptCreationConfigurations {
-  previousConversationTurnsToInclude?: number;
-  excludePreviousThinkingSteps?: boolean;
+  previousConversationTurnsToInclude?: number | undefined;
+  excludePreviousThinkingSteps?: boolean | undefined;
 }
 export type AWSResourceARN = string;
 export interface InvokeAgentRequest {
-  sessionState?: SessionState;
+  sessionState?: SessionState | undefined;
   agentId: string;
   agentAliasId: string;
   sessionId: string;
-  endSession?: boolean;
-  enableTrace?: boolean;
-  inputText?: string | redacted.Redacted<string>;
-  memoryId?: string;
-  bedrockModelConfigurations?: BedrockModelConfigurations;
-  streamingConfigurations?: StreamingConfigurations;
-  promptCreationConfigurations?: PromptCreationConfigurations;
-  sourceArn?: string;
+  endSession?: boolean | undefined;
+  enableTrace?: boolean | undefined;
+  inputText?: string | redacted.Redacted<string> | undefined;
+  memoryId?: string | undefined;
+  bedrockModelConfigurations?: BedrockModelConfigurations | undefined;
+  streamingConfigurations?: StreamingConfigurations | undefined;
+  promptCreationConfigurations?: PromptCreationConfigurations | undefined;
+  sourceArn?: string | undefined;
 }
 export type PartBody = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface Span {
-  start?: number;
-  end?: number;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 export interface TextResponsePart {
-  text?: string;
-  span?: Span;
+  text?: string | undefined;
+  span?: Span | undefined;
 }
 export interface GeneratedResponsePart {
-  textResponsePart?: TextResponsePart;
+  textResponsePart?: TextResponsePart | undefined;
 }
 export type RetrievalResultContentType =
   | "TEXT"
@@ -1272,11 +1272,11 @@ export type RetrievalResultContentType =
   | (string & {});
 export interface VideoSegment {
   s3Uri: string;
-  summary?: string;
+  summary?: string | undefined;
 }
 export interface AudioSegment {
   s3Uri: string;
-  transcription?: string;
+  transcription?: string | undefined;
 }
 export type RetrievalResultContentColumnType =
   | "BLOB"
@@ -1287,18 +1287,18 @@ export type RetrievalResultContentColumnType =
   | "STRING"
   | (string & {});
 export interface RetrievalResultContentColumn {
-  columnName?: string;
-  columnValue?: string;
-  type?: RetrievalResultContentColumnType;
+  columnName?: string | undefined;
+  columnValue?: string | undefined;
+  type?: RetrievalResultContentColumnType | undefined;
 }
 export type RetrievalResultContentRow = RetrievalResultContentColumn[];
 export interface RetrievalResultContent {
-  type?: RetrievalResultContentType;
-  text?: string;
-  byteContent?: string;
-  video?: VideoSegment;
-  audio?: AudioSegment;
-  row?: RetrievalResultContentColumn[];
+  type?: RetrievalResultContentType | undefined;
+  text?: string | undefined;
+  byteContent?: string | undefined;
+  video?: VideoSegment | undefined;
+  audio?: AudioSegment | undefined;
+  row?: RetrievalResultContentColumn[] | undefined;
 }
 export type RetrievalResultLocationType =
   | "S3"
@@ -1313,80 +1313,80 @@ export type RetrievalResultLocationType =
   | "GOOGLEDRIVE"
   | (string & {});
 export interface RetrievalResultS3Location {
-  uri?: string;
+  uri?: string | undefined;
 }
 export interface RetrievalResultWebLocation {
-  url?: string;
+  url?: string | undefined;
 }
 export interface RetrievalResultConfluenceLocation {
-  url?: string;
+  url?: string | undefined;
 }
 export interface RetrievalResultSalesforceLocation {
-  url?: string;
+  url?: string | undefined;
 }
 export interface RetrievalResultSharePointLocation {
-  url?: string;
+  url?: string | undefined;
 }
 export interface RetrievalResultCustomDocumentLocation {
-  id?: string;
+  id?: string | undefined;
 }
 export interface RetrievalResultKendraDocumentLocation {
-  uri?: string;
+  uri?: string | undefined;
 }
 export interface RetrievalResultSqlLocation {
-  query?: string;
+  query?: string | undefined;
 }
 export interface RetrievalResultOneDriveLocation {
-  url?: string;
+  url?: string | undefined;
 }
 export interface RetrievalResultGoogleDriveLocation {
-  url?: string;
+  url?: string | undefined;
 }
 export interface RetrievalResultLocation {
   type: RetrievalResultLocationType;
-  s3Location?: RetrievalResultS3Location;
-  webLocation?: RetrievalResultWebLocation;
-  confluenceLocation?: RetrievalResultConfluenceLocation;
-  salesforceLocation?: RetrievalResultSalesforceLocation;
-  sharePointLocation?: RetrievalResultSharePointLocation;
-  customDocumentLocation?: RetrievalResultCustomDocumentLocation;
-  kendraDocumentLocation?: RetrievalResultKendraDocumentLocation;
-  sqlLocation?: RetrievalResultSqlLocation;
-  oneDriveLocation?: RetrievalResultOneDriveLocation;
-  googleDriveLocation?: RetrievalResultGoogleDriveLocation;
+  s3Location?: RetrievalResultS3Location | undefined;
+  webLocation?: RetrievalResultWebLocation | undefined;
+  confluenceLocation?: RetrievalResultConfluenceLocation | undefined;
+  salesforceLocation?: RetrievalResultSalesforceLocation | undefined;
+  sharePointLocation?: RetrievalResultSharePointLocation | undefined;
+  customDocumentLocation?: RetrievalResultCustomDocumentLocation | undefined;
+  kendraDocumentLocation?: RetrievalResultKendraDocumentLocation | undefined;
+  sqlLocation?: RetrievalResultSqlLocation | undefined;
+  oneDriveLocation?: RetrievalResultOneDriveLocation | undefined;
+  googleDriveLocation?: RetrievalResultGoogleDriveLocation | undefined;
 }
 export type RetrievalResultMetadataKey = string;
 export type RetrievalResultMetadataValue = unknown;
 export type RetrievalResultMetadata = { [key: string]: any | undefined };
 export interface RetrievedReference {
-  content?: RetrievalResultContent;
-  location?: RetrievalResultLocation;
-  metadata?: { [key: string]: any | undefined };
+  content?: RetrievalResultContent | undefined;
+  location?: RetrievalResultLocation | undefined;
+  metadata?: { [key: string]: any | undefined } | undefined;
 }
 export type RetrievedReferences = RetrievedReference[];
 export interface Citation {
-  generatedResponsePart?: GeneratedResponsePart;
-  retrievedReferences?: RetrievedReference[];
+  generatedResponsePart?: GeneratedResponsePart | undefined;
+  retrievedReferences?: RetrievedReference[] | undefined;
 }
 export type Citations = Citation[];
 export interface Attribution {
-  citations?: Citation[];
+  citations?: Citation[] | undefined;
 }
 export interface PayloadPart {
-  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
-  attribution?: Attribution;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  attribution?: Attribution | undefined;
 }
 export type TraceId = string;
 export type GuardrailTopicType = "DENY" | (string & {});
 export type GuardrailTopicPolicyAction = "BLOCKED" | (string & {});
 export interface GuardrailTopic {
-  name?: string;
-  type?: GuardrailTopicType;
-  action?: GuardrailTopicPolicyAction;
+  name?: string | undefined;
+  type?: GuardrailTopicType | undefined;
+  action?: GuardrailTopicPolicyAction | undefined;
 }
 export type GuardrailTopicList = GuardrailTopic[];
 export interface GuardrailTopicPolicyAssessment {
-  topics?: GuardrailTopic[];
+  topics?: GuardrailTopic[] | undefined;
 }
 export type GuardrailContentFilterType =
   | "INSULTS"
@@ -1399,30 +1399,30 @@ export type GuardrailContentFilterType =
 export type GuardrailContentFilterConfidence = "NONE" | "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export type GuardrailContentPolicyAction = "BLOCKED" | (string & {});
 export interface GuardrailContentFilter {
-  type?: GuardrailContentFilterType;
-  confidence?: GuardrailContentFilterConfidence;
-  action?: GuardrailContentPolicyAction;
+  type?: GuardrailContentFilterType | undefined;
+  confidence?: GuardrailContentFilterConfidence | undefined;
+  action?: GuardrailContentPolicyAction | undefined;
 }
 export type GuardrailContentFilterList = GuardrailContentFilter[];
 export interface GuardrailContentPolicyAssessment {
-  filters?: GuardrailContentFilter[];
+  filters?: GuardrailContentFilter[] | undefined;
 }
 export type GuardrailWordPolicyAction = "BLOCKED" | (string & {});
 export interface GuardrailCustomWord {
-  match?: string;
-  action?: GuardrailWordPolicyAction;
+  match?: string | undefined;
+  action?: GuardrailWordPolicyAction | undefined;
 }
 export type GuardrailCustomWordList = GuardrailCustomWord[];
 export type GuardrailManagedWordType = "PROFANITY" | (string & {});
 export interface GuardrailManagedWord {
-  match?: string;
-  type?: GuardrailManagedWordType;
-  action?: GuardrailWordPolicyAction;
+  match?: string | undefined;
+  type?: GuardrailManagedWordType | undefined;
+  action?: GuardrailWordPolicyAction | undefined;
 }
 export type GuardrailManagedWordList = GuardrailManagedWord[];
 export interface GuardrailWordPolicyAssessment {
-  customWords?: GuardrailCustomWord[];
-  managedWordLists?: GuardrailManagedWord[];
+  customWords?: GuardrailCustomWord[] | undefined;
+  managedWordLists?: GuardrailManagedWord[] | undefined;
 }
 export type GuardrailPiiEntityType =
   | "ADDRESS"
@@ -1459,47 +1459,47 @@ export type GuardrailPiiEntityType =
   | (string & {});
 export type GuardrailSensitiveInformationPolicyAction = "BLOCKED" | "ANONYMIZED" | (string & {});
 export interface GuardrailPiiEntityFilter {
-  type?: GuardrailPiiEntityType;
-  match?: string;
-  action?: GuardrailSensitiveInformationPolicyAction;
+  type?: GuardrailPiiEntityType | undefined;
+  match?: string | undefined;
+  action?: GuardrailSensitiveInformationPolicyAction | undefined;
 }
 export type GuardrailPiiEntityFilterList = GuardrailPiiEntityFilter[];
 export interface GuardrailRegexFilter {
-  name?: string;
-  regex?: string;
-  match?: string;
-  action?: GuardrailSensitiveInformationPolicyAction;
+  name?: string | undefined;
+  regex?: string | undefined;
+  match?: string | undefined;
+  action?: GuardrailSensitiveInformationPolicyAction | undefined;
 }
 export type GuardrailRegexFilterList = GuardrailRegexFilter[];
 export interface GuardrailSensitiveInformationPolicyAssessment {
-  piiEntities?: GuardrailPiiEntityFilter[];
-  regexes?: GuardrailRegexFilter[];
+  piiEntities?: GuardrailPiiEntityFilter[] | undefined;
+  regexes?: GuardrailRegexFilter[] | undefined;
 }
 export interface GuardrailAssessment {
-  topicPolicy?: GuardrailTopicPolicyAssessment;
-  contentPolicy?: GuardrailContentPolicyAssessment;
-  wordPolicy?: GuardrailWordPolicyAssessment;
-  sensitiveInformationPolicy?: GuardrailSensitiveInformationPolicyAssessment;
+  topicPolicy?: GuardrailTopicPolicyAssessment | undefined;
+  contentPolicy?: GuardrailContentPolicyAssessment | undefined;
+  wordPolicy?: GuardrailWordPolicyAssessment | undefined;
+  sensitiveInformationPolicy?: GuardrailSensitiveInformationPolicyAssessment | undefined;
 }
 export type GuardrailAssessmentList = GuardrailAssessment[];
 export interface Usage {
-  inputTokens?: number;
-  outputTokens?: number;
+  inputTokens?: number | undefined;
+  outputTokens?: number | undefined;
 }
 export interface Metadata {
-  startTime?: Date;
-  endTime?: Date;
-  totalTimeMs?: number;
-  operationTotalTimeMs?: number;
-  clientRequestId?: string;
-  usage?: Usage;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  totalTimeMs?: number | undefined;
+  operationTotalTimeMs?: number | undefined;
+  clientRequestId?: string | undefined;
+  usage?: Usage | undefined;
 }
 export interface GuardrailTrace {
-  action?: GuardrailAction;
-  traceId?: string;
-  inputAssessments?: GuardrailAssessment[];
-  outputAssessments?: GuardrailAssessment[];
-  metadata?: Metadata;
+  action?: GuardrailAction | undefined;
+  traceId?: string | undefined;
+  inputAssessments?: GuardrailAssessment[] | undefined;
+  outputAssessments?: GuardrailAssessment[] | undefined;
+  metadata?: Metadata | undefined;
 }
 export type PromptText = string | redacted.Redacted<string>;
 export type PromptType =
@@ -1517,51 +1517,51 @@ export type TopK = number;
 export type MaximumLength = number;
 export type StopSequences = string[];
 export interface InferenceConfiguration {
-  temperature?: number;
-  topP?: number;
-  topK?: number;
-  maximumLength?: number;
-  stopSequences?: string[];
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  topK?: number | undefined;
+  maximumLength?: number | undefined;
+  stopSequences?: string[] | undefined;
 }
 export type ModelIdentifier = string;
 export interface ModelInvocationInput {
-  traceId?: string;
-  text?: string | redacted.Redacted<string>;
-  type?: PromptType;
-  overrideLambda?: string;
-  promptCreationMode?: CreationMode;
-  inferenceConfiguration?: InferenceConfiguration;
-  parserMode?: CreationMode;
-  foundationModel?: string;
+  traceId?: string | undefined;
+  text?: string | redacted.Redacted<string> | undefined;
+  type?: PromptType | undefined;
+  overrideLambda?: string | undefined;
+  promptCreationMode?: CreationMode | undefined;
+  inferenceConfiguration?: InferenceConfiguration | undefined;
+  parserMode?: CreationMode | undefined;
+  foundationModel?: string | undefined;
 }
 export type RationaleString = string | redacted.Redacted<string>;
 export interface PreProcessingParsedResponse {
-  rationale?: string | redacted.Redacted<string>;
-  isValid?: boolean;
+  rationale?: string | redacted.Redacted<string> | undefined;
+  isValid?: boolean | undefined;
 }
 export interface RawResponse {
-  content?: string;
+  content?: string | undefined;
 }
 export interface ReasoningTextBlock {
   text: string;
-  signature?: string;
+  signature?: string | undefined;
 }
 export type ReasoningContentBlock =
   | { reasoningText: ReasoningTextBlock; redactedContent?: never }
   | { reasoningText?: never; redactedContent: Uint8Array };
 export interface PreProcessingModelInvocationOutput {
-  traceId?: string;
-  parsedResponse?: PreProcessingParsedResponse;
-  rawResponse?: RawResponse;
-  metadata?: Metadata;
-  reasoningContent?: ReasoningContentBlock;
+  traceId?: string | undefined;
+  parsedResponse?: PreProcessingParsedResponse | undefined;
+  rawResponse?: RawResponse | undefined;
+  metadata?: Metadata | undefined;
+  reasoningContent?: ReasoningContentBlock | undefined;
 }
 export type PreProcessingTrace =
   | { modelInvocationInput: ModelInvocationInput; modelInvocationOutput?: never }
   | { modelInvocationInput?: never; modelInvocationOutput: PreProcessingModelInvocationOutput };
 export interface Rationale {
-  traceId?: string;
-  text?: string | redacted.Redacted<string>;
+  traceId?: string | undefined;
+  text?: string | redacted.Redacted<string> | undefined;
 }
 export type InvocationType =
   | "ACTION_GROUP"
@@ -1573,61 +1573,61 @@ export type InvocationType =
 export type ActionGroupName = string | redacted.Redacted<string>;
 export type Verb = string | redacted.Redacted<string>;
 export interface Parameter {
-  name?: string;
-  type?: string;
-  value?: string;
+  name?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type Parameters = Parameter[];
 export type ContentMap = { [key: string]: Parameter[] | undefined };
 export interface RequestBody {
-  content?: { [key: string]: Parameter[] | undefined };
+  content?: { [key: string]: Parameter[] | undefined } | undefined;
 }
 export type ExecutionType = "LAMBDA" | "RETURN_CONTROL" | (string & {});
 export interface ActionGroupInvocationInput {
-  actionGroupName?: string | redacted.Redacted<string>;
-  verb?: string | redacted.Redacted<string>;
-  apiPath?: string | redacted.Redacted<string>;
-  parameters?: Parameter[];
-  requestBody?: RequestBody;
-  function?: string | redacted.Redacted<string>;
-  executionType?: ExecutionType;
-  invocationId?: string;
+  actionGroupName?: string | redacted.Redacted<string> | undefined;
+  verb?: string | redacted.Redacted<string> | undefined;
+  apiPath?: string | redacted.Redacted<string> | undefined;
+  parameters?: Parameter[] | undefined;
+  requestBody?: RequestBody | undefined;
+  function?: string | redacted.Redacted<string> | undefined;
+  executionType?: ExecutionType | undefined;
+  invocationId?: string | undefined;
 }
 export type KnowledgeBaseLookupInputString = string | redacted.Redacted<string>;
 export type TraceKnowledgeBaseId = string | redacted.Redacted<string>;
 export interface KnowledgeBaseLookupInput {
-  text?: string | redacted.Redacted<string>;
-  knowledgeBaseId?: string | redacted.Redacted<string>;
+  text?: string | redacted.Redacted<string> | undefined;
+  knowledgeBaseId?: string | redacted.Redacted<string> | undefined;
 }
 export type Files = string[];
 export interface CodeInterpreterInvocationInput {
-  code?: string;
-  files?: string[];
+  code?: string | undefined;
+  files?: string[] | undefined;
 }
 export type AgentAliasArn = string;
 export type PayloadType = "TEXT" | "RETURN_CONTROL" | (string & {});
 export type AgentCollaboratorPayloadString = string | redacted.Redacted<string>;
 export interface ReturnControlResults {
-  invocationId?: string;
-  returnControlInvocationResults?: InvocationResultMember[];
+  invocationId?: string | undefined;
+  returnControlInvocationResults?: InvocationResultMember[] | undefined;
 }
 export interface AgentCollaboratorInputPayload {
-  type?: PayloadType;
-  text?: string | redacted.Redacted<string>;
-  returnControlResults?: ReturnControlResults;
+  type?: PayloadType | undefined;
+  text?: string | redacted.Redacted<string> | undefined;
+  returnControlResults?: ReturnControlResults | undefined;
 }
 export interface AgentCollaboratorInvocationInput {
-  agentCollaboratorName?: string;
-  agentCollaboratorAliasArn?: string;
-  input?: AgentCollaboratorInputPayload;
+  agentCollaboratorName?: string | undefined;
+  agentCollaboratorAliasArn?: string | undefined;
+  input?: AgentCollaboratorInputPayload | undefined;
 }
 export interface InvocationInput {
-  traceId?: string;
-  invocationType?: InvocationType;
-  actionGroupInvocationInput?: ActionGroupInvocationInput;
-  knowledgeBaseLookupInput?: KnowledgeBaseLookupInput;
-  codeInterpreterInvocationInput?: CodeInterpreterInvocationInput;
-  agentCollaboratorInvocationInput?: AgentCollaboratorInvocationInput;
+  traceId?: string | undefined;
+  invocationType?: InvocationType | undefined;
+  actionGroupInvocationInput?: ActionGroupInvocationInput | undefined;
+  knowledgeBaseLookupInput?: KnowledgeBaseLookupInput | undefined;
+  codeInterpreterInvocationInput?: CodeInterpreterInvocationInput | undefined;
+  agentCollaboratorInvocationInput?: AgentCollaboratorInvocationInput | undefined;
 }
 export type Type =
   | "ACTION_GROUP"
@@ -1639,22 +1639,22 @@ export type Type =
   | (string & {});
 export type ActionGroupOutputString = string | redacted.Redacted<string>;
 export interface ActionGroupInvocationOutput {
-  text?: string | redacted.Redacted<string>;
-  metadata?: Metadata;
+  text?: string | redacted.Redacted<string> | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface ApiParameter {
-  name?: string;
-  type?: string;
-  value?: string;
+  name?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type ApiParameters = ApiParameter[];
 export type ParameterList = Parameter[];
 export interface PropertyParameters {
-  properties?: Parameter[];
+  properties?: Parameter[] | undefined;
 }
 export type ApiContentMap = { [key: string]: PropertyParameters | undefined };
 export interface ApiRequestBody {
-  content?: { [key: string]: PropertyParameters | undefined };
+  content?: { [key: string]: PropertyParameters | undefined } | undefined;
 }
 export type ActionInvocationType =
   | "RESULT"
@@ -1664,83 +1664,83 @@ export type ActionInvocationType =
 export type Name = string | redacted.Redacted<string>;
 export interface ApiInvocationInput {
   actionGroup: string;
-  httpMethod?: string;
-  apiPath?: string | redacted.Redacted<string>;
-  parameters?: ApiParameter[];
-  requestBody?: ApiRequestBody;
-  actionInvocationType?: ActionInvocationType;
-  agentId?: string;
-  collaboratorName?: string | redacted.Redacted<string>;
+  httpMethod?: string | undefined;
+  apiPath?: string | redacted.Redacted<string> | undefined;
+  parameters?: ApiParameter[] | undefined;
+  requestBody?: ApiRequestBody | undefined;
+  actionInvocationType?: ActionInvocationType | undefined;
+  agentId?: string | undefined;
+  collaboratorName?: string | redacted.Redacted<string> | undefined;
 }
 export interface FunctionParameter {
-  name?: string;
-  type?: string;
-  value?: string;
+  name?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type FunctionParameters = FunctionParameter[];
 export interface FunctionInvocationInput {
   actionGroup: string;
-  parameters?: FunctionParameter[];
-  function?: string;
-  actionInvocationType?: ActionInvocationType;
-  agentId?: string;
-  collaboratorName?: string | redacted.Redacted<string>;
+  parameters?: FunctionParameter[] | undefined;
+  function?: string | undefined;
+  actionInvocationType?: ActionInvocationType | undefined;
+  agentId?: string | undefined;
+  collaboratorName?: string | redacted.Redacted<string> | undefined;
 }
 export type InvocationInputMember =
   | { apiInvocationInput: ApiInvocationInput; functionInvocationInput?: never }
   | { apiInvocationInput?: never; functionInvocationInput: FunctionInvocationInput };
 export type InvocationInputs = InvocationInputMember[];
 export interface ReturnControlPayload {
-  invocationInputs?: InvocationInputMember[];
-  invocationId?: string;
+  invocationInputs?: InvocationInputMember[] | undefined;
+  invocationId?: string | undefined;
 }
 export interface AgentCollaboratorOutputPayload {
-  type?: PayloadType;
-  text?: string | redacted.Redacted<string>;
-  returnControlPayload?: ReturnControlPayload;
+  type?: PayloadType | undefined;
+  text?: string | redacted.Redacted<string> | undefined;
+  returnControlPayload?: ReturnControlPayload | undefined;
 }
 export interface AgentCollaboratorInvocationOutput {
-  agentCollaboratorName?: string;
-  agentCollaboratorAliasArn?: string;
-  output?: AgentCollaboratorOutputPayload;
-  metadata?: Metadata;
+  agentCollaboratorName?: string | undefined;
+  agentCollaboratorAliasArn?: string | undefined;
+  output?: AgentCollaboratorOutputPayload | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface KnowledgeBaseLookupOutput {
-  retrievedReferences?: RetrievedReference[];
-  metadata?: Metadata;
+  retrievedReferences?: RetrievedReference[] | undefined;
+  metadata?: Metadata | undefined;
 }
 export type FinalResponseString = string | redacted.Redacted<string>;
 export interface FinalResponse {
-  text?: string | redacted.Redacted<string>;
-  metadata?: Metadata;
+  text?: string | redacted.Redacted<string> | undefined;
+  metadata?: Metadata | undefined;
 }
 export type Source = "ACTION_GROUP" | "KNOWLEDGE_BASE" | "PARSER" | (string & {});
 export interface RepromptResponse {
-  text?: string;
-  source?: Source;
+  text?: string | undefined;
+  source?: Source | undefined;
 }
 export interface CodeInterpreterInvocationOutput {
-  executionOutput?: string;
-  executionError?: string;
-  files?: string[];
-  executionTimeout?: boolean;
-  metadata?: Metadata;
+  executionOutput?: string | undefined;
+  executionError?: string | undefined;
+  files?: string[] | undefined;
+  executionTimeout?: boolean | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface Observation {
-  traceId?: string;
-  type?: Type;
-  actionGroupInvocationOutput?: ActionGroupInvocationOutput;
-  agentCollaboratorInvocationOutput?: AgentCollaboratorInvocationOutput;
-  knowledgeBaseLookupOutput?: KnowledgeBaseLookupOutput;
-  finalResponse?: FinalResponse;
-  repromptResponse?: RepromptResponse;
-  codeInterpreterInvocationOutput?: CodeInterpreterInvocationOutput;
+  traceId?: string | undefined;
+  type?: Type | undefined;
+  actionGroupInvocationOutput?: ActionGroupInvocationOutput | undefined;
+  agentCollaboratorInvocationOutput?: AgentCollaboratorInvocationOutput | undefined;
+  knowledgeBaseLookupOutput?: KnowledgeBaseLookupOutput | undefined;
+  finalResponse?: FinalResponse | undefined;
+  repromptResponse?: RepromptResponse | undefined;
+  codeInterpreterInvocationOutput?: CodeInterpreterInvocationOutput | undefined;
 }
 export interface OrchestrationModelInvocationOutput {
-  traceId?: string;
-  rawResponse?: RawResponse;
-  metadata?: Metadata;
-  reasoningContent?: ReasoningContentBlock;
+  traceId?: string | undefined;
+  rawResponse?: RawResponse | undefined;
+  metadata?: Metadata | undefined;
+  reasoningContent?: ReasoningContentBlock | undefined;
 }
 export type OrchestrationTrace =
   | {
@@ -1780,22 +1780,22 @@ export type OrchestrationTrace =
     };
 export type OutputString = string | redacted.Redacted<string>;
 export interface PostProcessingParsedResponse {
-  text?: string | redacted.Redacted<string>;
+  text?: string | redacted.Redacted<string> | undefined;
 }
 export interface PostProcessingModelInvocationOutput {
-  traceId?: string;
-  parsedResponse?: PostProcessingParsedResponse;
-  rawResponse?: RawResponse;
-  metadata?: Metadata;
-  reasoningContent?: ReasoningContentBlock;
+  traceId?: string | undefined;
+  parsedResponse?: PostProcessingParsedResponse | undefined;
+  rawResponse?: RawResponse | undefined;
+  metadata?: Metadata | undefined;
+  reasoningContent?: ReasoningContentBlock | undefined;
 }
 export type PostProcessingTrace =
   | { modelInvocationInput: ModelInvocationInput; modelInvocationOutput?: never }
   | { modelInvocationInput?: never; modelInvocationOutput: PostProcessingModelInvocationOutput };
 export interface RoutingClassifierModelInvocationOutput {
-  traceId?: string;
-  rawResponse?: RawResponse;
-  metadata?: Metadata;
+  traceId?: string | undefined;
+  rawResponse?: RawResponse | undefined;
+  metadata?: Metadata | undefined;
 }
 export type RoutingClassifierTrace =
   | {
@@ -1824,17 +1824,17 @@ export type RoutingClassifierTrace =
     };
 export type FailureReasonString = string | redacted.Redacted<string>;
 export interface FailureTrace {
-  traceId?: string;
-  failureReason?: string | redacted.Redacted<string>;
-  failureCode?: number;
-  metadata?: Metadata;
+  traceId?: string | undefined;
+  failureReason?: string | redacted.Redacted<string> | undefined;
+  failureCode?: number | undefined;
+  metadata?: Metadata | undefined;
 }
 export interface CustomOrchestrationTraceEvent {
-  text?: string;
+  text?: string | undefined;
 }
 export interface CustomOrchestrationTrace {
-  traceId?: string;
-  event?: CustomOrchestrationTraceEvent;
+  traceId?: string | undefined;
+  event?: CustomOrchestrationTraceEvent | undefined;
 }
 export type Trace =
   | {
@@ -1904,24 +1904,24 @@ export type Caller = { agentAliasArn: string };
 export type CallerChain = Caller[];
 export type AgentVersion = string;
 export interface TracePart {
-  sessionId?: string;
-  trace?: Trace;
-  callerChain?: Caller[];
-  eventTime?: Date;
-  collaboratorName?: string | redacted.Redacted<string>;
-  agentId?: string;
-  agentAliasId?: string;
-  agentVersion?: string;
+  sessionId?: string | undefined;
+  trace?: Trace | undefined;
+  callerChain?: Caller[] | undefined;
+  eventTime?: Date | undefined;
+  collaboratorName?: string | redacted.Redacted<string> | undefined;
+  agentId?: string | undefined;
+  agentAliasId?: string | undefined;
+  agentVersion?: string | undefined;
 }
 export type FileBody = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface OutputFile {
-  name?: string;
-  type?: string;
-  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
+  name?: string | undefined;
+  type?: string | undefined;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export type OutputFiles = OutputFile[];
 export interface FilePart {
-  files?: OutputFile[];
+  files?: OutputFile[] | undefined;
 }
 export type ResponseStream =
   | {
@@ -2152,29 +2152,29 @@ export interface InvokeAgentResponse {
   completion: stream.Stream<ResponseStream, Error, never>;
   contentType: string;
   sessionId: string;
-  memoryId?: string;
+  memoryId?: string | undefined;
 }
 export type NodeOutputName = string;
 export type FlowInputContent = { document: any };
 export type NodeInputName = string;
 export interface FlowInput {
   nodeName: string;
-  nodeOutputName?: string;
+  nodeOutputName?: string | undefined;
   content: FlowInputContent;
-  nodeInputName?: string;
+  nodeInputName?: string | undefined;
 }
 export type FlowInputs = FlowInput[];
 export interface ModelPerformanceConfiguration {
-  performanceConfig?: PerformanceConfiguration;
+  performanceConfig?: PerformanceConfiguration | undefined;
 }
 export type FlowExecutionId = string;
 export interface InvokeFlowRequest {
   flowIdentifier: string;
   flowAliasIdentifier: string;
   inputs: FlowInput[];
-  enableTrace?: boolean;
-  modelPerformanceConfiguration?: ModelPerformanceConfiguration;
-  executionId?: string;
+  enableTrace?: boolean | undefined;
+  modelPerformanceConfiguration?: ModelPerformanceConfiguration | undefined;
+  executionId?: string | undefined;
 }
 export type NodeType =
   | "FlowInputNode"
@@ -2218,17 +2218,17 @@ export type FlowNodeInputCategory =
 export type FlowControlNodeType = "Iterator" | "Loop" | (string & {});
 export interface FlowTraceNodeInputExecutionChainItem {
   nodeName: string;
-  index?: number;
+  index?: number | undefined;
   type: FlowControlNodeType;
 }
 export type FlowTraceNodeInputExecutionChain = FlowTraceNodeInputExecutionChainItem[];
 export interface FlowTraceNodeInputField {
   nodeInputName: string;
   content: FlowTraceNodeInputContent;
-  source?: FlowTraceNodeInputSource;
-  type?: FlowNodeIODataType;
-  category?: FlowNodeInputCategory;
-  executionChain?: FlowTraceNodeInputExecutionChainItem[];
+  source?: FlowTraceNodeInputSource | undefined;
+  type?: FlowNodeIODataType | undefined;
+  category?: FlowNodeInputCategory | undefined;
+  executionChain?: FlowTraceNodeInputExecutionChainItem[] | undefined;
 }
 export type FlowTraceNodeInputFields = FlowTraceNodeInputField[];
 export interface FlowTraceNodeInputEvent {
@@ -2246,8 +2246,8 @@ export type FlowTraceNodeOutputNextList = FlowTraceNodeOutputNext[];
 export interface FlowTraceNodeOutputField {
   nodeOutputName: string;
   content: FlowTraceNodeOutputContent;
-  next?: FlowTraceNodeOutputNext[];
-  type?: FlowNodeIODataType;
+  next?: FlowTraceNodeOutputNext[] | undefined;
+  type?: FlowNodeIODataType | undefined;
 }
 export type FlowTraceNodeOutputFields = FlowTraceNodeOutputField[];
 export interface FlowTraceNodeOutputEvent {
@@ -2270,8 +2270,8 @@ export interface FlowTraceNodeActionEvent {
   requestId: string;
   serviceName: string;
   operationName: string;
-  operationRequest?: any;
-  operationResponse?: any;
+  operationRequest?: any | undefined;
+  operationResponse?: any | undefined;
 }
 export type AgentTraces = TracePart[];
 export type TraceElements = { agentTraces: TracePart[] };
@@ -2523,7 +2523,7 @@ export type FlowResponseStream =
     };
 export interface InvokeFlowResponse {
   responseStream: stream.Stream<FlowResponseStream, Error, never>;
-  executionId?: string;
+  executionId?: string | undefined;
 }
 export type Instruction = string | redacted.Redacted<string>;
 export type SessionTTL = number;
@@ -2544,8 +2544,8 @@ export type ActionGroupExecutor =
 export type S3BucketName = string;
 export type S3ObjectKey = string;
 export interface S3Identifier {
-  s3BucketName?: string;
-  s3ObjectKey?: string;
+  s3BucketName?: string | undefined;
+  s3ObjectKey?: string | undefined;
 }
 export type Payload = string | redacted.Redacted<string>;
 export type APISchema =
@@ -2556,35 +2556,35 @@ export type ParameterName = string;
 export type ParameterDescription = string;
 export type ParameterType = "string" | "number" | "integer" | "boolean" | "array" | (string & {});
 export interface ParameterDetail {
-  description?: string;
+  description?: string | undefined;
   type: ParameterType;
-  required?: boolean;
+  required?: boolean | undefined;
 }
 export type ParameterMap = { [key: string]: ParameterDetail | undefined };
 export type RequireConfirmation = "ENABLED" | "DISABLED" | (string & {});
 export interface FunctionDefinition {
   name: string | redacted.Redacted<string>;
-  description?: string;
-  parameters?: { [key: string]: ParameterDetail | undefined };
-  requireConfirmation?: RequireConfirmation;
+  description?: string | undefined;
+  parameters?: { [key: string]: ParameterDetail | undefined } | undefined;
+  requireConfirmation?: RequireConfirmation | undefined;
 }
 export type Functions = FunctionDefinition[];
 export type FunctionSchema = { functions: FunctionDefinition[] };
 export type ActionGroupSignatureParams = { [key: string]: string | undefined };
 export interface AgentActionGroup {
   actionGroupName: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  parentActionGroupSignature?: ActionGroupSignature;
-  actionGroupExecutor?: ActionGroupExecutor;
-  apiSchema?: APISchema;
-  functionSchema?: FunctionSchema;
-  parentActionGroupSignatureParams?: { [key: string]: string | undefined };
+  description?: string | redacted.Redacted<string> | undefined;
+  parentActionGroupSignature?: ActionGroupSignature | undefined;
+  actionGroupExecutor?: ActionGroupExecutor | undefined;
+  apiSchema?: APISchema | undefined;
+  functionSchema?: FunctionSchema | undefined;
+  parentActionGroupSignatureParams?: { [key: string]: string | undefined } | undefined;
 }
 export type AgentActionGroups = AgentActionGroup[];
 export interface KnowledgeBase {
   knowledgeBaseId: string;
   description: string | redacted.Redacted<string>;
-  retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration;
+  retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration | undefined;
 }
 export type KnowledgeBases = KnowledgeBase[];
 export type GuardrailIdentifierWithArn = string;
@@ -2596,19 +2596,19 @@ export interface GuardrailConfigurationWithArn {
 export type PromptState = "ENABLED" | "DISABLED" | (string & {});
 export type BasePromptTemplate = string | redacted.Redacted<string>;
 export interface PromptConfiguration {
-  promptType?: PromptType;
-  promptCreationMode?: CreationMode;
-  promptState?: PromptState;
-  basePromptTemplate?: string | redacted.Redacted<string>;
-  inferenceConfiguration?: InferenceConfiguration;
-  parserMode?: CreationMode;
-  foundationModel?: string;
-  additionalModelRequestFields?: any;
+  promptType?: PromptType | undefined;
+  promptCreationMode?: CreationMode | undefined;
+  promptState?: PromptState | undefined;
+  basePromptTemplate?: string | redacted.Redacted<string> | undefined;
+  inferenceConfiguration?: InferenceConfiguration | undefined;
+  parserMode?: CreationMode | undefined;
+  foundationModel?: string | undefined;
+  additionalModelRequestFields?: any | undefined;
 }
 export type PromptConfigurations = PromptConfiguration[];
 export interface PromptOverrideConfiguration {
   promptConfigurations: PromptConfiguration[];
-  overrideLambda?: string;
+  overrideLambda?: string | undefined;
 }
 export type AgentCollaboration = "SUPERVISOR" | "SUPERVISOR_ROUTER" | "DISABLED" | (string & {});
 export type CollaborationInstruction = string | redacted.Redacted<string>;
@@ -2616,81 +2616,81 @@ export type RelayConversationHistory = "TO_COLLABORATOR" | "DISABLED" | (string 
 export interface CollaboratorConfiguration {
   collaboratorName: string | redacted.Redacted<string>;
   collaboratorInstruction: string | redacted.Redacted<string>;
-  agentAliasArn?: string;
-  relayConversationHistory?: RelayConversationHistory;
+  agentAliasArn?: string | undefined;
+  relayConversationHistory?: RelayConversationHistory | undefined;
 }
 export type CollaboratorConfigurations = CollaboratorConfiguration[];
 export interface InlineSessionState {
-  sessionAttributes?: { [key: string]: string | undefined };
-  promptSessionAttributes?: { [key: string]: string | undefined };
-  returnControlInvocationResults?: InvocationResultMember[];
-  invocationId?: string;
-  files?: InputFile[];
-  conversationHistory?: ConversationHistory;
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
+  promptSessionAttributes?: { [key: string]: string | undefined } | undefined;
+  returnControlInvocationResults?: InvocationResultMember[] | undefined;
+  invocationId?: string | undefined;
+  files?: InputFile[] | undefined;
+  conversationHistory?: ConversationHistory | undefined;
 }
 export interface Collaborator {
-  customerEncryptionKeyArn?: string;
+  customerEncryptionKeyArn?: string | undefined;
   foundationModel: string;
   instruction: string | redacted.Redacted<string>;
-  idleSessionTTLInSeconds?: number;
-  actionGroups?: AgentActionGroup[];
-  knowledgeBases?: KnowledgeBase[];
-  guardrailConfiguration?: GuardrailConfigurationWithArn;
-  promptOverrideConfiguration?: PromptOverrideConfiguration;
-  agentCollaboration?: AgentCollaboration;
-  collaboratorConfigurations?: CollaboratorConfiguration[];
-  agentName?: string | redacted.Redacted<string>;
+  idleSessionTTLInSeconds?: number | undefined;
+  actionGroups?: AgentActionGroup[] | undefined;
+  knowledgeBases?: KnowledgeBase[] | undefined;
+  guardrailConfiguration?: GuardrailConfigurationWithArn | undefined;
+  promptOverrideConfiguration?: PromptOverrideConfiguration | undefined;
+  agentCollaboration?: AgentCollaboration | undefined;
+  collaboratorConfigurations?: CollaboratorConfiguration[] | undefined;
+  agentName?: string | redacted.Redacted<string> | undefined;
 }
 export type Collaborators = Collaborator[];
 export interface InlineBedrockModelConfigurations {
-  performanceConfig?: PerformanceConfiguration;
+  performanceConfig?: PerformanceConfiguration | undefined;
 }
 export type OrchestrationType = "DEFAULT" | "CUSTOM_ORCHESTRATION" | (string & {});
 export type OrchestrationExecutor = { lambda: string };
 export interface CustomOrchestration {
-  executor?: OrchestrationExecutor;
+  executor?: OrchestrationExecutor | undefined;
 }
 export interface InvokeInlineAgentRequest {
-  customerEncryptionKeyArn?: string;
+  customerEncryptionKeyArn?: string | undefined;
   foundationModel: string;
   instruction: string | redacted.Redacted<string>;
-  idleSessionTTLInSeconds?: number;
-  actionGroups?: AgentActionGroup[];
-  knowledgeBases?: KnowledgeBase[];
-  guardrailConfiguration?: GuardrailConfigurationWithArn;
-  promptOverrideConfiguration?: PromptOverrideConfiguration;
-  agentCollaboration?: AgentCollaboration;
-  collaboratorConfigurations?: CollaboratorConfiguration[];
-  agentName?: string | redacted.Redacted<string>;
+  idleSessionTTLInSeconds?: number | undefined;
+  actionGroups?: AgentActionGroup[] | undefined;
+  knowledgeBases?: KnowledgeBase[] | undefined;
+  guardrailConfiguration?: GuardrailConfigurationWithArn | undefined;
+  promptOverrideConfiguration?: PromptOverrideConfiguration | undefined;
+  agentCollaboration?: AgentCollaboration | undefined;
+  collaboratorConfigurations?: CollaboratorConfiguration[] | undefined;
+  agentName?: string | redacted.Redacted<string> | undefined;
   sessionId: string;
-  endSession?: boolean;
-  enableTrace?: boolean;
-  inputText?: string | redacted.Redacted<string>;
-  streamingConfigurations?: StreamingConfigurations;
-  promptCreationConfigurations?: PromptCreationConfigurations;
-  inlineSessionState?: InlineSessionState;
-  collaborators?: Collaborator[];
-  bedrockModelConfigurations?: InlineBedrockModelConfigurations;
-  orchestrationType?: OrchestrationType;
-  customOrchestration?: CustomOrchestration;
+  endSession?: boolean | undefined;
+  enableTrace?: boolean | undefined;
+  inputText?: string | redacted.Redacted<string> | undefined;
+  streamingConfigurations?: StreamingConfigurations | undefined;
+  promptCreationConfigurations?: PromptCreationConfigurations | undefined;
+  inlineSessionState?: InlineSessionState | undefined;
+  collaborators?: Collaborator[] | undefined;
+  bedrockModelConfigurations?: InlineBedrockModelConfigurations | undefined;
+  orchestrationType?: OrchestrationType | undefined;
+  customOrchestration?: CustomOrchestration | undefined;
 }
 export interface InlineAgentPayloadPart {
-  bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
-  attribution?: Attribution;
+  bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  attribution?: Attribution | undefined;
 }
 export interface InlineAgentTracePart {
-  sessionId?: string;
-  trace?: Trace;
-  callerChain?: Caller[];
-  eventTime?: Date;
-  collaboratorName?: string | redacted.Redacted<string>;
+  sessionId?: string | undefined;
+  trace?: Trace | undefined;
+  callerChain?: Caller[] | undefined;
+  eventTime?: Date | undefined;
+  collaboratorName?: string | redacted.Redacted<string> | undefined;
 }
 export interface InlineAgentReturnControlPayload {
-  invocationInputs?: InvocationInputMember[];
-  invocationId?: string;
+  invocationInputs?: InvocationInputMember[] | undefined;
+  invocationId?: string | undefined;
 }
 export interface InlineAgentFilePart {
-  files?: OutputFile[];
+  files?: OutputFile[] | undefined;
 }
 export type InlineAgentResponseStream =
   | {
@@ -2898,8 +2898,8 @@ export interface ListFlowExecutionEventsRequest {
   flowIdentifier: string;
   flowAliasIdentifier: string;
   executionIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   eventType: FlowExecutionEventType;
 }
 export type FlowExecutionContent = { document: any };
@@ -2931,17 +2931,17 @@ export interface NodeInputSource {
 }
 export interface NodeInputExecutionChainItem {
   nodeName: string;
-  index?: number;
+  index?: number | undefined;
   type: FlowControlNodeType;
 }
 export type NodeInputExecutionChain = NodeInputExecutionChainItem[];
 export interface NodeInputField {
   name: string;
   content: NodeExecutionContent;
-  source?: NodeInputSource;
-  type?: FlowNodeIODataType;
-  category?: FlowNodeInputCategory;
-  executionChain?: NodeInputExecutionChainItem[];
+  source?: NodeInputSource | undefined;
+  type?: FlowNodeIODataType | undefined;
+  category?: FlowNodeInputCategory | undefined;
+  executionChain?: NodeInputExecutionChainItem[] | undefined;
 }
 export type NodeInputFields = NodeInputField[];
 export interface NodeInputEvent {
@@ -2957,8 +2957,8 @@ export type NodeOutputNextList = NodeOutputNext[];
 export interface NodeOutputField {
   name: string;
   content: NodeExecutionContent;
-  next?: NodeOutputNext[];
-  type?: FlowNodeIODataType;
+  next?: NodeOutputNext[] | undefined;
+  type?: FlowNodeIODataType | undefined;
 }
 export type NodeOutputFields = NodeOutputField[];
 export interface NodeOutputEvent {
@@ -3003,8 +3003,8 @@ export interface NodeActionEvent {
   requestId: string;
   serviceName: string;
   operationName: string;
-  operationRequest?: any;
-  operationResponse?: any;
+  operationRequest?: any | undefined;
+  operationResponse?: any | undefined;
 }
 export type NodeTraceElements = { agentTraces: TracePart[] };
 export interface NodeDependencyEvent {
@@ -3115,13 +3115,13 @@ export type FlowExecutionEvent =
 export type FlowExecutionEvents = FlowExecutionEvent[];
 export interface ListFlowExecutionEventsResponse {
   flowExecutionEvents: FlowExecutionEvent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFlowExecutionsRequest {
   flowIdentifier: string;
-  flowAliasIdentifier?: string;
-  maxResults?: number;
-  nextToken?: string;
+  flowAliasIdentifier?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FlowExecutionSummary {
   executionArn: string;
@@ -3130,16 +3130,16 @@ export interface FlowExecutionSummary {
   flowVersion: string;
   status: FlowExecutionStatus;
   createdAt: Date;
-  endedAt?: Date;
+  endedAt?: Date | undefined;
 }
 export type FlowExecutionSummaries = FlowExecutionSummary[];
 export interface ListFlowExecutionsResponse {
   flowExecutionSummaries: FlowExecutionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListInvocationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   sessionIdentifier: string;
 }
 export interface InvocationSummary {
@@ -3150,12 +3150,12 @@ export interface InvocationSummary {
 export type InvocationSummaries = InvocationSummary[];
 export interface ListInvocationsResponse {
   invocationSummaries: InvocationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListInvocationStepsRequest {
-  invocationIdentifier?: string;
-  nextToken?: string;
-  maxResults?: number;
+  invocationIdentifier?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   sessionIdentifier: string;
 }
 export interface InvocationStepSummary {
@@ -3167,11 +3167,11 @@ export interface InvocationStepSummary {
 export type InvocationStepSummaries = InvocationStepSummary[];
 export interface ListInvocationStepsResponse {
   invocationStepSummaries: InvocationStepSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSessionsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SessionSummary {
   sessionId: string;
@@ -3183,14 +3183,14 @@ export interface SessionSummary {
 export type SessionSummaries = SessionSummary[];
 export interface ListSessionsResponse {
   sessionSummaries: SessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TaggableResourcesArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TextPrompt {
   text: string;
@@ -3202,10 +3202,10 @@ export interface OptimizePromptRequest {
 }
 export type OptimizedPrompt = { textPrompt: TextPrompt };
 export interface OptimizedPromptEvent {
-  optimizedPrompt?: OptimizedPrompt;
+  optimizedPrompt?: OptimizedPrompt | undefined;
 }
 export interface AnalyzePromptEvent {
-  message?: string;
+  message?: string | undefined;
 }
 export type OptimizedPromptStream =
   | {
@@ -3296,14 +3296,14 @@ export interface PutInvocationStepRequest {
   invocationIdentifier: string;
   invocationStepTime: Date;
   payload: InvocationStepPayload;
-  invocationStepId?: string;
+  invocationStepId?: string | undefined;
 }
 export interface PutInvocationStepResponse {
   invocationStepId: string;
 }
 export type RerankQueryContentType = "TEXT" | (string & {});
 export interface RerankTextDocument {
-  text?: string;
+  text?: string | undefined;
 }
 export interface RerankQuery {
   type: RerankQueryContentType;
@@ -3314,8 +3314,8 @@ export type RerankSourceType = "INLINE" | (string & {});
 export type RerankDocumentType = "TEXT" | "JSON" | (string & {});
 export interface RerankDocument {
   type: RerankDocumentType;
-  textDocument?: RerankTextDocument;
-  jsonDocument?: any;
+  textDocument?: RerankTextDocument | undefined;
+  jsonDocument?: any | undefined;
 }
 export interface RerankSource {
   type: RerankSourceType;
@@ -3325,10 +3325,10 @@ export type RerankSourcesList = RerankSource[];
 export type RerankingConfigurationType = "BEDROCK_RERANKING_MODEL" | (string & {});
 export interface BedrockRerankingModelConfiguration {
   modelArn: string;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
 }
 export interface BedrockRerankingConfiguration {
-  numberOfResults?: number;
+  numberOfResults?: number | undefined;
   modelConfiguration: BedrockRerankingModelConfiguration;
 }
 export interface RerankingConfiguration {
@@ -3339,17 +3339,17 @@ export interface RerankRequest {
   queries: RerankQuery[];
   sources: RerankSource[];
   rerankingConfiguration: RerankingConfiguration;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface RerankResult {
   index: number;
   relevanceScore: number;
-  document?: RerankDocument;
+  document?: RerankDocument | undefined;
 }
 export type RerankResultsList = RerankResult[];
 export interface RerankResponse {
   results: RerankResult[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type KnowledgeBaseQueryType = "TEXT" | "IMAGE" | (string & {});
 export type InputImageFormat = "png" | "jpeg" | "gif" | "webp" | (string & {});
@@ -3358,9 +3358,9 @@ export interface InputImage {
   inlineContent: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export interface KnowledgeBaseQuery {
-  type?: KnowledgeBaseQueryType;
-  text?: string;
-  image?: InputImage;
+  type?: KnowledgeBaseQueryType | undefined;
+  text?: string | undefined;
+  image?: InputImage | undefined;
 }
 export interface GuardrailConfiguration {
   guardrailId: string;
@@ -3369,24 +3369,24 @@ export interface GuardrailConfiguration {
 export interface RetrieveRequest {
   knowledgeBaseId: string;
   retrievalQuery: KnowledgeBaseQuery;
-  retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration;
-  guardrailConfiguration?: GuardrailConfiguration;
-  nextToken?: string;
-  userContext?: UserContext;
+  retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
+  nextToken?: string | undefined;
+  userContext?: UserContext | undefined;
 }
 export interface KnowledgeBaseRetrievalResult {
   content: RetrievalResultContent;
-  location?: RetrievalResultLocation;
-  score?: number;
-  metadata?: { [key: string]: any | undefined };
-  documentId?: string;
+  location?: RetrievalResultLocation | undefined;
+  score?: number | undefined;
+  metadata?: { [key: string]: any | undefined } | undefined;
+  documentId?: string | undefined;
 }
 export type KnowledgeBaseRetrievalResults = KnowledgeBaseRetrievalResult[];
 export type GuadrailAction = "INTERVENED" | "NONE" | (string & {});
 export interface RetrieveResponse {
   retrievalResults: KnowledgeBaseRetrievalResult[];
-  guardrailAction?: GuadrailAction;
-  nextToken?: string;
+  guardrailAction?: GuadrailAction | undefined;
+  nextToken?: string | undefined;
 }
 export interface RetrieveAndGenerateInput {
   text: string;
@@ -3394,43 +3394,43 @@ export interface RetrieveAndGenerateInput {
 export type RetrieveAndGenerateType = "KNOWLEDGE_BASE" | "EXTERNAL_SOURCES" | (string & {});
 export type TextPromptTemplate = string | redacted.Redacted<string>;
 export interface PromptTemplate {
-  textPromptTemplate?: string | redacted.Redacted<string>;
+  textPromptTemplate?: string | redacted.Redacted<string> | undefined;
 }
 export type MaxTokens = number;
 export type RAGStopSequences = string[];
 export interface TextInferenceConfig {
-  temperature?: number;
-  topP?: number;
-  maxTokens?: number;
-  stopSequences?: string[];
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  maxTokens?: number | undefined;
+  stopSequences?: string[] | undefined;
 }
 export interface InferenceConfig {
-  textInferenceConfig?: TextInferenceConfig;
+  textInferenceConfig?: TextInferenceConfig | undefined;
 }
 export interface GenerationConfiguration {
-  promptTemplate?: PromptTemplate;
-  guardrailConfiguration?: GuardrailConfiguration;
-  inferenceConfig?: InferenceConfig;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
-  performanceConfig?: PerformanceConfiguration;
+  promptTemplate?: PromptTemplate | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
+  inferenceConfig?: InferenceConfig | undefined;
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
 }
 export type QueryTransformationType = "QUERY_DECOMPOSITION" | (string & {});
 export interface QueryTransformationConfiguration {
   type: QueryTransformationType;
 }
 export interface OrchestrationConfiguration {
-  promptTemplate?: PromptTemplate;
-  inferenceConfig?: InferenceConfig;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
-  queryTransformationConfiguration?: QueryTransformationConfiguration;
-  performanceConfig?: PerformanceConfiguration;
+  promptTemplate?: PromptTemplate | undefined;
+  inferenceConfig?: InferenceConfig | undefined;
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
+  queryTransformationConfiguration?: QueryTransformationConfiguration | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
 }
 export interface KnowledgeBaseRetrieveAndGenerateConfiguration {
   knowledgeBaseId: string;
   modelArn: string;
-  retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration;
-  generationConfiguration?: GenerationConfiguration;
-  orchestrationConfiguration?: OrchestrationConfiguration;
+  retrievalConfiguration?: KnowledgeBaseRetrievalConfiguration | undefined;
+  generationConfiguration?: GenerationConfiguration | undefined;
+  orchestrationConfiguration?: OrchestrationConfiguration | undefined;
 }
 export type ExternalSourceType = "S3" | "BYTE_CONTENT" | (string & {});
 export interface S3ObjectDoc {
@@ -3445,36 +3445,36 @@ export interface ByteContentDoc {
 }
 export interface ExternalSource {
   sourceType: ExternalSourceType;
-  s3Location?: S3ObjectDoc;
-  byteContent?: ByteContentDoc;
+  s3Location?: S3ObjectDoc | undefined;
+  byteContent?: ByteContentDoc | undefined;
 }
 export type ExternalSources = ExternalSource[];
 export interface ExternalSourcesGenerationConfiguration {
-  promptTemplate?: PromptTemplate;
-  guardrailConfiguration?: GuardrailConfiguration;
-  inferenceConfig?: InferenceConfig;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
-  performanceConfig?: PerformanceConfiguration;
+  promptTemplate?: PromptTemplate | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
+  inferenceConfig?: InferenceConfig | undefined;
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
 }
 export interface ExternalSourcesRetrieveAndGenerateConfiguration {
   modelArn: string;
   sources: ExternalSource[];
-  generationConfiguration?: ExternalSourcesGenerationConfiguration;
+  generationConfiguration?: ExternalSourcesGenerationConfiguration | undefined;
 }
 export interface RetrieveAndGenerateConfiguration {
   type: RetrieveAndGenerateType;
-  knowledgeBaseConfiguration?: KnowledgeBaseRetrieveAndGenerateConfiguration;
-  externalSourcesConfiguration?: ExternalSourcesRetrieveAndGenerateConfiguration;
+  knowledgeBaseConfiguration?: KnowledgeBaseRetrieveAndGenerateConfiguration | undefined;
+  externalSourcesConfiguration?: ExternalSourcesRetrieveAndGenerateConfiguration | undefined;
 }
 export interface RetrieveAndGenerateSessionConfiguration {
   kmsKeyArn: string;
 }
 export interface RetrieveAndGenerateRequest {
-  sessionId?: string;
+  sessionId?: string | undefined;
   input: RetrieveAndGenerateInput;
-  retrieveAndGenerateConfiguration?: RetrieveAndGenerateConfiguration;
-  sessionConfiguration?: RetrieveAndGenerateSessionConfiguration;
-  userContext?: UserContext;
+  retrieveAndGenerateConfiguration?: RetrieveAndGenerateConfiguration | undefined;
+  sessionConfiguration?: RetrieveAndGenerateSessionConfiguration | undefined;
+  userContext?: UserContext | undefined;
 }
 export interface RetrieveAndGenerateOutput {
   text: string;
@@ -3482,26 +3482,26 @@ export interface RetrieveAndGenerateOutput {
 export interface RetrieveAndGenerateResponse {
   sessionId: string;
   output: RetrieveAndGenerateOutput;
-  citations?: Citation[];
-  guardrailAction?: GuadrailAction;
+  citations?: Citation[] | undefined;
+  guardrailAction?: GuadrailAction | undefined;
 }
 export interface RetrieveAndGenerateStreamRequest {
-  sessionId?: string;
+  sessionId?: string | undefined;
   input: RetrieveAndGenerateInput;
-  retrieveAndGenerateConfiguration?: RetrieveAndGenerateConfiguration;
-  sessionConfiguration?: RetrieveAndGenerateSessionConfiguration;
-  userContext?: UserContext;
+  retrieveAndGenerateConfiguration?: RetrieveAndGenerateConfiguration | undefined;
+  sessionConfiguration?: RetrieveAndGenerateSessionConfiguration | undefined;
+  userContext?: UserContext | undefined;
 }
 export interface RetrieveAndGenerateOutputEvent {
   text: string;
 }
 export interface CitationEvent {
-  citation?: Citation;
-  generatedResponsePart?: GeneratedResponsePart;
-  retrievedReferences?: RetrievedReference[];
+  citation?: Citation | undefined;
+  generatedResponsePart?: GeneratedResponsePart | undefined;
+  retrievedReferences?: RetrievedReference[] | undefined;
 }
 export interface GuardrailEvent {
-  action?: GuadrailAction;
+  action?: GuadrailAction | undefined;
 }
 export type RetrieveAndGenerateStreamResponseOutput =
   | {
@@ -3680,12 +3680,12 @@ export type FlowExecutionName = string;
 export interface StartFlowExecutionRequest {
   flowIdentifier: string;
   flowAliasIdentifier: string;
-  flowExecutionName?: string;
+  flowExecutionName?: string | undefined;
   inputs: FlowInput[];
-  modelPerformanceConfiguration?: ModelPerformanceConfiguration;
+  modelPerformanceConfiguration?: ModelPerformanceConfiguration | undefined;
 }
 export interface StartFlowExecutionResponse {
-  executionArn?: string;
+  executionArn?: string | undefined;
 }
 export interface StopFlowExecutionRequest {
   flowIdentifier: string;
@@ -3693,7 +3693,7 @@ export interface StopFlowExecutionRequest {
   executionIdentifier: string;
 }
 export interface StopFlowExecutionResponse {
-  executionArn?: string;
+  executionArn?: string | undefined;
   status: FlowExecutionStatus;
 }
 export interface TagResourceRequest {
@@ -3708,7 +3708,7 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateSessionRequest {
-  sessionMetadata?: { [key: string]: string | undefined };
+  sessionMetadata?: { [key: string]: string | undefined } | undefined;
   sessionIdentifier: string;
 }
 export interface UpdateSessionResponse {

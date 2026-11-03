@@ -140,93 +140,93 @@ export class InternalServerErrorException
   ).pipe(C.withServerError) {}
 export interface AssociateRoleToGroupRequest {
   GroupId: string;
-  RoleArn?: string;
+  RoleArn?: string | undefined;
 }
 export interface AssociateRoleToGroupResponse {
-  AssociatedAt?: string;
+  AssociatedAt?: string | undefined;
 }
 export interface AssociateServiceRoleToAccountRequest {
-  RoleArn?: string;
+  RoleArn?: string | undefined;
 }
 export interface AssociateServiceRoleToAccountResponse {
-  AssociatedAt?: string;
+  AssociatedAt?: string | undefined;
 }
 export type __mapOf__string = { [key: string]: string | undefined };
 const __mapOf__string = /*@__PURE__*/ __L.at(__c52, 0);
 export interface Connector {
-  ConnectorArn?: string;
-  Id?: string;
-  Parameters?: { [key: string]: string | undefined };
+  ConnectorArn?: string | undefined;
+  Id?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfConnector = Connector[];
 const __listOfConnector = /*@__PURE__*/ __L.at(__c51, 1);
 export interface ConnectorDefinitionVersion {
-  Connectors?: Connector[];
+  Connectors?: Connector[] | undefined;
 }
 export type Tags = { [key: string]: string | undefined };
 const Tags = __mapOf__string as any as S.Schema<Tags>;
 export interface CreateConnectorDefinitionRequest {
-  AmznClientToken?: string;
-  InitialVersion?: ConnectorDefinitionVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: ConnectorDefinitionVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateConnectorDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateConnectorDefinitionVersionRequest {
-  AmznClientToken?: string;
+  AmznClientToken?: string | undefined;
   ConnectorDefinitionId: string;
-  Connectors?: Connector[];
+  Connectors?: Connector[] | undefined;
 }
 export interface CreateConnectorDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export interface Core {
-  CertificateArn?: string;
-  Id?: string;
-  SyncShadow?: boolean;
-  ThingArn?: string;
+  CertificateArn?: string | undefined;
+  Id?: string | undefined;
+  SyncShadow?: boolean | undefined;
+  ThingArn?: string | undefined;
 }
 export type __listOfCore = Core[];
 const __listOfCore = /*@__PURE__*/ __L.at(__c80, 1);
 export interface CoreDefinitionVersion {
-  Cores?: Core[];
+  Cores?: Core[] | undefined;
 }
 export interface CreateCoreDefinitionRequest {
-  AmznClientToken?: string;
-  InitialVersion?: CoreDefinitionVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: CoreDefinitionVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateCoreDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateCoreDefinitionVersionRequest {
-  AmznClientToken?: string;
+  AmznClientToken?: string | undefined;
   CoreDefinitionId: string;
-  Cores?: Core[];
+  Cores?: Core[] | undefined;
 }
 export interface CreateCoreDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export type DeploymentType =
   | "NewDeployment"
@@ -235,295 +235,295 @@ export type DeploymentType =
   | "ForceResetDeployment"
   | (string & {});
 export interface CreateDeploymentRequest {
-  AmznClientToken?: string;
-  DeploymentId?: string;
-  DeploymentType?: DeploymentType;
+  AmznClientToken?: string | undefined;
+  DeploymentId?: string | undefined;
+  DeploymentType?: DeploymentType | undefined;
   GroupId: string;
-  GroupVersionId?: string;
+  GroupVersionId?: string | undefined;
 }
 export interface CreateDeploymentResponse {
-  DeploymentArn?: string;
-  DeploymentId?: string;
+  DeploymentArn?: string | undefined;
+  DeploymentId?: string | undefined;
 }
 export interface Device {
-  CertificateArn?: string;
-  Id?: string;
-  SyncShadow?: boolean;
-  ThingArn?: string;
+  CertificateArn?: string | undefined;
+  Id?: string | undefined;
+  SyncShadow?: boolean | undefined;
+  ThingArn?: string | undefined;
 }
 export type __listOfDevice = Device[];
 const __listOfDevice = __listOfCore as any as S.Schema<__listOfDevice>;
 export interface DeviceDefinitionVersion {
-  Devices?: Device[];
+  Devices?: Device[] | undefined;
 }
 export interface CreateDeviceDefinitionRequest {
-  AmznClientToken?: string;
-  InitialVersion?: DeviceDefinitionVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: DeviceDefinitionVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDeviceDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateDeviceDefinitionVersionRequest {
-  AmznClientToken?: string;
+  AmznClientToken?: string | undefined;
   DeviceDefinitionId: string;
-  Devices?: Device[];
+  Devices?: Device[] | undefined;
 }
 export interface CreateDeviceDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export type FunctionIsolationMode = "GreengrassContainer" | "NoContainer" | (string & {});
 export interface FunctionRunAsConfig {
-  Gid?: number;
-  Uid?: number;
+  Gid?: number | undefined;
+  Uid?: number | undefined;
 }
 export interface FunctionDefaultExecutionConfig {
-  IsolationMode?: FunctionIsolationMode;
-  RunAs?: FunctionRunAsConfig;
+  IsolationMode?: FunctionIsolationMode | undefined;
+  RunAs?: FunctionRunAsConfig | undefined;
 }
 export interface FunctionDefaultConfig {
-  Execution?: FunctionDefaultExecutionConfig;
+  Execution?: FunctionDefaultExecutionConfig | undefined;
 }
 export type EncodingType = "binary" | "json" | (string & {});
 export interface FunctionExecutionConfig {
-  IsolationMode?: FunctionIsolationMode;
-  RunAs?: FunctionRunAsConfig;
+  IsolationMode?: FunctionIsolationMode | undefined;
+  RunAs?: FunctionRunAsConfig | undefined;
 }
 export type Permission = "ro" | "rw" | (string & {});
 export interface ResourceAccessPolicy {
-  Permission?: Permission;
-  ResourceId?: string;
+  Permission?: Permission | undefined;
+  ResourceId?: string | undefined;
 }
 export type __listOfResourceAccessPolicy = ResourceAccessPolicy[];
 const __listOfResourceAccessPolicy = /*@__PURE__*/ __L.at(__c3, 4);
 export interface FunctionConfigurationEnvironment {
-  AccessSysfs?: boolean;
-  Execution?: FunctionExecutionConfig;
-  ResourceAccessPolicies?: ResourceAccessPolicy[];
-  Variables?: { [key: string]: string | undefined };
+  AccessSysfs?: boolean | undefined;
+  Execution?: FunctionExecutionConfig | undefined;
+  ResourceAccessPolicies?: ResourceAccessPolicy[] | undefined;
+  Variables?: { [key: string]: string | undefined } | undefined;
 }
 export interface FunctionConfiguration {
-  EncodingType?: EncodingType;
-  Environment?: FunctionConfigurationEnvironment;
-  ExecArgs?: string;
-  Executable?: string;
-  MemorySize?: number;
-  Pinned?: boolean;
-  Timeout?: number;
-  FunctionRuntimeOverride?: string;
+  EncodingType?: EncodingType | undefined;
+  Environment?: FunctionConfigurationEnvironment | undefined;
+  ExecArgs?: string | undefined;
+  Executable?: string | undefined;
+  MemorySize?: number | undefined;
+  Pinned?: boolean | undefined;
+  Timeout?: number | undefined;
+  FunctionRuntimeOverride?: string | undefined;
 }
 export interface Function {
-  FunctionArn?: string;
-  FunctionConfiguration?: FunctionConfiguration;
-  Id?: string;
+  FunctionArn?: string | undefined;
+  FunctionConfiguration?: FunctionConfiguration | undefined;
+  Id?: string | undefined;
 }
 export type __listOfFunction = Function[];
 const __listOfFunction = /*@__PURE__*/ __L.at(__c3, 8);
 export interface FunctionDefinitionVersion {
-  DefaultConfig?: FunctionDefaultConfig;
-  Functions?: Function[];
+  DefaultConfig?: FunctionDefaultConfig | undefined;
+  Functions?: Function[] | undefined;
 }
 export interface CreateFunctionDefinitionRequest {
-  AmznClientToken?: string;
-  InitialVersion?: FunctionDefinitionVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: FunctionDefinitionVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateFunctionDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateFunctionDefinitionVersionRequest {
-  AmznClientToken?: string;
-  DefaultConfig?: FunctionDefaultConfig;
+  AmznClientToken?: string | undefined;
+  DefaultConfig?: FunctionDefaultConfig | undefined;
   FunctionDefinitionId: string;
-  Functions?: Function[];
+  Functions?: Function[] | undefined;
 }
 export interface CreateFunctionDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GroupVersion {
-  ConnectorDefinitionVersionArn?: string;
-  CoreDefinitionVersionArn?: string;
-  DeviceDefinitionVersionArn?: string;
-  FunctionDefinitionVersionArn?: string;
-  LoggerDefinitionVersionArn?: string;
-  ResourceDefinitionVersionArn?: string;
-  SubscriptionDefinitionVersionArn?: string;
+  ConnectorDefinitionVersionArn?: string | undefined;
+  CoreDefinitionVersionArn?: string | undefined;
+  DeviceDefinitionVersionArn?: string | undefined;
+  FunctionDefinitionVersionArn?: string | undefined;
+  LoggerDefinitionVersionArn?: string | undefined;
+  ResourceDefinitionVersionArn?: string | undefined;
+  SubscriptionDefinitionVersionArn?: string | undefined;
 }
 export interface CreateGroupRequest {
-  AmznClientToken?: string;
-  InitialVersion?: GroupVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: GroupVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateGroupResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateGroupCertificateAuthorityRequest {
-  AmznClientToken?: string;
+  AmznClientToken?: string | undefined;
   GroupId: string;
 }
 export interface CreateGroupCertificateAuthorityResponse {
-  GroupCertificateAuthorityArn?: string;
+  GroupCertificateAuthorityArn?: string | undefined;
 }
 export interface CreateGroupVersionRequest {
-  AmznClientToken?: string;
-  ConnectorDefinitionVersionArn?: string;
-  CoreDefinitionVersionArn?: string;
-  DeviceDefinitionVersionArn?: string;
-  FunctionDefinitionVersionArn?: string;
+  AmznClientToken?: string | undefined;
+  ConnectorDefinitionVersionArn?: string | undefined;
+  CoreDefinitionVersionArn?: string | undefined;
+  DeviceDefinitionVersionArn?: string | undefined;
+  FunctionDefinitionVersionArn?: string | undefined;
   GroupId: string;
-  LoggerDefinitionVersionArn?: string;
-  ResourceDefinitionVersionArn?: string;
-  SubscriptionDefinitionVersionArn?: string;
+  LoggerDefinitionVersionArn?: string | undefined;
+  ResourceDefinitionVersionArn?: string | undefined;
+  SubscriptionDefinitionVersionArn?: string | undefined;
 }
 export interface CreateGroupVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export type LoggerComponent = "GreengrassSystem" | "Lambda" | (string & {});
 export type LoggerLevel = "DEBUG" | "INFO" | "WARN" | "ERROR" | "FATAL" | (string & {});
 export type LoggerType = "FileSystem" | "AWSCloudWatch" | (string & {});
 export interface Logger {
-  Component?: LoggerComponent;
-  Id?: string;
-  Level?: LoggerLevel;
-  Space?: number;
-  Type?: LoggerType;
+  Component?: LoggerComponent | undefined;
+  Id?: string | undefined;
+  Level?: LoggerLevel | undefined;
+  Space?: number | undefined;
+  Type?: LoggerType | undefined;
 }
 export type __listOfLogger = Logger[];
 const __listOfLogger = /*@__PURE__*/ __L.at(__c11, 1);
 export interface LoggerDefinitionVersion {
-  Loggers?: Logger[];
+  Loggers?: Logger[] | undefined;
 }
 export interface CreateLoggerDefinitionRequest {
-  AmznClientToken?: string;
-  InitialVersion?: LoggerDefinitionVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: LoggerDefinitionVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateLoggerDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateLoggerDefinitionVersionRequest {
-  AmznClientToken?: string;
+  AmznClientToken?: string | undefined;
   LoggerDefinitionId: string;
-  Loggers?: Logger[];
+  Loggers?: Logger[] | undefined;
 }
 export interface CreateLoggerDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GroupOwnerSetting {
-  AutoAddGroupOwner?: boolean;
-  GroupOwner?: string;
+  AutoAddGroupOwner?: boolean | undefined;
+  GroupOwner?: string | undefined;
 }
 export interface LocalDeviceResourceData {
-  GroupOwnerSetting?: GroupOwnerSetting;
-  SourcePath?: string;
+  GroupOwnerSetting?: GroupOwnerSetting | undefined;
+  SourcePath?: string | undefined;
 }
 export interface LocalVolumeResourceData {
-  DestinationPath?: string;
-  GroupOwnerSetting?: GroupOwnerSetting;
-  SourcePath?: string;
+  DestinationPath?: string | undefined;
+  GroupOwnerSetting?: GroupOwnerSetting | undefined;
+  SourcePath?: string | undefined;
 }
 export interface ResourceDownloadOwnerSetting {
-  GroupOwner?: string;
-  GroupPermission?: Permission;
+  GroupOwner?: string | undefined;
+  GroupPermission?: Permission | undefined;
 }
 export interface S3MachineLearningModelResourceData {
-  DestinationPath?: string;
-  OwnerSetting?: ResourceDownloadOwnerSetting;
-  S3Uri?: string;
+  DestinationPath?: string | undefined;
+  OwnerSetting?: ResourceDownloadOwnerSetting | undefined;
+  S3Uri?: string | undefined;
 }
 export interface SageMakerMachineLearningModelResourceData {
-  DestinationPath?: string;
-  OwnerSetting?: ResourceDownloadOwnerSetting;
-  SageMakerJobArn?: string;
+  DestinationPath?: string | undefined;
+  OwnerSetting?: ResourceDownloadOwnerSetting | undefined;
+  SageMakerJobArn?: string | undefined;
 }
 export type __listOf__string = string[];
 const __listOf__string = /*@__PURE__*/ __L.at(__c15, 0);
 export interface SecretsManagerSecretResourceData {
-  ARN?: string;
-  AdditionalStagingLabelsToDownload?: string[];
+  ARN?: string | undefined;
+  AdditionalStagingLabelsToDownload?: string[] | undefined;
 }
 export interface ResourceDataContainer {
-  LocalDeviceResourceData?: LocalDeviceResourceData;
-  LocalVolumeResourceData?: LocalVolumeResourceData;
-  S3MachineLearningModelResourceData?: S3MachineLearningModelResourceData;
-  SageMakerMachineLearningModelResourceData?: SageMakerMachineLearningModelResourceData;
-  SecretsManagerSecretResourceData?: SecretsManagerSecretResourceData;
+  LocalDeviceResourceData?: LocalDeviceResourceData | undefined;
+  LocalVolumeResourceData?: LocalVolumeResourceData | undefined;
+  S3MachineLearningModelResourceData?: S3MachineLearningModelResourceData | undefined;
+  SageMakerMachineLearningModelResourceData?: SageMakerMachineLearningModelResourceData | undefined;
+  SecretsManagerSecretResourceData?: SecretsManagerSecretResourceData | undefined;
 }
 export interface Resource {
-  Id?: string;
-  Name?: string;
-  ResourceDataContainer?: ResourceDataContainer;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  ResourceDataContainer?: ResourceDataContainer | undefined;
 }
 export type __listOfResource = Resource[];
 const __listOfResource = /*@__PURE__*/ __L.at(__c16, 9);
 export interface ResourceDefinitionVersion {
-  Resources?: Resource[];
+  Resources?: Resource[] | undefined;
 }
 export interface CreateResourceDefinitionRequest {
-  AmznClientToken?: string;
-  InitialVersion?: ResourceDefinitionVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: ResourceDefinitionVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateResourceDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateResourceDefinitionVersionRequest {
-  AmznClientToken?: string;
+  AmznClientToken?: string | undefined;
   ResourceDefinitionId: string;
-  Resources?: Resource[];
+  Resources?: Resource[] | undefined;
 }
 export interface CreateResourceDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export type S3UrlSignerRole = string;
 export type SoftwareToUpdate = "core" | "ota_agent" | (string & {});
@@ -547,55 +547,55 @@ export type UpdateTargetsOperatingSystem =
   | "openwrt"
   | (string & {});
 export interface CreateSoftwareUpdateJobRequest {
-  AmznClientToken?: string;
-  S3UrlSignerRole?: string;
-  SoftwareToUpdate?: SoftwareToUpdate;
-  UpdateAgentLogLevel?: UpdateAgentLogLevel;
-  UpdateTargets?: string[];
-  UpdateTargetsArchitecture?: UpdateTargetsArchitecture;
-  UpdateTargetsOperatingSystem?: UpdateTargetsOperatingSystem;
+  AmznClientToken?: string | undefined;
+  S3UrlSignerRole?: string | undefined;
+  SoftwareToUpdate?: SoftwareToUpdate | undefined;
+  UpdateAgentLogLevel?: UpdateAgentLogLevel | undefined;
+  UpdateTargets?: string[] | undefined;
+  UpdateTargetsArchitecture?: UpdateTargetsArchitecture | undefined;
+  UpdateTargetsOperatingSystem?: UpdateTargetsOperatingSystem | undefined;
 }
 export interface CreateSoftwareUpdateJobResponse {
-  IotJobArn?: string;
-  IotJobId?: string;
-  PlatformSoftwareVersion?: string;
+  IotJobArn?: string | undefined;
+  IotJobId?: string | undefined;
+  PlatformSoftwareVersion?: string | undefined;
 }
 export interface Subscription {
-  Id?: string;
-  Source?: string;
-  Subject?: string;
-  Target?: string;
+  Id?: string | undefined;
+  Source?: string | undefined;
+  Subject?: string | undefined;
+  Target?: string | undefined;
 }
 export type __listOfSubscription = Subscription[];
 const __listOfSubscription = /*@__PURE__*/ __L.at(__c23, 1);
 export interface SubscriptionDefinitionVersion {
-  Subscriptions?: Subscription[];
+  Subscriptions?: Subscription[] | undefined;
 }
 export interface CreateSubscriptionDefinitionRequest {
-  AmznClientToken?: string;
-  InitialVersion?: SubscriptionDefinitionVersion;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  InitialVersion?: SubscriptionDefinitionVersion | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateSubscriptionDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CreateSubscriptionDefinitionVersionRequest {
-  AmznClientToken?: string;
+  AmznClientToken?: string | undefined;
   SubscriptionDefinitionId: string;
-  Subscriptions?: Subscription[];
+  Subscriptions?: Subscription[] | undefined;
 }
 export interface CreateSubscriptionDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export interface DeleteConnectorDefinitionRequest {
   ConnectorDefinitionId: string;
@@ -633,26 +633,26 @@ export interface DisassociateRoleFromGroupRequest {
   GroupId: string;
 }
 export interface DisassociateRoleFromGroupResponse {
-  DisassociatedAt?: string;
+  DisassociatedAt?: string | undefined;
 }
 export interface DisassociateServiceRoleFromAccountRequest {}
 export interface DisassociateServiceRoleFromAccountResponse {
-  DisassociatedAt?: string;
+  DisassociatedAt?: string | undefined;
 }
 export interface GetAssociatedRoleRequest {
   GroupId: string;
 }
 export interface GetAssociatedRoleResponse {
-  AssociatedAt?: string;
-  RoleArn?: string;
+  AssociatedAt?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export interface GetBulkDeploymentStatusRequest {
   BulkDeploymentId: string;
 }
 export interface BulkDeploymentMetrics {
-  InvalidInputRecords?: number;
-  RecordsProcessed?: number;
-  RetryAttempts?: number;
+  InvalidInputRecords?: number | undefined;
+  RecordsProcessed?: number | undefined;
+  RetryAttempts?: number | undefined;
 }
 export type BulkDeploymentStatus =
   | "Initializing"
@@ -663,315 +663,329 @@ export type BulkDeploymentStatus =
   | "Failed"
   | (string & {});
 export interface ErrorDetail {
-  DetailedErrorCode?: string;
-  DetailedErrorMessage?: string;
+  DetailedErrorCode?: string | undefined;
+  DetailedErrorMessage?: string | undefined;
 }
 export type ErrorDetails = ErrorDetail[];
 export interface GetBulkDeploymentStatusResponse {
-  BulkDeploymentMetrics?: BulkDeploymentMetrics;
-  BulkDeploymentStatus?: BulkDeploymentStatus;
-  CreatedAt?: string;
-  ErrorDetails?: ErrorDetail[];
-  ErrorMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  BulkDeploymentMetrics?: BulkDeploymentMetrics | undefined;
+  BulkDeploymentStatus?: BulkDeploymentStatus | undefined;
+  CreatedAt?: string | undefined;
+  ErrorDetails?: ErrorDetail[] | undefined;
+  ErrorMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetConnectivityInfoRequest {
   ThingName: string;
 }
 export interface ConnectivityInfo {
-  HostAddress?: string;
-  Id?: string;
-  Metadata?: string;
-  PortNumber?: number;
+  HostAddress?: string | undefined;
+  Id?: string | undefined;
+  Metadata?: string | undefined;
+  PortNumber?: number | undefined;
 }
 export type __listOfConnectivityInfo = ConnectivityInfo[];
 const __listOfConnectivityInfo = /*@__PURE__*/ __L.at(__c43, 1);
 export interface GetConnectivityInfoResponse {
-  ConnectivityInfo?: ConnectivityInfo[];
-  Message?: string;
+  ConnectivityInfo?: ConnectivityInfo[] | undefined;
+  Message?: string | undefined;
 }
 export interface GetConnectorDefinitionRequest {
   ConnectorDefinitionId: string;
 }
 export interface GetConnectorDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetConnectorDefinitionVersionRequest {
   ConnectorDefinitionId: string;
   ConnectorDefinitionVersionId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetConnectorDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: ConnectorDefinitionVersion & {
-    Connectors: (Connector & { ConnectorArn: string; Id: string })[];
-  };
-  Id?: string;
-  NextToken?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?:
+    | (ConnectorDefinitionVersion & {
+        Connectors: (Connector & { ConnectorArn: string; Id: string })[];
+      })
+    | undefined;
+  Id?: string | undefined;
+  NextToken?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetCoreDefinitionRequest {
   CoreDefinitionId: string;
 }
 export interface GetCoreDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetCoreDefinitionVersionRequest {
   CoreDefinitionId: string;
   CoreDefinitionVersionId: string;
 }
 export interface GetCoreDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: CoreDefinitionVersion & {
-    Cores: (Core & { CertificateArn: string; Id: string; ThingArn: string })[];
-  };
-  Id?: string;
-  NextToken?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?:
+    | (CoreDefinitionVersion & {
+        Cores: (Core & { CertificateArn: string; Id: string; ThingArn: string })[];
+      })
+    | undefined;
+  Id?: string | undefined;
+  NextToken?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetDeploymentStatusRequest {
   DeploymentId: string;
   GroupId: string;
 }
 export interface GetDeploymentStatusResponse {
-  DeploymentStatus?: string;
-  DeploymentType?: DeploymentType;
-  ErrorDetails?: ErrorDetail[];
-  ErrorMessage?: string;
-  UpdatedAt?: string;
+  DeploymentStatus?: string | undefined;
+  DeploymentType?: DeploymentType | undefined;
+  ErrorDetails?: ErrorDetail[] | undefined;
+  ErrorMessage?: string | undefined;
+  UpdatedAt?: string | undefined;
 }
 export interface GetDeviceDefinitionRequest {
   DeviceDefinitionId: string;
 }
 export interface GetDeviceDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDeviceDefinitionVersionRequest {
   DeviceDefinitionId: string;
   DeviceDefinitionVersionId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetDeviceDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: DeviceDefinitionVersion & {
-    Devices: (Device & { CertificateArn: string; Id: string; ThingArn: string })[];
-  };
-  Id?: string;
-  NextToken?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?:
+    | (DeviceDefinitionVersion & {
+        Devices: (Device & { CertificateArn: string; Id: string; ThingArn: string })[];
+      })
+    | undefined;
+  Id?: string | undefined;
+  NextToken?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetFunctionDefinitionRequest {
   FunctionDefinitionId: string;
 }
 export interface GetFunctionDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetFunctionDefinitionVersionRequest {
   FunctionDefinitionId: string;
   FunctionDefinitionVersionId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetFunctionDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: FunctionDefinitionVersion & {
-    Functions: (Function & {
-      Id: string;
-      FunctionConfiguration: FunctionConfiguration & {
-        Environment: FunctionConfigurationEnvironment & {
-          ResourceAccessPolicies: (ResourceAccessPolicy & { ResourceId: string })[];
-        };
-      };
-    })[];
-  };
-  Id?: string;
-  NextToken?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?:
+    | (FunctionDefinitionVersion & {
+        Functions: (Function & {
+          Id: string;
+          FunctionConfiguration: FunctionConfiguration & {
+            Environment: FunctionConfigurationEnvironment & {
+              ResourceAccessPolicies: (ResourceAccessPolicy & { ResourceId: string })[];
+            };
+          };
+        })[];
+      })
+    | undefined;
+  Id?: string | undefined;
+  NextToken?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetGroupRequest {
   GroupId: string;
 }
 export interface GetGroupResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetGroupCertificateAuthorityRequest {
   CertificateAuthorityId: string;
   GroupId: string;
 }
 export interface GetGroupCertificateAuthorityResponse {
-  GroupCertificateAuthorityArn?: string;
-  GroupCertificateAuthorityId?: string;
-  PemEncodedCertificate?: string;
+  GroupCertificateAuthorityArn?: string | undefined;
+  GroupCertificateAuthorityId?: string | undefined;
+  PemEncodedCertificate?: string | undefined;
 }
 export interface GetGroupCertificateConfigurationRequest {
   GroupId: string;
 }
 export interface GetGroupCertificateConfigurationResponse {
-  CertificateAuthorityExpiryInMilliseconds?: string;
-  CertificateExpiryInMilliseconds?: string;
-  GroupId?: string;
+  CertificateAuthorityExpiryInMilliseconds?: string | undefined;
+  CertificateExpiryInMilliseconds?: string | undefined;
+  GroupId?: string | undefined;
 }
 export interface GetGroupVersionRequest {
   GroupId: string;
   GroupVersionId: string;
 }
 export interface GetGroupVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: GroupVersion;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?: GroupVersion | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetLoggerDefinitionRequest {
   LoggerDefinitionId: string;
 }
 export interface GetLoggerDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetLoggerDefinitionVersionRequest {
   LoggerDefinitionId: string;
   LoggerDefinitionVersionId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetLoggerDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: LoggerDefinitionVersion & {
-    Loggers: (Logger & {
-      Component: LoggerComponent;
-      Id: string;
-      Level: LoggerLevel;
-      Type: LoggerType;
-    })[];
-  };
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?:
+    | (LoggerDefinitionVersion & {
+        Loggers: (Logger & {
+          Component: LoggerComponent;
+          Id: string;
+          Level: LoggerLevel;
+          Type: LoggerType;
+        })[];
+      })
+    | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetResourceDefinitionRequest {
   ResourceDefinitionId: string;
 }
 export interface GetResourceDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetResourceDefinitionVersionRequest {
   ResourceDefinitionId: string;
   ResourceDefinitionVersionId: string;
 }
 export interface GetResourceDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: ResourceDefinitionVersion & {
-    Resources: (Resource & {
-      Id: string;
-      Name: string;
-      ResourceDataContainer: ResourceDataContainer & {
-        S3MachineLearningModelResourceData: S3MachineLearningModelResourceData & {
-          OwnerSetting: ResourceDownloadOwnerSetting & {
-            GroupOwner: string;
-            GroupPermission: Permission;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?:
+    | (ResourceDefinitionVersion & {
+        Resources: (Resource & {
+          Id: string;
+          Name: string;
+          ResourceDataContainer: ResourceDataContainer & {
+            S3MachineLearningModelResourceData: S3MachineLearningModelResourceData & {
+              OwnerSetting: ResourceDownloadOwnerSetting & {
+                GroupOwner: string;
+                GroupPermission: Permission;
+              };
+            };
+            SageMakerMachineLearningModelResourceData: SageMakerMachineLearningModelResourceData & {
+              OwnerSetting: ResourceDownloadOwnerSetting & {
+                GroupOwner: string;
+                GroupPermission: Permission;
+              };
+            };
           };
-        };
-        SageMakerMachineLearningModelResourceData: SageMakerMachineLearningModelResourceData & {
-          OwnerSetting: ResourceDownloadOwnerSetting & {
-            GroupOwner: string;
-            GroupPermission: Permission;
-          };
-        };
-      };
-    })[];
-  };
-  Id?: string;
-  Version?: string;
+        })[];
+      })
+    | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetServiceRoleForAccountRequest {}
 export interface GetServiceRoleForAccountResponse {
-  AssociatedAt?: string;
-  RoleArn?: string;
+  AssociatedAt?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export interface GetSubscriptionDefinitionRequest {
   SubscriptionDefinitionId: string;
 }
 export interface GetSubscriptionDefinitionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetSubscriptionDefinitionVersionRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
   SubscriptionDefinitionId: string;
   SubscriptionDefinitionVersionId: string;
 }
 export interface GetSubscriptionDefinitionVersionResponse {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Definition?: SubscriptionDefinitionVersion & {
-    Subscriptions: (Subscription & {
-      Id: string;
-      Source: string;
-      Subject: string;
-      Target: string;
-    })[];
-  };
-  Id?: string;
-  NextToken?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Definition?:
+    | (SubscriptionDefinitionVersion & {
+        Subscriptions: (Subscription & {
+          Id: string;
+          Source: string;
+          Subject: string;
+          Target: string;
+        })[];
+      })
+    | undefined;
+  Id?: string | undefined;
+  NextToken?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetThingRuntimeConfigurationRequest {
   ThingName: string;
@@ -979,271 +993,273 @@ export interface GetThingRuntimeConfigurationRequest {
 export type ConfigurationSyncStatus = "InSync" | "OutOfSync" | (string & {});
 export type Telemetry = "On" | "Off" | (string & {});
 export interface TelemetryConfiguration {
-  ConfigurationSyncStatus?: ConfigurationSyncStatus;
-  Telemetry?: Telemetry;
+  ConfigurationSyncStatus?: ConfigurationSyncStatus | undefined;
+  Telemetry?: Telemetry | undefined;
 }
 export interface RuntimeConfiguration {
-  TelemetryConfiguration?: TelemetryConfiguration;
+  TelemetryConfiguration?: TelemetryConfiguration | undefined;
 }
 export interface GetThingRuntimeConfigurationResponse {
-  RuntimeConfiguration?: RuntimeConfiguration & {
-    TelemetryConfiguration: TelemetryConfiguration & { Telemetry: Telemetry };
-  };
+  RuntimeConfiguration?:
+    | (RuntimeConfiguration & {
+        TelemetryConfiguration: TelemetryConfiguration & { Telemetry: Telemetry };
+      })
+    | undefined;
 }
 export interface ListBulkDeploymentDetailedReportsRequest {
   BulkDeploymentId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface BulkDeploymentResult {
-  CreatedAt?: string;
-  DeploymentArn?: string;
-  DeploymentId?: string;
-  DeploymentStatus?: string;
-  DeploymentType?: DeploymentType;
-  ErrorDetails?: ErrorDetail[];
-  ErrorMessage?: string;
-  GroupArn?: string;
+  CreatedAt?: string | undefined;
+  DeploymentArn?: string | undefined;
+  DeploymentId?: string | undefined;
+  DeploymentStatus?: string | undefined;
+  DeploymentType?: DeploymentType | undefined;
+  ErrorDetails?: ErrorDetail[] | undefined;
+  ErrorMessage?: string | undefined;
+  GroupArn?: string | undefined;
 }
 export type BulkDeploymentResults = BulkDeploymentResult[];
 export interface ListBulkDeploymentDetailedReportsResponse {
-  Deployments?: BulkDeploymentResult[];
-  NextToken?: string;
+  Deployments?: BulkDeploymentResult[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListBulkDeploymentsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface BulkDeployment {
-  BulkDeploymentArn?: string;
-  BulkDeploymentId?: string;
-  CreatedAt?: string;
+  BulkDeploymentArn?: string | undefined;
+  BulkDeploymentId?: string | undefined;
+  CreatedAt?: string | undefined;
 }
 export type BulkDeployments = BulkDeployment[];
 export interface ListBulkDeploymentsResponse {
-  BulkDeployments?: BulkDeployment[];
-  NextToken?: string;
+  BulkDeployments?: BulkDeployment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConnectorDefinitionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface DefinitionInformation {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfDefinitionInformation = DefinitionInformation[];
 const __listOfDefinitionInformation = /*@__PURE__*/ __L.at(__c77, 1);
 export interface ListConnectorDefinitionsResponse {
-  Definitions?: DefinitionInformation[];
-  NextToken?: string;
+  Definitions?: DefinitionInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConnectorDefinitionVersionsRequest {
   ConnectorDefinitionId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface VersionInformation {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  Version?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  Version?: string | undefined;
 }
 export type __listOfVersionInformation = VersionInformation[];
 const __listOfVersionInformation = /*@__PURE__*/ __L.at(__c82, 0);
 export interface ListConnectorDefinitionVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListCoreDefinitionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCoreDefinitionsResponse {
-  Definitions?: DefinitionInformation[];
-  NextToken?: string;
+  Definitions?: DefinitionInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCoreDefinitionVersionsRequest {
   CoreDefinitionId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCoreDefinitionVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListDeploymentsRequest {
   GroupId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface Deployment {
-  CreatedAt?: string;
-  DeploymentArn?: string;
-  DeploymentId?: string;
-  DeploymentType?: DeploymentType;
-  GroupArn?: string;
+  CreatedAt?: string | undefined;
+  DeploymentArn?: string | undefined;
+  DeploymentId?: string | undefined;
+  DeploymentType?: DeploymentType | undefined;
+  GroupArn?: string | undefined;
 }
 export type Deployments = Deployment[];
 export interface ListDeploymentsResponse {
-  Deployments?: Deployment[];
-  NextToken?: string;
+  Deployments?: Deployment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDeviceDefinitionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDeviceDefinitionsResponse {
-  Definitions?: DefinitionInformation[];
-  NextToken?: string;
+  Definitions?: DefinitionInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDeviceDefinitionVersionsRequest {
   DeviceDefinitionId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDeviceDefinitionVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListFunctionDefinitionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFunctionDefinitionsResponse {
-  Definitions?: DefinitionInformation[];
-  NextToken?: string;
+  Definitions?: DefinitionInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFunctionDefinitionVersionsRequest {
   FunctionDefinitionId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFunctionDefinitionVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListGroupCertificateAuthoritiesRequest {
   GroupId: string;
 }
 export interface GroupCertificateAuthorityProperties {
-  GroupCertificateAuthorityArn?: string;
-  GroupCertificateAuthorityId?: string;
+  GroupCertificateAuthorityArn?: string | undefined;
+  GroupCertificateAuthorityId?: string | undefined;
 }
 export type __listOfGroupCertificateAuthorityProperties = GroupCertificateAuthorityProperties[];
 const __listOfGroupCertificateAuthorityProperties = /*@__PURE__*/ __L.at(__c90, 2);
 export interface ListGroupCertificateAuthoritiesResponse {
-  GroupCertificateAuthorities?: GroupCertificateAuthorityProperties[];
+  GroupCertificateAuthorities?: GroupCertificateAuthorityProperties[] | undefined;
 }
 export interface ListGroupsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface GroupInformation {
-  Arn?: string;
-  CreationTimestamp?: string;
-  Id?: string;
-  LastUpdatedTimestamp?: string;
-  LatestVersion?: string;
-  LatestVersionArn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  CreationTimestamp?: string | undefined;
+  Id?: string | undefined;
+  LastUpdatedTimestamp?: string | undefined;
+  LatestVersion?: string | undefined;
+  LatestVersionArn?: string | undefined;
+  Name?: string | undefined;
 }
 export type __listOfGroupInformation = GroupInformation[];
 const __listOfGroupInformation = /*@__PURE__*/ __L.at(__c91, 1);
 export interface ListGroupsResponse {
-  Groups?: GroupInformation[];
-  NextToken?: string;
+  Groups?: GroupInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGroupVersionsRequest {
   GroupId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGroupVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListLoggerDefinitionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLoggerDefinitionsResponse {
-  Definitions?: DefinitionInformation[];
-  NextToken?: string;
+  Definitions?: DefinitionInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLoggerDefinitionVersionsRequest {
   LoggerDefinitionId: string;
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLoggerDefinitionVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListResourceDefinitionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListResourceDefinitionsResponse {
-  Definitions?: DefinitionInformation[];
-  NextToken?: string;
+  Definitions?: DefinitionInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListResourceDefinitionVersionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
   ResourceDefinitionId: string;
 }
 export interface ListResourceDefinitionVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListSubscriptionDefinitionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSubscriptionDefinitionsResponse {
-  Definitions?: DefinitionInformation[];
-  NextToken?: string;
+  Definitions?: DefinitionInformation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSubscriptionDefinitionVersionsRequest {
-  MaxResults?: string;
-  NextToken?: string;
+  MaxResults?: string | undefined;
+  NextToken?: string | undefined;
   SubscriptionDefinitionId: string;
 }
 export interface ListSubscriptionDefinitionVersionsResponse {
-  NextToken?: string;
-  Versions?: VersionInformation[];
+  NextToken?: string | undefined;
+  Versions?: VersionInformation[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ResetDeploymentsRequest {
-  AmznClientToken?: string;
-  Force?: boolean;
+  AmznClientToken?: string | undefined;
+  Force?: boolean | undefined;
   GroupId: string;
 }
 export interface ResetDeploymentsResponse {
-  DeploymentArn?: string;
-  DeploymentId?: string;
+  DeploymentArn?: string | undefined;
+  DeploymentId?: string | undefined;
 }
 export interface StartBulkDeploymentRequest {
-  AmznClientToken?: string;
-  ExecutionRoleArn?: string;
-  InputFileUri?: string;
-  tags?: { [key: string]: string | undefined };
+  AmznClientToken?: string | undefined;
+  ExecutionRoleArn?: string | undefined;
+  InputFileUri?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartBulkDeploymentResponse {
-  BulkDeploymentArn?: string;
-  BulkDeploymentId?: string;
+  BulkDeploymentArn?: string | undefined;
+  BulkDeploymentId?: string | undefined;
 }
 export interface StopBulkDeploymentRequest {
   BulkDeploymentId: string;
@@ -1251,76 +1267,76 @@ export interface StopBulkDeploymentRequest {
 export interface StopBulkDeploymentResponse {}
 export interface TagResourceRequest {
   ResourceArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateConnectivityInfoRequest {
-  ConnectivityInfo?: ConnectivityInfo[];
+  ConnectivityInfo?: ConnectivityInfo[] | undefined;
   ThingName: string;
 }
 export interface UpdateConnectivityInfoResponse {
-  Message?: string;
-  Version?: string;
+  Message?: string | undefined;
+  Version?: string | undefined;
 }
 export interface UpdateConnectorDefinitionRequest {
   ConnectorDefinitionId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateConnectorDefinitionResponse {}
 export interface UpdateCoreDefinitionRequest {
   CoreDefinitionId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateCoreDefinitionResponse {}
 export interface UpdateDeviceDefinitionRequest {
   DeviceDefinitionId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateDeviceDefinitionResponse {}
 export interface UpdateFunctionDefinitionRequest {
   FunctionDefinitionId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateFunctionDefinitionResponse {}
 export interface UpdateGroupRequest {
   GroupId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateGroupResponse {}
 export interface UpdateGroupCertificateConfigurationRequest {
-  CertificateExpiryInMilliseconds?: string;
+  CertificateExpiryInMilliseconds?: string | undefined;
   GroupId: string;
 }
 export interface UpdateGroupCertificateConfigurationResponse {
-  CertificateAuthorityExpiryInMilliseconds?: string;
-  CertificateExpiryInMilliseconds?: string;
-  GroupId?: string;
+  CertificateAuthorityExpiryInMilliseconds?: string | undefined;
+  CertificateExpiryInMilliseconds?: string | undefined;
+  GroupId?: string | undefined;
 }
 export interface UpdateLoggerDefinitionRequest {
   LoggerDefinitionId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateLoggerDefinitionResponse {}
 export interface UpdateResourceDefinitionRequest {
-  Name?: string;
+  Name?: string | undefined;
   ResourceDefinitionId: string;
 }
 export interface UpdateResourceDefinitionResponse {}
 export interface UpdateSubscriptionDefinitionRequest {
-  Name?: string;
+  Name?: string | undefined;
   SubscriptionDefinitionId: string;
 }
 export interface UpdateSubscriptionDefinitionResponse {}
 export interface TelemetryConfigurationUpdate {
-  Telemetry?: Telemetry;
+  Telemetry?: Telemetry | undefined;
 }
 export interface UpdateThingRuntimeConfigurationRequest {
-  TelemetryConfiguration?: TelemetryConfigurationUpdate;
+  TelemetryConfiguration?: TelemetryConfigurationUpdate | undefined;
   ThingName: string;
 }
 export interface UpdateThingRuntimeConfigurationResponse {}

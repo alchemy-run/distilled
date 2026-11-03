@@ -215,7 +215,7 @@ export type RepositoryName = string;
 export type BatchedOperationLayerDigest = string;
 export type BatchedOperationLayerDigestList = string[];
 export interface BatchCheckLayerAvailabilityRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   layerDigests: string[];
 }
@@ -224,33 +224,33 @@ export type LayerAvailability = "AVAILABLE" | "UNAVAILABLE" | (string & {});
 export type LayerSizeInBytes = number;
 export type MediaType = string;
 export interface Layer {
-  layerDigest?: string;
-  layerAvailability?: LayerAvailability;
-  layerSize?: number;
-  mediaType?: string;
+  layerDigest?: string | undefined;
+  layerAvailability?: LayerAvailability | undefined;
+  layerSize?: number | undefined;
+  mediaType?: string | undefined;
 }
 export type LayerList = Layer[];
 export type LayerFailureCode = "InvalidLayerDigest" | "MissingLayerDigest" | (string & {});
 export type LayerFailureReason = string;
 export interface LayerFailure {
-  layerDigest?: string;
-  failureCode?: LayerFailureCode;
-  failureReason?: string;
+  layerDigest?: string | undefined;
+  failureCode?: LayerFailureCode | undefined;
+  failureReason?: string | undefined;
 }
 export type LayerFailureList = LayerFailure[];
 export interface BatchCheckLayerAvailabilityResponse {
-  layers?: Layer[];
-  failures?: LayerFailure[];
+  layers?: Layer[] | undefined;
+  failures?: LayerFailure[] | undefined;
 }
 export type ImageDigest = string;
 export type ImageTag = string;
 export interface ImageIdentifier {
-  imageDigest?: string;
-  imageTag?: string;
+  imageDigest?: string | undefined;
+  imageTag?: string | undefined;
 }
 export type ImageIdentifierList = ImageIdentifier[];
 export interface BatchDeleteImageRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageIds: ImageIdentifier[];
 }
@@ -265,29 +265,29 @@ export type ImageFailureCode =
   | (string & {});
 export type ImageFailureReason = string;
 export interface ImageFailure {
-  imageId?: ImageIdentifier;
-  failureCode?: ImageFailureCode;
-  failureReason?: string;
+  imageId?: ImageIdentifier | undefined;
+  failureCode?: ImageFailureCode | undefined;
+  failureReason?: string | undefined;
 }
 export type ImageFailureList = ImageFailure[];
 export interface BatchDeleteImageResponse {
-  imageIds?: ImageIdentifier[];
-  failures?: ImageFailure[];
+  imageIds?: ImageIdentifier[] | undefined;
+  failures?: ImageFailure[] | undefined;
 }
 export type UploadId = string;
 export type LayerDigestList = string[];
 export interface CompleteLayerUploadRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   uploadId: string;
   layerDigests: string[];
 }
 export type RegistryId = string;
 export interface CompleteLayerUploadResponse {
-  registryId?: string;
-  repositoryName?: string;
-  uploadId?: string;
-  layerDigest?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  uploadId?: string | undefined;
+  layerDigest?: string | undefined;
 }
 export type RepositoryDescription = string;
 export type Architecture = string;
@@ -298,122 +298,122 @@ export type LogoImageBlob = Uint8Array;
 export type AboutText = string;
 export type UsageText = string;
 export interface RepositoryCatalogDataInput {
-  description?: string;
-  architectures?: string[];
-  operatingSystems?: string[];
-  logoImageBlob?: Uint8Array;
-  aboutText?: string;
-  usageText?: string;
+  description?: string | undefined;
+  architectures?: string[] | undefined;
+  operatingSystems?: string[] | undefined;
+  logoImageBlob?: Uint8Array | undefined;
+  aboutText?: string | undefined;
+  usageText?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CreateRepositoryRequest {
   repositoryName: string;
-  catalogData?: RepositoryCatalogDataInput;
-  tags?: Tag[];
+  catalogData?: RepositoryCatalogDataInput | undefined;
+  tags?: Tag[] | undefined;
 }
 export type Arn = string;
 export type Url = string;
 export type CreationTimestamp = Date;
 export interface Repository {
-  repositoryArn?: string;
-  registryId?: string;
-  repositoryName?: string;
-  repositoryUri?: string;
-  createdAt?: Date;
+  repositoryArn?: string | undefined;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  repositoryUri?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export type ResourceUrl = string;
 export type MarketplaceCertified = boolean;
 export interface RepositoryCatalogData {
-  description?: string;
-  architectures?: string[];
-  operatingSystems?: string[];
-  logoUrl?: string;
-  aboutText?: string;
-  usageText?: string;
-  marketplaceCertified?: boolean;
+  description?: string | undefined;
+  architectures?: string[] | undefined;
+  operatingSystems?: string[] | undefined;
+  logoUrl?: string | undefined;
+  aboutText?: string | undefined;
+  usageText?: string | undefined;
+  marketplaceCertified?: boolean | undefined;
 }
 export interface CreateRepositoryResponse {
-  repository?: Repository;
-  catalogData?: RepositoryCatalogData;
+  repository?: Repository | undefined;
+  catalogData?: RepositoryCatalogData | undefined;
 }
 export type ForceFlag = boolean;
 export interface DeleteRepositoryRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteRepositoryResponse {
-  repository?: Repository;
+  repository?: Repository | undefined;
 }
 export interface DeleteRepositoryPolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
 }
 export type RepositoryPolicyText = string;
 export interface DeleteRepositoryPolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  policyText?: string | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface DescribeImagesRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  imageIds?: ImageIdentifier[];
-  nextToken?: string;
-  maxResults?: number;
+  imageIds?: ImageIdentifier[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ImageTagList = string[];
 export type ImageSizeInBytes = number;
 export type PushTimestamp = Date;
 export interface ImageDetail {
-  registryId?: string;
-  repositoryName?: string;
-  imageDigest?: string;
-  imageTags?: string[];
-  imageSizeInBytes?: number;
-  imagePushedAt?: Date;
-  imageManifestMediaType?: string;
-  artifactMediaType?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageDigest?: string | undefined;
+  imageTags?: string[] | undefined;
+  imageSizeInBytes?: number | undefined;
+  imagePushedAt?: Date | undefined;
+  imageManifestMediaType?: string | undefined;
+  artifactMediaType?: string | undefined;
 }
 export type ImageDetailList = ImageDetail[];
 export interface DescribeImagesResponse {
-  imageDetails?: ImageDetail[];
-  nextToken?: string;
+  imageDetails?: ImageDetail[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeImageTagsRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ReferencedImageDetail {
-  imageDigest?: string;
-  imageSizeInBytes?: number;
-  imagePushedAt?: Date;
-  imageManifestMediaType?: string;
-  artifactMediaType?: string;
+  imageDigest?: string | undefined;
+  imageSizeInBytes?: number | undefined;
+  imagePushedAt?: Date | undefined;
+  imageManifestMediaType?: string | undefined;
+  artifactMediaType?: string | undefined;
 }
 export interface ImageTagDetail {
-  imageTag?: string;
-  createdAt?: Date;
-  imageDetail?: ReferencedImageDetail;
+  imageTag?: string | undefined;
+  createdAt?: Date | undefined;
+  imageDetail?: ReferencedImageDetail | undefined;
 }
 export type ImageTagDetailList = ImageTagDetail[];
 export interface DescribeImageTagsResponse {
-  imageTagDetails?: ImageTagDetail[];
-  nextToken?: string;
+  imageTagDetails?: ImageTagDetail[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeRegistriesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type RegistryVerified = boolean;
 export type RegistryAliasName = string;
@@ -437,112 +437,112 @@ export interface Registry {
 export type RegistryList = Registry[];
 export interface DescribeRegistriesResponse {
   registries: Registry[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type RepositoryNameList = string[];
 export interface DescribeRepositoriesRequest {
-  registryId?: string;
-  repositoryNames?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  registryId?: string | undefined;
+  repositoryNames?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type RepositoryList = Repository[];
 export interface DescribeRepositoriesResponse {
-  repositories?: Repository[];
-  nextToken?: string;
+  repositories?: Repository[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetAuthorizationTokenRequest {}
 export type Base64 = string;
 export type ExpirationTimestamp = Date;
 export interface AuthorizationData {
-  authorizationToken?: string | redacted.Redacted<string>;
-  expiresAt?: Date;
+  authorizationToken?: string | redacted.Redacted<string> | undefined;
+  expiresAt?: Date | undefined;
 }
 export interface GetAuthorizationTokenResponse {
-  authorizationData?: AuthorizationData;
+  authorizationData?: AuthorizationData | undefined;
 }
 export interface GetRegistryCatalogDataRequest {}
 export type RegistryDisplayName = string;
 export interface RegistryCatalogData {
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetRegistryCatalogDataResponse {
   registryCatalogData: RegistryCatalogData;
 }
 export interface GetRepositoryCatalogDataRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
 }
 export interface GetRepositoryCatalogDataResponse {
-  catalogData?: RepositoryCatalogData;
+  catalogData?: RepositoryCatalogData | undefined;
 }
 export interface GetRepositoryPolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
 }
 export interface GetRepositoryPolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  policyText?: string | undefined;
 }
 export interface InitiateLayerUploadRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
 }
 export type PartSize = number;
 export interface InitiateLayerUploadResponse {
-  uploadId?: string;
-  partSize?: number;
+  uploadId?: string | undefined;
+  partSize?: number | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type ImageManifest = string;
 export interface PutImageRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   imageManifest: string;
-  imageManifestMediaType?: string;
-  imageTag?: string;
-  imageDigest?: string;
+  imageManifestMediaType?: string | undefined;
+  imageTag?: string | undefined;
+  imageDigest?: string | undefined;
 }
 export interface Image {
-  registryId?: string;
-  repositoryName?: string;
-  imageId?: ImageIdentifier;
-  imageManifest?: string;
-  imageManifestMediaType?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  imageId?: ImageIdentifier | undefined;
+  imageManifest?: string | undefined;
+  imageManifestMediaType?: string | undefined;
 }
 export interface PutImageResponse {
-  image?: Image;
+  image?: Image | undefined;
 }
 export interface PutRegistryCatalogDataRequest {
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface PutRegistryCatalogDataResponse {
   registryCatalogData: RegistryCatalogData;
 }
 export interface PutRepositoryCatalogDataRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   catalogData: RepositoryCatalogDataInput;
 }
 export interface PutRepositoryCatalogDataResponse {
-  catalogData?: RepositoryCatalogData;
+  catalogData?: RepositoryCatalogData | undefined;
 }
 export interface SetRepositoryPolicyRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   policyText: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface SetRepositoryPolicyResponse {
-  registryId?: string;
-  repositoryName?: string;
-  policyText?: string;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  policyText?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -557,7 +557,7 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export type LayerPartBlob = Uint8Array;
 export interface UploadLayerPartRequest {
-  registryId?: string;
+  registryId?: string | undefined;
   repositoryName: string;
   uploadId: string;
   partFirstByte: number;
@@ -565,10 +565,10 @@ export interface UploadLayerPartRequest {
   layerPartBlob: Uint8Array;
 }
 export interface UploadLayerPartResponse {
-  registryId?: string;
-  repositoryName?: string;
-  uploadId?: string;
-  lastByteReceived?: number;
+  registryId?: string | undefined;
+  repositoryName?: string | undefined;
+  uploadId?: string | undefined;
+  lastByteReceived?: number | undefined;
 }
 export type ExceptionMessage = string;
 export type BatchCheckLayerAvailabilityError =

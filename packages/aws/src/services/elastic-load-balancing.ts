@@ -307,7 +307,7 @@ export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface AddTagsInput {
@@ -322,7 +322,7 @@ export interface ApplySecurityGroupsToLoadBalancerInput {
   SecurityGroups: string[];
 }
 export interface ApplySecurityGroupsToLoadBalancerOutput {
-  SecurityGroups?: string[];
+  SecurityGroups?: string[] | undefined;
 }
 export type SubnetId = string;
 export type Subnets = string[];
@@ -331,7 +331,7 @@ export interface AttachLoadBalancerToSubnetsInput {
   Subnets: string[];
 }
 export interface AttachLoadBalancerToSubnetsOutput {
-  Subnets?: string[];
+  Subnets?: string[] | undefined;
 }
 export type HealthCheckTarget = string;
 export type HealthCheckInterval = number;
@@ -350,7 +350,7 @@ export interface ConfigureHealthCheckInput {
   HealthCheck: HealthCheck;
 }
 export interface ConfigureHealthCheckOutput {
-  HealthCheck?: HealthCheck;
+  HealthCheck?: HealthCheck | undefined;
 }
 export type PolicyName = string;
 export type CookieName = string;
@@ -364,7 +364,7 @@ export type CookieExpirationPeriod = number;
 export interface CreateLBCookieStickinessPolicyInput {
   LoadBalancerName: string;
   PolicyName: string;
-  CookieExpirationPeriod?: number;
+  CookieExpirationPeriod?: number | undefined;
 }
 export interface CreateLBCookieStickinessPolicyOutput {}
 export type Protocol = string;
@@ -374,9 +374,9 @@ export type SSLCertificateId = string;
 export interface Listener {
   Protocol: string;
   LoadBalancerPort: number;
-  InstanceProtocol?: string;
+  InstanceProtocol?: string | undefined;
   InstancePort: number;
-  SSLCertificateId?: string;
+  SSLCertificateId?: string | undefined;
 }
 export type Listeners = Listener[];
 export type AvailabilityZone = string;
@@ -385,15 +385,15 @@ export type LoadBalancerScheme = string;
 export interface CreateAccessPointInput {
   LoadBalancerName: string;
   Listeners: Listener[];
-  AvailabilityZones?: string[];
-  Subnets?: string[];
-  SecurityGroups?: string[];
-  Scheme?: string;
-  Tags?: Tag[];
+  AvailabilityZones?: string[] | undefined;
+  Subnets?: string[] | undefined;
+  SecurityGroups?: string[] | undefined;
+  Scheme?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type DNSName = string;
 export interface CreateAccessPointOutput {
-  DNSName?: string;
+  DNSName?: string | undefined;
 }
 export interface CreateLoadBalancerListenerInput {
   LoadBalancerName: string;
@@ -404,15 +404,15 @@ export type PolicyTypeName = string;
 export type AttributeName = string;
 export type AttributeValue = string;
 export interface PolicyAttribute {
-  AttributeName?: string;
-  AttributeValue?: string;
+  AttributeName?: string | undefined;
+  AttributeValue?: string | undefined;
 }
 export type PolicyAttributes = PolicyAttribute[];
 export interface CreateLoadBalancerPolicyInput {
   LoadBalancerName: string;
   PolicyName: string;
   PolicyTypeName: string;
-  PolicyAttributes?: PolicyAttribute[];
+  PolicyAttributes?: PolicyAttribute[] | undefined;
 }
 export interface CreateLoadBalancerPolicyOutput {}
 export interface DeleteAccessPointInput {
@@ -432,7 +432,7 @@ export interface DeleteLoadBalancerPolicyInput {
 export interface DeleteLoadBalancerPolicyOutput {}
 export type InstanceId = string;
 export interface Instance {
-  InstanceId?: string;
+  InstanceId?: string | undefined;
 }
 export type Instances = Instance[];
 export interface DeregisterEndPointsInput {
@@ -440,41 +440,41 @@ export interface DeregisterEndPointsInput {
   Instances: Instance[];
 }
 export interface DeregisterEndPointsOutput {
-  Instances?: Instance[];
+  Instances?: Instance[] | undefined;
 }
 export type Marker = string;
 export type PageSize = number;
 export interface DescribeAccountLimitsInput {
-  Marker?: string;
-  PageSize?: number;
+  Marker?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type Name = string;
 export type Max = string;
 export interface Limit {
-  Name?: string;
-  Max?: string;
+  Name?: string | undefined;
+  Max?: string | undefined;
 }
 export type Limits = Limit[];
 export interface DescribeAccountLimitsOutput {
-  Limits?: Limit[];
-  NextMarker?: string;
+  Limits?: Limit[] | undefined;
+  NextMarker?: string | undefined;
 }
 export interface DescribeEndPointStateInput {
   LoadBalancerName: string;
-  Instances?: Instance[];
+  Instances?: Instance[] | undefined;
 }
 export type State = string;
 export type ReasonCode = string;
 export type Description = string;
 export interface InstanceState {
-  InstanceId?: string;
-  State?: string;
-  ReasonCode?: string;
-  Description?: string;
+  InstanceId?: string | undefined;
+  State?: string | undefined;
+  ReasonCode?: string | undefined;
+  Description?: string | undefined;
 }
 export type InstanceStates = InstanceState[];
 export interface DescribeEndPointStateOutput {
-  InstanceStates?: InstanceState[];
+  InstanceStates?: InstanceState[] | undefined;
 }
 export interface DescribeLoadBalancerAttributesInput {
   LoadBalancerName: string;
@@ -489,15 +489,15 @@ export type AccessLogInterval = number;
 export type AccessLogPrefix = string;
 export interface AccessLog {
   Enabled: boolean;
-  S3BucketName?: string;
-  EmitInterval?: number;
-  S3BucketPrefix?: string;
+  S3BucketName?: string | undefined;
+  EmitInterval?: number | undefined;
+  S3BucketPrefix?: string | undefined;
 }
 export type ConnectionDrainingEnabled = boolean;
 export type ConnectionDrainingTimeout = number;
 export interface ConnectionDraining {
   Enabled: boolean;
-  Timeout?: number;
+  Timeout?: number | undefined;
 }
 export type IdleTimeout = number;
 export interface ConnectionSettings {
@@ -506,174 +506,174 @@ export interface ConnectionSettings {
 export type AdditionalAttributeKey = string;
 export type AdditionalAttributeValue = string;
 export interface AdditionalAttribute {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type AdditionalAttributes = AdditionalAttribute[];
 export interface LoadBalancerAttributes {
-  CrossZoneLoadBalancing?: CrossZoneLoadBalancing;
-  AccessLog?: AccessLog;
-  ConnectionDraining?: ConnectionDraining;
-  ConnectionSettings?: ConnectionSettings;
-  AdditionalAttributes?: AdditionalAttribute[];
+  CrossZoneLoadBalancing?: CrossZoneLoadBalancing | undefined;
+  AccessLog?: AccessLog | undefined;
+  ConnectionDraining?: ConnectionDraining | undefined;
+  ConnectionSettings?: ConnectionSettings | undefined;
+  AdditionalAttributes?: AdditionalAttribute[] | undefined;
 }
 export interface DescribeLoadBalancerAttributesOutput {
-  LoadBalancerAttributes?: LoadBalancerAttributes;
+  LoadBalancerAttributes?: LoadBalancerAttributes | undefined;
 }
 export type PolicyNames = string[];
 export interface DescribeLoadBalancerPoliciesInput {
-  LoadBalancerName?: string;
-  PolicyNames?: string[];
+  LoadBalancerName?: string | undefined;
+  PolicyNames?: string[] | undefined;
 }
 export interface PolicyAttributeDescription {
-  AttributeName?: string;
-  AttributeValue?: string;
+  AttributeName?: string | undefined;
+  AttributeValue?: string | undefined;
 }
 export type PolicyAttributeDescriptions = PolicyAttributeDescription[];
 export interface PolicyDescription {
-  PolicyName?: string;
-  PolicyTypeName?: string;
-  PolicyAttributeDescriptions?: PolicyAttributeDescription[];
+  PolicyName?: string | undefined;
+  PolicyTypeName?: string | undefined;
+  PolicyAttributeDescriptions?: PolicyAttributeDescription[] | undefined;
 }
 export type PolicyDescriptions = PolicyDescription[];
 export interface DescribeLoadBalancerPoliciesOutput {
-  PolicyDescriptions?: PolicyDescription[];
+  PolicyDescriptions?: PolicyDescription[] | undefined;
 }
 export type PolicyTypeNames = string[];
 export interface DescribeLoadBalancerPolicyTypesInput {
-  PolicyTypeNames?: string[];
+  PolicyTypeNames?: string[] | undefined;
 }
 export type AttributeType = string;
 export type DefaultValue = string;
 export type Cardinality = string;
 export interface PolicyAttributeTypeDescription {
-  AttributeName?: string;
-  AttributeType?: string;
-  Description?: string;
-  DefaultValue?: string;
-  Cardinality?: string;
+  AttributeName?: string | undefined;
+  AttributeType?: string | undefined;
+  Description?: string | undefined;
+  DefaultValue?: string | undefined;
+  Cardinality?: string | undefined;
 }
 export type PolicyAttributeTypeDescriptions = PolicyAttributeTypeDescription[];
 export interface PolicyTypeDescription {
-  PolicyTypeName?: string;
-  Description?: string;
-  PolicyAttributeTypeDescriptions?: PolicyAttributeTypeDescription[];
+  PolicyTypeName?: string | undefined;
+  Description?: string | undefined;
+  PolicyAttributeTypeDescriptions?: PolicyAttributeTypeDescription[] | undefined;
 }
 export type PolicyTypeDescriptions = PolicyTypeDescription[];
 export interface DescribeLoadBalancerPolicyTypesOutput {
-  PolicyTypeDescriptions?: PolicyTypeDescription[];
+  PolicyTypeDescriptions?: PolicyTypeDescription[] | undefined;
 }
 export interface DescribeAccessPointsInput {
-  LoadBalancerNames?: string[];
-  Marker?: string;
-  PageSize?: number;
+  LoadBalancerNames?: string[] | undefined;
+  Marker?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface ListenerDescription {
-  Listener?: Listener;
-  PolicyNames?: string[];
+  Listener?: Listener | undefined;
+  PolicyNames?: string[] | undefined;
 }
 export type ListenerDescriptions = ListenerDescription[];
 export interface AppCookieStickinessPolicy {
-  PolicyName?: string;
-  CookieName?: string;
+  PolicyName?: string | undefined;
+  CookieName?: string | undefined;
 }
 export type AppCookieStickinessPolicies = AppCookieStickinessPolicy[];
 export interface LBCookieStickinessPolicy {
-  PolicyName?: string;
-  CookieExpirationPeriod?: number;
+  PolicyName?: string | undefined;
+  CookieExpirationPeriod?: number | undefined;
 }
 export type LBCookieStickinessPolicies = LBCookieStickinessPolicy[];
 export interface Policies {
-  AppCookieStickinessPolicies?: AppCookieStickinessPolicy[];
-  LBCookieStickinessPolicies?: LBCookieStickinessPolicy[];
-  OtherPolicies?: string[];
+  AppCookieStickinessPolicies?: AppCookieStickinessPolicy[] | undefined;
+  LBCookieStickinessPolicies?: LBCookieStickinessPolicy[] | undefined;
+  OtherPolicies?: string[] | undefined;
 }
 export interface BackendServerDescription {
-  InstancePort?: number;
-  PolicyNames?: string[];
+  InstancePort?: number | undefined;
+  PolicyNames?: string[] | undefined;
 }
 export type BackendServerDescriptions = BackendServerDescription[];
 export type VPCId = string;
 export type SecurityGroupOwnerAlias = string;
 export type SecurityGroupName = string;
 export interface SourceSecurityGroup {
-  OwnerAlias?: string;
-  GroupName?: string;
+  OwnerAlias?: string | undefined;
+  GroupName?: string | undefined;
 }
 export type CreatedTime = Date;
 export interface LoadBalancerDescription {
-  LoadBalancerName?: string;
-  DNSName?: string;
-  CanonicalHostedZoneName?: string;
-  CanonicalHostedZoneNameID?: string;
-  ListenerDescriptions?: ListenerDescription[];
-  Policies?: Policies;
-  BackendServerDescriptions?: BackendServerDescription[];
-  AvailabilityZones?: string[];
-  Subnets?: string[];
-  VPCId?: string;
-  Instances?: Instance[];
-  HealthCheck?: HealthCheck;
-  SourceSecurityGroup?: SourceSecurityGroup;
-  SecurityGroups?: string[];
-  CreatedTime?: Date;
-  Scheme?: string;
+  LoadBalancerName?: string | undefined;
+  DNSName?: string | undefined;
+  CanonicalHostedZoneName?: string | undefined;
+  CanonicalHostedZoneNameID?: string | undefined;
+  ListenerDescriptions?: ListenerDescription[] | undefined;
+  Policies?: Policies | undefined;
+  BackendServerDescriptions?: BackendServerDescription[] | undefined;
+  AvailabilityZones?: string[] | undefined;
+  Subnets?: string[] | undefined;
+  VPCId?: string | undefined;
+  Instances?: Instance[] | undefined;
+  HealthCheck?: HealthCheck | undefined;
+  SourceSecurityGroup?: SourceSecurityGroup | undefined;
+  SecurityGroups?: string[] | undefined;
+  CreatedTime?: Date | undefined;
+  Scheme?: string | undefined;
 }
 export type LoadBalancerDescriptions = LoadBalancerDescription[];
 export interface DescribeAccessPointsOutput {
-  LoadBalancerDescriptions?: LoadBalancerDescription[];
-  NextMarker?: string;
+  LoadBalancerDescriptions?: LoadBalancerDescription[] | undefined;
+  NextMarker?: string | undefined;
 }
 export type LoadBalancerNamesMax20 = string[];
 export interface DescribeTagsInput {
   LoadBalancerNames: string[];
 }
 export interface TagDescription {
-  LoadBalancerName?: string;
-  Tags?: Tag[];
+  LoadBalancerName?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type TagDescriptions = TagDescription[];
 export interface DescribeTagsOutput {
-  TagDescriptions?: TagDescription[];
+  TagDescriptions?: TagDescription[] | undefined;
 }
 export interface DetachLoadBalancerFromSubnetsInput {
   LoadBalancerName: string;
   Subnets: string[];
 }
 export interface DetachLoadBalancerFromSubnetsOutput {
-  Subnets?: string[];
+  Subnets?: string[] | undefined;
 }
 export interface RemoveAvailabilityZonesInput {
   LoadBalancerName: string;
   AvailabilityZones: string[];
 }
 export interface RemoveAvailabilityZonesOutput {
-  AvailabilityZones?: string[];
+  AvailabilityZones?: string[] | undefined;
 }
 export interface AddAvailabilityZonesInput {
   LoadBalancerName: string;
   AvailabilityZones: string[];
 }
 export interface AddAvailabilityZonesOutput {
-  AvailabilityZones?: string[];
+  AvailabilityZones?: string[] | undefined;
 }
 export interface ModifyLoadBalancerAttributesInput {
   LoadBalancerName: string;
   LoadBalancerAttributes: LoadBalancerAttributes;
 }
 export interface ModifyLoadBalancerAttributesOutput {
-  LoadBalancerName?: string;
-  LoadBalancerAttributes?: LoadBalancerAttributes;
+  LoadBalancerName?: string | undefined;
+  LoadBalancerAttributes?: LoadBalancerAttributes | undefined;
 }
 export interface RegisterEndPointsInput {
   LoadBalancerName: string;
   Instances: Instance[];
 }
 export interface RegisterEndPointsOutput {
-  Instances?: Instance[];
+  Instances?: Instance[] | undefined;
 }
 export interface TagKeyOnly {
-  Key?: string;
+  Key?: string | undefined;
 }
 export type TagKeyList = TagKeyOnly[];
 export interface RemoveTagsInput {

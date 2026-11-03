@@ -160,9 +160,9 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateBrandProfileInput {
   brandProfileName: string;
-  clientToken?: string | redacted.Redacted<string>;
-  deletionProtectionEnabled?: boolean;
-  tags?: Tag[];
+  clientToken?: string | redacted.Redacted<string> | undefined;
+  deletionProtectionEnabled?: boolean | undefined;
+  tags?: Tag[] | undefined;
 }
 export type BrandProfileIdOrArn = string;
 export type AmazonResourceName = string;
@@ -186,22 +186,22 @@ export type BrandProfileAttributeCategory = string;
 export interface BrandProfileAttributeInput {
   attributeName: string | redacted.Redacted<string>;
   attributeType: BrandProfileAttributeType;
-  attributeValue?: string | redacted.Redacted<string>;
-  attachmentBody?: Uint8Array | redacted.Redacted<Uint8Array>;
-  description?: string | redacted.Redacted<string>;
-  category?: string;
+  attributeValue?: string | redacted.Redacted<string> | undefined;
+  attachmentBody?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  category?: string | undefined;
 }
 export type BrandProfileAttributeInputList = BrandProfileAttributeInput[];
 export interface CreateBrandProfileAttributesInput {
   brandProfileId: string;
   attributes: BrandProfileAttributeInput[];
-  clientToken?: string | redacted.Redacted<string>;
+  clientToken?: string | redacted.Redacted<string> | undefined;
 }
 export type MediaDownloadUrl = string | redacted.Redacted<string>;
 export interface BrandProfileAttributeOutput {
   attributeName: string | redacted.Redacted<string>;
   attributeType: BrandProfileAttributeType;
-  mediaDownloadUrl?: string | redacted.Redacted<string>;
+  mediaDownloadUrl?: string | redacted.Redacted<string> | undefined;
 }
 export type BrandProfileAttributeOutputList = BrandProfileAttributeOutput[];
 export interface CreateBrandProfileAttributesOutput {
@@ -211,9 +211,9 @@ export type RegistrationIdOrArn = string;
 export interface CreateBrandProfileFromRegistrationInput {
   registrationId: string;
   brandProfileName: string;
-  smartMatch?: boolean;
-  tags?: Tag[];
-  clientToken?: string | redacted.Redacted<string>;
+  smartMatch?: boolean | undefined;
+  tags?: Tag[] | undefined;
+  clientToken?: string | redacted.Redacted<string> | undefined;
 }
 export type JobId = string;
 export type JobResourceIdentifier = string;
@@ -231,10 +231,10 @@ export type CodeLength = number;
 export type ValidityPeriodMinutes = number;
 export type MaxVerificationAttempts = number;
 export interface CodeConfigurationParameters {
-  codeType?: CodeType;
-  codeLength?: number;
-  validityPeriodMinutes?: number;
-  maxAttempts?: number;
+  codeType?: CodeType | undefined;
+  codeLength?: number | undefined;
+  validityPeriodMinutes?: number | undefined;
+  maxAttempts?: number | undefined;
 }
 export type InlineTemplateBody = string | redacted.Redacted<string>;
 export type DestinationCountryParameterKey = string;
@@ -243,49 +243,51 @@ export type DestinationCountryParameters = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export interface TextParameters {
-  inlineTemplateBody?: string | redacted.Redacted<string>;
-  destinationCountryParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  inlineTemplateBody?: string | redacted.Redacted<string> | undefined;
+  destinationCountryParameters?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
 }
 export type LanguageCode = string;
 export type VoiceId = string;
 export type VoiceMessageBodyTextType = "TEXT" | "SSML" | (string & {});
 export interface VoiceParameters {
-  inlineTemplateBody?: string | redacted.Redacted<string>;
-  languageCode?: string;
-  voiceId?: string;
-  voiceMessageBodyTextType?: VoiceMessageBodyTextType;
+  inlineTemplateBody?: string | redacted.Redacted<string> | undefined;
+  languageCode?: string | undefined;
+  voiceId?: string | undefined;
+  voiceMessageBodyTextType?: VoiceMessageBodyTextType | undefined;
 }
 export type NotifyTemplateId = string;
 export interface NotifyParameters {
-  notifyTemplateId?: string;
-  voiceId?: string;
+  notifyTemplateId?: string | undefined;
+  voiceId?: string | undefined;
 }
 export type WhatsAppTemplateName = string;
 export interface WhatsAppParameters {
-  whatsAppTemplateName?: string;
-  languageCode?: string;
+  whatsAppTemplateName?: string | undefined;
+  languageCode?: string | undefined;
 }
 export interface ChannelParameters {
-  text?: TextParameters;
-  voice?: VoiceParameters;
-  notify?: NotifyParameters;
-  whatsApp?: WhatsAppParameters;
+  text?: TextParameters | undefined;
+  voice?: VoiceParameters | undefined;
+  notify?: NotifyParameters | undefined;
+  whatsApp?: WhatsAppParameters | undefined;
 }
 export interface CreateNotifyCodeConfigurationInput {
   notifyCodeConfigurationName: string;
-  codeConfigurationParameters?: CodeConfigurationParameters;
-  channelParameters?: ChannelParameters;
-  deletionProtectionEnabled?: boolean;
-  clientToken?: string | redacted.Redacted<string>;
-  tags?: Tag[];
+  codeConfigurationParameters?: CodeConfigurationParameters | undefined;
+  channelParameters?: ChannelParameters | undefined;
+  deletionProtectionEnabled?: boolean | undefined;
+  clientToken?: string | redacted.Redacted<string> | undefined;
+  tags?: Tag[] | undefined;
 }
 export type NotifyCodeConfigurationId = string;
 export interface NotifyCodeConfiguration {
   notifyCodeConfigurationId: string;
   notifyCodeConfigurationArn: string;
   notifyCodeConfigurationName: string;
-  codeConfigurationParameters?: CodeConfigurationParameters;
-  channelParameters?: ChannelParameters;
+  codeConfigurationParameters?: CodeConfigurationParameters | undefined;
+  channelParameters?: ChannelParameters | undefined;
   deletionProtectionEnabled: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -298,8 +300,8 @@ export type RegistrationTypeList = string[];
 export interface CreateRegistrationsFromBrandProfileInput {
   brandProfileId: string;
   registrationTypes: string[];
-  smartMatch?: boolean;
-  clientToken?: string | redacted.Redacted<string>;
+  smartMatch?: boolean | undefined;
+  clientToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateRegistrationsFromBrandProfileOutput {
   results: JobResult[];
@@ -343,12 +345,12 @@ export interface GetBrandProfileAttributeInput {
 export interface GetBrandProfileAttributeOutput {
   attributeName: string | redacted.Redacted<string>;
   attributeType: BrandProfileAttributeType;
-  attributeValue?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  category?: string;
-  mediaContentType?: string;
-  mediaSizeBytes?: number;
-  mediaDownloadUrl?: string | redacted.Redacted<string>;
+  attributeValue?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  category?: string | undefined;
+  mediaContentType?: string | undefined;
+  mediaSizeBytes?: number | undefined;
+  mediaDownloadUrl?: string | redacted.Redacted<string> | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -373,10 +375,10 @@ export interface Job {
   operationType: string;
   createdAt: Date;
   updatedAt: Date;
-  brandProfileId?: string;
-  errorCode?: string;
-  errorMessage?: string;
-  resources?: JobResource[];
+  brandProfileId?: string | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
+  resources?: JobResource[] | undefined;
 }
 export interface GetNotifyCodeConfigurationInput {
   notifyCodeConfigurationId: string;
@@ -388,25 +390,25 @@ export type NextToken = string;
 export type MaxResults = number;
 export interface ListBrandProfileAttributesInput {
   brandProfileId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BrandProfileAttributeSummary {
   attributeName: string | redacted.Redacted<string>;
   attributeType: BrandProfileAttributeType;
-  description?: string | redacted.Redacted<string>;
-  category?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  category?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
 export type BrandProfileAttributeSummaryList = BrandProfileAttributeSummary[];
 export interface ListBrandProfileAttributesOutput {
   brandProfileAttributes: BrandProfileAttributeSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListBrandProfilesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BrandProfileInfo {
   brandProfileId: string;
@@ -420,14 +422,14 @@ export interface BrandProfileInfo {
 export type BrandProfileInfoList = BrandProfileInfo[];
 export interface ListBrandProfilesOutput {
   brandProfiles: BrandProfileInfo[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListJobsInput {
-  maxResults?: number;
-  nextToken?: string;
-  status?: JobStatus;
-  brandProfileId?: string;
-  operationType?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  status?: JobStatus | undefined;
+  brandProfileId?: string | undefined;
+  operationType?: string | undefined;
 }
 export interface JobSummary {
   jobId: string;
@@ -435,29 +437,29 @@ export interface JobSummary {
   operationType: string;
   createdAt: Date;
   updatedAt: Date;
-  brandProfileId?: string;
-  errorCode?: string;
-  errorMessage?: string;
-  resources?: JobResource[];
+  brandProfileId?: string | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
+  resources?: JobResource[] | undefined;
 }
 export type JobSummaryList = JobSummary[];
 export interface ListJobsOutput {
   jobs: JobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListNotifyCodeConfigurationsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type NotifyCodeConfigurationList = NotifyCodeConfiguration[];
 export interface ListNotifyCodeConfigurationsOutput {
   notifyCodeConfigurations: NotifyCodeConfiguration[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListRegistrationsFromBrandProfileInput {
   brandProfileId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type RegistrationId = string;
 export interface RegistrationAssociationSummary {
@@ -469,13 +471,13 @@ export interface RegistrationAssociationSummary {
 export type RegistrationAssociationSummaryList = RegistrationAssociationSummary[];
 export interface ListRegistrationsFromBrandProfileOutput {
   registrationAssociations: RegistrationAssociationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type NotifyChannel = "TEXT" | "VOICE" | "WHATSAPP" | (string & {});
 export type DestinationIdentity = string | redacted.Redacted<string>;
@@ -489,12 +491,12 @@ export interface SendNotifyCodeVerificationInput {
   channel: NotifyChannel;
   destinationIdentity: string | redacted.Redacted<string>;
   originationIdentity: string;
-  notifyCodeConfiguration?: string;
-  overrideChannelParameters?: ChannelParameters;
-  overrideCodeConfigurationParameters?: CodeConfigurationParameters;
-  configurationSetName?: string;
-  context?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  referenceId?: string;
+  notifyCodeConfiguration?: string | undefined;
+  overrideChannelParameters?: ChannelParameters | undefined;
+  overrideCodeConfigurationParameters?: CodeConfigurationParameters | undefined;
+  configurationSetName?: string | undefined;
+  context?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  referenceId?: string | undefined;
 }
 export type VerificationId = string;
 export type MessageId = string;
@@ -515,8 +517,8 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateBrandProfileInput {
   brandProfileId: string;
-  brandProfileName?: string;
-  deletionProtectionEnabled?: boolean;
+  brandProfileName?: string | undefined;
+  deletionProtectionEnabled?: boolean | undefined;
 }
 export interface UpdateBrandProfileOutput {
   brandProfileId: string;
@@ -530,19 +532,19 @@ export interface UpdateBrandProfileOutput {
 export interface UpdateBrandProfileAttributeInput {
   brandProfileId: string;
   attributeName: string | redacted.Redacted<string>;
-  attributeValue?: string | redacted.Redacted<string>;
-  attachmentBody?: Uint8Array;
-  description?: string | redacted.Redacted<string>;
-  category?: string;
+  attributeValue?: string | redacted.Redacted<string> | undefined;
+  attachmentBody?: Uint8Array | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  category?: string | undefined;
 }
 export interface UpdateBrandProfileAttributeOutput {
   attributeName: string | redacted.Redacted<string>;
   attributeType: BrandProfileAttributeType;
-  attributeValue?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  category?: string;
-  mediaContentType?: string;
-  mediaSizeBytes?: number;
+  attributeValue?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  category?: string | undefined;
+  mediaContentType?: string | undefined;
+  mediaSizeBytes?: number | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -550,57 +552,59 @@ export type OnAttributeConflict = "REPLACE" | "PRESERVE" | (string & {});
 export interface UpdateBrandProfileFromRegistrationInput {
   brandProfileId: string;
   registrationId: string;
-  smartMatch?: boolean;
-  onAttributeConflict?: OnAttributeConflict;
-  clientToken?: string | redacted.Redacted<string>;
+  smartMatch?: boolean | undefined;
+  onAttributeConflict?: OnAttributeConflict | undefined;
+  clientToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateBrandProfileFromRegistrationOutput {
   results: JobResult[];
 }
 export interface UpdateCodeConfigurationParameters {
-  codeType?: CodeType;
-  codeLength?: number;
-  validityPeriodMinutes?: number;
-  maxAttempts?: number;
+  codeType?: CodeType | undefined;
+  codeLength?: number | undefined;
+  validityPeriodMinutes?: number | undefined;
+  maxAttempts?: number | undefined;
 }
 export type UpdateInlineTemplateBody = string | redacted.Redacted<string>;
 export type UpdateDestinationCountryParameters = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export interface UpdateTextParameters {
-  inlineTemplateBody?: string | redacted.Redacted<string>;
-  destinationCountryParameters?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  inlineTemplateBody?: string | redacted.Redacted<string> | undefined;
+  destinationCountryParameters?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
 }
 export type UpdateLanguageCode = string;
 export type UpdateVoiceId = string;
 export interface UpdateVoiceParameters {
-  inlineTemplateBody?: string | redacted.Redacted<string>;
-  languageCode?: string;
-  voiceId?: string;
-  voiceMessageBodyTextType?: VoiceMessageBodyTextType;
+  inlineTemplateBody?: string | redacted.Redacted<string> | undefined;
+  languageCode?: string | undefined;
+  voiceId?: string | undefined;
+  voiceMessageBodyTextType?: VoiceMessageBodyTextType | undefined;
 }
 export type UpdateNotifyTemplateId = string;
 export interface UpdateNotifyParameters {
-  notifyTemplateId?: string;
-  voiceId?: string;
+  notifyTemplateId?: string | undefined;
+  voiceId?: string | undefined;
 }
 export type UpdateWhatsAppTemplateName = string;
 export interface UpdateWhatsAppParameters {
-  whatsAppTemplateName?: string;
-  languageCode?: string;
+  whatsAppTemplateName?: string | undefined;
+  languageCode?: string | undefined;
 }
 export interface UpdateChannelParameters {
-  text?: UpdateTextParameters;
-  voice?: UpdateVoiceParameters;
-  notify?: UpdateNotifyParameters;
-  whatsApp?: UpdateWhatsAppParameters;
+  text?: UpdateTextParameters | undefined;
+  voice?: UpdateVoiceParameters | undefined;
+  notify?: UpdateNotifyParameters | undefined;
+  whatsApp?: UpdateWhatsAppParameters | undefined;
 }
 export interface UpdateNotifyCodeConfigurationInput {
   notifyCodeConfigurationId: string;
-  notifyCodeConfigurationName?: string;
-  codeConfigurationParameters?: UpdateCodeConfigurationParameters;
-  channelParameters?: UpdateChannelParameters;
-  deletionProtectionEnabled?: boolean;
+  notifyCodeConfigurationName?: string | undefined;
+  codeConfigurationParameters?: UpdateCodeConfigurationParameters | undefined;
+  channelParameters?: UpdateChannelParameters | undefined;
+  deletionProtectionEnabled?: boolean | undefined;
 }
 export interface UpdateNotifyCodeConfigurationOutput {
   notifyCodeConfiguration: NotifyCodeConfiguration;
@@ -609,9 +613,9 @@ export type RegistrationIdList = string[];
 export interface UpdateRegistrationsFromBrandProfileInput {
   brandProfileId: string;
   registrationIds: string[];
-  smartMatch?: boolean;
-  onAttributeConflict?: OnAttributeConflict;
-  clientToken?: string | redacted.Redacted<string>;
+  smartMatch?: boolean | undefined;
+  onAttributeConflict?: OnAttributeConflict | undefined;
+  clientToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateRegistrationsFromBrandProfileOutput {
   results: JobResult[];
@@ -619,7 +623,7 @@ export interface UpdateRegistrationsFromBrandProfileOutput {
 export type VerificationCode = string | redacted.Redacted<string>;
 export interface ValidateNotifyCodeVerificationInput {
   destinationIdentity: string | redacted.Redacted<string>;
-  referenceId?: string;
+  referenceId?: string | undefined;
   code: string | redacted.Redacted<string>;
 }
 export type VerificationStatus = "VALID" | "INVALID" | (string & {});

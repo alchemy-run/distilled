@@ -133,87 +133,87 @@ export type __listOf__string = string[];
 const __listOf__string = /*@__PURE__*/ __L.at(__c35, 0);
 export type Tags = { [key: string]: string | undefined };
 export interface CreateCellRequest {
-  CellName?: string;
-  Cells?: string[];
-  Tags?: { [key: string]: string | undefined };
+  CellName?: string | undefined;
+  Cells?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __stringMax256 = string;
 export type __stringMax64PatternAAZAZ09Z = string;
 export interface CreateCellResponse {
-  CellArn?: string;
-  CellName?: string;
-  Cells?: string[];
-  ParentReadinessScopes?: string[];
-  Tags?: { [key: string]: string | undefined };
+  CellArn?: string | undefined;
+  CellName?: string | undefined;
+  Cells?: string[] | undefined;
+  ParentReadinessScopes?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CrossAccountAuthorization = string;
 export interface CreateCrossAccountAuthorizationRequest {
-  CrossAccountAuthorization?: string;
+  CrossAccountAuthorization?: string | undefined;
 }
 export interface CreateCrossAccountAuthorizationResponse {
-  CrossAccountAuthorization?: string;
+  CrossAccountAuthorization?: string | undefined;
 }
 export interface CreateReadinessCheckRequest {
-  ReadinessCheckName?: string;
-  ResourceSetName?: string;
-  Tags?: { [key: string]: string | undefined };
+  ReadinessCheckName?: string | undefined;
+  ResourceSetName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateReadinessCheckResponse {
-  ReadinessCheckArn?: string;
-  ReadinessCheckName?: string;
-  ResourceSet?: string;
-  Tags?: { [key: string]: string | undefined };
+  ReadinessCheckArn?: string | undefined;
+  ReadinessCheckName?: string | undefined;
+  ResourceSet?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRecoveryGroupRequest {
-  Cells?: string[];
-  RecoveryGroupName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Cells?: string[] | undefined;
+  RecoveryGroupName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRecoveryGroupResponse {
-  Cells?: string[];
-  RecoveryGroupArn?: string;
-  RecoveryGroupName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Cells?: string[] | undefined;
+  RecoveryGroupArn?: string | undefined;
+  RecoveryGroupName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __stringPatternAWSAZaZ09AZaZ09 = string;
 export interface NLBResource {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface R53ResourceRecord {
-  DomainName?: string;
-  RecordSetId?: string;
+  DomainName?: string | undefined;
+  RecordSetId?: string | undefined;
 }
 export interface TargetResource {
-  NLBResource?: NLBResource;
-  R53Resource?: R53ResourceRecord;
+  NLBResource?: NLBResource | undefined;
+  R53Resource?: R53ResourceRecord | undefined;
 }
 export interface DNSTargetResource {
-  DomainName?: string;
-  HostedZoneArn?: string;
-  RecordSetId?: string;
-  RecordType?: string;
-  TargetResource?: TargetResource;
+  DomainName?: string | undefined;
+  HostedZoneArn?: string | undefined;
+  RecordSetId?: string | undefined;
+  RecordType?: string | undefined;
+  TargetResource?: TargetResource | undefined;
 }
 export interface Resource {
-  ComponentId?: string;
-  DnsTargetResource?: DNSTargetResource;
-  ReadinessScopes?: string[];
-  ResourceArn?: string;
+  ComponentId?: string | undefined;
+  DnsTargetResource?: DNSTargetResource | undefined;
+  ReadinessScopes?: string[] | undefined;
+  ResourceArn?: string | undefined;
 }
 export type __listOfResource = Resource[];
 const __listOfResource = /*@__PURE__*/ __L.at(__c1, 5);
 export interface CreateResourceSetRequest {
-  ResourceSetName?: string;
-  ResourceSetType?: string;
-  Resources?: Resource[];
-  Tags?: { [key: string]: string | undefined };
+  ResourceSetName?: string | undefined;
+  ResourceSetType?: string | undefined;
+  Resources?: Resource[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateResourceSetResponse {
-  ResourceSetArn?: string;
-  ResourceSetName?: string;
-  ResourceSetType?: string;
-  Resources?: Resource[];
-  Tags?: { [key: string]: string | undefined };
+  ResourceSetArn?: string | undefined;
+  ResourceSetName?: string | undefined;
+  ResourceSetType?: string | undefined;
+  Resources?: Resource[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteCellRequest {
   CellName: string;
@@ -237,311 +237,322 @@ export interface DeleteResourceSetRequest {
 export interface DeleteResourceSetResponse {}
 export type MaxResults = number;
 export interface GetArchitectureRecommendationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   RecoveryGroupName: string;
 }
 export type LastAuditTimestamp = Date;
 export interface Recommendation {
-  RecommendationText?: string;
+  RecommendationText?: string | undefined;
 }
 export type __listOfRecommendation = Recommendation[];
 const __listOfRecommendation = /*@__PURE__*/ __L.at(__c8, 2);
 export interface GetArchitectureRecommendationsResponse {
-  LastAuditTimestamp?: Date;
-  NextToken?: string;
-  Recommendations?: (Recommendation & { RecommendationText: string })[];
+  LastAuditTimestamp?: Date | undefined;
+  NextToken?: string | undefined;
+  Recommendations?: (Recommendation & { RecommendationText: string })[] | undefined;
 }
 export interface GetCellRequest {
   CellName: string;
 }
 export interface GetCellResponse {
-  CellArn?: string;
-  CellName?: string;
-  Cells?: string[];
-  ParentReadinessScopes?: string[];
-  Tags?: { [key: string]: string | undefined };
+  CellArn?: string | undefined;
+  CellName?: string | undefined;
+  Cells?: string[] | undefined;
+  ParentReadinessScopes?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetCellReadinessSummaryRequest {
   CellName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Readiness = "READY" | "NOT_READY" | "UNKNOWN" | "NOT_AUTHORIZED" | (string & {});
 export interface ReadinessCheckSummary {
-  Readiness?: Readiness;
-  ReadinessCheckName?: string;
+  Readiness?: Readiness | undefined;
+  ReadinessCheckName?: string | undefined;
 }
 export type __listOfReadinessCheckSummary = ReadinessCheckSummary[];
 const __listOfReadinessCheckSummary = /*@__PURE__*/ __L.at(__c11, 1);
 export interface GetCellReadinessSummaryResponse {
-  NextToken?: string;
-  Readiness?: Readiness;
-  ReadinessChecks?: ReadinessCheckSummary[];
+  NextToken?: string | undefined;
+  Readiness?: Readiness | undefined;
+  ReadinessChecks?: ReadinessCheckSummary[] | undefined;
 }
 export interface GetReadinessCheckRequest {
   ReadinessCheckName: string;
 }
 export interface GetReadinessCheckResponse {
-  ReadinessCheckArn?: string;
-  ReadinessCheckName?: string;
-  ResourceSet?: string;
-  Tags?: { [key: string]: string | undefined };
+  ReadinessCheckArn?: string | undefined;
+  ReadinessCheckName?: string | undefined;
+  ResourceSet?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetReadinessCheckResourceStatusRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ReadinessCheckName: string;
   ResourceIdentifier: string;
 }
 export type ReadinessCheckTimestamp = Date;
 export interface Message {
-  MessageText?: string;
+  MessageText?: string | undefined;
 }
 export type __listOfMessage = Message[];
 const __listOfMessage = /*@__PURE__*/ __L.at(__c14, 1);
 export interface RuleResult {
-  LastCheckedTimestamp?: Date;
-  Messages?: Message[];
-  Readiness?: Readiness;
-  RuleId?: string;
+  LastCheckedTimestamp?: Date | undefined;
+  Messages?: Message[] | undefined;
+  Readiness?: Readiness | undefined;
+  RuleId?: string | undefined;
 }
 export type __listOfRuleResult = RuleResult[];
 const __listOfRuleResult = /*@__PURE__*/ __L.at(__c13, 2);
 export interface GetReadinessCheckResourceStatusResponse {
-  NextToken?: string;
-  Readiness?: Readiness;
-  Rules?: (RuleResult & {
-    LastCheckedTimestamp: ReadinessCheckTimestamp;
-    Messages: __listOfMessage;
-    Readiness: Readiness;
-    RuleId: string;
-  })[];
+  NextToken?: string | undefined;
+  Readiness?: Readiness | undefined;
+  Rules?:
+    | (RuleResult & {
+        LastCheckedTimestamp: ReadinessCheckTimestamp;
+        Messages: __listOfMessage;
+        Readiness: Readiness;
+        RuleId: string;
+      })[]
+    | undefined;
 }
 export interface GetReadinessCheckStatusRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ReadinessCheckName: string;
 }
 export interface ResourceResult {
-  ComponentId?: string;
-  LastCheckedTimestamp?: Date;
-  Readiness?: Readiness;
-  ResourceArn?: string;
+  ComponentId?: string | undefined;
+  LastCheckedTimestamp?: Date | undefined;
+  Readiness?: Readiness | undefined;
+  ResourceArn?: string | undefined;
 }
 export type __listOfResourceResult = ResourceResult[];
 const __listOfResourceResult = /*@__PURE__*/ __L.at(__c15, 2);
 export interface GetReadinessCheckStatusResponse {
-  Messages?: Message[];
-  NextToken?: string;
-  Readiness?: Readiness;
-  Resources?: (ResourceResult & {
-    LastCheckedTimestamp: ReadinessCheckTimestamp;
-    Readiness: Readiness;
-  })[];
+  Messages?: Message[] | undefined;
+  NextToken?: string | undefined;
+  Readiness?: Readiness | undefined;
+  Resources?:
+    | (ResourceResult & { LastCheckedTimestamp: ReadinessCheckTimestamp; Readiness: Readiness })[]
+    | undefined;
 }
 export interface GetRecoveryGroupRequest {
   RecoveryGroupName: string;
 }
 export interface GetRecoveryGroupResponse {
-  Cells?: string[];
-  RecoveryGroupArn?: string;
-  RecoveryGroupName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Cells?: string[] | undefined;
+  RecoveryGroupArn?: string | undefined;
+  RecoveryGroupName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetRecoveryGroupReadinessSummaryRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   RecoveryGroupName: string;
 }
 export interface GetRecoveryGroupReadinessSummaryResponse {
-  NextToken?: string;
-  Readiness?: Readiness;
-  ReadinessChecks?: ReadinessCheckSummary[];
+  NextToken?: string | undefined;
+  Readiness?: Readiness | undefined;
+  ReadinessChecks?: ReadinessCheckSummary[] | undefined;
 }
 export interface GetResourceSetRequest {
   ResourceSetName: string;
 }
 export interface GetResourceSetResponse {
-  ResourceSetArn?: string;
-  ResourceSetName?: string;
-  ResourceSetType?: string;
-  Resources?: Resource[];
-  Tags?: { [key: string]: string | undefined };
+  ResourceSetArn?: string | undefined;
+  ResourceSetName?: string | undefined;
+  ResourceSetType?: string | undefined;
+  Resources?: Resource[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListCellsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface CellOutput {
-  CellArn?: string;
-  CellName?: string;
-  Cells?: string[];
-  ParentReadinessScopes?: string[];
-  Tags?: { [key: string]: string | undefined };
+  CellArn?: string | undefined;
+  CellName?: string | undefined;
+  Cells?: string[] | undefined;
+  ParentReadinessScopes?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfCellOutput = CellOutput[];
 const __listOfCellOutput = /*@__PURE__*/ __L.at(__c19, 1);
 export interface ListCellsResponse {
-  Cells?: (CellOutput & {
-    CellArn: __stringMax256;
-    CellName: __stringMax64PatternAAZAZ09Z;
-    Cells: __listOf__string;
-    ParentReadinessScopes: __listOf__string;
-  })[];
-  NextToken?: string;
+  Cells?:
+    | (CellOutput & {
+        CellArn: __stringMax256;
+        CellName: __stringMax64PatternAAZAZ09Z;
+        Cells: __listOf__string;
+        ParentReadinessScopes: __listOf__string;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCrossAccountAuthorizationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfCrossAccountAuthorization = string[];
 const __listOfCrossAccountAuthorization =
   __listOf__string as any as S.Schema<__listOfCrossAccountAuthorization>;
 export interface ListCrossAccountAuthorizationsResponse {
-  CrossAccountAuthorizations?: string[];
-  NextToken?: string;
+  CrossAccountAuthorizations?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListReadinessChecksRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ReadinessCheckOutput {
-  ReadinessCheckArn?: string;
-  ReadinessCheckName?: string;
-  ResourceSet?: string;
-  Tags?: { [key: string]: string | undefined };
+  ReadinessCheckArn?: string | undefined;
+  ReadinessCheckName?: string | undefined;
+  ResourceSet?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfReadinessCheckOutput = ReadinessCheckOutput[];
 const __listOfReadinessCheckOutput = /*@__PURE__*/ __L.at(__c21, 1);
 export interface ListReadinessChecksResponse {
-  NextToken?: string;
-  ReadinessChecks?: (ReadinessCheckOutput & {
-    ReadinessCheckArn: __stringMax256;
-    ResourceSet: __stringMax64PatternAAZAZ09Z;
-  })[];
+  NextToken?: string | undefined;
+  ReadinessChecks?:
+    | (ReadinessCheckOutput & {
+        ReadinessCheckArn: __stringMax256;
+        ResourceSet: __stringMax64PatternAAZAZ09Z;
+      })[]
+    | undefined;
 }
 export interface ListRecoveryGroupsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RecoveryGroupOutput {
-  Cells?: string[];
-  RecoveryGroupArn?: string;
-  RecoveryGroupName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Cells?: string[] | undefined;
+  RecoveryGroupArn?: string | undefined;
+  RecoveryGroupName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfRecoveryGroupOutput = RecoveryGroupOutput[];
 const __listOfRecoveryGroupOutput = /*@__PURE__*/ __L.at(__c22, 1);
 export interface ListRecoveryGroupsResponse {
-  NextToken?: string;
-  RecoveryGroups?: (RecoveryGroupOutput & {
-    Cells: __listOf__string;
-    RecoveryGroupArn: __stringMax256;
-    RecoveryGroupName: __stringMax64PatternAAZAZ09Z;
-  })[];
+  NextToken?: string | undefined;
+  RecoveryGroups?:
+    | (RecoveryGroupOutput & {
+        Cells: __listOf__string;
+        RecoveryGroupArn: __stringMax256;
+        RecoveryGroupName: __stringMax64PatternAAZAZ09Z;
+      })[]
+    | undefined;
 }
 export interface ListResourceSetsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ResourceSetOutput {
-  ResourceSetArn?: string;
-  ResourceSetName?: string;
-  ResourceSetType?: string;
-  Resources?: Resource[];
-  Tags?: { [key: string]: string | undefined };
+  ResourceSetArn?: string | undefined;
+  ResourceSetName?: string | undefined;
+  ResourceSetType?: string | undefined;
+  Resources?: Resource[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfResourceSetOutput = ResourceSetOutput[];
 const __listOfResourceSetOutput = /*@__PURE__*/ __L.at(__c23, 1);
 export interface ListResourceSetsResponse {
-  NextToken?: string;
-  ResourceSets?: (ResourceSetOutput & {
-    ResourceSetArn: __stringMax256;
-    ResourceSetName: __stringMax64PatternAAZAZ09Z;
-    ResourceSetType: __stringPatternAWSAZaZ09AZaZ09;
-    Resources: __listOfResource;
-  })[];
+  NextToken?: string | undefined;
+  ResourceSets?:
+    | (ResourceSetOutput & {
+        ResourceSetArn: __stringMax256;
+        ResourceSetName: __stringMax64PatternAAZAZ09Z;
+        ResourceSetType: __stringPatternAWSAZaZ09AZaZ09;
+        Resources: __listOfResource;
+      })[]
+    | undefined;
 }
 export interface ListRulesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  ResourceType?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ResourceType?: string | undefined;
 }
 export type __stringMax64 = string;
 export interface ListRulesOutput {
-  ResourceType?: string;
-  RuleDescription?: string;
-  RuleId?: string;
+  ResourceType?: string | undefined;
+  RuleDescription?: string | undefined;
+  RuleId?: string | undefined;
 }
 export type __listOfListRulesOutput = ListRulesOutput[];
 const __listOfListRulesOutput = /*@__PURE__*/ __L.at(__c24, 2);
 export interface ListRulesResponse {
-  NextToken?: string;
-  Rules?: (ListRulesOutput & {
-    ResourceType: __stringMax64;
-    RuleDescription: __stringMax256;
-    RuleId: __stringMax64;
-  })[];
+  NextToken?: string | undefined;
+  Rules?:
+    | (ListRulesOutput & {
+        ResourceType: __stringMax64;
+        RuleDescription: __stringMax256;
+        RuleId: __stringMax64;
+      })[]
+    | undefined;
 }
 export interface ListTagsForResourcesRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourcesResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateCellRequest {
   CellName: string;
-  Cells?: string[];
+  Cells?: string[] | undefined;
 }
 export interface UpdateCellResponse {
-  CellArn?: string;
-  CellName?: string;
-  Cells?: string[];
-  ParentReadinessScopes?: string[];
-  Tags?: { [key: string]: string | undefined };
+  CellArn?: string | undefined;
+  CellName?: string | undefined;
+  Cells?: string[] | undefined;
+  ParentReadinessScopes?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateReadinessCheckRequest {
   ReadinessCheckName: string;
-  ResourceSetName?: string;
+  ResourceSetName?: string | undefined;
 }
 export interface UpdateReadinessCheckResponse {
-  ReadinessCheckArn?: string;
-  ReadinessCheckName?: string;
-  ResourceSet?: string;
-  Tags?: { [key: string]: string | undefined };
+  ReadinessCheckArn?: string | undefined;
+  ReadinessCheckName?: string | undefined;
+  ResourceSet?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateRecoveryGroupRequest {
-  Cells?: string[];
+  Cells?: string[] | undefined;
   RecoveryGroupName: string;
 }
 export interface UpdateRecoveryGroupResponse {
-  Cells?: string[];
-  RecoveryGroupArn?: string;
-  RecoveryGroupName?: string;
-  Tags?: { [key: string]: string | undefined };
+  Cells?: string[] | undefined;
+  RecoveryGroupArn?: string | undefined;
+  RecoveryGroupName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateResourceSetRequest {
   ResourceSetName: string;
-  ResourceSetType?: string;
-  Resources?: Resource[];
+  ResourceSetType?: string | undefined;
+  Resources?: Resource[] | undefined;
 }
 export interface UpdateResourceSetResponse {
-  ResourceSetArn?: string;
-  ResourceSetName?: string;
-  ResourceSetType?: string;
-  Resources?: Resource[];
-  Tags?: { [key: string]: string | undefined };
+  ResourceSetArn?: string | undefined;
+  ResourceSetName?: string | undefined;
+  ResourceSetType?: string | undefined;
+  Resources?: Resource[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CreateCellError =
   | AccessDeniedException

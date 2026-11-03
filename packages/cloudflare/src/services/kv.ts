@@ -138,9 +138,9 @@ export type NamespacesBulkDeleteResponseUnsuccessfulKeysList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface BulkDeleteNamespacesResponse {
   /** Number of keys successfully written or deleted by the bulk operation. */
-  successfulKeyCount?: number | null;
+  successfulKeyCount?: number | null | undefined;
   /** Names of keys that failed to be written or deleted. Retry the operation for these keys. */
-  unsuccessfulKeys?: NamespacesBulkDeleteResponseUnsuccessfulKeysList | null;
+  unsuccessfulKeys?: NamespacesBulkDeleteResponseUnsuccessfulKeysList | null | undefined;
 }
 export type NamespacesBulkGetRequestKeysList = Array<string>;
 export type NamespacesBulkGetRequestType = "text" | "json";
@@ -152,9 +152,9 @@ export interface BulkGetNamespacesRequest {
   /** Array of keys to retrieve (maximum of 100). */
   keys: NamespacesBulkGetRequestKeysList;
   /** Return values as strings with `text`, or parse stored JSON values with `json`. */
-  type?: NamespacesBulkGetRequestType | (string & {});
+  type?: NamespacesBulkGetRequestType | (string & {}) | undefined;
   /** Whether to include metadata in the response. */
-  withMetadata?: boolean;
+  withMetadata?: boolean | undefined;
 }
 export type NamespacesBulkGetResultWorkersKVBulkGetResultValuesCase3Map = {
   [key: string]: unknown | undefined;
@@ -166,7 +166,7 @@ export type NamespacesBulkGetResultWorkersKVBulkGetResultValues =
   | NamespacesBulkGetResultWorkersKVBulkGetResultValuesCase3Map;
 export interface NamespacesBulkGetResultWorkersKVBulkGetResult {
   /** Requested keys are paired with their values in an object. */
-  values?: NamespacesBulkGetResultWorkersKVBulkGetResultValues | null;
+  values?: NamespacesBulkGetResultWorkersKVBulkGetResultValues | null | undefined;
 }
 export interface NamespacesBulkGetResultWorkersKVBulkGetResultWithMetadataValuesValue {
   /** The metadata associated with the key. */
@@ -174,14 +174,14 @@ export interface NamespacesBulkGetResultWorkersKVBulkGetResultWithMetadataValues
   /** The value associated with the key. */
   value: unknown;
   /** Expires the key at a certain time, measured in number of seconds since the UNIX epoch. */
-  expiration?: number | null;
+  expiration?: number | null | undefined;
 }
 export type NamespacesBulkGetResultWorkersKVBulkGetResultWithMetadataValuesMap = {
   [key: string]: NamespacesBulkGetResultWorkersKVBulkGetResultWithMetadataValuesValue | undefined;
 };
 export interface NamespacesBulkGetResultWorkersKVBulkGetResultWithMetadata {
   /** Requested keys are paired with their values and metadata in an object. */
-  values?: NamespacesBulkGetResultWorkersKVBulkGetResultWithMetadataValuesMap | null;
+  values?: NamespacesBulkGetResultWorkersKVBulkGetResultWithMetadataValuesMap | null | undefined;
 }
 export type NamespacesBulkGetResult =
   | NamespacesBulkGetResultWorkersKVBulkGetResult
@@ -193,13 +193,13 @@ export interface NamespacesBulkUpdateRequestBodyItem {
   /** A UTF-8 encoded string to be stored, up to 25 MiB in length. */
   value: string;
   /** Indicates whether or not the server should base64 decode the value before storing it. Useful for writing values that wouldn't otherwise be valid JSON strings, such as images. */
-  base64?: boolean;
+  base64?: boolean | undefined;
   /** Expires the key at a certain time, measured in number of seconds since the UNIX epoch. */
-  expiration?: number;
+  expiration?: number | undefined;
   /** Number of seconds until the key expires. Must be at least 60. Takes precedence over `expiration` when both are specified. */
-  expirationTtl?: number;
+  expirationTtl?: number | undefined;
   /** Arbitrary JSON that is associated with a key. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export type NamespacesBulkUpdateRequestBodyList = Array<NamespacesBulkUpdateRequestBodyItem>;
 export interface BulkPutNamespacesRequest {
@@ -213,9 +213,9 @@ export type NamespacesBulkUpdateResponseUnsuccessfulKeysList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface BulkPutNamespacesResponse {
   /** Number of keys successfully written or deleted by the bulk operation. */
-  successfulKeyCount?: number | null;
+  successfulKeyCount?: number | null | undefined;
   /** Names of keys that failed to be written or deleted. Retry the operation for these keys. */
-  unsuccessfulKeys?: NamespacesBulkUpdateResponseUnsuccessfulKeysList | null;
+  unsuccessfulKeys?: NamespacesBulkUpdateResponseUnsuccessfulKeysList | null | undefined;
 }
 export type NamespacesCreateRequestJurisdiction = "eu" | "fedramp" | "us";
 export type NamespacesCreateRequestMode = "instant";
@@ -225,9 +225,9 @@ export interface CreateNamespaceRequest {
   /** Human-readable string name for a Workers KV namespace. */
   title: string;
   /** Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time. */
-  jurisdiction?: NamespacesCreateRequestJurisdiction | (string & {});
+  jurisdiction?: NamespacesCreateRequestJurisdiction | (string & {}) | undefined;
   /** The mode of the Workers KV namespace. Specify `instant` when creating a namespace to create a KV Instant namespace. Omit this field when creating a namespace to create a classic namespace. Currently, `instant` is the only supported explicit value. */
-  mode?: NamespacesCreateRequestMode | (string & {});
+  mode?: NamespacesCreateRequestMode | (string & {}) | undefined;
 }
 export type NamespacesCreateResponseJurisdiction = "eu" | "fedramp" | "us";
 export type NamespacesCreateResponseMode = "instant";
@@ -238,11 +238,11 @@ export interface CreateNamespaceResponse {
   /** Human-readable string name for a Workers KV namespace. */
   title: string;
   /** Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time. */
-  jurisdiction?: NamespacesCreateResponseJurisdiction | null;
+  jurisdiction?: NamespacesCreateResponseJurisdiction | null | undefined;
   /** The mode of the Workers KV namespace. Specify `instant` when creating a namespace to create a KV Instant namespace. Omit this field when creating a namespace to create a classic namespace. Currently, `instant` is the only supported explicit value. */
-  mode?: NamespacesCreateResponseMode | null;
+  mode?: NamespacesCreateResponseMode | null | undefined;
   /** True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?". */
-  supportsUrlEncoding?: boolean | null;
+  supportsUrlEncoding?: boolean | null | undefined;
 }
 export interface DeleteNamespaceRequest {
   /** ID of the Cloudflare account that owns the Workers KV namespaces. */
@@ -275,11 +275,11 @@ export interface GetNamespaceResponse {
   /** Human-readable string name for a Workers KV namespace. */
   title: string;
   /** Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time. */
-  jurisdiction?: NamespacesGetResponseJurisdiction | null;
+  jurisdiction?: NamespacesGetResponseJurisdiction | null | undefined;
   /** The mode of the Workers KV namespace. Specify `instant` when creating a namespace to create a KV Instant namespace. Omit this field when creating a namespace to create a classic namespace. Currently, `instant` is the only supported explicit value. */
-  mode?: NamespacesGetResponseMode | null;
+  mode?: NamespacesGetResponseMode | null | undefined;
   /** True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?". */
-  supportsUrlEncoding?: boolean | null;
+  supportsUrlEncoding?: boolean | null | undefined;
 }
 export interface GetNamespaceMetadataRequest {
   /** ID of the Cloudflare account that owns the Workers KV namespaces. */
@@ -302,9 +302,9 @@ export interface GetNamespaceValueResponse {
   /** Raw value body as an Effect Stream. */
   body: T.BinaryResponseBody;
   /** Expiration time of the KV pair, seconds since the UNIX epoch (set when the pair is set to expire). */
-  expiration?: number;
+  expiration?: number | undefined;
   /** MIME type the value was stored with. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface ListNamespaceKeysRequest {
   /** ID of the Cloudflare account that owns the Workers KV namespaces. */
@@ -312,19 +312,19 @@ export interface ListNamespaceKeysRequest {
   /** ID of the Workers KV namespace. */
   namespaceId: string;
   /** Opaque pagination token from `result_info.cursor` in the previous response. Pass it unchanged to request the next page of keys. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum number of keys to return in one response. Pass `result_info.cursor` from the response as `cursor` to request the next page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Filters returned keys by a name prefix. Exact matches and any key names that begin with the prefix will be returned. */
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export interface NamespacesKeysListResultItem {
   /** A key's name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid. Use percent-encoding to define key names as part of a URL. */
   name: string;
   /** The time, measured in number of seconds since the UNIX epoch, at which the key will expire. This property is omitted for keys that will not expire. */
-  expiration?: number | null;
+  expiration?: number | null | undefined;
   /** Arbitrary JSON that is associated with a key. */
-  metadata?: unknown | null;
+  metadata?: unknown | null | undefined;
 }
 export type NamespacesKeysListResultList = Array<NamespacesKeysListResultItem>;
 export interface ListNamespaceKeysResponse {
@@ -339,13 +339,13 @@ export interface ListNamespacesRequest {
   /** ID of the Cloudflare account that owns the Workers KV namespaces. */
   accountId: string;
   /** Sort namespaces in ascending (`asc`) or descending (`desc`) order. */
-  direction?: NamespacesListRequestDirection | (string & {});
+  direction?: NamespacesListRequestDirection | (string & {}) | undefined;
   /** Namespace field to sort by (`id` or `title`). */
-  order?: NamespacesListRequestOrder | (string & {});
+  order?: NamespacesListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type NamespacesListResultItemJurisdiction = "eu" | "fedramp" | "us";
 export type NamespacesListResultItemMode = "instant";
@@ -355,11 +355,11 @@ export interface NamespacesListResultItem {
   /** Human-readable string name for a Workers KV namespace. */
   title: string;
   /** Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time. */
-  jurisdiction?: NamespacesListResultItemJurisdiction | null;
+  jurisdiction?: NamespacesListResultItemJurisdiction | null | undefined;
   /** The mode of the Workers KV namespace. Specify `instant` when creating a namespace to create a KV Instant namespace. Omit this field when creating a namespace to create a classic namespace. Currently, `instant` is the only supported explicit value. */
-  mode?: NamespacesListResultItemMode | null;
+  mode?: NamespacesListResultItemMode | null | undefined;
   /** True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?". */
-  supportsUrlEncoding?: boolean | null;
+  supportsUrlEncoding?: boolean | null | undefined;
 }
 export type NamespacesListResultList = Array<NamespacesListResultItem>;
 export interface ListNamespacesResponse {
@@ -380,9 +380,9 @@ export type NamespacesKeysBulkDeleteResponseUnsuccessfulKeysList = Array<string>
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface NamespacesKeysBulkDeleteResponse {
   /** Number of keys successfully written or deleted by the bulk operation. */
-  successfulKeyCount?: number | null;
+  successfulKeyCount?: number | null | undefined;
   /** Names of keys that failed to be written or deleted. Retry the operation for these keys. */
-  unsuccessfulKeys?: NamespacesKeysBulkDeleteResponseUnsuccessfulKeysList | null;
+  unsuccessfulKeys?: NamespacesKeysBulkDeleteResponseUnsuccessfulKeysList | null | undefined;
 }
 export type NamespacesKeysBulkGetRequestKeysList = Array<string>;
 export type NamespacesKeysBulkGetRequestType = "text" | "json";
@@ -394,9 +394,9 @@ export interface NamespacesKeysBulkGetRequest {
   /** Array of keys to retrieve (maximum of 100). */
   keys: NamespacesKeysBulkGetRequestKeysList;
   /** Return values as strings with `text`, or parse stored JSON values with `json`. */
-  type?: NamespacesKeysBulkGetRequestType | (string & {});
+  type?: NamespacesKeysBulkGetRequestType | (string & {}) | undefined;
   /** Whether to include metadata in the response. */
-  withMetadata?: boolean;
+  withMetadata?: boolean | undefined;
 }
 export type NamespacesKeysBulkGetResultWorkersKVBulkGetResultValuesCase3Map = {
   [key: string]: unknown | undefined;
@@ -408,7 +408,7 @@ export type NamespacesKeysBulkGetResultWorkersKVBulkGetResultValues =
   | NamespacesKeysBulkGetResultWorkersKVBulkGetResultValuesCase3Map;
 export interface NamespacesKeysBulkGetResultWorkersKVBulkGetResult {
   /** Requested keys are paired with their values in an object. */
-  values?: NamespacesKeysBulkGetResultWorkersKVBulkGetResultValues | null;
+  values?: NamespacesKeysBulkGetResultWorkersKVBulkGetResultValues | null | undefined;
 }
 export type NamespacesKeysBulkGetResultWorkersKVBulkGetResultWithMetadataValuesValue =
   NamespacesBulkGetResultWorkersKVBulkGetResultWithMetadataValuesValue;
@@ -417,7 +417,10 @@ export type NamespacesKeysBulkGetResultWorkersKVBulkGetResultWithMetadataValuesM
 };
 export interface NamespacesKeysBulkGetResultWorkersKVBulkGetResultWithMetadata {
   /** Requested keys are paired with their values and metadata in an object. */
-  values?: NamespacesKeysBulkGetResultWorkersKVBulkGetResultWithMetadataValuesMap | null;
+  values?:
+    | NamespacesKeysBulkGetResultWorkersKVBulkGetResultWithMetadataValuesMap
+    | null
+    | undefined;
 }
 export type NamespacesKeysBulkGetResult =
   | NamespacesKeysBulkGetResultWorkersKVBulkGetResult
@@ -436,9 +439,9 @@ export type NamespacesKeysBulkUpdateResponseUnsuccessfulKeysList = Array<string>
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface NamespacesKeysBulkUpdateResponse {
   /** Number of keys successfully written or deleted by the bulk operation. */
-  successfulKeyCount?: number | null;
+  successfulKeyCount?: number | null | undefined;
   /** Names of keys that failed to be written or deleted. Retry the operation for these keys. */
-  unsuccessfulKeys?: NamespacesKeysBulkUpdateResponseUnsuccessfulKeysList | null;
+  unsuccessfulKeys?: NamespacesKeysBulkUpdateResponseUnsuccessfulKeysList | null | undefined;
 }
 export interface PutNamespaceValueRequest {
   /** ID of the Cloudflare account that owns the Workers KV namespaces. */
@@ -448,13 +451,13 @@ export interface PutNamespaceValueRequest {
   /** A key's name. The name may be at most 512 bytes. All printable, non-whitespace characters are valid. Use percent-encoding to define key names as part of a URL. */
   keyName: string;
   /** Expires the key at a certain time, measured in number of seconds since the UNIX epoch. */
-  expiration?: number;
+  expiration?: number | undefined;
   /** Number of seconds until the key expires. Must be at least 60. Takes precedence over `expiration` when both are specified. */
-  expirationTtl?: number;
+  expirationTtl?: number | undefined;
   /** A byte sequence to be stored, up to 25 MiB in length. */
   value: string | File | Blob;
   /** Associates arbitrary JSON data with a key/value pair. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface PutNamespaceValueResponse {}
 export interface UpdateNamespaceRequest {
@@ -474,11 +477,11 @@ export interface UpdateNamespaceResponse {
   /** Human-readable string name for a Workers KV namespace. */
   title: string;
   /** Specify the jurisdiction to restrict the KV namespace to durably store data within. Can only be set at namespace creation time. */
-  jurisdiction?: NamespacesUpdateResponseJurisdiction | null;
+  jurisdiction?: NamespacesUpdateResponseJurisdiction | null | undefined;
   /** The mode of the Workers KV namespace. Specify `instant` when creating a namespace to create a KV Instant namespace. Omit this field when creating a namespace to create a classic namespace. Currently, `instant` is the only supported explicit value. */
-  mode?: NamespacesUpdateResponseMode | null;
+  mode?: NamespacesUpdateResponseMode | null | undefined;
   /** True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?". */
-  supportsUrlEncoding?: boolean | null;
+  supportsUrlEncoding?: boolean | null | undefined;
 }
 export type BulkDeleteNamespacesError =
   | NamespaceNotFound

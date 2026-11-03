@@ -196,7 +196,9 @@ export type TableConfigurations = {
 };
 export interface DataQuery {
   QueryStatement: string;
-  TableConfigurations?: { [key: string]: { [key: string]: string | undefined } | undefined };
+  TableConfigurations?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
 }
 export type AccountId = string;
 export type S3OutputType = "CUSTOM" | "ATHENA" | "REDSHIFT" | (string & {});
@@ -211,7 +213,7 @@ export interface S3OutputConfigurations {
 }
 export interface S3Destination {
   S3Bucket: string;
-  S3BucketOwner?: string;
+  S3BucketOwner?: string | undefined;
   S3Prefix: string;
   S3Region: string;
   S3OutputConfigurations: S3OutputConfigurations;
@@ -224,9 +226,9 @@ export interface RefreshCadence {
   Frequency: FrequencyOption;
 }
 export interface Export {
-  ExportArn?: string;
+  ExportArn?: string | undefined;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   DataQuery: DataQuery;
   DestinationConfigurations: DestinationConfigurations;
   RefreshCadence: RefreshCadence;
@@ -240,16 +242,16 @@ export interface ResourceTag {
 export type ResourceTagList = ResourceTag[];
 export interface CreateExportRequest {
   Export: Export;
-  ResourceTags?: ResourceTag[];
+  ResourceTags?: ResourceTag[] | undefined;
 }
 export interface CreateExportResponse {
-  ExportArn?: string;
+  ExportArn?: string | undefined;
 }
 export interface DeleteExportRequest {
   ExportArn: string;
 }
 export interface DeleteExportResponse {
-  ExportArn?: string;
+  ExportArn?: string | undefined;
 }
 export interface GetExecutionRequest {
   ExportArn: string;
@@ -271,54 +273,54 @@ export type ExecutionStatusReason =
   | "DEPRECATED"
   | (string & {});
 export interface ExecutionStatus {
-  StatusCode?: ExecutionStatusCode;
-  StatusReason?: ExecutionStatusReason;
-  CreatedAt?: Date;
-  CompletedAt?: Date;
-  LastUpdatedAt?: Date;
+  StatusCode?: ExecutionStatusCode | undefined;
+  StatusReason?: ExecutionStatusReason | undefined;
+  CreatedAt?: Date | undefined;
+  CompletedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
 }
 export interface GetExecutionResponse {
-  ExecutionId?: string;
-  Export?: Export;
-  ExecutionStatus?: ExecutionStatus;
+  ExecutionId?: string | undefined;
+  Export?: Export | undefined;
+  ExecutionStatus?: ExecutionStatus | undefined;
 }
 export interface GetExportRequest {
   ExportArn: string;
 }
 export type ExportStatusCode = "HEALTHY" | "UNHEALTHY" | (string & {});
 export interface ExportStatus {
-  StatusCode?: ExportStatusCode;
-  StatusReason?: ExecutionStatusReason;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  LastRefreshedAt?: Date;
+  StatusCode?: ExportStatusCode | undefined;
+  StatusReason?: ExecutionStatusReason | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  LastRefreshedAt?: Date | undefined;
 }
 export interface GetExportResponse {
-  Export?: Export;
-  ExportStatus?: ExportStatus;
+  Export?: Export | undefined;
+  ExportStatus?: ExportStatus | undefined;
 }
 export interface GetTableRequest {
   TableName: string;
-  TableProperties?: { [key: string]: string | undefined };
+  TableProperties?: { [key: string]: string | undefined } | undefined;
 }
 export interface Column {
-  Name?: string;
-  Type?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  Description?: string | undefined;
 }
 export type ColumnList = Column[];
 export interface GetTableResponse {
-  TableName?: string;
-  Description?: string;
-  TableProperties?: { [key: string]: string | undefined };
-  Schema?: Column[];
+  TableName?: string | undefined;
+  Description?: string | undefined;
+  TableProperties?: { [key: string]: string | undefined } | undefined;
+  Schema?: Column[] | undefined;
 }
 export type MaxResults = number;
 export type NextPageToken = string;
 export interface ListExecutionsRequest {
   ExportArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ExecutionReference {
   ExecutionId: string;
@@ -326,12 +328,12 @@ export interface ExecutionReference {
 }
 export type ExecutionReferenceList = ExecutionReference[];
 export interface ListExecutionsResponse {
-  Executions?: ExecutionReference[];
-  NextToken?: string;
+  Executions?: ExecutionReference[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListExportsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ExportReference {
   ExportArn: string;
@@ -340,39 +342,39 @@ export interface ExportReference {
 }
 export type ExportReferenceList = ExportReference[];
 export interface ListExportsResponse {
-  Exports?: ExportReference[];
-  NextToken?: string;
+  Exports?: ExportReference[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTablesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type GenericStringList = string[];
 export interface TablePropertyDescription {
-  Name?: string;
-  ValidValues?: string[];
-  DefaultValue?: string;
-  Description?: string;
+  Name?: string | undefined;
+  ValidValues?: string[] | undefined;
+  DefaultValue?: string | undefined;
+  Description?: string | undefined;
 }
 export type TablePropertyDescriptionList = TablePropertyDescription[];
 export interface Table {
-  TableName?: string;
-  Description?: string;
-  TableProperties?: TablePropertyDescription[];
+  TableName?: string | undefined;
+  Description?: string | undefined;
+  TableProperties?: TablePropertyDescription[] | undefined;
 }
 export type TableList = Table[];
 export interface ListTablesResponse {
-  Tables?: Table[];
-  NextToken?: string;
+  Tables?: Table[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  ResourceTags?: ResourceTag[];
-  NextToken?: string;
+  ResourceTags?: ResourceTag[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -390,7 +392,7 @@ export interface UpdateExportRequest {
   Export: Export;
 }
 export interface UpdateExportResponse {
-  ExportArn?: string;
+  ExportArn?: string | undefined;
 }
 export type ValidationExceptionReason =
   | "unknownOperation"

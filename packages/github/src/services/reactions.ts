@@ -79,8 +79,8 @@ export interface CreateForCommitCommentRequest {
 }
 /** A GitHub user. */
 export interface NullableSimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -99,8 +99,8 @@ export interface NullableSimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** The reaction to use */
 export type ReactionContent =
@@ -271,11 +271,11 @@ export interface ListForCommitCommentRequest {
   /** The unique identifier of the comment. */
   comment_id: number;
   /** Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a commit comment. */
-  content?: ListForCommitCommentRequestContent | (string & {});
+  content?: ListForCommitCommentRequestContent | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForCommitCommentResponseBodyList = Array<Reaction>;
 export type ListForCommitCommentResponse = ListForCommitCommentResponseBodyList;
@@ -296,11 +296,11 @@ export interface ListForIssueRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to an issue. */
-  content?: ListForIssueRequestContent | (string & {});
+  content?: ListForIssueRequestContent | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForIssueResponseBodyList = Array<Reaction>;
 export type ListForIssueResponse = ListForIssueResponseBodyList;
@@ -321,11 +321,11 @@ export interface ListForIssueCommentRequest {
   /** The unique identifier of the comment. */
   comment_id: number;
   /** Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to an issue comment. */
-  content?: ListForIssueCommentRequestContent | (string & {});
+  content?: ListForIssueCommentRequestContent | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForIssueCommentResponseBodyList = Array<Reaction>;
 export type ListForIssueCommentResponse = ListForIssueCommentResponseBodyList;
@@ -346,11 +346,11 @@ export interface ListForPullRequestReviewCommentRequest {
   /** The unique identifier of the comment. */
   comment_id: number;
   /** Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a pull request review comment. */
-  content?: ListForPullRequestReviewCommentRequestContent | (string & {});
+  content?: ListForPullRequestReviewCommentRequestContent | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForPullRequestReviewCommentResponseBodyList = Array<Reaction>;
 export type ListForPullRequestReviewCommentResponse =
@@ -364,11 +364,11 @@ export interface ListForReleaseRequest {
   /** The unique identifier of the release. */
   release_id: number;
   /** Returns a single [reaction type](https://docs.github.com/rest/reactions/reactions#about-reactions). Omit this parameter to list all reactions to a release. */
-  content?: ListForReleaseRequestContent | (string & {});
+  content?: ListForReleaseRequestContent | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForReleaseResponseBodyList = Array<Reaction>;
 export type ListForReleaseResponse = ListForReleaseResponseBodyList;

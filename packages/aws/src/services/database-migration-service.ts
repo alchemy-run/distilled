@@ -225,9 +225,9 @@ export class UpgradeDependencyFailureFault
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export interface Tag {
-  Key?: string;
-  Value?: string;
-  ResourceArn?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  ResourceArn?: string | undefined;
 }
 export type TagList = Tag[];
 export interface AddTagsToResourceMessage {
@@ -241,20 +241,20 @@ export interface ApplyPendingMaintenanceActionMessage {
   OptInType: string;
 }
 export interface PendingMaintenanceAction {
-  Action?: string;
-  AutoAppliedAfterDate?: Date;
-  ForcedApplyDate?: Date;
-  OptInStatus?: string;
-  CurrentApplyDate?: Date;
-  Description?: string;
+  Action?: string | undefined;
+  AutoAppliedAfterDate?: Date | undefined;
+  ForcedApplyDate?: Date | undefined;
+  OptInStatus?: string | undefined;
+  CurrentApplyDate?: Date | undefined;
+  Description?: string | undefined;
 }
 export type PendingMaintenanceActionDetails = PendingMaintenanceAction[];
 export interface ResourcePendingMaintenanceActions {
-  ResourceIdentifier?: string;
-  PendingMaintenanceActionDetails?: PendingMaintenanceAction[];
+  ResourceIdentifier?: string | undefined;
+  PendingMaintenanceActionDetails?: PendingMaintenanceAction[] | undefined;
 }
 export interface ApplyPendingMaintenanceActionResponse {
-  ResourcePendingMaintenanceActions?: ResourcePendingMaintenanceActions;
+  ResourcePendingMaintenanceActions?: ResourcePendingMaintenanceActions | undefined;
 }
 export interface RecommendationSettings {
   InstanceSizingType: string;
@@ -266,16 +266,16 @@ export interface StartRecommendationsRequestEntry {
 }
 export type StartRecommendationsRequestEntryList = StartRecommendationsRequestEntry[];
 export interface BatchStartRecommendationsRequest {
-  Data?: StartRecommendationsRequestEntry[];
+  Data?: StartRecommendationsRequestEntry[] | undefined;
 }
 export interface BatchStartRecommendationsErrorEntry {
-  DatabaseId?: string;
-  Message?: string;
-  Code?: string;
+  DatabaseId?: string | undefined;
+  Message?: string | undefined;
+  Code?: string | undefined;
 }
 export type BatchStartRecommendationsErrorEntryList = BatchStartRecommendationsErrorEntry[];
 export interface BatchStartRecommendationsResponse {
-  ErrorEntries?: BatchStartRecommendationsErrorEntry[];
+  ErrorEntries?: BatchStartRecommendationsErrorEntry[] | undefined;
 }
 export type MigrationProjectIdentifier = string;
 export interface CancelMetadataModelConversionMessage {
@@ -283,83 +283,83 @@ export interface CancelMetadataModelConversionMessage {
   RequestIdentifier: string;
 }
 export interface DefaultErrorDetails {
-  Message?: string;
+  Message?: string | undefined;
 }
 export type ErrorDetails = { defaultErrorDetails: DefaultErrorDetails };
 export interface ExportSqlDetails {
-  S3ObjectKey?: string;
-  ObjectURL?: string;
+  S3ObjectKey?: string | undefined;
+  ObjectURL?: string | undefined;
 }
 export interface ProcessedObject {
-  Name?: string;
-  Type?: string;
-  EndpointType?: string;
+  Name?: string | undefined;
+  Type?: string | undefined;
+  EndpointType?: string | undefined;
 }
 export interface Progress {
-  ProgressPercent?: number;
-  TotalObjects?: number;
-  ProgressStep?: string;
-  ProcessedObject?: ProcessedObject;
+  ProgressPercent?: number | undefined;
+  TotalObjects?: number | undefined;
+  ProgressStep?: string | undefined;
+  ProcessedObject?: ProcessedObject | undefined;
 }
 export interface SchemaConversionRequest {
-  Status?: string;
-  RequestIdentifier?: string;
-  MigrationProjectArn?: string;
-  Error?: ErrorDetails;
-  ExportSqlDetails?: ExportSqlDetails;
-  Progress?: Progress;
+  Status?: string | undefined;
+  RequestIdentifier?: string | undefined;
+  MigrationProjectArn?: string | undefined;
+  Error?: ErrorDetails | undefined;
+  ExportSqlDetails?: ExportSqlDetails | undefined;
+  Progress?: Progress | undefined;
 }
 export interface CancelMetadataModelConversionResponse {
-  Request?: SchemaConversionRequest;
+  Request?: SchemaConversionRequest | undefined;
 }
 export interface CancelMetadataModelCreationMessage {
   MigrationProjectIdentifier: string;
   RequestIdentifier: string;
 }
 export interface CancelMetadataModelCreationResponse {
-  Request?: SchemaConversionRequest;
+  Request?: SchemaConversionRequest | undefined;
 }
 export interface CancelReplicationTaskAssessmentRunMessage {
   ReplicationTaskAssessmentRunArn: string;
 }
 export interface ReplicationTaskAssessmentRunProgress {
-  IndividualAssessmentCount?: number;
-  IndividualAssessmentCompletedCount?: number;
+  IndividualAssessmentCount?: number | undefined;
+  IndividualAssessmentCompletedCount?: number | undefined;
 }
 export interface ReplicationTaskAssessmentRunResultStatistic {
-  Passed?: number;
-  Failed?: number;
-  Error?: number;
-  Warning?: number;
-  Cancelled?: number;
-  Skipped?: number;
+  Passed?: number | undefined;
+  Failed?: number | undefined;
+  Error?: number | undefined;
+  Warning?: number | undefined;
+  Cancelled?: number | undefined;
+  Skipped?: number | undefined;
 }
 export interface ReplicationTaskAssessmentRun {
-  ReplicationTaskAssessmentRunArn?: string;
-  ReplicationTaskArn?: string;
-  Status?: string;
-  ReplicationTaskAssessmentRunCreationDate?: Date;
-  AssessmentProgress?: ReplicationTaskAssessmentRunProgress;
-  LastFailureMessage?: string;
-  ServiceAccessRoleArn?: string;
-  ResultLocationBucket?: string;
-  ResultLocationFolder?: string;
-  ResultEncryptionMode?: string;
-  ResultKmsKeyArn?: string;
-  AssessmentRunName?: string;
-  IsLatestTaskAssessmentRun?: boolean;
-  ResultStatistic?: ReplicationTaskAssessmentRunResultStatistic;
+  ReplicationTaskAssessmentRunArn?: string | undefined;
+  ReplicationTaskArn?: string | undefined;
+  Status?: string | undefined;
+  ReplicationTaskAssessmentRunCreationDate?: Date | undefined;
+  AssessmentProgress?: ReplicationTaskAssessmentRunProgress | undefined;
+  LastFailureMessage?: string | undefined;
+  ServiceAccessRoleArn?: string | undefined;
+  ResultLocationBucket?: string | undefined;
+  ResultLocationFolder?: string | undefined;
+  ResultEncryptionMode?: string | undefined;
+  ResultKmsKeyArn?: string | undefined;
+  AssessmentRunName?: string | undefined;
+  IsLatestTaskAssessmentRun?: boolean | undefined;
+  ResultStatistic?: ReplicationTaskAssessmentRunResultStatistic | undefined;
 }
 export interface CancelReplicationTaskAssessmentRunResponse {
-  ReplicationTaskAssessmentRun?: ReplicationTaskAssessmentRun;
+  ReplicationTaskAssessmentRun?: ReplicationTaskAssessmentRun | undefined;
 }
 export type MigrationTypeValue = "full-load" | "cdc" | "full-load-and-cdc" | (string & {});
 export type Iso8601DateTime = Date;
 export interface SourceDataSetting {
-  CDCStartPosition?: string;
-  CDCStartTime?: Date;
-  CDCStopTime?: Date;
-  SlotName?: string;
+  CDCStartPosition?: string | undefined;
+  CDCStartTime?: Date | undefined;
+  CDCStopTime?: Date | undefined;
+  SlotName?: string | undefined;
 }
 export type SourceDataSettings = SourceDataSetting[];
 export type TablePreparationMode =
@@ -368,164 +368,164 @@ export type TablePreparationMode =
   | "drop-tables-on-target"
   | (string & {});
 export interface TargetDataSetting {
-  TablePreparationMode?: TablePreparationMode;
+  TablePreparationMode?: TablePreparationMode | undefined;
 }
 export type TargetDataSettings = TargetDataSetting[];
 export type SecretString = string | redacted.Redacted<string>;
 export interface CreateDataMigrationMessage {
-  DataMigrationName?: string;
+  DataMigrationName?: string | undefined;
   MigrationProjectIdentifier: string;
   DataMigrationType: MigrationTypeValue;
   ServiceAccessRoleArn: string;
-  EnableCloudwatchLogs?: boolean;
-  SourceDataSettings?: SourceDataSetting[];
-  TargetDataSettings?: TargetDataSetting[];
-  NumberOfJobs?: number;
-  Tags?: Tag[];
-  SelectionRules?: string | redacted.Redacted<string>;
+  EnableCloudwatchLogs?: boolean | undefined;
+  SourceDataSettings?: SourceDataSetting[] | undefined;
+  TargetDataSettings?: TargetDataSetting[] | undefined;
+  NumberOfJobs?: number | undefined;
+  Tags?: Tag[] | undefined;
+  SelectionRules?: string | redacted.Redacted<string> | undefined;
 }
 export interface DataMigrationSettings {
-  NumberOfJobs?: number;
-  CloudwatchLogsEnabled?: boolean;
-  SelectionRules?: string | redacted.Redacted<string>;
+  NumberOfJobs?: number | undefined;
+  CloudwatchLogsEnabled?: boolean | undefined;
+  SelectionRules?: string | redacted.Redacted<string> | undefined;
 }
 export interface DataMigrationStatistics {
-  TablesLoaded?: number;
-  ElapsedTimeMillis?: number;
-  TablesLoading?: number;
-  FullLoadPercentage?: number;
-  CDCLatency?: number;
-  TablesQueued?: number;
-  TablesErrored?: number;
-  StartTime?: Date;
-  StopTime?: Date;
+  TablesLoaded?: number | undefined;
+  ElapsedTimeMillis?: number | undefined;
+  TablesLoading?: number | undefined;
+  FullLoadPercentage?: number | undefined;
+  CDCLatency?: number | undefined;
+  TablesQueued?: number | undefined;
+  TablesErrored?: number | undefined;
+  StartTime?: Date | undefined;
+  StopTime?: Date | undefined;
 }
 export type PublicIpAddressList = string[];
 export type DataMigrationCidrBlock = string[];
 export interface DataMigration {
-  DataMigrationName?: string;
-  DataMigrationArn?: string;
-  DataMigrationCreateTime?: Date;
-  DataMigrationStartTime?: Date;
-  DataMigrationEndTime?: Date;
-  ServiceAccessRoleArn?: string;
-  MigrationProjectArn?: string;
-  DataMigrationType?: MigrationTypeValue;
-  DataMigrationSettings?: DataMigrationSettings;
-  SourceDataSettings?: SourceDataSetting[];
-  TargetDataSettings?: TargetDataSetting[];
-  DataMigrationStatistics?: DataMigrationStatistics;
-  DataMigrationStatus?: string;
-  PublicIpAddresses?: string[];
-  DataMigrationCidrBlocks?: string[];
-  LastFailureMessage?: string;
-  StopReason?: string;
+  DataMigrationName?: string | undefined;
+  DataMigrationArn?: string | undefined;
+  DataMigrationCreateTime?: Date | undefined;
+  DataMigrationStartTime?: Date | undefined;
+  DataMigrationEndTime?: Date | undefined;
+  ServiceAccessRoleArn?: string | undefined;
+  MigrationProjectArn?: string | undefined;
+  DataMigrationType?: MigrationTypeValue | undefined;
+  DataMigrationSettings?: DataMigrationSettings | undefined;
+  SourceDataSettings?: SourceDataSetting[] | undefined;
+  TargetDataSettings?: TargetDataSetting[] | undefined;
+  DataMigrationStatistics?: DataMigrationStatistics | undefined;
+  DataMigrationStatus?: string | undefined;
+  PublicIpAddresses?: string[] | undefined;
+  DataMigrationCidrBlocks?: string[] | undefined;
+  LastFailureMessage?: string | undefined;
+  StopReason?: string | undefined;
 }
 export interface CreateDataMigrationResponse {
-  DataMigration?: DataMigration;
+  DataMigration?: DataMigration | undefined;
 }
 export interface RedshiftDataProviderSettings {
-  ServerName?: string;
-  Port?: number;
-  DatabaseName?: string;
-  S3Path?: string;
-  S3AccessRoleArn?: string;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  DatabaseName?: string | undefined;
+  S3Path?: string | undefined;
+  S3AccessRoleArn?: string | undefined;
 }
 export type DmsSslModeValue = "none" | "require" | "verify-ca" | "verify-full" | (string & {});
 export interface PostgreSqlDataProviderSettings {
-  ServerName?: string;
-  Port?: number;
-  DatabaseName?: string;
-  SslMode?: DmsSslModeValue;
-  CertificateArn?: string;
-  S3Path?: string;
-  S3AccessRoleArn?: string;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  DatabaseName?: string | undefined;
+  SslMode?: DmsSslModeValue | undefined;
+  CertificateArn?: string | undefined;
+  S3Path?: string | undefined;
+  S3AccessRoleArn?: string | undefined;
 }
 export interface MySqlDataProviderSettings {
-  ServerName?: string;
-  Port?: number;
-  SslMode?: DmsSslModeValue;
-  CertificateArn?: string;
-  S3Path?: string;
-  S3AccessRoleArn?: string;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  SslMode?: DmsSslModeValue | undefined;
+  CertificateArn?: string | undefined;
+  S3Path?: string | undefined;
+  S3AccessRoleArn?: string | undefined;
 }
 export interface OracleDataProviderSettings {
-  ServerName?: string;
-  Port?: number;
-  DatabaseName?: string;
-  SslMode?: DmsSslModeValue;
-  CertificateArn?: string;
-  AsmServer?: string;
-  SecretsManagerOracleAsmSecretId?: string;
-  SecretsManagerOracleAsmAccessRoleArn?: string;
-  SecretsManagerSecurityDbEncryptionSecretId?: string;
-  SecretsManagerSecurityDbEncryptionAccessRoleArn?: string;
-  S3Path?: string;
-  S3AccessRoleArn?: string;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  DatabaseName?: string | undefined;
+  SslMode?: DmsSslModeValue | undefined;
+  CertificateArn?: string | undefined;
+  AsmServer?: string | undefined;
+  SecretsManagerOracleAsmSecretId?: string | undefined;
+  SecretsManagerOracleAsmAccessRoleArn?: string | undefined;
+  SecretsManagerSecurityDbEncryptionSecretId?: string | undefined;
+  SecretsManagerSecurityDbEncryptionAccessRoleArn?: string | undefined;
+  S3Path?: string | undefined;
+  S3AccessRoleArn?: string | undefined;
 }
 export interface SybaseAseDataProviderSettings {
-  ServerName?: string;
-  Port?: number;
-  DatabaseName?: string;
-  SslMode?: DmsSslModeValue;
-  EncryptPassword?: boolean;
-  CertificateArn?: string;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  DatabaseName?: string | undefined;
+  SslMode?: DmsSslModeValue | undefined;
+  EncryptPassword?: boolean | undefined;
+  CertificateArn?: string | undefined;
 }
 export interface MicrosoftSqlServerDataProviderSettings {
-  ServerName?: string;
-  Port?: number;
-  DatabaseName?: string;
-  SslMode?: DmsSslModeValue;
-  CertificateArn?: string;
-  S3Path?: string;
-  S3AccessRoleArn?: string;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  DatabaseName?: string | undefined;
+  SslMode?: DmsSslModeValue | undefined;
+  CertificateArn?: string | undefined;
+  S3Path?: string | undefined;
+  S3AccessRoleArn?: string | undefined;
 }
 export interface DocDbDataProviderSettings {
-  ServerName?: string;
-  Port?: number;
-  DatabaseName?: string;
-  SslMode?: DmsSslModeValue;
-  CertificateArn?: string;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  DatabaseName?: string | undefined;
+  SslMode?: DmsSslModeValue | undefined;
+  CertificateArn?: string | undefined;
 }
 export interface MariaDbDataProviderSettings {
-  ServerName?: string;
-  Port?: number;
-  SslMode?: DmsSslModeValue;
-  CertificateArn?: string;
-  S3Path?: string;
-  S3AccessRoleArn?: string;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  SslMode?: DmsSslModeValue | undefined;
+  CertificateArn?: string | undefined;
+  S3Path?: string | undefined;
+  S3AccessRoleArn?: string | undefined;
 }
 export interface IbmDb2LuwDataProviderSettings {
-  ServerName?: string;
-  Port?: number;
-  DatabaseName?: string;
-  SslMode?: DmsSslModeValue;
-  CertificateArn?: string;
-  EncryptionAlgorithm?: number;
-  SecurityMechanism?: number;
-  S3Path?: string;
-  S3AccessRoleArn?: string;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  DatabaseName?: string | undefined;
+  SslMode?: DmsSslModeValue | undefined;
+  CertificateArn?: string | undefined;
+  EncryptionAlgorithm?: number | undefined;
+  SecurityMechanism?: number | undefined;
+  S3Path?: string | undefined;
+  S3AccessRoleArn?: string | undefined;
 }
 export interface IbmDb2zOsDataProviderSettings {
-  ServerName?: string;
-  Port?: number;
-  DatabaseName?: string;
-  SslMode?: DmsSslModeValue;
-  CertificateArn?: string;
-  S3Path?: string;
-  S3AccessRoleArn?: string;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  DatabaseName?: string | undefined;
+  SslMode?: DmsSslModeValue | undefined;
+  CertificateArn?: string | undefined;
+  S3Path?: string | undefined;
+  S3AccessRoleArn?: string | undefined;
 }
 export type AuthTypeValue = "no" | "password" | (string & {});
 export type AuthMechanismValue = "default" | "mongodb_cr" | "scram_sha_1" | (string & {});
 export interface MongoDbDataProviderSettings {
-  ServerName?: string;
-  Port?: number;
-  DatabaseName?: string;
-  SslMode?: DmsSslModeValue;
-  CertificateArn?: string;
-  AuthType?: AuthTypeValue;
-  AuthSource?: string;
-  AuthMechanism?: AuthMechanismValue;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  DatabaseName?: string | undefined;
+  SslMode?: DmsSslModeValue | undefined;
+  CertificateArn?: string | undefined;
+  AuthType?: AuthTypeValue | undefined;
+  AuthSource?: string | undefined;
+  AuthMechanism?: AuthMechanismValue | undefined;
 }
 export type DataProviderSettings =
   | {
@@ -672,24 +672,24 @@ export type DataProviderSettings =
       MongoDbSettings: MongoDbDataProviderSettings;
     };
 export interface CreateDataProviderMessage {
-  DataProviderName?: string;
-  Description?: string;
+  DataProviderName?: string | undefined;
+  Description?: string | undefined;
   Engine: string;
-  Virtual?: boolean;
+  Virtual?: boolean | undefined;
   Settings: DataProviderSettings;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface DataProvider {
-  DataProviderName?: string;
-  DataProviderArn?: string;
-  DataProviderCreationTime?: Date;
-  Description?: string;
-  Engine?: string;
-  Virtual?: boolean;
-  Settings?: DataProviderSettings;
+  DataProviderName?: string | undefined;
+  DataProviderArn?: string | undefined;
+  DataProviderCreationTime?: Date | undefined;
+  Description?: string | undefined;
+  Engine?: string | undefined;
+  Virtual?: boolean | undefined;
+  Settings?: DataProviderSettings | undefined;
 }
 export interface CreateDataProviderResponse {
-  DataProvider?: DataProvider;
+  DataProvider?: DataProvider | undefined;
 }
 export type ReplicationEndpointTypeValue = "source" | "target" | (string & {});
 export interface DynamoDbSettings {
@@ -719,84 +719,84 @@ export type CannedAclForObjectsValue =
   | "bucket-owner-full-control"
   | (string & {});
 export interface S3Settings {
-  ServiceAccessRoleArn?: string;
-  ExternalTableDefinition?: string;
-  CsvRowDelimiter?: string;
-  CsvDelimiter?: string;
-  BucketFolder?: string;
-  BucketName?: string;
-  CompressionType?: CompressionTypeValue;
-  EncryptionMode?: EncryptionModeValue;
-  ServerSideEncryptionKmsKeyId?: string;
-  DataFormat?: DataFormatValue;
-  EncodingType?: EncodingTypeValue;
-  DictPageSizeLimit?: number;
-  RowGroupLength?: number;
-  DataPageSize?: number;
-  ParquetVersion?: ParquetVersionValue;
-  EnableStatistics?: boolean;
-  IncludeOpForFullLoad?: boolean;
-  CdcInsertsOnly?: boolean;
-  TimestampColumnName?: string;
-  ParquetTimestampInMillisecond?: boolean;
-  CdcInsertsAndUpdates?: boolean;
-  DatePartitionEnabled?: boolean;
-  DatePartitionSequence?: DatePartitionSequenceValue;
-  DatePartitionDelimiter?: DatePartitionDelimiterValue;
-  UseCsvNoSupValue?: boolean;
-  CsvNoSupValue?: string;
-  PreserveTransactions?: boolean;
-  CdcPath?: string;
-  UseTaskStartTimeForFullLoadTimestamp?: boolean;
-  CannedAclForObjects?: CannedAclForObjectsValue;
-  AddColumnName?: boolean;
-  CdcMaxBatchInterval?: number;
-  CdcMinFileSize?: number;
-  CsvNullValue?: string;
-  IgnoreHeaderRows?: number;
-  MaxFileSize?: number;
-  Rfc4180?: boolean;
-  DatePartitionTimezone?: string;
-  AddTrailingPaddingCharacter?: boolean;
-  ExpectedBucketOwner?: string;
-  GlueCatalogGeneration?: boolean;
+  ServiceAccessRoleArn?: string | undefined;
+  ExternalTableDefinition?: string | undefined;
+  CsvRowDelimiter?: string | undefined;
+  CsvDelimiter?: string | undefined;
+  BucketFolder?: string | undefined;
+  BucketName?: string | undefined;
+  CompressionType?: CompressionTypeValue | undefined;
+  EncryptionMode?: EncryptionModeValue | undefined;
+  ServerSideEncryptionKmsKeyId?: string | undefined;
+  DataFormat?: DataFormatValue | undefined;
+  EncodingType?: EncodingTypeValue | undefined;
+  DictPageSizeLimit?: number | undefined;
+  RowGroupLength?: number | undefined;
+  DataPageSize?: number | undefined;
+  ParquetVersion?: ParquetVersionValue | undefined;
+  EnableStatistics?: boolean | undefined;
+  IncludeOpForFullLoad?: boolean | undefined;
+  CdcInsertsOnly?: boolean | undefined;
+  TimestampColumnName?: string | undefined;
+  ParquetTimestampInMillisecond?: boolean | undefined;
+  CdcInsertsAndUpdates?: boolean | undefined;
+  DatePartitionEnabled?: boolean | undefined;
+  DatePartitionSequence?: DatePartitionSequenceValue | undefined;
+  DatePartitionDelimiter?: DatePartitionDelimiterValue | undefined;
+  UseCsvNoSupValue?: boolean | undefined;
+  CsvNoSupValue?: string | undefined;
+  PreserveTransactions?: boolean | undefined;
+  CdcPath?: string | undefined;
+  UseTaskStartTimeForFullLoadTimestamp?: boolean | undefined;
+  CannedAclForObjects?: CannedAclForObjectsValue | undefined;
+  AddColumnName?: boolean | undefined;
+  CdcMaxBatchInterval?: number | undefined;
+  CdcMinFileSize?: number | undefined;
+  CsvNullValue?: string | undefined;
+  IgnoreHeaderRows?: number | undefined;
+  MaxFileSize?: number | undefined;
+  Rfc4180?: boolean | undefined;
+  DatePartitionTimezone?: string | undefined;
+  AddTrailingPaddingCharacter?: boolean | undefined;
+  ExpectedBucketOwner?: string | undefined;
+  GlueCatalogGeneration?: boolean | undefined;
 }
 export interface DmsTransferSettings {
-  ServiceAccessRoleArn?: string;
-  BucketName?: string;
+  ServiceAccessRoleArn?: string | undefined;
+  BucketName?: string | undefined;
 }
 export type NestingLevelValue = "none" | "one" | (string & {});
 export interface MongoDbSettings {
-  Username?: string;
-  Password?: string | redacted.Redacted<string>;
-  ServerName?: string;
-  Port?: number;
-  DatabaseName?: string;
-  AuthType?: AuthTypeValue;
-  AuthMechanism?: AuthMechanismValue;
-  NestingLevel?: NestingLevelValue;
-  ExtractDocId?: string;
-  DocsToInvestigate?: string;
-  AuthSource?: string;
-  KmsKeyId?: string;
-  SecretsManagerAccessRoleArn?: string;
-  SecretsManagerSecretId?: string;
-  UseUpdateLookUp?: boolean;
-  ReplicateShardCollections?: boolean;
+  Username?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  DatabaseName?: string | undefined;
+  AuthType?: AuthTypeValue | undefined;
+  AuthMechanism?: AuthMechanismValue | undefined;
+  NestingLevel?: NestingLevelValue | undefined;
+  ExtractDocId?: string | undefined;
+  DocsToInvestigate?: string | undefined;
+  AuthSource?: string | undefined;
+  KmsKeyId?: string | undefined;
+  SecretsManagerAccessRoleArn?: string | undefined;
+  SecretsManagerSecretId?: string | undefined;
+  UseUpdateLookUp?: boolean | undefined;
+  ReplicateShardCollections?: boolean | undefined;
 }
 export type MessageFormatValue = "json" | "json-unformatted" | (string & {});
 export interface KinesisSettings {
-  StreamArn?: string;
-  MessageFormat?: MessageFormatValue;
-  ServiceAccessRoleArn?: string;
-  IncludeTransactionDetails?: boolean;
-  IncludePartitionValue?: boolean;
-  PartitionIncludeSchemaTable?: boolean;
-  IncludeTableAlterOperations?: boolean;
-  IncludeControlDetails?: boolean;
-  IncludeNullAndEmpty?: boolean;
-  NoHexPrefix?: boolean;
-  UseLargeIntegerValue?: boolean;
+  StreamArn?: string | undefined;
+  MessageFormat?: MessageFormatValue | undefined;
+  ServiceAccessRoleArn?: string | undefined;
+  IncludeTransactionDetails?: boolean | undefined;
+  IncludePartitionValue?: boolean | undefined;
+  PartitionIncludeSchemaTable?: boolean | undefined;
+  IncludeTableAlterOperations?: boolean | undefined;
+  IncludeControlDetails?: boolean | undefined;
+  IncludeNullAndEmpty?: boolean | undefined;
+  NoHexPrefix?: boolean | undefined;
+  UseLargeIntegerValue?: boolean | undefined;
 }
 export type KafkaSecurityProtocol =
   | "plaintext"
@@ -807,188 +807,188 @@ export type KafkaSecurityProtocol =
 export type KafkaSaslMechanism = "scram-sha-512" | "plain" | (string & {});
 export type KafkaSslEndpointIdentificationAlgorithm = "none" | "https" | (string & {});
 export interface KafkaSettings {
-  Broker?: string;
-  Topic?: string;
-  MessageFormat?: MessageFormatValue;
-  IncludeTransactionDetails?: boolean;
-  IncludePartitionValue?: boolean;
-  PartitionIncludeSchemaTable?: boolean;
-  IncludeTableAlterOperations?: boolean;
-  IncludeControlDetails?: boolean;
-  MessageMaxBytes?: number;
-  IncludeNullAndEmpty?: boolean;
-  SecurityProtocol?: KafkaSecurityProtocol;
-  SslClientCertificateArn?: string;
-  SslClientKeyArn?: string;
-  SslClientKeyPassword?: string | redacted.Redacted<string>;
-  SslCaCertificateArn?: string;
-  SaslUsername?: string;
-  SaslPassword?: string | redacted.Redacted<string>;
-  NoHexPrefix?: boolean;
-  SaslMechanism?: KafkaSaslMechanism;
-  SslEndpointIdentificationAlgorithm?: KafkaSslEndpointIdentificationAlgorithm;
-  UseLargeIntegerValue?: boolean;
+  Broker?: string | undefined;
+  Topic?: string | undefined;
+  MessageFormat?: MessageFormatValue | undefined;
+  IncludeTransactionDetails?: boolean | undefined;
+  IncludePartitionValue?: boolean | undefined;
+  PartitionIncludeSchemaTable?: boolean | undefined;
+  IncludeTableAlterOperations?: boolean | undefined;
+  IncludeControlDetails?: boolean | undefined;
+  MessageMaxBytes?: number | undefined;
+  IncludeNullAndEmpty?: boolean | undefined;
+  SecurityProtocol?: KafkaSecurityProtocol | undefined;
+  SslClientCertificateArn?: string | undefined;
+  SslClientKeyArn?: string | undefined;
+  SslClientKeyPassword?: string | redacted.Redacted<string> | undefined;
+  SslCaCertificateArn?: string | undefined;
+  SaslUsername?: string | undefined;
+  SaslPassword?: string | redacted.Redacted<string> | undefined;
+  NoHexPrefix?: boolean | undefined;
+  SaslMechanism?: KafkaSaslMechanism | undefined;
+  SslEndpointIdentificationAlgorithm?: KafkaSslEndpointIdentificationAlgorithm | undefined;
+  UseLargeIntegerValue?: boolean | undefined;
 }
 export interface ElasticsearchSettings {
   ServiceAccessRoleArn: string;
   EndpointUri: string;
-  FullLoadErrorPercentage?: number;
-  ErrorRetryDuration?: number;
-  UseNewMappingType?: boolean;
+  FullLoadErrorPercentage?: number | undefined;
+  ErrorRetryDuration?: number | undefined;
+  UseNewMappingType?: boolean | undefined;
 }
 export interface NeptuneSettings {
-  ServiceAccessRoleArn?: string;
+  ServiceAccessRoleArn?: string | undefined;
   S3BucketName: string;
   S3BucketFolder: string;
-  ErrorRetryDuration?: number;
-  MaxFileSize?: number;
-  MaxRetryCount?: number;
-  IamAuthEnabled?: boolean;
+  ErrorRetryDuration?: number | undefined;
+  MaxFileSize?: number | undefined;
+  MaxRetryCount?: number | undefined;
+  IamAuthEnabled?: boolean | undefined;
 }
 export interface RedshiftSettings {
-  AcceptAnyDate?: boolean;
-  AfterConnectScript?: string;
-  BucketFolder?: string;
-  BucketName?: string;
-  CaseSensitiveNames?: boolean;
-  CompUpdate?: boolean;
-  ConnectionTimeout?: number;
-  DatabaseName?: string;
-  DateFormat?: string;
-  EmptyAsNull?: boolean;
-  EncryptionMode?: EncryptionModeValue;
-  ExplicitIds?: boolean;
-  FileTransferUploadStreams?: number;
-  LoadTimeout?: number;
-  MaxFileSize?: number;
-  Password?: string | redacted.Redacted<string>;
-  Port?: number;
-  RemoveQuotes?: boolean;
-  ReplaceInvalidChars?: string;
-  ReplaceChars?: string;
-  ServerName?: string;
-  ServiceAccessRoleArn?: string;
-  ServerSideEncryptionKmsKeyId?: string;
-  TimeFormat?: string;
-  TrimBlanks?: boolean;
-  TruncateColumns?: boolean;
-  Username?: string;
-  WriteBufferSize?: number;
-  SecretsManagerAccessRoleArn?: string;
-  SecretsManagerSecretId?: string;
-  MapBooleanAsBoolean?: boolean;
+  AcceptAnyDate?: boolean | undefined;
+  AfterConnectScript?: string | undefined;
+  BucketFolder?: string | undefined;
+  BucketName?: string | undefined;
+  CaseSensitiveNames?: boolean | undefined;
+  CompUpdate?: boolean | undefined;
+  ConnectionTimeout?: number | undefined;
+  DatabaseName?: string | undefined;
+  DateFormat?: string | undefined;
+  EmptyAsNull?: boolean | undefined;
+  EncryptionMode?: EncryptionModeValue | undefined;
+  ExplicitIds?: boolean | undefined;
+  FileTransferUploadStreams?: number | undefined;
+  LoadTimeout?: number | undefined;
+  MaxFileSize?: number | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Port?: number | undefined;
+  RemoveQuotes?: boolean | undefined;
+  ReplaceInvalidChars?: string | undefined;
+  ReplaceChars?: string | undefined;
+  ServerName?: string | undefined;
+  ServiceAccessRoleArn?: string | undefined;
+  ServerSideEncryptionKmsKeyId?: string | undefined;
+  TimeFormat?: string | undefined;
+  TrimBlanks?: boolean | undefined;
+  TruncateColumns?: boolean | undefined;
+  Username?: string | undefined;
+  WriteBufferSize?: number | undefined;
+  SecretsManagerAccessRoleArn?: string | undefined;
+  SecretsManagerSecretId?: string | undefined;
+  MapBooleanAsBoolean?: boolean | undefined;
 }
 export type PluginNameValue = "no-preference" | "test-decoding" | "pglogical" | (string & {});
 export type LongVarcharMappingType = "wstring" | "clob" | "nclob" | (string & {});
 export type DatabaseMode = "default" | "babelfish" | (string & {});
 export type PostgreSQLAuthenticationMethod = "password" | "iam" | (string & {});
 export interface PostgreSQLSettings {
-  AfterConnectScript?: string;
-  CaptureDdls?: boolean;
-  MaxFileSize?: number;
-  DatabaseName?: string;
-  DdlArtifactsSchema?: string;
-  ExecuteTimeout?: number;
-  FailTasksOnLobTruncation?: boolean;
-  HeartbeatEnable?: boolean;
-  HeartbeatSchema?: string;
-  HeartbeatFrequency?: number;
-  Password?: string | redacted.Redacted<string>;
-  Port?: number;
-  ServerName?: string;
-  Username?: string;
-  SlotName?: string;
-  PluginName?: PluginNameValue;
-  SecretsManagerAccessRoleArn?: string;
-  SecretsManagerSecretId?: string;
-  TrimSpaceInChar?: boolean;
-  MapBooleanAsBoolean?: boolean;
-  MapJsonbAsClob?: boolean;
-  MapLongVarcharAs?: LongVarcharMappingType;
-  DatabaseMode?: DatabaseMode;
-  BabelfishDatabaseName?: string;
-  DisableUnicodeSourceFilter?: boolean;
-  ServiceAccessRoleArn?: string;
-  AuthenticationMethod?: PostgreSQLAuthenticationMethod;
+  AfterConnectScript?: string | undefined;
+  CaptureDdls?: boolean | undefined;
+  MaxFileSize?: number | undefined;
+  DatabaseName?: string | undefined;
+  DdlArtifactsSchema?: string | undefined;
+  ExecuteTimeout?: number | undefined;
+  FailTasksOnLobTruncation?: boolean | undefined;
+  HeartbeatEnable?: boolean | undefined;
+  HeartbeatSchema?: string | undefined;
+  HeartbeatFrequency?: number | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Port?: number | undefined;
+  ServerName?: string | undefined;
+  Username?: string | undefined;
+  SlotName?: string | undefined;
+  PluginName?: PluginNameValue | undefined;
+  SecretsManagerAccessRoleArn?: string | undefined;
+  SecretsManagerSecretId?: string | undefined;
+  TrimSpaceInChar?: boolean | undefined;
+  MapBooleanAsBoolean?: boolean | undefined;
+  MapJsonbAsClob?: boolean | undefined;
+  MapLongVarcharAs?: LongVarcharMappingType | undefined;
+  DatabaseMode?: DatabaseMode | undefined;
+  BabelfishDatabaseName?: string | undefined;
+  DisableUnicodeSourceFilter?: boolean | undefined;
+  ServiceAccessRoleArn?: string | undefined;
+  AuthenticationMethod?: PostgreSQLAuthenticationMethod | undefined;
 }
 export type TargetDbType = "specific-database" | "multiple-databases" | (string & {});
 export type MySQLAuthenticationMethod = "password" | "iam" | (string & {});
 export interface MySQLSettings {
-  AfterConnectScript?: string;
-  CleanSourceMetadataOnMismatch?: boolean;
-  DatabaseName?: string;
-  EventsPollInterval?: number;
-  TargetDbType?: TargetDbType;
-  MaxFileSize?: number;
-  ParallelLoadThreads?: number;
-  Password?: string | redacted.Redacted<string>;
-  Port?: number;
-  ServerName?: string;
-  ServerTimezone?: string;
-  Username?: string;
-  SecretsManagerAccessRoleArn?: string;
-  SecretsManagerSecretId?: string;
-  ExecuteTimeout?: number;
-  ServiceAccessRoleArn?: string;
-  AuthenticationMethod?: MySQLAuthenticationMethod;
+  AfterConnectScript?: string | undefined;
+  CleanSourceMetadataOnMismatch?: boolean | undefined;
+  DatabaseName?: string | undefined;
+  EventsPollInterval?: number | undefined;
+  TargetDbType?: TargetDbType | undefined;
+  MaxFileSize?: number | undefined;
+  ParallelLoadThreads?: number | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Port?: number | undefined;
+  ServerName?: string | undefined;
+  ServerTimezone?: string | undefined;
+  Username?: string | undefined;
+  SecretsManagerAccessRoleArn?: string | undefined;
+  SecretsManagerSecretId?: string | undefined;
+  ExecuteTimeout?: number | undefined;
+  ServiceAccessRoleArn?: string | undefined;
+  AuthenticationMethod?: MySQLAuthenticationMethod | undefined;
 }
 export type IntegerList = number[];
 export type CharLengthSemantics = "default" | "char" | "byte" | (string & {});
 export type OracleAuthenticationMethod = "password" | "kerberos" | (string & {});
 export interface OracleSettings {
-  AddSupplementalLogging?: boolean;
-  ArchivedLogDestId?: number;
-  AdditionalArchivedLogDestId?: number;
-  ExtraArchivedLogDestIds?: number[];
-  AllowSelectNestedTables?: boolean;
-  ParallelAsmReadThreads?: number;
-  ReadAheadBlocks?: number;
-  AccessAlternateDirectly?: boolean;
-  UseAlternateFolderForOnline?: boolean;
-  OraclePathPrefix?: string;
-  UsePathPrefix?: string;
-  ReplacePathPrefix?: boolean;
-  EnableHomogenousTablespace?: boolean;
-  DirectPathNoLog?: boolean;
-  ArchivedLogsOnly?: boolean;
-  AsmPassword?: string | redacted.Redacted<string>;
-  AsmServer?: string;
-  AsmUser?: string;
-  CharLengthSemantics?: CharLengthSemantics;
-  DatabaseName?: string;
-  DirectPathParallelLoad?: boolean;
-  FailTasksOnLobTruncation?: boolean;
-  NumberDatatypeScale?: number;
-  Password?: string | redacted.Redacted<string>;
-  Port?: number;
-  ReadTableSpaceName?: boolean;
-  RetryInterval?: number;
-  SecurityDbEncryption?: string | redacted.Redacted<string>;
-  SecurityDbEncryptionName?: string;
-  ServerName?: string;
-  SpatialDataOptionToGeoJsonFunctionName?: string;
-  StandbyDelayTime?: number;
-  Username?: string;
-  UseBFile?: boolean;
-  UseDirectPathFullLoad?: boolean;
-  UseLogminerReader?: boolean;
-  SecretsManagerAccessRoleArn?: string;
-  SecretsManagerSecretId?: string;
-  SecretsManagerOracleAsmAccessRoleArn?: string;
-  SecretsManagerOracleAsmSecretId?: string;
-  TrimSpaceInChar?: boolean;
-  ConvertTimestampWithZoneToUTC?: boolean;
-  OpenTransactionWindow?: number;
-  AuthenticationMethod?: OracleAuthenticationMethod;
+  AddSupplementalLogging?: boolean | undefined;
+  ArchivedLogDestId?: number | undefined;
+  AdditionalArchivedLogDestId?: number | undefined;
+  ExtraArchivedLogDestIds?: number[] | undefined;
+  AllowSelectNestedTables?: boolean | undefined;
+  ParallelAsmReadThreads?: number | undefined;
+  ReadAheadBlocks?: number | undefined;
+  AccessAlternateDirectly?: boolean | undefined;
+  UseAlternateFolderForOnline?: boolean | undefined;
+  OraclePathPrefix?: string | undefined;
+  UsePathPrefix?: string | undefined;
+  ReplacePathPrefix?: boolean | undefined;
+  EnableHomogenousTablespace?: boolean | undefined;
+  DirectPathNoLog?: boolean | undefined;
+  ArchivedLogsOnly?: boolean | undefined;
+  AsmPassword?: string | redacted.Redacted<string> | undefined;
+  AsmServer?: string | undefined;
+  AsmUser?: string | undefined;
+  CharLengthSemantics?: CharLengthSemantics | undefined;
+  DatabaseName?: string | undefined;
+  DirectPathParallelLoad?: boolean | undefined;
+  FailTasksOnLobTruncation?: boolean | undefined;
+  NumberDatatypeScale?: number | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Port?: number | undefined;
+  ReadTableSpaceName?: boolean | undefined;
+  RetryInterval?: number | undefined;
+  SecurityDbEncryption?: string | redacted.Redacted<string> | undefined;
+  SecurityDbEncryptionName?: string | undefined;
+  ServerName?: string | undefined;
+  SpatialDataOptionToGeoJsonFunctionName?: string | undefined;
+  StandbyDelayTime?: number | undefined;
+  Username?: string | undefined;
+  UseBFile?: boolean | undefined;
+  UseDirectPathFullLoad?: boolean | undefined;
+  UseLogminerReader?: boolean | undefined;
+  SecretsManagerAccessRoleArn?: string | undefined;
+  SecretsManagerSecretId?: string | undefined;
+  SecretsManagerOracleAsmAccessRoleArn?: string | undefined;
+  SecretsManagerOracleAsmSecretId?: string | undefined;
+  TrimSpaceInChar?: boolean | undefined;
+  ConvertTimestampWithZoneToUTC?: boolean | undefined;
+  OpenTransactionWindow?: number | undefined;
+  AuthenticationMethod?: OracleAuthenticationMethod | undefined;
 }
 export interface SybaseSettings {
-  DatabaseName?: string;
-  Password?: string | redacted.Redacted<string>;
-  Port?: number;
-  ServerName?: string;
-  Username?: string;
-  SecretsManagerAccessRoleArn?: string;
-  SecretsManagerSecretId?: string;
+  DatabaseName?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Port?: number | undefined;
+  ServerName?: string | undefined;
+  Username?: string | undefined;
+  SecretsManagerAccessRoleArn?: string | undefined;
+  SecretsManagerSecretId?: string | undefined;
 }
 export type SafeguardPolicy =
   | "rely-on-sql-server-replication-agent"
@@ -1003,291 +1003,291 @@ export type TlogAccessMode =
   | (string & {});
 export type SqlServerAuthenticationMethod = "password" | "kerberos" | (string & {});
 export interface MicrosoftSQLServerSettings {
-  Port?: number;
-  BcpPacketSize?: number;
-  DatabaseName?: string;
-  ControlTablesFileGroup?: string;
-  Password?: string | redacted.Redacted<string>;
-  QuerySingleAlwaysOnNode?: boolean;
-  ReadBackupOnly?: boolean;
-  SafeguardPolicy?: SafeguardPolicy;
-  ServerName?: string;
-  Username?: string;
-  UseBcpFullLoad?: boolean;
-  UseThirdPartyBackupDevice?: boolean;
-  SecretsManagerAccessRoleArn?: string;
-  SecretsManagerSecretId?: string;
-  TrimSpaceInChar?: boolean;
-  TlogAccessMode?: TlogAccessMode;
-  ForceLobLookup?: boolean;
-  AuthenticationMethod?: SqlServerAuthenticationMethod;
+  Port?: number | undefined;
+  BcpPacketSize?: number | undefined;
+  DatabaseName?: string | undefined;
+  ControlTablesFileGroup?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  QuerySingleAlwaysOnNode?: boolean | undefined;
+  ReadBackupOnly?: boolean | undefined;
+  SafeguardPolicy?: SafeguardPolicy | undefined;
+  ServerName?: string | undefined;
+  Username?: string | undefined;
+  UseBcpFullLoad?: boolean | undefined;
+  UseThirdPartyBackupDevice?: boolean | undefined;
+  SecretsManagerAccessRoleArn?: string | undefined;
+  SecretsManagerSecretId?: string | undefined;
+  TrimSpaceInChar?: boolean | undefined;
+  TlogAccessMode?: TlogAccessMode | undefined;
+  ForceLobLookup?: boolean | undefined;
+  AuthenticationMethod?: SqlServerAuthenticationMethod | undefined;
 }
 export interface IBMDb2Settings {
-  DatabaseName?: string;
-  Password?: string | redacted.Redacted<string>;
-  Port?: number;
-  ServerName?: string;
-  SetDataCaptureChanges?: boolean;
-  CurrentLsn?: string;
-  MaxKBytesPerRead?: number;
-  Username?: string;
-  SecretsManagerAccessRoleArn?: string;
-  SecretsManagerSecretId?: string;
-  LoadTimeout?: number;
-  WriteBufferSize?: number;
-  MaxFileSize?: number;
-  KeepCsvFiles?: boolean;
+  DatabaseName?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Port?: number | undefined;
+  ServerName?: string | undefined;
+  SetDataCaptureChanges?: boolean | undefined;
+  CurrentLsn?: string | undefined;
+  MaxKBytesPerRead?: number | undefined;
+  Username?: string | undefined;
+  SecretsManagerAccessRoleArn?: string | undefined;
+  SecretsManagerSecretId?: string | undefined;
+  LoadTimeout?: number | undefined;
+  WriteBufferSize?: number | undefined;
+  MaxFileSize?: number | undefined;
+  KeepCsvFiles?: boolean | undefined;
 }
 export interface DocDbSettings {
-  Username?: string;
-  Password?: string | redacted.Redacted<string>;
-  ServerName?: string;
-  Port?: number;
-  DatabaseName?: string;
-  NestingLevel?: NestingLevelValue;
-  ExtractDocId?: boolean;
-  DocsToInvestigate?: number;
-  KmsKeyId?: string;
-  SecretsManagerAccessRoleArn?: string;
-  SecretsManagerSecretId?: string;
-  UseUpdateLookUp?: boolean;
-  ReplicateShardCollections?: boolean;
+  Username?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  DatabaseName?: string | undefined;
+  NestingLevel?: NestingLevelValue | undefined;
+  ExtractDocId?: boolean | undefined;
+  DocsToInvestigate?: number | undefined;
+  KmsKeyId?: string | undefined;
+  SecretsManagerAccessRoleArn?: string | undefined;
+  SecretsManagerSecretId?: string | undefined;
+  UseUpdateLookUp?: boolean | undefined;
+  ReplicateShardCollections?: boolean | undefined;
 }
 export type SslSecurityProtocolValue = "plaintext" | "ssl-encryption" | (string & {});
 export type RedisAuthTypeValue = "none" | "auth-role" | "auth-token" | (string & {});
 export interface RedisSettings {
   ServerName: string;
   Port: number;
-  SslSecurityProtocol?: SslSecurityProtocolValue;
-  AuthType?: RedisAuthTypeValue;
-  AuthUserName?: string;
-  AuthPassword?: string | redacted.Redacted<string>;
-  SslCaCertificateArn?: string;
+  SslSecurityProtocol?: SslSecurityProtocolValue | undefined;
+  AuthType?: RedisAuthTypeValue | undefined;
+  AuthUserName?: string | undefined;
+  AuthPassword?: string | redacted.Redacted<string> | undefined;
+  SslCaCertificateArn?: string | undefined;
 }
 export interface GcpMySQLSettings {
-  AfterConnectScript?: string;
-  CleanSourceMetadataOnMismatch?: boolean;
-  DatabaseName?: string;
-  EventsPollInterval?: number;
-  TargetDbType?: TargetDbType;
-  MaxFileSize?: number;
-  ParallelLoadThreads?: number;
-  Password?: string | redacted.Redacted<string>;
-  Port?: number;
-  ServerName?: string;
-  ServerTimezone?: string;
-  Username?: string;
-  SecretsManagerAccessRoleArn?: string;
-  SecretsManagerSecretId?: string;
+  AfterConnectScript?: string | undefined;
+  CleanSourceMetadataOnMismatch?: boolean | undefined;
+  DatabaseName?: string | undefined;
+  EventsPollInterval?: number | undefined;
+  TargetDbType?: TargetDbType | undefined;
+  MaxFileSize?: number | undefined;
+  ParallelLoadThreads?: number | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Port?: number | undefined;
+  ServerName?: string | undefined;
+  ServerTimezone?: string | undefined;
+  Username?: string | undefined;
+  SecretsManagerAccessRoleArn?: string | undefined;
+  SecretsManagerSecretId?: string | undefined;
 }
 export interface TimestreamSettings {
   DatabaseName: string;
   MemoryDuration: number;
   MagneticDuration: number;
-  CdcInsertsAndUpdates?: boolean;
-  EnableMagneticStoreWrites?: boolean;
+  CdcInsertsAndUpdates?: boolean | undefined;
+  EnableMagneticStoreWrites?: boolean | undefined;
 }
 export interface CreateEndpointMessage {
   EndpointIdentifier: string;
   EndpointType: ReplicationEndpointTypeValue;
   EngineName: string;
-  Username?: string;
-  Password?: string | redacted.Redacted<string>;
-  ServerName?: string;
-  Port?: number;
-  DatabaseName?: string;
-  ExtraConnectionAttributes?: string;
-  KmsKeyId?: string;
-  Tags?: Tag[];
-  CertificateArn?: string;
-  SslMode?: DmsSslModeValue;
-  ServiceAccessRoleArn?: string;
-  ExternalTableDefinition?: string;
-  DynamoDbSettings?: DynamoDbSettings;
-  S3Settings?: S3Settings;
-  DmsTransferSettings?: DmsTransferSettings;
-  MongoDbSettings?: MongoDbSettings;
-  KinesisSettings?: KinesisSettings;
-  KafkaSettings?: KafkaSettings;
-  ElasticsearchSettings?: ElasticsearchSettings;
-  NeptuneSettings?: NeptuneSettings;
-  RedshiftSettings?: RedshiftSettings;
-  PostgreSQLSettings?: PostgreSQLSettings;
-  MySQLSettings?: MySQLSettings;
-  OracleSettings?: OracleSettings;
-  SybaseSettings?: SybaseSettings;
-  MicrosoftSQLServerSettings?: MicrosoftSQLServerSettings;
-  IBMDb2Settings?: IBMDb2Settings;
-  ResourceIdentifier?: string;
-  DocDbSettings?: DocDbSettings;
-  RedisSettings?: RedisSettings;
-  GcpMySQLSettings?: GcpMySQLSettings;
-  TimestreamSettings?: TimestreamSettings;
+  Username?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  DatabaseName?: string | undefined;
+  ExtraConnectionAttributes?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  CertificateArn?: string | undefined;
+  SslMode?: DmsSslModeValue | undefined;
+  ServiceAccessRoleArn?: string | undefined;
+  ExternalTableDefinition?: string | undefined;
+  DynamoDbSettings?: DynamoDbSettings | undefined;
+  S3Settings?: S3Settings | undefined;
+  DmsTransferSettings?: DmsTransferSettings | undefined;
+  MongoDbSettings?: MongoDbSettings | undefined;
+  KinesisSettings?: KinesisSettings | undefined;
+  KafkaSettings?: KafkaSettings | undefined;
+  ElasticsearchSettings?: ElasticsearchSettings | undefined;
+  NeptuneSettings?: NeptuneSettings | undefined;
+  RedshiftSettings?: RedshiftSettings | undefined;
+  PostgreSQLSettings?: PostgreSQLSettings | undefined;
+  MySQLSettings?: MySQLSettings | undefined;
+  OracleSettings?: OracleSettings | undefined;
+  SybaseSettings?: SybaseSettings | undefined;
+  MicrosoftSQLServerSettings?: MicrosoftSQLServerSettings | undefined;
+  IBMDb2Settings?: IBMDb2Settings | undefined;
+  ResourceIdentifier?: string | undefined;
+  DocDbSettings?: DocDbSettings | undefined;
+  RedisSettings?: RedisSettings | undefined;
+  GcpMySQLSettings?: GcpMySQLSettings | undefined;
+  TimestreamSettings?: TimestreamSettings | undefined;
 }
 export interface LakehouseSettings {
   Arn: string;
 }
 export interface Endpoint {
-  EndpointIdentifier?: string;
-  EndpointType?: ReplicationEndpointTypeValue;
-  EngineName?: string;
-  EngineDisplayName?: string;
-  Username?: string;
-  ServerName?: string;
-  Port?: number;
-  DatabaseName?: string;
-  ExtraConnectionAttributes?: string;
-  Status?: string;
-  KmsKeyId?: string;
-  EndpointArn?: string;
-  CertificateArn?: string;
-  SslMode?: DmsSslModeValue;
-  ServiceAccessRoleArn?: string;
-  ExternalTableDefinition?: string;
-  ExternalId?: string;
-  IsReadOnly?: boolean;
-  DynamoDbSettings?: DynamoDbSettings;
-  S3Settings?: S3Settings;
-  DmsTransferSettings?: DmsTransferSettings;
-  MongoDbSettings?: MongoDbSettings;
-  KinesisSettings?: KinesisSettings;
-  KafkaSettings?: KafkaSettings;
-  ElasticsearchSettings?: ElasticsearchSettings;
-  NeptuneSettings?: NeptuneSettings;
-  RedshiftSettings?: RedshiftSettings;
-  PostgreSQLSettings?: PostgreSQLSettings;
-  MySQLSettings?: MySQLSettings;
-  OracleSettings?: OracleSettings;
-  SybaseSettings?: SybaseSettings;
-  MicrosoftSQLServerSettings?: MicrosoftSQLServerSettings;
-  IBMDb2Settings?: IBMDb2Settings;
-  DocDbSettings?: DocDbSettings;
-  RedisSettings?: RedisSettings;
-  GcpMySQLSettings?: GcpMySQLSettings;
-  TimestreamSettings?: TimestreamSettings;
-  LakehouseSettings?: LakehouseSettings;
+  EndpointIdentifier?: string | undefined;
+  EndpointType?: ReplicationEndpointTypeValue | undefined;
+  EngineName?: string | undefined;
+  EngineDisplayName?: string | undefined;
+  Username?: string | undefined;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  DatabaseName?: string | undefined;
+  ExtraConnectionAttributes?: string | undefined;
+  Status?: string | undefined;
+  KmsKeyId?: string | undefined;
+  EndpointArn?: string | undefined;
+  CertificateArn?: string | undefined;
+  SslMode?: DmsSslModeValue | undefined;
+  ServiceAccessRoleArn?: string | undefined;
+  ExternalTableDefinition?: string | undefined;
+  ExternalId?: string | undefined;
+  IsReadOnly?: boolean | undefined;
+  DynamoDbSettings?: DynamoDbSettings | undefined;
+  S3Settings?: S3Settings | undefined;
+  DmsTransferSettings?: DmsTransferSettings | undefined;
+  MongoDbSettings?: MongoDbSettings | undefined;
+  KinesisSettings?: KinesisSettings | undefined;
+  KafkaSettings?: KafkaSettings | undefined;
+  ElasticsearchSettings?: ElasticsearchSettings | undefined;
+  NeptuneSettings?: NeptuneSettings | undefined;
+  RedshiftSettings?: RedshiftSettings | undefined;
+  PostgreSQLSettings?: PostgreSQLSettings | undefined;
+  MySQLSettings?: MySQLSettings | undefined;
+  OracleSettings?: OracleSettings | undefined;
+  SybaseSettings?: SybaseSettings | undefined;
+  MicrosoftSQLServerSettings?: MicrosoftSQLServerSettings | undefined;
+  IBMDb2Settings?: IBMDb2Settings | undefined;
+  DocDbSettings?: DocDbSettings | undefined;
+  RedisSettings?: RedisSettings | undefined;
+  GcpMySQLSettings?: GcpMySQLSettings | undefined;
+  TimestreamSettings?: TimestreamSettings | undefined;
+  LakehouseSettings?: LakehouseSettings | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c52, 21) as any as S.Schema<Endpoint>;
 export interface CreateEndpointResponse {
-  Endpoint?: Endpoint;
+  Endpoint?: Endpoint | undefined;
 }
 export type EventCategoriesList = string[];
 export type SourceIdsList = string[];
 export interface CreateEventSubscriptionMessage {
   SubscriptionName: string;
   SnsTopicArn: string;
-  SourceType?: string;
-  EventCategories?: string[];
-  SourceIds?: string[];
-  Enabled?: boolean;
-  Tags?: Tag[];
+  SourceType?: string | undefined;
+  EventCategories?: string[] | undefined;
+  SourceIds?: string[] | undefined;
+  Enabled?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface EventSubscription {
-  CustomerAwsId?: string;
-  CustSubscriptionId?: string;
-  SnsTopicArn?: string;
-  Status?: string;
-  SubscriptionCreationTime?: string;
-  SourceType?: string;
-  SourceIdsList?: string[];
-  EventCategoriesList?: string[];
-  Enabled?: boolean;
+  CustomerAwsId?: string | undefined;
+  CustSubscriptionId?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  Status?: string | undefined;
+  SubscriptionCreationTime?: string | undefined;
+  SourceType?: string | undefined;
+  SourceIdsList?: string[] | undefined;
+  EventCategoriesList?: string[] | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface CreateEventSubscriptionResponse {
-  EventSubscription?: EventSubscription;
+  EventSubscription?: EventSubscription | undefined;
 }
 export interface CreateFleetAdvisorCollectorRequest {
   CollectorName: string;
-  Description?: string;
+  Description?: string | undefined;
   ServiceAccessRoleArn: string;
   S3BucketName: string;
 }
 export interface CreateFleetAdvisorCollectorResponse {
-  CollectorReferencedId?: string;
-  CollectorName?: string;
-  Description?: string;
-  ServiceAccessRoleArn?: string;
-  S3BucketName?: string;
+  CollectorReferencedId?: string | undefined;
+  CollectorName?: string | undefined;
+  Description?: string | undefined;
+  ServiceAccessRoleArn?: string | undefined;
+  S3BucketName?: string | undefined;
 }
 export type StringList = string[];
 export interface CreateInstanceProfileMessage {
-  AvailabilityZone?: string;
-  KmsKeyArn?: string;
-  PubliclyAccessible?: boolean;
-  Tags?: Tag[];
-  NetworkType?: string;
-  InstanceProfileName?: string;
-  Description?: string;
-  SubnetGroupIdentifier?: string;
-  VpcSecurityGroups?: string[];
+  AvailabilityZone?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  NetworkType?: string | undefined;
+  InstanceProfileName?: string | undefined;
+  Description?: string | undefined;
+  SubnetGroupIdentifier?: string | undefined;
+  VpcSecurityGroups?: string[] | undefined;
 }
 export interface InstanceProfile {
-  InstanceProfileArn?: string;
-  AvailabilityZone?: string;
-  KmsKeyArn?: string;
-  PubliclyAccessible?: boolean;
-  NetworkType?: string;
-  InstanceProfileName?: string;
-  Description?: string;
-  InstanceProfileCreationTime?: Date;
-  SubnetGroupIdentifier?: string;
-  VpcSecurityGroups?: string[];
+  InstanceProfileArn?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  NetworkType?: string | undefined;
+  InstanceProfileName?: string | undefined;
+  Description?: string | undefined;
+  InstanceProfileCreationTime?: Date | undefined;
+  SubnetGroupIdentifier?: string | undefined;
+  VpcSecurityGroups?: string[] | undefined;
 }
 export interface CreateInstanceProfileResponse {
-  InstanceProfile?: InstanceProfile;
+  InstanceProfile?: InstanceProfile | undefined;
 }
 export interface DataProviderDescriptorDefinition {
   DataProviderIdentifier: string;
-  SecretsManagerSecretId?: string;
-  SecretsManagerAccessRoleArn?: string;
+  SecretsManagerSecretId?: string | undefined;
+  SecretsManagerAccessRoleArn?: string | undefined;
 }
 export type DataProviderDescriptorDefinitionList = DataProviderDescriptorDefinition[];
 export interface SCApplicationAttributes {
-  S3BucketPath?: string;
-  S3BucketRoleArn?: string;
+  S3BucketPath?: string | undefined;
+  S3BucketRoleArn?: string | undefined;
 }
 export interface CreateMigrationProjectMessage {
-  MigrationProjectName?: string;
+  MigrationProjectName?: string | undefined;
   SourceDataProviderDescriptors: DataProviderDescriptorDefinition[];
   TargetDataProviderDescriptors: DataProviderDescriptorDefinition[];
   InstanceProfileIdentifier: string;
-  TransformationRules?: string;
-  Description?: string;
-  Tags?: Tag[];
-  SchemaConversionApplicationAttributes?: SCApplicationAttributes;
+  TransformationRules?: string | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  SchemaConversionApplicationAttributes?: SCApplicationAttributes | undefined;
 }
 export interface DataProviderDescriptor {
-  SecretsManagerSecretId?: string;
-  SecretsManagerAccessRoleArn?: string;
-  DataProviderName?: string;
-  DataProviderArn?: string;
+  SecretsManagerSecretId?: string | undefined;
+  SecretsManagerAccessRoleArn?: string | undefined;
+  DataProviderName?: string | undefined;
+  DataProviderArn?: string | undefined;
 }
 export type DataProviderDescriptorList = DataProviderDescriptor[];
 export interface MigrationProject {
-  MigrationProjectName?: string;
-  MigrationProjectArn?: string;
-  MigrationProjectCreationTime?: Date;
-  SourceDataProviderDescriptors?: DataProviderDescriptor[];
-  TargetDataProviderDescriptors?: DataProviderDescriptor[];
-  InstanceProfileArn?: string;
-  InstanceProfileName?: string;
-  TransformationRules?: string;
-  Description?: string;
-  SchemaConversionApplicationAttributes?: SCApplicationAttributes;
+  MigrationProjectName?: string | undefined;
+  MigrationProjectArn?: string | undefined;
+  MigrationProjectCreationTime?: Date | undefined;
+  SourceDataProviderDescriptors?: DataProviderDescriptor[] | undefined;
+  TargetDataProviderDescriptors?: DataProviderDescriptor[] | undefined;
+  InstanceProfileArn?: string | undefined;
+  InstanceProfileName?: string | undefined;
+  TransformationRules?: string | undefined;
+  Description?: string | undefined;
+  SchemaConversionApplicationAttributes?: SCApplicationAttributes | undefined;
 }
 export interface CreateMigrationProjectResponse {
-  MigrationProject?: MigrationProject;
+  MigrationProject?: MigrationProject | undefined;
 }
 export interface ComputeConfig {
-  AvailabilityZone?: string;
-  DnsNameServers?: string;
-  KmsKeyId?: string;
-  MaxCapacityUnits?: number;
-  MinCapacityUnits?: number;
-  MultiAZ?: boolean;
-  PreferredMaintenanceWindow?: string;
-  ReplicationSubnetGroupId?: string;
-  VpcSecurityGroupIds?: string[];
+  AvailabilityZone?: string | undefined;
+  DnsNameServers?: string | undefined;
+  KmsKeyId?: string | undefined;
+  MaxCapacityUnits?: number | undefined;
+  MinCapacityUnits?: number | undefined;
+  MultiAZ?: boolean | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  ReplicationSubnetGroupId?: string | undefined;
+  VpcSecurityGroupIds?: string[] | undefined;
 }
 export interface CreateReplicationConfigMessage {
   ReplicationConfigIdentifier: string;
@@ -1296,127 +1296,127 @@ export interface CreateReplicationConfigMessage {
   ComputeConfig: ComputeConfig;
   ReplicationType: MigrationTypeValue;
   TableMappings: string;
-  ReplicationSettings?: string;
-  SupplementalSettings?: string;
-  ResourceIdentifier?: string;
-  Tags?: Tag[];
+  ReplicationSettings?: string | undefined;
+  SupplementalSettings?: string | undefined;
+  ResourceIdentifier?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ReplicationConfig {
-  ReplicationConfigIdentifier?: string;
-  ReplicationConfigArn?: string;
-  SourceEndpointArn?: string;
-  TargetEndpointArn?: string;
-  ReplicationType?: MigrationTypeValue;
-  ComputeConfig?: ComputeConfig;
-  ReplicationSettings?: string;
-  SupplementalSettings?: string;
-  TableMappings?: string;
-  ReplicationConfigCreateTime?: Date;
-  ReplicationConfigUpdateTime?: Date;
-  IsReadOnly?: boolean;
+  ReplicationConfigIdentifier?: string | undefined;
+  ReplicationConfigArn?: string | undefined;
+  SourceEndpointArn?: string | undefined;
+  TargetEndpointArn?: string | undefined;
+  ReplicationType?: MigrationTypeValue | undefined;
+  ComputeConfig?: ComputeConfig | undefined;
+  ReplicationSettings?: string | undefined;
+  SupplementalSettings?: string | undefined;
+  TableMappings?: string | undefined;
+  ReplicationConfigCreateTime?: Date | undefined;
+  ReplicationConfigUpdateTime?: Date | undefined;
+  IsReadOnly?: boolean | undefined;
 }
 export interface CreateReplicationConfigResponse {
-  ReplicationConfig?: ReplicationConfig;
+  ReplicationConfig?: ReplicationConfig | undefined;
 }
 export type ReplicationInstanceClass = string;
 export type VpcSecurityGroupIdList = string[];
 export interface KerberosAuthenticationSettings {
-  KeyCacheSecretId?: string;
-  KeyCacheSecretIamArn?: string;
-  Krb5FileContents?: string;
+  KeyCacheSecretId?: string | undefined;
+  KeyCacheSecretIamArn?: string | undefined;
+  Krb5FileContents?: string | undefined;
 }
 export interface CreateReplicationInstanceMessage {
   ReplicationInstanceIdentifier: string;
-  AllocatedStorage?: number;
+  AllocatedStorage?: number | undefined;
   ReplicationInstanceClass: string;
-  VpcSecurityGroupIds?: string[];
-  AvailabilityZone?: string;
-  ReplicationSubnetGroupIdentifier?: string;
-  PreferredMaintenanceWindow?: string;
-  MultiAZ?: boolean;
-  EngineVersion?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  Tags?: Tag[];
-  KmsKeyId?: string;
-  PubliclyAccessible?: boolean;
-  DnsNameServers?: string;
-  ResourceIdentifier?: string;
-  NetworkType?: string;
-  KerberosAuthenticationSettings?: KerberosAuthenticationSettings;
+  VpcSecurityGroupIds?: string[] | undefined;
+  AvailabilityZone?: string | undefined;
+  ReplicationSubnetGroupIdentifier?: string | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  MultiAZ?: boolean | undefined;
+  EngineVersion?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  KmsKeyId?: string | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  DnsNameServers?: string | undefined;
+  ResourceIdentifier?: string | undefined;
+  NetworkType?: string | undefined;
+  KerberosAuthenticationSettings?: KerberosAuthenticationSettings | undefined;
 }
 export interface VpcSecurityGroupMembership {
-  VpcSecurityGroupId?: string;
-  Status?: string;
+  VpcSecurityGroupId?: string | undefined;
+  Status?: string | undefined;
 }
 export type VpcSecurityGroupMembershipList = VpcSecurityGroupMembership[];
 export interface AvailabilityZone {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface Subnet {
-  SubnetIdentifier?: string;
-  SubnetAvailabilityZone?: AvailabilityZone;
-  SubnetStatus?: string;
+  SubnetIdentifier?: string | undefined;
+  SubnetAvailabilityZone?: AvailabilityZone | undefined;
+  SubnetStatus?: string | undefined;
 }
 export type SubnetList = Subnet[];
 export interface ReplicationSubnetGroup {
-  ReplicationSubnetGroupIdentifier?: string;
-  ReplicationSubnetGroupDescription?: string;
-  VpcId?: string;
-  SubnetGroupStatus?: string;
-  Subnets?: Subnet[];
-  SupportedNetworkTypes?: string[];
-  IsReadOnly?: boolean;
+  ReplicationSubnetGroupIdentifier?: string | undefined;
+  ReplicationSubnetGroupDescription?: string | undefined;
+  VpcId?: string | undefined;
+  SubnetGroupStatus?: string | undefined;
+  Subnets?: Subnet[] | undefined;
+  SupportedNetworkTypes?: string[] | undefined;
+  IsReadOnly?: boolean | undefined;
 }
 export interface ReplicationPendingModifiedValues {
-  ReplicationInstanceClass?: string;
-  AllocatedStorage?: number;
-  MultiAZ?: boolean;
-  EngineVersion?: string;
-  NetworkType?: string;
+  ReplicationInstanceClass?: string | undefined;
+  AllocatedStorage?: number | undefined;
+  MultiAZ?: boolean | undefined;
+  EngineVersion?: string | undefined;
+  NetworkType?: string | undefined;
 }
 export type ReplicationInstancePublicIpAddressList = string[];
 export type ReplicationInstancePrivateIpAddressList = string[];
 export type ReplicationInstanceIpv6AddressList = string[];
 export interface ReplicationInstance {
-  ReplicationInstanceIdentifier?: string;
-  ReplicationInstanceClass?: string;
-  ReplicationInstanceStatus?: string;
-  AllocatedStorage?: number;
-  InstanceCreateTime?: Date;
-  VpcSecurityGroups?: VpcSecurityGroupMembership[];
-  AvailabilityZone?: string;
-  ReplicationSubnetGroup?: ReplicationSubnetGroup;
-  PreferredMaintenanceWindow?: string;
-  PendingModifiedValues?: ReplicationPendingModifiedValues;
-  MultiAZ?: boolean;
-  EngineVersion?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  KmsKeyId?: string;
-  ReplicationInstanceArn?: string;
-  ReplicationInstancePublicIpAddress?: string;
-  ReplicationInstancePrivateIpAddress?: string;
-  ReplicationInstancePublicIpAddresses?: string[];
-  ReplicationInstancePrivateIpAddresses?: string[];
-  ReplicationInstanceIpv6Addresses?: string[];
-  PubliclyAccessible?: boolean;
-  SecondaryAvailabilityZone?: string;
-  FreeUntil?: Date;
-  DnsNameServers?: string;
-  NetworkType?: string;
-  KerberosAuthenticationSettings?: KerberosAuthenticationSettings;
+  ReplicationInstanceIdentifier?: string | undefined;
+  ReplicationInstanceClass?: string | undefined;
+  ReplicationInstanceStatus?: string | undefined;
+  AllocatedStorage?: number | undefined;
+  InstanceCreateTime?: Date | undefined;
+  VpcSecurityGroups?: VpcSecurityGroupMembership[] | undefined;
+  AvailabilityZone?: string | undefined;
+  ReplicationSubnetGroup?: ReplicationSubnetGroup | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  PendingModifiedValues?: ReplicationPendingModifiedValues | undefined;
+  MultiAZ?: boolean | undefined;
+  EngineVersion?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  ReplicationInstanceArn?: string | undefined;
+  ReplicationInstancePublicIpAddress?: string | undefined;
+  ReplicationInstancePrivateIpAddress?: string | undefined;
+  ReplicationInstancePublicIpAddresses?: string[] | undefined;
+  ReplicationInstancePrivateIpAddresses?: string[] | undefined;
+  ReplicationInstanceIpv6Addresses?: string[] | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  SecondaryAvailabilityZone?: string | undefined;
+  FreeUntil?: Date | undefined;
+  DnsNameServers?: string | undefined;
+  NetworkType?: string | undefined;
+  KerberosAuthenticationSettings?: KerberosAuthenticationSettings | undefined;
 }
 export interface CreateReplicationInstanceResponse {
-  ReplicationInstance?: ReplicationInstance;
+  ReplicationInstance?: ReplicationInstance | undefined;
 }
 export type SubnetIdentifierList = string[];
 export interface CreateReplicationSubnetGroupMessage {
   ReplicationSubnetGroupIdentifier: string;
   ReplicationSubnetGroupDescription: string;
   SubnetIds: string[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateReplicationSubnetGroupResponse {
-  ReplicationSubnetGroup?: ReplicationSubnetGroup;
+  ReplicationSubnetGroup?: ReplicationSubnetGroup | undefined;
 }
 export interface CreateReplicationTaskMessage {
   ReplicationTaskIdentifier: string;
@@ -1425,109 +1425,109 @@ export interface CreateReplicationTaskMessage {
   ReplicationInstanceArn: string;
   MigrationType: MigrationTypeValue;
   TableMappings: string;
-  ReplicationTaskSettings?: string;
-  CdcStartTime?: Date;
-  CdcStartPosition?: string;
-  CdcStopPosition?: string;
-  Tags?: Tag[];
-  TaskData?: string;
-  ResourceIdentifier?: string;
+  ReplicationTaskSettings?: string | undefined;
+  CdcStartTime?: Date | undefined;
+  CdcStartPosition?: string | undefined;
+  CdcStopPosition?: string | undefined;
+  Tags?: Tag[] | undefined;
+  TaskData?: string | undefined;
+  ResourceIdentifier?: string | undefined;
 }
 export interface ReplicationTaskStats {
-  FullLoadProgressPercent?: number;
-  ElapsedTimeMillis?: number;
-  TablesLoaded?: number;
-  TablesLoading?: number;
-  TablesQueued?: number;
-  TablesErrored?: number;
-  FreshStartDate?: Date;
-  StartDate?: Date;
-  StopDate?: Date;
-  FullLoadStartDate?: Date;
-  FullLoadFinishDate?: Date;
+  FullLoadProgressPercent?: number | undefined;
+  ElapsedTimeMillis?: number | undefined;
+  TablesLoaded?: number | undefined;
+  TablesLoading?: number | undefined;
+  TablesQueued?: number | undefined;
+  TablesErrored?: number | undefined;
+  FreshStartDate?: Date | undefined;
+  StartDate?: Date | undefined;
+  StopDate?: Date | undefined;
+  FullLoadStartDate?: Date | undefined;
+  FullLoadFinishDate?: Date | undefined;
 }
 export interface ReplicationTask {
-  ReplicationTaskIdentifier?: string;
-  SourceEndpointArn?: string;
-  TargetEndpointArn?: string;
-  ReplicationInstanceArn?: string;
-  MigrationType?: MigrationTypeValue;
-  TableMappings?: string;
-  ReplicationTaskSettings?: string;
-  Status?: string;
-  LastFailureMessage?: string;
-  StopReason?: string;
-  ReplicationTaskCreationDate?: Date;
-  ReplicationTaskStartDate?: Date;
-  CdcStartPosition?: string;
-  CdcStopPosition?: string;
-  RecoveryCheckpoint?: string;
-  ReplicationTaskArn?: string;
-  ReplicationTaskStats?: ReplicationTaskStats;
-  TaskData?: string;
-  TargetReplicationInstanceArn?: string;
+  ReplicationTaskIdentifier?: string | undefined;
+  SourceEndpointArn?: string | undefined;
+  TargetEndpointArn?: string | undefined;
+  ReplicationInstanceArn?: string | undefined;
+  MigrationType?: MigrationTypeValue | undefined;
+  TableMappings?: string | undefined;
+  ReplicationTaskSettings?: string | undefined;
+  Status?: string | undefined;
+  LastFailureMessage?: string | undefined;
+  StopReason?: string | undefined;
+  ReplicationTaskCreationDate?: Date | undefined;
+  ReplicationTaskStartDate?: Date | undefined;
+  CdcStartPosition?: string | undefined;
+  CdcStopPosition?: string | undefined;
+  RecoveryCheckpoint?: string | undefined;
+  ReplicationTaskArn?: string | undefined;
+  ReplicationTaskStats?: ReplicationTaskStats | undefined;
+  TaskData?: string | undefined;
+  TargetReplicationInstanceArn?: string | undefined;
 }
 export interface CreateReplicationTaskResponse {
-  ReplicationTask?: ReplicationTask;
+  ReplicationTask?: ReplicationTask | undefined;
 }
 export interface DeleteCertificateMessage {
   CertificateArn: string;
 }
 export type CertificateWallet = Uint8Array;
 export interface Certificate {
-  CertificateIdentifier?: string;
-  CertificateCreationDate?: Date;
-  CertificatePem?: string;
-  CertificateWallet?: Uint8Array;
-  CertificateArn?: string;
-  CertificateOwner?: string;
-  ValidFromDate?: Date;
-  ValidToDate?: Date;
-  SigningAlgorithm?: string;
-  KeyLength?: number;
-  KmsKeyId?: string;
+  CertificateIdentifier?: string | undefined;
+  CertificateCreationDate?: Date | undefined;
+  CertificatePem?: string | undefined;
+  CertificateWallet?: Uint8Array | undefined;
+  CertificateArn?: string | undefined;
+  CertificateOwner?: string | undefined;
+  ValidFromDate?: Date | undefined;
+  ValidToDate?: Date | undefined;
+  SigningAlgorithm?: string | undefined;
+  KeyLength?: number | undefined;
+  KmsKeyId?: string | undefined;
 }
 export interface DeleteCertificateResponse {
-  Certificate?: Certificate;
+  Certificate?: Certificate | undefined;
 }
 export interface DeleteConnectionMessage {
   EndpointArn: string;
   ReplicationInstanceArn: string;
 }
 export interface Connection {
-  ReplicationInstanceArn?: string;
-  EndpointArn?: string;
-  Status?: string;
-  LastFailureMessage?: string;
-  EndpointIdentifier?: string;
-  ReplicationInstanceIdentifier?: string;
+  ReplicationInstanceArn?: string | undefined;
+  EndpointArn?: string | undefined;
+  Status?: string | undefined;
+  LastFailureMessage?: string | undefined;
+  EndpointIdentifier?: string | undefined;
+  ReplicationInstanceIdentifier?: string | undefined;
 }
 export interface DeleteConnectionResponse {
-  Connection?: Connection;
+  Connection?: Connection | undefined;
 }
 export interface DeleteDataMigrationMessage {
   DataMigrationIdentifier: string;
 }
 export interface DeleteDataMigrationResponse {
-  DataMigration?: DataMigration;
+  DataMigration?: DataMigration | undefined;
 }
 export interface DeleteDataProviderMessage {
   DataProviderIdentifier: string;
 }
 export interface DeleteDataProviderResponse {
-  DataProvider?: DataProvider;
+  DataProvider?: DataProvider | undefined;
 }
 export interface DeleteEndpointMessage {
   EndpointArn: string;
 }
 export interface DeleteEndpointResponse {
-  Endpoint?: Endpoint;
+  Endpoint?: Endpoint | undefined;
 }
 export interface DeleteEventSubscriptionMessage {
   SubscriptionName: string;
 }
 export interface DeleteEventSubscriptionResponse {
-  EventSubscription?: EventSubscription;
+  EventSubscription?: EventSubscription | undefined;
 }
 export interface DeleteCollectorRequest {
   CollectorReferencedId: string;
@@ -1537,31 +1537,31 @@ export interface DeleteFleetAdvisorDatabasesRequest {
   DatabaseIds: string[];
 }
 export interface DeleteFleetAdvisorDatabasesResponse {
-  DatabaseIds?: string[];
+  DatabaseIds?: string[] | undefined;
 }
 export interface DeleteInstanceProfileMessage {
   InstanceProfileIdentifier: string;
 }
 export interface DeleteInstanceProfileResponse {
-  InstanceProfile?: InstanceProfile;
+  InstanceProfile?: InstanceProfile | undefined;
 }
 export interface DeleteMigrationProjectMessage {
   MigrationProjectIdentifier: string;
 }
 export interface DeleteMigrationProjectResponse {
-  MigrationProject?: MigrationProject;
+  MigrationProject?: MigrationProject | undefined;
 }
 export interface DeleteReplicationConfigMessage {
   ReplicationConfigArn: string;
 }
 export interface DeleteReplicationConfigResponse {
-  ReplicationConfig?: ReplicationConfig;
+  ReplicationConfig?: ReplicationConfig | undefined;
 }
 export interface DeleteReplicationInstanceMessage {
   ReplicationInstanceArn: string;
 }
 export interface DeleteReplicationInstanceResponse {
-  ReplicationInstance?: ReplicationInstance;
+  ReplicationInstance?: ReplicationInstance | undefined;
 }
 export interface DeleteReplicationSubnetGroupMessage {
   ReplicationSubnetGroupIdentifier: string;
@@ -1571,39 +1571,39 @@ export interface DeleteReplicationTaskMessage {
   ReplicationTaskArn: string;
 }
 export interface DeleteReplicationTaskResponse {
-  ReplicationTask?: ReplicationTask;
+  ReplicationTask?: ReplicationTask | undefined;
 }
 export interface DeleteReplicationTaskAssessmentRunMessage {
   ReplicationTaskAssessmentRunArn: string;
 }
 export interface DeleteReplicationTaskAssessmentRunResponse {
-  ReplicationTaskAssessmentRun?: ReplicationTaskAssessmentRun;
+  ReplicationTaskAssessmentRun?: ReplicationTaskAssessmentRun | undefined;
 }
 export interface DescribeAccountAttributesMessage {}
 export interface AccountQuota {
-  AccountQuotaName?: string;
-  Used?: number;
-  Max?: number;
+  AccountQuotaName?: string | undefined;
+  Used?: number | undefined;
+  Max?: number | undefined;
 }
 export type AccountQuotaList = AccountQuota[];
 export interface DescribeAccountAttributesResponse {
-  AccountQuotas?: AccountQuota[];
-  UniqueAccountIdentifier?: string;
+  AccountQuotas?: AccountQuota[] | undefined;
+  UniqueAccountIdentifier?: string | undefined;
 }
 export interface DescribeApplicableIndividualAssessmentsMessage {
-  ReplicationTaskArn?: string;
-  ReplicationInstanceArn?: string;
-  ReplicationConfigArn?: string;
-  SourceEngineName?: string;
-  TargetEngineName?: string;
-  MigrationType?: MigrationTypeValue;
-  MaxRecords?: number;
-  Marker?: string;
+  ReplicationTaskArn?: string | undefined;
+  ReplicationInstanceArn?: string | undefined;
+  ReplicationConfigArn?: string | undefined;
+  SourceEngineName?: string | undefined;
+  TargetEngineName?: string | undefined;
+  MigrationType?: MigrationTypeValue | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type IndividualAssessmentNameList = string[];
 export interface DescribeApplicableIndividualAssessmentsResponse {
-  IndividualAssessmentNames?: string[];
-  Marker?: string;
+  IndividualAssessmentNames?: string[] | undefined;
+  Marker?: string | undefined;
 }
 export type FilterValueList = string[];
 export interface Filter {
@@ -1612,332 +1612,332 @@ export interface Filter {
 }
 export type FilterList = Filter[];
 export interface DescribeCertificatesMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type CertificateList = Certificate[];
 export interface DescribeCertificatesResponse {
-  Marker?: string;
-  Certificates?: Certificate[];
+  Marker?: string | undefined;
+  Certificates?: Certificate[] | undefined;
 }
 export interface DescribeConnectionsMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ConnectionList = Connection[];
 export interface DescribeConnectionsResponse {
-  Marker?: string;
-  Connections?: Connection[];
+  Marker?: string | undefined;
+  Connections?: Connection[] | undefined;
 }
 export interface DescribeConversionConfigurationMessage {
   MigrationProjectIdentifier: string;
 }
 export interface DescribeConversionConfigurationResponse {
-  MigrationProjectIdentifier?: string;
-  ConversionConfiguration?: string;
+  MigrationProjectIdentifier?: string | undefined;
+  ConversionConfiguration?: string | undefined;
 }
 export type Marker = string;
 export interface DescribeDataMigrationsMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
-  WithoutSettings?: boolean;
-  WithoutStatistics?: boolean;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  WithoutSettings?: boolean | undefined;
+  WithoutStatistics?: boolean | undefined;
 }
 export type DataMigrations = DataMigration[];
 export interface DescribeDataMigrationsResponse {
-  DataMigrations?: DataMigration[];
-  Marker?: string;
+  DataMigrations?: DataMigration[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeDataProvidersMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type DataProviderList = DataProvider[];
 export interface DescribeDataProvidersResponse {
-  Marker?: string;
-  DataProviders?: DataProvider[];
+  Marker?: string | undefined;
+  DataProviders?: DataProvider[] | undefined;
 }
 export interface DescribeEndpointsMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type EndpointList = Endpoint[];
 export interface DescribeEndpointsResponse {
-  Marker?: string;
-  Endpoints?: Endpoint[];
+  Marker?: string | undefined;
+  Endpoints?: Endpoint[] | undefined;
 }
 export interface DescribeEndpointSettingsMessage {
   EngineName: string;
-  MaxRecords?: number;
-  Marker?: string;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type EndpointSettingTypeValue = "string" | "boolean" | "integer" | "enum" | (string & {});
 export type EndpointSettingEnumValues = string[];
 export interface EndpointSetting {
-  Name?: string;
-  Type?: EndpointSettingTypeValue;
-  EnumValues?: string[];
-  Sensitive?: boolean;
-  Units?: string;
-  Applicability?: string;
-  IntValueMin?: number;
-  IntValueMax?: number;
-  DefaultValue?: string;
+  Name?: string | undefined;
+  Type?: EndpointSettingTypeValue | undefined;
+  EnumValues?: string[] | undefined;
+  Sensitive?: boolean | undefined;
+  Units?: string | undefined;
+  Applicability?: string | undefined;
+  IntValueMin?: number | undefined;
+  IntValueMax?: number | undefined;
+  DefaultValue?: string | undefined;
 }
 export type EndpointSettingsList = EndpointSetting[];
 export interface DescribeEndpointSettingsResponse {
-  Marker?: string;
-  EndpointSettings?: EndpointSetting[];
+  Marker?: string | undefined;
+  EndpointSettings?: EndpointSetting[] | undefined;
 }
 export interface DescribeEndpointTypesMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface SupportedEndpointType {
-  EngineName?: string;
-  SupportsCDC?: boolean;
-  EndpointType?: ReplicationEndpointTypeValue;
-  ReplicationInstanceEngineMinimumVersion?: string;
-  EngineDisplayName?: string;
+  EngineName?: string | undefined;
+  SupportsCDC?: boolean | undefined;
+  EndpointType?: ReplicationEndpointTypeValue | undefined;
+  ReplicationInstanceEngineMinimumVersion?: string | undefined;
+  EngineDisplayName?: string | undefined;
 }
 export type SupportedEndpointTypeList = SupportedEndpointType[];
 export interface DescribeEndpointTypesResponse {
-  Marker?: string;
-  SupportedEndpointTypes?: SupportedEndpointType[];
+  Marker?: string | undefined;
+  SupportedEndpointTypes?: SupportedEndpointType[] | undefined;
 }
 export interface DescribeEngineVersionsMessage {
-  MaxRecords?: number;
-  Marker?: string;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ReleaseStatusValues = "beta" | "prod" | (string & {});
 export type AvailableUpgradesList = string[];
 export interface EngineVersion {
-  Version?: string;
-  Lifecycle?: string;
-  ReleaseStatus?: ReleaseStatusValues;
-  LaunchDate?: Date;
-  AutoUpgradeDate?: Date;
-  DeprecationDate?: Date;
-  ForceUpgradeDate?: Date;
-  AvailableUpgrades?: string[];
+  Version?: string | undefined;
+  Lifecycle?: string | undefined;
+  ReleaseStatus?: ReleaseStatusValues | undefined;
+  LaunchDate?: Date | undefined;
+  AutoUpgradeDate?: Date | undefined;
+  DeprecationDate?: Date | undefined;
+  ForceUpgradeDate?: Date | undefined;
+  AvailableUpgrades?: string[] | undefined;
 }
 export type EngineVersionList = EngineVersion[];
 export interface DescribeEngineVersionsResponse {
-  EngineVersions?: EngineVersion[];
-  Marker?: string;
+  EngineVersions?: EngineVersion[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeEventCategoriesMessage {
-  SourceType?: string;
-  Filters?: Filter[];
+  SourceType?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface EventCategoryGroup {
-  SourceType?: string;
-  EventCategories?: string[];
+  SourceType?: string | undefined;
+  EventCategories?: string[] | undefined;
 }
 export type EventCategoryGroupList = EventCategoryGroup[];
 export interface DescribeEventCategoriesResponse {
-  EventCategoryGroupList?: EventCategoryGroup[];
+  EventCategoryGroupList?: EventCategoryGroup[] | undefined;
 }
 export type SourceType = "replication-instance" | (string & {});
 export interface DescribeEventsMessage {
-  SourceIdentifier?: string;
-  SourceType?: SourceType;
-  StartTime?: Date;
-  EndTime?: Date;
-  Duration?: number;
-  EventCategories?: string[];
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  SourceIdentifier?: string | undefined;
+  SourceType?: SourceType | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Duration?: number | undefined;
+  EventCategories?: string[] | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface Event {
-  SourceIdentifier?: string;
-  SourceType?: SourceType;
-  Message?: string;
-  EventCategories?: string[];
-  Date?: Date;
+  SourceIdentifier?: string | undefined;
+  SourceType?: SourceType | undefined;
+  Message?: string | undefined;
+  EventCategories?: string[] | undefined;
+  Date?: Date | undefined;
 }
 export type EventList = Event[];
 export interface DescribeEventsResponse {
-  Marker?: string;
-  Events?: Event[];
+  Marker?: string | undefined;
+  Events?: Event[] | undefined;
 }
 export interface DescribeEventSubscriptionsMessage {
-  SubscriptionName?: string;
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  SubscriptionName?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type EventSubscriptionsList = EventSubscription[];
 export interface DescribeEventSubscriptionsResponse {
-  Marker?: string;
-  EventSubscriptionsList?: EventSubscription[];
+  Marker?: string | undefined;
+  EventSubscriptionsList?: EventSubscription[] | undefined;
 }
 export interface DescribeExtensionPackAssociationsMessage {
   MigrationProjectIdentifier: string;
-  Filters?: Filter[];
-  Marker?: string;
-  MaxRecords?: number;
+  Filters?: Filter[] | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export type SchemaConversionRequestList = SchemaConversionRequest[];
 export interface DescribeExtensionPackAssociationsResponse {
-  Marker?: string;
-  Requests?: SchemaConversionRequest[];
+  Marker?: string | undefined;
+  Requests?: SchemaConversionRequest[] | undefined;
 }
 export interface DescribeFleetAdvisorCollectorsRequest {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type VersionStatus = "UP_TO_DATE" | "OUTDATED" | "UNSUPPORTED" | (string & {});
 export type CollectorStatus = "UNREGISTERED" | "ACTIVE" | (string & {});
 export interface CollectorHealthCheck {
-  CollectorStatus?: CollectorStatus;
-  LocalCollectorS3Access?: boolean;
-  WebCollectorS3Access?: boolean;
-  WebCollectorGrantedRoleBasedAccess?: boolean;
+  CollectorStatus?: CollectorStatus | undefined;
+  LocalCollectorS3Access?: boolean | undefined;
+  WebCollectorS3Access?: boolean | undefined;
+  WebCollectorGrantedRoleBasedAccess?: boolean | undefined;
 }
 export interface InventoryData {
-  NumberOfDatabases?: number;
-  NumberOfSchemas?: number;
+  NumberOfDatabases?: number | undefined;
+  NumberOfSchemas?: number | undefined;
 }
 export interface CollectorResponse {
-  CollectorReferencedId?: string;
-  CollectorName?: string;
-  CollectorVersion?: string;
-  VersionStatus?: VersionStatus;
-  Description?: string;
-  S3BucketName?: string;
-  ServiceAccessRoleArn?: string;
-  CollectorHealthCheck?: CollectorHealthCheck;
-  LastDataReceived?: string;
-  RegisteredDate?: string;
-  CreatedDate?: string;
-  ModifiedDate?: string;
-  InventoryData?: InventoryData;
+  CollectorReferencedId?: string | undefined;
+  CollectorName?: string | undefined;
+  CollectorVersion?: string | undefined;
+  VersionStatus?: VersionStatus | undefined;
+  Description?: string | undefined;
+  S3BucketName?: string | undefined;
+  ServiceAccessRoleArn?: string | undefined;
+  CollectorHealthCheck?: CollectorHealthCheck | undefined;
+  LastDataReceived?: string | undefined;
+  RegisteredDate?: string | undefined;
+  CreatedDate?: string | undefined;
+  ModifiedDate?: string | undefined;
+  InventoryData?: InventoryData | undefined;
 }
 export type CollectorResponses = CollectorResponse[];
 export interface DescribeFleetAdvisorCollectorsResponse {
-  Collectors?: CollectorResponse[];
-  NextToken?: string;
+  Collectors?: CollectorResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeFleetAdvisorDatabasesRequest {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ServerShortInfoResponse {
-  ServerId?: string;
-  IpAddress?: string;
-  ServerName?: string;
+  ServerId?: string | undefined;
+  IpAddress?: string | undefined;
+  ServerName?: string | undefined;
 }
 export interface DatabaseInstanceSoftwareDetailsResponse {
-  Engine?: string;
-  EngineVersion?: string;
-  EngineEdition?: string;
-  ServicePack?: string;
-  SupportLevel?: string;
-  OsArchitecture?: number;
-  Tooltip?: string;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  EngineEdition?: string | undefined;
+  ServicePack?: string | undefined;
+  SupportLevel?: string | undefined;
+  OsArchitecture?: number | undefined;
+  Tooltip?: string | undefined;
 }
 export interface CollectorShortInfoResponse {
-  CollectorReferencedId?: string;
-  CollectorName?: string;
+  CollectorReferencedId?: string | undefined;
+  CollectorName?: string | undefined;
 }
 export type CollectorsList = CollectorShortInfoResponse[];
 export interface DatabaseResponse {
-  DatabaseId?: string;
-  DatabaseName?: string;
-  IpAddress?: string;
-  NumberOfSchemas?: number;
-  Server?: ServerShortInfoResponse;
-  SoftwareDetails?: DatabaseInstanceSoftwareDetailsResponse;
-  Collectors?: CollectorShortInfoResponse[];
+  DatabaseId?: string | undefined;
+  DatabaseName?: string | undefined;
+  IpAddress?: string | undefined;
+  NumberOfSchemas?: number | undefined;
+  Server?: ServerShortInfoResponse | undefined;
+  SoftwareDetails?: DatabaseInstanceSoftwareDetailsResponse | undefined;
+  Collectors?: CollectorShortInfoResponse[] | undefined;
 }
 export type DatabaseList = DatabaseResponse[];
 export interface DescribeFleetAdvisorDatabasesResponse {
-  Databases?: DatabaseResponse[];
-  NextToken?: string;
+  Databases?: DatabaseResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeFleetAdvisorLsaAnalysisRequest {
-  MaxRecords?: number;
-  NextToken?: string;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface FleetAdvisorLsaAnalysisResponse {
-  LsaAnalysisId?: string;
-  Status?: string;
+  LsaAnalysisId?: string | undefined;
+  Status?: string | undefined;
 }
 export type FleetAdvisorLsaAnalysisResponseList = FleetAdvisorLsaAnalysisResponse[];
 export interface DescribeFleetAdvisorLsaAnalysisResponse {
-  Analysis?: FleetAdvisorLsaAnalysisResponse[];
-  NextToken?: string;
+  Analysis?: FleetAdvisorLsaAnalysisResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeFleetAdvisorSchemaObjectSummaryRequest {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface FleetAdvisorSchemaObjectResponse {
-  SchemaId?: string;
-  ObjectType?: string;
-  NumberOfObjects?: number;
-  CodeLineCount?: number;
-  CodeSize?: number;
+  SchemaId?: string | undefined;
+  ObjectType?: string | undefined;
+  NumberOfObjects?: number | undefined;
+  CodeLineCount?: number | undefined;
+  CodeSize?: number | undefined;
 }
 export type FleetAdvisorSchemaObjectList = FleetAdvisorSchemaObjectResponse[];
 export interface DescribeFleetAdvisorSchemaObjectSummaryResponse {
-  FleetAdvisorSchemaObjects?: FleetAdvisorSchemaObjectResponse[];
-  NextToken?: string;
+  FleetAdvisorSchemaObjects?: FleetAdvisorSchemaObjectResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeFleetAdvisorSchemasRequest {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DatabaseShortInfoResponse {
-  DatabaseId?: string;
-  DatabaseName?: string;
-  DatabaseIpAddress?: string;
-  DatabaseEngine?: string;
+  DatabaseId?: string | undefined;
+  DatabaseName?: string | undefined;
+  DatabaseIpAddress?: string | undefined;
+  DatabaseEngine?: string | undefined;
 }
 export interface SchemaShortInfoResponse {
-  SchemaId?: string;
-  SchemaName?: string;
-  DatabaseId?: string;
-  DatabaseName?: string;
-  DatabaseIpAddress?: string;
+  SchemaId?: string | undefined;
+  SchemaName?: string | undefined;
+  DatabaseId?: string | undefined;
+  DatabaseName?: string | undefined;
+  DatabaseIpAddress?: string | undefined;
 }
 export interface SchemaResponse {
-  CodeLineCount?: number;
-  CodeSize?: number;
-  Complexity?: string;
-  Server?: ServerShortInfoResponse;
-  DatabaseInstance?: DatabaseShortInfoResponse;
-  SchemaId?: string;
-  SchemaName?: string;
-  OriginalSchema?: SchemaShortInfoResponse;
-  Similarity?: number;
+  CodeLineCount?: number | undefined;
+  CodeSize?: number | undefined;
+  Complexity?: string | undefined;
+  Server?: ServerShortInfoResponse | undefined;
+  DatabaseInstance?: DatabaseShortInfoResponse | undefined;
+  SchemaId?: string | undefined;
+  SchemaName?: string | undefined;
+  OriginalSchema?: SchemaShortInfoResponse | undefined;
+  Similarity?: number | undefined;
 }
 export type FleetAdvisorSchemaList = SchemaResponse[];
 export interface DescribeFleetAdvisorSchemasResponse {
-  FleetAdvisorSchemas?: SchemaResponse[];
-  NextToken?: string;
+  FleetAdvisorSchemas?: SchemaResponse[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeInstanceProfilesMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type InstanceProfileList = InstanceProfile[];
 export interface DescribeInstanceProfilesResponse {
-  Marker?: string;
-  InstanceProfiles?: InstanceProfile[];
+  Marker?: string | undefined;
+  InstanceProfiles?: InstanceProfile[] | undefined;
 }
 export type OriginTypeValue = "SOURCE" | "TARGET" | (string & {});
 export interface DescribeMetadataModelMessage {
@@ -1946,668 +1946,668 @@ export interface DescribeMetadataModelMessage {
   Origin: OriginTypeValue;
 }
 export interface MetadataModelReference {
-  MetadataModelName?: string;
-  SelectionRules?: string;
+  MetadataModelName?: string | undefined;
+  SelectionRules?: string | undefined;
 }
 export type MetadataModelReferenceList = MetadataModelReference[];
 export interface DescribeMetadataModelResponse {
-  MetadataModelName?: string;
-  MetadataModelType?: string;
-  TargetMetadataModels?: MetadataModelReference[];
-  Definition?: string;
+  MetadataModelName?: string | undefined;
+  MetadataModelType?: string | undefined;
+  TargetMetadataModels?: MetadataModelReference[] | undefined;
+  Definition?: string | undefined;
 }
 export interface DescribeMetadataModelAssessmentsMessage {
   MigrationProjectIdentifier: string;
-  Filters?: Filter[];
-  Marker?: string;
-  MaxRecords?: number;
+  Filters?: Filter[] | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface DescribeMetadataModelAssessmentsResponse {
-  Marker?: string;
-  Requests?: SchemaConversionRequest[];
+  Marker?: string | undefined;
+  Requests?: SchemaConversionRequest[] | undefined;
 }
 export interface DescribeMetadataModelChildrenMessage {
   SelectionRules: string;
   MigrationProjectIdentifier: string;
   Origin: OriginTypeValue;
-  Marker?: string;
-  MaxRecords?: number;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface DescribeMetadataModelChildrenResponse {
-  Marker?: string;
-  MetadataModelChildren?: MetadataModelReference[];
+  Marker?: string | undefined;
+  MetadataModelChildren?: MetadataModelReference[] | undefined;
 }
 export interface DescribeMetadataModelConversionsMessage {
   MigrationProjectIdentifier: string;
-  Filters?: Filter[];
-  Marker?: string;
-  MaxRecords?: number;
+  Filters?: Filter[] | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface DescribeMetadataModelConversionsResponse {
-  Marker?: string;
-  Requests?: SchemaConversionRequest[];
+  Marker?: string | undefined;
+  Requests?: SchemaConversionRequest[] | undefined;
 }
 export interface DescribeMetadataModelCreationsMessage {
-  Filters?: Filter[];
-  Marker?: string;
-  MaxRecords?: number;
+  Filters?: Filter[] | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
   MigrationProjectIdentifier: string;
 }
 export interface DescribeMetadataModelCreationsResponse {
-  Marker?: string;
-  Requests?: SchemaConversionRequest[];
+  Marker?: string | undefined;
+  Requests?: SchemaConversionRequest[] | undefined;
 }
 export interface DescribeMetadataModelExportsAsScriptMessage {
   MigrationProjectIdentifier: string;
-  Filters?: Filter[];
-  Marker?: string;
-  MaxRecords?: number;
+  Filters?: Filter[] | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface DescribeMetadataModelExportsAsScriptResponse {
-  Marker?: string;
-  Requests?: SchemaConversionRequest[];
+  Marker?: string | undefined;
+  Requests?: SchemaConversionRequest[] | undefined;
 }
 export interface DescribeMetadataModelExportsToTargetMessage {
   MigrationProjectIdentifier: string;
-  Filters?: Filter[];
-  Marker?: string;
-  MaxRecords?: number;
+  Filters?: Filter[] | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface DescribeMetadataModelExportsToTargetResponse {
-  Marker?: string;
-  Requests?: SchemaConversionRequest[];
+  Marker?: string | undefined;
+  Requests?: SchemaConversionRequest[] | undefined;
 }
 export interface DescribeMetadataModelImportsMessage {
   MigrationProjectIdentifier: string;
-  Filters?: Filter[];
-  Marker?: string;
-  MaxRecords?: number;
+  Filters?: Filter[] | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface DescribeMetadataModelImportsResponse {
-  Marker?: string;
-  Requests?: SchemaConversionRequest[];
+  Marker?: string | undefined;
+  Requests?: SchemaConversionRequest[] | undefined;
 }
 export interface DescribeMigrationProjectsMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type MigrationProjectList = MigrationProject[];
 export interface DescribeMigrationProjectsResponse {
-  Marker?: string;
-  MigrationProjects?: MigrationProject[];
+  Marker?: string | undefined;
+  MigrationProjects?: MigrationProject[] | undefined;
 }
 export interface DescribeOrderableReplicationInstancesMessage {
-  MaxRecords?: number;
-  Marker?: string;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type AvailabilityZonesList = string[];
 export interface OrderableReplicationInstance {
-  EngineVersion?: string;
-  ReplicationInstanceClass?: string;
-  StorageType?: string;
-  MinAllocatedStorage?: number;
-  MaxAllocatedStorage?: number;
-  DefaultAllocatedStorage?: number;
-  IncludedAllocatedStorage?: number;
-  AvailabilityZones?: string[];
-  ReleaseStatus?: ReleaseStatusValues;
+  EngineVersion?: string | undefined;
+  ReplicationInstanceClass?: string | undefined;
+  StorageType?: string | undefined;
+  MinAllocatedStorage?: number | undefined;
+  MaxAllocatedStorage?: number | undefined;
+  DefaultAllocatedStorage?: number | undefined;
+  IncludedAllocatedStorage?: number | undefined;
+  AvailabilityZones?: string[] | undefined;
+  ReleaseStatus?: ReleaseStatusValues | undefined;
 }
 export type OrderableReplicationInstanceList = OrderableReplicationInstance[];
 export interface DescribeOrderableReplicationInstancesResponse {
-  OrderableReplicationInstances?: OrderableReplicationInstance[];
-  Marker?: string;
+  OrderableReplicationInstances?: OrderableReplicationInstance[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribePendingMaintenanceActionsMessage {
-  ReplicationInstanceArn?: string;
-  Filters?: Filter[];
-  Marker?: string;
-  MaxRecords?: number;
+  ReplicationInstanceArn?: string | undefined;
+  Filters?: Filter[] | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export type PendingMaintenanceActions = ResourcePendingMaintenanceActions[];
 export interface DescribePendingMaintenanceActionsResponse {
-  PendingMaintenanceActions?: ResourcePendingMaintenanceActions[];
-  Marker?: string;
+  PendingMaintenanceActions?: ResourcePendingMaintenanceActions[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeRecommendationLimitationsRequest {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Limitation {
-  DatabaseId?: string;
-  EngineName?: string;
-  Name?: string;
-  Description?: string;
-  Impact?: string;
-  Type?: string;
+  DatabaseId?: string | undefined;
+  EngineName?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Impact?: string | undefined;
+  Type?: string | undefined;
 }
 export type LimitationList = Limitation[];
 export interface DescribeRecommendationLimitationsResponse {
-  NextToken?: string;
-  Limitations?: Limitation[];
+  NextToken?: string | undefined;
+  Limitations?: Limitation[] | undefined;
 }
 export interface DescribeRecommendationsRequest {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RdsRequirements {
-  EngineEdition?: string;
-  InstanceVcpu?: number;
-  InstanceMemory?: number;
-  StorageSize?: number;
-  StorageIops?: number;
-  DeploymentOption?: string;
-  EngineVersion?: string;
+  EngineEdition?: string | undefined;
+  InstanceVcpu?: number | undefined;
+  InstanceMemory?: number | undefined;
+  StorageSize?: number | undefined;
+  StorageIops?: number | undefined;
+  DeploymentOption?: string | undefined;
+  EngineVersion?: string | undefined;
 }
 export interface RdsConfiguration {
-  EngineEdition?: string;
-  InstanceType?: string;
-  InstanceVcpu?: number;
-  InstanceMemory?: number;
-  StorageType?: string;
-  StorageSize?: number;
-  StorageIops?: number;
-  DeploymentOption?: string;
-  EngineVersion?: string;
+  EngineEdition?: string | undefined;
+  InstanceType?: string | undefined;
+  InstanceVcpu?: number | undefined;
+  InstanceMemory?: number | undefined;
+  StorageType?: string | undefined;
+  StorageSize?: number | undefined;
+  StorageIops?: number | undefined;
+  DeploymentOption?: string | undefined;
+  EngineVersion?: string | undefined;
 }
 export interface RdsRecommendation {
-  RequirementsToTarget?: RdsRequirements;
-  TargetConfiguration?: RdsConfiguration;
+  RequirementsToTarget?: RdsRequirements | undefined;
+  TargetConfiguration?: RdsConfiguration | undefined;
 }
 export interface RecommendationData {
-  RdsEngine?: RdsRecommendation;
+  RdsEngine?: RdsRecommendation | undefined;
 }
 export interface Recommendation {
-  DatabaseId?: string;
-  EngineName?: string;
-  CreatedDate?: string;
-  Status?: string;
-  Preferred?: boolean;
-  Settings?: RecommendationSettings;
-  Data?: RecommendationData;
+  DatabaseId?: string | undefined;
+  EngineName?: string | undefined;
+  CreatedDate?: string | undefined;
+  Status?: string | undefined;
+  Preferred?: boolean | undefined;
+  Settings?: RecommendationSettings | undefined;
+  Data?: RecommendationData | undefined;
 }
 export type RecommendationList = Recommendation[];
 export interface DescribeRecommendationsResponse {
-  NextToken?: string;
-  Recommendations?: Recommendation[];
+  NextToken?: string | undefined;
+  Recommendations?: Recommendation[] | undefined;
 }
 export interface DescribeRefreshSchemasStatusMessage {
   EndpointArn: string;
 }
 export type RefreshSchemasStatusTypeValue = "successful" | "failed" | "refreshing" | (string & {});
 export interface RefreshSchemasStatus {
-  EndpointArn?: string;
-  ReplicationInstanceArn?: string;
-  Status?: RefreshSchemasStatusTypeValue;
-  LastRefreshDate?: Date;
-  LastFailureMessage?: string;
+  EndpointArn?: string | undefined;
+  ReplicationInstanceArn?: string | undefined;
+  Status?: RefreshSchemasStatusTypeValue | undefined;
+  LastRefreshDate?: Date | undefined;
+  LastFailureMessage?: string | undefined;
 }
 export interface DescribeRefreshSchemasStatusResponse {
-  RefreshSchemasStatus?: RefreshSchemasStatus;
+  RefreshSchemasStatus?: RefreshSchemasStatus | undefined;
 }
 export interface DescribeReplicationConfigsMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ReplicationConfigList = ReplicationConfig[];
 export interface DescribeReplicationConfigsResponse {
-  Marker?: string;
-  ReplicationConfigs?: ReplicationConfig[];
+  Marker?: string | undefined;
+  ReplicationConfigs?: ReplicationConfig[] | undefined;
 }
 export interface DescribeReplicationInstancesMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ReplicationInstanceList = ReplicationInstance[];
 export interface DescribeReplicationInstancesResponse {
-  Marker?: string;
-  ReplicationInstances?: ReplicationInstance[];
+  Marker?: string | undefined;
+  ReplicationInstances?: ReplicationInstance[] | undefined;
 }
 export interface DescribeReplicationInstanceTaskLogsMessage {
   ReplicationInstanceArn: string;
-  MaxRecords?: number;
-  Marker?: string;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface ReplicationInstanceTaskLog {
-  ReplicationTaskName?: string;
-  ReplicationTaskArn?: string;
-  ReplicationInstanceTaskLogSize?: number;
+  ReplicationTaskName?: string | undefined;
+  ReplicationTaskArn?: string | undefined;
+  ReplicationInstanceTaskLogSize?: number | undefined;
 }
 export type ReplicationInstanceTaskLogsList = ReplicationInstanceTaskLog[];
 export interface DescribeReplicationInstanceTaskLogsResponse {
-  ReplicationInstanceArn?: string;
-  ReplicationInstanceTaskLogs?: ReplicationInstanceTaskLog[];
-  Marker?: string;
+  ReplicationInstanceArn?: string | undefined;
+  ReplicationInstanceTaskLogs?: ReplicationInstanceTaskLog[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DescribeReplicationsMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface ProvisionData {
-  ProvisionState?: string;
-  ProvisionedCapacityUnits?: number;
-  DateProvisioned?: Date;
-  IsNewProvisioningAvailable?: boolean;
-  DateNewProvisioningDataAvailable?: Date;
-  ReasonForNewProvisioningData?: string;
+  ProvisionState?: string | undefined;
+  ProvisionedCapacityUnits?: number | undefined;
+  DateProvisioned?: Date | undefined;
+  IsNewProvisioningAvailable?: boolean | undefined;
+  DateNewProvisioningDataAvailable?: Date | undefined;
+  ReasonForNewProvisioningData?: string | undefined;
 }
 export interface PremigrationAssessmentStatus {
-  PremigrationAssessmentRunArn?: string;
-  FailOnAssessmentFailure?: boolean;
-  Status?: string;
-  PremigrationAssessmentRunCreationDate?: Date;
-  AssessmentProgress?: ReplicationTaskAssessmentRunProgress;
-  LastFailureMessage?: string;
-  ResultLocationBucket?: string;
-  ResultLocationFolder?: string;
-  ResultEncryptionMode?: string;
-  ResultKmsKeyArn?: string;
-  ResultStatistic?: ReplicationTaskAssessmentRunResultStatistic;
+  PremigrationAssessmentRunArn?: string | undefined;
+  FailOnAssessmentFailure?: boolean | undefined;
+  Status?: string | undefined;
+  PremigrationAssessmentRunCreationDate?: Date | undefined;
+  AssessmentProgress?: ReplicationTaskAssessmentRunProgress | undefined;
+  LastFailureMessage?: string | undefined;
+  ResultLocationBucket?: string | undefined;
+  ResultLocationFolder?: string | undefined;
+  ResultEncryptionMode?: string | undefined;
+  ResultKmsKeyArn?: string | undefined;
+  ResultStatistic?: ReplicationTaskAssessmentRunResultStatistic | undefined;
 }
 export type PremigrationAssessmentStatusList = PremigrationAssessmentStatus[];
 export interface ReplicationStats {
-  FullLoadProgressPercent?: number;
-  ElapsedTimeMillis?: number;
-  TablesLoaded?: number;
-  TablesLoading?: number;
-  TablesQueued?: number;
-  TablesErrored?: number;
-  FreshStartDate?: Date;
-  StartDate?: Date;
-  StopDate?: Date;
-  FullLoadStartDate?: Date;
-  FullLoadFinishDate?: Date;
+  FullLoadProgressPercent?: number | undefined;
+  ElapsedTimeMillis?: number | undefined;
+  TablesLoaded?: number | undefined;
+  TablesLoading?: number | undefined;
+  TablesQueued?: number | undefined;
+  TablesErrored?: number | undefined;
+  FreshStartDate?: Date | undefined;
+  StartDate?: Date | undefined;
+  StopDate?: Date | undefined;
+  FullLoadStartDate?: Date | undefined;
+  FullLoadFinishDate?: Date | undefined;
 }
 export interface Replication {
-  ReplicationConfigIdentifier?: string;
-  ReplicationConfigArn?: string;
-  SourceEndpointArn?: string;
-  TargetEndpointArn?: string;
-  ReplicationType?: MigrationTypeValue;
-  Status?: string;
-  ProvisionData?: ProvisionData;
-  PremigrationAssessmentStatuses?: PremigrationAssessmentStatus[];
-  StopReason?: string;
-  FailureMessages?: string[];
-  ReplicationStats?: ReplicationStats;
-  StartReplicationType?: string;
-  CdcStartTime?: Date;
-  CdcStartPosition?: string;
-  CdcStopPosition?: string;
-  RecoveryCheckpoint?: string;
-  ReplicationCreateTime?: Date;
-  ReplicationUpdateTime?: Date;
-  ReplicationLastStopTime?: Date;
-  ReplicationDeprovisionTime?: Date;
-  IsReadOnly?: boolean;
+  ReplicationConfigIdentifier?: string | undefined;
+  ReplicationConfigArn?: string | undefined;
+  SourceEndpointArn?: string | undefined;
+  TargetEndpointArn?: string | undefined;
+  ReplicationType?: MigrationTypeValue | undefined;
+  Status?: string | undefined;
+  ProvisionData?: ProvisionData | undefined;
+  PremigrationAssessmentStatuses?: PremigrationAssessmentStatus[] | undefined;
+  StopReason?: string | undefined;
+  FailureMessages?: string[] | undefined;
+  ReplicationStats?: ReplicationStats | undefined;
+  StartReplicationType?: string | undefined;
+  CdcStartTime?: Date | undefined;
+  CdcStartPosition?: string | undefined;
+  CdcStopPosition?: string | undefined;
+  RecoveryCheckpoint?: string | undefined;
+  ReplicationCreateTime?: Date | undefined;
+  ReplicationUpdateTime?: Date | undefined;
+  ReplicationLastStopTime?: Date | undefined;
+  ReplicationDeprovisionTime?: Date | undefined;
+  IsReadOnly?: boolean | undefined;
 }
 export type ReplicationList = Replication[];
 export interface DescribeReplicationsResponse {
-  Marker?: string;
-  Replications?: Replication[];
+  Marker?: string | undefined;
+  Replications?: Replication[] | undefined;
 }
 export interface DescribeReplicationSubnetGroupsMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ReplicationSubnetGroups = ReplicationSubnetGroup[];
 export interface DescribeReplicationSubnetGroupsResponse {
-  Marker?: string;
-  ReplicationSubnetGroups?: ReplicationSubnetGroup[];
+  Marker?: string | undefined;
+  ReplicationSubnetGroups?: ReplicationSubnetGroup[] | undefined;
 }
 export interface DescribeReplicationTableStatisticsMessage {
   ReplicationConfigArn: string;
-  MaxRecords?: number;
-  Marker?: string;
-  Filters?: Filter[];
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface TableStatistics {
-  SchemaName?: string;
-  TableName?: string;
-  Inserts?: number;
-  Deletes?: number;
-  Updates?: number;
-  Ddls?: number;
-  AppliedInserts?: number;
-  AppliedDeletes?: number;
-  AppliedUpdates?: number;
-  AppliedDdls?: number;
-  FullLoadRows?: number;
-  FullLoadCondtnlChkFailedRows?: number;
-  FullLoadErrorRows?: number;
-  FullLoadStartTime?: Date;
-  FullLoadEndTime?: Date;
-  FullLoadReloaded?: boolean;
-  LastUpdateTime?: Date;
-  TableState?: string;
-  ValidationPendingRecords?: number;
-  ValidationFailedRecords?: number;
-  ValidationSuspendedRecords?: number;
-  ValidationState?: string;
-  ValidationStateDetails?: string;
-  ResyncState?: string;
-  ResyncRowsAttempted?: number;
-  ResyncRowsSucceeded?: number;
-  ResyncRowsFailed?: number;
-  ResyncProgress?: number;
+  SchemaName?: string | undefined;
+  TableName?: string | undefined;
+  Inserts?: number | undefined;
+  Deletes?: number | undefined;
+  Updates?: number | undefined;
+  Ddls?: number | undefined;
+  AppliedInserts?: number | undefined;
+  AppliedDeletes?: number | undefined;
+  AppliedUpdates?: number | undefined;
+  AppliedDdls?: number | undefined;
+  FullLoadRows?: number | undefined;
+  FullLoadCondtnlChkFailedRows?: number | undefined;
+  FullLoadErrorRows?: number | undefined;
+  FullLoadStartTime?: Date | undefined;
+  FullLoadEndTime?: Date | undefined;
+  FullLoadReloaded?: boolean | undefined;
+  LastUpdateTime?: Date | undefined;
+  TableState?: string | undefined;
+  ValidationPendingRecords?: number | undefined;
+  ValidationFailedRecords?: number | undefined;
+  ValidationSuspendedRecords?: number | undefined;
+  ValidationState?: string | undefined;
+  ValidationStateDetails?: string | undefined;
+  ResyncState?: string | undefined;
+  ResyncRowsAttempted?: number | undefined;
+  ResyncRowsSucceeded?: number | undefined;
+  ResyncRowsFailed?: number | undefined;
+  ResyncProgress?: number | undefined;
 }
 export type ReplicationTableStatisticsList = TableStatistics[];
 export interface DescribeReplicationTableStatisticsResponse {
-  ReplicationConfigArn?: string;
-  Marker?: string;
-  ReplicationTableStatistics?: TableStatistics[];
+  ReplicationConfigArn?: string | undefined;
+  Marker?: string | undefined;
+  ReplicationTableStatistics?: TableStatistics[] | undefined;
 }
 export interface DescribeReplicationTaskAssessmentResultsMessage {
-  ReplicationTaskArn?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ReplicationTaskArn?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface ReplicationTaskAssessmentResult {
-  ReplicationTaskIdentifier?: string;
-  ReplicationTaskArn?: string;
-  ReplicationTaskLastAssessmentDate?: Date;
-  AssessmentStatus?: string;
-  AssessmentResultsFile?: string;
-  AssessmentResults?: string;
-  S3ObjectUrl?: string | redacted.Redacted<string>;
+  ReplicationTaskIdentifier?: string | undefined;
+  ReplicationTaskArn?: string | undefined;
+  ReplicationTaskLastAssessmentDate?: Date | undefined;
+  AssessmentStatus?: string | undefined;
+  AssessmentResultsFile?: string | undefined;
+  AssessmentResults?: string | undefined;
+  S3ObjectUrl?: string | redacted.Redacted<string> | undefined;
 }
 export type ReplicationTaskAssessmentResultList = ReplicationTaskAssessmentResult[];
 export interface DescribeReplicationTaskAssessmentResultsResponse {
-  Marker?: string;
-  BucketName?: string;
-  ReplicationTaskAssessmentResults?: ReplicationTaskAssessmentResult[];
+  Marker?: string | undefined;
+  BucketName?: string | undefined;
+  ReplicationTaskAssessmentResults?: ReplicationTaskAssessmentResult[] | undefined;
 }
 export interface DescribeReplicationTaskAssessmentRunsMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ReplicationTaskAssessmentRunList = ReplicationTaskAssessmentRun[];
 export interface DescribeReplicationTaskAssessmentRunsResponse {
-  Marker?: string;
-  ReplicationTaskAssessmentRuns?: ReplicationTaskAssessmentRun[];
+  Marker?: string | undefined;
+  ReplicationTaskAssessmentRuns?: ReplicationTaskAssessmentRun[] | undefined;
 }
 export interface DescribeReplicationTaskIndividualAssessmentsMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface ReplicationTaskIndividualAssessment {
-  ReplicationTaskIndividualAssessmentArn?: string;
-  ReplicationTaskAssessmentRunArn?: string;
-  IndividualAssessmentName?: string;
-  Status?: string;
-  ReplicationTaskIndividualAssessmentStartDate?: Date;
+  ReplicationTaskIndividualAssessmentArn?: string | undefined;
+  ReplicationTaskAssessmentRunArn?: string | undefined;
+  IndividualAssessmentName?: string | undefined;
+  Status?: string | undefined;
+  ReplicationTaskIndividualAssessmentStartDate?: Date | undefined;
 }
 export type ReplicationTaskIndividualAssessmentList = ReplicationTaskIndividualAssessment[];
 export interface DescribeReplicationTaskIndividualAssessmentsResponse {
-  Marker?: string;
-  ReplicationTaskIndividualAssessments?: ReplicationTaskIndividualAssessment[];
+  Marker?: string | undefined;
+  ReplicationTaskIndividualAssessments?: ReplicationTaskIndividualAssessment[] | undefined;
 }
 export interface DescribeReplicationTasksMessage {
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
-  WithoutSettings?: boolean;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  WithoutSettings?: boolean | undefined;
 }
 export type ReplicationTaskList = ReplicationTask[];
 export interface DescribeReplicationTasksResponse {
-  Marker?: string;
-  ReplicationTasks?: ReplicationTask[];
+  Marker?: string | undefined;
+  ReplicationTasks?: ReplicationTask[] | undefined;
 }
 export interface DescribeSchemasMessage {
   EndpointArn: string;
-  MaxRecords?: number;
-  Marker?: string;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type SchemaList = string[];
 export interface DescribeSchemasResponse {
-  Marker?: string;
-  Schemas?: string[];
+  Marker?: string | undefined;
+  Schemas?: string[] | undefined;
 }
 export interface DescribeTableStatisticsMessage {
   ReplicationTaskArn: string;
-  MaxRecords?: number;
-  Marker?: string;
-  Filters?: Filter[];
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type TableStatisticsList = TableStatistics[];
 export interface DescribeTableStatisticsResponse {
-  ReplicationTaskArn?: string;
-  TableStatistics?: TableStatistics[];
-  Marker?: string;
+  ReplicationTaskArn?: string | undefined;
+  TableStatistics?: TableStatistics[] | undefined;
+  Marker?: string | undefined;
 }
 export type AssessmentReportType = "pdf" | "csv" | (string & {});
 export type AssessmentReportTypesList = AssessmentReportType[];
 export interface ExportMetadataModelAssessmentMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
-  FileName?: string;
-  AssessmentReportTypes?: AssessmentReportType[];
+  FileName?: string | undefined;
+  AssessmentReportTypes?: AssessmentReportType[] | undefined;
 }
 export interface ExportMetadataModelAssessmentResultEntry {
-  S3ObjectKey?: string;
-  ObjectURL?: string;
+  S3ObjectKey?: string | undefined;
+  ObjectURL?: string | undefined;
 }
 export interface ExportMetadataModelAssessmentResponse {
-  PdfReport?: ExportMetadataModelAssessmentResultEntry;
-  CsvReport?: ExportMetadataModelAssessmentResultEntry;
+  PdfReport?: ExportMetadataModelAssessmentResultEntry | undefined;
+  CsvReport?: ExportMetadataModelAssessmentResultEntry | undefined;
 }
 export interface GetTargetSelectionRulesMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
 }
 export interface GetTargetSelectionRulesResponse {
-  TargetSelectionRules?: string;
+  TargetSelectionRules?: string | undefined;
 }
 export interface ImportCertificateMessage {
   CertificateIdentifier: string;
-  CertificatePem?: string | redacted.Redacted<string>;
-  CertificateWallet?: Uint8Array;
-  Tags?: Tag[];
-  KmsKeyId?: string;
+  CertificatePem?: string | redacted.Redacted<string> | undefined;
+  CertificateWallet?: Uint8Array | undefined;
+  Tags?: Tag[] | undefined;
+  KmsKeyId?: string | undefined;
 }
 export interface ImportCertificateResponse {
-  Certificate?: Certificate;
+  Certificate?: Certificate | undefined;
 }
 export type ArnList = string[];
 export interface ListTagsForResourceMessage {
-  ResourceArn?: string;
-  ResourceArnList?: string[];
+  ResourceArn?: string | undefined;
+  ResourceArnList?: string[] | undefined;
 }
 export interface ListTagsForResourceResponse {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export interface ModifyConversionConfigurationMessage {
   MigrationProjectIdentifier: string;
   ConversionConfiguration: string;
 }
 export interface ModifyConversionConfigurationResponse {
-  MigrationProjectIdentifier?: string;
+  MigrationProjectIdentifier?: string | undefined;
 }
 export interface ModifyDataMigrationMessage {
   DataMigrationIdentifier: string;
-  DataMigrationName?: string;
-  EnableCloudwatchLogs?: boolean;
-  ServiceAccessRoleArn?: string;
-  DataMigrationType?: MigrationTypeValue;
-  SourceDataSettings?: SourceDataSetting[];
-  TargetDataSettings?: TargetDataSetting[];
-  NumberOfJobs?: number;
-  SelectionRules?: string | redacted.Redacted<string>;
+  DataMigrationName?: string | undefined;
+  EnableCloudwatchLogs?: boolean | undefined;
+  ServiceAccessRoleArn?: string | undefined;
+  DataMigrationType?: MigrationTypeValue | undefined;
+  SourceDataSettings?: SourceDataSetting[] | undefined;
+  TargetDataSettings?: TargetDataSetting[] | undefined;
+  NumberOfJobs?: number | undefined;
+  SelectionRules?: string | redacted.Redacted<string> | undefined;
 }
 export interface ModifyDataMigrationResponse {
-  DataMigration?: DataMigration;
+  DataMigration?: DataMigration | undefined;
 }
 export interface ModifyDataProviderMessage {
   DataProviderIdentifier: string;
-  DataProviderName?: string;
-  Description?: string;
-  Engine?: string;
-  Virtual?: boolean;
-  ExactSettings?: boolean;
-  Settings?: DataProviderSettings;
+  DataProviderName?: string | undefined;
+  Description?: string | undefined;
+  Engine?: string | undefined;
+  Virtual?: boolean | undefined;
+  ExactSettings?: boolean | undefined;
+  Settings?: DataProviderSettings | undefined;
 }
 export interface ModifyDataProviderResponse {
-  DataProvider?: DataProvider;
+  DataProvider?: DataProvider | undefined;
 }
 export interface ModifyEndpointMessage {
   EndpointArn: string;
-  EndpointIdentifier?: string;
-  EndpointType?: ReplicationEndpointTypeValue;
-  EngineName?: string;
-  Username?: string;
-  Password?: string | redacted.Redacted<string>;
-  ServerName?: string;
-  Port?: number;
-  DatabaseName?: string;
-  ExtraConnectionAttributes?: string;
-  CertificateArn?: string;
-  SslMode?: DmsSslModeValue;
-  ServiceAccessRoleArn?: string;
-  ExternalTableDefinition?: string;
-  DynamoDbSettings?: DynamoDbSettings;
-  S3Settings?: S3Settings;
-  DmsTransferSettings?: DmsTransferSettings;
-  MongoDbSettings?: MongoDbSettings;
-  KinesisSettings?: KinesisSettings;
-  KafkaSettings?: KafkaSettings;
-  ElasticsearchSettings?: ElasticsearchSettings;
-  NeptuneSettings?: NeptuneSettings;
-  RedshiftSettings?: RedshiftSettings;
-  PostgreSQLSettings?: PostgreSQLSettings;
-  MySQLSettings?: MySQLSettings;
-  OracleSettings?: OracleSettings;
-  SybaseSettings?: SybaseSettings;
-  MicrosoftSQLServerSettings?: MicrosoftSQLServerSettings;
-  IBMDb2Settings?: IBMDb2Settings;
-  DocDbSettings?: DocDbSettings;
-  RedisSettings?: RedisSettings;
-  ExactSettings?: boolean;
-  GcpMySQLSettings?: GcpMySQLSettings;
-  TimestreamSettings?: TimestreamSettings;
+  EndpointIdentifier?: string | undefined;
+  EndpointType?: ReplicationEndpointTypeValue | undefined;
+  EngineName?: string | undefined;
+  Username?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  ServerName?: string | undefined;
+  Port?: number | undefined;
+  DatabaseName?: string | undefined;
+  ExtraConnectionAttributes?: string | undefined;
+  CertificateArn?: string | undefined;
+  SslMode?: DmsSslModeValue | undefined;
+  ServiceAccessRoleArn?: string | undefined;
+  ExternalTableDefinition?: string | undefined;
+  DynamoDbSettings?: DynamoDbSettings | undefined;
+  S3Settings?: S3Settings | undefined;
+  DmsTransferSettings?: DmsTransferSettings | undefined;
+  MongoDbSettings?: MongoDbSettings | undefined;
+  KinesisSettings?: KinesisSettings | undefined;
+  KafkaSettings?: KafkaSettings | undefined;
+  ElasticsearchSettings?: ElasticsearchSettings | undefined;
+  NeptuneSettings?: NeptuneSettings | undefined;
+  RedshiftSettings?: RedshiftSettings | undefined;
+  PostgreSQLSettings?: PostgreSQLSettings | undefined;
+  MySQLSettings?: MySQLSettings | undefined;
+  OracleSettings?: OracleSettings | undefined;
+  SybaseSettings?: SybaseSettings | undefined;
+  MicrosoftSQLServerSettings?: MicrosoftSQLServerSettings | undefined;
+  IBMDb2Settings?: IBMDb2Settings | undefined;
+  DocDbSettings?: DocDbSettings | undefined;
+  RedisSettings?: RedisSettings | undefined;
+  ExactSettings?: boolean | undefined;
+  GcpMySQLSettings?: GcpMySQLSettings | undefined;
+  TimestreamSettings?: TimestreamSettings | undefined;
 }
 export interface ModifyEndpointResponse {
-  Endpoint?: Endpoint;
+  Endpoint?: Endpoint | undefined;
 }
 export interface ModifyEventSubscriptionMessage {
   SubscriptionName: string;
-  SnsTopicArn?: string;
-  SourceType?: string;
-  EventCategories?: string[];
-  Enabled?: boolean;
+  SnsTopicArn?: string | undefined;
+  SourceType?: string | undefined;
+  EventCategories?: string[] | undefined;
+  Enabled?: boolean | undefined;
 }
 export interface ModifyEventSubscriptionResponse {
-  EventSubscription?: EventSubscription;
+  EventSubscription?: EventSubscription | undefined;
 }
 export interface ModifyInstanceProfileMessage {
   InstanceProfileIdentifier: string;
-  AvailabilityZone?: string;
-  KmsKeyArn?: string;
-  PubliclyAccessible?: boolean;
-  NetworkType?: string;
-  InstanceProfileName?: string;
-  Description?: string;
-  SubnetGroupIdentifier?: string;
-  VpcSecurityGroups?: string[];
+  AvailabilityZone?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  PubliclyAccessible?: boolean | undefined;
+  NetworkType?: string | undefined;
+  InstanceProfileName?: string | undefined;
+  Description?: string | undefined;
+  SubnetGroupIdentifier?: string | undefined;
+  VpcSecurityGroups?: string[] | undefined;
 }
 export interface ModifyInstanceProfileResponse {
-  InstanceProfile?: InstanceProfile;
+  InstanceProfile?: InstanceProfile | undefined;
 }
 export interface ModifyMigrationProjectMessage {
   MigrationProjectIdentifier: string;
-  MigrationProjectName?: string;
-  SourceDataProviderDescriptors?: DataProviderDescriptorDefinition[];
-  TargetDataProviderDescriptors?: DataProviderDescriptorDefinition[];
-  InstanceProfileIdentifier?: string;
-  TransformationRules?: string;
-  Description?: string;
-  SchemaConversionApplicationAttributes?: SCApplicationAttributes;
+  MigrationProjectName?: string | undefined;
+  SourceDataProviderDescriptors?: DataProviderDescriptorDefinition[] | undefined;
+  TargetDataProviderDescriptors?: DataProviderDescriptorDefinition[] | undefined;
+  InstanceProfileIdentifier?: string | undefined;
+  TransformationRules?: string | undefined;
+  Description?: string | undefined;
+  SchemaConversionApplicationAttributes?: SCApplicationAttributes | undefined;
 }
 export interface ModifyMigrationProjectResponse {
-  MigrationProject?: MigrationProject;
+  MigrationProject?: MigrationProject | undefined;
 }
 export interface ModifyReplicationConfigMessage {
   ReplicationConfigArn: string;
-  ReplicationConfigIdentifier?: string;
-  ReplicationType?: MigrationTypeValue;
-  TableMappings?: string;
-  ReplicationSettings?: string;
-  SupplementalSettings?: string;
-  ComputeConfig?: ComputeConfig;
-  SourceEndpointArn?: string;
-  TargetEndpointArn?: string;
+  ReplicationConfigIdentifier?: string | undefined;
+  ReplicationType?: MigrationTypeValue | undefined;
+  TableMappings?: string | undefined;
+  ReplicationSettings?: string | undefined;
+  SupplementalSettings?: string | undefined;
+  ComputeConfig?: ComputeConfig | undefined;
+  SourceEndpointArn?: string | undefined;
+  TargetEndpointArn?: string | undefined;
 }
 export interface ModifyReplicationConfigResponse {
-  ReplicationConfig?: ReplicationConfig;
+  ReplicationConfig?: ReplicationConfig | undefined;
 }
 export interface ModifyReplicationInstanceMessage {
   ReplicationInstanceArn: string;
-  AllocatedStorage?: number;
-  ApplyImmediately?: boolean;
-  ReplicationInstanceClass?: string;
-  VpcSecurityGroupIds?: string[];
-  PreferredMaintenanceWindow?: string;
-  MultiAZ?: boolean;
-  EngineVersion?: string;
-  AllowMajorVersionUpgrade?: boolean;
-  AutoMinorVersionUpgrade?: boolean;
-  ReplicationInstanceIdentifier?: string;
-  NetworkType?: string;
-  KerberosAuthenticationSettings?: KerberosAuthenticationSettings;
+  AllocatedStorage?: number | undefined;
+  ApplyImmediately?: boolean | undefined;
+  ReplicationInstanceClass?: string | undefined;
+  VpcSecurityGroupIds?: string[] | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  MultiAZ?: boolean | undefined;
+  EngineVersion?: string | undefined;
+  AllowMajorVersionUpgrade?: boolean | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  ReplicationInstanceIdentifier?: string | undefined;
+  NetworkType?: string | undefined;
+  KerberosAuthenticationSettings?: KerberosAuthenticationSettings | undefined;
 }
 export interface ModifyReplicationInstanceResponse {
-  ReplicationInstance?: ReplicationInstance;
+  ReplicationInstance?: ReplicationInstance | undefined;
 }
 export interface ModifyReplicationSubnetGroupMessage {
   ReplicationSubnetGroupIdentifier: string;
-  ReplicationSubnetGroupDescription?: string;
+  ReplicationSubnetGroupDescription?: string | undefined;
   SubnetIds: string[];
 }
 export interface ModifyReplicationSubnetGroupResponse {
-  ReplicationSubnetGroup?: ReplicationSubnetGroup;
+  ReplicationSubnetGroup?: ReplicationSubnetGroup | undefined;
 }
 export interface ModifyReplicationTaskMessage {
   ReplicationTaskArn: string;
-  ReplicationTaskIdentifier?: string;
-  MigrationType?: MigrationTypeValue;
-  TableMappings?: string;
-  ReplicationTaskSettings?: string;
-  CdcStartTime?: Date;
-  CdcStartPosition?: string;
-  CdcStopPosition?: string;
-  TaskData?: string;
+  ReplicationTaskIdentifier?: string | undefined;
+  MigrationType?: MigrationTypeValue | undefined;
+  TableMappings?: string | undefined;
+  ReplicationTaskSettings?: string | undefined;
+  CdcStartTime?: Date | undefined;
+  CdcStartPosition?: string | undefined;
+  CdcStopPosition?: string | undefined;
+  TaskData?: string | undefined;
 }
 export interface ModifyReplicationTaskResponse {
-  ReplicationTask?: ReplicationTask;
+  ReplicationTask?: ReplicationTask | undefined;
 }
 export interface MoveReplicationTaskMessage {
   ReplicationTaskArn: string;
   TargetReplicationInstanceArn: string;
 }
 export interface MoveReplicationTaskResponse {
-  ReplicationTask?: ReplicationTask;
+  ReplicationTask?: ReplicationTask | undefined;
 }
 export interface RebootReplicationInstanceMessage {
   ReplicationInstanceArn: string;
-  ForceFailover?: boolean;
-  ForcePlannedFailover?: boolean;
+  ForceFailover?: boolean | undefined;
+  ForcePlannedFailover?: boolean | undefined;
 }
 export interface RebootReplicationInstanceResponse {
-  ReplicationInstance?: ReplicationInstance;
+  ReplicationInstance?: ReplicationInstance | undefined;
 }
 export interface RefreshSchemasMessage {
   EndpointArn: string;
   ReplicationInstanceArn: string;
 }
 export interface RefreshSchemasResponse {
-  RefreshSchemasStatus?: RefreshSchemasStatus;
+  RefreshSchemasStatus?: RefreshSchemasStatus | undefined;
 }
 export interface TableToReload {
   SchemaName: string;
@@ -2618,18 +2618,18 @@ export type ReloadOptionValue = "data-reload" | "validate-only" | (string & {});
 export interface ReloadReplicationTablesMessage {
   ReplicationConfigArn: string;
   TablesToReload: TableToReload[];
-  ReloadOption?: ReloadOptionValue;
+  ReloadOption?: ReloadOptionValue | undefined;
 }
 export interface ReloadReplicationTablesResponse {
-  ReplicationConfigArn?: string;
+  ReplicationConfigArn?: string | undefined;
 }
 export interface ReloadTablesMessage {
   ReplicationTaskArn: string;
   TablesToReload: TableToReload[];
-  ReloadOption?: ReloadOptionValue;
+  ReloadOption?: ReloadOptionValue | undefined;
 }
 export interface ReloadTablesResponse {
-  ReplicationTaskArn?: string;
+  ReplicationTaskArn?: string | undefined;
 }
 export type KeyList = string[];
 export interface RemoveTagsFromResourceMessage {
@@ -2639,8 +2639,8 @@ export interface RemoveTagsFromResourceMessage {
 export interface RemoveTagsFromResourceResponse {}
 export interface RunFleetAdvisorLsaAnalysisRequest {}
 export interface RunFleetAdvisorLsaAnalysisResponse {
-  LsaAnalysisId?: string;
-  Status?: string;
+  LsaAnalysisId?: string | undefined;
+  Status?: string | undefined;
 }
 export type StartReplicationMigrationTypeValue =
   | "reload-target"
@@ -2652,27 +2652,27 @@ export interface StartDataMigrationMessage {
   StartType: StartReplicationMigrationTypeValue;
 }
 export interface StartDataMigrationResponse {
-  DataMigration?: DataMigration;
+  DataMigration?: DataMigration | undefined;
 }
 export interface StartExtensionPackAssociationMessage {
   MigrationProjectIdentifier: string;
 }
 export interface StartExtensionPackAssociationResponse {
-  RequestIdentifier?: string;
+  RequestIdentifier?: string | undefined;
 }
 export interface StartMetadataModelAssessmentMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
 }
 export interface StartMetadataModelAssessmentResponse {
-  RequestIdentifier?: string;
+  RequestIdentifier?: string | undefined;
 }
 export interface StartMetadataModelConversionMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
 }
 export interface StartMetadataModelConversionResponse {
-  RequestIdentifier?: string;
+  RequestIdentifier?: string | undefined;
 }
 export interface StatementProperties {
   Definition: string;
@@ -2685,33 +2685,33 @@ export interface StartMetadataModelCreationMessage {
   Properties: MetadataModelProperties;
 }
 export interface StartMetadataModelCreationResponse {
-  RequestIdentifier?: string;
+  RequestIdentifier?: string | undefined;
 }
 export interface StartMetadataModelExportAsScriptMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
   Origin: OriginTypeValue;
-  FileName?: string;
+  FileName?: string | undefined;
 }
 export interface StartMetadataModelExportAsScriptResponse {
-  RequestIdentifier?: string;
+  RequestIdentifier?: string | undefined;
 }
 export interface StartMetadataModelExportToTargetMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
-  OverwriteExtensionPack?: boolean;
+  OverwriteExtensionPack?: boolean | undefined;
 }
 export interface StartMetadataModelExportToTargetResponse {
-  RequestIdentifier?: string;
+  RequestIdentifier?: string | undefined;
 }
 export interface StartMetadataModelImportMessage {
   MigrationProjectIdentifier: string;
   SelectionRules: string;
   Origin: OriginTypeValue;
-  Refresh?: boolean;
+  Refresh?: boolean | undefined;
 }
 export interface StartMetadataModelImportResponse {
-  RequestIdentifier?: string;
+  RequestIdentifier?: string | undefined;
 }
 export interface StartRecommendationsRequest {
   DatabaseId: string;
@@ -2721,13 +2721,13 @@ export interface StartRecommendationsResponse {}
 export interface StartReplicationMessage {
   ReplicationConfigArn: string;
   StartReplicationType: string;
-  PremigrationAssessmentSettings?: string;
-  CdcStartTime?: Date;
-  CdcStartPosition?: string;
-  CdcStopPosition?: string;
+  PremigrationAssessmentSettings?: string | undefined;
+  CdcStartTime?: Date | undefined;
+  CdcStartPosition?: string | undefined;
+  CdcStopPosition?: string | undefined;
 }
 export interface StartReplicationResponse {
-  Replication?: Replication;
+  Replication?: Replication | undefined;
 }
 export type StartReplicationTaskTypeValue =
   | "start-replication"
@@ -2737,18 +2737,18 @@ export type StartReplicationTaskTypeValue =
 export interface StartReplicationTaskMessage {
   ReplicationTaskArn: string;
   StartReplicationTaskType: StartReplicationTaskTypeValue;
-  CdcStartTime?: Date;
-  CdcStartPosition?: string;
-  CdcStopPosition?: string;
+  CdcStartTime?: Date | undefined;
+  CdcStartPosition?: string | undefined;
+  CdcStopPosition?: string | undefined;
 }
 export interface StartReplicationTaskResponse {
-  ReplicationTask?: ReplicationTask;
+  ReplicationTask?: ReplicationTask | undefined;
 }
 export interface StartReplicationTaskAssessmentMessage {
   ReplicationTaskArn: string;
 }
 export interface StartReplicationTaskAssessmentResponse {
-  ReplicationTask?: ReplicationTask;
+  ReplicationTask?: ReplicationTask | undefined;
 }
 export type IncludeTestList = string[];
 export type ExcludeTestList = string[];
@@ -2756,47 +2756,47 @@ export interface StartReplicationTaskAssessmentRunMessage {
   ReplicationTaskArn: string;
   ServiceAccessRoleArn: string;
   ResultLocationBucket: string;
-  ResultLocationFolder?: string;
-  ResultEncryptionMode?: string;
-  ResultKmsKeyArn?: string;
+  ResultLocationFolder?: string | undefined;
+  ResultEncryptionMode?: string | undefined;
+  ResultKmsKeyArn?: string | undefined;
   AssessmentRunName: string;
-  IncludeOnly?: string[];
-  Exclude?: string[];
-  Tags?: Tag[];
+  IncludeOnly?: string[] | undefined;
+  Exclude?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface StartReplicationTaskAssessmentRunResponse {
-  ReplicationTaskAssessmentRun?: ReplicationTaskAssessmentRun;
+  ReplicationTaskAssessmentRun?: ReplicationTaskAssessmentRun | undefined;
 }
 export interface StopDataMigrationMessage {
   DataMigrationIdentifier: string;
 }
 export interface StopDataMigrationResponse {
-  DataMigration?: DataMigration;
+  DataMigration?: DataMigration | undefined;
 }
 export interface StopReplicationMessage {
   ReplicationConfigArn: string;
 }
 export interface StopReplicationResponse {
-  Replication?: Replication;
+  Replication?: Replication | undefined;
 }
 export interface StopReplicationTaskMessage {
   ReplicationTaskArn: string;
 }
 export interface StopReplicationTaskResponse {
-  ReplicationTask?: ReplicationTask;
+  ReplicationTask?: ReplicationTask | undefined;
 }
 export interface TestConnectionMessage {
   ReplicationInstanceArn: string;
   EndpointArn: string;
 }
 export interface TestConnectionResponse {
-  Connection?: Connection;
+  Connection?: Connection | undefined;
 }
 export interface UpdateSubscriptionsToEventBridgeMessage {
-  ForceMove?: boolean;
+  ForceMove?: boolean | undefined;
 }
 export interface UpdateSubscriptionsToEventBridgeResponse {
-  Result?: string;
+  Result?: string | undefined;
 }
 export type ExceptionMessage = string;
 export type ResourceArn = string;

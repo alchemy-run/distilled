@@ -86,45 +86,45 @@ export class NotFound
 export interface Empty {}
 export interface CreateChallengeRequest {
   /** Request body */
-  body?: Empty;
+  body?: Empty | undefined;
 }
 /** The wrapper message of any data and its signature. */
 export interface SignedData {
   /** The signature of the data field. */
-  signature?: string;
+  signature?: string | undefined;
   /** The data to be signed. */
-  data?: string;
+  data?: string | undefined;
 }
 /** Result message for VerifiedAccess.CreateChallenge. */
 export interface Challenge {
   /** Challenge generated with the old signing key (this will only be present during key rotation) */
-  alternativeChallenge?: SignedData;
+  alternativeChallenge?: SignedData | undefined;
   /** Generated challenge */
-  challenge?: SignedData;
+  challenge?: SignedData | undefined;
 }
 /** signed ChallengeResponse */
 export interface VerifyChallengeResponseRequest {
   /** The generated response to the challenge */
-  challengeResponse?: SignedData;
+  challengeResponse?: SignedData | undefined;
   /** Service can optionally provide identity information about the device or user associated with the key. For an EMK, this value is the enrolled domain. For an EUK, this value is the user's email address. If present, this value will be checked against contents of the response, and verification will fail if there is no match. */
-  expectedIdentity?: string;
+  expectedIdentity?: string | undefined;
 }
 export interface VerifyChallengeRequest {
   /** Request body */
-  body?: VerifyChallengeResponseRequest;
+  body?: VerifyChallengeResponseRequest | undefined;
 }
 /** Result message for VerifiedAccess.VerifyChallengeResponse. */
 export interface VerifyChallengeResponseResult {
   /** Device permanent id is returned in this field (for the machine response only). */
-  devicePermanentId?: string;
+  devicePermanentId?: string | undefined;
   /** Certificate Signing Request (in the SPKAC format, base64 encoded) is returned in this field. This field will be set only if device has included CSR in its challenge response. (the option to include CSR is now available for both user and machine responses) */
-  signedPublicKeyAndChallenge?: string;
+  signedPublicKeyAndChallenge?: string | undefined;
   /** For EMCert check, device permanent id is returned here. For EUCert check, signed_public_key_and_challenge [base64 encoded] is returned if present, otherwise empty string is returned. This field is deprecated, please use device_permanent_id or signed_public_key_and_challenge fields. */
-  verificationOutput?: string;
+  verificationOutput?: string | undefined;
   /** Attested device id (ADID) of the device, read from the verified data. */
-  attestedDeviceId?: string;
+  attestedDeviceId?: string | undefined;
   /** Device enrollment id is returned in this field (for the machine response only). */
-  deviceEnrollmentId?: string;
+  deviceEnrollmentId?: string | undefined;
 }
 export type CreateChallengeError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** CreateChallenge API */

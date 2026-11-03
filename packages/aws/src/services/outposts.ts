@@ -153,19 +153,19 @@ export type QuoteOptionIdentifier = string;
 export type SkuCode = string;
 export type LineItemQuantity = number;
 export interface LineItemRequest {
-  CatalogItemId?: string;
-  Quantity?: number;
+  CatalogItemId?: string | undefined;
+  Quantity?: number | undefined;
 }
 export type LineItemRequestListDefinition = LineItemRequest[];
 export type PaymentOption = "ALL_UPFRONT" | "NO_UPFRONT" | "PARTIAL_UPFRONT" | (string & {});
 export type PaymentTerm = "THREE_YEARS" | "ONE_YEAR" | "FIVE_YEARS" | (string & {});
 export interface CreateOrderInput {
   OutpostIdentifier: string;
-  QuoteIdentifier?: string;
-  QuoteOptionIdentifier?: string;
-  LineItems?: LineItemRequest[];
+  QuoteIdentifier?: string | undefined;
+  QuoteOptionIdentifier?: string | undefined;
+  LineItems?: LineItemRequest[] | undefined;
   PaymentOption: PaymentOption;
-  PaymentTerm?: PaymentTerm;
+  PaymentTerm?: PaymentTerm | undefined;
 }
 export type OutpostIdOnly = string;
 export type OrderStatus =
@@ -196,45 +196,45 @@ export type LineItemStatus =
 export type TrackingId = string;
 export type ShipmentCarrier = "DHL" | "DBS" | "FEDEX" | "UPS" | "EXPEDITORS" | (string & {});
 export interface ShipmentInformation {
-  ShipmentTrackingNumber?: string;
-  ShipmentCarrier?: ShipmentCarrier;
+  ShipmentTrackingNumber?: string | undefined;
+  ShipmentCarrier?: ShipmentCarrier | undefined;
 }
 export type AssetId = string;
 export type MacAddress = string;
 export type MacAddressList = string[];
 export interface LineItemAssetInformation {
-  AssetId?: string;
-  MacAddressList?: string[];
+  AssetId?: string | undefined;
+  MacAddressList?: string[] | undefined;
 }
 export type LineItemAssetInformationList = LineItemAssetInformation[];
 export interface LineItem {
-  CatalogItemId?: string;
-  LineItemId?: string;
-  Quantity?: number;
-  Status?: LineItemStatus;
-  ShipmentInformation?: ShipmentInformation;
-  AssetInformationList?: LineItemAssetInformation[];
-  PreviousLineItemId?: string;
-  PreviousOrderId?: string;
+  CatalogItemId?: string | undefined;
+  LineItemId?: string | undefined;
+  Quantity?: number | undefined;
+  Status?: LineItemStatus | undefined;
+  ShipmentInformation?: ShipmentInformation | undefined;
+  AssetInformationList?: LineItemAssetInformation[] | undefined;
+  PreviousLineItemId?: string | undefined;
+  PreviousOrderId?: string | undefined;
 }
 export type LineItemListDefinition = LineItem[];
 export type ISO8601Timestamp = Date;
 export type OrderType = "OUTPOST" | "REPLACEMENT" | (string & {});
 export interface Order {
-  OutpostId?: string;
-  QuoteIdentifier?: string;
-  QuoteOptionIdentifier?: string;
-  OrderId?: string;
-  Status?: OrderStatus;
-  LineItems?: LineItem[];
-  PaymentOption?: PaymentOption;
-  OrderSubmissionDate?: Date;
-  OrderFulfilledDate?: Date;
-  PaymentTerm?: PaymentTerm;
-  OrderType?: OrderType;
+  OutpostId?: string | undefined;
+  QuoteIdentifier?: string | undefined;
+  QuoteOptionIdentifier?: string | undefined;
+  OrderId?: string | undefined;
+  Status?: OrderStatus | undefined;
+  LineItems?: LineItem[] | undefined;
+  PaymentOption?: PaymentOption | undefined;
+  OrderSubmissionDate?: Date | undefined;
+  OrderFulfilledDate?: Date | undefined;
+  PaymentTerm?: PaymentTerm | undefined;
+  OrderType?: OrderType | undefined;
 }
 export interface CreateOrderOutput {
-  Order?: Order;
+  Order?: Order | undefined;
 }
 export type OutpostName = string;
 export type OutpostDescription = string;
@@ -247,12 +247,12 @@ export type TagMap = { [key: string]: string | undefined };
 export type SupportedHardwareType = "RACK" | "SERVER" | (string & {});
 export interface CreateOutpostInput {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   SiteId: string;
-  AvailabilityZone?: string;
-  AvailabilityZoneId?: string;
-  Tags?: { [key: string]: string | undefined };
-  SupportedHardwareType?: SupportedHardwareType;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  SupportedHardwareType?: SupportedHardwareType | undefined;
 }
 export type OutpostId = string;
 export type OwnerId = string;
@@ -262,32 +262,32 @@ export type SiteArn = string;
 export type OutpostGeneration = "GENERATION_2" | "GENERATION_1" | (string & {});
 export type RackScalingType = "SINGLE_RACK" | "MULTI_RACK" | (string & {});
 export interface Outpost {
-  OutpostId?: string;
-  OwnerId?: string;
-  OutpostArn?: string;
-  SiteId?: string;
-  Name?: string;
-  Description?: string;
-  LifeCycleStatus?: string;
-  AvailabilityZone?: string;
-  AvailabilityZoneId?: string;
-  Tags?: { [key: string]: string | undefined };
-  SiteArn?: string;
-  SupportedHardwareType?: SupportedHardwareType;
-  Generation?: OutpostGeneration;
-  RackScalingType?: RackScalingType;
+  OutpostId?: string | undefined;
+  OwnerId?: string | undefined;
+  OutpostArn?: string | undefined;
+  SiteId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LifeCycleStatus?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  SiteArn?: string | undefined;
+  SupportedHardwareType?: SupportedHardwareType | undefined;
+  Generation?: OutpostGeneration | undefined;
+  RackScalingType?: RackScalingType | undefined;
 }
 export interface CreateOutpostOutput {
-  Outpost?: Outpost;
+  Outpost?: Outpost | undefined;
 }
 export type VpcId = string;
 export type SubnetId = string;
 export type SubnetIds = string[];
 export type VpcEndpointId = string;
 export interface VpcInformation {
-  VpcId?: string;
-  SubnetIds?: string[];
-  VpcEndpointId?: string;
+  VpcId?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  VpcEndpointId?: string | undefined;
 }
 export type VpcInformationList = VpcInformation[];
 export interface CreatePrivateConnectivityConfigInput {
@@ -297,21 +297,21 @@ export interface CreatePrivateConnectivityConfigInput {
 export type RoleArn = string;
 export type PrivateConnectivityStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface PrivateConnectivityConfig {
-  RoleArn?: string;
-  PrivateConnectivityStatus?: PrivateConnectivityStatus;
-  VpcInformationList?: VpcInformation[];
-  ProvisioningRoleArn?: string;
+  RoleArn?: string | undefined;
+  PrivateConnectivityStatus?: PrivateConnectivityStatus | undefined;
+  VpcInformationList?: VpcInformation[] | undefined;
+  ProvisioningRoleArn?: string | undefined;
 }
 export interface CreatePrivateConnectivityConfigOutput {
-  PrivateConnectivityConfig?: PrivateConnectivityConfig;
-  OutpostId?: string;
+  PrivateConnectivityConfig?: PrivateConnectivityConfig | undefined;
+  OutpostId?: string | undefined;
 }
 export type CountryCode = string;
 export type QuoteCapacityType = "EC2" | "EBS" | "S3" | (string & {});
 export interface QuoteCapacity {
-  QuoteCapacityType?: QuoteCapacityType;
-  Unit?: string;
-  Quantity?: number;
+  QuoteCapacityType?: QuoteCapacityType | undefined;
+  Unit?: string | undefined;
+  Quantity?: number | undefined;
 }
 export type QuoteCapacityList = QuoteCapacity[];
 export type QuoteConstraintType =
@@ -322,30 +322,30 @@ export type QuoteConstraintType =
   | (string & {});
 export type ConstraintValue = string;
 export interface QuoteConstraint {
-  QuoteConstraintType?: QuoteConstraintType;
-  Value?: string;
+  QuoteConstraintType?: QuoteConstraintType | undefined;
+  Value?: string | undefined;
 }
 export type QuoteConstraintList = QuoteConstraint[];
 export type PaymentOptionList = PaymentOption[];
 export type PaymentTermList = PaymentTerm[];
 export type QuoteDescription = string | redacted.Redacted<string>;
 export interface CreateQuoteInput {
-  OutpostIdentifier?: string;
+  OutpostIdentifier?: string | undefined;
   CountryCode: string;
   RequestedCapacities: QuoteCapacity[];
-  RequestedConstraints?: QuoteConstraint[];
-  RequestedPaymentOptions?: PaymentOption[];
-  RequestedPaymentTerms?: PaymentTerm[];
-  Description?: string | redacted.Redacted<string>;
+  RequestedConstraints?: QuoteConstraint[] | undefined;
+  RequestedPaymentOptions?: PaymentOption[] | undefined;
+  RequestedPaymentTerms?: PaymentTerm[] | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
 }
 export type QuoteId = string;
 export type AccountId = string;
 export type QuoteStatus = "CREATED" | "ORDER_SUBMITTED" | "EXPIRED" | (string & {});
 export type StatusMessage = string;
 export interface CapacitySummary {
-  ExistingCapacities?: QuoteCapacity[];
-  FinalCapacities?: QuoteCapacity[];
-  CapacityChange?: QuoteCapacity[];
+  ExistingCapacities?: QuoteCapacity[] | undefined;
+  FinalCapacities?: QuoteCapacity[] | undefined;
+  CapacityChange?: QuoteCapacity[] | undefined;
 }
 export type QuoteSpecificationType =
   | "UPDATED_RACK"
@@ -360,58 +360,58 @@ export type Family = string;
 export type MaxSize = string;
 export type Quantity = string;
 export interface EC2Capacity {
-  Family?: string;
-  MaxSize?: string;
-  Quantity?: string;
+  Family?: string | undefined;
+  MaxSize?: string | undefined;
+  Quantity?: string | undefined;
 }
 export type EC2CapacityListDefinition = EC2Capacity[];
 export interface RackSpecificationDetails {
-  RackId?: string;
-  RackUse?: QuoteRackUseType;
-  RackPowerDrawKva?: number;
-  RackWeightLbs?: number;
-  RackHeightInches?: number;
-  RackWidthInches?: number;
-  RackDepthInches?: number;
-  RackUnitHeight?: RackUnitHeight;
-  EC2Capacities?: EC2Capacity[];
+  RackId?: string | undefined;
+  RackUse?: QuoteRackUseType | undefined;
+  RackPowerDrawKva?: number | undefined;
+  RackWeightLbs?: number | undefined;
+  RackHeightInches?: number | undefined;
+  RackWidthInches?: number | undefined;
+  RackDepthInches?: number | undefined;
+  RackUnitHeight?: RackUnitHeight | undefined;
+  EC2Capacities?: EC2Capacity[] | undefined;
 }
 export interface ServerSpecificationDetails {
-  ServerPowerDrawKva?: number;
-  ServerWeightLbs?: number;
-  ServerHeightInches?: number;
-  ServerWidthInches?: number;
-  ServerDepthInches?: number;
-  RackUnitHeight?: RackUnitHeight;
-  EC2Capacities?: EC2Capacity[];
+  ServerPowerDrawKva?: number | undefined;
+  ServerWeightLbs?: number | undefined;
+  ServerHeightInches?: number | undefined;
+  ServerWidthInches?: number | undefined;
+  ServerDepthInches?: number | undefined;
+  RackUnitHeight?: RackUnitHeight | undefined;
+  EC2Capacities?: EC2Capacity[] | undefined;
 }
 export interface QuoteSpecification {
-  QuoteSpecificationType?: QuoteSpecificationType;
-  ExistingRackSpecificationDetails?: RackSpecificationDetails;
-  FinalRackSpecificationDetails?: RackSpecificationDetails;
-  ServerSpecificationDetails?: ServerSpecificationDetails;
+  QuoteSpecificationType?: QuoteSpecificationType | undefined;
+  ExistingRackSpecificationDetails?: RackSpecificationDetails | undefined;
+  FinalRackSpecificationDetails?: RackSpecificationDetails | undefined;
+  ServerSpecificationDetails?: ServerSpecificationDetails | undefined;
 }
 export type QuoteSpecificationList = QuoteSpecification[];
 export type QuotePricingType = "SUBSCRIPTION" | (string & {});
 export type CurrencyCode = "USD" | (string & {});
 export interface SubscriptionPricingDetails {
-  PaymentOption?: PaymentOption;
-  PaymentTerm?: PaymentTerm;
-  UpfrontPrice?: number;
-  MonthlyRecurringPrice?: number;
-  Currency?: CurrencyCode;
+  PaymentOption?: PaymentOption | undefined;
+  PaymentTerm?: PaymentTerm | undefined;
+  UpfrontPrice?: number | undefined;
+  MonthlyRecurringPrice?: number | undefined;
+  Currency?: CurrencyCode | undefined;
 }
 export interface PricingOption {
-  PricingType?: QuotePricingType;
-  SubscriptionPricingDetails?: SubscriptionPricingDetails;
+  PricingType?: QuotePricingType | undefined;
+  SubscriptionPricingDetails?: SubscriptionPricingDetails | undefined;
 }
 export type PricingOptionList = PricingOption[];
 export interface QuoteOption {
-  QuoteOptionIdentifier?: string;
-  Capacities?: QuoteCapacity[];
-  CapacitySummary?: CapacitySummary;
-  Specifications?: QuoteSpecification[];
-  PricingOptions?: PricingOption[];
+  QuoteOptionIdentifier?: string | undefined;
+  Capacities?: QuoteCapacity[] | undefined;
+  CapacitySummary?: CapacitySummary | undefined;
+  Specifications?: QuoteSpecification[] | undefined;
+  PricingOptions?: PricingOption[] | undefined;
 }
 export type QuoteOptionList = QuoteOption[];
 export type OrderingRequirementType =
@@ -435,47 +435,47 @@ export type OrderingRequirementType =
   | (string & {});
 export type OrderingRequirementStatus = "PASS" | "FAIL" | "EXEMPT" | (string & {});
 export interface OrderingRequirement {
-  StatusMessage?: string;
-  OrderingRequirementType?: OrderingRequirementType;
-  Status?: OrderingRequirementStatus;
+  StatusMessage?: string | undefined;
+  OrderingRequirementType?: OrderingRequirementType | undefined;
+  Status?: OrderingRequirementStatus | undefined;
 }
 export type OrderingRequirementList = OrderingRequirement[];
 export type OrderIdentifier = string;
 export interface Quote {
-  QuoteId?: string;
-  AccountId?: string;
-  QuoteStatus?: QuoteStatus;
-  StatusMessage?: string;
-  OutpostArn?: string;
-  CountryCode?: string;
-  RequestedCapacities?: QuoteCapacity[];
-  RequestedConstraints?: QuoteConstraint[];
-  RequestedPaymentOptions?: PaymentOption[];
-  RequestedPaymentTerms?: PaymentTerm[];
-  QuoteOptions?: QuoteOption[];
-  OrderingRequirements?: OrderingRequirement[];
-  SubmittedOrderId?: string;
-  CreatedDate?: Date;
-  ExpirationDate?: Date;
-  Description?: string | redacted.Redacted<string>;
+  QuoteId?: string | undefined;
+  AccountId?: string | undefined;
+  QuoteStatus?: QuoteStatus | undefined;
+  StatusMessage?: string | undefined;
+  OutpostArn?: string | undefined;
+  CountryCode?: string | undefined;
+  RequestedCapacities?: QuoteCapacity[] | undefined;
+  RequestedConstraints?: QuoteConstraint[] | undefined;
+  RequestedPaymentOptions?: PaymentOption[] | undefined;
+  RequestedPaymentTerms?: PaymentTerm[] | undefined;
+  QuoteOptions?: QuoteOption[] | undefined;
+  OrderingRequirements?: OrderingRequirement[] | undefined;
+  SubmittedOrderId?: string | undefined;
+  CreatedDate?: Date | undefined;
+  ExpirationDate?: Date | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateQuoteOutput {
-  Quote?: Quote;
+  Quote?: Quote | undefined;
 }
 export type AutoFillIdempotencyToken = string;
 export interface CreateRenewalInput {
   PaymentOption: PaymentOption;
   PaymentTerm: PaymentTerm;
   OutpostIdentifier: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface CreateRenewalOutput {
-  PaymentOption?: PaymentOption;
-  PaymentTerm?: PaymentTerm;
-  OutpostId?: string;
-  UpfrontPrice?: number;
-  MonthlyRecurringPrice?: number;
-  Currency?: CurrencyCode;
+  PaymentOption?: PaymentOption | undefined;
+  PaymentTerm?: PaymentTerm | undefined;
+  OutpostId?: string | undefined;
+  UpfrontPrice?: number | undefined;
+  MonthlyRecurringPrice?: number | undefined;
+  Currency?: CurrencyCode | undefined;
 }
 export type SiteName = string;
 export type SiteDescription = string;
@@ -494,14 +494,14 @@ export interface Address {
   ContactName: string;
   ContactPhoneNumber: string;
   AddressLine1: string;
-  AddressLine2?: string;
-  AddressLine3?: string;
+  AddressLine2?: string | undefined;
+  AddressLine3?: string | undefined;
   City: string;
   StateOrRegion: string;
-  DistrictOrCounty?: string;
+  DistrictOrCounty?: string | undefined;
   PostalCode: string;
   CountryCode: string;
-  Municipality?: string;
+  Municipality?: string | undefined;
 }
 export type PowerDrawKva =
   | "POWER_5_KVA"
@@ -555,40 +555,40 @@ export type MaximumSupportedWeightLbs =
   | "MAX_2000_LBS"
   | (string & {});
 export interface RackPhysicalProperties {
-  PowerDrawKva?: PowerDrawKva;
-  PowerPhase?: PowerPhase;
-  PowerConnector?: PowerConnector;
-  PowerFeedDrop?: PowerFeedDrop;
-  UplinkGbps?: UplinkGbps;
-  UplinkCount?: UplinkCount;
-  FiberOpticCableType?: FiberOpticCableType;
-  OpticalStandard?: OpticalStandard;
-  MaximumSupportedWeightLbs?: MaximumSupportedWeightLbs;
+  PowerDrawKva?: PowerDrawKva | undefined;
+  PowerPhase?: PowerPhase | undefined;
+  PowerConnector?: PowerConnector | undefined;
+  PowerFeedDrop?: PowerFeedDrop | undefined;
+  UplinkGbps?: UplinkGbps | undefined;
+  UplinkCount?: UplinkCount | undefined;
+  FiberOpticCableType?: FiberOpticCableType | undefined;
+  OpticalStandard?: OpticalStandard | undefined;
+  MaximumSupportedWeightLbs?: MaximumSupportedWeightLbs | undefined;
 }
 export interface CreateSiteInput {
   Name: string;
-  Description?: string;
-  Notes?: string;
-  Tags?: { [key: string]: string | undefined };
-  OperatingAddress?: Address;
-  ShippingAddress?: Address;
-  RackPhysicalProperties?: RackPhysicalProperties;
+  Description?: string | undefined;
+  Notes?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  OperatingAddress?: Address | undefined;
+  ShippingAddress?: Address | undefined;
+  RackPhysicalProperties?: RackPhysicalProperties | undefined;
 }
 export interface Site {
-  SiteId?: string;
-  AccountId?: string;
-  Name?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
-  SiteArn?: string;
-  Notes?: string;
-  OperatingAddressCountryCode?: string;
-  OperatingAddressStateOrRegion?: string;
-  OperatingAddressCity?: string;
-  RackPhysicalProperties?: RackPhysicalProperties;
+  SiteId?: string | undefined;
+  AccountId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  SiteArn?: string | undefined;
+  Notes?: string | undefined;
+  OperatingAddressCountryCode?: string | undefined;
+  OperatingAddressStateOrRegion?: string | undefined;
+  OperatingAddressCity?: string | undefined;
+  RackPhysicalProperties?: RackPhysicalProperties | undefined;
 }
 export interface CreateSiteOutput {
-  Site?: Site;
+  Site?: Site | undefined;
 }
 export interface DeleteOutpostInput {
   OutpostId: string;
@@ -627,9 +627,9 @@ export type AWSServiceName =
   | (string & {});
 export type AWSServiceNameList = AWSServiceName[];
 export interface InstancesToExclude {
-  Instances?: string[];
-  AccountIds?: string[];
-  Services?: AWSServiceName[];
+  Instances?: string[] | undefined;
+  AccountIds?: string[] | undefined;
+  Services?: AWSServiceName[] | undefined;
 }
 export type DryRun = boolean;
 export type CapacityTaskStatus =
@@ -651,23 +651,23 @@ export type CapacityTaskFailureType =
   | (string & {});
 export interface CapacityTaskFailure {
   Reason: string;
-  Type?: CapacityTaskFailureType;
+  Type?: CapacityTaskFailureType | undefined;
 }
 export type TaskActionOnBlockingInstances = "WAIT_FOR_EVACUATION" | "FAIL_TASK" | (string & {});
 export interface GetCapacityTaskOutput {
-  CapacityTaskId?: string;
-  OutpostId?: string;
-  OrderId?: string;
-  AssetId?: string;
-  RequestedInstancePools?: InstanceTypeCapacity[];
-  InstancesToExclude?: InstancesToExclude;
-  DryRun?: boolean;
-  CapacityTaskStatus?: CapacityTaskStatus;
-  Failed?: CapacityTaskFailure;
-  CreationDate?: Date;
-  CompletionDate?: Date;
-  LastModifiedDate?: Date;
-  TaskActionOnBlockingInstances?: TaskActionOnBlockingInstances;
+  CapacityTaskId?: string | undefined;
+  OutpostId?: string | undefined;
+  OrderId?: string | undefined;
+  AssetId?: string | undefined;
+  RequestedInstancePools?: InstanceTypeCapacity[] | undefined;
+  InstancesToExclude?: InstancesToExclude | undefined;
+  DryRun?: boolean | undefined;
+  CapacityTaskStatus?: CapacityTaskStatus | undefined;
+  Failed?: CapacityTaskFailure | undefined;
+  CreationDate?: Date | undefined;
+  CompletionDate?: Date | undefined;
+  LastModifiedDate?: Date | undefined;
+  TaskActionOnBlockingInstances?: TaskActionOnBlockingInstances | undefined;
 }
 export interface GetCatalogItemInput {
   CatalogItemId: string;
@@ -680,17 +680,17 @@ export type SupportedUplinkGbpsListDefinition = number[];
 export type SupportedStorageEnum = "EBS" | "S3" | (string & {});
 export type SupportedStorageList = SupportedStorageEnum[];
 export interface CatalogItem {
-  CatalogItemId?: string;
-  ItemStatus?: CatalogItemStatus;
-  EC2Capacities?: EC2Capacity[];
-  PowerKva?: number;
-  WeightLbs?: number;
-  SupportedUplinkGbps?: number[];
-  SupportedStorage?: SupportedStorageEnum[];
-  RackScalingType?: RackScalingType;
+  CatalogItemId?: string | undefined;
+  ItemStatus?: CatalogItemStatus | undefined;
+  EC2Capacities?: EC2Capacity[] | undefined;
+  PowerKva?: number | undefined;
+  WeightLbs?: number | undefined;
+  SupportedUplinkGbps?: number[] | undefined;
+  SupportedStorage?: SupportedStorageEnum[] | undefined;
+  RackScalingType?: RackScalingType | undefined;
 }
 export interface GetCatalogItemOutput {
-  CatalogItem?: CatalogItem;
+  CatalogItem?: CatalogItem | undefined;
 }
 export type ConnectionId = string;
 export interface GetConnectionRequest {
@@ -701,113 +701,113 @@ export type ServerEndpoint = string;
 export type CIDR = string;
 export type CIDRList = string[];
 export interface ConnectionDetails {
-  ClientPublicKey?: string;
-  ServerPublicKey?: string;
-  ServerEndpoint?: string;
-  ClientTunnelAddress?: string;
-  ServerTunnelAddress?: string;
-  AllowedIps?: string[];
+  ClientPublicKey?: string | undefined;
+  ServerPublicKey?: string | undefined;
+  ServerEndpoint?: string | undefined;
+  ClientTunnelAddress?: string | undefined;
+  ServerTunnelAddress?: string | undefined;
+  AllowedIps?: string[] | undefined;
 }
 export interface GetConnectionResponse {
-  ConnectionId?: string;
-  ConnectionDetails?: ConnectionDetails;
+  ConnectionId?: string | undefined;
+  ConnectionDetails?: ConnectionDetails | undefined;
 }
 export interface GetOrderInput {
   OrderId: string;
 }
 export interface GetOrderOutput {
-  Order?: Order;
+  Order?: Order | undefined;
 }
 export interface GetOutpostInput {
   OutpostId: string;
 }
 export interface GetOutpostOutput {
-  Outpost?: Outpost;
+  Outpost?: Outpost | undefined;
 }
 export type Token = string;
 export type MaxResults1000 = number;
 export interface GetOutpostBillingInformationInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   OutpostIdentifier: string;
 }
 export type SubscriptionType = "ORIGINAL" | "RENEWAL" | "CAPACITY_INCREASE" | (string & {});
 export type SubscriptionStatus = "ACTIVE" | "PENDING" | "INACTIVE" | "CANCELLED" | (string & {});
 export type OrderIdList = string[];
 export interface Subscription {
-  SubscriptionId?: string;
-  SubscriptionType?: SubscriptionType;
-  SubscriptionStatus?: SubscriptionStatus;
-  OrderIds?: string[];
-  BeginDate?: Date;
-  EndDate?: Date;
-  Currency?: CurrencyCode;
-  MonthlyRecurringPrice?: number;
-  UpfrontPrice?: number;
+  SubscriptionId?: string | undefined;
+  SubscriptionType?: SubscriptionType | undefined;
+  SubscriptionStatus?: SubscriptionStatus | undefined;
+  OrderIds?: string[] | undefined;
+  BeginDate?: Date | undefined;
+  EndDate?: Date | undefined;
+  Currency?: CurrencyCode | undefined;
+  MonthlyRecurringPrice?: number | undefined;
+  UpfrontPrice?: number | undefined;
 }
 export type SubscriptionList = Subscription[];
 export interface GetOutpostBillingInformationOutput {
-  NextToken?: string;
-  Subscriptions?: Subscription[];
-  ContractEndDate?: string;
-  PaymentTerm?: PaymentTerm;
-  PaymentOption?: PaymentOption;
+  NextToken?: string | undefined;
+  Subscriptions?: Subscription[] | undefined;
+  ContractEndDate?: string | undefined;
+  PaymentTerm?: PaymentTerm | undefined;
+  PaymentOption?: PaymentOption | undefined;
 }
 export interface GetOutpostInstanceTypesInput {
   OutpostId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type InstanceType = string;
 export type VCPUCount = number;
 export interface InstanceTypeItem {
-  InstanceType?: string;
-  VCPUs?: number;
+  InstanceType?: string | undefined;
+  VCPUs?: number | undefined;
 }
 export type InstanceTypeListDefinition = InstanceTypeItem[];
 export interface GetOutpostInstanceTypesOutput {
-  InstanceTypes?: InstanceTypeItem[];
-  NextToken?: string;
-  OutpostId?: string;
-  OutpostArn?: string;
+  InstanceTypes?: InstanceTypeItem[] | undefined;
+  NextToken?: string | undefined;
+  OutpostId?: string | undefined;
+  OutpostArn?: string | undefined;
 }
 export type AssetIdInput = string;
 export interface GetOutpostSupportedInstanceTypesInput {
   OutpostIdentifier: string;
-  OrderId?: string;
-  AssetId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  OrderId?: string | undefined;
+  AssetId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetOutpostSupportedInstanceTypesOutput {
-  InstanceTypes?: InstanceTypeItem[];
-  NextToken?: string;
+  InstanceTypes?: InstanceTypeItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetPrivateConnectivityConfigInput {
   OutpostId: string;
 }
 export interface GetPrivateConnectivityConfigOutput {
-  PrivateConnectivityConfig?: PrivateConnectivityConfig;
+  PrivateConnectivityConfig?: PrivateConnectivityConfig | undefined;
 }
 export interface GetQuoteInput {
   QuoteIdentifier: string;
 }
 export interface GetQuoteOutput {
-  Quote?: Quote;
+  Quote?: Quote | undefined;
 }
 export interface GetRenewalPricingInput {
   OutpostIdentifier: string;
 }
 export type PricingResult = "PRICED" | "UNABLE_TO_PRICE" | (string & {});
 export interface GetRenewalPricingOutput {
-  PricingResult?: PricingResult;
-  PricingOptions?: PricingOption[];
+  PricingResult?: PricingResult | undefined;
+  PricingOptions?: PricingOption[] | undefined;
 }
 export interface GetSiteInput {
   SiteId: string;
 }
 export interface GetSiteOutput {
-  Site?: Site;
+  Site?: Site | undefined;
 }
 export type AddressType = "SHIPPING_ADDRESS" | "OPERATING_ADDRESS" | (string & {});
 export interface GetSiteAddressInput {
@@ -815,33 +815,33 @@ export interface GetSiteAddressInput {
   AddressType: AddressType;
 }
 export interface GetSiteAddressOutput {
-  SiteId?: string;
-  AddressType?: AddressType;
-  Address?: Address;
+  SiteId?: string | undefined;
+  AddressType?: AddressType | undefined;
+  Address?: Address | undefined;
 }
 export type AssetIdList = string[];
 export type OutpostInstanceType = string;
 export type OutpostInstanceTypeList = string[];
 export interface ListAssetInstancesInput {
   OutpostIdentifier: string;
-  AssetIdFilter?: string[];
-  InstanceTypeFilter?: string[];
-  AccountIdFilter?: string[];
-  AwsServiceFilter?: AWSServiceName[];
-  MaxResults?: number;
-  NextToken?: string;
+  AssetIdFilter?: string[] | undefined;
+  InstanceTypeFilter?: string[] | undefined;
+  AccountIdFilter?: string[] | undefined;
+  AwsServiceFilter?: AWSServiceName[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AssetInstance {
-  InstanceId?: string;
-  InstanceType?: string;
-  AssetId?: string;
-  AccountId?: string;
-  AwsServiceName?: AWSServiceName;
+  InstanceId?: string | undefined;
+  InstanceType?: string | undefined;
+  AssetId?: string | undefined;
+  AccountId?: string | undefined;
+  AwsServiceName?: AWSServiceName | undefined;
 }
 export type AssetInstanceList = AssetInstance[];
 export interface ListAssetInstancesOutput {
-  AssetInstances?: AssetInstance[];
-  NextToken?: string;
+  AssetInstances?: AssetInstance[] | undefined;
+  NextToken?: string | undefined;
 }
 export type HostId = string;
 export type HostIdList = string[];
@@ -857,11 +857,11 @@ export type AssetType =
 export type AssetTypeList = AssetType[];
 export interface ListAssetsInput {
   OutpostIdentifier: string;
-  HostIdFilter?: string[];
-  MaxResults?: number;
-  NextToken?: string;
-  StatusFilter?: AssetState[];
-  AssetTypeFilter?: AssetType[];
+  HostIdFilter?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  StatusFilter?: AssetState[] | undefined;
+  AssetTypeFilter?: AssetType[] | undefined;
 }
 export type ComputeAssetState = "ACTIVE" | "ISOLATED" | "RETIRING" | "INSTALLING" | (string & {});
 export type InstanceFamilyName = string;
@@ -872,230 +872,230 @@ export interface AssetInstanceTypeCapacity {
 }
 export type AssetInstanceCapacityList = AssetInstanceTypeCapacity[];
 export interface ComputeAttributes {
-  HostId?: string;
-  State?: ComputeAssetState;
-  InstanceFamilies?: string[];
-  InstanceTypeCapacities?: AssetInstanceTypeCapacity[];
-  MaxVcpus?: number;
+  HostId?: string | undefined;
+  State?: ComputeAssetState | undefined;
+  InstanceFamilies?: string[] | undefined;
+  InstanceTypeCapacities?: AssetInstanceTypeCapacity[] | undefined;
+  MaxVcpus?: number | undefined;
 }
 export type RackElevation = number;
 export interface AssetLocation {
-  RackElevation?: number;
+  RackElevation?: number | undefined;
 }
 export interface AssetInfo {
-  AssetId?: string;
-  RackId?: string;
-  AssetType?: AssetType;
-  ComputeAttributes?: ComputeAttributes;
-  AssetLocation?: AssetLocation;
+  AssetId?: string | undefined;
+  RackId?: string | undefined;
+  AssetType?: AssetType | undefined;
+  ComputeAttributes?: ComputeAttributes | undefined;
+  AssetLocation?: AssetLocation | undefined;
 }
 export type AssetListDefinition = AssetInfo[];
 export interface ListAssetsOutput {
-  Assets?: AssetInfo[];
-  NextToken?: string;
+  Assets?: AssetInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListBlockingInstancesForCapacityTaskInput {
   OutpostIdentifier: string;
   CapacityTaskId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface BlockingInstance {
-  InstanceId?: string;
-  AccountId?: string;
-  AwsServiceName?: AWSServiceName;
+  InstanceId?: string | undefined;
+  AccountId?: string | undefined;
+  AwsServiceName?: AWSServiceName | undefined;
 }
 export type BlockingInstancesList = BlockingInstance[];
 export interface ListBlockingInstancesForCapacityTaskOutput {
-  BlockingInstances?: BlockingInstance[];
-  NextToken?: string;
+  BlockingInstances?: BlockingInstance[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CapacityTaskStatusList = CapacityTaskStatus[];
 export interface ListCapacityTasksInput {
-  OutpostIdentifierFilter?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  CapacityTaskStatusFilter?: CapacityTaskStatus[];
+  OutpostIdentifierFilter?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  CapacityTaskStatusFilter?: CapacityTaskStatus[] | undefined;
 }
 export interface CapacityTaskSummary {
-  CapacityTaskId?: string;
-  OutpostId?: string;
-  OrderId?: string;
-  AssetId?: string;
-  CapacityTaskStatus?: CapacityTaskStatus;
-  CreationDate?: Date;
-  CompletionDate?: Date;
-  LastModifiedDate?: Date;
+  CapacityTaskId?: string | undefined;
+  OutpostId?: string | undefined;
+  OrderId?: string | undefined;
+  AssetId?: string | undefined;
+  CapacityTaskStatus?: CapacityTaskStatus | undefined;
+  CreationDate?: Date | undefined;
+  CompletionDate?: Date | undefined;
+  LastModifiedDate?: Date | undefined;
 }
 export type CapacityTaskList = CapacityTaskSummary[];
 export interface ListCapacityTasksOutput {
-  CapacityTasks?: CapacityTaskSummary[];
-  NextToken?: string;
+  CapacityTasks?: CapacityTaskSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CatalogItemClass = "RACK" | "SERVER" | (string & {});
 export type CatalogItemClassList = CatalogItemClass[];
 export type EC2FamilyList = string[];
 export interface ListCatalogItemsInput {
-  NextToken?: string;
-  MaxResults?: number;
-  ItemClassFilter?: CatalogItemClass[];
-  SupportedStorageFilter?: SupportedStorageEnum[];
-  EC2FamilyFilter?: string[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ItemClassFilter?: CatalogItemClass[] | undefined;
+  SupportedStorageFilter?: SupportedStorageEnum[] | undefined;
+  EC2FamilyFilter?: string[] | undefined;
 }
 export type CatalogItemListDefinition = CatalogItem[];
 export interface ListCatalogItemsOutput {
-  CatalogItems?: CatalogItem[];
-  NextToken?: string;
+  CatalogItems?: CatalogItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOrderableInstanceTypesInput {
-  OutpostGenerationFilter?: OutpostGeneration;
-  MaxResults?: number;
-  NextToken?: string;
+  OutpostGenerationFilter?: OutpostGeneration | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type MemoryInMib = number;
 export type NetworkPerformance = string;
 export type FormFactor = "RACK" | "SERVER" | (string & {});
 export interface FormFactorConfig {
-  FormFactor?: FormFactor;
-  OutpostGeneration?: OutpostGeneration;
+  FormFactor?: FormFactor | undefined;
+  OutpostGeneration?: OutpostGeneration | undefined;
 }
 export type FormFactorConfigList = FormFactorConfig[];
 export interface DetailedInstanceTypeItem {
-  InstanceType?: string;
-  VCPUs?: number;
-  MemoryInMib?: number;
-  NetworkPerformance?: string;
-  FormFactorConfigs?: FormFactorConfig[];
+  InstanceType?: string | undefined;
+  VCPUs?: number | undefined;
+  MemoryInMib?: number | undefined;
+  NetworkPerformance?: string | undefined;
+  FormFactorConfigs?: FormFactorConfig[] | undefined;
 }
 export type DetailedInstanceTypeListDefinition = DetailedInstanceTypeItem[];
 export interface ListOrderableInstanceTypesOutput {
-  InstanceTypes?: DetailedInstanceTypeItem[];
-  NextToken?: string;
+  InstanceTypes?: DetailedInstanceTypeItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOrdersInput {
-  OutpostIdentifierFilter?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  OutpostIdentifierFilter?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export type LineItemStatusCounts = { [key in LineItemStatus]?: number };
+export type LineItemStatusCounts = { [key in LineItemStatus]?: number | undefined };
 export interface OrderSummary {
-  OutpostId?: string;
-  OrderId?: string;
-  OrderType?: OrderType;
-  Status?: OrderStatus;
-  LineItemCountsByStatus?: { [key: string]: number | undefined };
-  OrderSubmissionDate?: Date;
-  OrderFulfilledDate?: Date;
+  OutpostId?: string | undefined;
+  OrderId?: string | undefined;
+  OrderType?: OrderType | undefined;
+  Status?: OrderStatus | undefined;
+  LineItemCountsByStatus?: { [key: string]: number | undefined } | undefined;
+  OrderSubmissionDate?: Date | undefined;
+  OrderFulfilledDate?: Date | undefined;
 }
 export type OrderSummaryListDefinition = OrderSummary[];
 export interface ListOrdersOutput {
-  Orders?: OrderSummary[];
-  NextToken?: string;
+  Orders?: OrderSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type LifeCycleStatusList = string[];
 export type AvailabilityZoneList = string[];
 export type AvailabilityZoneIdList = string[];
 export interface ListOutpostsInput {
-  NextToken?: string;
-  MaxResults?: number;
-  LifeCycleStatusFilter?: string[];
-  AvailabilityZoneFilter?: string[];
-  AvailabilityZoneIdFilter?: string[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  LifeCycleStatusFilter?: string[] | undefined;
+  AvailabilityZoneFilter?: string[] | undefined;
+  AvailabilityZoneIdFilter?: string[] | undefined;
 }
 export type OutpostListDefinition = Outpost[];
 export interface ListOutpostsOutput {
-  Outposts?: Outpost[];
-  NextToken?: string;
+  Outposts?: Outpost[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListQuotesInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface QuoteSummary {
-  QuoteId?: string;
-  AccountId?: string;
-  QuoteStatus?: QuoteStatus;
-  StatusMessage?: string;
-  OutpostArn?: string;
-  CountryCode?: string;
-  RequestedCapacities?: QuoteCapacity[];
-  RequestedConstraints?: QuoteConstraint[];
-  RequestedPaymentOptions?: PaymentOption[];
-  RequestedPaymentTerms?: PaymentTerm[];
-  QuoteOptions?: QuoteOption[];
-  SubmittedOrderId?: string;
-  CreatedDate?: Date;
-  ExpirationDate?: Date;
-  Description?: string | redacted.Redacted<string>;
+  QuoteId?: string | undefined;
+  AccountId?: string | undefined;
+  QuoteStatus?: QuoteStatus | undefined;
+  StatusMessage?: string | undefined;
+  OutpostArn?: string | undefined;
+  CountryCode?: string | undefined;
+  RequestedCapacities?: QuoteCapacity[] | undefined;
+  RequestedConstraints?: QuoteConstraint[] | undefined;
+  RequestedPaymentOptions?: PaymentOption[] | undefined;
+  RequestedPaymentTerms?: PaymentTerm[] | undefined;
+  QuoteOptions?: QuoteOption[] | undefined;
+  SubmittedOrderId?: string | undefined;
+  CreatedDate?: Date | undefined;
+  ExpirationDate?: Date | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
 }
 export type QuoteSummaryListDefinition = QuoteSummary[];
 export interface ListQuotesOutput {
-  Quotes?: QuoteSummary[];
-  NextToken?: string;
+  Quotes?: QuoteSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CountryCodeList = string[];
 export type StateOrRegionList = string[];
 export type CityList = string[];
 export interface ListSitesInput {
-  NextToken?: string;
-  MaxResults?: number;
-  OperatingAddressCountryCodeFilter?: string[];
-  OperatingAddressStateOrRegionFilter?: string[];
-  OperatingAddressCityFilter?: string[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  OperatingAddressCountryCodeFilter?: string[] | undefined;
+  OperatingAddressStateOrRegionFilter?: string[] | undefined;
+  OperatingAddressCityFilter?: string[] | undefined;
 }
 export type SiteListDefinition = Site[];
 export interface ListSitesOutput {
-  Sites?: Site[];
-  NextToken?: string;
+  Sites?: Site[] | undefined;
+  NextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartCapacityTaskInput {
   OutpostIdentifier: string;
-  OrderId?: string;
-  AssetId?: string;
+  OrderId?: string | undefined;
+  AssetId?: string | undefined;
   InstancePools: InstanceTypeCapacity[];
-  InstancesToExclude?: InstancesToExclude;
-  DryRun?: boolean;
-  TaskActionOnBlockingInstances?: TaskActionOnBlockingInstances;
+  InstancesToExclude?: InstancesToExclude | undefined;
+  DryRun?: boolean | undefined;
+  TaskActionOnBlockingInstances?: TaskActionOnBlockingInstances | undefined;
 }
 export interface StartCapacityTaskOutput {
-  CapacityTaskId?: string;
-  OutpostId?: string;
-  OrderId?: string;
-  AssetId?: string;
-  RequestedInstancePools?: InstanceTypeCapacity[];
-  InstancesToExclude?: InstancesToExclude;
-  DryRun?: boolean;
-  CapacityTaskStatus?: CapacityTaskStatus;
-  Failed?: CapacityTaskFailure;
-  CreationDate?: Date;
-  CompletionDate?: Date;
-  LastModifiedDate?: Date;
-  TaskActionOnBlockingInstances?: TaskActionOnBlockingInstances;
+  CapacityTaskId?: string | undefined;
+  OutpostId?: string | undefined;
+  OrderId?: string | undefined;
+  AssetId?: string | undefined;
+  RequestedInstancePools?: InstanceTypeCapacity[] | undefined;
+  InstancesToExclude?: InstancesToExclude | undefined;
+  DryRun?: boolean | undefined;
+  CapacityTaskStatus?: CapacityTaskStatus | undefined;
+  Failed?: CapacityTaskFailure | undefined;
+  CreationDate?: Date | undefined;
+  CompletionDate?: Date | undefined;
+  LastModifiedDate?: Date | undefined;
+  TaskActionOnBlockingInstances?: TaskActionOnBlockingInstances | undefined;
 }
 export type DeviceSerialNumber = string;
 export type NetworkInterfaceDeviceIndex = number;
 export interface StartConnectionRequest {
-  DeviceSerialNumber?: string;
+  DeviceSerialNumber?: string | undefined;
   AssetId: string;
   ClientPublicKey: string;
   NetworkInterfaceDeviceIndex: number;
 }
 export type UnderlayIpAddress = string;
 export interface StartConnectionResponse {
-  ConnectionId?: string;
-  UnderlayIpAddress?: string;
+  ConnectionId?: string | undefined;
+  UnderlayIpAddress?: string | undefined;
 }
 export type ValidateOnly = boolean;
 export interface StartOutpostDecommissionInput {
   OutpostIdentifier: string;
-  ValidateOnly?: boolean;
+  ValidateOnly?: boolean | undefined;
 }
 export type DecommissionRequestStatus = "SKIPPED" | "BLOCKED" | "REQUESTED" | (string & {});
 export type BlockingResourceType =
@@ -1109,8 +1109,8 @@ export type BlockingResourceType =
   | (string & {});
 export type BlockingResourceTypeList = BlockingResourceType[];
 export interface StartOutpostDecommissionOutput {
-  Status?: DecommissionRequestStatus;
-  BlockingResourceTypes?: BlockingResourceType[];
+  Status?: DecommissionRequestStatus | undefined;
+  BlockingResourceTypes?: BlockingResourceType[] | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -1125,35 +1125,35 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateOutpostInput {
   OutpostId: string;
-  Name?: string;
-  Description?: string;
-  SupportedHardwareType?: SupportedHardwareType;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  SupportedHardwareType?: SupportedHardwareType | undefined;
 }
 export interface UpdateOutpostOutput {
-  Outpost?: Outpost;
+  Outpost?: Outpost | undefined;
 }
 export type OutpostIdentifierOrEmpty = string;
 export interface UpdateQuoteInput {
   QuoteIdentifier: string;
-  OutpostIdentifier?: string;
-  CountryCode?: string;
-  RequestedCapacities?: QuoteCapacity[];
-  RequestedConstraints?: QuoteConstraint[];
-  RequestedPaymentOptions?: PaymentOption[];
-  RequestedPaymentTerms?: PaymentTerm[];
-  Description?: string | redacted.Redacted<string>;
+  OutpostIdentifier?: string | undefined;
+  CountryCode?: string | undefined;
+  RequestedCapacities?: QuoteCapacity[] | undefined;
+  RequestedConstraints?: QuoteConstraint[] | undefined;
+  RequestedPaymentOptions?: PaymentOption[] | undefined;
+  RequestedPaymentTerms?: PaymentTerm[] | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateQuoteOutput {
-  Quote?: Quote;
+  Quote?: Quote | undefined;
 }
 export interface UpdateSiteInput {
   SiteId: string;
-  Name?: string;
-  Description?: string;
-  Notes?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Notes?: string | undefined;
 }
 export interface UpdateSiteOutput {
-  Site?: Site;
+  Site?: Site | undefined;
 }
 export interface UpdateSiteAddressInput {
   SiteId: string;
@@ -1161,23 +1161,23 @@ export interface UpdateSiteAddressInput {
   Address: Address;
 }
 export interface UpdateSiteAddressOutput {
-  AddressType?: AddressType;
-  Address?: Address;
+  AddressType?: AddressType | undefined;
+  Address?: Address | undefined;
 }
 export interface UpdateSiteRackPhysicalPropertiesInput {
   SiteId: string;
-  PowerDrawKva?: PowerDrawKva;
-  PowerPhase?: PowerPhase;
-  PowerConnector?: PowerConnector;
-  PowerFeedDrop?: PowerFeedDrop;
-  UplinkGbps?: UplinkGbps;
-  UplinkCount?: UplinkCount;
-  FiberOpticCableType?: FiberOpticCableType;
-  OpticalStandard?: OpticalStandard;
-  MaximumSupportedWeightLbs?: MaximumSupportedWeightLbs;
+  PowerDrawKva?: PowerDrawKva | undefined;
+  PowerPhase?: PowerPhase | undefined;
+  PowerConnector?: PowerConnector | undefined;
+  PowerFeedDrop?: PowerFeedDrop | undefined;
+  UplinkGbps?: UplinkGbps | undefined;
+  UplinkCount?: UplinkCount | undefined;
+  FiberOpticCableType?: FiberOpticCableType | undefined;
+  OpticalStandard?: OpticalStandard | undefined;
+  MaximumSupportedWeightLbs?: MaximumSupportedWeightLbs | undefined;
 }
 export interface UpdateSiteRackPhysicalPropertiesOutput {
-  Site?: Site;
+  Site?: Site | undefined;
 }
 export type ErrorMessage = string;
 export type ResourceType = "OUTPOST" | "ORDER" | (string & {});

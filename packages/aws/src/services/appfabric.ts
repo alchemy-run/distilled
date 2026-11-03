@@ -186,26 +186,26 @@ export type ResultStatus = "IN_PROGRESS" | "COMPLETED" | "FAILED" | "EXPIRED" | 
 export type Email = string | redacted.Redacted<string>;
 export type SensitiveString2048 = string | redacted.Redacted<string>;
 export interface TaskError {
-  errorCode?: string;
-  errorMessage?: string;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export interface UserAccessResultItem {
-  app?: string;
-  tenantId?: string;
-  tenantDisplayName?: string;
-  taskId?: string;
-  resultStatus?: ResultStatus;
-  email?: string | redacted.Redacted<string>;
-  userId?: string | redacted.Redacted<string>;
-  userFullName?: string | redacted.Redacted<string>;
-  userFirstName?: string | redacted.Redacted<string>;
-  userLastName?: string | redacted.Redacted<string>;
-  userStatus?: string;
-  taskError?: TaskError;
+  app?: string | undefined;
+  tenantId?: string | undefined;
+  tenantDisplayName?: string | undefined;
+  taskId?: string | undefined;
+  resultStatus?: ResultStatus | undefined;
+  email?: string | redacted.Redacted<string> | undefined;
+  userId?: string | redacted.Redacted<string> | undefined;
+  userFullName?: string | redacted.Redacted<string> | undefined;
+  userFirstName?: string | redacted.Redacted<string> | undefined;
+  userLastName?: string | redacted.Redacted<string> | undefined;
+  userStatus?: string | undefined;
+  taskError?: TaskError | undefined;
 }
 export type UserAccessResultsList = UserAccessResultItem[];
 export interface BatchGetUserAccessTasksResponse {
-  userAccessResultsList?: UserAccessResultItem[];
+  userAccessResultsList?: UserAccessResultItem[] | undefined;
 }
 export type RedirectUri = string;
 export interface AuthRequest {
@@ -215,7 +215,7 @@ export interface AuthRequest {
 export interface ConnectAppAuthorizationRequest {
   appBundleIdentifier: string;
   appAuthorizationIdentifier: string;
-  authRequest?: AuthRequest;
+  authRequest?: AuthRequest | undefined;
 }
 export type Arn = string;
 export interface Tenant {
@@ -263,8 +263,8 @@ export interface CreateAppAuthorizationRequest {
   credential: Credential;
   tenant: Tenant;
   authType: AuthType;
-  clientToken?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type Persona = "admin" | "endUser" | (string & {});
 export interface AppAuthorization {
@@ -276,20 +276,20 @@ export interface AppAuthorization {
   status: AppAuthorizationStatus;
   createdAt: Date;
   updatedAt: Date;
-  persona?: Persona;
-  authUrl?: string;
+  persona?: Persona | undefined;
+  authUrl?: string | undefined;
 }
 export interface CreateAppAuthorizationResponse {
   appAuthorization: AppAuthorization;
 }
 export interface CreateAppBundleRequest {
-  clientToken?: string;
-  customerManagedKeyIdentifier?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  customerManagedKeyIdentifier?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface AppBundle {
   arn: string;
-  customerManagedKeyArn?: string;
+  customerManagedKeyArn?: string | undefined;
 }
 export interface CreateAppBundleResponse {
   appBundle: AppBundle;
@@ -300,8 +300,8 @@ export interface CreateIngestionRequest {
   app: string;
   tenantId: string;
   ingestionType: IngestionType;
-  clientToken?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type IngestionState = "enabled" | "disabled" | (string & {});
 export interface Ingestion {
@@ -328,7 +328,7 @@ export type String63 = string;
 export type String120 = string;
 export interface S3Bucket {
   bucketName: string;
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export type String64 = string;
 export interface FirehoseStream {
@@ -346,8 +346,8 @@ export interface CreateIngestionDestinationRequest {
   ingestionIdentifier: string;
   processingConfiguration: ProcessingConfiguration;
   destinationConfiguration: DestinationConfiguration;
-  clientToken?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type IngestionDestinationStatus = "Active" | "Failed" | (string & {});
 export interface IngestionDestination {
@@ -355,10 +355,10 @@ export interface IngestionDestination {
   ingestionArn: string;
   processingConfiguration: ProcessingConfiguration;
   destinationConfiguration: DestinationConfiguration;
-  status?: IngestionDestinationStatus;
-  statusReason?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  status?: IngestionDestinationStatus | undefined;
+  statusReason?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateIngestionDestinationResponse {
   ingestionDestination: IngestionDestination;
@@ -414,17 +414,17 @@ export interface GetIngestionDestinationResponse {
 export type MaxResults = number;
 export interface ListAppAuthorizationsRequest {
   appBundleIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AppAuthorizationSummaryList = AppAuthorizationSummary[];
 export interface ListAppAuthorizationsResponse {
   appAuthorizationSummaryList: AppAuthorizationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAppBundlesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AppBundleSummary {
   arn: string;
@@ -432,13 +432,13 @@ export interface AppBundleSummary {
 export type AppBundleSummaryList = AppBundleSummary[];
 export interface ListAppBundlesResponse {
   appBundleSummaryList: AppBundleSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListIngestionDestinationsRequest {
   appBundleIdentifier: string;
   ingestionIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface IngestionDestinationSummary {
   arn: string;
@@ -446,12 +446,12 @@ export interface IngestionDestinationSummary {
 export type IngestionDestinationList = IngestionDestinationSummary[];
 export interface ListIngestionDestinationsResponse {
   ingestionDestinations: IngestionDestinationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListIngestionsRequest {
   appBundleIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface IngestionSummary {
   arn: string;
@@ -462,13 +462,13 @@ export interface IngestionSummary {
 export type IngestionList = IngestionSummary[];
 export interface ListIngestionsResponse {
   ingestions: IngestionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface StartIngestionRequest {
   ingestionIdentifier: string;
@@ -482,12 +482,12 @@ export interface StartUserAccessTasksRequest {
 export interface UserAccessTaskItem {
   app: string;
   tenantId: string;
-  taskId?: string;
-  error?: TaskError;
+  taskId?: string | undefined;
+  error?: TaskError | undefined;
 }
 export type UserAccessTasksList = UserAccessTaskItem[];
 export interface StartUserAccessTasksResponse {
-  userAccessTasksList?: UserAccessTaskItem[];
+  userAccessTasksList?: UserAccessTaskItem[] | undefined;
 }
 export interface StopIngestionRequest {
   ingestionIdentifier: string;
@@ -508,8 +508,8 @@ export interface UntagResourceResponse {}
 export interface UpdateAppAuthorizationRequest {
   appBundleIdentifier: string;
   appAuthorizationIdentifier: string;
-  credential?: Credential;
-  tenant?: Tenant;
+  credential?: Credential | undefined;
+  tenant?: Tenant | undefined;
 }
 export interface UpdateAppAuthorizationResponse {
   appAuthorization: AppAuthorization;

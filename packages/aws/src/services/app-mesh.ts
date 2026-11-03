@@ -154,24 +154,24 @@ export type GatewayRoutePriority = number;
 export type HttpPathExact = string;
 export type HttpPathRegex = string;
 export interface HttpPathMatch {
-  exact?: string;
-  regex?: string;
+  exact?: string | undefined;
+  regex?: string | undefined;
 }
 export type QueryParameterName = string;
 export interface QueryParameterMatch {
-  exact?: string;
+  exact?: string | undefined;
 }
 export interface HttpQueryParameter {
   name: string;
-  match?: QueryParameterMatch;
+  match?: QueryParameterMatch | undefined;
 }
 export type HttpQueryParameters = HttpQueryParameter[];
 export type HttpMethod = string;
 export type ExactHostName = string;
 export type SuffixHostname = string;
 export interface GatewayRouteHostnameMatch {
-  exact?: string;
-  suffix?: string;
+  exact?: string | undefined;
+  suffix?: string | undefined;
 }
 export type HeaderName = string;
 export type HeaderMatch = string;
@@ -187,47 +187,47 @@ export type HeaderMatchMethod =
   | { exact?: never; regex?: never; range?: never; prefix?: never; suffix: string };
 export interface HttpGatewayRouteHeader {
   name: string;
-  invert?: boolean;
-  match?: HeaderMatchMethod;
+  invert?: boolean | undefined;
+  match?: HeaderMatchMethod | undefined;
 }
 export type HttpGatewayRouteHeaders = HttpGatewayRouteHeader[];
 export type ListenerPort = number;
 export interface HttpGatewayRouteMatch {
-  prefix?: string;
-  path?: HttpPathMatch;
-  queryParameters?: HttpQueryParameter[];
-  method?: string;
-  hostname?: GatewayRouteHostnameMatch;
-  headers?: HttpGatewayRouteHeader[];
-  port?: number;
+  prefix?: string | undefined;
+  path?: HttpPathMatch | undefined;
+  queryParameters?: HttpQueryParameter[] | undefined;
+  method?: string | undefined;
+  hostname?: GatewayRouteHostnameMatch | undefined;
+  headers?: HttpGatewayRouteHeader[] | undefined;
+  port?: number | undefined;
 }
 export interface GatewayRouteVirtualService {
   virtualServiceName: string;
 }
 export interface GatewayRouteTarget {
   virtualService: GatewayRouteVirtualService;
-  port?: number;
+  port?: number | undefined;
 }
 export type DefaultGatewayRouteRewrite = string;
 export type HttpGatewayRoutePrefix = string;
 export interface HttpGatewayRoutePrefixRewrite {
-  defaultPrefix?: string;
-  value?: string;
+  defaultPrefix?: string | undefined;
+  value?: string | undefined;
 }
 export interface HttpGatewayRoutePathRewrite {
-  exact?: string;
+  exact?: string | undefined;
 }
 export interface GatewayRouteHostnameRewrite {
-  defaultTargetHostname?: string;
+  defaultTargetHostname?: string | undefined;
 }
 export interface HttpGatewayRouteRewrite {
-  prefix?: HttpGatewayRoutePrefixRewrite;
-  path?: HttpGatewayRoutePathRewrite;
-  hostname?: GatewayRouteHostnameRewrite;
+  prefix?: HttpGatewayRoutePrefixRewrite | undefined;
+  path?: HttpGatewayRoutePathRewrite | undefined;
+  hostname?: GatewayRouteHostnameRewrite | undefined;
 }
 export interface HttpGatewayRouteAction {
   target: GatewayRouteTarget;
-  rewrite?: HttpGatewayRouteRewrite;
+  rewrite?: HttpGatewayRouteRewrite | undefined;
 }
 export interface HttpGatewayRoute {
   match: HttpGatewayRouteMatch;
@@ -242,32 +242,32 @@ export type GrpcMetadataMatchMethod =
   | { exact?: never; regex?: never; range?: never; prefix?: never; suffix: string };
 export interface GrpcGatewayRouteMetadata {
   name: string;
-  invert?: boolean;
-  match?: GrpcMetadataMatchMethod;
+  invert?: boolean | undefined;
+  match?: GrpcMetadataMatchMethod | undefined;
 }
 export type GrpcGatewayRouteMetadataList = GrpcGatewayRouteMetadata[];
 export interface GrpcGatewayRouteMatch {
-  serviceName?: string;
-  hostname?: GatewayRouteHostnameMatch;
-  metadata?: GrpcGatewayRouteMetadata[];
-  port?: number;
+  serviceName?: string | undefined;
+  hostname?: GatewayRouteHostnameMatch | undefined;
+  metadata?: GrpcGatewayRouteMetadata[] | undefined;
+  port?: number | undefined;
 }
 export interface GrpcGatewayRouteRewrite {
-  hostname?: GatewayRouteHostnameRewrite;
+  hostname?: GatewayRouteHostnameRewrite | undefined;
 }
 export interface GrpcGatewayRouteAction {
   target: GatewayRouteTarget;
-  rewrite?: GrpcGatewayRouteRewrite;
+  rewrite?: GrpcGatewayRouteRewrite | undefined;
 }
 export interface GrpcGatewayRoute {
   match: GrpcGatewayRouteMatch;
   action: GrpcGatewayRouteAction;
 }
 export interface GatewayRouteSpec {
-  priority?: number;
-  httpRoute?: HttpGatewayRoute;
-  http2Route?: HttpGatewayRoute;
-  grpcRoute?: GrpcGatewayRoute;
+  priority?: number | undefined;
+  httpRoute?: HttpGatewayRoute | undefined;
+  http2Route?: HttpGatewayRoute | undefined;
+  grpcRoute?: GrpcGatewayRoute | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -282,9 +282,9 @@ export interface CreateGatewayRouteInput {
   meshName: string;
   virtualGatewayName: string;
   spec: GatewayRouteSpec;
-  tags?: TagRef[];
-  clientToken?: string;
-  meshOwner?: string;
+  tags?: TagRef[] | undefined;
+  clientToken?: string | undefined;
+  meshOwner?: string | undefined;
 }
 export type Arn = string;
 export interface ResourceMetadata {
@@ -317,21 +317,21 @@ export interface EgressFilter {
 }
 export type IpPreference = string;
 export interface MeshServiceDiscovery {
-  ipPreference?: string;
+  ipPreference?: string | undefined;
 }
 export interface MeshSpec {
-  egressFilter?: EgressFilter;
-  serviceDiscovery?: MeshServiceDiscovery;
+  egressFilter?: EgressFilter | undefined;
+  serviceDiscovery?: MeshServiceDiscovery | undefined;
 }
 export interface CreateMeshInput {
   meshName: string;
-  spec?: MeshSpec;
-  tags?: TagRef[];
-  clientToken?: string;
+  spec?: MeshSpec | undefined;
+  tags?: TagRef[] | undefined;
+  clientToken?: string | undefined;
 }
 export type MeshStatusCode = string;
 export interface MeshStatus {
-  status?: string;
+  status?: string | undefined;
 }
 export interface MeshData {
   meshName: string;
@@ -346,24 +346,24 @@ export type RoutePriority = number;
 export type HttpScheme = string;
 export interface HttpRouteHeader {
   name: string;
-  invert?: boolean;
-  match?: HeaderMatchMethod;
+  invert?: boolean | undefined;
+  match?: HeaderMatchMethod | undefined;
 }
 export type HttpRouteHeaders = HttpRouteHeader[];
 export interface HttpRouteMatch {
-  prefix?: string;
-  path?: HttpPathMatch;
-  queryParameters?: HttpQueryParameter[];
-  method?: string;
-  scheme?: string;
-  headers?: HttpRouteHeader[];
-  port?: number;
+  prefix?: string | undefined;
+  path?: HttpPathMatch | undefined;
+  queryParameters?: HttpQueryParameter[] | undefined;
+  method?: string | undefined;
+  scheme?: string | undefined;
+  headers?: HttpRouteHeader[] | undefined;
+  port?: number | undefined;
 }
 export type PercentInt = number;
 export interface WeightedTarget {
   virtualNode: string;
   weight: number;
-  port?: number;
+  port?: number | undefined;
 }
 export type WeightedTargets = WeightedTarget[];
 export interface HttpRouteAction {
@@ -372,8 +372,8 @@ export interface HttpRouteAction {
 export type DurationValue = number;
 export type DurationUnit = string;
 export interface Duration {
-  value?: number;
-  unit?: string;
+  value?: number | undefined;
+  unit?: string | undefined;
 }
 export type MaxRetries = number;
 export type HttpRetryPolicyEvent = string;
@@ -383,32 +383,32 @@ export type TcpRetryPolicyEvents = string[];
 export interface HttpRetryPolicy {
   perRetryTimeout: Duration;
   maxRetries: number;
-  httpRetryEvents?: string[];
-  tcpRetryEvents?: string[];
+  httpRetryEvents?: string[] | undefined;
+  tcpRetryEvents?: string[] | undefined;
 }
 export interface HttpTimeout {
-  perRequest?: Duration;
-  idle?: Duration;
+  perRequest?: Duration | undefined;
+  idle?: Duration | undefined;
 }
 export interface HttpRoute {
   match: HttpRouteMatch;
   action: HttpRouteAction;
-  retryPolicy?: HttpRetryPolicy;
-  timeout?: HttpTimeout;
+  retryPolicy?: HttpRetryPolicy | undefined;
+  timeout?: HttpTimeout | undefined;
 }
 export interface TcpRouteAction {
   weightedTargets: WeightedTarget[];
 }
 export interface TcpTimeout {
-  idle?: Duration;
+  idle?: Duration | undefined;
 }
 export interface TcpRouteMatch {
-  port?: number;
+  port?: number | undefined;
 }
 export interface TcpRoute {
   action: TcpRouteAction;
-  timeout?: TcpTimeout;
-  match?: TcpRouteMatch;
+  timeout?: TcpTimeout | undefined;
+  match?: TcpRouteMatch | undefined;
 }
 export interface GrpcRouteAction {
   weightedTargets: WeightedTarget[];
@@ -422,50 +422,50 @@ export type GrpcRouteMetadataMatchMethod =
   | { exact?: never; regex?: never; range?: never; prefix?: never; suffix: string };
 export interface GrpcRouteMetadata {
   name: string;
-  invert?: boolean;
-  match?: GrpcRouteMetadataMatchMethod;
+  invert?: boolean | undefined;
+  match?: GrpcRouteMetadataMatchMethod | undefined;
 }
 export type GrpcRouteMetadataList = GrpcRouteMetadata[];
 export interface GrpcRouteMatch {
-  serviceName?: string;
-  methodName?: string;
-  metadata?: GrpcRouteMetadata[];
-  port?: number;
+  serviceName?: string | undefined;
+  methodName?: string | undefined;
+  metadata?: GrpcRouteMetadata[] | undefined;
+  port?: number | undefined;
 }
 export type GrpcRetryPolicyEvent = string;
 export type GrpcRetryPolicyEvents = string[];
 export interface GrpcRetryPolicy {
   perRetryTimeout: Duration;
   maxRetries: number;
-  httpRetryEvents?: string[];
-  tcpRetryEvents?: string[];
-  grpcRetryEvents?: string[];
+  httpRetryEvents?: string[] | undefined;
+  tcpRetryEvents?: string[] | undefined;
+  grpcRetryEvents?: string[] | undefined;
 }
 export interface GrpcTimeout {
-  perRequest?: Duration;
-  idle?: Duration;
+  perRequest?: Duration | undefined;
+  idle?: Duration | undefined;
 }
 export interface GrpcRoute {
   action: GrpcRouteAction;
   match: GrpcRouteMatch;
-  retryPolicy?: GrpcRetryPolicy;
-  timeout?: GrpcTimeout;
+  retryPolicy?: GrpcRetryPolicy | undefined;
+  timeout?: GrpcTimeout | undefined;
 }
 export interface RouteSpec {
-  priority?: number;
-  httpRoute?: HttpRoute;
-  tcpRoute?: TcpRoute;
-  http2Route?: HttpRoute;
-  grpcRoute?: GrpcRoute;
+  priority?: number | undefined;
+  httpRoute?: HttpRoute | undefined;
+  tcpRoute?: TcpRoute | undefined;
+  http2Route?: HttpRoute | undefined;
+  grpcRoute?: GrpcRoute | undefined;
 }
 export interface CreateRouteInput {
   routeName: string;
   meshName: string;
   virtualRouterName: string;
   spec: RouteSpec;
-  tags?: TagRef[];
-  clientToken?: string;
-  meshOwner?: string;
+  tags?: TagRef[] | undefined;
+  clientToken?: string | undefined;
+  meshOwner?: string | undefined;
 }
 export type RouteStatusCode = string;
 export interface RouteStatus {
@@ -520,19 +520,19 @@ export interface SubjectAlternativeNames {
 }
 export interface VirtualGatewayTlsValidationContext {
   trust: VirtualGatewayTlsValidationContextTrust;
-  subjectAlternativeNames?: SubjectAlternativeNames;
+  subjectAlternativeNames?: SubjectAlternativeNames | undefined;
 }
 export interface VirtualGatewayClientPolicyTls {
-  enforce?: boolean;
-  ports?: number[];
-  certificate?: VirtualGatewayClientTlsCertificate;
+  enforce?: boolean | undefined;
+  ports?: number[] | undefined;
+  certificate?: VirtualGatewayClientTlsCertificate | undefined;
   validation: VirtualGatewayTlsValidationContext;
 }
 export interface VirtualGatewayClientPolicy {
-  tls?: VirtualGatewayClientPolicyTls;
+  tls?: VirtualGatewayClientPolicyTls | undefined;
 }
 export interface VirtualGatewayBackendDefaults {
-  clientPolicy?: VirtualGatewayClientPolicy;
+  clientPolicy?: VirtualGatewayClientPolicy | undefined;
 }
 export type VirtualGatewayHealthCheckTimeoutMillis = number;
 export type VirtualGatewayHealthCheckIntervalMillis = number;
@@ -542,8 +542,8 @@ export interface VirtualGatewayHealthCheckPolicy {
   timeoutMillis: number;
   intervalMillis: number;
   protocol: string;
-  port?: number;
-  path?: string;
+  port?: number | undefined;
+  path?: string | undefined;
   healthyThreshold: number;
   unhealthyThreshold: number;
 }
@@ -557,7 +557,7 @@ export type VirtualGatewayListenerTlsValidationContextTrust =
   | { file?: never; sds: VirtualGatewayTlsValidationContextSdsTrust };
 export interface VirtualGatewayListenerTlsValidationContext {
   trust: VirtualGatewayListenerTlsValidationContextTrust;
-  subjectAlternativeNames?: SubjectAlternativeNames;
+  subjectAlternativeNames?: SubjectAlternativeNames | undefined;
 }
 export interface VirtualGatewayListenerTlsAcmCertificate {
   certificateArn: string;
@@ -568,14 +568,14 @@ export type VirtualGatewayListenerTlsCertificate =
   | { acm?: never; file?: never; sds: VirtualGatewayListenerTlsSdsCertificate };
 export interface VirtualGatewayListenerTls {
   mode: string;
-  validation?: VirtualGatewayListenerTlsValidationContext;
+  validation?: VirtualGatewayListenerTlsValidationContext | undefined;
   certificate: VirtualGatewayListenerTlsCertificate;
 }
 export type MaxConnections = number;
 export type MaxPendingRequests = number;
 export interface VirtualGatewayHttpConnectionPool {
   maxConnections: number;
-  maxPendingRequests?: number;
+  maxPendingRequests?: number | undefined;
 }
 export type MaxRequests = number;
 export interface VirtualGatewayHttp2ConnectionPool {
@@ -589,10 +589,10 @@ export type VirtualGatewayConnectionPool =
   | { http?: never; http2: VirtualGatewayHttp2ConnectionPool; grpc?: never }
   | { http?: never; http2?: never; grpc: VirtualGatewayGrpcConnectionPool };
 export interface VirtualGatewayListener {
-  healthCheck?: VirtualGatewayHealthCheckPolicy;
+  healthCheck?: VirtualGatewayHealthCheckPolicy | undefined;
   portMapping: VirtualGatewayPortMapping;
-  tls?: VirtualGatewayListenerTls;
-  connectionPool?: VirtualGatewayConnectionPool;
+  tls?: VirtualGatewayListenerTls | undefined;
+  connectionPool?: VirtualGatewayConnectionPool | undefined;
 }
 export type VirtualGatewayListeners = VirtualGatewayListener[];
 export type TextFormat = string;
@@ -608,24 +608,24 @@ export type LoggingFormat =
   | { text?: never; json: JsonFormatRef[] };
 export interface VirtualGatewayFileAccessLog {
   path: string;
-  format?: LoggingFormat;
+  format?: LoggingFormat | undefined;
 }
 export type VirtualGatewayAccessLog = { file: VirtualGatewayFileAccessLog };
 export interface VirtualGatewayLogging {
-  accessLog?: VirtualGatewayAccessLog;
+  accessLog?: VirtualGatewayAccessLog | undefined;
 }
 export interface VirtualGatewaySpec {
-  backendDefaults?: VirtualGatewayBackendDefaults;
+  backendDefaults?: VirtualGatewayBackendDefaults | undefined;
   listeners: VirtualGatewayListener[];
-  logging?: VirtualGatewayLogging;
+  logging?: VirtualGatewayLogging | undefined;
 }
 export interface CreateVirtualGatewayInput {
   virtualGatewayName: string;
   meshName: string;
   spec: VirtualGatewaySpec;
-  tags?: TagRef[];
-  clientToken?: string;
-  meshOwner?: string;
+  tags?: TagRef[] | undefined;
+  clientToken?: string | undefined;
+  meshOwner?: string | undefined;
 }
 export type VirtualGatewayStatusCode = string;
 export interface VirtualGatewayStatus {
@@ -645,8 +645,8 @@ export type Hostname = string;
 export type DnsResponseType = string;
 export interface DnsServiceDiscovery {
   hostname: string;
-  responseType?: string;
-  ipPreference?: string;
+  responseType?: string | undefined;
+  ipPreference?: string | undefined;
 }
 export type AwsCloudMapName = string;
 export type AwsCloudMapInstanceAttributeKey = string;
@@ -659,8 +659,8 @@ export type AwsCloudMapInstanceAttributes = AwsCloudMapInstanceAttribute[];
 export interface AwsCloudMapServiceDiscovery {
   namespaceName: string;
   serviceName: string;
-  attributes?: AwsCloudMapInstanceAttribute[];
-  ipPreference?: string;
+  attributes?: AwsCloudMapInstanceAttribute[] | undefined;
+  ipPreference?: string | undefined;
 }
 export type ServiceDiscovery =
   | { dns: DnsServiceDiscovery; awsCloudMap?: never }
@@ -697,12 +697,12 @@ export type ListenerTlsValidationContextTrust =
   | { file?: never; sds: TlsValidationContextSdsTrust };
 export interface ListenerTlsValidationContext {
   trust: ListenerTlsValidationContextTrust;
-  subjectAlternativeNames?: SubjectAlternativeNames;
+  subjectAlternativeNames?: SubjectAlternativeNames | undefined;
 }
 export interface ListenerTls {
   mode: string;
   certificate: ListenerTlsCertificate;
-  validation?: ListenerTlsValidationContext;
+  validation?: ListenerTlsValidationContext | undefined;
 }
 export type HealthCheckTimeoutMillis = number;
 export type HealthCheckIntervalMillis = number;
@@ -711,8 +711,8 @@ export interface HealthCheckPolicy {
   timeoutMillis: number;
   intervalMillis: number;
   protocol: string;
-  port?: number;
-  path?: string;
+  port?: number | undefined;
+  path?: string | undefined;
   healthyThreshold: number;
   unhealthyThreshold: number;
 }
@@ -734,7 +734,7 @@ export interface VirtualNodeTcpConnectionPool {
 }
 export interface VirtualNodeHttpConnectionPool {
   maxConnections: number;
-  maxPendingRequests?: number;
+  maxPendingRequests?: number | undefined;
 }
 export interface VirtualNodeHttp2ConnectionPool {
   maxRequests: number;
@@ -749,11 +749,11 @@ export type VirtualNodeConnectionPool =
   | { tcp?: never; http?: never; http2?: never; grpc: VirtualNodeGrpcConnectionPool };
 export interface Listener {
   portMapping: PortMapping;
-  tls?: ListenerTls;
-  healthCheck?: HealthCheckPolicy;
-  timeout?: ListenerTimeout;
-  outlierDetection?: OutlierDetection;
-  connectionPool?: VirtualNodeConnectionPool;
+  tls?: ListenerTls | undefined;
+  healthCheck?: HealthCheckPolicy | undefined;
+  timeout?: ListenerTimeout | undefined;
+  outlierDetection?: OutlierDetection | undefined;
+  connectionPool?: VirtualNodeConnectionPool | undefined;
 }
 export type Listeners = Listener[];
 export type ClientTlsCertificate =
@@ -769,48 +769,48 @@ export type TlsValidationContextTrust =
   | { acm?: never; file?: never; sds: TlsValidationContextSdsTrust };
 export interface TlsValidationContext {
   trust: TlsValidationContextTrust;
-  subjectAlternativeNames?: SubjectAlternativeNames;
+  subjectAlternativeNames?: SubjectAlternativeNames | undefined;
 }
 export interface ClientPolicyTls {
-  enforce?: boolean;
-  ports?: number[];
-  certificate?: ClientTlsCertificate;
+  enforce?: boolean | undefined;
+  ports?: number[] | undefined;
+  certificate?: ClientTlsCertificate | undefined;
   validation: TlsValidationContext;
 }
 export interface ClientPolicy {
-  tls?: ClientPolicyTls;
+  tls?: ClientPolicyTls | undefined;
 }
 export interface VirtualServiceBackend {
   virtualServiceName: string;
-  clientPolicy?: ClientPolicy;
+  clientPolicy?: ClientPolicy | undefined;
 }
 export type Backend = { virtualService: VirtualServiceBackend };
 export type Backends = Backend[];
 export interface BackendDefaults {
-  clientPolicy?: ClientPolicy;
+  clientPolicy?: ClientPolicy | undefined;
 }
 export interface FileAccessLog {
   path: string;
-  format?: LoggingFormat;
+  format?: LoggingFormat | undefined;
 }
 export type AccessLog = { file: FileAccessLog };
 export interface Logging {
-  accessLog?: AccessLog;
+  accessLog?: AccessLog | undefined;
 }
 export interface VirtualNodeSpec {
-  serviceDiscovery?: ServiceDiscovery;
-  listeners?: Listener[];
-  backends?: Backend[];
-  backendDefaults?: BackendDefaults;
-  logging?: Logging;
+  serviceDiscovery?: ServiceDiscovery | undefined;
+  listeners?: Listener[] | undefined;
+  backends?: Backend[] | undefined;
+  backendDefaults?: BackendDefaults | undefined;
+  logging?: Logging | undefined;
 }
 export interface CreateVirtualNodeInput {
   virtualNodeName: string;
   meshName: string;
   spec: VirtualNodeSpec;
-  tags?: TagRef[];
-  clientToken?: string;
-  meshOwner?: string;
+  tags?: TagRef[] | undefined;
+  clientToken?: string | undefined;
+  meshOwner?: string | undefined;
 }
 export type VirtualNodeStatusCode = string;
 export interface VirtualNodeStatus {
@@ -831,15 +831,15 @@ export interface VirtualRouterListener {
 }
 export type VirtualRouterListeners = VirtualRouterListener[];
 export interface VirtualRouterSpec {
-  listeners?: VirtualRouterListener[];
+  listeners?: VirtualRouterListener[] | undefined;
 }
 export interface CreateVirtualRouterInput {
   virtualRouterName: string;
   meshName: string;
   spec: VirtualRouterSpec;
-  tags?: TagRef[];
-  clientToken?: string;
-  meshOwner?: string;
+  tags?: TagRef[] | undefined;
+  clientToken?: string | undefined;
+  meshOwner?: string | undefined;
 }
 export type VirtualRouterStatusCode = string;
 export interface VirtualRouterStatus {
@@ -865,15 +865,15 @@ export type VirtualServiceProvider =
   | { virtualNode: VirtualNodeServiceProvider; virtualRouter?: never }
   | { virtualNode?: never; virtualRouter: VirtualRouterServiceProvider };
 export interface VirtualServiceSpec {
-  provider?: VirtualServiceProvider;
+  provider?: VirtualServiceProvider | undefined;
 }
 export interface CreateVirtualServiceInput {
   virtualServiceName: string;
   meshName: string;
   spec: VirtualServiceSpec;
-  tags?: TagRef[];
-  clientToken?: string;
-  meshOwner?: string;
+  tags?: TagRef[] | undefined;
+  clientToken?: string | undefined;
+  meshOwner?: string | undefined;
 }
 export type VirtualServiceStatusCode = string;
 export interface VirtualServiceStatus {
@@ -893,7 +893,7 @@ export interface DeleteGatewayRouteInput {
   gatewayRouteName: string;
   meshName: string;
   virtualGatewayName: string;
-  meshOwner?: string;
+  meshOwner?: string | undefined;
 }
 export interface DeleteGatewayRouteOutput {
   gatewayRoute: GatewayRouteData;
@@ -908,7 +908,7 @@ export interface DeleteRouteInput {
   routeName: string;
   meshName: string;
   virtualRouterName: string;
-  meshOwner?: string;
+  meshOwner?: string | undefined;
 }
 export interface DeleteRouteOutput {
   route: RouteData;
@@ -916,7 +916,7 @@ export interface DeleteRouteOutput {
 export interface DeleteVirtualGatewayInput {
   virtualGatewayName: string;
   meshName: string;
-  meshOwner?: string;
+  meshOwner?: string | undefined;
 }
 export interface DeleteVirtualGatewayOutput {
   virtualGateway: VirtualGatewayData;
@@ -924,7 +924,7 @@ export interface DeleteVirtualGatewayOutput {
 export interface DeleteVirtualNodeInput {
   virtualNodeName: string;
   meshName: string;
-  meshOwner?: string;
+  meshOwner?: string | undefined;
 }
 export interface DeleteVirtualNodeOutput {
   virtualNode: VirtualNodeData;
@@ -932,7 +932,7 @@ export interface DeleteVirtualNodeOutput {
 export interface DeleteVirtualRouterInput {
   virtualRouterName: string;
   meshName: string;
-  meshOwner?: string;
+  meshOwner?: string | undefined;
 }
 export interface DeleteVirtualRouterOutput {
   virtualRouter: VirtualRouterData;
@@ -940,7 +940,7 @@ export interface DeleteVirtualRouterOutput {
 export interface DeleteVirtualServiceInput {
   virtualServiceName: string;
   meshName: string;
-  meshOwner?: string;
+  meshOwner?: string | undefined;
 }
 export interface DeleteVirtualServiceOutput {
   virtualService: VirtualServiceData;
@@ -949,14 +949,14 @@ export interface DescribeGatewayRouteInput {
   gatewayRouteName: string;
   meshName: string;
   virtualGatewayName: string;
-  meshOwner?: string;
+  meshOwner?: string | undefined;
 }
 export interface DescribeGatewayRouteOutput {
   gatewayRoute: GatewayRouteData;
 }
 export interface DescribeMeshInput {
   meshName: string;
-  meshOwner?: string;
+  meshOwner?: string | undefined;
 }
 export interface DescribeMeshOutput {
   mesh: MeshData;
@@ -964,7 +964,7 @@ export interface DescribeMeshOutput {
 export interface DescribeRouteInput {
   routeName: string;
   meshName: string;
-  meshOwner?: string;
+  meshOwner?: string | undefined;
   virtualRouterName: string;
 }
 export interface DescribeRouteOutput {
@@ -973,7 +973,7 @@ export interface DescribeRouteOutput {
 export interface DescribeVirtualGatewayInput {
   virtualGatewayName: string;
   meshName: string;
-  meshOwner?: string;
+  meshOwner?: string | undefined;
 }
 export interface DescribeVirtualGatewayOutput {
   virtualGateway: VirtualGatewayData;
@@ -981,7 +981,7 @@ export interface DescribeVirtualGatewayOutput {
 export interface DescribeVirtualNodeInput {
   virtualNodeName: string;
   meshName: string;
-  meshOwner?: string;
+  meshOwner?: string | undefined;
 }
 export interface DescribeVirtualNodeOutput {
   virtualNode: VirtualNodeData;
@@ -989,7 +989,7 @@ export interface DescribeVirtualNodeOutput {
 export interface DescribeVirtualRouterInput {
   virtualRouterName: string;
   meshName: string;
-  meshOwner?: string;
+  meshOwner?: string | undefined;
 }
 export interface DescribeVirtualRouterOutput {
   virtualRouter: VirtualRouterData;
@@ -997,7 +997,7 @@ export interface DescribeVirtualRouterOutput {
 export interface DescribeVirtualServiceInput {
   virtualServiceName: string;
   meshName: string;
-  meshOwner?: string;
+  meshOwner?: string | undefined;
 }
 export interface DescribeVirtualServiceOutput {
   virtualService: VirtualServiceData;
@@ -1006,9 +1006,9 @@ export type ListGatewayRoutesLimit = number;
 export interface ListGatewayRoutesInput {
   meshName: string;
   virtualGatewayName: string;
-  nextToken?: string;
-  limit?: number;
-  meshOwner?: string;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  meshOwner?: string | undefined;
 }
 export interface GatewayRouteRef {
   meshName: string;
@@ -1024,12 +1024,12 @@ export interface GatewayRouteRef {
 export type GatewayRouteList = GatewayRouteRef[];
 export interface ListGatewayRoutesOutput {
   gatewayRoutes: GatewayRouteRef[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListMeshesLimit = number;
 export interface ListMeshesInput {
-  nextToken?: string;
-  limit?: number;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export interface MeshRef {
   meshName: string;
@@ -1043,15 +1043,15 @@ export interface MeshRef {
 export type MeshList = MeshRef[];
 export interface ListMeshesOutput {
   meshes: MeshRef[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListRoutesLimit = number;
 export interface ListRoutesInput {
   meshName: string;
   virtualRouterName: string;
-  nextToken?: string;
-  limit?: number;
-  meshOwner?: string;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  meshOwner?: string | undefined;
 }
 export interface RouteRef {
   meshName: string;
@@ -1067,24 +1067,24 @@ export interface RouteRef {
 export type RouteList = RouteRef[];
 export interface ListRoutesOutput {
   routes: RouteRef[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TagsLimit = number;
 export interface ListTagsForResourceInput {
   resourceArn: string;
-  nextToken?: string;
-  limit?: number;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export interface ListTagsForResourceOutput {
   tags: TagRef[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListVirtualGatewaysLimit = number;
 export interface ListVirtualGatewaysInput {
   meshName: string;
-  nextToken?: string;
-  limit?: number;
-  meshOwner?: string;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  meshOwner?: string | undefined;
 }
 export interface VirtualGatewayRef {
   meshName: string;
@@ -1099,14 +1099,14 @@ export interface VirtualGatewayRef {
 export type VirtualGatewayList = VirtualGatewayRef[];
 export interface ListVirtualGatewaysOutput {
   virtualGateways: VirtualGatewayRef[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListVirtualNodesLimit = number;
 export interface ListVirtualNodesInput {
   meshName: string;
-  nextToken?: string;
-  limit?: number;
-  meshOwner?: string;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  meshOwner?: string | undefined;
 }
 export interface VirtualNodeRef {
   meshName: string;
@@ -1121,14 +1121,14 @@ export interface VirtualNodeRef {
 export type VirtualNodeList = VirtualNodeRef[];
 export interface ListVirtualNodesOutput {
   virtualNodes: VirtualNodeRef[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListVirtualRoutersLimit = number;
 export interface ListVirtualRoutersInput {
   meshName: string;
-  nextToken?: string;
-  limit?: number;
-  meshOwner?: string;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  meshOwner?: string | undefined;
 }
 export interface VirtualRouterRef {
   meshName: string;
@@ -1143,14 +1143,14 @@ export interface VirtualRouterRef {
 export type VirtualRouterList = VirtualRouterRef[];
 export interface ListVirtualRoutersOutput {
   virtualRouters: VirtualRouterRef[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListVirtualServicesLimit = number;
 export interface ListVirtualServicesInput {
   meshName: string;
-  nextToken?: string;
-  limit?: number;
-  meshOwner?: string;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  meshOwner?: string | undefined;
 }
 export interface VirtualServiceRef {
   meshName: string;
@@ -1165,7 +1165,7 @@ export interface VirtualServiceRef {
 export type VirtualServiceList = VirtualServiceRef[];
 export interface ListVirtualServicesOutput {
   virtualServices: VirtualServiceRef[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
@@ -1183,16 +1183,16 @@ export interface UpdateGatewayRouteInput {
   meshName: string;
   virtualGatewayName: string;
   spec: GatewayRouteSpec;
-  clientToken?: string;
-  meshOwner?: string;
+  clientToken?: string | undefined;
+  meshOwner?: string | undefined;
 }
 export interface UpdateGatewayRouteOutput {
   gatewayRoute: GatewayRouteData;
 }
 export interface UpdateMeshInput {
   meshName: string;
-  spec?: MeshSpec;
-  clientToken?: string;
+  spec?: MeshSpec | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateMeshOutput {
   mesh: MeshData;
@@ -1202,8 +1202,8 @@ export interface UpdateRouteInput {
   meshName: string;
   virtualRouterName: string;
   spec: RouteSpec;
-  clientToken?: string;
-  meshOwner?: string;
+  clientToken?: string | undefined;
+  meshOwner?: string | undefined;
 }
 export interface UpdateRouteOutput {
   route: RouteData;
@@ -1212,8 +1212,8 @@ export interface UpdateVirtualGatewayInput {
   virtualGatewayName: string;
   meshName: string;
   spec: VirtualGatewaySpec;
-  clientToken?: string;
-  meshOwner?: string;
+  clientToken?: string | undefined;
+  meshOwner?: string | undefined;
 }
 export interface UpdateVirtualGatewayOutput {
   virtualGateway: VirtualGatewayData;
@@ -1222,8 +1222,8 @@ export interface UpdateVirtualNodeInput {
   virtualNodeName: string;
   meshName: string;
   spec: VirtualNodeSpec;
-  clientToken?: string;
-  meshOwner?: string;
+  clientToken?: string | undefined;
+  meshOwner?: string | undefined;
 }
 export interface UpdateVirtualNodeOutput {
   virtualNode: VirtualNodeData;
@@ -1232,8 +1232,8 @@ export interface UpdateVirtualRouterInput {
   virtualRouterName: string;
   meshName: string;
   spec: VirtualRouterSpec;
-  clientToken?: string;
-  meshOwner?: string;
+  clientToken?: string | undefined;
+  meshOwner?: string | undefined;
 }
 export interface UpdateVirtualRouterOutput {
   virtualRouter: VirtualRouterData;
@@ -1242,8 +1242,8 @@ export interface UpdateVirtualServiceInput {
   virtualServiceName: string;
   meshName: string;
   spec: VirtualServiceSpec;
-  clientToken?: string;
-  meshOwner?: string;
+  clientToken?: string | undefined;
+  meshOwner?: string | undefined;
 }
 export interface UpdateVirtualServiceOutput {
   virtualService: VirtualServiceData;

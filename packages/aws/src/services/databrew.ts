@@ -153,20 +153,20 @@ export interface BatchDeleteRecipeVersionRequest {
 export type ErrorCode = string;
 export type RecipeErrorMessage = string;
 export interface RecipeVersionErrorDetail {
-  ErrorCode?: string;
-  ErrorMessage?: string;
-  RecipeVersion?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
+  RecipeVersion?: string | undefined;
 }
 export type RecipeErrorList = RecipeVersionErrorDetail[];
 export interface BatchDeleteRecipeVersionResponse {
   Name: string;
-  Errors?: RecipeVersionErrorDetail[];
+  Errors?: RecipeVersionErrorDetail[] | undefined;
 }
 export type DatasetName = string;
 export type InputFormat = "CSV" | "JSON" | "PARQUET" | "EXCEL" | "ORC" | (string & {});
 export type MultiLine = boolean;
 export interface JsonOptions {
-  MultiLine?: boolean;
+  MultiLine?: boolean | undefined;
 }
 export type SheetName = string;
 export type SheetNameList = string[];
@@ -174,55 +174,55 @@ export type SheetIndex = number;
 export type SheetIndexList = number[];
 export type HeaderRow = boolean;
 export interface ExcelOptions {
-  SheetNames?: string[];
-  SheetIndexes?: number[];
-  HeaderRow?: boolean;
+  SheetNames?: string[] | undefined;
+  SheetIndexes?: number[] | undefined;
+  HeaderRow?: boolean | undefined;
 }
 export type Delimiter = string;
 export interface CsvOptions {
-  Delimiter?: string;
-  HeaderRow?: boolean;
+  Delimiter?: string | undefined;
+  HeaderRow?: boolean | undefined;
 }
 export interface FormatOptions {
-  Json?: JsonOptions;
-  Excel?: ExcelOptions;
-  Csv?: CsvOptions;
+  Json?: JsonOptions | undefined;
+  Excel?: ExcelOptions | undefined;
+  Csv?: CsvOptions | undefined;
 }
 export type Bucket = string;
 export type Key = string;
 export type BucketOwner = string;
 export interface S3Location {
   Bucket: string;
-  Key?: string;
-  BucketOwner?: string;
+  Key?: string | undefined;
+  BucketOwner?: string | undefined;
 }
 export type CatalogId = string;
 export type DatabaseName = string;
 export type TableName = string;
 export interface DataCatalogInputDefinition {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  TempDirectory?: S3Location;
+  TempDirectory?: S3Location | undefined;
 }
 export type GlueConnectionName = string;
 export type DatabaseTableName = string;
 export type QueryString = string;
 export interface DatabaseInputDefinition {
   GlueConnectionName: string;
-  DatabaseTableName?: string;
-  TempDirectory?: S3Location;
-  QueryString?: string;
+  DatabaseTableName?: string | undefined;
+  TempDirectory?: S3Location | undefined;
+  QueryString?: string | undefined;
 }
 export type Arn = string;
 export interface Metadata {
-  SourceArn?: string;
+  SourceArn?: string | undefined;
 }
 export interface Input {
-  S3InputDefinition?: S3Location;
-  DataCatalogInputDefinition?: DataCatalogInputDefinition;
-  DatabaseInputDefinition?: DatabaseInputDefinition;
-  Metadata?: Metadata;
+  S3InputDefinition?: S3Location | undefined;
+  DataCatalogInputDefinition?: DataCatalogInputDefinition | undefined;
+  DatabaseInputDefinition?: DatabaseInputDefinition | undefined;
+  Metadata?: Metadata | undefined;
 }
 export type Expression = string;
 export type ValueReference = string;
@@ -237,8 +237,8 @@ export type OrderedBy = "LAST_MODIFIED_DATE" | (string & {});
 export type Order = "DESCENDING" | "ASCENDING" | (string & {});
 export interface FilesLimit {
   MaxFiles: number;
-  OrderedBy?: OrderedBy;
-  Order?: Order;
+  OrderedBy?: OrderedBy | undefined;
+  Order?: Order | undefined;
 }
 export type PathParameterName = string;
 export type ParameterType = "Datetime" | "Number" | "String" | (string & {});
@@ -247,33 +247,33 @@ export type TimezoneOffset = string;
 export type LocaleCode = string;
 export interface DatetimeOptions {
   Format: string;
-  TimezoneOffset?: string;
-  LocaleCode?: string;
+  TimezoneOffset?: string | undefined;
+  LocaleCode?: string | undefined;
 }
 export type CreateColumn = boolean;
 export interface DatasetParameter {
   Name: string;
   Type: ParameterType;
-  DatetimeOptions?: DatetimeOptions;
-  CreateColumn?: boolean;
-  Filter?: FilterExpression;
+  DatetimeOptions?: DatetimeOptions | undefined;
+  CreateColumn?: boolean | undefined;
+  Filter?: FilterExpression | undefined;
 }
 export type PathParametersMap = { [key: string]: DatasetParameter | undefined };
 export interface PathOptions {
-  LastModifiedDateCondition?: FilterExpression;
-  FilesLimit?: FilesLimit;
-  Parameters?: { [key: string]: DatasetParameter | undefined };
+  LastModifiedDateCondition?: FilterExpression | undefined;
+  FilesLimit?: FilesLimit | undefined;
+  Parameters?: { [key: string]: DatasetParameter | undefined } | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateDatasetRequest {
   Name: string;
-  Format?: InputFormat;
-  FormatOptions?: FormatOptions;
+  Format?: InputFormat | undefined;
+  FormatOptions?: FormatOptions | undefined;
   Input: Input;
-  PathOptions?: PathOptions;
-  Tags?: { [key: string]: string | undefined };
+  PathOptions?: PathOptions | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDatasetResponse {
   Name: string;
@@ -295,17 +295,17 @@ export interface StatisticOverride {
 }
 export type StatisticOverrideList = StatisticOverride[];
 export interface StatisticsConfiguration {
-  IncludedStatistics?: string[];
-  Overrides?: StatisticOverride[];
+  IncludedStatistics?: string[] | undefined;
+  Overrides?: StatisticOverride[] | undefined;
 }
 export type ColumnName = string;
 export interface ColumnSelector {
-  Regex?: string;
-  Name?: string;
+  Regex?: string | undefined;
+  Name?: string | undefined;
 }
 export type ColumnSelectorList = ColumnSelector[];
 export interface ColumnStatisticsConfiguration {
-  Selectors?: ColumnSelector[];
+  Selectors?: ColumnSelector[] | undefined;
   Statistics: StatisticsConfiguration;
 }
 export type ColumnStatisticsConfigurationList = ColumnStatisticsConfiguration[];
@@ -317,42 +317,42 @@ export interface AllowedStatistics {
 export type AllowedStatisticList = AllowedStatistics[];
 export interface EntityDetectorConfiguration {
   EntityTypes: string[];
-  AllowedStatistics?: AllowedStatistics[];
+  AllowedStatistics?: AllowedStatistics[] | undefined;
 }
 export interface ProfileConfiguration {
-  DatasetStatisticsConfiguration?: StatisticsConfiguration;
-  ProfileColumns?: ColumnSelector[];
-  ColumnStatisticsConfigurations?: ColumnStatisticsConfiguration[];
-  EntityDetectorConfiguration?: EntityDetectorConfiguration;
+  DatasetStatisticsConfiguration?: StatisticsConfiguration | undefined;
+  ProfileColumns?: ColumnSelector[] | undefined;
+  ColumnStatisticsConfigurations?: ColumnStatisticsConfiguration[] | undefined;
+  EntityDetectorConfiguration?: EntityDetectorConfiguration | undefined;
 }
 export type ValidationMode = "CHECK_ALL" | (string & {});
 export interface ValidationConfiguration {
   RulesetArn: string;
-  ValidationMode?: ValidationMode;
+  ValidationMode?: ValidationMode | undefined;
 }
 export type ValidationConfigurationList = ValidationConfiguration[];
 export type Timeout = number;
 export type SampleMode = "FULL_DATASET" | "CUSTOM_ROWS" | (string & {});
 export type JobSize = number;
 export interface JobSample {
-  Mode?: SampleMode;
-  Size?: number;
+  Mode?: SampleMode | undefined;
+  Size?: number | undefined;
 }
 export interface CreateProfileJobRequest {
   DatasetName: string;
-  EncryptionKeyArn?: string;
-  EncryptionMode?: EncryptionMode;
+  EncryptionKeyArn?: string | undefined;
+  EncryptionMode?: EncryptionMode | undefined;
   Name: string;
-  LogSubscription?: LogSubscription;
-  MaxCapacity?: number;
-  MaxRetries?: number;
+  LogSubscription?: LogSubscription | undefined;
+  MaxCapacity?: number | undefined;
+  MaxRetries?: number | undefined;
   OutputLocation: S3Location;
-  Configuration?: ProfileConfiguration;
-  ValidationConfigurations?: ValidationConfiguration[];
+  Configuration?: ProfileConfiguration | undefined;
+  ValidationConfigurations?: ValidationConfiguration[] | undefined;
   RoleArn: string;
-  Tags?: { [key: string]: string | undefined };
-  Timeout?: number;
-  JobSample?: JobSample;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Timeout?: number | undefined;
+  JobSample?: JobSample | undefined;
 }
 export interface CreateProfileJobResponse {
   Name: string;
@@ -361,16 +361,16 @@ export type ProjectName = string;
 export type SampleSize = number;
 export type SampleType = "FIRST_N" | "LAST_N" | "RANDOM" | (string & {});
 export interface Sample {
-  Size?: number;
+  Size?: number | undefined;
   Type: SampleType;
 }
 export interface CreateProjectRequest {
   DatasetName: string;
   Name: string;
   RecipeName: string;
-  Sample?: Sample;
+  Sample?: Sample | undefined;
   RoleArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateProjectResponse {
   Name: string;
@@ -379,26 +379,26 @@ export type RecipeDescription = string;
 export type Operation = string;
 export interface RecipeAction {
   Operation: string;
-  Parameters?: { [key: string]: string | undefined };
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type Condition = string;
 export type TargetColumn = string;
 export interface ConditionExpression {
   Condition: string;
-  Value?: string;
+  Value?: string | undefined;
   TargetColumn: string;
 }
 export type ConditionExpressionList = ConditionExpression[];
 export interface RecipeStep {
   Action: RecipeAction;
-  ConditionExpressions?: ConditionExpression[];
+  ConditionExpressions?: ConditionExpression[] | undefined;
 }
 export type RecipeStepList = RecipeStep[];
 export interface CreateRecipeRequest {
-  Description?: string;
+  Description?: string | undefined;
   Name: string;
   Steps: RecipeStep[];
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRecipeResponse {
   Name: string;
@@ -427,65 +427,65 @@ export type OutputFormat =
 export type ColumnNameList = string[];
 export type OverwriteOutput = boolean;
 export interface CsvOutputOptions {
-  Delimiter?: string;
+  Delimiter?: string | undefined;
 }
 export interface OutputFormatOptions {
-  Csv?: CsvOutputOptions;
+  Csv?: CsvOutputOptions | undefined;
 }
 export type MaxOutputFiles = number;
 export interface Output {
-  CompressionFormat?: CompressionFormat;
-  Format?: OutputFormat;
-  PartitionColumns?: string[];
+  CompressionFormat?: CompressionFormat | undefined;
+  Format?: OutputFormat | undefined;
+  PartitionColumns?: string[] | undefined;
   Location: S3Location;
-  Overwrite?: boolean;
-  FormatOptions?: OutputFormatOptions;
-  MaxOutputFiles?: number;
+  Overwrite?: boolean | undefined;
+  FormatOptions?: OutputFormatOptions | undefined;
+  MaxOutputFiles?: number | undefined;
 }
 export type OutputList = Output[];
 export interface S3TableOutputOptions {
   Location: S3Location;
 }
 export interface DatabaseTableOutputOptions {
-  TempDirectory?: S3Location;
+  TempDirectory?: S3Location | undefined;
   TableName: string;
 }
 export interface DataCatalogOutput {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  S3Options?: S3TableOutputOptions;
-  DatabaseOptions?: DatabaseTableOutputOptions;
-  Overwrite?: boolean;
+  S3Options?: S3TableOutputOptions | undefined;
+  DatabaseOptions?: DatabaseTableOutputOptions | undefined;
+  Overwrite?: boolean | undefined;
 }
 export type DataCatalogOutputList = DataCatalogOutput[];
 export type DatabaseOutputMode = "NEW_TABLE" | (string & {});
 export interface DatabaseOutput {
   GlueConnectionName: string;
   DatabaseOptions: DatabaseTableOutputOptions;
-  DatabaseOutputMode?: DatabaseOutputMode;
+  DatabaseOutputMode?: DatabaseOutputMode | undefined;
 }
 export type DatabaseOutputList = DatabaseOutput[];
 export interface RecipeReference {
   Name: string;
-  RecipeVersion?: string;
+  RecipeVersion?: string | undefined;
 }
 export interface CreateRecipeJobRequest {
-  DatasetName?: string;
-  EncryptionKeyArn?: string;
-  EncryptionMode?: EncryptionMode;
+  DatasetName?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
+  EncryptionMode?: EncryptionMode | undefined;
   Name: string;
-  LogSubscription?: LogSubscription;
-  MaxCapacity?: number;
-  MaxRetries?: number;
-  Outputs?: Output[];
-  DataCatalogOutputs?: DataCatalogOutput[];
-  DatabaseOutputs?: DatabaseOutput[];
-  ProjectName?: string;
-  RecipeReference?: RecipeReference;
+  LogSubscription?: LogSubscription | undefined;
+  MaxCapacity?: number | undefined;
+  MaxRetries?: number | undefined;
+  Outputs?: Output[] | undefined;
+  DataCatalogOutputs?: DataCatalogOutput[] | undefined;
+  DatabaseOutputs?: DatabaseOutput[] | undefined;
+  ProjectName?: string | undefined;
+  RecipeReference?: RecipeReference | undefined;
   RoleArn: string;
-  Tags?: { [key: string]: string | undefined };
-  Timeout?: number;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Timeout?: number | undefined;
 }
 export interface CreateRecipeJobResponse {
   Name: string;
@@ -504,24 +504,24 @@ export type ThresholdType =
 export type ThresholdUnit = "COUNT" | "PERCENTAGE" | (string & {});
 export interface Threshold {
   Value: number;
-  Type?: ThresholdType;
-  Unit?: ThresholdUnit;
+  Type?: ThresholdType | undefined;
+  Unit?: ThresholdUnit | undefined;
 }
 export interface Rule {
   Name: string;
-  Disabled?: boolean;
+  Disabled?: boolean | undefined;
   CheckExpression: string;
-  SubstitutionMap?: { [key: string]: string | undefined };
-  Threshold?: Threshold;
-  ColumnSelectors?: ColumnSelector[];
+  SubstitutionMap?: { [key: string]: string | undefined } | undefined;
+  Threshold?: Threshold | undefined;
+  ColumnSelectors?: ColumnSelector[] | undefined;
 }
 export type RuleList = Rule[];
 export interface CreateRulesetRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   TargetArn: string;
   Rules: Rule[];
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRulesetResponse {
   Name: string;
@@ -530,9 +530,9 @@ export type JobNameList = string[];
 export type CronExpression = string;
 export type ScheduleName = string;
 export interface CreateScheduleRequest {
-  JobNames?: string[];
+  JobNames?: string[] | undefined;
   CronExpression: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
   Name: string;
 }
 export interface CreateScheduleResponse {
@@ -583,48 +583,48 @@ export type CreatedBy = string;
 export type LastModifiedBy = string;
 export type Source = "S3" | "DATA-CATALOG" | "DATABASE" | (string & {});
 export interface DescribeDatasetResponse {
-  CreatedBy?: string;
-  CreateDate?: Date;
+  CreatedBy?: string | undefined;
+  CreateDate?: Date | undefined;
   Name: string;
-  Format?: InputFormat;
-  FormatOptions?: FormatOptions;
+  Format?: InputFormat | undefined;
+  FormatOptions?: FormatOptions | undefined;
   Input: Input;
-  LastModifiedDate?: Date;
-  LastModifiedBy?: string;
-  Source?: Source;
-  PathOptions?: PathOptions;
-  Tags?: { [key: string]: string | undefined };
-  ResourceArn?: string;
+  LastModifiedDate?: Date | undefined;
+  LastModifiedBy?: string | undefined;
+  Source?: Source | undefined;
+  PathOptions?: PathOptions | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ResourceArn?: string | undefined;
 }
 export interface DescribeJobRequest {
   Name: string;
 }
 export type JobType = "PROFILE" | "RECIPE" | (string & {});
 export interface DescribeJobResponse {
-  CreateDate?: Date;
-  CreatedBy?: string;
-  DatasetName?: string;
-  EncryptionKeyArn?: string;
-  EncryptionMode?: EncryptionMode;
+  CreateDate?: Date | undefined;
+  CreatedBy?: string | undefined;
+  DatasetName?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
+  EncryptionMode?: EncryptionMode | undefined;
   Name: string;
-  Type?: JobType;
-  LastModifiedBy?: string;
-  LastModifiedDate?: Date;
-  LogSubscription?: LogSubscription;
-  MaxCapacity?: number;
-  MaxRetries?: number;
-  Outputs?: Output[];
-  DataCatalogOutputs?: DataCatalogOutput[];
-  DatabaseOutputs?: DatabaseOutput[];
-  ProjectName?: string;
-  ProfileConfiguration?: ProfileConfiguration;
-  ValidationConfigurations?: ValidationConfiguration[];
-  RecipeReference?: RecipeReference;
-  ResourceArn?: string;
-  RoleArn?: string;
-  Tags?: { [key: string]: string | undefined };
-  Timeout?: number;
-  JobSample?: JobSample;
+  Type?: JobType | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: Date | undefined;
+  LogSubscription?: LogSubscription | undefined;
+  MaxCapacity?: number | undefined;
+  MaxRetries?: number | undefined;
+  Outputs?: Output[] | undefined;
+  DataCatalogOutputs?: DataCatalogOutput[] | undefined;
+  DatabaseOutputs?: DatabaseOutput[] | undefined;
+  ProjectName?: string | undefined;
+  ProfileConfiguration?: ProfileConfiguration | undefined;
+  ValidationConfigurations?: ValidationConfiguration[] | undefined;
+  RecipeReference?: RecipeReference | undefined;
+  ResourceArn?: string | undefined;
+  RoleArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Timeout?: number | undefined;
+  JobSample?: JobSample | undefined;
 }
 export type JobRunId = string;
 export interface DescribeJobRunRequest {
@@ -646,25 +646,25 @@ export type JobRunState =
 export type LogGroupName = string;
 export type StartedBy = string;
 export interface DescribeJobRunResponse {
-  Attempt?: number;
-  CompletedOn?: Date;
-  DatasetName?: string;
-  ErrorMessage?: string;
-  ExecutionTime?: number;
+  Attempt?: number | undefined;
+  CompletedOn?: Date | undefined;
+  DatasetName?: string | undefined;
+  ErrorMessage?: string | undefined;
+  ExecutionTime?: number | undefined;
   JobName: string;
-  ProfileConfiguration?: ProfileConfiguration;
-  ValidationConfigurations?: ValidationConfiguration[];
-  RunId?: string;
-  State?: JobRunState;
-  LogSubscription?: LogSubscription;
-  LogGroupName?: string;
-  Outputs?: Output[];
-  DataCatalogOutputs?: DataCatalogOutput[];
-  DatabaseOutputs?: DatabaseOutput[];
-  RecipeReference?: RecipeReference;
-  StartedBy?: string;
-  StartedOn?: Date;
-  JobSample?: JobSample;
+  ProfileConfiguration?: ProfileConfiguration | undefined;
+  ValidationConfigurations?: ValidationConfiguration[] | undefined;
+  RunId?: string | undefined;
+  State?: JobRunState | undefined;
+  LogSubscription?: LogSubscription | undefined;
+  LogGroupName?: string | undefined;
+  Outputs?: Output[] | undefined;
+  DataCatalogOutputs?: DataCatalogOutput[] | undefined;
+  DatabaseOutputs?: DatabaseOutput[] | undefined;
+  RecipeReference?: RecipeReference | undefined;
+  StartedBy?: string | undefined;
+  StartedOn?: Date | undefined;
+  JobSample?: JobSample | undefined;
 }
 export interface DescribeProjectRequest {
   Name: string;
@@ -683,277 +683,277 @@ export type SessionStatus =
   | (string & {});
 export type OpenedBy = string;
 export interface DescribeProjectResponse {
-  CreateDate?: Date;
-  CreatedBy?: string;
-  DatasetName?: string;
-  LastModifiedDate?: Date;
-  LastModifiedBy?: string;
+  CreateDate?: Date | undefined;
+  CreatedBy?: string | undefined;
+  DatasetName?: string | undefined;
+  LastModifiedDate?: Date | undefined;
+  LastModifiedBy?: string | undefined;
   Name: string;
-  RecipeName?: string;
-  ResourceArn?: string;
-  Sample?: Sample;
-  RoleArn?: string;
-  Tags?: { [key: string]: string | undefined };
-  SessionStatus?: SessionStatus;
-  OpenedBy?: string;
-  OpenDate?: Date;
+  RecipeName?: string | undefined;
+  ResourceArn?: string | undefined;
+  Sample?: Sample | undefined;
+  RoleArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  SessionStatus?: SessionStatus | undefined;
+  OpenedBy?: string | undefined;
+  OpenDate?: Date | undefined;
 }
 export interface DescribeRecipeRequest {
   Name: string;
-  RecipeVersion?: string;
+  RecipeVersion?: string | undefined;
 }
 export type PublishedBy = string;
 export interface DescribeRecipeResponse {
-  CreatedBy?: string;
-  CreateDate?: Date;
-  LastModifiedBy?: string;
-  LastModifiedDate?: Date;
-  ProjectName?: string;
-  PublishedBy?: string;
-  PublishedDate?: Date;
-  Description?: string;
+  CreatedBy?: string | undefined;
+  CreateDate?: Date | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: Date | undefined;
+  ProjectName?: string | undefined;
+  PublishedBy?: string | undefined;
+  PublishedDate?: Date | undefined;
+  Description?: string | undefined;
   Name: string;
-  Steps?: RecipeStep[];
-  Tags?: { [key: string]: string | undefined };
-  ResourceArn?: string;
-  RecipeVersion?: string;
+  Steps?: RecipeStep[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ResourceArn?: string | undefined;
+  RecipeVersion?: string | undefined;
 }
 export interface DescribeRulesetRequest {
   Name: string;
 }
 export interface DescribeRulesetResponse {
   Name: string;
-  Description?: string;
-  TargetArn?: string;
-  Rules?: Rule[];
-  CreateDate?: Date;
-  CreatedBy?: string;
-  LastModifiedBy?: string;
-  LastModifiedDate?: Date;
-  ResourceArn?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  TargetArn?: string | undefined;
+  Rules?: Rule[] | undefined;
+  CreateDate?: Date | undefined;
+  CreatedBy?: string | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: Date | undefined;
+  ResourceArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeScheduleRequest {
   Name: string;
 }
 export interface DescribeScheduleResponse {
-  CreateDate?: Date;
-  CreatedBy?: string;
-  JobNames?: string[];
-  LastModifiedBy?: string;
-  LastModifiedDate?: Date;
-  ResourceArn?: string;
-  CronExpression?: string;
-  Tags?: { [key: string]: string | undefined };
+  CreateDate?: Date | undefined;
+  CreatedBy?: string | undefined;
+  JobNames?: string[] | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: Date | undefined;
+  ResourceArn?: string | undefined;
+  CronExpression?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
   Name: string;
 }
 export type MaxResults100 = number;
 export type NextToken = string;
 export interface ListDatasetsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AccountId = string;
 export interface Dataset {
-  AccountId?: string;
-  CreatedBy?: string;
-  CreateDate?: Date;
+  AccountId?: string | undefined;
+  CreatedBy?: string | undefined;
+  CreateDate?: Date | undefined;
   Name: string;
-  Format?: InputFormat;
-  FormatOptions?: FormatOptions;
+  Format?: InputFormat | undefined;
+  FormatOptions?: FormatOptions | undefined;
   Input: Input;
-  LastModifiedDate?: Date;
-  LastModifiedBy?: string;
-  Source?: Source;
-  PathOptions?: PathOptions;
-  Tags?: { [key: string]: string | undefined };
-  ResourceArn?: string;
+  LastModifiedDate?: Date | undefined;
+  LastModifiedBy?: string | undefined;
+  Source?: Source | undefined;
+  PathOptions?: PathOptions | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ResourceArn?: string | undefined;
 }
 export type DatasetList = Dataset[];
 export interface ListDatasetsResponse {
   Datasets: Dataset[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListJobRunsRequest {
   Name: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface JobRun {
-  Attempt?: number;
-  CompletedOn?: Date;
-  DatasetName?: string;
-  ErrorMessage?: string;
-  ExecutionTime?: number;
-  JobName?: string;
-  RunId?: string;
-  State?: JobRunState;
-  LogSubscription?: LogSubscription;
-  LogGroupName?: string;
-  Outputs?: Output[];
-  DataCatalogOutputs?: DataCatalogOutput[];
-  DatabaseOutputs?: DatabaseOutput[];
-  RecipeReference?: RecipeReference;
-  StartedBy?: string;
-  StartedOn?: Date;
-  JobSample?: JobSample;
-  ValidationConfigurations?: ValidationConfiguration[];
+  Attempt?: number | undefined;
+  CompletedOn?: Date | undefined;
+  DatasetName?: string | undefined;
+  ErrorMessage?: string | undefined;
+  ExecutionTime?: number | undefined;
+  JobName?: string | undefined;
+  RunId?: string | undefined;
+  State?: JobRunState | undefined;
+  LogSubscription?: LogSubscription | undefined;
+  LogGroupName?: string | undefined;
+  Outputs?: Output[] | undefined;
+  DataCatalogOutputs?: DataCatalogOutput[] | undefined;
+  DatabaseOutputs?: DatabaseOutput[] | undefined;
+  RecipeReference?: RecipeReference | undefined;
+  StartedBy?: string | undefined;
+  StartedOn?: Date | undefined;
+  JobSample?: JobSample | undefined;
+  ValidationConfigurations?: ValidationConfiguration[] | undefined;
 }
 export type JobRunList = JobRun[];
 export interface ListJobRunsResponse {
   JobRuns: JobRun[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListJobsRequest {
-  DatasetName?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  ProjectName?: string;
+  DatasetName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ProjectName?: string | undefined;
 }
 export interface Job {
-  AccountId?: string;
-  CreatedBy?: string;
-  CreateDate?: Date;
-  DatasetName?: string;
-  EncryptionKeyArn?: string;
-  EncryptionMode?: EncryptionMode;
+  AccountId?: string | undefined;
+  CreatedBy?: string | undefined;
+  CreateDate?: Date | undefined;
+  DatasetName?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
+  EncryptionMode?: EncryptionMode | undefined;
   Name: string;
-  Type?: JobType;
-  LastModifiedBy?: string;
-  LastModifiedDate?: Date;
-  LogSubscription?: LogSubscription;
-  MaxCapacity?: number;
-  MaxRetries?: number;
-  Outputs?: Output[];
-  DataCatalogOutputs?: DataCatalogOutput[];
-  DatabaseOutputs?: DatabaseOutput[];
-  ProjectName?: string;
-  RecipeReference?: RecipeReference;
-  ResourceArn?: string;
-  RoleArn?: string;
-  Timeout?: number;
-  Tags?: { [key: string]: string | undefined };
-  JobSample?: JobSample;
-  ValidationConfigurations?: ValidationConfiguration[];
+  Type?: JobType | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: Date | undefined;
+  LogSubscription?: LogSubscription | undefined;
+  MaxCapacity?: number | undefined;
+  MaxRetries?: number | undefined;
+  Outputs?: Output[] | undefined;
+  DataCatalogOutputs?: DataCatalogOutput[] | undefined;
+  DatabaseOutputs?: DatabaseOutput[] | undefined;
+  ProjectName?: string | undefined;
+  RecipeReference?: RecipeReference | undefined;
+  ResourceArn?: string | undefined;
+  RoleArn?: string | undefined;
+  Timeout?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  JobSample?: JobSample | undefined;
+  ValidationConfigurations?: ValidationConfiguration[] | undefined;
 }
 export type JobList = Job[];
 export interface ListJobsResponse {
   Jobs: Job[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListProjectsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface Project {
-  AccountId?: string;
-  CreateDate?: Date;
-  CreatedBy?: string;
-  DatasetName?: string;
-  LastModifiedDate?: Date;
-  LastModifiedBy?: string;
+  AccountId?: string | undefined;
+  CreateDate?: Date | undefined;
+  CreatedBy?: string | undefined;
+  DatasetName?: string | undefined;
+  LastModifiedDate?: Date | undefined;
+  LastModifiedBy?: string | undefined;
   Name: string;
   RecipeName: string;
-  ResourceArn?: string;
-  Sample?: Sample;
-  Tags?: { [key: string]: string | undefined };
-  RoleArn?: string;
-  OpenedBy?: string;
-  OpenDate?: Date;
+  ResourceArn?: string | undefined;
+  Sample?: Sample | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  RoleArn?: string | undefined;
+  OpenedBy?: string | undefined;
+  OpenDate?: Date | undefined;
 }
 export type ProjectList = Project[];
 export interface ListProjectsResponse {
   Projects: Project[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListRecipesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  RecipeVersion?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  RecipeVersion?: string | undefined;
 }
 export interface Recipe {
-  CreatedBy?: string;
-  CreateDate?: Date;
-  LastModifiedBy?: string;
-  LastModifiedDate?: Date;
-  ProjectName?: string;
-  PublishedBy?: string;
-  PublishedDate?: Date;
-  Description?: string;
+  CreatedBy?: string | undefined;
+  CreateDate?: Date | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: Date | undefined;
+  ProjectName?: string | undefined;
+  PublishedBy?: string | undefined;
+  PublishedDate?: Date | undefined;
+  Description?: string | undefined;
   Name: string;
-  ResourceArn?: string;
-  Steps?: RecipeStep[];
-  Tags?: { [key: string]: string | undefined };
-  RecipeVersion?: string;
+  ResourceArn?: string | undefined;
+  Steps?: RecipeStep[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  RecipeVersion?: string | undefined;
 }
 export type RecipeList = Recipe[];
 export interface ListRecipesResponse {
   Recipes: Recipe[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListRecipeVersionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   Name: string;
 }
 export interface ListRecipeVersionsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   Recipes: Recipe[];
 }
 export interface ListRulesetsRequest {
-  TargetArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  TargetArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RuleCount = number;
 export interface RulesetItem {
-  AccountId?: string;
-  CreatedBy?: string;
-  CreateDate?: Date;
-  Description?: string;
-  LastModifiedBy?: string;
-  LastModifiedDate?: Date;
+  AccountId?: string | undefined;
+  CreatedBy?: string | undefined;
+  CreateDate?: Date | undefined;
+  Description?: string | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: Date | undefined;
   Name: string;
-  ResourceArn?: string;
-  RuleCount?: number;
-  Tags?: { [key: string]: string | undefined };
+  ResourceArn?: string | undefined;
+  RuleCount?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
   TargetArn: string;
 }
 export type RulesetItemList = RulesetItem[];
 export interface ListRulesetsResponse {
   Rulesets: RulesetItem[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListSchedulesRequest {
-  JobName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  JobName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Schedule {
-  AccountId?: string;
-  CreatedBy?: string;
-  CreateDate?: Date;
-  JobNames?: string[];
-  LastModifiedBy?: string;
-  LastModifiedDate?: Date;
-  ResourceArn?: string;
-  CronExpression?: string;
-  Tags?: { [key: string]: string | undefined };
+  AccountId?: string | undefined;
+  CreatedBy?: string | undefined;
+  CreateDate?: Date | undefined;
+  JobNames?: string[] | undefined;
+  LastModifiedBy?: string | undefined;
+  LastModifiedDate?: Date | undefined;
+  ResourceArn?: string | undefined;
+  CronExpression?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
   Name: string;
 }
 export type ScheduleList = Schedule[];
 export interface ListSchedulesResponse {
   Schedules: Schedule[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PublishRecipeRequest {
-  Description?: string;
+  Description?: string | undefined;
   Name: string;
 }
 export interface PublishRecipeResponse {
@@ -970,26 +970,26 @@ export type RowRange = number;
 export type AnalyticsMode = "ENABLE" | "DISABLE" | (string & {});
 export interface ViewFrame {
   StartColumnIndex: number;
-  ColumnRange?: number;
-  HiddenColumns?: string[];
-  StartRowIndex?: number;
-  RowRange?: number;
-  Analytics?: AnalyticsMode;
+  ColumnRange?: number | undefined;
+  HiddenColumns?: string[] | undefined;
+  StartRowIndex?: number | undefined;
+  RowRange?: number | undefined;
+  Analytics?: AnalyticsMode | undefined;
 }
 export interface SendProjectSessionActionRequest {
-  Preview?: boolean;
+  Preview?: boolean | undefined;
   Name: string;
-  RecipeStep?: RecipeStep;
-  StepIndex?: number;
-  ClientSessionId?: string | redacted.Redacted<string>;
-  ViewFrame?: ViewFrame;
+  RecipeStep?: RecipeStep | undefined;
+  StepIndex?: number | undefined;
+  ClientSessionId?: string | redacted.Redacted<string> | undefined;
+  ViewFrame?: ViewFrame | undefined;
 }
 export type Result = string;
 export type ActionId = number;
 export interface SendProjectSessionActionResponse {
-  Result?: string;
+  Result?: string | undefined;
   Name: string;
-  ActionId?: number;
+  ActionId?: number | undefined;
 }
 export interface StartJobRunRequest {
   Name: string;
@@ -1000,11 +1000,11 @@ export interface StartJobRunResponse {
 export type AssumeControl = boolean;
 export interface StartProjectSessionRequest {
   Name: string;
-  AssumeControl?: boolean;
+  AssumeControl?: boolean | undefined;
 }
 export interface StartProjectSessionResponse {
   Name: string;
-  ClientSessionId?: string | redacted.Redacted<string>;
+  ClientSessionId?: string | redacted.Redacted<string> | undefined;
 }
 export interface StopJobRunRequest {
   Name: string;
@@ -1026,74 +1026,74 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateDatasetRequest {
   Name: string;
-  Format?: InputFormat;
-  FormatOptions?: FormatOptions;
+  Format?: InputFormat | undefined;
+  FormatOptions?: FormatOptions | undefined;
   Input: Input;
-  PathOptions?: PathOptions;
+  PathOptions?: PathOptions | undefined;
 }
 export interface UpdateDatasetResponse {
   Name: string;
 }
 export interface UpdateProfileJobRequest {
-  Configuration?: ProfileConfiguration;
-  EncryptionKeyArn?: string;
-  EncryptionMode?: EncryptionMode;
+  Configuration?: ProfileConfiguration | undefined;
+  EncryptionKeyArn?: string | undefined;
+  EncryptionMode?: EncryptionMode | undefined;
   Name: string;
-  LogSubscription?: LogSubscription;
-  MaxCapacity?: number;
-  MaxRetries?: number;
+  LogSubscription?: LogSubscription | undefined;
+  MaxCapacity?: number | undefined;
+  MaxRetries?: number | undefined;
   OutputLocation: S3Location;
-  ValidationConfigurations?: ValidationConfiguration[];
+  ValidationConfigurations?: ValidationConfiguration[] | undefined;
   RoleArn: string;
-  Timeout?: number;
-  JobSample?: JobSample;
+  Timeout?: number | undefined;
+  JobSample?: JobSample | undefined;
 }
 export interface UpdateProfileJobResponse {
   Name: string;
 }
 export interface UpdateProjectRequest {
-  Sample?: Sample;
+  Sample?: Sample | undefined;
   RoleArn: string;
   Name: string;
 }
 export interface UpdateProjectResponse {
-  LastModifiedDate?: Date;
+  LastModifiedDate?: Date | undefined;
   Name: string;
 }
 export interface UpdateRecipeRequest {
-  Description?: string;
+  Description?: string | undefined;
   Name: string;
-  Steps?: RecipeStep[];
+  Steps?: RecipeStep[] | undefined;
 }
 export interface UpdateRecipeResponse {
   Name: string;
 }
 export interface UpdateRecipeJobRequest {
-  EncryptionKeyArn?: string;
-  EncryptionMode?: EncryptionMode;
+  EncryptionKeyArn?: string | undefined;
+  EncryptionMode?: EncryptionMode | undefined;
   Name: string;
-  LogSubscription?: LogSubscription;
-  MaxCapacity?: number;
-  MaxRetries?: number;
-  Outputs?: Output[];
-  DataCatalogOutputs?: DataCatalogOutput[];
-  DatabaseOutputs?: DatabaseOutput[];
+  LogSubscription?: LogSubscription | undefined;
+  MaxCapacity?: number | undefined;
+  MaxRetries?: number | undefined;
+  Outputs?: Output[] | undefined;
+  DataCatalogOutputs?: DataCatalogOutput[] | undefined;
+  DatabaseOutputs?: DatabaseOutput[] | undefined;
   RoleArn: string;
-  Timeout?: number;
+  Timeout?: number | undefined;
 }
 export interface UpdateRecipeJobResponse {
   Name: string;
 }
 export interface UpdateRulesetRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Rules: Rule[];
 }
 export interface UpdateRulesetResponse {
   Name: string;
 }
 export interface UpdateScheduleRequest {
-  JobNames?: string[];
+  JobNames?: string[] | undefined;
   CronExpression: string;
   Name: string;
 }

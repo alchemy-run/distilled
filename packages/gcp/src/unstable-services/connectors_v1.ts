@@ -89,7 +89,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -97,58 +97,58 @@ export type StringList = Array<string>;
 /** StringListValues is a message to store a list of string values. */
 export interface StringListValues {
   /** Required. The list of string values. */
-  listValues?: StringList;
+  listValues?: StringList | undefined;
 }
 export type AdminFiltersFilterTypeEnum = "FILTER_TYPE_UNSPECIFIED" | "INCLUSION" | "EXCLUSION";
 /** * AdminFilters defines a set of filters that can be applied to a connection. These are currently used by Gemini Enterprise connections. */
 export interface AdminFilters {
   /** Optional. List of string values. */
-  stringListValues?: StringListValues;
+  stringListValues?: StringListValues | undefined;
   /** Required. Type of the filter. */
-  filterType?: AdminFiltersFilterTypeEnum | (string & {});
+  filterType?: AdminFiltersFilterTypeEnum | (string & {}) | undefined;
   /** Optional. A single string value. */
-  stringValue?: string;
+  stringValue?: string | undefined;
   /** Optional. A single integer value. */
-  intValue?: string;
+  intValue?: string | undefined;
   /** Required. Unique name for the filter, e.g., "SharePointSiteURL", "DocumentType", "ChatSpaceName". */
-  filterKey?: string;
+  filterKey?: string | undefined;
 }
 export type AdminFiltersList = Array<AdminFilters>;
 /** Node configuration for the connection. */
 export interface NodeConfig {
   /** Optional. Minimum number of nodes in the runtime nodes. */
-  minNodeCount?: number;
+  minNodeCount?: number | undefined;
   /** Optional. Maximum number of nodes in the runtime nodes. */
-  maxNodeCount?: number;
+  maxNodeCount?: number | undefined;
 }
 export type SslConfigTypeEnum = "SSL_TYPE_UNSPECIFIED" | "TLS" | "MTLS";
 /** Secret provides a reference to entries in Secret Manager. */
 export interface Secret {
   /** Optional. The resource name of the secret version in the format, format as: `projects/*\/secrets/*\/versions/*`. */
-  secretVersion?: string;
+  secretVersion?: string | undefined;
 }
 export type EncryptionKeyTypeEnum = "TYPE_UNSPECIFIED" | "GOOGLE_MANAGED" | "CUSTOMER_MANAGED";
 /** Encryption Key value. */
 export interface EncryptionKey {
   /** Optional. Specifies the type of the encryption key. */
-  type?: EncryptionKeyTypeEnum | (string & {});
+  type?: EncryptionKeyTypeEnum | (string & {}) | undefined;
   /** Optional. The [KMS key name] with which the content of the Operation is encrypted. The expected format: `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. Will be empty string if google managed. */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
 }
 /** ConfigVariable represents a configuration variable present in a Connection. or AuthConfig. */
 export interface ConfigVariable {
   /** Optional. Key of the config variable. */
-  key?: string;
+  key?: string | undefined;
   /** Optional. Value is a secret. */
-  secretValue?: Secret;
+  secretValue?: Secret | undefined;
   /** Optional. Value is a Encryption Key. */
-  encryptionKeyValue?: EncryptionKey;
+  encryptionKeyValue?: EncryptionKey | undefined;
   /** Optional. Value is a string. */
-  stringValue?: string;
+  stringValue?: string | undefined;
   /** Optional. Value is an integer */
-  intValue?: string;
+  intValue?: string | undefined;
   /** Optional. Value is a bool. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
 }
 export type ConfigVariableList = Array<ConfigVariable>;
 export type SslConfigClientCertTypeEnum = "CERT_TYPE_UNSPECIFIED" | "PEM";
@@ -157,41 +157,41 @@ export type SslConfigTrustModelEnum = "PUBLIC" | "PRIVATE" | "INSECURE";
 /** SSL Configuration of a connection */
 export interface SslConfig {
   /** Optional. Controls the ssl type for the given connector version. */
-  type?: SslConfigTypeEnum | (string & {});
+  type?: SslConfigTypeEnum | (string & {}) | undefined;
   /** Optional. Client Private Key */
-  clientPrivateKey?: Secret;
+  clientPrivateKey?: Secret | undefined;
   /** Optional. Additional SSL related field values */
-  additionalVariables?: ConfigVariableList;
+  additionalVariables?: ConfigVariableList | undefined;
   /** Optional. Bool for enabling SSL */
-  useSsl?: boolean;
+  useSsl?: boolean | undefined;
   /** Optional. Type of Client Cert (PEM/JKS/.. etc.) */
-  clientCertType?: SslConfigClientCertTypeEnum | (string & {});
+  clientCertType?: SslConfigClientCertTypeEnum | (string & {}) | undefined;
   /** Optional. Secret containing the passphrase protecting the Client Private Key */
-  clientPrivateKeyPass?: Secret;
+  clientPrivateKeyPass?: Secret | undefined;
   /** Optional. Type of Server Cert (PEM/JKS/.. etc.) */
-  serverCertType?: SslConfigServerCertTypeEnum | (string & {});
+  serverCertType?: SslConfigServerCertTypeEnum | (string & {}) | undefined;
   /** Optional. Private Server Certificate. Needs to be specified if trust model is `PRIVATE`. */
-  privateServerCertificate?: Secret;
+  privateServerCertificate?: Secret | undefined;
   /** Optional. Client Certificate */
-  clientCertificate?: Secret;
+  clientCertificate?: Secret | undefined;
   /** Optional. Trust Model of the SSL connection */
-  trustModel?: SslConfigTrustModelEnum | (string & {});
+  trustModel?: SslConfigTrustModelEnum | (string & {}) | undefined;
 }
 export interface Destination {
   /** Optional. The port is the target port number that is accepted by the destination. */
-  port?: number;
+  port?: number | undefined;
   /** For publicly routable host. */
-  host?: string;
+  host?: string | undefined;
   /** PSC service attachments. Format: projects/*\/regions/*\/serviceAttachments/* */
-  serviceAttachment?: string;
+  serviceAttachment?: string | undefined;
 }
 export type DestinationList = Array<Destination>;
 /** Define the Connectors target endpoint. */
 export interface DestinationConfig {
   /** Optional. The key is the destination identifier that is supported by the Connector. */
-  key?: string;
+  key?: string | undefined;
   /** Optional. The destinations for the key. */
-  destinations?: DestinationList;
+  destinations?: DestinationList | undefined;
 }
 export type DestinationConfigList = Array<DestinationConfig>;
 export type StringMap = { [key: string]: string | undefined };
@@ -199,71 +199,71 @@ export type ConnectorsLogConfigLevelEnum = "LOG_LEVEL_UNSPECIFIED" | "ERROR" | "
 /** Log configuration for the connection. */
 export interface ConnectorsLogConfig {
   /** Optional. Enabled represents whether logging is enabled or not for a connection. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Optional. Log configuration level. */
-  level?: ConnectorsLogConfigLevelEnum | (string & {});
+  level?: ConnectorsLogConfigLevelEnum | (string & {}) | undefined;
 }
 export type ConnectionSubscriptionTypeEnum = "SUBSCRIPTION_TYPE_UNSPECIFIED" | "PAY_G" | "PAID";
 /** * TrafficShapingConfig defines the configuration for shaping API traffic by specifying a quota limit and the duration over which this limit is enforced. This configuration helps to control and manage the rate at which API calls are made on the client side, preventing service overload on the backend. For example: - if the quota limit is 100 calls per 10 seconds, then the message would be: { quota_limit: 100 duration: { seconds: 10 } } - if the quota limit is 100 calls per 5 minutes, then the message would be: { quota_limit: 100 duration: { seconds: 300 } } - if the quota limit is 10000 calls per day, then the message would be: { quota_limit: 10000 duration: { seconds: 86400 } and so on. */
 export interface TrafficShapingConfig {
   /** Required. Maximum number of api calls allowed. */
-  quotaLimit?: string;
+  quotaLimit?: string | undefined;
   /** Required. Specifies the duration over which the API call quota limits are calculated. This duration is used to define the time window for evaluating if the number of API calls made by a user is within the allowed quota limits. For example: - To define a quota sampled over 16 seconds, set `seconds` to 16 - To define a quota sampled over 5 minutes, set `seconds` to 300 (5 * 60) - To define a quota sampled over 1 day, set `seconds` to 86400 (24 * 60 * 60) and so on. It is important to note that this duration is not the time the quota is valid for, but rather the time window over which the quota is evaluated. For example, if the quota is 100 calls per 10 seconds, then this duration field would be set to 10 seconds. */
-  duration?: string;
+  duration?: string | undefined;
 }
 export type TrafficShapingConfigList = Array<TrafficShapingConfig>;
 /** Parameters to support Username and Password Authentication. */
 export interface UserPassword {
   /** Optional. Secret version reference containing the password. */
-  password?: Secret;
+  password?: Secret | undefined;
   /** Optional. Username. */
-  username?: string;
+  username?: string | undefined;
 }
 /** Parameters to support Oauth 2.0 Auth Code Grant Authentication. See https://www.rfc-editor.org/rfc/rfc6749#section-1.3.1 for more details. */
 export interface Oauth2AuthCodeFlow {
   /** Optional. Whether to enable PKCE when the user performs the auth code flow. */
-  enablePkce?: boolean;
+  enablePkce?: boolean | undefined;
   /** Optional. Client ID for user-provided OAuth app. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Optional. PKCE verifier to be used during the auth code exchange. */
-  pkceVerifier?: string;
+  pkceVerifier?: string | undefined;
   /** Optional. Authorization code to be exchanged for access and refresh tokens. */
-  authCode?: string;
+  authCode?: string | undefined;
   /** Optional. Scopes the connection will request when the user performs the auth code flow. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
   /** Optional. Auth URL for Authorization Code Flow */
-  authUri?: string;
+  authUri?: string | undefined;
   /** Optional. Redirect URI to be provided during the auth code exchange. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
   /** Optional. Client secret for user-provided OAuth app. */
-  clientSecret?: Secret;
+  clientSecret?: Secret | undefined;
 }
 /** Parameters to support Oauth 2.0 Auth Code Grant Authentication using Google Provided OAuth Client. See https://tools.ietf.org/html/rfc6749#section-1.3.1 for more details. */
 export interface Oauth2AuthCodeFlowGoogleManaged {
   /** Optional. Authorization code to be exchanged for access and refresh tokens. */
-  authCode?: string;
+  authCode?: string | undefined;
   /** Optional. Redirect URI to be provided during the auth code exchange. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
   /** Required. Scopes the connection will request when the user performs the auth code flow. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
 }
 /** Parameters to support Oauth 2.0 Client Credentials Grant Authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. */
 export interface Oauth2ClientCredentials {
   /** Optional. The client identifier. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Optional. Secret version reference containing the client secret. */
-  clientSecret?: Secret;
+  clientSecret?: Secret | undefined;
 }
 /** Parameters to support Ssh public key Authentication. */
 export interface SshPublicKey {
   /** Optional. SSH Client Cert. It should contain both public and private key. */
-  sshClientCert?: Secret;
+  sshClientCert?: Secret | undefined;
   /** Optional. Password (passphrase) for ssh client certificate if it has one. */
-  sshClientCertPass?: Secret;
+  sshClientCertPass?: Secret | undefined;
   /** Optional. The user account used to authenticate. */
-  username?: string;
+  username?: string | undefined;
   /** Optional. Format of SSH Client cert. */
-  certType?: string;
+  certType?: string | undefined;
 }
 export type AuthConfigAuthTypeEnum =
   | "AUTH_TYPE_UNSPECIFIED"
@@ -277,46 +277,46 @@ export type AuthConfigAuthTypeEnum =
 /** JWT claims used for the jwt-bearer authorization grant. */
 export interface JwtClaims {
   /** Optional. Value for the "iss" claim. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** Optional. Value for the "sub" claim. */
-  subject?: string;
+  subject?: string | undefined;
   /** Optional. Value for the "aud" claim. */
-  audience?: string;
+  audience?: string | undefined;
 }
 /** Parameters to support JSON Web Token (JWT) Profile for Oauth 2.0 Authorization Grant based authentication. See https://tools.ietf.org/html/rfc7523 for more details. */
 export interface Oauth2JwtBearer {
   /** Optional. JwtClaims providers fields to generate the token. */
-  jwtClaims?: JwtClaims;
+  jwtClaims?: JwtClaims | undefined;
   /** Optional. Secret version reference containing a PKCS#8 PEM-encoded private key associated with the Client Certificate. This private key will be used to sign JWTs used for the jwt-bearer authorization grant. Specified in the form as: `projects/*\/secrets/*\/versions/*`. */
-  clientKey?: Secret;
+  clientKey?: Secret | undefined;
 }
 /** AuthConfig defines details of a authentication type. */
 export interface AuthConfig {
   /** Optional. Identifier key for auth config */
-  authKey?: string;
+  authKey?: string | undefined;
   /** UserPassword. */
-  userPassword?: UserPassword;
+  userPassword?: UserPassword | undefined;
   /** Oauth2AuthCodeFlow. */
-  oauth2AuthCodeFlow?: Oauth2AuthCodeFlow;
+  oauth2AuthCodeFlow?: Oauth2AuthCodeFlow | undefined;
   /** Oauth2AuthCodeFlowGoogleManaged. */
-  oauth2AuthCodeFlowGoogleManaged?: Oauth2AuthCodeFlowGoogleManaged;
+  oauth2AuthCodeFlowGoogleManaged?: Oauth2AuthCodeFlowGoogleManaged | undefined;
   /** Optional. List containing additional auth configs. */
-  additionalVariables?: ConfigVariableList;
+  additionalVariables?: ConfigVariableList | undefined;
   /** Oauth2ClientCredentials. */
-  oauth2ClientCredentials?: Oauth2ClientCredentials;
+  oauth2ClientCredentials?: Oauth2ClientCredentials | undefined;
   /** SSH Public Key. */
-  sshPublicKey?: SshPublicKey;
+  sshPublicKey?: SshPublicKey | undefined;
   /** Optional. The type of authentication configured. */
-  authType?: AuthConfigAuthTypeEnum | (string & {});
+  authType?: AuthConfigAuthTypeEnum | (string & {}) | undefined;
   /** Oauth2JwtBearer. */
-  oauth2JwtBearer?: Oauth2JwtBearer;
+  oauth2JwtBearer?: Oauth2JwtBearer | undefined;
 }
 /** Determines whether or no a connection is locked. If locked, a reason must be specified. */
 export interface LockConfig {
   /** Optional. Indicates whether or not the connection is locked. */
-  locked?: boolean;
+  locked?: boolean | undefined;
   /** Optional. Describes why a connection is locked. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export type EventingStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -326,90 +326,90 @@ export type EventingStatusStateEnum =
 /** EventingStatus indicates the state of eventing. */
 export interface EventingStatus {
   /** Output only. State. */
-  state?: EventingStatusStateEnum | (string & {});
+  state?: EventingStatusStateEnum | (string & {}) | undefined;
   /** Output only. Description of error if State is set to "ERROR". */
-  description?: string;
+  description?: string | undefined;
 }
 /** WebhookData has details of webhook configuration. */
 export interface WebhookData {
   /** Output only. Timestamp when the webhook was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. List of event subscriptions which are using the webhook. */
-  eventSubscriptions?: StringList;
+  eventSubscriptions?: StringList | undefined;
   /** Output only. Timestamp when the webhook was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Next webhook refresh time. Will be null if refresh is not supported. */
-  nextRefreshTime?: string;
+  nextRefreshTime?: string | undefined;
   /** Output only. ID to uniquely identify webhook. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. Name of the Webhook */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Additional webhook related field values. */
-  additionalVariables?: ConfigVariableList;
+  additionalVariables?: ConfigVariableList | undefined;
   /** Output only. List of event types for the webhook. This is the event types subscribed by the current webhook. */
-  eventTypes?: StringList;
+  eventTypes?: StringList | undefined;
 }
 export type WebhookDataList = Array<WebhookData>;
 /** WebhookSubscriptions has details of webhook subscriptions. */
 export interface WebhookSubscriptions {
   /** Output only. Webhook data. */
-  webhookData?: WebhookDataList;
+  webhookData?: WebhookDataList | undefined;
 }
 /** Eventing runtime data has the details related to eventing managed by the system. */
 export interface EventingRuntimeData {
   /** Output only. Current status of eventing. */
-  status?: EventingStatus;
+  status?: EventingStatus | undefined;
   /** Output only. Events listener PSC Service attachment. The value will be populated after provisioning the events listener with private connectivity enabled. */
-  eventsListenerPscSa?: string;
+  eventsListenerPscSa?: string | undefined;
   /** Output only. Webhook subscriptions. */
-  webhookSubscriptions?: WebhookSubscriptions;
+  webhookSubscriptions?: WebhookSubscriptions | undefined;
   /** Output only. Events listener endpoint. The value will populated after provisioning the events listener. */
-  eventsListenerEndpoint?: string;
+  eventsListenerEndpoint?: string | undefined;
   /** Output only. Webhook data. */
-  webhookData?: WebhookData;
+  webhookData?: WebhookData | undefined;
 }
 /** Dead Letter configuration details provided by the user. */
 export interface DeadLetterConfig {
   /** Optional. Topic to push events which couldn't be processed. */
-  topic?: string;
+  topic?: string | undefined;
   /** Optional. Project which has the topic given. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 /** Data enrichment configuration. */
 export interface EnrichmentConfig {
   /** Optional. Append ACL to the event. */
-  appendAcl?: boolean;
+  appendAcl?: boolean | undefined;
 }
 /** Eventing Configuration of a connection next: 21 */
 export interface EventingConfig {
   /** Optional. Additional eventing related field values */
-  additionalVariables?: ConfigVariableList;
+  additionalVariables?: ConfigVariableList | undefined;
   /** Optional. Enrichment Enabled. */
-  enrichmentEnabled?: boolean;
+  enrichmentEnabled?: boolean | undefined;
   /** Optional. Private Connectivity Enabled. */
-  privateConnectivityEnabled?: boolean;
+  privateConnectivityEnabled?: boolean | undefined;
   /** Optional. List of projects to be allowlisted for the service attachment created in the tenant project for eventing ingress. */
-  privateConnectivityAllowlistedProjects?: StringList;
+  privateConnectivityAllowlistedProjects?: StringList | undefined;
   /** Optional. Dead letter configuration for eventing of a connection. */
-  deadLetterConfig?: DeadLetterConfig;
+  deadLetterConfig?: DeadLetterConfig | undefined;
   /** Optional. Ssl config of a connection */
-  sslConfig?: SslConfig;
+  sslConfig?: SslConfig | undefined;
   /** Optional. Data enrichment configuration. */
-  enrichmentConfig?: EnrichmentConfig;
+  enrichmentConfig?: EnrichmentConfig | undefined;
   /** Optional. Auth details for the webhook adapter. */
-  authConfig?: AuthConfig;
+  authConfig?: AuthConfig | undefined;
   /** Optional. Filter to be applied on the events to be received by the connection. */
-  globalEventFilter?: string;
+  globalEventFilter?: string | undefined;
   /** Optional. Registration endpoint for auto registration. */
-  registrationDestinationConfig?: DestinationConfig;
+  registrationDestinationConfig?: DestinationConfig | undefined;
   /** Optional. List of allowed event types for the connection. */
-  allowedEventTypes?: StringList;
+  allowedEventTypes?: StringList | undefined;
   /** Optional. Proxy for Eventing auto-registration. */
-  proxyDestinationConfig?: DestinationConfig;
+  proxyDestinationConfig?: DestinationConfig | undefined;
   /** Output only. Ingress endpoint of the event listener. This is used only when private connectivity is enabled. */
-  eventsListenerIngressEndpoint?: string;
+  eventsListenerIngressEndpoint?: string | undefined;
   /** Optional. Auth details for the event listener. */
-  listenerAuthConfig?: AuthConfig;
+  listenerAuthConfig?: AuthConfig | undefined;
 }
 export type ConnectionEventingEnablementTypeEnum =
   | "EVENTING_ENABLEMENT_TYPE_UNSPECIFIED"
@@ -439,50 +439,51 @@ export type ConnectorVersionInfraConfigDeploymentModelMigrationStateEnum =
 /** Resource requests defined for connection pods of a given connector type. */
 export interface ResourceRequests {
   /** Output only. CPU request. */
-  cpu?: string;
+  cpu?: string | undefined;
   /** Output only. Memory request. */
-  memory?: string;
+  memory?: string | undefined;
 }
 /** Autoscaling config for connector deployment system metrics. */
 export interface HPAConfig {
   /** Output only. Percent Memory utilization where HPA triggers autoscaling. */
-  memoryUtilizationThreshold?: string;
+  memoryUtilizationThreshold?: string | undefined;
   /** Output only. Percent CPU utilization where HPA triggers autoscaling. */
-  cpuUtilizationThreshold?: string;
+  cpuUtilizationThreshold?: string | undefined;
 }
 /** Resource limits defined for connection pods of a given connector type. */
 export interface ResourceLimits {
   /** Output only. Memory limit. */
-  memory?: string;
+  memory?: string | undefined;
   /** Output only. CPU limit. */
-  cpu?: string;
+  cpu?: string | undefined;
 }
 /** This configuration provides infra configs like rate limit threshold which need to be configurable for every connector version */
 export interface ConnectorVersionInfraConfig {
   /** Output only. The window used for ratelimiting runtime requests to connections. */
-  connectionRatelimitWindowSeconds?: string;
+  connectionRatelimitWindowSeconds?: string | undefined;
   /** Output only. Max instance request concurrency. */
-  maxInstanceRequestConcurrency?: number;
+  maxInstanceRequestConcurrency?: number | undefined;
   /** Output only. Status of the TLS migration. */
-  tlsMigrationState?: ConnectorVersionInfraConfigTlsMigrationStateEnum | (string & {});
+  tlsMigrationState?: ConnectorVersionInfraConfigTlsMigrationStateEnum | (string & {}) | undefined;
   /** Output only. Indicates whether connector is deployed on GKE/CloudRun */
-  deploymentModel?: ConnectorVersionInfraConfigDeploymentModelEnum | (string & {});
+  deploymentModel?: ConnectorVersionInfraConfigDeploymentModelEnum | (string & {}) | undefined;
   /** Output only. Status of the deployment model migration. */
   deploymentModelMigrationState?:
     | ConnectorVersionInfraConfigDeploymentModelMigrationStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Output only. Max QPS supported by the connector version before throttling of requests. */
-  ratelimitThreshold?: string;
+  ratelimitThreshold?: string | undefined;
   /** Output only. System resource requests. */
-  resourceRequests?: ResourceRequests;
+  resourceRequests?: ResourceRequests | undefined;
   /** Output only. Max QPS supported for internal requests originating from Connd. */
-  internalclientRatelimitThreshold?: string;
+  internalclientRatelimitThreshold?: string | undefined;
   /** Output only. The name of shared connector deployment. */
-  sharedDeployment?: string;
+  sharedDeployment?: string | undefined;
   /** Output only. HPA autoscaling config. */
-  hpaConfig?: HPAConfig;
+  hpaConfig?: HPAConfig | undefined;
   /** Output only. System resource limits. */
-  resourceLimits?: ResourceLimits;
+  resourceLimits?: ResourceLimits | undefined;
 }
 export type ConnectionStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -496,11 +497,11 @@ export type ConnectionStatusStateEnum =
 /** ConnectionStatus indicates the state of the connection. */
 export interface ConnectionStatus {
   /** State. */
-  state?: ConnectionStatusStateEnum | (string & {});
+  state?: ConnectionStatusStateEnum | (string & {}) | undefined;
   /** Status provides detailed information for the state. */
-  status?: string;
+  status?: string | undefined;
   /** Description. */
-  description?: string;
+  description?: string | undefined;
 }
 export type BillingConfigBillingCategoryEnum =
   | "BILLING_CATEGORY_UNSPECIFIED"
@@ -509,114 +510,117 @@ export type BillingConfigBillingCategoryEnum =
 /** Billing config for the connection. */
 export interface BillingConfig {
   /** Output only. Billing category for the connector. */
-  billingCategory?: BillingConfigBillingCategoryEnum | (string & {});
+  billingCategory?: BillingConfigBillingCategoryEnum | (string & {}) | undefined;
 }
 /** Connection represents an instance of connector. */
 export interface Connection {
   /** Optional. Admin filters for the connection. These are used by Gemini Enterprise. */
-  adminFilters?: AdminFiltersList;
+  adminFilters?: AdminFiltersList | undefined;
   /** Optional. Node configuration for the connection. */
-  nodeConfig?: NodeConfig;
+  nodeConfig?: NodeConfig | undefined;
   /** Optional. Ssl config of a connection */
-  sslConfig?: SslConfig;
+  sslConfig?: SslConfig | undefined;
   /** Optional. Configuration of the Connector's destination. Only accepted for Connectors that accepts user defined destination(s). */
-  destinationConfigs?: DestinationConfigList;
+  destinationConfigs?: DestinationConfigList | undefined;
   /** Output only. The name of the Service Directory service name. Used for Private Harpoon to resolve the ILB address. e.g. "projects/cloud-connectors-e2e-testing/locations/us-central1/namespaces/istio-system/services/istio-ingressgateway-connectors" */
-  serviceDirectory?: string;
+  serviceDirectory?: string | undefined;
   /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Log configuration for the connection. */
-  logConfig?: ConnectorsLogConfig;
+  logConfig?: ConnectorsLogConfig | undefined;
   /** Output only. This subscription type enum states the subscription type of the project. */
-  subscriptionType?: ConnectionSubscriptionTypeEnum | (string & {});
+  subscriptionType?: ConnectionSubscriptionTypeEnum | (string & {}) | undefined;
   /** Optional. Traffic shaping configuration for the connection. */
-  trafficShapingConfigs?: TrafficShapingConfigList;
+  trafficShapingConfigs?: TrafficShapingConfigList | undefined;
   /** Optional. Auth override enabled for the connection. If Auth Override is enabled, Connection allows the backend service auth to be overridden in the entities/actions API. */
-  authOverrideEnabled?: boolean;
+  authOverrideEnabled?: boolean | undefined;
   /** Output only. The name of the Hostname of the Service Directory service with TLS. */
-  host?: string;
+  host?: string | undefined;
   /** Output only. Is trusted tester program enabled for the project. */
-  isTrustedTester?: boolean;
+  isTrustedTester?: boolean | undefined;
   /** Optional. Additional Oauth2.0 Auth config for EUA. If the connection is configured using non-OAuth authentication but OAuth needs to be used for EUA, this field can be populated with the OAuth config. This should be a OAuth2AuthCodeFlow Auth type only. */
-  euaOauthAuthConfig?: AuthConfig;
+  euaOauthAuthConfig?: AuthConfig | undefined;
   /** Output only. Updated time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Configuration for establishing the connection's authentication with an external system. */
-  authConfig?: AuthConfig;
+  authConfig?: AuthConfig | undefined;
   /** Optional. Fallback on admin credentials for the connection. If this both auth_override_enabled and fallback_on_admin_credentials are set to true, the connection will use the admin credentials if the dynamic auth header is not present during auth override. */
-  fallbackOnAdminCredentials?: boolean;
+  fallbackOnAdminCredentials?: boolean | undefined;
   /** Optional. Configuration that indicates whether or not the Connection can be edited. */
-  lockConfig?: LockConfig;
+  lockConfig?: LockConfig | undefined;
   /** Output only. Eventing Runtime Data. */
-  eventingRuntimeData?: EventingRuntimeData;
+  eventingRuntimeData?: EventingRuntimeData | undefined;
   /** Optional. Suspended indicates if a user has suspended a connection or not. */
-  suspended?: boolean;
+  suspended?: boolean | undefined;
   /** Output only. The name of the Service Directory service with TLS. */
-  tlsServiceDirectory?: string;
+  tlsServiceDirectory?: string | undefined;
   /** Output only. GCR location where the envoy image is stored. formatted like: gcr.io/{bucketName}/{imageName} */
-  envoyImageLocation?: string;
+  envoyImageLocation?: string | undefined;
   /** Optional. Service account needed for runtime plane to access Google Cloud resources. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Output only. GCR location where the runtime image is stored. formatted like: gcr.io/{bucketName}/{imageName} */
-  imageLocation?: string;
+  imageLocation?: string | undefined;
   /** Optional. Configuration for configuring the connection with an external system. */
-  configVariables?: ConfigVariableList;
+  configVariables?: ConfigVariableList | undefined;
   /** Optional. Eventing config of a connection */
-  eventingConfig?: EventingConfig;
+  eventingConfig?: EventingConfig | undefined;
   /** Optional. Eventing enablement type. Will be nil if eventing is not enabled. */
-  eventingEnablementType?: ConnectionEventingEnablementTypeEnum | (string & {});
+  eventingEnablementType?: ConnectionEventingEnablementTypeEnum | (string & {}) | undefined;
   /** Output only. Flag to mark the version indicating the launch stage. */
-  connectorVersionLaunchStage?: ConnectionConnectorVersionLaunchStageEnum | (string & {});
+  connectorVersionLaunchStage?:
+    | ConnectionConnectorVersionLaunchStageEnum
+    | (string & {})
+    | undefined;
   /** Optional. Description of the resource. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Connection revision. This field is only updated when the connection is created or updated by User. */
-  connectionRevision?: string;
+  connectionRevision?: string | undefined;
   /** Output only. Infra configs supported by Connector Version. */
-  connectorVersionInfraConfig?: ConnectorVersionInfraConfig;
+  connectorVersionInfraConfig?: ConnectorVersionInfraConfig | undefined;
   /** Optional. Async operations enabled for the connection. If Async Operations is enabled, Connection allows the customers to initiate async long running operations using the actions API. */
-  asyncOperationsEnabled?: boolean;
+  asyncOperationsEnabled?: boolean | undefined;
   /** Output only. Created time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Current status of the connection. */
-  status?: ConnectionStatus;
+  status?: ConnectionStatus | undefined;
   /** Required. Connector version on which the connection is created. The format is: projects/*\/locations/*\/providers/*\/connectors/*\/versions/* Only global location is supported for ConnectorVersion resource. */
-  connectorVersion?: string;
+  connectorVersion?: string | undefined;
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Billing config for the connection. */
-  billingConfig?: BillingConfig;
+  billingConfig?: BillingConfig | undefined;
 }
 export interface CreateProjectsLocationsConnectionsRequest {
   /** Required. Identifier to assign to the Connection. Must be unique within scope of the parent resource. */
-  connectionId?: string;
+  connectionId?: string | undefined;
   /** Required. Parent resource of the Connection, of the form: `projects/*\/locations/*` */
   parent: string;
   /** Request body */
-  body?: Connection;
+  body?: Connection | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
 }
 export type EndUserAuthenticationRolesItemEnum =
   | "ROLE_UNSPECIFIED"
@@ -628,22 +632,22 @@ export type EndUserAuthenticationRolesItemEnumList = Array<
 /** EUASecret provides a reference to entries in Secret Manager. */
 export interface EUASecret {
   /** Optional. The resource name of the secret version in the format, format as: `projects/*\/secrets/*\/versions/*`. */
-  secretVersion?: string;
+  secretVersion?: string | undefined;
   /** Optional. The plain string value of the secret. */
-  secretValue?: string;
+  secretValue?: string | undefined;
 }
 /** EndUserAuthenticationConfigVariable represents a configuration variable present in a EndUserAuthentication. */
 export interface EndUserAuthenticationConfigVariable {
   /** Required. Key of the config variable. */
-  key?: string;
+  key?: string | undefined;
   /** Value is a bool. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
   /** Value is a string. */
-  stringValue?: string;
+  stringValue?: string | undefined;
   /** Value is an integer */
-  intValue?: string;
+  intValue?: string | undefined;
   /** Value is a secret */
-  secretValue?: EUASecret;
+  secretValue?: EUASecret | undefined;
 }
 export type EndUserAuthenticationConfigVariableList = Array<EndUserAuthenticationConfigVariable>;
 export type EndUserAuthenticationConfigAuthTypeEnum =
@@ -658,107 +662,109 @@ export type EndUserAuthenticationConfigAuthTypeEnum =
 /** pass only at create and not update using updateMask Auth Code Data */
 export interface OAuthTokenData {
   /** Optional. Refresh token for the connection. */
-  refreshToken?: EUASecret;
+  refreshToken?: EUASecret | undefined;
   /** Optional. Time in seconds when the access token expires. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** Optional. Timestamp when the access token was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Access token for the connection. */
-  accessToken?: EUASecret;
+  accessToken?: EUASecret | undefined;
 }
 /** Parameters to support Oauth 2.0 Auth Code Grant Authentication. See https://www.rfc-editor.org/rfc/rfc6749#section-1.3.1 for more details. */
 export interface EndUserAuthenticationConfigOauth2AuthCodeFlow {
   /** Optional. PKCE verifier to be used during the auth code exchange. */
-  pkceVerifier?: string;
+  pkceVerifier?: string | undefined;
   /** Optional. Client secret for user-provided OAuth app. */
-  clientSecret?: EUASecret;
+  clientSecret?: EUASecret | undefined;
   /** Optional. Redirect URI to be provided during the auth code exchange. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
   /** Optional. Scopes the connection will request when the user performs the auth code flow. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
   /** Optional. Whether to enable PKCE when the user performs the auth code flow. */
-  enablePkce?: boolean;
+  enablePkce?: boolean | undefined;
   /** Optional. Auth Code Data */
-  oauthTokenData?: OAuthTokenData;
+  oauthTokenData?: OAuthTokenData | undefined;
   /** Optional. Auth URL for Authorization Code Flow */
-  authUri?: string;
+  authUri?: string | undefined;
   /** Optional. Authorization code to be exchanged for access and refresh tokens. */
-  authCode?: string;
+  authCode?: string | undefined;
   /** Optional. Client ID for user-provided OAuth app. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Parameters to support Oauth 2.0 Client Credentials Grant Authentication. See https://tools.ietf.org/html/rfc6749#section-1.3.4 for more details. */
 export interface EndUserAuthenticationConfigOauth2ClientCredentials {
   /** The client identifier. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Required. string value or secret version containing the client secret. */
-  clientSecret?: EUASecret;
+  clientSecret?: EUASecret | undefined;
 }
 /** Parameters to support Oauth 2.0 Auth Code Grant Authentication using Google Provided OAuth Client. See https://tools.ietf.org/html/rfc6749#section-1.3.1 for more details. */
 export interface EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged {
   /** Auth Code Data */
-  oauthTokenData?: OAuthTokenData;
+  oauthTokenData?: OAuthTokenData | undefined;
   /** Optional. Authorization code to be exchanged for access and refresh tokens. */
-  authCode?: string;
+  authCode?: string | undefined;
   /** Optional. Redirect URI to be provided during the auth code exchange. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
   /** Required. Scopes the connection will request when the user performs the auth code flow. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
 }
 /** Parameters to support Ssh public key Authentication. */
 export interface EndUserAuthenticationConfigSshPublicKey {
   /** The user account used to authenticate. */
-  username?: string;
+  username?: string | undefined;
   /** Required. SSH Client Cert. It should contain both public and private key. */
-  sshClientCert?: EUASecret;
+  sshClientCert?: EUASecret | undefined;
   /** Format of SSH Client cert. */
-  certType?: string;
+  certType?: string | undefined;
   /** Required. Password (passphrase) for ssh client certificate if it has one. */
-  sshClientCertPass?: EUASecret;
+  sshClientCertPass?: EUASecret | undefined;
 }
 /** JWT claims used for the jwt-bearer authorization grant. */
 export interface EndUserAuthenticationConfigOauth2JwtBearerJwtClaims {
   /** Value for the "aud" claim. */
-  audience?: string;
+  audience?: string | undefined;
   /** Value for the "sub" claim. */
-  subject?: string;
+  subject?: string | undefined;
   /** Value for the "iss" claim. */
-  issuer?: string;
+  issuer?: string | undefined;
 }
 /** Parameters to support JSON Web Token (JWT) Profile for Oauth 2.0 Authorization Grant based authentication. See https://tools.ietf.org/html/rfc7523 for more details. */
 export interface EndUserAuthenticationConfigOauth2JwtBearer {
   /** Required. secret version/value reference containing a PKCS#8 PEM-encoded private key associated with the Client Certificate. This private key will be used to sign JWTs used for the jwt-bearer authorization grant. Specified in the form as: `projects/*\/strings/*\/versions/*`. */
-  clientKey?: EUASecret;
+  clientKey?: EUASecret | undefined;
   /** JwtClaims providers fields to generate the token. */
-  jwtClaims?: EndUserAuthenticationConfigOauth2JwtBearerJwtClaims;
+  jwtClaims?: EndUserAuthenticationConfigOauth2JwtBearerJwtClaims | undefined;
 }
 /** Parameters to support Username and Password Authentication. */
 export interface EndUserAuthenticationConfigUserPassword {
   /** Username. */
-  username?: string;
+  username?: string | undefined;
   /** Required. string value or secret version reference containing the password. */
-  password?: EUASecret;
+  password?: EUASecret | undefined;
 }
 /** EndUserAuthenticationConfig defines details of a authentication configuration for EUC */
 export interface EndUserAuthenticationConfig {
   /** The type of authentication configured. */
-  authType?: EndUserAuthenticationConfigAuthTypeEnum | (string & {});
+  authType?: EndUserAuthenticationConfigAuthTypeEnum | (string & {}) | undefined;
   /** Optional. List containing additional auth configs. */
-  additionalVariables?: EndUserAuthenticationConfigVariableList;
+  additionalVariables?: EndUserAuthenticationConfigVariableList | undefined;
   /** Oauth2AuthCodeFlow. */
-  oauth2AuthCodeFlow?: EndUserAuthenticationConfigOauth2AuthCodeFlow;
+  oauth2AuthCodeFlow?: EndUserAuthenticationConfigOauth2AuthCodeFlow | undefined;
   /** Oauth2ClientCredentials. */
-  oauth2ClientCredentials?: EndUserAuthenticationConfigOauth2ClientCredentials;
+  oauth2ClientCredentials?: EndUserAuthenticationConfigOauth2ClientCredentials | undefined;
   /** Oauth2AuthCodeFlowGoogleManaged. */
-  oauth2AuthCodeFlowGoogleManaged?: EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged;
+  oauth2AuthCodeFlowGoogleManaged?:
+    | EndUserAuthenticationConfigOauth2AuthCodeFlowGoogleManaged
+    | undefined;
   /** SSH Public Key. */
-  sshPublicKey?: EndUserAuthenticationConfigSshPublicKey;
+  sshPublicKey?: EndUserAuthenticationConfigSshPublicKey | undefined;
   /** Oauth2JwtBearer. */
-  oauth2JwtBearer?: EndUserAuthenticationConfigOauth2JwtBearer;
+  oauth2JwtBearer?: EndUserAuthenticationConfigOauth2JwtBearer | undefined;
   /** UserPassword. */
-  userPassword?: EndUserAuthenticationConfigUserPassword;
+  userPassword?: EndUserAuthenticationConfigUserPassword | undefined;
   /** Identifier key for auth config */
-  authKey?: string;
+  authKey?: string | undefined;
 }
 export type EndUserAuthenticationEndUserAuthenticationStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -767,25 +773,25 @@ export type EndUserAuthenticationEndUserAuthenticationStatusStateEnum =
 /** EndUserAuthentication Status denotes the status of the EndUserAuthentication resource. */
 export interface EndUserAuthenticationEndUserAuthenticationStatus {
   /** Output only. Description of the state. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. State of Event Subscription resource. */
-  state?: EndUserAuthenticationEndUserAuthenticationStatusStateEnum | (string & {});
+  state?: EndUserAuthenticationEndUserAuthenticationStatusStateEnum | (string & {}) | undefined;
 }
 /** Header details for a given header to be added to Endpoint. */
 export interface EndUserAuthenticationNotifyEndpointDestinationEndPointHeader {
   /** Required. Key of Header. */
-  key?: string;
+  key?: string | undefined;
   /** Required. Value of Header. */
-  value?: string;
+  value?: string | undefined;
 }
 export type EndUserAuthenticationNotifyEndpointDestinationEndPointHeaderList =
   Array<EndUserAuthenticationNotifyEndpointDestinationEndPointHeader>;
 /** Endpoint message includes details of the Destination endpoint. */
 export interface EndUserAuthenticationNotifyEndpointDestinationEndPoint {
   /** Required. The URI of the Endpoint. */
-  endpointUri?: string;
+  endpointUri?: string | undefined;
   /** Optional. List of Header to be added to the Endpoint. */
-  headers?: EndUserAuthenticationNotifyEndpointDestinationEndPointHeaderList;
+  headers?: EndUserAuthenticationNotifyEndpointDestinationEndPointHeaderList | undefined;
 }
 export type EndUserAuthenticationNotifyEndpointDestinationTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -793,44 +799,44 @@ export type EndUserAuthenticationNotifyEndpointDestinationTypeEnum =
 /** Message for NotifyEndpointDestination Destination to hit when the refresh token is expired. */
 export interface EndUserAuthenticationNotifyEndpointDestination {
   /** Optional. OPTION 1: Hit an endpoint when the refresh token is expired. */
-  endpoint?: EndUserAuthenticationNotifyEndpointDestinationEndPoint;
+  endpoint?: EndUserAuthenticationNotifyEndpointDestinationEndPoint | undefined;
   /** Required. Service account needed for runtime plane to notify the backend. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Required. type of the destination */
-  type?: EndUserAuthenticationNotifyEndpointDestinationTypeEnum | (string & {});
+  type?: EndUserAuthenticationNotifyEndpointDestinationTypeEnum | (string & {}) | undefined;
 }
 /** AuthConfig defines details of a authentication type. */
 export interface EndUserAuthentication {
   /** Optional. Roles for the EndUserAuthentication. */
-  roles?: EndUserAuthenticationRolesItemEnumList;
+  roles?: EndUserAuthenticationRolesItemEnumList | undefined;
   /** Required. Identifier. Resource name of the EndUserAuthentication. Format: projects/{project}/locations/{location}/connections/{connection}/endUserAuthentications/{end_user_authentication} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Created time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Config variables for the EndUserAuthentication. */
-  configVariables?: EndUserAuthenticationConfigVariableList;
+  configVariables?: EndUserAuthenticationConfigVariableList | undefined;
   /** Optional. The EndUserAuthenticationConfig for the EndUserAuthentication. */
-  endUserAuthenticationConfig?: EndUserAuthenticationConfig;
+  endUserAuthenticationConfig?: EndUserAuthenticationConfig | undefined;
   /** Optional. Status of the EndUserAuthentication. */
-  status?: EndUserAuthenticationEndUserAuthenticationStatus;
+  status?: EndUserAuthenticationEndUserAuthenticationStatus | undefined;
   /** Optional. The user id of the user. */
-  userId?: string;
+  userId?: string | undefined;
   /** Optional. The destination to hit when we receive an event */
-  notifyEndpointDestination?: EndUserAuthenticationNotifyEndpointDestination;
+  notifyEndpointDestination?: EndUserAuthenticationNotifyEndpointDestination | undefined;
   /** Optional. Labels for the EndUserAuthentication. */
-  labels?: StringList;
+  labels?: StringList | undefined;
   /** Optional. Destination configs for the EndUserAuthentication. */
-  destinationConfigs?: DestinationConfigList;
+  destinationConfigs?: DestinationConfigList | undefined;
   /** Output only. Updated time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsConnectionsEndUserAuthenticationsRequest {
   /** Required. Parent resource of the EndUserAuthentication, of the form: `projects/*\/locations/*\/connections/*` */
   parent: string;
   /** Required. Identifier to assign to the EndUserAuthentication. Must be unique within scope of the parent resource. */
-  endUserAuthenticationId?: string;
+  endUserAuthenticationId?: string | undefined;
   /** Request body */
-  body?: EndUserAuthentication;
+  body?: EndUserAuthentication | undefined;
 }
 export type EventSubscriptionStatusStateEnum =
   | "STATE_UNSPECIFIED"
@@ -842,32 +848,32 @@ export type EventSubscriptionStatusStateEnum =
 /** EventSubscription Status denotes the status of the EventSubscription resource. */
 export interface EventSubscriptionStatus {
   /** Output only. State of Event Subscription resource. */
-  state?: EventSubscriptionStatusStateEnum | (string & {});
+  state?: EventSubscriptionStatusStateEnum | (string & {}) | undefined;
   /** Output only. Description of the state. */
-  description?: string;
+  description?: string | undefined;
 }
 export type JMSTypeEnum = "TYPE_UNSPECIFIED" | "QUEUE" | "TOPIC";
 /** JMS message denotes the source of the event */
 export interface JMS {
   /** Optional. Name of the JMS source. i.e. queueName or topicName */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Type of the JMS Source. i.e. Queue or Topic */
-  type?: JMSTypeEnum | (string & {});
+  type?: JMSTypeEnum | (string & {}) | undefined;
 }
 /** Header details for a given header to be added to Endpoint. */
 export interface Header {
   /** Optional. Value of Header. */
-  value?: string;
+  value?: string | undefined;
   /** Optional. Key of Header. */
-  key?: string;
+  key?: string | undefined;
 }
 export type HeaderList = Array<Header>;
 /** Endpoint message includes details of the Destination endpoint. */
 export interface EndPoint {
   /** Optional. The URI of the Endpoint. */
-  endpointUri?: string;
+  endpointUri?: string | undefined;
   /** Optional. List of Header to be added to the Endpoint. */
-  headers?: HeaderList;
+  headers?: HeaderList | undefined;
 }
 export type EventSubscriptionDestinationTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -877,57 +883,57 @@ export type EventSubscriptionDestinationTypeEnum =
 /** Pub/Sub message includes details of the Destination Pub/Sub topic. */
 export interface PubSub {
   /** Optional. Pub/Sub message attributes to be added to the Pub/Sub message. */
-  attributes?: StringMap;
+  attributes?: StringMap | undefined;
   /** Optional. Configuration for configuring the trigger */
-  configVariables?: ConfigVariableList;
+  configVariables?: ConfigVariableList | undefined;
   /** Required. The project id which has the Pub/Sub topic. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Required. The topic id of the Pub/Sub topic. */
-  topicId?: string;
+  topicId?: string | undefined;
 }
 /** Message for EventSubscription Destination to act on receiving an event */
 export interface EventSubscriptionDestination {
   /** Optional. Service account needed for runtime plane to trigger IP workflow. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** OPTION 1: Hit an endpoint when we receive an event. */
-  endpoint?: EndPoint;
+  endpoint?: EndPoint | undefined;
   /** Optional. type of the destination */
-  type?: EventSubscriptionDestinationTypeEnum | (string & {});
+  type?: EventSubscriptionDestinationTypeEnum | (string & {}) | undefined;
   /** OPTION 3: Write the event to Pub/Sub topic. */
-  pubsub?: PubSub;
+  pubsub?: PubSub | undefined;
 }
 /** represents the Connector's EventSubscription resource */
 export interface EventSubscription {
   /** Output only. Updated time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Link for Subscriber of the current EventSubscription. */
-  subscriberLink?: string;
+  subscriberLink?: string | undefined;
   /** Optional. name of the Subscriber for the current EventSubscription. */
-  subscriber?: string;
+  subscriber?: string | undefined;
   /** Optional. Event type id of the event of current EventSubscription. */
-  eventTypeId?: string;
+  eventTypeId?: string | undefined;
   /** Optional. Configuration for configuring the trigger */
-  triggerConfigVariables?: ConfigVariableList;
+  triggerConfigVariables?: ConfigVariableList | undefined;
   /** Optional. Status indicates the status of the event subscription resource */
-  status?: EventSubscriptionStatus;
+  status?: EventSubscriptionStatus | undefined;
   /** Output only. Created time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. Identifier. Resource name of the EventSubscription. Format: projects/{project}/locations/{location}/connections/{connection}/eventSubscriptions/{event_subscription} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. JMS is the source for the event listener. */
-  jms?: JMS;
+  jms?: JMS | undefined;
   /** Optional. Filter for the event subscription. Incoming events are filtered based on the filter expression. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The destination to hit when we receive an event */
-  destinations?: EventSubscriptionDestination;
+  destinations?: EventSubscriptionDestination | undefined;
 }
 export interface CreateProjectsLocationsConnectionsEventSubscriptionsRequest {
   /** Required. Parent resource of the EventSubscription, of the form: `projects/*\/locations/*\/connections/*` */
   parent: string;
   /** Required. Identifier to assign to the Event Subscription. Must be unique within scope of the parent resource. */
-  eventSubscriptionId?: string;
+  eventSubscriptionId?: string | undefined;
   /** Request body */
-  body?: EventSubscription;
+  body?: EventSubscription | undefined;
 }
 export type EndpointAttachmentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -941,31 +947,31 @@ export type EndpointAttachmentStateEnum =
 /** represents the Connector's Endpoint Attachment resource */
 export interface EndpointAttachment {
   /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Description of the resource. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Resource name of the Endpoint Attachment. Format: projects/{project}/locations/{location}/endpointAttachments/{endpoint_attachment} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The Private Service Connect connection endpoint ip */
-  endpointIp?: string;
+  endpointIp?: string | undefined;
   /** Output only. Created time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. The Private Service Connect Connection Endpoint Global Access. https://cloud.google.com/vpc/docs/about-accessing-vpc-hosted-services-endpoints#global-access */
-  endpointGlobalAccess?: boolean;
+  endpointGlobalAccess?: boolean | undefined;
   /** Output only. The Private Service Connect Connection Endpoint State. This value is only available in the Full view. */
-  state?: EndpointAttachmentStateEnum | (string & {});
+  state?: EndpointAttachmentStateEnum | (string & {}) | undefined;
   /** Required. The path of the service attachment */
-  serviceAttachment?: string;
+  serviceAttachment?: string | undefined;
   /** Output only. Updated time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsEndpointAttachmentsRequest {
   /** Required. Parent resource of the EndpointAttachment, of the form: `projects/*\/locations/*` */
   parent: string;
   /** Required. Identifier to assign to the EndpointAttachment. Must be unique within scope of the parent resource. The regex is: `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
-  endpointAttachmentId?: string;
+  endpointAttachmentId?: string | undefined;
   /** Request body */
-  body?: EndpointAttachment;
+  body?: EndpointAttachment | undefined;
 }
 export type CustomConnectorCustomConnectorTypeEnum =
   | "CUSTOM_CONNECTOR_TYPE_UNSPECIFIED"
@@ -975,117 +981,117 @@ export type CustomConnectorCustomConnectorTypeEnum =
 /** CustomConnector represents the custom connector defined by the customer as part of byoc. */
 export interface CustomConnector {
   /** Optional. Description of the resource. */
-  description?: string;
+  description?: string | undefined;
   /** Required. Type of the custom connector. */
-  customConnectorType?: CustomConnectorCustomConnectorTypeEnum | (string & {});
+  customConnectorType?: CustomConnectorCustomConnectorTypeEnum | (string & {}) | undefined;
   /** Output only. Updated time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. All marketplace versions. */
-  allMarketplaceVersions?: StringList;
+  allMarketplaceVersions?: StringList | undefined;
   /** Output only. Published marketplace versions. */
-  publishedMarketplaceVersions?: StringList;
+  publishedMarketplaceVersions?: StringList | undefined;
   /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Identifier. Resource name of the CustomConnector. Format: projects/{project}/locations/{location}/customConnectors/{connector} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. All connector versions. */
-  allConnectorVersions?: StringList;
+  allConnectorVersions?: StringList | undefined;
   /** Optional. Display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Active connector versions. */
-  activeConnectorVersions?: StringList;
+  activeConnectorVersions?: StringList | undefined;
   /** Optional. Logo of the resource. */
-  logo?: string;
+  logo?: string | undefined;
   /** Output only. Created time. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsGlobalCustomConnectorsRequest {
   /** Required. Parent resource of the CreateCustomConnector, of the form: `projects/{project}/locations/*` */
   parent: string;
   /** Required. Identifier to assign to the CreateCustomConnector. Must be unique within scope of the parent resource. */
-  customConnectorId?: string;
+  customConnectorId?: string | undefined;
   /** Request body */
-  body?: CustomConnector;
+  body?: CustomConnector | undefined;
 }
 /** Partner metadata details. This will be populated when publishing the custom connector as a partner connector version. On publishing, parntner connector version will be created using the fields in PartnerMetadata. */
 export interface PartnerMetadata {
   /** Required. Public URL for the demo video. */
-  demoUri?: string;
+  demoUri?: string | undefined;
   /** Required. Confirmation that connector meets all applicable requirements mentioned in the Partner Connector Publishing requirements list and Partner onboardiong requirements list (https://cloud.google.com/marketplace/docs/partners/get-started#requirements). */
-  confirmPartnerRequirements?: boolean;
+  confirmPartnerRequirements?: boolean | undefined;
   /** Required. Target customer segment for the partner connector. */
-  targetCustomerSegment?: string;
+  targetCustomerSegment?: string | undefined;
   /** Optional. Marketplace product name. */
-  marketplaceProduct?: string;
+  marketplaceProduct?: string | undefined;
   /** Optional. Marketplace product project ID. */
-  marketplaceProductProjectId?: string;
+  marketplaceProductProjectId?: string | undefined;
   /** Required. Target application for which partner connector is built. */
-  targetApplication?: string;
+  targetApplication?: string | undefined;
   /** Required. Partner connector display name. */
-  partnerConnectorDisplayName?: string;
+  partnerConnectorDisplayName?: string | undefined;
   /** Optional. Marketplace product URL. */
-  marketplaceProductUri?: string;
+  marketplaceProductUri?: string | undefined;
   /** Output only. Has dynamic open api spec uri. */
-  hasDynamicSpecUri?: boolean;
+  hasDynamicSpecUri?: boolean | undefined;
   /** Required. Details about partner connector use cases. */
-  useCases?: string;
+  useCases?: string | undefined;
   /** Output only. Local spec path. Required if has_dynamic_spec_uri is true. */
-  localSpecPath?: string;
+  localSpecPath?: string | undefined;
   /** Required. Partner name. */
-  partner?: string;
+  partner?: string | undefined;
   /** Output only. Publish request time. */
-  publishRequestTime?: string;
+  publishRequestTime?: string | undefined;
   /** Optional. Additional comments for the submission. */
-  additionalComments?: string;
+  additionalComments?: string | undefined;
   /** Required. Integration example templates for the custom connector. */
-  integrationTemplates?: string;
+  integrationTemplates?: string | undefined;
   /** Required. Whether the user has accepted the Google Cloud Platform Terms of Service (https://cloud.google.com/terms/) and the Google Cloud Marketplace Terms of Service (https://cloud.google.com/terms/marketplace/launcher?hl=en). */
-  acceptGcpTos?: boolean;
+  acceptGcpTos?: boolean | undefined;
   /** Required. Marketplace product ID. */
-  marketplaceProductId?: string;
+  marketplaceProductId?: string | undefined;
 }
 /** This configuration captures the details required to render an authorization link for the OAuth Authorization Code Flow. */
 export interface AuthorizationCodeLink {
   /** Optional. Omit query params from the redirect URI. */
-  omitQueryParams?: boolean;
+  omitQueryParams?: boolean | undefined;
   /** Optional. The base URI the user must click to trigger the authorization code login flow. */
-  uri?: string;
+  uri?: string | undefined;
   /** Optional. The scopes for which the user will authorize Google Cloud Connectors on the connector data source. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
   /** Optional. The client ID assigned to the Google Cloud Connectors OAuth app for the connector data source. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Optional. Whether to enable PKCE for the auth code flow. */
-  enablePkce?: boolean;
+  enablePkce?: boolean | undefined;
   /** Optional. The client secret assigned to the Google Cloud Connectors OAuth app for the connector data source. */
-  clientSecret?: Secret;
+  clientSecret?: Secret | undefined;
 }
 /** MultiplSelecteOption represents the single option for a config variable. */
 export interface MultipleSelectOption {
   /** Required. Display name of the option. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Required. Key of the option. */
-  key?: string;
+  key?: string | undefined;
   /** Optional. Value of the option. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Indicates if the option is preselected. */
-  preselected?: boolean;
+  preselected?: boolean | undefined;
 }
 export type MultipleSelectOptionList = Array<MultipleSelectOption>;
 /** MultipleSelectConfig represents the multiple options for a config variable. */
 export interface MultipleSelectConfig {
   /** Required. Multiple select options. */
-  multipleSelectOptions?: MultipleSelectOptionList;
+  multipleSelectOptions?: MultipleSelectOptionList | undefined;
   /** Required. Value separator. Only "," can be used for OAuth auth code flow scope field. */
-  valueSeparator?: string;
+  valueSeparator?: string | undefined;
   /** Optional. Allow custom values. */
-  allowCustomValues?: boolean;
+  allowCustomValues?: boolean | undefined;
 }
 /** EnumOption definition */
 export interface EnumOption {
   /** Optional. Id of the option. */
-  id?: string;
+  id?: string | undefined;
   /** Optional. Display name of the option. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type EnumOptionList = Array<EnumOption>;
 export type ConfigVariableTemplateLocationTypeEnum =
@@ -1116,20 +1122,20 @@ export type ResourceTypeEnum =
 /** Resource definition */
 export interface Resource {
   /** Optional. Template to uniquely represent a Google Cloud resource in a format IAM expects This is a template that can have references to other values provided in the config variable template. */
-  pathTemplate?: string;
+  pathTemplate?: string | undefined;
   /** Optional. Different types of resource supported. */
-  type?: ResourceTypeEnum | (string & {});
+  type?: ResourceTypeEnum | (string & {}) | undefined;
 }
 /** This configuration defines all the Cloud IAM roles that needs to be granted to a particular Google Cloud resource for the selected principal like service account. These configurations will let UI display to customers what IAM roles need to be granted by them. Or these configurations can be used by the UI to render a 'grant' button to do the same on behalf of the user. */
 export interface RoleGrant {
   /** Optional. Principal/Identity for whom the role need to assigned. */
-  principal?: RoleGrantPrincipalEnum | (string & {});
+  principal?: RoleGrantPrincipalEnum | (string & {}) | undefined;
   /** Optional. List of roles that need to be granted. */
-  roles?: StringList;
+  roles?: StringList | undefined;
   /** Optional. Resource on which the roles needs to be granted for the principal. */
-  resource?: Resource;
+  resource?: Resource | undefined;
   /** Optional. Template that UI can use to provide helper text to customers. */
-  helperTextTemplate?: string;
+  helperTextTemplate?: string | undefined;
 }
 export type LogicalExpressionList = Array<LogicalExpression>;
 export type LogicalExpressionLogicalOperatorEnum = "OPERATOR_UNSPECIFIED" | "AND" | "OR";
@@ -1137,58 +1143,58 @@ export type FieldComparisonComparatorEnum = "COMPARATOR_UNSPECIFIED" | "EQUALS" 
 /** Field that needs to be compared. */
 export interface FieldComparison {
   /** Optional. Key of the field. */
-  key?: string;
+  key?: string | undefined;
   /** Boolean value */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
   /** String value */
-  stringValue?: string;
+  stringValue?: string | undefined;
   /** Optional. Comparator to use for comparing the field value. */
-  comparator?: FieldComparisonComparatorEnum | (string & {});
+  comparator?: FieldComparisonComparatorEnum | (string & {}) | undefined;
   /** Integer value */
-  intValue?: string;
+  intValue?: string | undefined;
 }
 export type FieldComparisonList = Array<FieldComparison>;
 /** Struct for representing boolean expressions. */
 export interface LogicalExpression {
   /** Optional. A list of nested conditions to be compared. */
-  logicalExpressions?: LogicalExpressionList;
+  logicalExpressions?: LogicalExpressionList | undefined;
   /** Optional. The logical operator to use between the fields and conditions. */
-  logicalOperator?: LogicalExpressionLogicalOperatorEnum | (string & {});
+  logicalOperator?: LogicalExpressionLogicalOperatorEnum | (string & {}) | undefined;
   /** Optional. A list of fields to be compared. */
-  fieldComparisons?: FieldComparisonList;
+  fieldComparisons?: FieldComparisonList | undefined;
 }
 /** ConfigVariableTemplate provides metadata about a `ConfigVariable` that is used in a Connection. */
 export interface ConfigVariableTemplate {
   /** Optional. Authorization code link options. To be populated if `ValueType` is `AUTHORIZATION_CODE` */
-  authorizationCodeLink?: AuthorizationCodeLink;
+  authorizationCodeLink?: AuthorizationCodeLink | undefined;
   /** Optional. MultipleSelectConfig represents the multiple options for a config variable. */
-  multipleSelectConfig?: MultipleSelectConfig;
+  multipleSelectConfig?: MultipleSelectConfig | undefined;
   /** Optional. Enum options. To be populated if `ValueType` is `ENUM` */
-  enumOptions?: EnumOptionList;
+  enumOptions?: EnumOptionList | undefined;
   /** Optional. Location Type denotes where this value should be sent in BYOC connections. */
-  locationType?: ConfigVariableTemplateLocationTypeEnum | (string & {});
+  locationType?: ConfigVariableTemplateLocationTypeEnum | (string & {}) | undefined;
   /** Optional. Type of the parameter: string, int, bool etc. consider custom type for the benefit for the validation. */
-  valueType?: ConfigVariableTemplateValueTypeEnum | (string & {});
+  valueType?: ConfigVariableTemplateValueTypeEnum | (string & {}) | undefined;
   /** Optional. enum source denotes the source of api to fill the enum options */
-  enumSource?: ConfigVariableTemplateEnumSourceEnum | (string & {});
+  enumSource?: ConfigVariableTemplateEnumSourceEnum | (string & {}) | undefined;
   /** Output only. State of the config variable. */
-  state?: ConfigVariableTemplateStateEnum | (string & {});
+  state?: ConfigVariableTemplateStateEnum | (string & {}) | undefined;
   /** Optional. Regular expression in RE2 syntax used for validating the `value` of a `ConfigVariable`. */
-  validationRegex?: string;
+  validationRegex?: string | undefined;
   /** Optional. Indicates if current template is part of advanced settings */
-  isAdvanced?: boolean;
+  isAdvanced?: boolean | undefined;
   /** Optional. Display name of the parameter. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Flag represents that this `ConfigVariable` must be provided for a connection. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Optional. Key of the config variable. */
-  key?: string;
+  key?: string | undefined;
   /** Optional. Role grant configuration for the config variable. */
-  roleGrant?: RoleGrant;
+  roleGrant?: RoleGrant | undefined;
   /** Optional. Description. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Condition under which a field would be required. The condition can be represented in the form of a logical expression. */
-  requiredCondition?: LogicalExpression;
+  requiredCondition?: LogicalExpression | undefined;
 }
 export type ConfigVariableTemplateList = Array<ConfigVariableTemplate>;
 export type CustomConnectorVersionStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DEPRECATED";
@@ -1200,13 +1206,13 @@ export type PublishStatusPublishStateEnum =
 /** Publish status of a custom connector. */
 export interface PublishStatus {
   /** Output only. Custom connector name. Will be set on the partner connector. Format: providers/customconnectors/connectors//versions/ */
-  publishedSource?: string;
+  publishedSource?: string | undefined;
   /** Output only. Publish time. */
-  publishTime?: string;
+  publishTime?: string | undefined;
   /** Output only. Publish state of the custom connector. */
-  publishState?: PublishStatusPublishStateEnum | (string & {});
+  publishState?: PublishStatusPublishStateEnum | (string & {}) | undefined;
   /** Output only. Partner connector name. Will be set on the custom connector. Format: providers/partner/connectors//versions/ */
-  publishedAs?: string;
+  publishedAs?: string | undefined;
 }
 export type AuthConfigTemplateAuthTypeEnum =
   | "AUTH_TYPE_UNSPECIFIED"
@@ -1220,94 +1226,94 @@ export type AuthConfigTemplateAuthTypeEnum =
 /** AuthConfigTemplate defines required field over an authentication type. */
 export interface AuthConfigTemplate {
   /** Connector specific description for an authentication template. */
-  description?: string;
+  description?: string | undefined;
   /** Identifier key for auth config */
-  authKey?: string;
+  authKey?: string | undefined;
   /** Display name for authentication template. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Config variables to describe an `AuthConfig` for a `Connection`. */
-  configVariableTemplates?: ConfigVariableTemplateList;
+  configVariableTemplates?: ConfigVariableTemplateList | undefined;
   /** The type of authentication configured. */
-  authType?: AuthConfigTemplateAuthTypeEnum | (string & {});
+  authType?: AuthConfigTemplateAuthTypeEnum | (string & {}) | undefined;
   /** Whether the auth config is the default one. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
 }
 export type AuthConfigTemplateList = Array<AuthConfigTemplate>;
 /** CustomConnectorVersion indicates a specific version of a connector. */
 export interface CustomConnectorVersion {
   /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Partner metadata details. This should be populated only when publishing the custom connector to partner connector. */
-  partnerMetadata?: PartnerMetadata;
+  partnerMetadata?: PartnerMetadata | undefined;
   /** Optional. Indicates if Async Operations/Connector Job is supported. This is only available for SDK based custom connectors. */
-  asyncOperationsSupport?: boolean;
+  asyncOperationsSupport?: boolean | undefined;
   /** Optional. Service account used by runtime plane to access auth config secrets. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. Backend variable templates is only used when connector backend is enabled. This is used to specify the variables required by the connector backend service to talk to the actual application backend. This translates to additional variable templates in the connection config. */
-  backendVariableTemplates?: ConfigVariableTemplateList;
+  backendVariableTemplates?: ConfigVariableTemplateList | undefined;
   /** Output only. Server URLs parsed from the Open API spec. This is only used for Open API based custom connectors. */
-  specServerUrls?: StringList;
+  specServerUrls?: StringList | undefined;
   /** Optional. Indicates if an intermediatory connectorservice is used as backend. When this is enabled, the connector destination and connector auth config are required. For SDK based connectors, this is always enabled. */
-  enableBackendDestinationConfig?: boolean;
+  enableBackendDestinationConfig?: boolean | undefined;
   /** Optional. Auth override support. */
-  authOverrideSupport?: boolean;
+  authOverrideSupport?: boolean | undefined;
   /** Output only. State of the custom connector version. */
-  state?: CustomConnectorVersionStateEnum | (string & {});
+  state?: CustomConnectorVersionStateEnum | (string & {}) | undefined;
   /** Output only. Created time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Authentication config for accessing connector service (facade). This is used only when enable_backend_destination_config is true. */
-  authConfig?: AuthConfig;
+  authConfig?: AuthConfig | undefined;
   /** Output only. Publish status of a custom connector. */
-  publishStatus?: PublishStatus;
+  publishStatus?: PublishStatus | undefined;
   /** Optional. Destination config(s) for accessing connector service (facade). This is used only when enable_backend_destination_config is true. */
-  destinationConfigs?: DestinationConfigList;
+  destinationConfigs?: DestinationConfigList | undefined;
   /** Optional. Location of the custom connector spec. This is only used for Open API based custom connectors. The location can be either a public url like `https://public-url.com/spec` Or a Google Cloud Storage location like `gs:///`. */
-  specLocation?: string;
+  specLocation?: string | undefined;
   /** Output only. Identifier. Resource name of the Version. Format: projects/{project}/locations/{location}/customConnectors/{custom_connector}/customConnectorVersions/{custom_connector_version} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Auth Config Templates is only used when connector backend is enabled. This is used to specify the auth configs supported by the connector backend service to talk to the actual application backend. */
-  authConfigTemplates?: AuthConfigTemplateList;
+  authConfigTemplates?: AuthConfigTemplateList | undefined;
   /** Output only. Updated time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest {
   /** Required. Parent resource of the CreateCustomConnector, of the form: `projects/{project}/locations/{location}/customConnectors/{custom_connector}` */
   parent: string;
   /** Required. Identifier to assign to the CreateCustomConnectorVersion. Must be unique within scope of the parent resource. */
-  customConnectorVersionId?: string;
+  customConnectorVersionId?: string | undefined;
   /** Request body */
-  body?: CustomConnectorVersion;
+  body?: CustomConnectorVersion | undefined;
 }
 /** represents the Connector's Managed Zone resource */
 export interface ManagedZone {
   /** Required. The name of the Target Project VPC Network */
-  targetVpc?: string;
+  targetVpc?: string | undefined;
   /** Output only. Resource name of the Managed Zone. Format: projects/{project}/locations/global/managedZones/{managed_zone} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Updated time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Description of the resource. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Created time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. The name of the Target Project */
-  targetProject?: string;
+  targetProject?: string | undefined;
   /** Required. DNS Name of the resource */
-  dns?: string;
+  dns?: string | undefined;
   /** Optional. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsGlobalManagedZonesRequest {
   /** Required. Parent resource of the ManagedZone, of the form: `projects/*\/locations/global` */
   parent: string;
   /** Required. Identifier to assign to the ManagedZone. Must be unique within scope of the parent resource. */
-  managedZoneId?: string;
+  managedZoneId?: string | undefined;
   /** Request body */
-  body?: ManagedZone;
+  body?: ManagedZone | undefined;
 }
 export interface DeleteProjectsLocationsConnectionsRequest {
   /** Optional. If set to true, any child EndUserAuthentication/EventSubscription resources will also be deleted. Otherwise, the request will fail if the connection has any children. Followed the best practice from https://aip.dev/135#cascading-delete */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. Resource name of the form: `projects/*\/locations/*\/connections/*` */
   name: string;
 }
@@ -1331,7 +1337,7 @@ export interface DeleteProjectsLocationsGlobalCustomConnectorsRequest {
   /** Required. Resource name of the form: `projects/{project}/locations/{location}/customConnectors/{connector}` */
   name: string;
   /** Optional. If set to true, any customConnectorVersion which is a child resource will also be deleted. https://aip.dev/135#cascading-delete */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsGlobalManagedZonesRequest {
   /** Required. Resource name of the form: `projects/*\/locations/global/managedZones/*` */
@@ -1347,7 +1353,7 @@ export interface DeprecateProjectsLocationsCustomConnectorsCustomConnectorVersio
   /** Required. Resource name of the form: `projects/{project}/locations/{location}/customConnectors/{custom_connector}/customConnectorVersions/{custom_connector_version}` */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export type FetchAuthSchemaProjectsLocationsProvidersConnectorsVersionsViewEnum =
   | "AUTH_SCHEMA_VIEW_UNSPECIFIED"
@@ -1358,40 +1364,43 @@ export interface FetchAuthSchemaProjectsLocationsProvidersConnectorsVersionsRequ
   /** Required. Parent resource of the Connector Version, of the form: `projects/*\/locations/*\/providers/*\/connectors/*\/versions/*` */
   name: string;
   /** Optional. View of the AuthSchema. The default value is BASIC. */
-  view?: FetchAuthSchemaProjectsLocationsProvidersConnectorsVersionsViewEnum | (string & {});
+  view?:
+    | FetchAuthSchemaProjectsLocationsProvidersConnectorsVersionsViewEnum
+    | (string & {})
+    | undefined;
 }
 /** AuthProperty defines a property of an authentication type. */
 export interface AuthProperty {
   /** Description of the property. */
-  description?: string;
+  description?: string | undefined;
   /** Type of the property. */
-  type?: string;
+  type?: string | undefined;
 }
 export type AuthPropertyMap = { [key: string]: AuthProperty | undefined };
 /** AuthObject defines a JSON schema of an authentication type. */
 export interface AuthObject {
   /** Auth key of the object. */
-  authKey?: string;
+  authKey?: string | undefined;
   /** Description of the object. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the object is the default one. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Whether the object has additional properties. */
-  additionalProperties?: boolean;
+  additionalProperties?: boolean | undefined;
   /** Type of the object. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the object. */
-  properties?: AuthPropertyMap;
+  properties?: AuthPropertyMap | undefined;
   /** Auth type of the object. */
-  authType?: string;
+  authType?: string | undefined;
 }
 export type AuthObjectList = Array<AuthObject>;
 /** JsonAuthSchema defines the JSON schema of all authentication types. */
 export interface JsonAuthSchema {
   /** JSON schema of the AuthSchemas. */
-  $schema?: string;
+  $schema?: string | undefined;
   /** List of AuthObjects. */
-  oneOf?: AuthObjectList;
+  oneOf?: AuthObjectList | undefined;
 }
 export type AuthSchemaAuthTypeEnum =
   | "AUTH_TYPE_UNSPECIFIED"
@@ -1405,35 +1414,35 @@ export type AuthSchemaAuthTypeEnum =
 /** AuthField defines a field in an authentication type. */
 export interface AuthField {
   /** Key of the field. */
-  key?: string;
+  key?: string | undefined;
   /** Data type of the field. */
-  dataType?: string;
+  dataType?: string | undefined;
   /** Description of the field. */
-  description?: string;
+  description?: string | undefined;
 }
 export type AuthFieldList = Array<AuthField>;
 /** AuthSchema defines the schema of an authentication type. */
 export interface AuthSchema {
   /** Whether the auth schema is the default one. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Auth key of the schema. */
-  authKey?: string;
+  authKey?: string | undefined;
   /** Auth type of the schema. */
-  authType?: AuthSchemaAuthTypeEnum;
+  authType?: AuthSchemaAuthTypeEnum | undefined;
   /** Description of the schema. */
-  description?: string;
+  description?: string | undefined;
   /** Display name of the schema. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** List of AuthFields. */
-  authFields?: AuthFieldList;
+  authFields?: AuthFieldList | undefined;
 }
 export type AuthSchemaList = Array<AuthSchema>;
 /** Response message for Connectors.GetAuthSchema. */
 export interface FetchAuthSchemaResponse {
   /** JSON schema of the AuthSchemas. This is only populated if the view is JSON_SCHEMA. The schema is in draft-07 format. */
-  jsonSchema?: JsonAuthSchema;
+  jsonSchema?: JsonAuthSchema | undefined;
   /** List of AuthSchemas. */
-  authSchemas?: AuthSchemaList;
+  authSchemas?: AuthSchemaList | undefined;
 }
 export type ToolNameOperationEnum =
   | "OPERATION_UNSPECIFIED"
@@ -1445,39 +1454,39 @@ export type ToolNameOperationEnum =
 /** Tool name for which the tool spec override is to be generated. */
 export interface ToolName {
   /** Required. Tool name that was generated in the list tools call. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Entity type name for which the tool was generated. */
-  entityType?: string;
+  entityType?: string | undefined;
   /** Optional. Operation for which the tool was generated. */
-  operation?: ToolNameOperationEnum | (string & {});
+  operation?: ToolNameOperationEnum | (string & {}) | undefined;
 }
 export type ToolNameList = Array<ToolName>;
 /** Request message for FetchConnectionToolspecOverride API. */
 export interface FetchConnectionToolspecOverrideRequest {
   /** Required. List of tools for which the tool spec override is to be generated. */
-  toolNames?: ToolNameList;
+  toolNames?: ToolNameList | undefined;
 }
 export interface FetchToolspecOverrideProjectsLocationsConnectionsRequest {
   /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
   /** Request body */
-  body?: FetchConnectionToolspecOverrideRequest;
+  body?: FetchConnectionToolspecOverrideRequest | undefined;
 }
 /** Toolspec overrides for a connection only holds the information that is to be displayed in the UI for admins. */
 export interface ToolspecOverride {
   /** Output only. Created time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. List of tools defined in the tool spec. Marking this field as required as this is the only field that is editable by the user in modify API so we should have at least one tool in the list. */
-  tools?: DocumentMapList;
+  tools?: DocumentMapList | undefined;
   /** Required. Represents the base version of the toolspec for which admin has added overrides. */
-  baseVersion?: string;
+  baseVersion?: string | undefined;
   /** Output only. Updated time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 /** Response message for FetchConnectionToolspecOverride API. */
 export interface FetchConnectionToolspecOverrideResponse {
   /** Toolspec overrides for the connection. */
-  toolspecOverride?: ToolspecOverride;
+  toolspecOverride?: ToolspecOverride | undefined;
 }
 /** Request message for GenerateConnectionToolspecOverride API. */
 export type GenerateConnectionToolspecOverrideRequest = FetchConnectionToolspecOverrideRequest;
@@ -1485,18 +1494,18 @@ export interface GenerateToolspecOverrideProjectsLocationsConnectionsRequest {
   /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
   /** Request body */
-  body?: FetchConnectionToolspecOverrideRequest;
+  body?: FetchConnectionToolspecOverrideRequest | undefined;
 }
 /** Response message for GenerateConnectionToolspecOverride API. */
 export interface GenerateConnectionToolspecOverrideResponse {
   /** Toolspec overrides for the connection. */
-  toolspecOverride?: ToolspecOverride;
+  toolspecOverride?: ToolspecOverride | undefined;
 }
 export interface GetActionProjectsLocationsConnectionsConnectionSchemaMetadataRequest {
   /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection}/connectionSchemaMetadata */
   name: string;
   /** Required. Id of the action. */
-  actionId?: string;
+  actionId?: string | undefined;
 }
 export interface GetConnectionSchemaMetadataProjectsLocationsConnectionsRequest {
   /** Required. Connection name Format: projects/{project}/locations/{location}/connections/{connection}/connectionSchemaMetadata */
@@ -1514,23 +1523,23 @@ export type ConnectionSchemaMetadataStateEnum =
 /** ConnectionSchemaMetadata is the singleton resource of each connection. It includes the entity and action names of runtime resources exposed by a connection backend. */
 export interface ConnectionSchemaMetadata {
   /** Output only. Timestamp when the connection runtime schema was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. List of entity names. */
-  entities?: StringList;
+  entities?: StringList | undefined;
   /** Output only. Timestamp when the connection runtime schema refresh was triggered. */
-  refreshTime?: string;
+  refreshTime?: string | undefined;
   /** Output only. List of actions. */
-  actions?: StringList;
+  actions?: StringList | undefined;
   /** Output only. Resource name. Format: projects/{project}/locations/{location}/connections/{connection}/connectionSchemaMetadata */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The current state of runtime schema. */
-  state?: ConnectionSchemaMetadataStateEnum;
+  state?: ConnectionSchemaMetadataStateEnum | undefined;
   /** Error message for users. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export interface GetEntityTypeProjectsLocationsConnectionsConnectionSchemaMetadataRequest {
   /** Required. Id of the entity type. */
-  entityId?: string;
+  entityId?: string | undefined;
   /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection}/connectionSchemaMetadata */
   name: string;
 }
@@ -1538,27 +1547,27 @@ export interface GetIamPolicyProjectsLocationsConnectionsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
 }
 export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
@@ -1569,33 +1578,33 @@ export type AuditLogConfigLogTypeEnum =
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
+  exemptedMembers?: StringList | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
   /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
+  auditLogConfigs?: AuditLogConfigList | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
+  auditConfigs?: AuditConfigList | undefined;
 }
 export interface GetIamPolicyProjectsLocationsProvidersRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
@@ -1606,15 +1615,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
 }
 export type GetProjectsLocationsConnectionsViewEnum =
   | "CONNECTION_VIEW_UNSPECIFIED"
@@ -1622,7 +1631,7 @@ export type GetProjectsLocationsConnectionsViewEnum =
   | "FULL";
 export interface GetProjectsLocationsConnectionsRequest {
   /** Specifies which fields of the Connection are returned in the response. Defaults to `BASIC` view. */
-  view?: GetProjectsLocationsConnectionsViewEnum | (string & {});
+  view?: GetProjectsLocationsConnectionsViewEnum | (string & {}) | undefined;
   /** Required. Resource name of the form: `projects/*\/locations/*\/connections/*` */
   name: string;
 }
@@ -1632,7 +1641,7 @@ export type GetProjectsLocationsConnectionsEndUserAuthenticationsViewEnum =
   | "FULL_VIEW";
 export interface GetProjectsLocationsConnectionsEndUserAuthenticationsRequest {
   /** Optional. View of the EndUserAuthentication to return. */
-  view?: GetProjectsLocationsConnectionsEndUserAuthenticationsViewEnum | (string & {});
+  view?: GetProjectsLocationsConnectionsEndUserAuthenticationsViewEnum | (string & {}) | undefined;
   /** Required. Resource name of the form: `projects/*\/locations/*\/connections/*\/EndUserAuthentications/*` */
   name: string;
 }
@@ -1648,7 +1657,7 @@ export interface GetProjectsLocationsEndpointAttachmentsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/endpointAttachments/*` */
   name: string;
   /** Optional. Specifies which fields of the EndpointAttachment are returned in the response. Defaults to `ENDPOINT_ATTACHMENT_VIEW_BASIC` view. */
-  view?: GetProjectsLocationsEndpointAttachmentsViewEnum | (string & {});
+  view?: GetProjectsLocationsEndpointAttachmentsViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsGlobalCustomConnectorsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/customConnectors/*` */
@@ -1680,25 +1689,25 @@ export type ProviderLaunchStageEnum =
 /** Provider indicates the owner who provides the connectors. */
 export interface Provider {
   /** Output only. Created time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Link to external page. */
-  externalUri?: string;
+  externalUri?: string | undefined;
   /** Output only. Description of the resource. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Link to documentation page. */
-  documentationUri?: string;
+  documentationUri?: string | undefined;
   /** Output only. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Resource name of the Provider. Format: projects/{project}/locations/{location}/providers/{provider} Only global location is supported for Provider resource. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Cloud storage location of icons etc consumed by UI. */
-  webAssetsLocation?: string;
+  webAssetsLocation?: string | undefined;
   /** Output only. Updated time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Flag to mark the version indicating the launch stage. */
-  launchStage?: ProviderLaunchStageEnum;
+  launchStage?: ProviderLaunchStageEnum | undefined;
 }
 export interface GetProjectsLocationsProvidersConnectorsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/providers/*\/connectors/*` Only global location is supported for Connector resource. */
@@ -1719,13 +1728,13 @@ export type ConnectorLaunchStageEnum =
 /** Marketplace connector details. */
 export interface MarketplaceConnectorDetails {
   /** Marketplace product URL. */
-  marketplaceProductUri?: string;
+  marketplaceProductUri?: string | undefined;
   /** Marketplace product ID. */
-  marketplaceProductId?: string;
+  marketplaceProductId?: string | undefined;
   /** The name of the partner. */
-  partner?: string;
+  partner?: string | undefined;
   /** Marketplace product name. */
-  marketplaceProduct?: string;
+  marketplaceProduct?: string | undefined;
 }
 export type EventingDetailsSubscriptionTypeEnum =
   | "SUBSCRIPTION_TYPE_UNSPECIFIED"
@@ -1742,56 +1751,56 @@ export type EventingDetailsTypeEnum = "TYPE_UNSPECIFIED" | "WEBHOOK" | "JMS";
 /** Eventing Details message. */
 export interface EventingDetails {
   /** Output only. Name of the Eventing trigger. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Array of search keywords. */
-  searchTags?: StringList;
+  searchTags?: StringList | undefined;
   /** The webhook model supported by this connector. */
-  subscriptionType?: EventingDetailsSubscriptionTypeEnum;
+  subscriptionType?: EventingDetailsSubscriptionTypeEnum | undefined;
   /** Output only. Description. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Link to public documentation. */
-  documentationLink?: string;
+  documentationLink?: string | undefined;
   /** Output only. Cloud storage location of the icon. */
-  iconLocation?: string;
+  iconLocation?: string | undefined;
   /** Output only. Custom Event Types. */
-  customEventTypes?: boolean;
+  customEventTypes?: boolean | undefined;
   /** Output only. Eventing Launch Stage. */
-  launchStage?: EventingDetailsLaunchStageEnum;
+  launchStage?: EventingDetailsLaunchStageEnum | undefined;
   /** Output only. The type of the event listener for a specific connector. */
-  type?: EventingDetailsTypeEnum;
+  type?: EventingDetailsTypeEnum | undefined;
 }
 /** Connectors indicates a specific connector type, e.x. Salesforce, SAP etc. */
 export interface Connector {
   /** Output only. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Tags of the connector. */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** Output only. Link to external page. */
-  externalUri?: string;
+  externalUri?: string | undefined;
   /** Output only. Description of the resource. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Cloud storage location of icons etc consumed by UI. */
-  webAssetsLocation?: string;
+  webAssetsLocation?: string | undefined;
   /** Output only. Display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The type of the connector. */
-  connectorType?: ConnectorConnectorTypeEnum;
+  connectorType?: ConnectorConnectorTypeEnum | undefined;
   /** Output only. Flag to mark the version indicating the launch stage. */
-  launchStage?: ConnectorLaunchStageEnum;
+  launchStage?: ConnectorLaunchStageEnum | undefined;
   /** Output only. Marketplace connector details. Will be null if the connector is not marketplace connector. */
-  marketplaceConnectorDetails?: MarketplaceConnectorDetails;
+  marketplaceConnectorDetails?: MarketplaceConnectorDetails | undefined;
   /** Output only. Created time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Category of the connector. */
-  category?: string;
+  category?: string | undefined;
   /** Output only. Link to documentation page. */
-  documentationUri?: string;
+  documentationUri?: string | undefined;
   /** Output only. Resource name of the Connector. Format: projects/{project}/locations/{location}/providers/{provider}/connectors/{connector} Only global location is supported for Connector resource. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Updated time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Eventing details. Will be null if eventing is not supported. */
-  eventingDetails?: EventingDetails;
+  eventingDetails?: EventingDetails | undefined;
 }
 export type GetProjectsLocationsProvidersConnectorsVersionsViewEnum =
   | "CONNECTOR_VERSION_VIEW_UNSPECIFIED"
@@ -1799,21 +1808,21 @@ export type GetProjectsLocationsProvidersConnectorsVersionsViewEnum =
   | "CONNECTOR_VERSION_VIEW_FULL";
 export interface GetProjectsLocationsProvidersConnectorsVersionsRequest {
   /** Specifies which fields of the ConnectorVersion are returned in the response. Defaults to `CUSTOMER` view. */
-  view?: GetProjectsLocationsProvidersConnectorsVersionsViewEnum | (string & {});
+  view?: GetProjectsLocationsProvidersConnectorsVersionsViewEnum | (string & {}) | undefined;
   /** Required. Resource name of the form: `projects/*\/locations/*\/providers/*\/connectors/*\/versions/*` Only global location is supported for ConnectorVersion resource. */
   name: string;
 }
 /** This configuration provides VPCSC config for a connector. */
 export interface VpcscConfig {
   /** Whether to disable firewall VPCSC flow. */
-  disableFirewallVpcscFlow?: boolean;
+  disableFirewallVpcscFlow?: boolean | undefined;
   /** The list of allowlisted FQDNs for VPCSC. */
-  defaultAllowlistedHost?: StringList;
+  defaultAllowlistedHost?: StringList | undefined;
 }
 /** Standard action */
 export interface StandardAction {
   /** Name of the standard action. */
-  name?: string;
+  name?: string | undefined;
 }
 export type StandardActionList = Array<StandardAction>;
 export type RoleGrantList = Array<RoleGrant>;
@@ -1824,11 +1833,11 @@ export type NetworkEgressModeOverrideNetworkEgressModeEnum =
 /** NetworkEgressModeOverride provides the network egress mode override for a connector. */
 export interface NetworkEgressModeOverride {
   /** boolean should be set to true to make sure only eventing enabled connections are migrated to direct vpc egress. */
-  isEventingOverrideEnabled?: boolean;
+  isEventingOverrideEnabled?: boolean | undefined;
   /** Determines the VPC Egress mode for the connector. */
-  networkEgressMode?: NetworkEgressModeOverrideNetworkEgressModeEnum;
+  networkEgressMode?: NetworkEgressModeOverrideNetworkEgressModeEnum | undefined;
   /** boolean should be set to true to make sure only async operations enabled connections are migrated to direct vpc egress. */
-  isJobsOverrideEnabled?: boolean;
+  isJobsOverrideEnabled?: boolean | undefined;
 }
 export type ConnectorInfraConfigDeploymentModelEnum =
   | "DEPLOYMENT_MODEL_UNSPECIFIED"
@@ -1837,41 +1846,41 @@ export type ConnectorInfraConfigDeploymentModelEnum =
 /** This cofiguration provides infra configs like rate limit threshold which need to be configurable for every connector version */
 export interface ConnectorInfraConfig {
   /** Indicate whether memstore is required for connector job. */
-  provisionMemstore?: boolean;
+  provisionMemstore?: boolean | undefined;
   /** Max QPS supported for internal requests originating from Connd. */
-  internalclientRatelimitThreshold?: string;
+  internalclientRatelimitThreshold?: string | undefined;
   /** Indicate whether connector is being migrated to cloud run deployment model. */
-  migrateDeploymentModel?: boolean;
+  migrateDeploymentModel?: boolean | undefined;
   /** Max QPS supported by the connector version before throttling of requests. */
-  ratelimitThreshold?: string;
+  ratelimitThreshold?: string | undefined;
   /** Indicates that the Cloud Run CPU should always be allocated. */
-  alwaysAllocateCpu?: boolean;
+  alwaysAllocateCpu?: boolean | undefined;
   /** Indicate whether connector is being migrated to TLS. */
-  migrateTls?: boolean;
+  migrateTls?: boolean | undefined;
   /** The window used for ratelimiting runtime requests to connections. */
-  connectionRatelimitWindowSeconds?: string;
+  connectionRatelimitWindowSeconds?: string | undefined;
   /** Indicate whether public network ingress should be enabled. */
-  publicNetworkIngressEnabled?: boolean;
+  publicNetworkIngressEnabled?: boolean | undefined;
   /** Indicate whether connection service account is enabled. If false, the common runtime service agent is used. */
-  connectionServiceAccountEnabled?: boolean;
+  connectionServiceAccountEnabled?: boolean | undefined;
   /** Indicate whether cloud spanner is required for connector job. */
-  provisionCloudSpanner?: boolean;
+  provisionCloudSpanner?: boolean | undefined;
   /** HPA autoscaling config. */
-  hpaConfig?: HPAConfig;
+  hpaConfig?: HPAConfig | undefined;
   /** System resource limits. */
-  resourceLimits?: ResourceLimits;
+  resourceLimits?: ResourceLimits | undefined;
   /** Network egress mode override to migrate to direct VPC egress. */
-  networkEgressModeOverride?: NetworkEgressModeOverride;
+  networkEgressModeOverride?: NetworkEgressModeOverride | undefined;
   /** Max Instance Request Conncurrency for Cloud Run service. */
-  maxInstanceRequestConcurrency?: number;
+  maxInstanceRequestConcurrency?: number | undefined;
   /** System resource requests. */
-  resourceRequests?: ResourceRequests;
+  resourceRequests?: ResourceRequests | undefined;
   /** The name of shared connector deployment. */
-  sharedDeployment?: string;
+  sharedDeployment?: string | undefined;
   /** Indicate whether connector is deployed on GKE/CloudRun */
-  deploymentModel?: ConnectorInfraConfigDeploymentModelEnum;
+  deploymentModel?: ConnectorInfraConfigDeploymentModelEnum | undefined;
   /** Indicate whether connector versioning is enabled. */
-  connectorVersioningEnabled?: boolean;
+  connectorVersioningEnabled?: boolean | undefined;
 }
 export type ConnectorVersionUnsupportedConnectionTypesItemEnum =
   | "CONNECTION_TYPE_UNSPECIFIED"
@@ -1883,19 +1892,19 @@ export type ConnectorVersionUnsupportedConnectionTypesItemEnumList =
 /** Standard entity */
 export interface StandardEntity {
   /** Name of the standard entity. */
-  name?: string;
+  name?: string | undefined;
 }
 export type StandardEntityList = Array<StandardEntity>;
 /** Supported runtime features of a connector version. */
 export interface SupportedRuntimeFeatures {
   /** Specifies if the connector supports entity apis like 'createEntity'. */
-  entityApis?: boolean;
+  entityApis?: boolean | undefined;
   /** Specifies if the connector supports 'ExecuteSqlQuery' operation. */
-  sqlQuery?: boolean;
+  sqlQuery?: boolean | undefined;
   /** Specifies if the connector supports async long running operations. */
-  asyncOperations?: boolean;
+  asyncOperations?: boolean | undefined;
   /** Specifies if the connector supports action apis like 'executeAction'. */
-  actionApis?: boolean;
+  actionApis?: boolean | undefined;
 }
 export type DestinationConfigTemplatePortFieldTypeEnum =
   | "FIELD_TYPE_UNSPECIFIED"
@@ -1905,25 +1914,25 @@ export type DestinationConfigTemplatePortFieldTypeEnum =
 /** DestinationConfigTemplate defines required destinations supported by the Connector. */
 export interface DestinationConfigTemplate {
   /** Whether the current destination tempalate is part of Advanced settings */
-  isAdvanced?: boolean;
+  isAdvanced?: boolean | undefined;
   /** The maximum number of destinations supported for this key. */
-  max?: number;
+  max?: number | undefined;
   /** Description. */
-  description?: string;
+  description?: string | undefined;
   /** Whether port number should be provided by customers. */
-  portFieldType?: DestinationConfigTemplatePortFieldTypeEnum;
+  portFieldType?: DestinationConfigTemplatePortFieldTypeEnum | undefined;
   /** Regex pattern for host. */
-  regexPattern?: string;
+  regexPattern?: string | undefined;
   /** The default port. */
-  defaultPort?: number;
+  defaultPort?: number | undefined;
   /** Autocomplete suggestions for destination URL field. */
-  autocompleteSuggestions?: StringList;
+  autocompleteSuggestions?: StringList | undefined;
   /** The minimum number of destinations supported for this key. */
-  min?: number;
+  min?: number | undefined;
   /** Key of the destination. */
-  key?: string;
+  key?: string | undefined;
   /** Display name of the parameter. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type EventingConfigTemplateEventListenerTypeEnum =
   | "EVENT_LISTENER_TYPE_UNSPECIFIED"
@@ -1939,44 +1948,44 @@ export type SslConfigTemplateServerCertTypeItemEnumList =
 /** Ssl config details of a connector version */
 export interface SslConfigTemplate {
   /** List of supported Client Cert Types */
-  clientCertType?: SslConfigTemplateClientCertTypeItemEnumList;
+  clientCertType?: SslConfigTemplateClientCertTypeItemEnumList | undefined;
   /** Boolean for determining if the connector version mandates TLS. */
-  isTlsMandatory?: boolean;
+  isTlsMandatory?: boolean | undefined;
   /** Controls the ssl type for the given connector version */
-  sslType?: SslConfigTemplateSslTypeEnum;
+  sslType?: SslConfigTemplateSslTypeEnum | undefined;
   /** List of supported Server Cert Types */
-  serverCertType?: SslConfigTemplateServerCertTypeItemEnumList;
+  serverCertType?: SslConfigTemplateServerCertTypeItemEnumList | undefined;
   /** Any additional fields that need to be rendered */
-  additionalVariables?: ConfigVariableTemplateList;
+  additionalVariables?: ConfigVariableTemplateList | undefined;
 }
 /** Eventing Config details of a connector version. next: 14 */
 export interface EventingConfigTemplate {
   /** Trigger Config fields that needs to be rendered */
-  triggerConfigVariables?: ConfigVariableTemplateList;
+  triggerConfigVariables?: ConfigVariableTemplateList | undefined;
   /** Registration host destination config template. */
-  registrationDestinationConfig?: DestinationConfigTemplate;
+  registrationDestinationConfig?: DestinationConfigTemplate | undefined;
   /** The type of the event listener for a specific connector. */
-  eventListenerType?: EventingConfigTemplateEventListenerTypeEnum;
+  eventListenerType?: EventingConfigTemplateEventListenerTypeEnum | undefined;
   /** SSL Config template for the connector version. */
-  sslConfigTemplate?: SslConfigTemplate;
+  sslConfigTemplate?: SslConfigTemplate | undefined;
   /** Auto Registration supported. */
-  autoRegistrationSupported?: boolean;
+  autoRegistrationSupported?: boolean | undefined;
   /** AuthConfigTemplates represents the auth values for the webhook adapter. */
-  authConfigTemplates?: AuthConfigTemplateList;
+  authConfigTemplates?: AuthConfigTemplateList | undefined;
   /** Is Eventing Supported. */
-  isEventingSupported?: boolean;
+  isEventingSupported?: boolean | undefined;
   /** Auto refresh to extend webhook life. */
-  autoRefresh?: boolean;
+  autoRefresh?: boolean | undefined;
   /** Encryption key (can be either Google managed or CMEK). */
-  encryptionKeyTemplate?: ConfigVariableTemplate;
+  encryptionKeyTemplate?: ConfigVariableTemplate | undefined;
   /** Proxy destination config template. */
-  proxyDestinationConfig?: DestinationConfigTemplate;
+  proxyDestinationConfig?: DestinationConfigTemplate | undefined;
   /** ListenerAuthConfigTemplates represents the auth values for the event listener. */
-  listenerAuthConfigTemplates?: AuthConfigTemplateList;
+  listenerAuthConfigTemplates?: AuthConfigTemplateList | undefined;
   /** Additional fields that need to be rendered. */
-  additionalVariables?: ConfigVariableTemplateList;
+  additionalVariables?: ConfigVariableTemplateList | undefined;
   /** Enrichment Supported. */
-  enrichmentSupported?: boolean;
+  enrichmentSupported?: boolean | undefined;
 }
 export type EgressControlConfigAccessModeEnum =
   | "ACCESS_MODE_UNSPECIFIED"
@@ -1994,47 +2003,47 @@ export type SourceSourceTypeEnum =
 /** Source to extract the backend from. */
 export interface Source {
   /** Field identifier. For example config variable name. */
-  fieldId?: string;
+  fieldId?: string | undefined;
   /** Type of the source. */
-  sourceType?: SourceSourceTypeEnum;
+  sourceType?: SourceSourceTypeEnum | undefined;
 }
 /** Extraction Rule. */
 export interface ExtractionRule {
   /** Regex used to extract backend details from source. If empty, whole source value will be used. */
-  extractionRegex?: string;
+  extractionRegex?: string | undefined;
   /** Source on which the rule is applied. */
-  source?: Source;
+  source?: Source | undefined;
   /** Format string used to format the extracted backend details. If empty, extracted backend details will be returned as it is. */
-  formatString?: string;
+  formatString?: string | undefined;
 }
 export type ExtractionRuleList = Array<ExtractionRule>;
 /** Extraction Rules to identity the backends from customer provided configuration in Connection resource. */
 export interface ExtractionRules {
   /** Collection of Extraction Rule. */
-  extractionRule?: ExtractionRuleList;
+  extractionRule?: ExtractionRuleList | undefined;
 }
 /** Egress control config for connector runtime. These configurations define the rules to identify which outbound domains/hosts needs to be whitelisted. It may be a static information for a particular connector version or it is derived from the configurations provided by the customer in Connection resource. */
 export interface EgressControlConfig {
   /** Static Comma separated backends which are common for all Connection resources. Supported formats for each backend are host:port or just host (host can be ip address or domain name). */
-  backends?: string;
+  backends?: string | undefined;
   /** Optional. Used when access_mode is RESTRICTED or ACCESS_MODE_UNSPECIFIED. */
-  allowlistedProjectNumbers?: StringList;
+  allowlistedProjectNumbers?: StringList | undefined;
   /** Optional. Access mode for egress control. */
-  accessMode?: EgressControlConfigAccessModeEnum;
+  accessMode?: EgressControlConfigAccessModeEnum | undefined;
   /** Launch environment for egress control. */
-  launchEnvironment?: EgressControlConfigLaunchEnvironmentEnum;
+  launchEnvironment?: EgressControlConfigLaunchEnvironmentEnum | undefined;
   /** Additional extraction rules to identity the backends from customer provided configuration in Connection resource. These rules are applied in addition to the ones specified in `oneof_backends`. */
-  additionalExtractionRules?: ExtractionRules;
+  additionalExtractionRules?: ExtractionRules | undefined;
   /** Extractions Rules to extract the backends from customer provided configuration. */
-  extractionRules?: ExtractionRules;
+  extractionRules?: ExtractionRules | undefined;
 }
 export type DestinationConfigTemplateList = Array<DestinationConfigTemplate>;
 /** Config for connection schema refresh */
 export interface SchemaRefreshConfig {
   /** Whether to use displayName for actions in UI. */
-  useActionDisplayNames?: boolean;
+  useActionDisplayNames?: boolean | undefined;
   /** Whether to use synchronous schema refresh. */
-  useSynchronousSchemaRefresh?: boolean;
+  useSynchronousSchemaRefresh?: boolean | undefined;
 }
 export type ConnectorVersionLaunchStageEnum =
   | "LAUNCH_STAGE_UNSPECIFIED"
@@ -2046,55 +2055,55 @@ export type ConnectorVersionLaunchStageEnum =
 /** ConnectorVersion indicates a specific version of a connector. */
 export interface ConnectorVersion {
   /** Output only. VPCSC config for the connector. */
-  vpcscConfig?: VpcscConfig;
+  vpcscConfig?: VpcscConfig | undefined;
   /** Output only. Supported standard actions. */
-  supportedStandardActions?: StandardActionList;
+  supportedStandardActions?: StandardActionList | undefined;
   /** Output only. Role grant configuration for this config variable. It will be DEPRECATED soon. */
-  roleGrant?: RoleGrant;
+  roleGrant?: RoleGrant | undefined;
   /** Output only. Role grant configurations for this connector version. */
-  roleGrants?: RoleGrantList;
+  roleGrants?: RoleGrantList | undefined;
   /** Output only. Resource labels to represent user-provided metadata. Refer to cloud documentation on labels for more details. https://cloud.google.com/compute/docs/labeling-resources */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Updated time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Infra configs supported by Connector. */
-  connectorInfraConfig?: ConnectorInfraConfig;
+  connectorInfraConfig?: ConnectorInfraConfig | undefined;
   /** Output only. List of config variables needed to create a connection. */
-  configVariableTemplates?: ConfigVariableTemplateList;
+  configVariableTemplates?: ConfigVariableTemplateList | undefined;
   /** Output only. List of auth configs supported by the Connector Version. */
-  authConfigTemplates?: AuthConfigTemplateList;
+  authConfigTemplates?: AuthConfigTemplateList | undefined;
   /** Output only. ReleaseVersion of the connector, for example: "1.0.1-alpha". */
-  releaseVersion?: string;
+  releaseVersion?: string | undefined;
   /** Output only. Unsupported connection types. */
-  unsupportedConnectionTypes?: ConnectorVersionUnsupportedConnectionTypesItemEnumList;
+  unsupportedConnectionTypes?: ConnectorVersionUnsupportedConnectionTypesItemEnumList | undefined;
   /** Output only. Supported standard entities. */
-  supportedStandardEntities?: StandardEntityList;
+  supportedStandardEntities?: StandardEntityList | undefined;
   /** Output only. Information about the runtime features supported by the Connector. */
-  supportedRuntimeFeatures?: SupportedRuntimeFeatures;
+  supportedRuntimeFeatures?: SupportedRuntimeFeatures | undefined;
   /** Output only. Flag to mark the dynamic auth override. */
-  authOverrideEnabled?: boolean;
+  authOverrideEnabled?: boolean | undefined;
   /** Output only. Eventing configuration supported by the Connector. */
-  eventingConfigTemplate?: EventingConfigTemplate;
+  eventingConfigTemplate?: EventingConfigTemplate | undefined;
   /** Output only. Resource name of the Version. Format: projects/{project}/locations/{location}/providers/{provider}/connectors/{connector}/versions/{version} Only global location is supported for Connector resource. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Ssl configuration supported by the Connector. */
-  sslConfigTemplate?: SslConfigTemplate;
+  sslConfigTemplate?: SslConfigTemplate | undefined;
   /** Output only. Is custom entities supported. */
-  isCustomEntitiesSupported?: boolean;
+  isCustomEntitiesSupported?: boolean | undefined;
   /** Output only. Configuration for Egress Control. */
-  egressControlConfig?: EgressControlConfig;
+  egressControlConfig?: EgressControlConfig | undefined;
   /** Output only. List of destination configs needed to create a connection. */
-  destinationConfigTemplates?: DestinationConfigTemplateList;
+  destinationConfigTemplates?: DestinationConfigTemplateList | undefined;
   /** Output only. Is custom actions supported. */
-  isCustomActionsSupported?: boolean;
+  isCustomActionsSupported?: boolean | undefined;
   /** Output only. Display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Created time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Connection Schema Refresh Config */
-  schemaRefreshConfig?: SchemaRefreshConfig;
+  schemaRefreshConfig?: SchemaRefreshConfig | undefined;
   /** Output only. Flag to mark the version indicating the launch stage. */
-  launchStage?: ConnectorVersionLaunchStageEnum;
+  launchStage?: ConnectorVersionLaunchStageEnum | undefined;
 }
 export interface GetProjectsLocationsProvidersConnectorsVersionsEventtypesRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/providers/*\/connectors/*\/versions/*\/eventtypes/*` Only global location is supported for EventType resource. */
@@ -2103,21 +2112,21 @@ export interface GetProjectsLocationsProvidersConnectorsVersionsEventtypesReques
 /** EventType includes fields. */
 export interface EventType {
   /** Output only. Event type id. Example: `ticket.created`. */
-  eventTypeId?: string;
+  eventTypeId?: string | undefined;
   /** Output only. Runtime entity type name. Will be null if entity type map is not available. Used for read before send feature. */
-  entityType?: string;
+  entityType?: string | undefined;
   /** Output only. Id path denotes the path of id in webhook payload. */
-  idPath?: string;
+  idPath?: string | undefined;
   /** Output only. Resource name of the eventtype. Format: projects/{project}/locations/{location}/providers/{provider}/connectors/{connector}/versions/{version}/eventtypes/{eventtype} Only global location is supported for Connector resource. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Created time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Schema of the event payload after enriched. Will be null if read before send is not supported. */
-  enrichedEventPayloadSchema?: string;
+  enrichedEventPayloadSchema?: string | undefined;
   /** Output only. Updated time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Schema of webhook event payload. */
-  eventPayloadSchema?: string;
+  eventPayloadSchema?: string | undefined;
 }
 export interface GetRegionalSettingsProjectsLocationsRequest {
   /** Required. The resource name of the Regional Settings. */
@@ -2130,30 +2139,30 @@ export type NetworkConfigEgressModeEnum =
 /** Regional Network Config. */
 export interface NetworkConfig {
   /** Optional. Egress mode for the network. */
-  egressMode?: NetworkConfigEgressModeEnum | (string & {});
+  egressMode?: NetworkConfigEgressModeEnum | (string & {}) | undefined;
   /** Output only. Egress IPs */
-  egressIps?: StringList;
+  egressIps?: StringList | undefined;
 }
 export type EncryptionConfigEncryptionTypeEnum = "ENCRYPTION_TYPE_UNSPECIFIED" | "GMEK" | "CMEK";
 /** Regional encryption config for CMEK details. */
 export interface EncryptionConfig {
   /** Optional. KMS crypto key. This field accepts identifiers of the form `projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/ {crypto_key}` */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** Optional. Encryption type for the region. */
-  encryptionType?: EncryptionConfigEncryptionTypeEnum | (string & {});
+  encryptionType?: EncryptionConfigEncryptionTypeEnum | (string & {}) | undefined;
 }
 /** Regional Settings details. */
 export interface RegionalSettings {
   /** Optional. Client type for the regional settings. */
-  client?: string;
+  client?: string | undefined;
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/regionalSettings */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Specifies whether the region is provisioned. */
-  provisioned?: boolean;
+  provisioned?: boolean | undefined;
   /** Optional. Regional network config. */
-  networkConfig?: NetworkConfig;
+  networkConfig?: NetworkConfig | undefined;
   /** Optional. Regional encryption config to hold CMEK details. */
-  encryptionConfig?: EncryptionConfig;
+  encryptionConfig?: EncryptionConfig | undefined;
 }
 export interface GetRuntimeConfigProjectsLocationsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/runtimeConfig` */
@@ -2170,25 +2179,25 @@ export type RuntimeConfigStateEnum =
 /** RuntimeConfig is the singleton resource of each location. It includes generic resource configs consumed by control plane and runtime plane like: pub/sub topic/subscription resource name, Cloud Storage location storing schema etc. */
 export interface RuntimeConfig {
   /** Output only. Pub/Sub topic for connd to send message. E.g. projects/{project-id}/topics/{topic-id} */
-  conndTopic?: string;
+  conndTopic?: string | undefined;
   /** Output only. The state of the location. */
-  state?: RuntimeConfigStateEnum;
+  state?: RuntimeConfigStateEnum | undefined;
   /** Output only. Pub/Sub subscription for connd to receive message. E.g. projects/{project-id}/subscriptions/{topic-id} */
-  conndSubscription?: string;
+  conndSubscription?: string | undefined;
   /** Output only. location_id of the runtime location. E.g. "us-west1". */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Output only. The Cloud Storage bucket that stores connector's schema reports. */
-  schemaGcsBucket?: string;
+  schemaGcsBucket?: string | undefined;
   /** Output only. Pub/Sub subscription for control plane to receive message. E.g. projects/{project-id}/subscriptions/{topic-id} */
-  controlPlaneSubscription?: string;
+  controlPlaneSubscription?: string | undefined;
   /** Output only. The endpoint of the connectors runtime ingress. */
-  runtimeEndpoint?: string;
+  runtimeEndpoint?: string | undefined;
   /** Output only. Name of the runtimeConfig resource. Format: projects/{project}/locations/{location}/runtimeConfig */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Pub/Sub topic for control plne to send message. communication. E.g. projects/{project-id}/topics/{topic-id} */
-  controlPlaneTopic?: string;
+  controlPlaneTopic?: string | undefined;
   /** Output only. The name of the Service Directory service name. */
-  serviceDirectory?: string;
+  serviceDirectory?: string | undefined;
 }
 export interface GetSettingsProjectsLocationsGlobalRequest {
   /** Required. The resource name of the Settings. */
@@ -2197,28 +2206,31 @@ export interface GetSettingsProjectsLocationsGlobalRequest {
 /** Global Settings details. */
 export interface Settings {
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/global/settings} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Flag indicates if user is in PayG model */
-  payg?: boolean;
+  payg?: boolean | undefined;
   /** Output only. Tenant project id of the consumer project. */
-  tenantProjectId?: string;
+  tenantProjectId?: string | undefined;
   /** Optional. Flag indicates whether vpc-sc is enabled. */
-  vpcsc?: boolean;
+  vpcsc?: boolean | undefined;
 }
 export type ListActionsProjectsLocationsConnectionsConnectionSchemaMetadataViewEnum =
   | "VIEW_UNSPECIFIED"
   | "BASIC";
 export interface ListActionsProjectsLocationsConnectionsConnectionSchemaMetadataRequest {
   /** Page size. If unspecified, at most 50 actions will be returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Filter Wildcards are not supported in the filter currently. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Resource name format. projects/{project}/locations/{location}/connections/{connection}/connectionSchemaMetadata */
   name: string;
   /** Specifies which fields are returned in response. Defaults to BASIC view. */
-  view?: ListActionsProjectsLocationsConnectionsConnectionSchemaMetadataViewEnum | (string & {});
+  view?:
+    | ListActionsProjectsLocationsConnectionsConnectionSchemaMetadataViewEnum
+    | (string & {})
+    | undefined;
 }
 export type InputParameterDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -2318,118 +2330,118 @@ export type JsonSchemaJdbcTypeEnum =
 /** JsonSchema representation of schema metadata */
 export interface JsonSchema {
   /** Schema that must be valid against all of the sub-schemas. */
-  allOf?: JsonSchemaList;
+  allOf?: JsonSchemaList | undefined;
   /** Schema for property names. */
-  propertyNames?: JsonSchema;
+  propertyNames?: JsonSchema | undefined;
   /** Whether the maximum number value is exclusive. */
-  exclusiveMaximum?: unknown;
+  exclusiveMaximum?: unknown | undefined;
   /** A title of the schema. */
-  title?: string;
+  title?: string | undefined;
   /** Whether the items in the array field are unique. */
-  uniqueItems?: boolean;
+  uniqueItems?: boolean | undefined;
   /** Whether the value is write-only. */
-  writeOnly?: boolean;
+  writeOnly?: boolean | undefined;
   /** Schema that must be valid if the "if" schema is valid. */
-  if?: JsonSchema;
+  if?: JsonSchema | undefined;
   /** Minimum number of properties. */
-  minProperties?: number;
+  minProperties?: number | undefined;
   /** Minimum value of the number field. */
-  minimum?: unknown;
+  minimum?: unknown | undefined;
   /** Schema for additional items. */
-  additionalItems?: JsonSchema;
+  additionalItems?: JsonSchema | undefined;
   /** Minimum length of the string field. */
-  minLength?: number;
+  minLength?: number | undefined;
   /** Schema that must be valid against at least one of the sub-schemas. */
-  anyOf?: JsonSchemaList;
+  anyOf?: JsonSchemaList | undefined;
   /** Maximum number of properties. */
-  maxProperties?: number;
+  maxProperties?: number | undefined;
   /** Schema that must be valid if the "if" schema is invalid. */
-  else?: JsonSchema;
+  else?: JsonSchema | undefined;
   /** Regex pattern of the string field. This is a string value that describes the regular expression that the string value should match. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** The URI defining the schema. */
-  $schema?: string;
+  $schema?: string | undefined;
   /** Number must be a multiple of this value. */
-  multipleOf?: number;
+  multipleOf?: number | undefined;
   /** The child schemas, applicable only if this is of type `object`. The key is the name of the property and the value is the json schema that describes that property */
-  properties?: JsonSchemaMap;
+  properties?: JsonSchemaMap | undefined;
   /** Whether the minimum number value is exclusive. */
-  exclusiveMinimum?: unknown;
+  exclusiveMinimum?: unknown | undefined;
   /** A comment on the schema. */
-  $comment?: string;
+  $comment?: string | undefined;
   /** Schema for additional properties. */
-  additionalProperties?: JsonSchema;
+  additionalProperties?: JsonSchema | undefined;
   /** A reference to another schema. */
-  $ref?: string;
+  $ref?: string | undefined;
   /** Whether the value is read-only. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Definitions for the schema. */
-  $defs?: JsonSchemaMap;
+  $defs?: JsonSchemaMap | undefined;
   /** Format of the value as per https://json-schema.org/understanding-json-schema/reference/string.html#format */
-  format?: string;
+  format?: string | undefined;
   /** Whether this property is required. */
-  required?: StringList;
+  required?: StringList | undefined;
   /** JSON Schema Validation: A Vocabulary for Structural Validation of JSON */
-  type?: StringList;
+  type?: StringList | undefined;
   /** Possible values for an enumeration. This works in conjunction with `type` to represent types with a fixed set of legal values */
-  enum?: DocumentList;
+  enum?: DocumentList | undefined;
   /** Encoding of the content. */
-  contentEncoding?: string;
+  contentEncoding?: string | undefined;
   /** Examples of the value. */
-  examples?: DocumentList;
+  examples?: DocumentList | undefined;
   /** Maximum number of items in the array field. */
-  maxItems?: number;
+  maxItems?: number | undefined;
   /** Definitions for the schema. */
-  definitions?: JsonSchemaMap;
+  definitions?: JsonSchemaMap | undefined;
   /** Additional details apart from standard json schema fields, this gives flexibility to store metadata about the schema */
-  additionalDetails?: DocumentMap;
+  additionalDetails?: DocumentMap | undefined;
   /** Minimum number of items in the array field. */
-  minItems?: number;
+  minItems?: number | undefined;
   /** Schema that must be valid against at least one of the sub-schemas. */
-  oneOf?: JsonSchemaList;
+  oneOf?: JsonSchemaList | undefined;
   /** Maximum value of the number field. */
-  maximum?: unknown;
+  maximum?: unknown | undefined;
   /** Schema that must not be valid. */
-  not?: JsonSchema;
+  not?: JsonSchema | undefined;
   /** Schema that must be valid if the "if" schema is valid. */
-  then?: JsonSchema;
+  then?: JsonSchema | undefined;
   /** Maximum length of the string field. */
-  maxLength?: number;
+  maxLength?: number | undefined;
   /** The URI defining the core schema meta-schema. */
-  $id?: string;
+  $id?: string | undefined;
   /** Schema that applies to array values, applicable only if this is of type `array`. */
-  items?: JsonSchema;
+  items?: JsonSchema | undefined;
   /** A description of this schema. */
-  description?: string;
+  description?: string | undefined;
   /** JDBC datatype of the field. */
-  jdbcType?: JsonSchemaJdbcTypeEnum;
+  jdbcType?: JsonSchemaJdbcTypeEnum | undefined;
   /** Dependencies for the schema. */
-  dependencies?: DocumentMap;
+  dependencies?: DocumentMap | undefined;
   /** Pattern properties for the schema. */
-  patternProperties?: JsonSchemaMap;
+  patternProperties?: JsonSchemaMap | undefined;
   /** The default value of the field or object described by this schema. */
-  default?: unknown;
+  default?: unknown | undefined;
   /** Const value that the data must match. */
-  const?: unknown;
+  const?: unknown | undefined;
   /** Media type of the content. */
-  contentMediaType?: string;
+  contentMediaType?: string | undefined;
   /** Schema that applies to at least one item in an array. */
-  contains?: JsonSchema;
+  contains?: JsonSchema | undefined;
 }
 /** Metadata of an input parameter. */
 export interface InputParameter {
   /** The data type of the Parameter. */
-  dataType?: InputParameterDataTypeEnum;
+  dataType?: InputParameterDataTypeEnum | undefined;
   /** Name of the Parameter. */
-  parameter?: string;
+  parameter?: string | undefined;
   /** A brief description of the Parameter. */
-  description?: string;
+  description?: string | undefined;
   /** Specifies whether a null value is allowed. */
-  nullable?: boolean;
+  nullable?: boolean | undefined;
   /** The following field specifies the default value of the Parameter provided by the external system if a value is not provided. */
-  defaultValue?: unknown;
+  defaultValue?: unknown | undefined;
   /** JsonSchema representation of this action's parameter */
-  jsonSchema?: JsonSchema;
+  jsonSchema?: JsonSchema | undefined;
 }
 export type InputParameterList = Array<InputParameter>;
 export type ResultMetadataDataTypeEnum =
@@ -2481,58 +2493,58 @@ export type ResultMetadataDataTypeEnum =
 /** Metadata of result field. */
 export interface ResultMetadata {
   /** Name of the result field. */
-  field?: string;
+  field?: string | undefined;
   /** A brief description of the field. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the field. */
-  dataType?: ResultMetadataDataTypeEnum;
+  dataType?: ResultMetadataDataTypeEnum | undefined;
   /** The following field specifies the default value of the Parameter provided by the external system if a value is not provided. */
-  defaultValue?: unknown;
+  defaultValue?: unknown | undefined;
   /** JsonSchema representation of this action's result */
-  jsonSchema?: JsonSchema;
+  jsonSchema?: JsonSchema | undefined;
   /** Specifies whether a null value is allowed. */
-  nullable?: boolean;
+  nullable?: boolean | undefined;
 }
 export type ResultMetadataList = Array<ResultMetadata>;
 /** Schema of a runtime action. */
 export interface RuntimeActionSchema {
   /** Output only. Input schema as string. */
-  inputSchemaAsString?: string;
+  inputSchemaAsString?: string | undefined;
   /** Output only. List of input parameter metadata for the action. */
-  inputParameters?: InputParameterList;
+  inputParameters?: InputParameterList | undefined;
   /** Output only. JsonSchema representation of this action's input metadata */
-  inputJsonSchema?: JsonSchema;
+  inputJsonSchema?: JsonSchema | undefined;
   /** Output only. List of result field metadata. */
-  resultMetadata?: ResultMetadataList;
+  resultMetadata?: ResultMetadataList | undefined;
   /** Output only. Brief Description of action */
-  description?: string;
+  description?: string | undefined;
   /** Output only. JsonSchema representation of this action's result metadata */
-  resultJsonSchema?: JsonSchema;
+  resultJsonSchema?: JsonSchema | undefined;
   /** Output only. Name of the action. */
-  action?: string;
+  action?: string | undefined;
   /** Output only. Display Name of action to be shown on client side */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Result schema as string. */
-  resultSchemaAsString?: string;
+  resultSchemaAsString?: string | undefined;
 }
 export type RuntimeActionSchemaList = Array<RuntimeActionSchema>;
 /** Response message for ListActions API */
 export interface ListActionsResponse {
   /** token for next page */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** list of actions */
-  actions?: RuntimeActionSchemaList;
+  actions?: RuntimeActionSchemaList | undefined;
 }
 /** Expected request for ListenEvent API. */
 export interface ListenEventRequest {
   /** Optional. Request payload. */
-  payload?: DocumentMap;
+  payload?: DocumentMap | undefined;
 }
 export interface ListenEventProjectsLocationsConnectionsRequest {
   /** Required. Resource path for request. */
   resourcePath: string;
   /** Request body */
-  body?: ListenEventRequest;
+  body?: ListenEventRequest | undefined;
 }
 /** Expected response for ListenEvent API. */
 export interface ListenEventResponse {}
@@ -2543,15 +2555,16 @@ export interface ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMeta
   /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection}/connectionSchemaMetadata */
   name: string;
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Filter Wildcards are not supported in the filter currently. */
-  filter?: string;
+  filter?: string | undefined;
   /** Specifies which fields are returned in response. Defaults to BASIC view. */
   view?:
     | ListEntityTypesProjectsLocationsConnectionsConnectionSchemaMetadataViewEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Page size. If unspecified, at most 50 entity types will be returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type FieldDataTypeEnum =
   | "DATA_TYPE_UNSPECIFIED"
@@ -2602,23 +2615,23 @@ export type FieldDataTypeEnum =
 /** Metadata of an entity field. */
 export interface Field {
   /** JsonSchema representation of this entity's schema */
-  jsonSchema?: JsonSchema;
+  jsonSchema?: JsonSchema | undefined;
   /** The following boolean field specifies if the current Field acts as a primary key or id if the parent is of type entity. */
-  key?: boolean;
+  key?: boolean | undefined;
   /** Specifies whether a null value is allowed. */
-  nullable?: boolean;
+  nullable?: boolean | undefined;
   /** Name of the Field. */
-  field?: string;
+  field?: string | undefined;
   /** The following map contains fields that are not explicitly mentioned above,this give connectors the flexibility to add new metadata fields. */
-  additionalDetails?: DocumentMap;
+  additionalDetails?: DocumentMap | undefined;
   /** The following field specifies the default value of the Field provided by the external system if a value is not provided. */
-  defaultValue?: unknown;
+  defaultValue?: unknown | undefined;
   /** Specifies if the Field is readonly. */
-  readonly?: boolean;
+  readonly?: boolean | undefined;
   /** The data type of the Field. */
-  dataType?: FieldDataTypeEnum;
+  dataType?: FieldDataTypeEnum | undefined;
   /** A brief description of the Field. */
-  description?: string;
+  description?: string | undefined;
 }
 export type FieldList = Array<Field>;
 export type RuntimeEntitySchemaOperationsItemEnum =
@@ -2633,41 +2646,41 @@ export type RuntimeEntitySchemaOperationsItemEnumList =
 /** Schema of a runtime entity. */
 export interface RuntimeEntitySchema {
   /** Output only. Name of the entity. */
-  entity?: string;
+  entity?: string | undefined;
   /** Output only. List of fields in the entity. */
-  fields?: FieldList;
+  fields?: FieldList | undefined;
   /** List of operations supported by this entity */
-  operations?: RuntimeEntitySchemaOperationsItemEnumList;
+  operations?: RuntimeEntitySchemaOperationsItemEnumList | undefined;
   /** Output only. JsonSchema representation of this entity's metadata */
-  jsonSchema?: JsonSchema;
+  jsonSchema?: JsonSchema | undefined;
 }
 export type RuntimeEntitySchemaList = Array<RuntimeEntitySchema>;
 /** Response message for ListEntityTypes API */
 export interface ListEntityTypesResponse {
   /** token for next page */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** list of entity types */
-  entityTypes?: RuntimeEntitySchemaList;
+  entityTypes?: RuntimeEntitySchemaList | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export type ListProjectsLocationsConnectionsViewEnum =
   | "CONNECTION_VIEW_UNSPECIFIED"
@@ -2675,107 +2688,107 @@ export type ListProjectsLocationsConnectionsViewEnum =
   | "FULL";
 export interface ListProjectsLocationsConnectionsRequest {
   /** Filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Specifies which fields of the Connection are returned in the response. Defaults to `BASIC` view. */
-  view?: ListProjectsLocationsConnectionsViewEnum | (string & {});
+  view?: ListProjectsLocationsConnectionsViewEnum | (string & {}) | undefined;
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent resource of the Connection, of the form: `projects/*\/locations/*` */
   parent: string;
   /** Order by parameters. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type ConnectionList = Array<Connection>;
 /** Response message for ConnectorsService.ListConnections */
 export interface ListConnectionsResponse {
   /** Next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Connections. */
-  connections?: ConnectionList;
+  connections?: ConnectionList | undefined;
 }
 export interface ListProjectsLocationsConnectionsEndUserAuthenticationsRequest {
   /** Order by parameters. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent resource of the EndUserAuthentication, of the form: `projects/*\/locations/*\/connections/*` */
   parent: string;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type EndUserAuthenticationList = Array<EndUserAuthentication>;
 /** Response message for ConnectorsService.ListEndUserAuthentications */
 export interface ListEndUserAuthenticationsResponse {
   /** Subscriptions. */
-  endUserAuthentications?: EndUserAuthenticationList;
+  endUserAuthentications?: EndUserAuthenticationList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsConnectionsEventSubscriptionsRequest {
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Parent resource of the EventSubscription, of the form: `projects/*\/locations/*\/connections/*` */
   parent: string;
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Order by parameters. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type EventSubscriptionList = Array<EventSubscription>;
 /** Response message for ConnectorsService.ListEventSubscriptions */
 export interface ListEventSubscriptionsResponse {
   /** Next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Subscriptions. */
-  eventSubscriptions?: EventSubscriptionList;
+  eventSubscriptions?: EventSubscriptionList | undefined;
 }
 export interface ListProjectsLocationsConnectionsRuntimeActionSchemasRequest {
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Filter Format: action="{actionId}" Only action field is supported with literal equality operator. Accepted filter example: action="CancelOrder" Wildcards are not supported in the filter currently. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Parent resource of RuntimeActionSchema Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Flag to indicate if schema should be returned as string or not */
-  schemaAsString?: boolean;
+  schemaAsString?: boolean | undefined;
 }
 /** Response message for ConnectorsService.ListRuntimeActionSchemas. */
 export interface ListRuntimeActionSchemasResponse {
   /** Next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Runtime action schemas. */
-  runtimeActionSchemas?: RuntimeActionSchemaList;
+  runtimeActionSchemas?: RuntimeActionSchemaList | undefined;
 }
 export interface ListProjectsLocationsConnectionsRuntimeEntitySchemasRequest {
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent resource of RuntimeEntitySchema Format: projects/{project}/locations/{location}/connections/{connection} */
   parent: string;
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Filter Format: entity="{entityId}" Only entity field is supported with literal equality operator. Accepted filter example: entity="Order" Wildcards are not supported in the filter currently. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Response message for ConnectorsService.ListRuntimeEntitySchemas. */
 export interface ListRuntimeEntitySchemasResponse {
   /** Next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Runtime entity schemas. */
-  runtimeEntitySchemas?: RuntimeEntitySchemaList;
+  runtimeEntitySchemas?: RuntimeEntitySchemaList | undefined;
 }
 export type ListProjectsLocationsEndpointAttachmentsViewEnum =
   | "ENDPOINT_ATTACHMENT_VIEW_UNSPECIFIED"
@@ -2783,35 +2796,35 @@ export type ListProjectsLocationsEndpointAttachmentsViewEnum =
   | "ENDPOINT_ATTACHMENT_VIEW_FULL";
 export interface ListProjectsLocationsEndpointAttachmentsRequest {
   /** Order by parameters. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Specifies which fields of the EndpointAttachment are returned in the response. Defaults to `ENDPOINT_ATTACHMENT_VIEW_BASIC` view. */
-  view?: ListProjectsLocationsEndpointAttachmentsViewEnum | (string & {});
+  view?: ListProjectsLocationsEndpointAttachmentsViewEnum | (string & {}) | undefined;
   /** Required. Parent resource od the EndpointAttachment, of the form: `projects/*\/locations/*` */
   parent: string;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type EndpointAttachmentList = Array<EndpointAttachment>;
 /** Response message for ConnectorsService.ListEndpointAttachments */
 export interface ListEndpointAttachmentsResponse {
   /** EndpointAttachments. */
-  endpointAttachments?: EndpointAttachmentList;
+  endpointAttachments?: EndpointAttachmentList | undefined;
   /** Next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsGlobalCustomConnectorsRequest {
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Filter string. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Parent resource of the custom connectors, of the form: `projects/*\/locations/*` Only global location is supported for CustomConnector resource. */
   parent: string;
 }
@@ -2819,63 +2832,63 @@ export type CustomConnectorList = Array<CustomConnector>;
 /** Response message for Connectors.ListCustomConnectors. */
 export interface ListCustomConnectorsResponse {
   /** A list of customConnectors. */
-  customConnectors?: CustomConnectorList;
+  customConnectors?: CustomConnectorList | undefined;
   /** Next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsGlobalCustomConnectorsCustomConnectorVersionsRequest {
   /** Required. Parent resource of the connectors, of the form: `projects/*\/locations/{location}/customConnectors/*\/customConnectorVersions/*` */
   parent: string;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type CustomConnectorVersionList = Array<CustomConnectorVersion>;
 /** Response message for Connectors.ListCustomConnectorVersions. */
 export interface ListCustomConnectorVersionsResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of connector versions. */
-  customConnectorVersions?: CustomConnectorVersionList;
+  customConnectorVersions?: CustomConnectorVersionList | undefined;
 }
 export interface ListProjectsLocationsGlobalManagedZonesRequest {
   /** Required. Parent resource of the Managed Zone, of the form: `projects/*\/locations/global` */
   parent: string;
   /** Optional. If true, allow partial responses for multi-regional Aggregated List requests. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** Order by parameters. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ManagedZoneList = Array<ManagedZone>;
 /** Response message for ConnectorsService.ListManagedZones */
 export interface ListManagedZonesResponse {
   /** ManagedZones. */
-  managedZones?: ManagedZoneList;
+  managedZones?: ManagedZoneList | undefined;
   /** Next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
@@ -2883,37 +2896,37 @@ export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsProvidersRequest {
   /** Required. Parent resource of the API, of the form: `projects/*\/locations/*` Only global location is supported for Provider resource. */
   parent: string;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ProviderList = Array<Provider>;
 /** Response message for Connectors.ListProviders. */
 export interface ListProvidersResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of providers. */
-  providers?: ProviderList;
+  providers?: ProviderList | undefined;
 }
 export interface ListProjectsLocationsProvidersConnectorsRequest {
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Filter string. */
-  filter?: string;
+  filter?: string | undefined;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent resource of the connectors, of the form: `projects/*\/locations/*\/providers/*` Only global location is supported for Connector resource. */
   parent: string;
 }
@@ -2921,11 +2934,11 @@ export type ConnectorList = Array<Connector>;
 /** Response message for Connectors.ListConnectors. */
 export interface ListConnectorsResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of connectors. */
-  connectors?: ConnectorList;
+  connectors?: ConnectorList | undefined;
 }
 export type ListProjectsLocationsProvidersConnectorsVersionsViewEnum =
   | "CONNECTOR_VERSION_VIEW_UNSPECIFIED"
@@ -2933,28 +2946,28 @@ export type ListProjectsLocationsProvidersConnectorsVersionsViewEnum =
   | "CONNECTOR_VERSION_VIEW_FULL";
 export interface ListProjectsLocationsProvidersConnectorsVersionsRequest {
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   parent: string;
   /** Specifies which fields of the ConnectorVersion are returned in the response. Defaults to `BASIC` view. */
-  view?: ListProjectsLocationsProvidersConnectorsVersionsViewEnum | (string & {});
+  view?: ListProjectsLocationsProvidersConnectorsVersionsViewEnum | (string & {}) | undefined;
 }
 export type ConnectorVersionList = Array<ConnectorVersion>;
 /** Response message for Connectors.ListConnectorVersions. */
 export interface ListConnectorVersionsResponse {
   /** A list of connector versions. */
-  connectorVersions?: ConnectorVersionList;
+  connectorVersions?: ConnectorVersionList | undefined;
   /** Next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsProvidersConnectorsVersionsEventtypesRequest {
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent resource of the connectors, of the form: `projects/*\/locations/*\/providers/*\/connectors/*\/versions/*` Only global location is supported for EventType resource. */
   parent: string;
 }
@@ -2962,84 +2975,84 @@ export type EventTypeList = Array<EventType>;
 /** Response message for Connectors.ListEventTypes. */
 export interface ListEventTypesResponse {
   /** A list of connector versions. */
-  eventTypes?: EventTypeList;
+  eventTypes?: EventTypeList | undefined;
   /** Next page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** Request message for ModifyConnectionToolspecOverride API. */
 export interface ModifyConnectionToolspecOverrideRequest {
   /** Required. Toolspec overrides to be modified. */
-  toolspecOverride?: ToolspecOverride;
+  toolspecOverride?: ToolspecOverride | undefined;
 }
 export interface ModifyToolspecOverrideProjectsLocationsConnectionsRequest {
   /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
   /** Request body */
-  body?: ModifyConnectionToolspecOverrideRequest;
+  body?: ModifyConnectionToolspecOverrideRequest | undefined;
 }
 /** Response message for ModifyConnectionToolspecOverride API. */
 export interface ModifyConnectionToolspecOverrideResponse {
   /** Toolspec overrides for the connection. */
-  toolspecOverrides?: ToolspecOverride;
+  toolspecOverrides?: ToolspecOverride | undefined;
 }
 export interface PatchProjectsLocationsConnectionsRequest {
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
   /** Required. The list of fields to update. Fields are specified relative to the connection. A field will be overwritten if it is in the mask. The field mask must not be empty, and it must not contain fields that are immutable or only set by the server. You can modify only the fields listed below. To lock/unlock a connection: * `lock_config` To suspend/resume a connection: * `suspended` To update the connection details: * `description` * `labels` * `connector_version` * `config_variables` * `auth_config` * `destination_configs` * `node_config` * `log_config` * `ssl_config` * `eventing_enablement_type` * `eventing_config` * `auth_override_enabled` * `async_operations_enabled` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Connection;
+  body?: Connection | undefined;
 }
 export interface PatchProjectsLocationsConnectionsEndUserAuthenticationsRequest {
   /** Required. The list of fields to update. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the EndUserAuthentication details: * `notify_endpoint_destination` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. Identifier. Resource name of the EndUserAuthentication. Format: projects/{project}/locations/{location}/connections/{connection}/endUserAuthentications/{end_user_authentication} */
   name: string;
   /** Request body */
-  body?: EndUserAuthentication;
+  body?: EndUserAuthentication | undefined;
 }
 export interface PatchProjectsLocationsConnectionsEventSubscriptionsRequest {
   /** Required. The list of fields to update. Fields are specified relative to the Subscription. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the EventSubscription details: * `serviceAccount` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. Identifier. Resource name of the EventSubscription. Format: projects/{project}/locations/{location}/connections/{connection}/eventSubscriptions/{event_subscription} */
   name: string;
   /** Request body */
-  body?: EventSubscription;
+  body?: EventSubscription | undefined;
 }
 export interface PatchProjectsLocationsEndpointAttachmentsRequest {
   /** Output only. Resource name of the Endpoint Attachment. Format: projects/{project}/locations/{location}/endpointAttachments/{endpoint_attachment} */
   name: string;
   /** Required. The list of fields to update. Fields are specified relative to the endpointAttachment. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the endpointAttachment details: * `description` * `labels` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: EndpointAttachment;
+  body?: EndpointAttachment | undefined;
 }
 export interface PatchProjectsLocationsGlobalCustomConnectorsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the Connector resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. Set the mask as "*" for full replacement, which means all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. Resource name of the CustomConnector. Format: projects/{project}/locations/{location}/customConnectors/{connector} */
   name: string;
   /** Request body */
-  body?: CustomConnector;
+  body?: CustomConnector | undefined;
 }
 export interface PatchProjectsLocationsGlobalManagedZonesRequest {
   /** Output only. Resource name of the Managed Zone. Format: projects/{project}/locations/global/managedZones/{managed_zone} */
   name: string;
   /** Required. The list of fields to update. Fields are specified relative to the managedZone. A field will be overwritten if it is in the mask. You can modify only the fields listed below. To update the managedZone details: * `description` * `labels` * `target_project` * `target_network` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: ManagedZone;
+  body?: ManagedZone | undefined;
 }
 /** Request message for ConnectorsService.PublishCustomConnectorVersion */
 export interface PublishCustomConnectorVersionRequest {
   /** Required. Partner metadata details for validating and publishing the custom connector as a partner connector version. */
-  partnerMetadata?: PartnerMetadata;
+  partnerMetadata?: PartnerMetadata | undefined;
 }
 export interface PublishProjectsLocationsCustomConnectorsCustomConnectorVersionsRequest {
   /** Required. Resource name of the form: `projects/{project}/locations/{location}/customConnectors/{custom_connector}/customConnectorVersions/{custom_connector_version}` */
   name: string;
   /** Request body */
-  body?: PublishCustomConnectorVersionRequest;
+  body?: PublishCustomConnectorVersionRequest | undefined;
 }
 /** Request message for ConnectorsService.RefreshConnectionSchemaMetadata. */
 export type RefreshConnectionSchemaMetadataRequest = CancelOperationRequest;
@@ -3047,7 +3060,7 @@ export interface RefreshProjectsLocationsConnectionsConnectionSchemaMetadataRequ
   /** Required. Resource name. Format: projects/{project}/locations/{location}/connections/{connection}/connectionSchemaMetadata */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Request message for RemoveConnectionToolspecOverride API. */
 export type RemoveConnectionToolspecOverrideRequest = CancelOperationRequest;
@@ -3055,7 +3068,7 @@ export interface RemoveToolspecOverrideProjectsLocationsConnectionsRequest {
   /** Required. Resource name format: projects/{project}/locations/{location}/connections/{connection} */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Request message for ConnectorsService.RepairEventing */
 export type RepairEventingRequest = CancelOperationRequest;
@@ -3063,7 +3076,7 @@ export interface RepairEventingProjectsLocationsConnectionsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/connections/*` */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Request message for ConnectorsService.RefreshEventSubscription */
 export type RetryEventSubscriptionRequest = CancelOperationRequest;
@@ -3071,93 +3084,93 @@ export interface RetryProjectsLocationsConnectionsEventSubscriptionsRequest {
   /** Required. Resource name of the form: `projects/*\/locations/*\/connections/*\/eventSubscriptions/*` */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface SearchProjectsLocationsConnectionsRequest {
   /** Optional. The number of top matching connectors to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The query against which the search needs to be done. */
-  query?: string;
+  query?: string | undefined;
   /** Optional. page_token */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent resource of the Connection, of the form: `projects/*\/locations/*\/connections` */
   name: string;
 }
 /** SearchConnectionInstance represents an instance of connector with specific fields */
 export interface SearchConnectionInstance {
   /** Output only. Connection details */
-  connection?: Connection;
+  connection?: Connection | undefined;
   /** Output only. Schema of a runtime action. */
-  actionSchema?: RuntimeActionSchema;
+  actionSchema?: RuntimeActionSchema | undefined;
   /** Output only. Schema of a runtime entity. */
-  entitySchema?: RuntimeEntitySchema;
+  entitySchema?: RuntimeEntitySchema | undefined;
 }
 export type SearchConnectionInstanceList = Array<SearchConnectionInstance>;
 /** Response message for Connectors.SearchConnections. */
 export interface SearchConnectionsResponse {
   /** Optional. page_token */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of connectors. */
-  connections?: SearchConnectionInstanceList;
+  connections?: SearchConnectionInstanceList | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsConnectionsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsProvidersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsConnectionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsProvidersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface UpdateRegionalSettingsProjectsLocationsRequest {
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/{location}/regionalSettings */
   name: string;
   /** Required. The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: RegionalSettings;
+  body?: RegionalSettings | undefined;
 }
 export interface UpdateSettingsProjectsLocationsGlobalRequest {
   /** Output only. Resource name of the Connection. Format: projects/{project}/locations/global/settings} */
   name: string;
   /** Required. The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Settings;
+  body?: Settings | undefined;
 }
 export type ValidateCustomConnectorSpecRequestSpecTypeEnum =
   | "CUSTOM_CONNECTOR_TYPE_UNSPECIFIED"
@@ -3167,22 +3180,22 @@ export type ValidateCustomConnectorSpecRequestSpecTypeEnum =
 /** Request message for ConnectorsService.ValidateCustomConnectorSpec */
 export interface ValidateCustomConnectorSpecRequest {
   /** Required. Service account to access the spec from Google Cloud Storage. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Required. Spec type of the custom connector spec. */
-  specType?: ValidateCustomConnectorSpecRequestSpecTypeEnum | (string & {});
+  specType?: ValidateCustomConnectorSpecRequestSpecTypeEnum | (string & {}) | undefined;
   /** Required. Location of the custom connector spec. The location can be either a public url like `https://public-url.com/spec` Or a Google Cloud Storage location like `gs:///` */
-  specLocation?: string;
+  specLocation?: string | undefined;
 }
 export interface ValidateCustomConnectorSpecProjectsLocationsCustomConnectorsRequest {
   /** Required. Location at which the custom connector is being created. */
   parent: string;
   /** Request body */
-  body?: ValidateCustomConnectorSpecRequest;
+  body?: ValidateCustomConnectorSpecRequest | undefined;
 }
 /** Response message for ConnectorsService.ValidateCustomConnectorSpec */
 export interface ValidateCustomConnectorSpecResponse {
   /** Error message. The spec is valid if the error message is empty. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 /** Request message for ConnectorsService.WithdrawCustomConnectorVersion */
 export type WithdrawCustomConnectorVersionRequest = CancelOperationRequest;
@@ -3190,7 +3203,7 @@ export interface WithdrawProjectsLocationsCustomConnectorsCustomConnectorVersion
   /** Required. Resource name of the form: `projects/{project}/locations/{location}/customConnectors/{custom_connector}/customConnectorVersions/{custom_connector_version}` */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound

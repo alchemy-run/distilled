@@ -85,17 +85,17 @@ export interface CreateRequestOutputAnnotationsItem {
   /** The end line of the annotation. */
   end_line: number;
   /** The start column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values. Column numbers start at 1. */
-  start_column?: number;
+  start_column?: number | undefined;
   /** The end column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values. */
-  end_column?: number;
+  end_column?: number | undefined;
   /** The level of the annotation. */
   annotation_level: CreateRequestOutputAnnotationsItemAnnotationLevel | (string & {});
   /** A short description of the feedback for these lines of code. The maximum size is 64 KB. */
   message: string;
   /** The title that represents the annotation. The maximum size is 255 characters. */
-  title?: string;
+  title?: string | undefined;
   /** Details about this annotation. The maximum size is 64 KB. */
-  raw_details?: string;
+  raw_details?: string | undefined;
 }
 /** Adds information from your analysis to specific lines of code. Annotations are visible on GitHub in the **Checks** and **Files changed** tab of the pull request. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://docs.github.com/rest/checks/runs#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. GitHub Actions are limited to 10 warning annotations and 10 error annotations per step. For details about how you can view annotations on GitHub, see "[About status checks](https://docs.github.com/articles/about-status-checks#checks)". */
 export type CreateRequestOutputAnnotationsList = Array<CreateRequestOutputAnnotationsItem>;
@@ -105,7 +105,7 @@ export interface CreateRequestOutputImagesItem {
   /** The full URL of the image. */
   image_url: string;
   /** A short image description. */
-  caption?: string;
+  caption?: string | undefined;
 }
 /** Adds images to the output displayed in the GitHub pull request UI. */
 export type CreateRequestOutputImagesList = Array<CreateRequestOutputImagesItem>;
@@ -116,11 +116,11 @@ export interface CreateRequestOutput {
   /** The summary of the check run. This parameter supports Markdown. **Maximum length**: 65535 characters. */
   summary: string;
   /** The details of the check run. This parameter supports Markdown. **Maximum length**: 65535 characters. */
-  text?: string;
+  text?: string | undefined;
   /** Adds information from your analysis to specific lines of code. Annotations are visible on GitHub in the **Checks** and **Files changed** tab of the pull request. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://docs.github.com/rest/checks/runs#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. GitHub Actions are limited to 10 warning annotations and 10 error annotations per step. For details about how you can view annotations on GitHub, see "[About status checks](https://docs.github.com/articles/about-status-checks#checks)". */
-  annotations?: CreateRequestOutputAnnotationsList;
+  annotations?: CreateRequestOutputAnnotationsList | undefined;
   /** Adds images to the output displayed in the GitHub pull request UI. */
-  images?: CreateRequestOutputImagesList;
+  images?: CreateRequestOutputImagesList | undefined;
 }
 export interface CreateRequestActionsItem {
   /** The text to be displayed on a button in the web UI. The maximum size is 20 characters. */
@@ -142,21 +142,21 @@ export interface CreateRequest {
   /** The SHA of the commit. */
   head_sha: string;
   /** The URL of the integrator's site that has the full details of the check. If the integrator does not provide this, then the homepage of the GitHub app is used. */
-  details_url?: string;
+  details_url?: string | undefined;
   /** A reference for the run on the integrator's system. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The current status of the check run. Only GitHub Actions can set a status of `waiting`, `pending`, or `requested`. */
-  status?: CreateRequestStatus | (string & {});
+  status?: CreateRequestStatus | (string & {}) | undefined;
   /** The time that the check run began. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  started_at?: string;
+  started_at?: string | undefined;
   /** **Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. **Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`. You cannot change a check run conclusion to `stale`, only GitHub can set this. */
-  conclusion?: CreateRequestConclusion | (string & {});
+  conclusion?: CreateRequestConclusion | (string & {}) | undefined;
   /** The time the check completed. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  completed_at?: string;
+  completed_at?: string | undefined;
   /** Check runs can accept a variety of data in the `output` object, including a `title` and `summary` and can optionally provide descriptive details about the run. */
-  output?: CreateRequestOutput;
+  output?: CreateRequestOutput | undefined;
   /** Displays a button on GitHub that can be clicked to alert your app to do additional tasks. For example, a code linting app can display a button that automatically fixes detected errors. The button created in this object is displayed after the check run completes. When a user clicks the button, GitHub sends the [`check_run.requested_action` webhook](https://docs.github.com/webhooks/event-payloads/#check_run) to your app. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/guides/using-the-rest-api-to-interact-with-checks#check-runs-and-requested-actions)." */
-  actions?: CreateRequestActionsList;
+  actions?: CreateRequestActionsList | undefined;
 }
 /** The phase of the lifecycle that the check is currently in. Statuses of waiting, requested, and pending are reserved for GitHub Actions check runs. */
 export type CheckRunStatus =
@@ -186,8 +186,8 @@ export interface CheckRunCheckSuite {
 }
 /** A GitHub user. */
 export interface SimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -206,16 +206,16 @@ export interface SimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** An enterprise on GitHub. */
 export interface Enterprise {
   /** A short description of the enterprise. */
-  description?: string | null;
+  description?: string | null | undefined;
   html_url: string;
   /** The enterprise's website URL. */
-  website_url?: string | null;
+  website_url?: string | null | undefined;
   /** Unique identifier of the enterprise */
   id: number;
   node_id: string;
@@ -230,11 +230,11 @@ export interface Enterprise {
 export type NullableIntegrationOwner = SimpleUser | Enterprise;
 /** The set of permissions for the GitHub app */
 export interface NullableIntegrationPermissions {
-  issues?: string;
-  checks?: string;
-  metadata?: string;
-  contents?: string;
-  deployments?: string;
+  issues?: string | undefined;
+  checks?: string | undefined;
+  metadata?: string | undefined;
+  contents?: string | undefined;
+  deployments?: string | undefined;
   [key: string]: unknown;
 }
 /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
@@ -244,9 +244,9 @@ export interface NullableIntegration {
   /** Unique identifier of the GitHub app */
   id: number;
   /** The slug name of the GitHub app */
-  slug?: string;
+  slug?: string | undefined;
   node_id: string;
-  client_id?: string;
+  client_id?: string | undefined;
   owner: NullableIntegrationOwner;
   /** The name of the GitHub app */
   name: string;
@@ -260,7 +260,7 @@ export interface NullableIntegration {
   /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
   events: NullableIntegrationEventsList;
   /** The number of installations associated with the GitHub app. Only returned when the integration is requesting details about itself. */
-  installations_count?: number;
+  installations_count?: number | undefined;
 }
 export interface PullRequestMinimalHeadRepo {
   id: number;
@@ -291,7 +291,7 @@ export interface DeploymentSimple {
   node_id: string;
   /** Parameter to specify a task to execute */
   task: string;
-  original_environment?: string;
+  original_environment?: string | undefined;
   /** Name for the target deployment environment. */
   environment: string;
   description: string | null;
@@ -300,10 +300,10 @@ export interface DeploymentSimple {
   statuses_url: string;
   repository_url: string;
   /** Specifies if the given environment is will no longer exist at some point in the future. Default: false. */
-  transient_environment?: boolean;
+  transient_environment?: boolean | undefined;
   /** Specifies if the given environment is one that end-users directly interact with. Default: false. */
-  production_environment?: boolean;
-  performed_via_github_app?: NullableIntegration | null;
+  production_environment?: boolean | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
 }
 /** A check performed on the code of a given code change */
 export interface CheckRun {
@@ -328,7 +328,7 @@ export interface CheckRun {
   app: NullableIntegration | null;
   /** Pull requests that are open with a `head_sha` or `head_branch` that matches the check. The returned pull requests do not necessarily indicate pull requests that triggered the check. */
   pull_requests: CheckRunPullRequestsList;
-  deployment?: DeploymentSimple;
+  deployment?: DeploymentSimple | undefined;
 }
 export interface CreateSuiteRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -361,66 +361,66 @@ export type MinimalRepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
 export type MinimalRepositoryPullRequestCreationPolicy = "all" | "collaborators_only";
 export interface MinimalRepositoryPermissions {
-  admin?: boolean;
-  maintain?: boolean;
-  push?: boolean;
-  triage?: boolean;
-  pull?: boolean;
+  admin?: boolean | undefined;
+  maintain?: boolean | undefined;
+  push?: boolean | undefined;
+  triage?: boolean | undefined;
+  pull?: boolean | undefined;
 }
 /** Code Of Conduct */
 export interface CodeOfConduct {
   key: string;
   name: string;
   url: string;
-  body?: string;
+  body?: string | undefined;
   html_url: string | null;
 }
 export interface MinimalRepositoryLicense {
-  key?: string;
-  name?: string;
-  spdx_id?: string;
-  url?: string | null;
-  node_id?: string;
+  key?: string | undefined;
+  name?: string | undefined;
+  spdx_id?: string | undefined;
+  url?: string | null | undefined;
+  node_id?: string | undefined;
 }
 export type SecurityAndAnalysisAdvancedSecurityStatus = "enabled" | "disabled";
 /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
 export interface SecurityAndAnalysisAdvancedSecurity {
-  status?: SecurityAndAnalysisAdvancedSecurityStatus;
+  status?: SecurityAndAnalysisAdvancedSecurityStatus | undefined;
 }
 export type SecurityAndAnalysisCodeSecurityStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisCodeSecurity {
-  status?: SecurityAndAnalysisCodeSecurityStatus;
+  status?: SecurityAndAnalysisCodeSecurityStatus | undefined;
 }
 /** The enablement status of Dependabot security updates for the repository. */
 export type SecurityAndAnalysisDependabotSecurityUpdatesStatus = "enabled" | "disabled";
 /** Enable or disable Dependabot security updates for the repository. */
 export interface SecurityAndAnalysisDependabotSecurityUpdates {
   /** The enablement status of Dependabot security updates for the repository. */
-  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus;
+  status?: SecurityAndAnalysisDependabotSecurityUpdatesStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanning {
-  status?: SecurityAndAnalysisSecretScanningStatus;
+  status?: SecurityAndAnalysisSecretScanningStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningPushProtectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningPushProtection {
-  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus;
+  status?: SecurityAndAnalysisSecretScanningPushProtectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningNonProviderPatternsStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningNonProviderPatterns {
-  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus;
+  status?: SecurityAndAnalysisSecretScanningNonProviderPatternsStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningAiDetectionStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningAiDetection {
-  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus;
+  status?: SecurityAndAnalysisSecretScanningAiDetectionStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedAlertDismissal {
-  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissalStatus | undefined;
 }
 export type SecurityAndAnalysisSecretScanningDelegatedBypassStatus = "enabled" | "disabled";
 export interface SecurityAndAnalysisSecretScanningDelegatedBypass {
-  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus;
+  status?: SecurityAndAnalysisSecretScanningDelegatedBypassStatus | undefined;
 }
 /** The type of the bypass reviewer */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType =
@@ -436,28 +436,34 @@ export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewer
   /** The type of the bypass reviewer */
   reviewer_type: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemReviewerType;
   /** The bypass mode for the reviewer */
-  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode;
+  mode?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItemMode | undefined;
 }
 /** The bypass reviewers for secret scanning delegated bypass */
 export type SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList =
   Array<SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersItem>;
 export interface SecurityAndAnalysisSecretScanningDelegatedBypassOptions {
   /** The bypass reviewers for secret scanning delegated bypass */
-  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList;
+  reviewers?: SecurityAndAnalysisSecretScanningDelegatedBypassOptionsReviewersList | undefined;
 }
 export interface SecurityAndAnalysis {
   /** Enable or disable GitHub Advanced Security for the repository. For standalone Code Scanning or Secret Protection products, this parameter cannot be used. */
-  advanced_security?: SecurityAndAnalysisAdvancedSecurity;
-  code_security?: SecurityAndAnalysisCodeSecurity;
+  advanced_security?: SecurityAndAnalysisAdvancedSecurity | undefined;
+  code_security?: SecurityAndAnalysisCodeSecurity | undefined;
   /** Enable or disable Dependabot security updates for the repository. */
-  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates;
-  secret_scanning?: SecurityAndAnalysisSecretScanning;
-  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection;
-  secret_scanning_non_provider_patterns?: SecurityAndAnalysisSecretScanningNonProviderPatterns;
-  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection;
-  secret_scanning_delegated_alert_dismissal?: SecurityAndAnalysisSecretScanningDelegatedAlertDismissal;
-  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass;
-  secret_scanning_delegated_bypass_options?: SecurityAndAnalysisSecretScanningDelegatedBypassOptions;
+  dependabot_security_updates?: SecurityAndAnalysisDependabotSecurityUpdates | undefined;
+  secret_scanning?: SecurityAndAnalysisSecretScanning | undefined;
+  secret_scanning_push_protection?: SecurityAndAnalysisSecretScanningPushProtection | undefined;
+  secret_scanning_non_provider_patterns?:
+    | SecurityAndAnalysisSecretScanningNonProviderPatterns
+    | undefined;
+  secret_scanning_ai_detection?: SecurityAndAnalysisSecretScanningAiDetection | undefined;
+  secret_scanning_delegated_alert_dismissal?:
+    | SecurityAndAnalysisSecretScanningDelegatedAlertDismissal
+    | undefined;
+  secret_scanning_delegated_bypass?: SecurityAndAnalysisSecretScanningDelegatedBypass | undefined;
+  secret_scanning_delegated_bypass_options?:
+    | SecurityAndAnalysisSecretScanningDelegatedBypassOptions
+    | undefined;
 }
 /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
 export type MinimalRepositoryCustomPropertiesMap = { [key: string]: unknown | undefined };
@@ -490,7 +496,7 @@ export interface MinimalRepository {
   git_commits_url: string;
   git_refs_url: string;
   git_tags_url: string;
-  git_url?: string;
+  git_url?: string | undefined;
   issue_comment_url: string;
   issue_events_url: string;
   issues_url: string;
@@ -502,7 +508,7 @@ export interface MinimalRepository {
   notifications_url: string;
   pulls_url: string;
   releases_url: string;
-  ssh_url?: string;
+  ssh_url?: string | undefined;
   stargazers_url: string;
   statuses_url: string;
   subscribers_url: string;
@@ -510,52 +516,52 @@ export interface MinimalRepository {
   tags_url: string;
   teams_url: string;
   trees_url: string;
-  clone_url?: string;
-  mirror_url?: string | null;
+  clone_url?: string | undefined;
+  mirror_url?: string | null | undefined;
   hooks_url: string;
-  svn_url?: string;
-  homepage?: string | null;
-  language?: string | null;
-  forks_count?: number;
-  stargazers_count?: number;
-  watchers_count?: number;
+  svn_url?: string | undefined;
+  homepage?: string | null | undefined;
+  language?: string | null | undefined;
+  forks_count?: number | undefined;
+  stargazers_count?: number | undefined;
+  watchers_count?: number | undefined;
   /** The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0. */
-  size?: number;
-  default_branch?: string;
-  open_issues_count?: number;
-  is_template?: boolean;
-  topics?: MinimalRepositoryTopicsList;
-  has_issues?: boolean;
-  has_projects?: boolean;
-  has_wiki?: boolean;
-  has_pages?: boolean;
-  has_downloads?: boolean;
-  has_discussions?: boolean;
-  has_pull_requests?: boolean;
+  size?: number | undefined;
+  default_branch?: string | undefined;
+  open_issues_count?: number | undefined;
+  is_template?: boolean | undefined;
+  topics?: MinimalRepositoryTopicsList | undefined;
+  has_issues?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_wiki?: boolean | undefined;
+  has_pages?: boolean | undefined;
+  has_downloads?: boolean | undefined;
+  has_discussions?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy;
-  archived?: boolean;
-  disabled?: boolean;
-  visibility?: string;
-  pushed_at?: string | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  permissions?: MinimalRepositoryPermissions;
-  role_name?: string;
-  temp_clone_token?: string;
-  delete_branch_on_merge?: boolean;
-  subscribers_count?: number;
-  network_count?: number;
-  code_of_conduct?: CodeOfConduct;
-  license?: MinimalRepositoryLicense | null;
-  forks?: number;
-  open_issues?: number;
-  watchers?: number;
-  allow_forking?: boolean;
-  web_commit_signoff_required?: boolean;
-  security_and_analysis?: SecurityAndAnalysis | null;
+  pull_request_creation_policy?: MinimalRepositoryPullRequestCreationPolicy | undefined;
+  archived?: boolean | undefined;
+  disabled?: boolean | undefined;
+  visibility?: string | undefined;
+  pushed_at?: string | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  permissions?: MinimalRepositoryPermissions | undefined;
+  role_name?: string | undefined;
+  temp_clone_token?: string | undefined;
+  delete_branch_on_merge?: boolean | undefined;
+  subscribers_count?: number | undefined;
+  network_count?: number | undefined;
+  code_of_conduct?: CodeOfConduct | undefined;
+  license?: MinimalRepositoryLicense | null | undefined;
+  forks?: number | undefined;
+  open_issues?: number | undefined;
+  watchers?: number | undefined;
+  allow_forking?: boolean | undefined;
+  web_commit_signoff_required?: boolean | undefined;
+  security_and_analysis?: SecurityAndAnalysis | null | undefined;
   /** The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values. */
-  custom_properties?: MinimalRepositoryCustomPropertiesMap;
+  custom_properties?: MinimalRepositoryCustomPropertiesMap | undefined;
 }
 /** Information about the Git author */
 export interface SimpleCommitAuthor {
@@ -607,8 +613,8 @@ export interface CheckSuite {
   head_commit: SimpleCommit;
   latest_check_runs_count: number;
   check_runs_url: string;
-  rerequestable?: boolean;
-  runs_rerequestable?: boolean;
+  rerequestable?: boolean | undefined;
+  runs_rerequestable?: boolean | undefined;
 }
 export interface GetRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -634,9 +640,9 @@ export interface ListAnnotationsRequest {
   /** The unique identifier of the check run. */
   check_run_id: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 /** Check Annotation */
 export interface CheckAnnotation {
@@ -663,16 +669,16 @@ export interface ListForRefRequest {
   /** The commit reference. Can be a commit SHA, branch name (`heads/BRANCH_NAME`), or tag name (`tags/TAG_NAME`). For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation. */
   ref: string;
   /** Returns check runs with the specified `name`. */
-  check_name?: string;
+  check_name?: string | undefined;
   /** Returns check runs with the specified `status`. */
-  status?: ListForRefRequestStatus | (string & {});
+  status?: ListForRefRequestStatus | (string & {}) | undefined;
   /** Filters check runs by their `completed_at` timestamp. `latest` returns the most recent check runs. */
-  filter?: ListForRefRequestFilter | (string & {});
+  filter?: ListForRefRequestFilter | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
-  app_id?: number;
+  page?: number | undefined;
+  app_id?: number | undefined;
 }
 export type ListForRefResponseCheckRunsList = Array<CheckRun>;
 export interface ListForRefResponse {
@@ -689,15 +695,15 @@ export interface ListForSuiteRequest {
   /** The unique identifier of the check suite. */
   check_suite_id: number;
   /** Returns check runs with the specified `name`. */
-  check_name?: string;
+  check_name?: string | undefined;
   /** Returns check runs with the specified `status`. */
-  status?: ListForSuiteRequestStatus | (string & {});
+  status?: ListForSuiteRequestStatus | (string & {}) | undefined;
   /** Filters check runs by their `completed_at` timestamp. `latest` returns the most recent check runs. */
-  filter?: ListForSuiteRequestFilter | (string & {});
+  filter?: ListForSuiteRequestFilter | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForSuiteResponseCheckRunsList = Array<CheckRun>;
 export interface ListForSuiteResponse {
@@ -712,13 +718,13 @@ export interface ListSuitesForRefRequest {
   /** The commit reference. Can be a commit SHA, branch name (`heads/BRANCH_NAME`), or tag name (`tags/TAG_NAME`). For more information, see "[Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References)" in the Git documentation. */
   ref: string;
   /** Filters check suites by GitHub App `id`. */
-  app_id?: number;
+  app_id?: number | undefined;
   /** Returns check runs with the specified `name`. */
-  check_name?: string;
+  check_name?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSuitesForRefResponseCheckSuitesList = Array<CheckSuite>;
 export interface ListSuitesForRefResponse {
@@ -758,7 +764,7 @@ export interface SetSuitesPreferencesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** Enables or disables automatic creation of CheckSuite events upon pushes to the repository. Enabled by default. */
-  auto_trigger_checks?: SetSuitesPreferencesRequestAutoTriggerChecksList;
+  auto_trigger_checks?: SetSuitesPreferencesRequestAutoTriggerChecksList | undefined;
 }
 export interface CheckSuitePreferencePreferencesAutoTriggerChecksItem {
   app_id: number;
@@ -767,7 +773,7 @@ export interface CheckSuitePreferencePreferencesAutoTriggerChecksItem {
 export type CheckSuitePreferencePreferencesAutoTriggerChecksList =
   Array<CheckSuitePreferencePreferencesAutoTriggerChecksItem>;
 export interface CheckSuitePreferencePreferences {
-  auto_trigger_checks?: CheckSuitePreferencePreferencesAutoTriggerChecksList;
+  auto_trigger_checks?: CheckSuitePreferencePreferencesAutoTriggerChecksList | undefined;
 }
 /** Check suite configuration preferences for a repository. */
 export interface CheckSuitePreference {
@@ -802,17 +808,17 @@ export interface UpdateRequestOutputAnnotationsItem {
   /** The end line of the annotation. */
   end_line: number;
   /** The start column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values. Column numbers start at 1. */
-  start_column?: number;
+  start_column?: number | undefined;
   /** The end column of the annotation. Annotations only support `start_column` and `end_column` on the same line. Omit this parameter if `start_line` and `end_line` have different values. */
-  end_column?: number;
+  end_column?: number | undefined;
   /** The level of the annotation. */
   annotation_level: UpdateRequestOutputAnnotationsItemAnnotationLevel | (string & {});
   /** A short description of the feedback for these lines of code. The maximum size is 64 KB. */
   message: string;
   /** The title that represents the annotation. The maximum size is 255 characters. */
-  title?: string;
+  title?: string | undefined;
   /** Details about this annotation. The maximum size is 64 KB. */
-  raw_details?: string;
+  raw_details?: string | undefined;
 }
 /** Adds information from your analysis to specific lines of code. Annotations are visible in GitHub's pull request UI. Annotations are visible in GitHub's pull request UI. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://docs.github.com/rest/checks/runs#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. GitHub Actions are limited to 10 warning annotations and 10 error annotations per step. For details about annotations in the UI, see "[About status checks](https://docs.github.com/articles/about-status-checks#checks)". */
 export type UpdateRequestOutputAnnotationsList = Array<UpdateRequestOutputAnnotationsItem>;
@@ -822,15 +828,15 @@ export type UpdateRequestOutputImagesList = Array<CreateRequestOutputImagesItem>
 /** Check runs can accept a variety of data in the `output` object, including a `title` and `summary` and can optionally provide descriptive details about the run. */
 export interface UpdateRequestOutput {
   /** **Required**. */
-  title?: string;
+  title?: string | undefined;
   /** Can contain Markdown. */
   summary: string;
   /** Can contain Markdown. */
-  text?: string;
+  text?: string | undefined;
   /** Adds information from your analysis to specific lines of code. Annotations are visible in GitHub's pull request UI. Annotations are visible in GitHub's pull request UI. The Checks API limits the number of annotations to a maximum of 50 per API request. To create more than 50 annotations, you have to make multiple requests to the [Update a check run](https://docs.github.com/rest/checks/runs#update-a-check-run) endpoint. Each time you update the check run, annotations are appended to the list of annotations that already exist for the check run. GitHub Actions are limited to 10 warning annotations and 10 error annotations per step. For details about annotations in the UI, see "[About status checks](https://docs.github.com/articles/about-status-checks#checks)". */
-  annotations?: UpdateRequestOutputAnnotationsList;
+  annotations?: UpdateRequestOutputAnnotationsList | undefined;
   /** Adds images to the output displayed in the GitHub pull request UI. */
-  images?: UpdateRequestOutputImagesList;
+  images?: UpdateRequestOutputImagesList | undefined;
 }
 export type UpdateRequestActionsItem = CreateRequestActionsItem;
 /** Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/guides/using-the-rest-api-to-interact-with-checks#check-runs-and-requested-actions)." */
@@ -843,23 +849,23 @@ export interface UpdateRequest {
   /** The unique identifier of the check run. */
   check_run_id: number;
   /** The name of the check. For example, "code-coverage". */
-  name?: string;
+  name?: string | undefined;
   /** The URL of the integrator's site that has the full details of the check. */
-  details_url?: string;
+  details_url?: string | undefined;
   /** A reference for the run on the integrator's system. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  started_at?: string;
+  started_at?: string | undefined;
   /** The current status of the check run. Only GitHub Actions can set a status of `waiting`, `pending`, or `requested`. */
-  status?: UpdateRequestStatus | (string & {});
+  status?: UpdateRequestStatus | (string & {}) | undefined;
   /** **Required if you provide `completed_at` or a `status` of `completed`**. The final conclusion of the check. **Note:** Providing `conclusion` will automatically set the `status` parameter to `completed`. You cannot change a check run conclusion to `stale`, only GitHub can set this. */
-  conclusion?: UpdateRequestConclusion | (string & {});
+  conclusion?: UpdateRequestConclusion | (string & {}) | undefined;
   /** The time the check completed. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  completed_at?: string;
+  completed_at?: string | undefined;
   /** Check runs can accept a variety of data in the `output` object, including a `title` and `summary` and can optionally provide descriptive details about the run. */
-  output?: UpdateRequestOutput;
+  output?: UpdateRequestOutput | undefined;
   /** Possible further actions the integrator can perform, which a user may trigger. Each action includes a `label`, `identifier` and `description`. A maximum of three actions are accepted. To learn more about check runs and requested actions, see "[Check runs and requested actions](https://docs.github.com/rest/guides/using-the-rest-api-to-interact-with-checks#check-runs-and-requested-actions)." */
-  actions?: UpdateRequestActionsList;
+  actions?: UpdateRequestActionsList | undefined;
 }
 export type CreateError = GithubOpError;
 /** Create a check run Creates a new check run for a specific commit in a repository. To create a check run, you must use a GitHub App. OAuth apps and authenticated users are not able to create a check suite. In a check suite, GitHub limits the number of check runs with the same name to 1000. Once these check runs exceed 1000, GitHub will start to automatically delete older check runs. > [!NOTE] > The Checks API only looks for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array. */

@@ -214,8 +214,8 @@ export interface AssumeImpersonationRoleRequest {
 export type ImpersonationToken = string;
 export type ExpiresIn = number;
 export interface AssumeImpersonationRoleResponse {
-  Token?: string;
-  ExpiresIn?: number;
+  Token?: string | undefined;
+  ExpiresIn?: number | undefined;
 }
 export type IdempotencyClientToken = string;
 export type MailboxExportJobId = string;
@@ -247,32 +247,32 @@ export interface LambdaAvailabilityProvider {
   LambdaArn: string;
 }
 export interface CreateAvailabilityConfigurationRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   OrganizationId: string;
   DomainName: string;
-  EwsProvider?: EwsAvailabilityProvider;
-  LambdaProvider?: LambdaAvailabilityProvider;
+  EwsProvider?: EwsAvailabilityProvider | undefined;
+  LambdaProvider?: LambdaAvailabilityProvider | undefined;
 }
 export interface CreateAvailabilityConfigurationResponse {}
 export type GroupName = string;
 export interface CreateGroupRequest {
   OrganizationId: string;
   Name: string;
-  HiddenFromGlobalAddressList?: boolean;
+  HiddenFromGlobalAddressList?: boolean | undefined;
 }
 export interface CreateGroupResponse {
-  GroupId?: string;
+  GroupId?: string | undefined;
 }
 export type IdentityCenterApplicationName = string;
 export type InstanceArn = string;
 export interface CreateIdentityCenterApplicationRequest {
   Name: string;
   InstanceArn: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export type ApplicationArn = string;
 export interface CreateIdentityCenterApplicationResponse {
-  ApplicationArn?: string;
+  ApplicationArn?: string | undefined;
 }
 export type ImpersonationRoleName = string;
 export type ImpersonationRoleType = "FULL_ACCESS" | "READ_ONLY" | (string & {});
@@ -284,23 +284,23 @@ export type AccessEffect = "ALLOW" | "DENY" | (string & {});
 export type TargetUsers = string[];
 export interface ImpersonationRule {
   ImpersonationRuleId: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
   Effect: AccessEffect;
-  TargetUsers?: string[];
-  NotTargetUsers?: string[];
+  TargetUsers?: string[] | undefined;
+  NotTargetUsers?: string[] | undefined;
 }
 export type ImpersonationRuleList = ImpersonationRule[];
 export interface CreateImpersonationRoleRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   OrganizationId: string;
   Name: string;
   Type: ImpersonationRoleType;
-  Description?: string;
+  Description?: string | undefined;
   Rules: ImpersonationRule[];
 }
 export interface CreateImpersonationRoleResponse {
-  ImpersonationRoleId?: string;
+  ImpersonationRoleId?: string | undefined;
 }
 export type MobileDeviceAccessRuleName = string;
 export type MobileDeviceAccessRuleDescription = string;
@@ -315,42 +315,42 @@ export type DeviceUserAgent = string;
 export type DeviceUserAgentList = string[];
 export interface CreateMobileDeviceAccessRuleRequest {
   OrganizationId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Effect: MobileDeviceAccessRuleEffect;
-  DeviceTypes?: string[];
-  NotDeviceTypes?: string[];
-  DeviceModels?: string[];
-  NotDeviceModels?: string[];
-  DeviceOperatingSystems?: string[];
-  NotDeviceOperatingSystems?: string[];
-  DeviceUserAgents?: string[];
-  NotDeviceUserAgents?: string[];
+  DeviceTypes?: string[] | undefined;
+  NotDeviceTypes?: string[] | undefined;
+  DeviceModels?: string[] | undefined;
+  NotDeviceModels?: string[] | undefined;
+  DeviceOperatingSystems?: string[] | undefined;
+  NotDeviceOperatingSystems?: string[] | undefined;
+  DeviceUserAgents?: string[] | undefined;
+  NotDeviceUserAgents?: string[] | undefined;
 }
 export type MobileDeviceAccessRuleId = string;
 export interface CreateMobileDeviceAccessRuleResponse {
-  MobileDeviceAccessRuleId?: string;
+  MobileDeviceAccessRuleId?: string | undefined;
 }
 export type DirectoryId = string;
 export type OrganizationName = string;
 export type HostedZoneId = string;
 export interface Domain {
   DomainName: string;
-  HostedZoneId?: string;
+  HostedZoneId?: string | undefined;
 }
 export type Domains = Domain[];
 export type KmsKeyArn = string;
 export interface CreateOrganizationRequest {
-  DirectoryId?: string;
+  DirectoryId?: string | undefined;
   Alias: string;
-  ClientToken?: string;
-  Domains?: Domain[];
-  KmsKeyArn?: string;
-  EnableInteroperability?: boolean;
+  ClientToken?: string | undefined;
+  Domains?: Domain[] | undefined;
+  KmsKeyArn?: string | undefined;
+  EnableInteroperability?: boolean | undefined;
 }
 export interface CreateOrganizationResponse {
-  OrganizationId?: string;
+  OrganizationId?: string | undefined;
 }
 export type ResourceName = string;
 export type ResourceType = "ROOM" | "EQUIPMENT" | (string & {});
@@ -359,12 +359,12 @@ export interface CreateResourceRequest {
   OrganizationId: string;
   Name: string;
   Type: ResourceType;
-  Description?: string | redacted.Redacted<string>;
-  HiddenFromGlobalAddressList?: boolean;
+  Description?: string | redacted.Redacted<string> | undefined;
+  HiddenFromGlobalAddressList?: boolean | undefined;
 }
 export type ResourceId = string;
 export interface CreateResourceResponse {
-  ResourceId?: string;
+  ResourceId?: string | undefined;
 }
 export type UserName = string;
 export type UserAttribute = string | redacted.Redacted<string>;
@@ -374,15 +374,15 @@ export interface CreateUserRequest {
   OrganizationId: string;
   Name: string;
   DisplayName: string | redacted.Redacted<string>;
-  Password?: string | redacted.Redacted<string>;
-  Role?: UserRole;
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  HiddenFromGlobalAddressList?: boolean;
-  IdentityProviderUserId?: string;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Role?: UserRole | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  HiddenFromGlobalAddressList?: boolean | undefined;
+  IdentityProviderUserId?: string | undefined;
 }
 export interface CreateUserResponse {
-  UserId?: string;
+  UserId?: string | undefined;
 }
 export type AccessControlRuleName = string;
 export interface DeleteAccessControlRuleRequest {
@@ -442,15 +442,15 @@ export interface DeleteMobileDeviceAccessRuleRequest {
 }
 export interface DeleteMobileDeviceAccessRuleResponse {}
 export interface DeleteOrganizationRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   OrganizationId: string;
   DeleteDirectory: boolean;
-  ForceDelete?: boolean;
-  DeleteIdentityCenterApplication?: boolean;
+  ForceDelete?: boolean | undefined;
+  DeleteIdentityCenterApplication?: boolean | undefined;
 }
 export interface DeleteOrganizationResponse {
-  OrganizationId?: string;
-  State?: string;
+  OrganizationId?: string | undefined;
+  State?: string | undefined;
 }
 export type PersonalAccessTokenId = string;
 export interface DeletePersonalAccessTokenRequest {
@@ -491,8 +491,8 @@ export interface DescribeEmailMonitoringConfigurationRequest {
 export type RoleArn = string;
 export type LogGroupArn = string;
 export interface DescribeEmailMonitoringConfigurationResponse {
-  RoleArn?: string;
-  LogGroupArn?: string;
+  RoleArn?: string | undefined;
+  LogGroupArn?: string | undefined;
 }
 export interface DescribeEntityRequest {
   OrganizationId: string;
@@ -500,9 +500,9 @@ export interface DescribeEntityRequest {
 }
 export type EntityType = "GROUP" | "USER" | "RESOURCE" | (string & {});
 export interface DescribeEntityResponse {
-  EntityId?: string;
-  Name?: string;
-  Type?: EntityType;
+  EntityId?: string | undefined;
+  Name?: string | undefined;
+  Type?: EntityType | undefined;
 }
 export interface DescribeGroupRequest {
   OrganizationId: string;
@@ -510,13 +510,13 @@ export interface DescribeGroupRequest {
 }
 export type EntityState = "ENABLED" | "DISABLED" | "DELETED" | (string & {});
 export interface DescribeGroupResponse {
-  GroupId?: string;
-  Name?: string;
-  Email?: string;
-  State?: EntityState;
-  EnabledDate?: Date;
-  DisabledDate?: Date;
-  HiddenFromGlobalAddressList?: boolean;
+  GroupId?: string | undefined;
+  Name?: string | undefined;
+  Email?: string | undefined;
+  State?: EntityState | undefined;
+  EnabledDate?: Date | undefined;
+  DisabledDate?: Date | undefined;
+  HiddenFromGlobalAddressList?: boolean | undefined;
 }
 export interface DescribeIdentityProviderConfigurationRequest {
   OrganizationId: string;
@@ -533,18 +533,18 @@ export type PersonalAccessTokenConfigurationStatus = "ACTIVE" | "INACTIVE" | (st
 export type PersonalAccessTokenLifetimeInDays = number;
 export interface PersonalAccessTokenConfiguration {
   Status: PersonalAccessTokenConfigurationStatus;
-  LifetimeInDays?: number;
+  LifetimeInDays?: number | undefined;
 }
 export interface DescribeIdentityProviderConfigurationResponse {
-  AuthenticationMode?: IdentityProviderAuthenticationMode;
-  IdentityCenterConfiguration?: IdentityCenterConfiguration;
-  PersonalAccessTokenConfiguration?: PersonalAccessTokenConfiguration;
+  AuthenticationMode?: IdentityProviderAuthenticationMode | undefined;
+  IdentityCenterConfiguration?: IdentityCenterConfiguration | undefined;
+  PersonalAccessTokenConfiguration?: PersonalAccessTokenConfiguration | undefined;
 }
 export interface DescribeInboundDmarcSettingsRequest {
   OrganizationId: string;
 }
 export interface DescribeInboundDmarcSettingsResponse {
-  Enforced?: boolean;
+  Enforced?: boolean | undefined;
 }
 export interface DescribeMailboxExportJobRequest {
   JobId: string;
@@ -562,56 +562,56 @@ export type MailboxExportJobState =
   | (string & {});
 export type MailboxExportErrorInfo = string;
 export interface DescribeMailboxExportJobResponse {
-  EntityId?: string;
-  Description?: string;
-  RoleArn?: string;
-  KmsKeyArn?: string;
-  S3BucketName?: string;
-  S3Prefix?: string;
-  S3Path?: string;
-  EstimatedProgress?: number;
-  State?: MailboxExportJobState;
-  ErrorInfo?: string;
-  StartTime?: Date;
-  EndTime?: Date;
+  EntityId?: string | undefined;
+  Description?: string | undefined;
+  RoleArn?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  S3BucketName?: string | undefined;
+  S3Prefix?: string | undefined;
+  S3Path?: string | undefined;
+  EstimatedProgress?: number | undefined;
+  State?: MailboxExportJobState | undefined;
+  ErrorInfo?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export interface DescribeOrganizationRequest {
   OrganizationId: string;
 }
 export type AmazonResourceName = string;
 export interface DescribeOrganizationResponse {
-  OrganizationId?: string;
-  Alias?: string;
-  State?: string;
-  DirectoryId?: string;
-  DirectoryType?: string;
-  DefaultMailDomain?: string;
-  CompletedDate?: Date;
-  ErrorMessage?: string;
-  ARN?: string;
-  MigrationAdmin?: string;
-  InteroperabilityEnabled?: boolean;
+  OrganizationId?: string | undefined;
+  Alias?: string | undefined;
+  State?: string | undefined;
+  DirectoryId?: string | undefined;
+  DirectoryType?: string | undefined;
+  DefaultMailDomain?: string | undefined;
+  CompletedDate?: Date | undefined;
+  ErrorMessage?: string | undefined;
+  ARN?: string | undefined;
+  MigrationAdmin?: string | undefined;
+  InteroperabilityEnabled?: boolean | undefined;
 }
 export interface DescribeResourceRequest {
   OrganizationId: string;
   ResourceId: string;
 }
 export interface BookingOptions {
-  AutoAcceptRequests?: boolean;
-  AutoDeclineRecurringRequests?: boolean;
-  AutoDeclineConflictingRequests?: boolean;
+  AutoAcceptRequests?: boolean | undefined;
+  AutoDeclineRecurringRequests?: boolean | undefined;
+  AutoDeclineConflictingRequests?: boolean | undefined;
 }
 export interface DescribeResourceResponse {
-  ResourceId?: string;
-  Email?: string;
-  Name?: string;
-  Type?: ResourceType;
-  BookingOptions?: BookingOptions;
-  State?: EntityState;
-  EnabledDate?: Date;
-  DisabledDate?: Date;
-  Description?: string | redacted.Redacted<string>;
-  HiddenFromGlobalAddressList?: boolean;
+  ResourceId?: string | undefined;
+  Email?: string | undefined;
+  Name?: string | undefined;
+  Type?: ResourceType | undefined;
+  BookingOptions?: BookingOptions | undefined;
+  State?: EntityState | undefined;
+  EnabledDate?: Date | undefined;
+  DisabledDate?: Date | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  HiddenFromGlobalAddressList?: boolean | undefined;
 }
 export interface DescribeUserRequest {
   OrganizationId: string;
@@ -619,31 +619,31 @@ export interface DescribeUserRequest {
 }
 export type IdentityProviderIdentityStoreId = string;
 export interface DescribeUserResponse {
-  UserId?: string;
-  Name?: string;
-  Email?: string;
-  DisplayName?: string | redacted.Redacted<string>;
-  State?: EntityState;
-  UserRole?: UserRole;
-  EnabledDate?: Date;
-  DisabledDate?: Date;
-  MailboxProvisionedDate?: Date;
-  MailboxDeprovisionedDate?: Date;
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  HiddenFromGlobalAddressList?: boolean;
-  Initials?: string | redacted.Redacted<string>;
-  Telephone?: string | redacted.Redacted<string>;
-  Street?: string | redacted.Redacted<string>;
-  JobTitle?: string | redacted.Redacted<string>;
-  City?: string | redacted.Redacted<string>;
-  Company?: string | redacted.Redacted<string>;
-  ZipCode?: string | redacted.Redacted<string>;
-  Department?: string | redacted.Redacted<string>;
-  Country?: string | redacted.Redacted<string>;
-  Office?: string | redacted.Redacted<string>;
-  IdentityProviderUserId?: string;
-  IdentityProviderIdentityStoreId?: string;
+  UserId?: string | undefined;
+  Name?: string | undefined;
+  Email?: string | undefined;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  State?: EntityState | undefined;
+  UserRole?: UserRole | undefined;
+  EnabledDate?: Date | undefined;
+  DisabledDate?: Date | undefined;
+  MailboxProvisionedDate?: Date | undefined;
+  MailboxDeprovisionedDate?: Date | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  HiddenFromGlobalAddressList?: boolean | undefined;
+  Initials?: string | redacted.Redacted<string> | undefined;
+  Telephone?: string | redacted.Redacted<string> | undefined;
+  Street?: string | redacted.Redacted<string> | undefined;
+  JobTitle?: string | redacted.Redacted<string> | undefined;
+  City?: string | redacted.Redacted<string> | undefined;
+  Company?: string | redacted.Redacted<string> | undefined;
+  ZipCode?: string | redacted.Redacted<string> | undefined;
+  Department?: string | redacted.Redacted<string> | undefined;
+  Country?: string | redacted.Redacted<string> | undefined;
+  Office?: string | redacted.Redacted<string> | undefined;
+  IdentityProviderUserId?: string | undefined;
+  IdentityProviderIdentityStoreId?: string | undefined;
 }
 export interface DisassociateDelegateFromResourceRequest {
   OrganizationId: string;
@@ -663,14 +663,14 @@ export interface GetAccessControlEffectRequest {
   OrganizationId: string;
   IpAddress: string;
   Action: string;
-  UserId?: string;
-  ImpersonationRoleId?: string;
+  UserId?: string | undefined;
+  ImpersonationRoleId?: string | undefined;
 }
 export type AccessControlRuleEffect = "ALLOW" | "DENY" | (string & {});
 export type AccessControlRuleNameList = string[];
 export interface GetAccessControlEffectResponse {
-  Effect?: AccessControlRuleEffect;
-  MatchedRules?: string[];
+  Effect?: AccessControlRuleEffect | undefined;
+  MatchedRules?: string[] | undefined;
 }
 export interface GetDefaultRetentionPolicyRequest {
   OrganizationId: string;
@@ -687,27 +687,27 @@ export type RetentionPeriod = number;
 export interface FolderConfiguration {
   Name: FolderName;
   Action: RetentionAction;
-  Period?: number;
+  Period?: number | undefined;
 }
 export type FolderConfigurations = FolderConfiguration[];
 export interface GetDefaultRetentionPolicyResponse {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  FolderConfigurations?: FolderConfiguration[];
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  FolderConfigurations?: FolderConfiguration[] | undefined;
 }
 export interface GetImpersonationRoleRequest {
   OrganizationId: string;
   ImpersonationRoleId: string;
 }
 export interface GetImpersonationRoleResponse {
-  ImpersonationRoleId?: string;
-  Name?: string;
-  Type?: ImpersonationRoleType;
-  Description?: string;
-  Rules?: ImpersonationRule[];
-  DateCreated?: Date;
-  DateModified?: Date;
+  ImpersonationRoleId?: string | undefined;
+  Name?: string | undefined;
+  Type?: ImpersonationRoleType | undefined;
+  Description?: string | undefined;
+  Rules?: ImpersonationRule[] | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
 }
 export interface GetImpersonationRoleEffectRequest {
   OrganizationId: string;
@@ -715,14 +715,14 @@ export interface GetImpersonationRoleEffectRequest {
   TargetUser: string;
 }
 export interface ImpersonationMatchedRule {
-  ImpersonationRuleId?: string;
-  Name?: string;
+  ImpersonationRuleId?: string | undefined;
+  Name?: string | undefined;
 }
 export type ImpersonationMatchedRuleList = ImpersonationMatchedRule[];
 export interface GetImpersonationRoleEffectResponse {
-  Type?: ImpersonationRoleType;
-  Effect?: AccessEffect;
-  MatchedRules?: ImpersonationMatchedRule[];
+  Type?: ImpersonationRoleType | undefined;
+  Effect?: AccessEffect | undefined;
+  MatchedRules?: ImpersonationMatchedRule[] | undefined;
 }
 export interface GetMailboxDetailsRequest {
   OrganizationId: string;
@@ -731,42 +731,42 @@ export interface GetMailboxDetailsRequest {
 export type MailboxQuota = number;
 export type MailboxSize = number;
 export interface GetMailboxDetailsResponse {
-  MailboxQuota?: number;
-  MailboxSize?: number;
+  MailboxQuota?: number | undefined;
+  MailboxSize?: number | undefined;
 }
 export interface GetMailDomainRequest {
   OrganizationId: string;
   DomainName: string;
 }
 export interface DnsRecord {
-  Type?: string;
-  Hostname?: string;
-  Value?: string;
+  Type?: string | undefined;
+  Hostname?: string | undefined;
+  Value?: string | undefined;
 }
 export type DnsRecords = DnsRecord[];
 export type DnsRecordVerificationStatus = "PENDING" | "VERIFIED" | "FAILED" | (string & {});
 export interface GetMailDomainResponse {
-  Records?: DnsRecord[];
-  IsTestDomain?: boolean;
-  IsDefault?: boolean;
-  OwnershipVerificationStatus?: DnsRecordVerificationStatus;
-  DkimVerificationStatus?: DnsRecordVerificationStatus;
+  Records?: DnsRecord[] | undefined;
+  IsTestDomain?: boolean | undefined;
+  IsDefault?: boolean | undefined;
+  OwnershipVerificationStatus?: DnsRecordVerificationStatus | undefined;
+  DkimVerificationStatus?: DnsRecordVerificationStatus | undefined;
 }
 export interface GetMobileDeviceAccessEffectRequest {
   OrganizationId: string;
-  DeviceType?: string;
-  DeviceModel?: string;
-  DeviceOperatingSystem?: string;
-  DeviceUserAgent?: string;
+  DeviceType?: string | undefined;
+  DeviceModel?: string | undefined;
+  DeviceOperatingSystem?: string | undefined;
+  DeviceUserAgent?: string | undefined;
 }
 export interface MobileDeviceAccessMatchedRule {
-  MobileDeviceAccessRuleId?: string;
-  Name?: string;
+  MobileDeviceAccessRuleId?: string | undefined;
+  Name?: string | undefined;
 }
 export type MobileDeviceAccessMatchedRuleList = MobileDeviceAccessMatchedRule[];
 export interface GetMobileDeviceAccessEffectResponse {
-  Effect?: MobileDeviceAccessRuleEffect;
-  MatchedRules?: MobileDeviceAccessMatchedRule[];
+  Effect?: MobileDeviceAccessRuleEffect | undefined;
+  MatchedRules?: MobileDeviceAccessMatchedRule[] | undefined;
 }
 export interface GetMobileDeviceAccessOverrideRequest {
   OrganizationId: string;
@@ -774,12 +774,12 @@ export interface GetMobileDeviceAccessOverrideRequest {
   DeviceId: string;
 }
 export interface GetMobileDeviceAccessOverrideResponse {
-  UserId?: string;
-  DeviceId?: string;
-  Effect?: MobileDeviceAccessRuleEffect;
-  Description?: string;
-  DateCreated?: Date;
-  DateModified?: Date;
+  UserId?: string | undefined;
+  DeviceId?: string | undefined;
+  Effect?: MobileDeviceAccessRuleEffect | undefined;
+  Description?: string | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
 }
 export interface GetPersonalAccessTokenMetadataRequest {
   OrganizationId: string;
@@ -789,13 +789,13 @@ export type PersonalAccessTokenName = string;
 export type PersonalAccessTokenScope = string;
 export type PersonalAccessTokenScopeList = string[];
 export interface GetPersonalAccessTokenMetadataResponse {
-  PersonalAccessTokenId?: string;
-  UserId?: string;
-  Name?: string;
-  DateCreated?: Date;
-  DateLastUsed?: Date;
-  ExpiresTime?: Date;
-  Scopes?: string[];
+  PersonalAccessTokenId?: string | undefined;
+  UserId?: string | undefined;
+  Name?: string | undefined;
+  DateCreated?: Date | undefined;
+  DateLastUsed?: Date | undefined;
+  ExpiresTime?: Date | undefined;
+  Scopes?: string[] | undefined;
 }
 export interface ListAccessControlRulesRequest {
   OrganizationId: string;
@@ -807,166 +807,166 @@ export type ActionsList = string[];
 export type UserIdList = string[];
 export type ImpersonationRoleIdList = string[];
 export interface AccessControlRule {
-  Name?: string;
-  Effect?: AccessControlRuleEffect;
-  Description?: string;
-  IpRanges?: string[];
-  NotIpRanges?: string[];
-  Actions?: string[];
-  NotActions?: string[];
-  UserIds?: string[];
-  NotUserIds?: string[];
-  DateCreated?: Date;
-  DateModified?: Date;
-  ImpersonationRoleIds?: string[];
-  NotImpersonationRoleIds?: string[];
+  Name?: string | undefined;
+  Effect?: AccessControlRuleEffect | undefined;
+  Description?: string | undefined;
+  IpRanges?: string[] | undefined;
+  NotIpRanges?: string[] | undefined;
+  Actions?: string[] | undefined;
+  NotActions?: string[] | undefined;
+  UserIds?: string[] | undefined;
+  NotUserIds?: string[] | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
+  ImpersonationRoleIds?: string[] | undefined;
+  NotImpersonationRoleIds?: string[] | undefined;
 }
 export type AccessControlRulesList = AccessControlRule[];
 export interface ListAccessControlRulesResponse {
-  Rules?: AccessControlRule[];
+  Rules?: AccessControlRule[] | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListAliasesRequest {
   OrganizationId: string;
   EntityId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Aliases = string[];
 export interface ListAliasesResponse {
-  Aliases?: string[];
-  NextToken?: string;
+  Aliases?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAvailabilityConfigurationsRequest {
   OrganizationId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AvailabilityProviderType = "EWS" | "LAMBDA" | (string & {});
 export interface RedactedEwsAvailabilityProvider {
-  EwsEndpoint?: string;
-  EwsUsername?: string;
+  EwsEndpoint?: string | undefined;
+  EwsUsername?: string | undefined;
 }
 export interface AvailabilityConfiguration {
-  DomainName?: string;
-  ProviderType?: AvailabilityProviderType;
-  EwsProvider?: RedactedEwsAvailabilityProvider;
-  LambdaProvider?: LambdaAvailabilityProvider;
-  DateCreated?: Date;
-  DateModified?: Date;
+  DomainName?: string | undefined;
+  ProviderType?: AvailabilityProviderType | undefined;
+  EwsProvider?: RedactedEwsAvailabilityProvider | undefined;
+  LambdaProvider?: LambdaAvailabilityProvider | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
 }
 export type AvailabilityConfigurationList = AvailabilityConfiguration[];
 export interface ListAvailabilityConfigurationsResponse {
-  AvailabilityConfigurations?: AvailabilityConfiguration[];
-  NextToken?: string;
+  AvailabilityConfigurations?: AvailabilityConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGroupMembersRequest {
   OrganizationId: string;
   GroupId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type MemberType = "GROUP" | "USER" | (string & {});
 export interface Member {
-  Id?: string;
-  Name?: string;
-  Type?: MemberType;
-  State?: EntityState;
-  EnabledDate?: Date;
-  DisabledDate?: Date;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Type?: MemberType | undefined;
+  State?: EntityState | undefined;
+  EnabledDate?: Date | undefined;
+  DisabledDate?: Date | undefined;
 }
 export type Members = Member[];
 export interface ListGroupMembersResponse {
-  Members?: Member[];
-  NextToken?: string;
+  Members?: Member[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGroupsFilters {
-  NamePrefix?: string;
-  PrimaryEmailPrefix?: string;
-  State?: EntityState;
+  NamePrefix?: string | undefined;
+  PrimaryEmailPrefix?: string | undefined;
+  State?: EntityState | undefined;
 }
 export interface ListGroupsRequest {
   OrganizationId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: ListGroupsFilters;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: ListGroupsFilters | undefined;
 }
 export interface Group {
-  Id?: string;
-  Email?: string;
-  Name?: string;
-  State?: EntityState;
-  EnabledDate?: Date;
-  DisabledDate?: Date;
+  Id?: string | undefined;
+  Email?: string | undefined;
+  Name?: string | undefined;
+  State?: EntityState | undefined;
+  EnabledDate?: Date | undefined;
+  DisabledDate?: Date | undefined;
 }
 export type Groups = Group[];
 export interface ListGroupsResponse {
-  Groups?: Group[];
-  NextToken?: string;
+  Groups?: Group[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGroupsForEntityFilters {
-  GroupNamePrefix?: string;
+  GroupNamePrefix?: string | undefined;
 }
 export interface ListGroupsForEntityRequest {
   OrganizationId: string;
   EntityId: string;
-  Filters?: ListGroupsForEntityFilters;
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: ListGroupsForEntityFilters | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface GroupIdentifier {
-  GroupId?: string;
-  GroupName?: string;
+  GroupId?: string | undefined;
+  GroupName?: string | undefined;
 }
 export type GroupIdentifiers = GroupIdentifier[];
 export interface ListGroupsForEntityResponse {
-  Groups?: GroupIdentifier[];
-  NextToken?: string;
+  Groups?: GroupIdentifier[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListImpersonationRolesRequest {
   OrganizationId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ImpersonationRole {
-  ImpersonationRoleId?: string;
-  Name?: string;
-  Type?: ImpersonationRoleType;
-  DateCreated?: Date;
-  DateModified?: Date;
+  ImpersonationRoleId?: string | undefined;
+  Name?: string | undefined;
+  Type?: ImpersonationRoleType | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
 }
 export type ImpersonationRoleList = ImpersonationRole[];
 export interface ListImpersonationRolesResponse {
-  Roles?: ImpersonationRole[];
-  NextToken?: string;
+  Roles?: ImpersonationRole[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMailboxExportJobsRequest {
   OrganizationId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface MailboxExportJob {
-  JobId?: string;
-  EntityId?: string;
-  Description?: string;
-  S3BucketName?: string;
-  S3Path?: string;
-  EstimatedProgress?: number;
-  State?: MailboxExportJobState;
-  StartTime?: Date;
-  EndTime?: Date;
+  JobId?: string | undefined;
+  EntityId?: string | undefined;
+  Description?: string | undefined;
+  S3BucketName?: string | undefined;
+  S3Path?: string | undefined;
+  EstimatedProgress?: number | undefined;
+  State?: MailboxExportJobState | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type Jobs = MailboxExportJob[];
 export interface ListMailboxExportJobsResponse {
-  Jobs?: MailboxExportJob[];
-  NextToken?: string;
+  Jobs?: MailboxExportJob[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMailboxPermissionsRequest {
   OrganizationId: string;
   EntityId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type PermissionType = "FULL_ACCESS" | "SEND_AS" | "SEND_ON_BEHALF" | (string & {});
 export type PermissionValues = PermissionType[];
@@ -977,107 +977,107 @@ export interface Permission {
 }
 export type Permissions = Permission[];
 export interface ListMailboxPermissionsResponse {
-  Permissions?: Permission[];
-  NextToken?: string;
+  Permissions?: Permission[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMailDomainsRequest {
   OrganizationId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface MailDomainSummary {
-  DomainName?: string;
-  DefaultDomain?: boolean;
+  DomainName?: string | undefined;
+  DefaultDomain?: boolean | undefined;
 }
 export type MailDomains = MailDomainSummary[];
 export interface ListMailDomainsResponse {
-  MailDomains?: MailDomainSummary[];
-  NextToken?: string;
+  MailDomains?: MailDomainSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMobileDeviceAccessOverridesRequest {
   OrganizationId: string;
-  UserId?: string;
-  DeviceId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  UserId?: string | undefined;
+  DeviceId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface MobileDeviceAccessOverride {
-  UserId?: string;
-  DeviceId?: string;
-  Effect?: MobileDeviceAccessRuleEffect;
-  Description?: string;
-  DateCreated?: Date;
-  DateModified?: Date;
+  UserId?: string | undefined;
+  DeviceId?: string | undefined;
+  Effect?: MobileDeviceAccessRuleEffect | undefined;
+  Description?: string | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
 }
 export type MobileDeviceAccessOverridesList = MobileDeviceAccessOverride[];
 export interface ListMobileDeviceAccessOverridesResponse {
-  Overrides?: MobileDeviceAccessOverride[];
-  NextToken?: string;
+  Overrides?: MobileDeviceAccessOverride[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMobileDeviceAccessRulesRequest {
   OrganizationId: string;
 }
 export interface MobileDeviceAccessRule {
-  MobileDeviceAccessRuleId?: string;
-  Name?: string;
-  Description?: string;
-  Effect?: MobileDeviceAccessRuleEffect;
-  DeviceTypes?: string[];
-  NotDeviceTypes?: string[];
-  DeviceModels?: string[];
-  NotDeviceModels?: string[];
-  DeviceOperatingSystems?: string[];
-  NotDeviceOperatingSystems?: string[];
-  DeviceUserAgents?: string[];
-  NotDeviceUserAgents?: string[];
-  DateCreated?: Date;
-  DateModified?: Date;
+  MobileDeviceAccessRuleId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Effect?: MobileDeviceAccessRuleEffect | undefined;
+  DeviceTypes?: string[] | undefined;
+  NotDeviceTypes?: string[] | undefined;
+  DeviceModels?: string[] | undefined;
+  NotDeviceModels?: string[] | undefined;
+  DeviceOperatingSystems?: string[] | undefined;
+  NotDeviceOperatingSystems?: string[] | undefined;
+  DeviceUserAgents?: string[] | undefined;
+  NotDeviceUserAgents?: string[] | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
 }
 export type MobileDeviceAccessRulesList = MobileDeviceAccessRule[];
 export interface ListMobileDeviceAccessRulesResponse {
-  Rules?: MobileDeviceAccessRule[];
+  Rules?: MobileDeviceAccessRule[] | undefined;
 }
 export interface ListOrganizationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface OrganizationSummary {
-  OrganizationId?: string;
-  Alias?: string;
-  DefaultMailDomain?: string;
-  ErrorMessage?: string;
-  State?: string;
+  OrganizationId?: string | undefined;
+  Alias?: string | undefined;
+  DefaultMailDomain?: string | undefined;
+  ErrorMessage?: string | undefined;
+  State?: string | undefined;
 }
 export type OrganizationSummaries = OrganizationSummary[];
 export interface ListOrganizationsResponse {
-  OrganizationSummaries?: OrganizationSummary[];
-  NextToken?: string;
+  OrganizationSummaries?: OrganizationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPersonalAccessTokensRequest {
   OrganizationId: string;
-  UserId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  UserId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface PersonalAccessTokenSummary {
-  PersonalAccessTokenId?: string;
-  UserId?: string;
-  Name?: string;
-  DateCreated?: Date;
-  DateLastUsed?: Date;
-  ExpiresTime?: Date;
-  Scopes?: string[];
+  PersonalAccessTokenId?: string | undefined;
+  UserId?: string | undefined;
+  Name?: string | undefined;
+  DateCreated?: Date | undefined;
+  DateLastUsed?: Date | undefined;
+  ExpiresTime?: Date | undefined;
+  Scopes?: string[] | undefined;
 }
 export type PersonalAccessTokenSummaryList = PersonalAccessTokenSummary[];
 export interface ListPersonalAccessTokensResponse {
-  NextToken?: string;
-  PersonalAccessTokenSummaries?: PersonalAccessTokenSummary[];
+  NextToken?: string | undefined;
+  PersonalAccessTokenSummaries?: PersonalAccessTokenSummary[] | undefined;
 }
 export interface ListResourceDelegatesRequest {
   OrganizationId: string;
   ResourceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface Delegate {
   Id: string;
@@ -1085,34 +1085,34 @@ export interface Delegate {
 }
 export type ResourceDelegates = Delegate[];
 export interface ListResourceDelegatesResponse {
-  Delegates?: Delegate[];
-  NextToken?: string;
+  Delegates?: Delegate[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListResourcesFilters {
-  NamePrefix?: string;
-  PrimaryEmailPrefix?: string;
-  State?: EntityState;
+  NamePrefix?: string | undefined;
+  PrimaryEmailPrefix?: string | undefined;
+  State?: EntityState | undefined;
 }
 export interface ListResourcesRequest {
   OrganizationId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: ListResourcesFilters;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: ListResourcesFilters | undefined;
 }
 export interface Resource {
-  Id?: string;
-  Email?: string;
-  Name?: string;
-  Type?: ResourceType;
-  State?: EntityState;
-  EnabledDate?: Date;
-  DisabledDate?: Date;
-  Description?: string | redacted.Redacted<string>;
+  Id?: string | undefined;
+  Email?: string | undefined;
+  Name?: string | undefined;
+  Type?: ResourceType | undefined;
+  State?: EntityState | undefined;
+  EnabledDate?: Date | undefined;
+  DisabledDate?: Date | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
 }
 export type Resources = Resource[];
 export interface ListResourcesResponse {
-  Resources?: Resource[];
-  NextToken?: string;
+  Resources?: Resource[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
@@ -1125,57 +1125,57 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type IdentityProviderUserIdPrefix = string;
 export interface ListUsersFilters {
-  UsernamePrefix?: string;
-  DisplayNamePrefix?: string | redacted.Redacted<string>;
-  PrimaryEmailPrefix?: string;
-  State?: EntityState;
-  IdentityProviderUserIdPrefix?: string;
+  UsernamePrefix?: string | undefined;
+  DisplayNamePrefix?: string | redacted.Redacted<string> | undefined;
+  PrimaryEmailPrefix?: string | undefined;
+  State?: EntityState | undefined;
+  IdentityProviderUserIdPrefix?: string | undefined;
 }
 export interface ListUsersRequest {
   OrganizationId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: ListUsersFilters;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: ListUsersFilters | undefined;
 }
 export interface User {
-  Id?: string;
-  Email?: string;
-  Name?: string;
-  DisplayName?: string;
-  State?: EntityState;
-  UserRole?: UserRole;
-  EnabledDate?: Date;
-  DisabledDate?: Date;
-  IdentityProviderUserId?: string;
-  IdentityProviderIdentityStoreId?: string;
+  Id?: string | undefined;
+  Email?: string | undefined;
+  Name?: string | undefined;
+  DisplayName?: string | undefined;
+  State?: EntityState | undefined;
+  UserRole?: UserRole | undefined;
+  EnabledDate?: Date | undefined;
+  DisabledDate?: Date | undefined;
+  IdentityProviderUserId?: string | undefined;
+  IdentityProviderIdentityStoreId?: string | undefined;
 }
 export type Users = User[];
 export interface ListUsersResponse {
-  Users?: User[];
-  NextToken?: string;
+  Users?: User[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutAccessControlRuleRequest {
   Name: string;
   Effect: AccessControlRuleEffect;
   Description: string;
-  IpRanges?: string[];
-  NotIpRanges?: string[];
-  Actions?: string[];
-  NotActions?: string[];
-  UserIds?: string[];
-  NotUserIds?: string[];
+  IpRanges?: string[] | undefined;
+  NotIpRanges?: string[] | undefined;
+  Actions?: string[] | undefined;
+  NotActions?: string[] | undefined;
+  UserIds?: string[] | undefined;
+  NotUserIds?: string[] | undefined;
   OrganizationId: string;
-  ImpersonationRoleIds?: string[];
-  NotImpersonationRoleIds?: string[];
+  ImpersonationRoleIds?: string[] | undefined;
+  NotImpersonationRoleIds?: string[] | undefined;
 }
 export interface PutAccessControlRuleResponse {}
 export interface PutEmailMonitoringConfigurationRequest {
   OrganizationId: string;
-  RoleArn?: string;
+  RoleArn?: string | undefined;
   LogGroupArn: string;
 }
 export interface PutEmailMonitoringConfigurationResponse {}
@@ -1203,20 +1203,20 @@ export interface PutMobileDeviceAccessOverrideRequest {
   UserId: string;
   DeviceId: string;
   Effect: MobileDeviceAccessRuleEffect;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface PutMobileDeviceAccessOverrideResponse {}
 export type PolicyDescription = string | redacted.Redacted<string>;
 export interface PutRetentionPolicyRequest {
   OrganizationId: string;
-  Id?: string;
+  Id?: string | undefined;
   Name: string;
-  Description?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string> | undefined;
   FolderConfigurations: FolderConfiguration[];
 }
 export interface PutRetentionPolicyResponse {}
 export interface RegisterMailDomainRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   OrganizationId: string;
   DomainName: string;
 }
@@ -1237,14 +1237,14 @@ export interface StartMailboxExportJobRequest {
   ClientToken: string;
   OrganizationId: string;
   EntityId: string;
-  Description?: string;
+  Description?: string | undefined;
   RoleArn: string;
   KmsKeyArn: string;
   S3BucketName: string;
   S3Prefix: string;
 }
 export interface StartMailboxExportJobResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -1253,13 +1253,13 @@ export interface TagResourceRequest {
 export interface TagResourceResponse {}
 export interface TestAvailabilityConfigurationRequest {
   OrganizationId: string;
-  DomainName?: string;
-  EwsProvider?: EwsAvailabilityProvider;
-  LambdaProvider?: LambdaAvailabilityProvider;
+  DomainName?: string | undefined;
+  EwsProvider?: EwsAvailabilityProvider | undefined;
+  LambdaProvider?: LambdaAvailabilityProvider | undefined;
 }
 export interface TestAvailabilityConfigurationResponse {
-  TestPassed?: boolean;
-  FailureReason?: string;
+  TestPassed?: boolean | undefined;
+  FailureReason?: string | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -1270,8 +1270,8 @@ export interface UntagResourceResponse {}
 export interface UpdateAvailabilityConfigurationRequest {
   OrganizationId: string;
   DomainName: string;
-  EwsProvider?: EwsAvailabilityProvider;
-  LambdaProvider?: LambdaAvailabilityProvider;
+  EwsProvider?: EwsAvailabilityProvider | undefined;
+  LambdaProvider?: LambdaAvailabilityProvider | undefined;
 }
 export interface UpdateAvailabilityConfigurationResponse {}
 export interface UpdateDefaultMailDomainRequest {
@@ -1282,7 +1282,7 @@ export interface UpdateDefaultMailDomainResponse {}
 export interface UpdateGroupRequest {
   OrganizationId: string;
   GroupId: string;
-  HiddenFromGlobalAddressList?: boolean;
+  HiddenFromGlobalAddressList?: boolean | undefined;
 }
 export interface UpdateGroupResponse {}
 export interface UpdateImpersonationRoleRequest {
@@ -1290,7 +1290,7 @@ export interface UpdateImpersonationRoleRequest {
   ImpersonationRoleId: string;
   Name: string;
   Type: ImpersonationRoleType;
-  Description?: string;
+  Description?: string | undefined;
   Rules: ImpersonationRule[];
 }
 export interface UpdateImpersonationRoleResponse {}
@@ -1304,16 +1304,16 @@ export interface UpdateMobileDeviceAccessRuleRequest {
   OrganizationId: string;
   MobileDeviceAccessRuleId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Effect: MobileDeviceAccessRuleEffect;
-  DeviceTypes?: string[];
-  NotDeviceTypes?: string[];
-  DeviceModels?: string[];
-  NotDeviceModels?: string[];
-  DeviceOperatingSystems?: string[];
-  NotDeviceOperatingSystems?: string[];
-  DeviceUserAgents?: string[];
-  NotDeviceUserAgents?: string[];
+  DeviceTypes?: string[] | undefined;
+  NotDeviceTypes?: string[] | undefined;
+  DeviceModels?: string[] | undefined;
+  NotDeviceModels?: string[] | undefined;
+  DeviceOperatingSystems?: string[] | undefined;
+  NotDeviceOperatingSystems?: string[] | undefined;
+  DeviceUserAgents?: string[] | undefined;
+  NotDeviceUserAgents?: string[] | undefined;
 }
 export interface UpdateMobileDeviceAccessRuleResponse {}
 export interface UpdatePrimaryEmailAddressRequest {
@@ -1326,33 +1326,33 @@ export type NewResourceDescription = string | redacted.Redacted<string>;
 export interface UpdateResourceRequest {
   OrganizationId: string;
   ResourceId: string;
-  Name?: string;
-  BookingOptions?: BookingOptions;
-  Description?: string | redacted.Redacted<string>;
-  Type?: ResourceType;
-  HiddenFromGlobalAddressList?: boolean;
+  Name?: string | undefined;
+  BookingOptions?: BookingOptions | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Type?: ResourceType | undefined;
+  HiddenFromGlobalAddressList?: boolean | undefined;
 }
 export interface UpdateResourceResponse {}
 export type IdentityProviderUserIdForUpdate = string;
 export interface UpdateUserRequest {
   OrganizationId: string;
   UserId: string;
-  Role?: UserRole;
-  DisplayName?: string | redacted.Redacted<string>;
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  HiddenFromGlobalAddressList?: boolean;
-  Initials?: string | redacted.Redacted<string>;
-  Telephone?: string | redacted.Redacted<string>;
-  Street?: string | redacted.Redacted<string>;
-  JobTitle?: string | redacted.Redacted<string>;
-  City?: string | redacted.Redacted<string>;
-  Company?: string | redacted.Redacted<string>;
-  ZipCode?: string | redacted.Redacted<string>;
-  Department?: string | redacted.Redacted<string>;
-  Country?: string | redacted.Redacted<string>;
-  Office?: string | redacted.Redacted<string>;
-  IdentityProviderUserId?: string;
+  Role?: UserRole | undefined;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  HiddenFromGlobalAddressList?: boolean | undefined;
+  Initials?: string | redacted.Redacted<string> | undefined;
+  Telephone?: string | redacted.Redacted<string> | undefined;
+  Street?: string | redacted.Redacted<string> | undefined;
+  JobTitle?: string | redacted.Redacted<string> | undefined;
+  City?: string | redacted.Redacted<string> | undefined;
+  Company?: string | redacted.Redacted<string> | undefined;
+  ZipCode?: string | redacted.Redacted<string> | undefined;
+  Department?: string | redacted.Redacted<string> | undefined;
+  Country?: string | redacted.Redacted<string> | undefined;
+  Office?: string | redacted.Redacted<string> | undefined;
+  IdentityProviderUserId?: string | undefined;
 }
 export interface UpdateUserResponse {}
 export type AssociateDelegateToResourceError =

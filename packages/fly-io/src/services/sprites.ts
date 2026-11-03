@@ -30,13 +30,13 @@ const TELEMETRY = {
 export interface AuthorizeOAuthConnectionRequest {
   provider: string;
   /** Comma-separated scopes to request. Replaces the default scope set for this authorization URL. */
-  scopes?: string;
+  scopes?: string | undefined;
   /** Comma-separated scopes to add to any scopes already granted for this provider. */
-  add_scopes?: string;
+  add_scopes?: string | undefined;
   /** OAuth callback URI. Defaults to the Sprites API callback for the provider. */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
   /** Optional state value. If omitted, Sprites generates one that ties the callback to the organization. */
-  state?: string;
+  state?: string | undefined;
 }
 /** OAuth authorization response */
 export interface OAuthAuthorizeResponse {
@@ -102,13 +102,13 @@ export interface CopyResponse {
 }
 export interface CreateCheckpointRequest {
   name: string;
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface StreamEvent {
-  type?: string;
-  data?: string;
-  error?: string;
-  time?: string;
+  type?: string | undefined;
+  data?: string | undefined;
+  error?: string | undefined;
+  time?: string | undefined;
 }
 export type CreateCheckpointResponseBodyList = Array<StreamEvent>;
 export type CreateCheckpointResponse = CreateCheckpointResponseBodyList;
@@ -121,23 +121,23 @@ export type AccessPolicySpriteLabelsList = Array<string>;
 /** Connector access policy */
 export interface AccessPolicy {
   /** When true, all sprites in the organization may use this connector. */
-  allow_all?: boolean;
+  allow_all?: boolean | undefined;
   /** Provider API paths the connector may call. Supports exact paths and trailing `*` prefix wildcards. */
-  allowed_endpoints?: AccessPolicyAllowedEndpointsList;
+  allowed_endpoints?: AccessPolicyAllowedEndpointsList | undefined;
   /** Provider API paths the connector may not call. Block rules are checked before allow rules. */
-  blocked_endpoints?: AccessPolicyBlockedEndpointsList;
+  blocked_endpoints?: AccessPolicyBlockedEndpointsList | undefined;
   /** Sprite name prefix required to use this connector. */
-  name_prefix?: string;
+  name_prefix?: string | undefined;
   /** Labels the calling sprite must have. All listed labels are required. */
-  sprite_labels?: AccessPolicySpriteLabelsList;
+  sprite_labels?: AccessPolicySpriteLabelsList | undefined;
 }
 export interface CreateOAuthApiKeyConnectionRequest {
   /** Initial access policy. Empty or missing policies deny sprite use until updated. */
-  access_policy?: AccessPolicy;
+  access_policy?: AccessPolicy | undefined;
   /** Provider API key. Stored encrypted and never returned by the API. */
   api_key: string | Redacted.Redacted<string>;
   /** Required for Upstash Redis: immutable HTTPS database REST URL. Not used by fixed-host providers. */
-  base_api_url?: string;
+  base_api_url?: string | undefined;
   /** API-key provider. */
   provider: string;
 }
@@ -148,33 +148,33 @@ export type ConnectionNotesList = Array<unknown>;
 /** Connector */
 export interface Connection {
   /** Policy controlling which sprites and provider endpoints may use this connector. */
-  access_policy?: AccessPolicy;
+  access_policy?: AccessPolicy | undefined;
   /** How the connector was created. */
-  connection_type?: ConnectionConnectionType;
+  connection_type?: ConnectionConnectionType | undefined;
   /** Connector ID used in gateway URLs. */
   id: string;
   /** When the connector was created. */
-  inserted_at?: string;
+  inserted_at?: string | undefined;
   /** Provider notes about this connection, derived from its saved settings. Each has a nullable `title` and a `body`; backticks mark inline code. */
-  notes?: ConnectionNotesList;
+  notes?: ConnectionNotesList | undefined;
   /** Provider key. See https://fly.io/sprites/ecosystem/ for current connectors. */
   provider: string;
   /** Provider account, workspace, or key identifier. */
   provider_account_id: string;
   /** Human-readable provider account name. */
-  provider_account_name?: string;
+  provider_account_name?: string | undefined;
   /** Provider-specific metadata such as workspace URLs, custom API base URLs, or icon references. */
-  provider_info?: unknown;
+  provider_info?: unknown | undefined;
   /** Comma-separated OAuth scopes granted to the connector. */
-  scopes?: string;
+  scopes?: string | undefined;
   /** When the stored token expires, if the provider issues expiring tokens. */
-  token_expires_at?: string;
+  token_expires_at?: string | undefined;
   /** When the connector was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Provider-specific curl snippet showing how to call the connector through the gateway. */
-  usage_snippet?: string;
+  usage_snippet?: string | undefined;
   /** Sprites user ID that created or owns the connector. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 /** Connector response */
 export interface ConnectionResponse {
@@ -185,9 +185,9 @@ export interface CreateOrganizationTokenRequest {
   /** Fly organization slug */
   org: string;
   /** Human-readable label for the minted token */
-  description?: string;
+  description?: string | undefined;
   /** Optional Sprites invite code */
-  invite_code?: string;
+  invite_code?: string | undefined;
 }
 export interface CreateOrganizationTokenResponse {
   /** Sprites bearer token. Send as Authorization: Bearer on subsequent sprite ops. */
@@ -198,16 +198,16 @@ export type UrlSettingsRequestAuth = "sprite" | "public";
 /** URL settings request */
 export interface UrlSettingsRequest {
   /** Authentication type (default: sprite) */
-  auth?: UrlSettingsRequestAuth | (string & {});
+  auth?: UrlSettingsRequestAuth | (string & {}) | undefined;
 }
 export type SpritesCreatePostRequestLabelsList = Array<string>;
 export interface CreateSpriteRequest {
   /** Unique name for the sprite within the organization */
   name: string;
   /** URL access configuration */
-  url_settings?: UrlSettingsRequest;
+  url_settings?: UrlSettingsRequest | undefined;
   /** Labels stamped on the sprite */
-  labels?: SpritesCreatePostRequestLabelsList;
+  labels?: SpritesCreatePostRequestLabelsList | undefined;
 }
 /** Labels assigned to the sprite. Omitted when empty. */
 export type SpriteResponseLabelsList = Array<string>;
@@ -222,22 +222,22 @@ export interface UrlSettings {
   /** Authentication type */
   auth: UrlSettingsAuth;
   /** Who may access a sprite-authenticated URL. */
-  private_access?: UrlSettingsPrivateAccess;
+  private_access?: UrlSettingsPrivateAccess | undefined;
 }
 /** Sprite resource */
 export interface SpriteResponse {
   /** Creation timestamp (ISO 8601) */
   created_at: string;
   /** Version of the sprite environment image. */
-  environment_version?: string | null;
+  environment_version?: string | null | undefined;
   /** Unique sprite identifier */
   id: string;
   /** Labels assigned to the sprite. Omitted when empty. */
-  labels?: SpriteResponseLabelsList;
+  labels?: SpriteResponseLabelsList | undefined;
   /** When the sprite was last observed running (ISO 8601), null if not tracked */
-  last_running_at?: string | null;
+  last_running_at?: string | null | undefined;
   /** When the sprite was last observed warming (ISO 8601), null if not tracked */
-  last_warming_at?: string | null;
+  last_warming_at?: string | null | undefined;
   /** Sprite name within the organization */
   name: string;
   /** Organization slug */
@@ -249,9 +249,9 @@ export interface SpriteResponse {
   /** Sprite HTTP endpoint URL */
   url: string;
   /** URL access configuration */
-  url_settings?: UrlSettings | null;
+  url_settings?: UrlSettings | null | undefined;
   /** Version configured for or currently running on the sprite. */
-  version?: string | null;
+  version?: string | null | undefined;
 }
 export interface DeleteFileRequest {
   name: string;
@@ -288,19 +288,19 @@ export interface ExecCommandRequest {
   /** Command to execute (can be repeated for command + args) */
   cmd: SpriteEnvExecuteCommandRequestCmdList;
   /** Explicit path to executable (defaults to first `cmd` value or `bash`) */
-  path?: string;
+  path?: string | undefined;
   /** Enable stdin from request body (default: `false`) */
-  stdin?: boolean;
+  stdin?: boolean | undefined;
   /** Environment variables in `KEY=VALUE` format (can be repeated) */
-  env?: SpriteEnvExecuteCommandRequestEnvList;
+  env?: SpriteEnvExecuteCommandRequestEnvList | undefined;
   /** Working directory for the command */
-  dir?: string;
-  body?: Uint8Array | string;
+  dir?: string | undefined;
+  body?: Uint8Array | string | undefined;
 }
 export interface ExecResult {
-  exit_code?: number;
-  stdout?: string;
-  stderr?: string;
+  exit_code?: number | undefined;
+  stdout?: string | undefined;
+  stderr?: string | undefined;
 }
 export interface GetCheckpointRequest {
   name: string;
@@ -308,26 +308,26 @@ export interface GetCheckpointRequest {
 }
 export interface CheckpointInfo {
   /** User-provided description */
-  comment?: string;
+  comment?: string | undefined;
   /** When the checkpoint was created */
   create_time: string;
   /** Health status (empty = healthy, "mount_failed" = unhealthy) */
-  health?: string;
+  health?: string | undefined;
   /** Checkpoint identifier (e.g., `v7`) */
   id: string;
   /** Parent checkpoint ID */
-  source_id?: string;
+  source_id?: string | undefined;
 }
 export interface GetNetworkPolicyRequest {
   name: string;
 }
 export interface NetworkPolicyRule {
   /** `allow` or `deny` */
-  action?: string;
+  action?: string | undefined;
   /** Domain pattern (e.g., `*.github.com`) */
-  domain?: string;
+  domain?: string | undefined;
   /** Include rules from preset */
-  include?: string;
+  include?: string | undefined;
 }
 /** List of network policy rules */
 export type NetworkPolicyRequestRulesList = Array<NetworkPolicyRule>;
@@ -356,13 +356,13 @@ export type ServiceResponseArgsList = Array<string>;
 export type ServiceResponseNeedsList = Array<string>;
 export interface ServiceState {
   /** Error message if failed */
-  error?: string;
+  error?: string | undefined;
   /** Service name */
   name: string;
   /** Process ID when running */
-  pid?: number;
+  pid?: number | undefined;
   /** ISO 8601 timestamp */
-  started_at?: string;
+  started_at?: string | undefined;
   /** `stopped`, `starting`, `running`, `stopping`, or `failed` */
   status: string;
 }
@@ -372,21 +372,21 @@ export interface ServiceResponse {
   /** Command to execute */
   cmd: string;
   /** HTTP port for proxy routing */
-  http_port?: number | null;
+  http_port?: number | null | undefined;
   /** Service name */
   name: string;
   /** Service dependencies */
   needs: ServiceResponseNeedsList;
   /** Current runtime state */
-  state?: ServiceState | null;
+  state?: ServiceState | null | undefined;
 }
 export interface GetServiceLogsRequest {
   name: string;
   service_name: string;
   /** Number of lines to return from log buffer (default: all) */
-  lines?: number;
+  lines?: number | undefined;
   /** Time to follow new logs (default: `0`, no follow) */
-  duration?: number;
+  duration?: number | undefined;
 }
 export interface GetServiceLogsResponse {}
 export interface GetSpriteRequest {
@@ -396,9 +396,9 @@ export interface KillExecSessionRequest {
   name: string;
   session_id: string;
   /** Signal to send (default: `SIGTERM`) */
-  signal?: string;
+  signal?: string | undefined;
   /** Timeout waiting for process to exit (default: `10s`) */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export interface KillExecSessionResponse {}
 export interface ListCheckpointsRequest {
@@ -434,7 +434,7 @@ export interface ListExecSessionsRequest {
 export interface ListExecSessionsResponse {}
 export interface ListOAuthConnectionsRequest {
   /** Optional provider filter. */
-  provider?: string;
+  provider?: string | undefined;
 }
 /** Connectors configured for the organization. */
 export type ConnectionListResponseConnectionsList = Array<Connection>;
@@ -450,11 +450,11 @@ export type ListServicesResponseBodyList = Array<ServiceResponse>;
 export type ListServicesResponse = ListServicesResponseBodyList;
 export interface ListSpritesRequest {
   /** Filter sprites by name prefix */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Maximum number of results (1-500, default: 50) */
-  max_results?: number;
+  max_results?: number | undefined;
   /** Token from previous response for pagination */
-  continuation_token?: string;
+  continuation_token?: string | undefined;
 }
 /** List of sprite resources */
 export type SpriteListResponseSpritesList = Array<SpriteResponse>;
@@ -467,28 +467,28 @@ export interface SpriteListResponse {
   /** Organization slug. */
   name: string;
   /** Token for fetching the next page of results */
-  next_continuation_token?: string | null;
+  next_continuation_token?: string | null | undefined;
   /** Number of returned sprites currently running. */
   running: number;
   /** Organization-wide active sprite limit. */
-  running_limit?: number;
+  running_limit?: number | undefined;
   /** List of sprite resources */
   sprites: SpriteListResponseSpritesList;
   /** Number of returned sprites currently warm. */
   warm: number;
   /** Organization-wide warm sprite limit. */
-  warm_limit?: number;
+  warm_limit?: number | undefined;
 }
 export interface OauthConnectionCallbackRequest {
   provider: string;
   /** Initial access policy. Empty or missing policies deny sprite use until updated. */
-  access_policy?: AccessPolicy;
+  access_policy?: AccessPolicy | undefined;
   /** Authorization code returned by the provider. */
   code: string;
   /** Redirect URI used to create the authorization URL. */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
   /** State value from the authorize response. */
-  state?: string;
+  state?: string | undefined;
 }
 export interface PatchOAuthConnectionRequest {
   id: string;
@@ -507,19 +507,19 @@ export interface PutServiceRequest {
   name: string;
   service_name: string;
   /** Time to monitor logs after starting (default: `5s`) */
-  duration?: number;
+  duration?: number | undefined;
   /** Command arguments */
-  args?: PutServiceRequestArgsList;
+  args?: PutServiceRequestArgsList | undefined;
   /** Command to execute */
   cmd: string;
   /** Working directory for the service */
-  dir?: string;
+  dir?: string | undefined;
   /** Environment variables to add to the base service environment */
-  env?: unknown;
+  env?: unknown | undefined;
   /** HTTP port for proxy routing */
-  http_port?: number | null;
+  http_port?: number | null | undefined;
   /** Service dependencies (started first) */
-  needs?: PutServiceRequestNeedsList;
+  needs?: PutServiceRequestNeedsList | undefined;
 }
 export interface ReadFileRequest {
   name: string;
@@ -544,7 +544,7 @@ export interface RestartServiceRequest {
   name: string;
   service_name: string;
   /** Time to monitor logs after starting (default: `5s`) */
-  duration?: number;
+  duration?: number | undefined;
 }
 export interface RestartServiceResponse {}
 export interface RestoreCheckpointRequest {
@@ -573,14 +573,14 @@ export interface StartServiceRequest {
   name: string;
   service_name: string;
   /** Time to monitor logs after starting (default: `5s`) */
-  duration?: number;
+  duration?: number | undefined;
 }
 export interface StartServiceResponse {}
 export interface StopServiceRequest {
   name: string;
   service_name: string;
   /** Timeout waiting for service to stop (default: `10s`) */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export interface StopServiceResponse {}
 export interface UpdateOAuthConnectionRequest {
@@ -600,9 +600,9 @@ export interface WriteFileRequest {
   /** Working directory for resolving relative paths */
   workingDir: string;
   /** File permissions in octal (e.g., '0644') */
-  mode?: string;
+  mode?: string | undefined;
   /** Create parent directories if they don't exist */
-  mkdir?: boolean;
+  mkdir?: boolean | undefined;
   body: Uint8Array | string;
 }
 export interface WriteResponse {

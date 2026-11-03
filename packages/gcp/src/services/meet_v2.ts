@@ -87,38 +87,38 @@ export type MemberRoleEnum = "ROLE_UNSPECIFIED" | "COHOST";
 /** Users who are configured to have a role in the space. These users can join the space without knocking. */
 export interface Member {
   /** Email for the member. This is required for creating the member. */
-  email?: string;
+  email?: string | undefined;
   /** Identifier. Resource name of the member. Format: spaces/{space}/members/{member} */
-  name?: string;
+  name?: string | undefined;
   /** The meeting role assigned to the member. */
-  role?: MemberRoleEnum | (string & {});
+  role?: MemberRoleEnum | (string & {}) | undefined;
 }
 /** Request to update a member. */
 export interface UpdateMemberRequest {
   /** Required. The Member to update. Format: spaces/{space}/members/{member} */
-  member?: Member;
+  member?: Member | undefined;
   /** Optional. Field mask used to specify the fields to be updated in the member. If update_mask isn't provided(not set, set with empty paths, or only has "" as paths), it defaults to update all fields provided with values in the request. Using "*" as update_mask will update all fields, including deleting fields not set in the request. In case of BatchUpdate, it must be absent or the same as the update_mask in BatchUpdateMembersRequest when UpdateMemberRequest is built as a child request of BatchUpdateMembersRequest. */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export type UpdateMemberRequestList = Array<UpdateMemberRequest>;
 /** Request to update members of one space within a batch. */
 export interface BatchUpdateMembersRequest {
   /** Optional. Top-level field mask used to specify the fields to be updated in the member for all UpdateMemberRequests. There are 4 possible scenarios for top-level and child field mask: 1. top-level and child field mask is absent: All fields provided in the requests are updated, including deleting fields not set in the requests. 2. top-level field mask is present but child field mask is absent: The fields specified in the top-level field mask are updated. 3. top-level and child field mask is present: The child field mask must be the same as the top-level field mask. 4. top-level field mask is absent but child field mask is present: It isn't supported and will return an error. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. The request message specifying the resources to update. A maximum of 500 members can be modified in a batch. */
-  requests?: UpdateMemberRequestList;
+  requests?: UpdateMemberRequestList | undefined;
 }
 export interface BatchUpdateSpacesMembersRequest {
   /** Required. The parent resource shared by all Members being updated. Format: spaces/{space} */
   parent: string;
   /** Request body */
-  body?: BatchUpdateMembersRequest;
+  body?: BatchUpdateMembersRequest | undefined;
 }
 export type MemberList = Array<Member>;
 /** Response of batch update members. */
 export interface BatchUpdateMembersResponse {
   /** Members updated. */
-  members?: MemberList;
+  members?: MemberList | undefined;
 }
 export type SpaceConfigAccessTypeEnum =
   | "ACCESS_TYPE_UNSPECIFIED"
@@ -149,13 +149,16 @@ export type ModerationRestrictionsReactionRestrictionEnum =
 /** Defines restrictions for features when the meeting is moderated. */
 export interface ModerationRestrictions {
   /** Defines who has permission to send chat messages in the meeting space. */
-  chatRestriction?: ModerationRestrictionsChatRestrictionEnum | (string & {});
+  chatRestriction?: ModerationRestrictionsChatRestrictionEnum | (string & {}) | undefined;
   /** Defines whether to restrict the default role assigned to users as viewer. */
-  defaultJoinAsViewerType?: ModerationRestrictionsDefaultJoinAsViewerTypeEnum | (string & {});
+  defaultJoinAsViewerType?:
+    | ModerationRestrictionsDefaultJoinAsViewerTypeEnum
+    | (string & {})
+    | undefined;
   /** Defines who has permission to share their screen in the meeting space. */
-  presentRestriction?: ModerationRestrictionsPresentRestrictionEnum | (string & {});
+  presentRestriction?: ModerationRestrictionsPresentRestrictionEnum | (string & {}) | undefined;
   /** Defines who has permission to send reactions in the meeting space. */
-  reactionRestriction?: ModerationRestrictionsReactionRestrictionEnum | (string & {});
+  reactionRestriction?: ModerationRestrictionsReactionRestrictionEnum | (string & {}) | undefined;
 }
 export type SpaceConfigAttendanceReportGenerationTypeEnum =
   | "ATTENDANCE_REPORT_GENERATION_TYPE_UNSPECIFIED"
@@ -168,7 +171,7 @@ export type RecordingConfigAutoRecordingGenerationEnum =
 /** Configuration related to recording in a meeting space. */
 export interface RecordingConfig {
   /** Defines whether a meeting space is automatically recorded when someone with the privilege to record joins the meeting. */
-  autoRecordingGeneration?: RecordingConfigAutoRecordingGenerationEnum | (string & {});
+  autoRecordingGeneration?: RecordingConfigAutoRecordingGenerationEnum | (string & {}) | undefined;
 }
 export type SmartNotesConfigAutoSmartNotesGenerationEnum =
   | "AUTO_GENERATION_TYPE_UNSPECIFIED"
@@ -177,7 +180,10 @@ export type SmartNotesConfigAutoSmartNotesGenerationEnum =
 /** Configuration related to smart notes in a meeting space. For more information about smart notes, see ["Take notes for me" in Google Meet](https://support.google.com/meet/answer/14754931). */
 export interface SmartNotesConfig {
   /** Defines whether to automatically generate a summary and recap of the meeting for all invitees in the organization when someone with the privilege to enable smart notes joins the meeting. */
-  autoSmartNotesGeneration?: SmartNotesConfigAutoSmartNotesGenerationEnum | (string & {});
+  autoSmartNotesGeneration?:
+    | SmartNotesConfigAutoSmartNotesGenerationEnum
+    | (string & {})
+    | undefined;
 }
 export type TranscriptionConfigAutoTranscriptionGenerationEnum =
   | "AUTO_GENERATION_TYPE_UNSPECIFIED"
@@ -186,83 +192,89 @@ export type TranscriptionConfigAutoTranscriptionGenerationEnum =
 /** Configuration related to transcription in a meeting space. */
 export interface TranscriptionConfig {
   /** Defines whether the content of a meeting is automatically transcribed when someone with the privilege to transcribe joins the meeting. */
-  autoTranscriptionGeneration?: TranscriptionConfigAutoTranscriptionGenerationEnum | (string & {});
+  autoTranscriptionGeneration?:
+    | TranscriptionConfigAutoTranscriptionGenerationEnum
+    | (string & {})
+    | undefined;
 }
 /** Configuration related to meeting artifacts potentially generated by this meeting space. */
 export interface ArtifactConfig {
   /** Configuration for recording. */
-  recordingConfig?: RecordingConfig;
+  recordingConfig?: RecordingConfig | undefined;
   /** Configuration for auto-smart-notes. */
-  smartNotesConfig?: SmartNotesConfig;
+  smartNotesConfig?: SmartNotesConfig | undefined;
   /** Configuration for auto-transcript. */
-  transcriptionConfig?: TranscriptionConfig;
+  transcriptionConfig?: TranscriptionConfig | undefined;
 }
 /** The configuration pertaining to a meeting space. */
 export interface SpaceConfig {
   /** Access type of the meeting space that determines who can join without knocking. Default: The user's default access settings. Controlled by the user's admin for enterprise users or RESTRICTED. */
-  accessType?: SpaceConfigAccessTypeEnum | (string & {});
+  accessType?: SpaceConfigAccessTypeEnum | (string & {}) | undefined;
   /** The pre-configured moderation mode for the Meeting. Default: Controlled by the user's policies. */
-  moderation?: SpaceConfigModerationEnum | (string & {});
+  moderation?: SpaceConfigModerationEnum | (string & {}) | undefined;
   /** Defines the entry points that can be used to join meetings hosted in this meeting space. Default: EntryPointAccess.ALL */
-  entryPointAccess?: SpaceConfigEntryPointAccessEnum | (string & {});
+  entryPointAccess?: SpaceConfigEntryPointAccessEnum | (string & {}) | undefined;
   /** When moderation.ON, these restrictions go into effect for the meeting. When moderation.OFF, will be reset to default ModerationRestrictions. */
-  moderationRestrictions?: ModerationRestrictions;
+  moderationRestrictions?: ModerationRestrictions | undefined;
   /** Whether attendance report is enabled for the meeting space. */
-  attendanceReportGenerationType?: SpaceConfigAttendanceReportGenerationTypeEnum | (string & {});
+  attendanceReportGenerationType?:
+    | SpaceConfigAttendanceReportGenerationTypeEnum
+    | (string & {})
+    | undefined;
   /** Configuration pertaining to the auto-generated artifacts that the meeting supports. */
-  artifactConfig?: ArtifactConfig;
+  artifactConfig?: ArtifactConfig | undefined;
 }
 /** Active conference. */
 export interface ActiveConference {
   /** Output only. Reference to 'ConferenceRecord' resource. Format: `conferenceRecords/{conference_record}` where `{conference_record}` is a unique ID for each instance of a call within a space. */
-  conferenceRecord?: string;
+  conferenceRecord?: string | undefined;
 }
 /** Details how to join the conference through a SIP gateway. */
 export interface GatewaySipAccess {
   /** The permanent numeric code for manual entry on specially configured devices. */
-  sipAccessCode?: string;
+  sipAccessCode?: string | undefined;
   /** The Session Initiation Protocol (SIP) URI the conference can be reached through. The string is in one of these formats: * "sip:USER_ID@GATEWAY_ADDRESS" * "sips:USER_ID@GATEWAY_ADDRESS" where USER_ID is the 13-digit universal pin (with the future option to support using a Meet meeting code as well), and GATEWAY_ADDRESS is a valid address to be resolved using a DNS SRV lookup, or a dotted quad. */
-  uri?: string;
+  uri?: string | undefined;
 }
 export type GatewaySipAccessList = Array<GatewaySipAccess>;
 /** Phone access contains information required to dial into a conference using a regional phone number and a PIN that is specific to that phone number. */
 export interface PhoneAccess {
   /** The BCP 47/LDML language code for the language associated with this phone access. To be parsed by the i18n LanguageCode utility. Examples: "es-419" for Latin American Spanish, "fr-CA" for Canadian French. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** The PIN that users must enter after dialing the given number. The PIN consists of only decimal digits and the length may vary. */
-  pin?: string;
+  pin?: string | undefined;
   /** The phone number to dial for this meeting space in E.164 format. Full phone number with a leading '+' character. */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** The CLDR/ISO 3166 region code for the country associated with this phone access. To be parsed by the i18n RegionCode utility. Example: "SE" for Sweden. */
-  regionCode?: string;
+  regionCode?: string | undefined;
 }
 export type PhoneAccessList = Array<PhoneAccess>;
 /** Virtual place where conferences are held. Only one active conference can be held in one space at any given time. */
 export interface Space {
   /** Configuration pertaining to the meeting space. */
-  config?: SpaceConfig;
+  config?: SpaceConfig | undefined;
   /** Active conference, if it exists. */
-  activeConference?: ActiveConference;
+  activeConference?: ActiveConference | undefined;
   /** Output only. URI used to join meetings consisting of `https://meet.google.com/` followed by the `meeting_code`. For example, `https://meet.google.com/abc-mnop-xyz`. */
-  meetingUri?: string;
+  meetingUri?: string | undefined;
   /** Output only. The SIP-based access methods that can be used to join the conference. Can be empty. */
-  gatewaySipAccess?: GatewaySipAccessList;
+  gatewaySipAccess?: GatewaySipAccessList | undefined;
   /** Immutable. Resource name of the space. Format: `spaces/{space}`. `{space}` is the resource identifier for the space. It's a unique, server-generated ID and is case sensitive. For example, `jQCFfuBOdN5z`. For more information, see [How Meet identifies a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#identify-meeting-space). */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Type friendly unique string used to join the meeting. Format: `[a-z]+-[a-z]+-[a-z]+`. For example, `abc-mnop-xyz`. The maximum length is 128 characters. Can only be used as an alias of the space name to get the space. */
-  meetingCode?: string;
+  meetingCode?: string | undefined;
   /** Output only. All regional phone access methods for this meeting space. Can be empty. */
-  phoneAccess?: PhoneAccessList;
+  phoneAccess?: PhoneAccessList | undefined;
 }
 export interface CreateSpacesRequest {
   /** Request body */
-  body?: Space;
+  body?: Space | undefined;
 }
 export interface CreateSpacesMembersRequest {
   /** Required. Format: spaces/{space} */
   parent: string;
   /** Request body */
-  body?: Member;
+  body?: Member | undefined;
 }
 export interface DeleteSpacesMembersRequest {
   /** Required. Format: "spaces/{space}/members/{member}" */
@@ -276,7 +288,7 @@ export interface EndActiveConferenceSpacesRequest {
   /** Required. Resource name of the space. Format: `spaces/{space}`. `{space}` is the resource identifier for the space. It's a unique, server-generated ID and is case sensitive. For example, `jQCFfuBOdN5z`. For more information, see [How Meet identifies a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#identify-meeting-space). */
   name: string;
   /** Request body */
-  body?: EndActiveConferenceRequest;
+  body?: EndActiveConferenceRequest | undefined;
 }
 export interface GetConferenceRecordsRequest {
   /** Required. Resource name of the conference. */
@@ -285,15 +297,15 @@ export interface GetConferenceRecordsRequest {
 /** Single instance of a meeting held in a space. */
 export interface ConferenceRecord {
   /** Identifier. Resource name of the conference record. Format: `conferenceRecords/{conference_record}` where `{conference_record}` is a unique ID for each instance of a call within a space. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The space where the conference was held. */
-  space?: string;
+  space?: string | undefined;
   /** Output only. Timestamp when the conference ended. Set for past conferences. Unset if the conference is ongoing. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. Server enforced expiration time for when this conference record resource is deleted. The resource is deleted 30 days after the conference ends. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Output only. Timestamp when the conference started. Always set. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export interface GetConferenceRecordsParticipantsRequest {
   /** Required. Resource name of the participant. */
@@ -302,34 +314,34 @@ export interface GetConferenceRecordsParticipantsRequest {
 /** A signed-in user can be: a) An individual joining from a personal computer, mobile device, or through companion mode. b) A robot account used by conference room devices. */
 export interface SignedinUser {
   /** Output only. Unique ID for the user. Interoperable with Admin SDK API and People API. Format: `users/{user}` */
-  user?: string;
+  user?: string | undefined;
   /** Output only. For a personal device, it's the user's first name and last name. For a robot account, it's the administrator-specified device name. For example, "Altostrat Room". */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** User dialing in from a phone where the user's identity is unknown because they haven't signed in with a Google Account. */
 export interface PhoneUser {
   /** Output only. Partially redacted user's phone number when calling. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** User who joins anonymously (meaning not signed into a Google Account). */
 export interface AnonymousUser {
   /** Output only. User provided name when they join a conference anonymously. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** User who attended or is attending a conference. */
 export interface Participant {
   /** Output only. Time when the participant first joined the meeting. */
-  earliestStartTime?: string;
+  earliestStartTime?: string | undefined;
   /** Output only. Resource name of the participant. Format: `conferenceRecords/{conference_record}/participants/{participant}` */
-  name?: string;
+  name?: string | undefined;
   /** Signed-in user. */
-  signedinUser?: SignedinUser;
+  signedinUser?: SignedinUser | undefined;
   /** User calling from their phone. */
-  phoneUser?: PhoneUser;
+  phoneUser?: PhoneUser | undefined;
   /** Anonymous user. */
-  anonymousUser?: AnonymousUser;
+  anonymousUser?: AnonymousUser | undefined;
   /** Output only. Time when the participant left the meeting for the last time. This can be null if it's an active meeting. */
-  latestEndTime?: string;
+  latestEndTime?: string | undefined;
 }
 export interface GetConferenceRecordsParticipantsParticipantSessionsRequest {
   /** Required. Resource name of the participant. */
@@ -338,11 +350,11 @@ export interface GetConferenceRecordsParticipantsParticipantSessionsRequest {
 /** Refers to each unique join or leave session when a user joins a conference from a device. Note that any time a user joins the conference a new unique ID is assigned. That means if a user joins a space multiple times from the same device, they're assigned different IDs, and are also be treated as different participant sessions. */
 export interface ParticipantSession {
   /** Output only. Timestamp when the user session ends. Unset if the user session hasn't ended. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Identifier. Session id. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Timestamp when the user session starts. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export interface GetConferenceRecordsRecordingsRequest {
   /** Required. Resource name of the recording. */
@@ -351,23 +363,23 @@ export interface GetConferenceRecordsRecordingsRequest {
 /** Export location where a recording file is saved in Google Drive. */
 export interface DriveDestination {
   /** Output only. Link used to play back the recording file in the browser. For example, `https://drive.google.com/file/d/{$fileId}/view`. */
-  exportUri?: string;
+  exportUri?: string | undefined;
   /** Output only. The `fileId` for the underlying MP4 file. For example, "1kuceFZohVoCh6FulBHxwy6I15Ogpc4hP". Use `$ GET https://www.googleapis.com/drive/v3/files/{$fileId}?alt=media` to download the blob. For more information, see https://developers.google.com/drive/api/v3/reference/files/get. */
-  file?: string;
+  file?: string | undefined;
 }
 export type RecordingStateEnum = "STATE_UNSPECIFIED" | "STARTED" | "ENDED" | "FILE_GENERATED";
 /** Metadata about a recording created during a conference. */
 export interface Recording {
   /** Output only. Resource name of the recording. Format: `conferenceRecords/{conference_record}/recordings/{recording}` where `{recording}` is a 1:1 mapping to each unique recording session during the conference. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Recording is saved to Google Drive as an MP4 file. The `drive_destination` includes the Drive `fileId` that can be used to download the file using the `files.get` method of the Drive API. */
-  driveDestination?: DriveDestination;
+  driveDestination?: DriveDestination | undefined;
   /** Output only. Current state. */
-  state?: RecordingStateEnum;
+  state?: RecordingStateEnum | undefined;
   /** Output only. Timestamp when the recording ended. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. Timestamp when the recording started. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export interface GetConferenceRecordsSmartNotesRequest {
   /** Required. Resource name of the smart note. Format: conferenceRecords/{conference_record}/smartNotes/{smart_note} */
@@ -377,22 +389,22 @@ export type SmartNoteStateEnum = "STATE_UNSPECIFIED" | "STARTED" | "ENDED" | "FI
 /** Google Docs location where the transcript file is saved. */
 export interface DocsDestination {
   /** Output only. The document ID for the underlying Google Docs transcript file. For example, "1kuceFZohVoCh6FulBHxwy6I15Ogpc4hP". Use the `documents.get` method of the Google Docs API (https://developers.google.com/docs/api/reference/rest/v1/documents/get) to fetch the content. */
-  document?: string;
+  document?: string | undefined;
   /** Output only. URI for the Google Docs transcript file. Use `https://docs.google.com/document/d/{$DocumentId}/view` to browse the transcript in the browser. */
-  exportUri?: string;
+  exportUri?: string | undefined;
 }
 /** Metadata for a smart note generated from a conference. It refers to the notes generated from Take Notes with Gemini during the conference. */
 export interface SmartNote {
   /** Output only. Timestamp when the smart notes stopped. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. Current state. */
-  state?: SmartNoteStateEnum;
+  state?: SmartNoteStateEnum | undefined;
   /** Output only. Identifier. Resource name of the smart notes. Format: `conferenceRecords/{conference_record}/smartNotes/{smart_note}`, where `{smart_note}` is a 1:1 mapping to each unique smart notes session of the conference. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The Google Doc destination where the smart notes are saved. */
-  docsDestination?: DocsDestination;
+  docsDestination?: DocsDestination | undefined;
   /** Output only. Timestamp when the smart notes started. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export interface GetConferenceRecordsTranscriptsRequest {
   /** Required. Resource name of the transcript. */
@@ -402,15 +414,15 @@ export type TranscriptStateEnum = "STATE_UNSPECIFIED" | "STARTED" | "ENDED" | "F
 /** Metadata for a transcript generated from a conference. It refers to the ASR (Automatic Speech Recognition) result of user's speech during the conference. */
 export interface Transcript {
   /** Output only. Timestamp when the transcript started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. Timestamp when the transcript stopped. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. Where the Google Docs transcript is saved. */
-  docsDestination?: DocsDestination;
+  docsDestination?: DocsDestination | undefined;
   /** Output only. Resource name of the transcript. Format: `conferenceRecords/{conference_record}/transcripts/{transcript}`, where `{transcript}` is a 1:1 mapping to each unique transcription session of the conference. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Current state. */
-  state?: TranscriptStateEnum;
+  state?: TranscriptStateEnum | undefined;
 }
 export interface GetConferenceRecordsTranscriptsEntriesRequest {
   /** Required. Resource name of the `TranscriptEntry`. */
@@ -419,17 +431,17 @@ export interface GetConferenceRecordsTranscriptsEntriesRequest {
 /** Single entry for one user's speech during a transcript session. */
 export interface TranscriptEntry {
   /** Output only. Refers to the participant who speaks. */
-  participant?: string;
+  participant?: string | undefined;
   /** Output only. Language of spoken text, such as "en-US". IETF BCP 47 syntax (https://tools.ietf.org/html/bcp47) */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Output only. Resource name of the entry. Format: "conferenceRecords/{conference_record}/transcripts/{transcript}/entries/{entry}" */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The transcribed text of the participant's voice, at maximum 10K words. Note that the limit is subject to change. */
-  text?: string;
+  text?: string | undefined;
   /** Output only. Timestamp when the transcript entry ended. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. Timestamp when the transcript entry started. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export interface GetSpacesRequest {
   /** Required. Resource name of the space. Format: `spaces/{space}` or `spaces/{meetingCode}`. `{space}` is the resource identifier for the space. It's a unique, server-generated ID and is case sensitive. For example, `jQCFfuBOdN5z`. `{meetingCode}` is an alias for the space. It's a typeable, unique character string and is non-case sensitive. For example, `abc-mnop-xyz`. The maximum length is 128 characters. A `meetingCode` shouldn't be stored long term as it can become dissociated from a meeting space and can be reused for different meeting spaces in the future. Generally, a `meetingCode` expires 365 days after last use. For more information, see [Learn about meeting codes in Google Meet](https://support.google.com/meet/answer/10710509). For more information, see [How Meet identifies a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#identify-meeting-space). */
@@ -441,27 +453,27 @@ export interface GetSpacesMembersRequest {
 }
 export interface ListConferenceRecordsRequest {
   /** Optional. Maximum number of conference records to return. The service might return fewer than this value. If unspecified, at most 25 conference records are returned. The maximum value is 100; values above 100 are coerced to 100. Maximum might change in the future. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Page token returned from previous List Call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. User specified filtering condition in [EBNF format](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form). The following are the filterable fields: * `space.meeting_code` * `space.name` * `start_time` * `end_time` For example, consider the following filters: * `space.name = "spaces/NAME"` * `space.meeting_code = "abc-mnop-xyz"` * `start_time>="2024-01-01T00:00:00.000Z" AND start_time<="2024-01-02T00:00:00.000Z"` * `end_time IS NULL` */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ConferenceRecordList = Array<ConferenceRecord>;
 /** Response of ListConferenceRecords method. */
 export interface ListConferenceRecordsResponse {
   /** List of conferences in one page. */
-  conferenceRecords?: ConferenceRecordList;
+  conferenceRecords?: ConferenceRecordList | undefined;
   /** Token to be circulated back for further List call if current List does NOT include all the Conferences. Unset if all conferences have been returned. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListConferenceRecordsParticipantsRequest {
   /** Optional. User specified filtering condition in [EBNF format](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form). The following are the filterable fields: * `earliest_start_time` * `latest_end_time` For example, `latest_end_time IS NULL` returns active participants in the conference. */
-  filter?: string;
+  filter?: string | undefined;
   /** Maximum number of participants to return. The service might return fewer than this value. If unspecified, at most 100 participants are returned. The maximum value is 250; values above 250 are coerced to 250. Maximum might change in the future. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Page token returned from previous List Call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Format: `conferenceRecords/{conference_record}` */
   parent: string;
 }
@@ -469,83 +481,83 @@ export type ParticipantList = Array<Participant>;
 /** Response of ListParticipants method. */
 export interface ListParticipantsResponse {
   /** Token to be circulated back for further List call if current List doesn't include all the participants. Unset if all participants are returned. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of participants in one page. */
-  participants?: ParticipantList;
+  participants?: ParticipantList | undefined;
   /** Total, exact number of `participants`. By default, this field isn't included in the response. Set the field mask in [SystemParameterContext](https://cloud.google.com/apis/docs/system-parameters) to receive this field in the response. */
-  totalSize?: number;
+  totalSize?: number | undefined;
 }
 export interface ListConferenceRecordsParticipantsParticipantSessionsRequest {
   /** Required. Format: `conferenceRecords/{conference_record}/participants/{participant}` */
   parent: string;
   /** Optional. Maximum number of participant sessions to return. The service might return fewer than this value. If unspecified, at most 100 participants are returned. The maximum value is 250; values above 250 are coerced to 250. Maximum might change in the future. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Page token returned from previous List Call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. User specified filtering condition in [EBNF format](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form). The following are the filterable fields: * `start_time` * `end_time` For example, `end_time IS NULL` returns active participant sessions in the conference record. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ParticipantSessionList = Array<ParticipantSession>;
 /** Response of ListParticipants method. */
 export interface ListParticipantSessionsResponse {
   /** List of participants in one page. */
-  participantSessions?: ParticipantSessionList;
+  participantSessions?: ParticipantSessionList | undefined;
   /** Token to be circulated back for further List call if current List doesn't include all the participants. Unset if all participants are returned. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListConferenceRecordsRecordingsRequest {
   /** Page token returned from previous List Call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Format: `conferenceRecords/{conference_record}` */
   parent: string;
   /** Maximum number of recordings to return. The service might return fewer than this value. If unspecified, at most 10 recordings are returned. The maximum value is 100; values above 100 are coerced to 100. Maximum might change in the future. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type RecordingList = Array<Recording>;
 /** Response for ListRecordings method. */
 export interface ListRecordingsResponse {
   /** List of recordings in one page. */
-  recordings?: RecordingList;
+  recordings?: RecordingList | undefined;
   /** Token to be circulated back for further List call if current List doesn't include all the recordings. Unset if all recordings are returned. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListConferenceRecordsSmartNotesRequest {
   /** Required. Format: `conferenceRecords/{conference_record}` */
   parent: string;
   /** Optional. Page token returned from previous List Call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of smart notes to return. The service might return fewer than this value. If unspecified, at most 10 smart notes are returned. The maximum value is 100; values above 100 are coerced to 100. Maximum might change in the future. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type SmartNoteList = Array<SmartNote>;
 /** Response for ListSmartNotes method. */
 export interface ListSmartNotesResponse {
   /** Token to be circulated back for further List call if current List doesn't include all the smart notes. Unset if all smart notes are returned. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of smart notes in one page. */
-  smartNotes?: SmartNoteList;
+  smartNotes?: SmartNoteList | undefined;
 }
 export interface ListConferenceRecordsTranscriptsRequest {
   /** Maximum number of transcripts to return. The service might return fewer than this value. If unspecified, at most 10 transcripts are returned. The maximum value is 100; values above 100 are coerced to 100. Maximum might change in the future. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Format: `conferenceRecords/{conference_record}` */
   parent: string;
   /** Page token returned from previous List Call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type TranscriptList = Array<Transcript>;
 /** Response for ListTranscripts method. */
 export interface ListTranscriptsResponse {
   /** Token to be circulated back for further List call if current List doesn't include all the transcripts. Unset if all transcripts are returned. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of transcripts in one page. */
-  transcripts?: TranscriptList;
+  transcripts?: TranscriptList | undefined;
 }
 export interface ListConferenceRecordsTranscriptsEntriesRequest {
   /** Page token returned from previous List Call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of entries to return. The service might return fewer than this value. If unspecified, at most 10 entries are returned. The maximum value is 100; values above 100 are coerced to 100. Maximum might change in the future. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Format: `conferenceRecords/{conference_record}/transcripts/{transcript}` */
   parent: string;
 }
@@ -553,40 +565,40 @@ export type TranscriptEntryList = Array<TranscriptEntry>;
 /** Response for ListTranscriptEntries method. */
 export interface ListTranscriptEntriesResponse {
   /** List of TranscriptEntries in one page. */
-  transcriptEntries?: TranscriptEntryList;
+  transcriptEntries?: TranscriptEntryList | undefined;
   /** Token to be circulated back for further List call if current List doesn't include all the transcript entries. Unset if all entries are returned. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListSpacesMembersRequest {
   /** Optional. Page token returned from previous List Call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of members to return. The service might return fewer than this value. If unspecified or set to 0, at most 250 members are returned. The maximum value is 500; values above 500 are coerced to 500. Maximum might change in the future. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Format: spaces/{space} */
   parent: string;
 }
 /** Response of list members. */
 export interface ListMembersResponse {
   /** The list of members for the current page. */
-  members?: MemberList;
+  members?: MemberList | undefined;
   /** Token to be circulated back for further list call if current list doesn't include all the members. Unset if all members are returned. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchSpacesRequest {
   /** Immutable. Resource name of the space. Format: `spaces/{space}`. `{space}` is the resource identifier for the space. It's a unique, server-generated ID and is case sensitive. For example, `jQCFfuBOdN5z`. For more information, see [How Meet identifies a meeting space](https://developers.google.com/workspace/meet/api/guides/meeting-spaces#identify-meeting-space). */
   name: string;
   /** Optional. Field mask used to specify the fields to be updated in the space. If update_mask isn't provided(not set, set with empty paths, or only has "" as paths), it defaults to update all fields provided with values in the request. Using "*" as update_mask will update all fields, including deleting fields not set in the request. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Space;
+  body?: Space | undefined;
 }
 export interface PatchSpacesMembersRequest {
   /** Optional. Field mask used to specify the fields to be updated in the member. If update_mask isn't provided(not set, set with empty paths, or only has "" as paths), it defaults to update all fields provided with values in the request. Using "*" as update_mask will update all fields, including deleting fields not set in the request. In case of BatchUpdate, it must be absent or the same as the update_mask in BatchUpdateMembersRequest when UpdateMemberRequest is built as a child request of BatchUpdateMembersRequest. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. Resource name of the member. Format: spaces/{space}/members/{member} */
   name: string;
   /** Request body */
-  body?: Member;
+  body?: Member | undefined;
 }
 export type BatchUpdateSpacesMembersError =
   | NotFound

@@ -102,88 +102,88 @@ export type AuthProviderStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED"
 /** Configuration for 2-legged OAuth (2LO) authentication. */
 export interface TwoLeggedOAuth {
   /** Optional. The client ID of the OAuth client. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Optional. The token endpoint of the OAuth client. */
-  tokenUrl?: string;
+  tokenUrl?: string | undefined;
   /** Optional. Input only. The client secret of the OAuth client. */
-  clientSecret?: string;
+  clientSecret?: string | undefined;
 }
 /** Configuration for Gemini Enterprise authentication. */
 export interface GeminiEnterpriseAuthProviderParams {}
 /** Configuration for API key authentication. */
 export interface ApiKeyParams {
   /** Optional. Input only. The API key for this auth provider. */
-  apiKey?: string;
+  apiKey?: string | undefined;
 }
 /** Configuration for 3-legged OAuth (3LO) authentication. */
 export interface ThreeLeggedOAuth {
   /** Optional. The authorization endpoint to send users to for consenting to delegate to the agent. For example, "https://auth.atlassian.com/authorize". */
-  authorizationUrl?: string;
+  authorizationUrl?: string | undefined;
   /** Optional. The default continue URI for the 3LO flow, used when no continue URI is provided in the RetrieveCredentials request. */
-  defaultContinueUri?: string;
+  defaultContinueUri?: string | undefined;
   /** Optional. Enables Proof Key for Code Exchange (PKCE) for the OAuth flow to prevent authorization code interception attacks. */
-  enablePkce?: boolean;
+  enablePkce?: boolean | undefined;
   /** Output only. The redirect URL this auth provider uses for the OAuth exchange. This is deterministic based on the name of the auth provider. */
-  redirectUrl?: string;
+  redirectUrl?: string | undefined;
   /** Optional. The token endpoint for requesting tokens on behalf of an end user. For example, "https://auth.atlassian.com/oauth/token". */
-  tokenUrl?: string;
+  tokenUrl?: string | undefined;
   /** Optional. Input only. The client secret of the OAuth client. */
-  clientSecret?: string;
+  clientSecret?: string | undefined;
   /** Optional. The client ID of the OAuth client. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Required. Parameters specific to the auth provider type. */
 export interface AuthProviderTypeParams {
   /** Parameters for 2-legged OAuth (2LO) authentication. */
-  twoLeggedOauth?: TwoLeggedOAuth;
+  twoLeggedOauth?: TwoLeggedOAuth | undefined;
   /** Parameters for Gemini Enterprise authentication. */
-  geAuthProvider?: GeminiEnterpriseAuthProviderParams;
+  geAuthProvider?: GeminiEnterpriseAuthProviderParams | undefined;
   /** Parameters for API key authentication. */
-  apiKey?: ApiKeyParams;
+  apiKey?: ApiKeyParams | undefined;
   /** Parameters for 3-legged OAuth (3LO) authentication. */
-  threeLeggedOauth?: ThreeLeggedOAuth;
+  threeLeggedOauth?: ThreeLeggedOAuth | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Represents an auth provider. */
 export interface AuthProvider {
   /** Optional. List of scopes that are blocked from being requested for this auth provider. If a scope appears in this list, it will not be requested, even if it also appears in `allowed_scopes`. `blocked_scopes` takes precedence over `allowed_scopes`. The number of blocked scopes is limited to 200. */
-  blockedScopes?: StringList;
+  blockedScopes?: StringList | undefined;
   /** Output only. The update timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Input only. Identifiers for the agents that will use this auth provider, starting with `principal://`. For example: `principal://agents.global.org-${ORG_ID}.system.id.goog/resources/aiplatform/projects/{PROJECT_ID}/locations/{LOCATIONS}/reasoningEngines/{ID}` */
-  workloadIds?: StringList;
+  workloadIds?: StringList | undefined;
   /** Output only. The creation timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Set to `true` if the auth provider is deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Optional. Description of the resource. Must be less than 256 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The state of the auth provider. */
-  state?: AuthProviderStateEnum | (string & {});
+  state?: AuthProviderStateEnum | (string & {}) | undefined;
   /** Identifier. The full resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The time when the auth provider will expire. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Required. Parameters specific to the auth provider type. */
-  authProviderTypeParams?: AuthProviderTypeParams;
+  authProviderTypeParams?: AuthProviderTypeParams | undefined;
   /** Optional. List of scopes that are allowed to be requested for this auth provider. If this list is non-empty, only scopes within this list may be requested. If this list is empty, all scopes may be requested. Scopes appearing in `blocked_scopes` are disallowed even if they appear in `allowed_scopes`. The number of allowed scopes is limited to 200. */
-  allowedScopes?: StringList;
+  allowedScopes?: StringList | undefined;
   /** Optional. Labels as key-value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsAuthProvidersRequest {
   /** Required. The parent resource where the auth provider is created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The ID to use for the auth provider, which will become the final segment of the auth provider's resource name. This value should be 1-63 characters, and valid characters are /a-z-/. The first character must be a lowercase letter, and the last character must be a lowercase letter or a number. */
-  authProviderId?: string;
+  authProviderId?: string | undefined;
   /** Request body */
-  body?: AuthProvider;
+  body?: AuthProvider | undefined;
 }
 export interface DeleteProjectsLocationsAuthProvidersRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The resource name of the auth provider. */
   name: string;
 }
@@ -193,18 +193,18 @@ export interface DeleteProjectsLocationsAuthProvidersAuthorizationsRequest {
   /** Required. The resource name of the authorization to delete. Format: projects/{project}/locations/{location}/authProviders/{auth_provider}/authorizations/{authorization} */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 /** Request message for `DisableAuthProvider`. */
 export interface DisableAuthProviderRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DisableProjectsLocationsAuthProvidersRequest {
   /** Required. The resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
   /** Request body */
-  body?: DisableAuthProviderRequest;
+  body?: DisableAuthProviderRequest | undefined;
 }
 /** Request message for `EnableAuthProvider`. */
 export type EnableAuthProviderRequest = DisableAuthProviderRequest;
@@ -212,33 +212,33 @@ export interface EnableProjectsLocationsAuthProvidersRequest {
   /** Required. The resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
   /** Request body */
-  body?: DisableAuthProviderRequest;
+  body?: DisableAuthProviderRequest | undefined;
 }
 export interface GetIamPolicyProjectsLocationsAuthProvidersRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
 }
 export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
@@ -249,35 +249,35 @@ export type AuditLogConfigLogTypeEnum =
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
+  exemptedMembers?: StringList | undefined;
   /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
   /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
+  auditLogConfigs?: AuditLogConfigList | undefined;
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
+  auditConfigs?: AuditConfigList | undefined;
 }
 export interface GetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -287,15 +287,15 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsAccessSummariesRequest {
   /** Required. The resource name of the access summary. */
@@ -310,27 +310,27 @@ export type AccessSummaryAuthProviderTypeEnum =
 /** Represents an access summary. */
 export interface AccessSummary {
   /** Output only. The auth provider that this access summary is associated with. */
-  authProvider?: string;
+  authProvider?: string | undefined;
   /** Optional. Labels as key-value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Identifier. The resource name of the access summary. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The first time this user interacted with this workload, rounded to the previous hour. */
-  firstAccessTime?: string;
+  firstAccessTime?: string | undefined;
   /** Output only. The time when this access summary is permanently deleted. */
-  purgeTime?: string;
+  purgeTime?: string | undefined;
   /** Output only. The auth provider type used to create this access summary. */
-  authProviderType?: AccessSummaryAuthProviderTypeEnum;
+  authProviderType?: AccessSummaryAuthProviderTypeEnum | undefined;
   /** Output only. All scopes that have been used by this user with this workload. The number of scopes is limited to 200. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
   /** Output only. The most recent time this user interacted with this workload, rounded to the previous hour. */
-  lastAccessTime?: string;
+  lastAccessTime?: string | undefined;
   /** Output only. The user ID provided by the workload application for this user. Not verified by Google. */
-  userId?: string;
+  userId?: string | undefined;
   /** Output only. The identity bound to the workload that this user interacted with to produce this access summary. Typically an agentic SPIFFE ID. */
-  workloadId?: string;
+  workloadId?: string | undefined;
   /** Output only. The URL of the authentication server that was accessed. */
-  tokenUrl?: string;
+  tokenUrl?: string | undefined;
 }
 export interface GetProjectsLocationsAuthProvidersRequest {
   /** Required. The resource name of the auth provider. */
@@ -344,201 +344,201 @@ export type AuthorizationStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "SUSPENDED
 /** Represents an authorization. */
 export interface Authorization {
   /** Output only. The client user ID provided by the client application for their end user. Not verified by Google. */
-  clientUserId?: string;
+  clientUserId?: string | undefined;
   /** Output only. The update timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The scopes actually granted by the end user during the consent flow. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
   /** Output only. The creation timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. The resource name of the authorization. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The state of the authorization. */
-  state?: AuthorizationStateEnum;
+  state?: AuthorizationStateEnum | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAccessSummariesRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum page size is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. This field is currently ignored. Defaults to ordering by (auth_provider_id, user_id) in ascending order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent resource where the search is performed. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filter string to restrict the results. Currently supports filtering by `workload_id` or `auth_provider_name`. If no filter is provided, returns all access summaries for the requested project and location. Format: `workload_id=""` or `auth_provider_name=""` */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type AccessSummaryList = Array<AccessSummary>;
 /** Response message for `ListAccessSummaries`. */
 export interface ListAccessSummariesResponse {
   /** The list of access summaries. */
-  accessSummaries?: AccessSummaryList;
+  accessSummaries?: AccessSummaryList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsAuthProvidersRequest {
   /** Optional. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, the first page is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Currently ignored. Defaults to ordering by auth_provider_id in ascending order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent resource where the search is performed. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. Filter results. This field is currently ignored. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum page size is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Deleted auth providers will be kept with a soft-delete for 30 days before being purged. If this field is set to `true`, deleted auth providers will also be returned. */
-  showDeleted?: boolean;
+  showDeleted?: boolean | undefined;
 }
 export type AuthProviderList = Array<AuthProvider>;
 /** Response message for `ListAuthProviders`. */
 export interface ListAuthProvidersResponse {
   /** The list of auth providers. */
-  authProviders?: AuthProviderList;
+  authProviders?: AuthProviderList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsAuthProvidersAuthorizationsRequest {
   /** Optional. Filter string to restrict the results. Currently supports filtering by `client_user_id` only. Format: `client_user_id=""` */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum page size is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. This field is currently ignored. Defaults to ordering by authorization_id in ascending order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent resource where the search is performed. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   parent: string;
   /** Optional. A page token, received from a previous `ListAuthorizations` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAuthorizations` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type AuthorizationList = Array<Authorization>;
 /** Response message for `ListAuthorizations`. */
 export interface ListAuthorizationsResponse {
   /** The list of authorizations. */
-  authorizations?: AuthorizationList;
+  authorizations?: AuthorizationList | undefined;
   /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsAuthProvidersRequest {
   /** Identifier. The full resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the auth provider resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: AuthProvider;
+  body?: AuthProvider | undefined;
 }
 export interface QueryProjectsLocationsAuthProvidersRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum page size is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent resource where the search is performed. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The workload identifier to filter by. */
-  workloadId?: string;
+  workloadId?: string | undefined;
   /** Optional. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, the first page is returned. A page token, received from a previous QueryAuthProviders call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to QueryAuthProviders must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for `QueryAuthProviders`. */
 export interface QueryAuthProvidersResponse {
   /** The unique list of auth provider resource names used by the workload. */
-  authProviderNames?: StringList;
+  authProviderNames?: StringList | undefined;
   /** A token identifying a page of results the server should return. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface QueryWorkloadsProjectsLocationsAuthProvidersRequest {
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. The maximum page size is 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The name of the auth provider to query. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
   /** Optional. A token, which can be sent as `page_token` to retrieve the next page. When paginating, all other parameters provided to `QueryWorkloads` must match the call that provided the page token. If this field is omitted, the first page is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for `QueryWorkloads`. */
 export interface QueryWorkloadsResponse {
   /** A token to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The unique list of identifiers for the agents that used this auth provider, starting with `principal://`. */
-  workloadIds?: StringList;
+  workloadIds?: StringList | undefined;
 }
 /** Request message for `RevokeAuthorization`. */
 export interface RevokeAuthorizationRequest {
   /** Required. The identity of the user to revoke authorization for. */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface RevokeAuthorizationProjectsLocationsAuthProvidersRequest {
   /** Required. The resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
   /** Request body */
-  body?: RevokeAuthorizationRequest;
+  body?: RevokeAuthorizationRequest | undefined;
 }
 /** Response message for `RevokeAuthorization`. */
 export interface RevokeAuthorizationResponse {}
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsAuthProvidersRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsAuthProvidersAuthorizationsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsAuthProvidersRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsAuthProvidersAuthorizationsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Request message for `UndeleteAuthProvider`. */
 export type UndeleteAuthProviderRequest = DisableAuthProviderRequest;
@@ -546,7 +546,7 @@ export interface UndeleteProjectsLocationsAuthProvidersRequest {
   /** Required. The resource name of the auth provider. Format: projects/{project}/locations/{location}/authProviders/{auth_provider} */
   name: string;
   /** Request body */
-  body?: DisableAuthProviderRequest;
+  body?: DisableAuthProviderRequest | undefined;
 }
 export type CreateProjectsLocationsAuthProvidersError =
   | NotFound

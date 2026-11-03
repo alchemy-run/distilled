@@ -145,8 +145,8 @@ export interface CancelContactRequest {
 }
 export type VersionId = number;
 export interface ContactIdResponse {
-  contactId?: string;
-  versionId?: number;
+  contactId?: string | undefined;
+  versionId?: number | undefined;
 }
 export type SafeName = string;
 export type FrequencyUnits = "GHz" | "MHz" | "kHz" | (string & {});
@@ -163,7 +163,7 @@ export type Polarization = "RIGHT_HAND" | "LEFT_HAND" | "NONE" | (string & {});
 export interface SpectrumConfig {
   centerFrequency: Frequency;
   bandwidth: FrequencyBandwidth;
-  polarization?: Polarization;
+  polarization?: Polarization | undefined;
 }
 export interface AntennaDownlinkConfig {
   spectrumConfig: SpectrumConfig;
@@ -174,7 +174,7 @@ export interface TrackingConfig {
 }
 export interface DataflowEndpointConfig {
   dataflowEndpointName: string;
-  dataflowEndpointRegion?: string;
+  dataflowEndpointRegion?: string | undefined;
 }
 export type JsonString = string;
 export interface DemodulationConfig {
@@ -190,7 +190,7 @@ export interface AntennaDownlinkDemodDecodeConfig {
 }
 export interface UplinkSpectrumConfig {
   centerFrequency: Frequency;
-  polarization?: Polarization;
+  polarization?: Polarization | undefined;
 }
 export type EirpUnits = "dBW" | (string & {});
 export interface Eirp {
@@ -198,7 +198,7 @@ export interface Eirp {
   units: EirpUnits;
 }
 export interface AntennaUplinkConfig {
-  transmitDisabled?: boolean;
+  transmitDisabled?: boolean | undefined;
   spectrumConfig: UplinkSpectrumConfig;
   targetEirp: Eirp;
 }
@@ -213,7 +213,7 @@ export type S3KeyPrefix = string;
 export interface S3RecordingConfig {
   bucketArn: string;
   roleArn: string;
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export type TelemetrySinkType = "KINESIS_DATA_STREAM" | (string & {});
 export type KinesisDataStreamArn = string;
@@ -311,7 +311,7 @@ export type TagsMap = { [key: string]: string | undefined };
 export interface CreateConfigRequest {
   name: string;
   configData: ConfigTypeData;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ConfigCapabilityType =
   | "antenna-downlink"
@@ -324,9 +324,9 @@ export type ConfigCapabilityType =
   | "telemetry-sink"
   | (string & {});
 export interface ConfigIdResponse {
-  configId?: string;
-  configType?: ConfigCapabilityType;
-  configArn?: string;
+  configId?: string | undefined;
+  configType?: ConfigCapabilityType | undefined;
+  configArn?: string | undefined;
 }
 export type SubnetList = string[];
 export type SecurityGroupIdList = string[];
@@ -347,14 +347,14 @@ export type EndpointStatus =
   | "failed"
   | (string & {});
 export interface DataflowEndpoint {
-  name?: string;
-  address?: SocketAddress;
-  status?: EndpointStatus;
-  mtu?: number;
+  name?: string | undefined;
+  address?: SocketAddress | undefined;
+  status?: EndpointStatus | undefined;
+  mtu?: number | undefined;
 }
 export interface ConnectionDetails {
   socketAddress: SocketAddress;
-  mtu?: number;
+  mtu?: number | undefined;
 }
 export type IpV4Address = string;
 export interface IntegerRange {
@@ -367,7 +367,7 @@ export interface RangedSocketAddress {
 }
 export interface RangedConnectionDetails {
   socketAddress: RangedSocketAddress;
-  mtu?: number;
+  mtu?: number | undefined;
 }
 export type AgentStatus = "SUCCESS" | "FAILED" | "ACTIVE" | "INACTIVE" | (string & {});
 export type AuditResults = "HEALTHY" | "UNHEALTHY" | (string & {});
@@ -375,8 +375,8 @@ export interface AwsGroundStationAgentEndpoint {
   name: string;
   egressAddress: ConnectionDetails;
   ingressAddress: RangedConnectionDetails;
-  agentStatus?: AgentStatus;
-  auditResults?: AuditResults;
+  agentStatus?: AgentStatus | undefined;
+  auditResults?: AuditResults | undefined;
 }
 export interface UplinkConnectionDetails {
   ingressAddressAndPort: ConnectionDetails;
@@ -386,8 +386,8 @@ export type UplinkDataflowDetails = { agentConnectionDetails: UplinkConnectionDe
 export interface UplinkAwsGroundStationAgentEndpointDetails {
   name: string;
   dataflowDetails: UplinkDataflowDetails;
-  agentStatus?: AgentStatus;
-  auditResults?: AuditResults;
+  agentStatus?: AgentStatus | undefined;
+  auditResults?: AuditResults | undefined;
 }
 export interface DownlinkConnectionDetails {
   agentIpAndPortAddress: RangedConnectionDetails;
@@ -397,8 +397,8 @@ export type DownlinkDataflowDetails = { agentConnectionDetails: DownlinkConnecti
 export interface DownlinkAwsGroundStationAgentEndpointDetails {
   name: string;
   dataflowDetails: DownlinkDataflowDetails;
-  agentStatus?: AgentStatus;
-  auditResults?: AuditResults;
+  agentStatus?: AgentStatus | undefined;
+  auditResults?: AuditResults | undefined;
 }
 export type CapabilityHealth = "HEALTHY" | "UNHEALTHY" | (string & {});
 export type CapabilityHealthReason =
@@ -412,24 +412,24 @@ export type CapabilityHealthReason =
   | (string & {});
 export type CapabilityHealthReasonList = CapabilityHealthReason[];
 export interface EndpointDetails {
-  securityDetails?: SecurityDetails;
-  endpoint?: DataflowEndpoint;
-  awsGroundStationAgentEndpoint?: AwsGroundStationAgentEndpoint;
-  uplinkAwsGroundStationAgentEndpoint?: UplinkAwsGroundStationAgentEndpointDetails;
-  downlinkAwsGroundStationAgentEndpoint?: DownlinkAwsGroundStationAgentEndpointDetails;
-  healthStatus?: CapabilityHealth;
-  healthReasons?: CapabilityHealthReason[];
+  securityDetails?: SecurityDetails | undefined;
+  endpoint?: DataflowEndpoint | undefined;
+  awsGroundStationAgentEndpoint?: AwsGroundStationAgentEndpoint | undefined;
+  uplinkAwsGroundStationAgentEndpoint?: UplinkAwsGroundStationAgentEndpointDetails | undefined;
+  downlinkAwsGroundStationAgentEndpoint?: DownlinkAwsGroundStationAgentEndpointDetails | undefined;
+  healthStatus?: CapabilityHealth | undefined;
+  healthReasons?: CapabilityHealthReason[] | undefined;
 }
 export type EndpointDetailsList = EndpointDetails[];
 export type DataflowEndpointGroupDurationInSeconds = number;
 export interface CreateDataflowEndpointGroupRequest {
   endpointDetails: EndpointDetails[];
-  tags?: { [key: string]: string | undefined };
-  contactPrePassDurationSeconds?: number;
-  contactPostPassDurationSeconds?: number;
+  tags?: { [key: string]: string | undefined } | undefined;
+  contactPrePassDurationSeconds?: number | undefined;
+  contactPostPassDurationSeconds?: number | undefined;
 }
 export interface DataflowEndpointGroupIdResponse {
-  dataflowEndpointGroupId?: string;
+  dataflowEndpointGroupId?: string | undefined;
 }
 export interface UplinkAwsGroundStationAgentEndpoint {
   name: string;
@@ -451,12 +451,12 @@ export type CreateEndpointDetails =
 export type CreateEndpointDetailsList = CreateEndpointDetails[];
 export interface CreateDataflowEndpointGroupV2Request {
   endpoints: CreateEndpointDetails[];
-  contactPrePassDurationSeconds?: number;
-  contactPostPassDurationSeconds?: number;
-  tags?: { [key: string]: string | undefined };
+  contactPrePassDurationSeconds?: number | undefined;
+  contactPostPassDurationSeconds?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDataflowEndpointGroupV2Response {
-  dataflowEndpointGroupId?: string;
+  dataflowEndpointGroupId?: string | undefined;
 }
 export type CustomerEphemerisPriority = number;
 export type KeyArn = string;
@@ -464,9 +464,9 @@ export type S3BucketName = string;
 export type S3ObjectKey = string;
 export type S3VersionId = string;
 export interface S3Object {
-  bucket?: string;
-  key?: string;
-  version?: string;
+  bucket?: string | undefined;
+  key?: string | undefined;
+  version?: string | undefined;
 }
 export type TleLineOne = string;
 export type TleLineTwo = string;
@@ -481,13 +481,13 @@ export interface TLEData {
 }
 export type TLEDataList = TLEData[];
 export interface TLEEphemeris {
-  s3Object?: S3Object;
-  tleData?: TLEData[];
+  s3Object?: S3Object | undefined;
+  tleData?: TLEData[] | undefined;
 }
 export type UnboundedString = string;
 export interface OEMEphemeris {
-  s3Object?: S3Object;
-  oemData?: string;
+  s3Object?: S3Object | undefined;
+  oemData?: string | undefined;
 }
 export type GroundStationName = string;
 export type AngleUnits = "DEGREE_ANGLE" | "RADIAN" | (string & {});
@@ -523,17 +523,17 @@ export type EphemerisData =
   | { tle?: never; oem: OEMEphemeris; azEl?: never }
   | { tle?: never; oem?: never; azEl: AzElEphemeris };
 export interface CreateEphemerisRequest {
-  satelliteId?: string;
-  enabled?: boolean;
-  priority?: number;
-  expirationTime?: Date;
+  satelliteId?: string | undefined;
+  enabled?: boolean | undefined;
+  priority?: number | undefined;
+  expirationTime?: Date | undefined;
   name: string;
-  kmsKeyArn?: string;
-  ephemeris?: EphemerisData;
-  tags?: { [key: string]: string | undefined };
+  kmsKeyArn?: string | undefined;
+  ephemeris?: EphemerisData | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface EphemerisIdResponse {
-  ephemerisId?: string;
+  ephemerisId?: string | undefined;
 }
 export type DurationInSeconds = number;
 export type PositiveDurationInSeconds = number;
@@ -547,18 +547,18 @@ export type KmsKey =
   | { kmsKeyArn?: never; kmsAliasArn?: never; kmsAliasName: string };
 export interface CreateMissionProfileRequest {
   name: string;
-  contactPrePassDurationSeconds?: number;
-  contactPostPassDurationSeconds?: number;
+  contactPrePassDurationSeconds?: number | undefined;
+  contactPostPassDurationSeconds?: number | undefined;
   minimumViableContactDurationSeconds: number;
   dataflowEdges: string[][];
   trackingConfigArn: string;
-  telemetrySinkConfigArn?: string;
-  tags?: { [key: string]: string | undefined };
-  streamsKmsKey?: KmsKey;
-  streamsKmsRole?: string;
+  telemetrySinkConfigArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  streamsKmsKey?: KmsKey | undefined;
+  streamsKmsRole?: string | undefined;
 }
 export interface MissionProfileIdResponse {
-  missionProfileId?: string;
+  missionProfileId?: string | undefined;
 }
 export interface DeleteConfigRequest {
   configId: string;
@@ -598,11 +598,11 @@ export interface Elevation {
   unit: AngleUnits;
 }
 export interface AntennaDemodDecodeDetails {
-  outputNode?: string;
+  outputNode?: string | undefined;
 }
 export interface S3RecordingDetails {
-  bucketArn?: string;
-  keyTemplate?: string;
+  bucketArn?: string | undefined;
+  keyTemplate?: string | undefined;
 }
 export type ConfigDetails =
   | {
@@ -621,21 +621,21 @@ export type ConfigDetails =
       s3RecordingDetails: S3RecordingDetails;
     };
 export interface Source {
-  configType?: ConfigCapabilityType;
-  configId?: string;
-  configDetails?: ConfigDetails;
-  dataflowSourceRegion?: string;
+  configType?: ConfigCapabilityType | undefined;
+  configId?: string | undefined;
+  configDetails?: ConfigDetails | undefined;
+  dataflowSourceRegion?: string | undefined;
 }
 export interface Destination {
-  configType?: ConfigCapabilityType;
-  configId?: string;
-  configDetails?: ConfigDetails;
-  dataflowDestinationRegion?: string;
+  configType?: ConfigCapabilityType | undefined;
+  configId?: string | undefined;
+  configDetails?: ConfigDetails | undefined;
+  dataflowDestinationRegion?: string | undefined;
 }
 export interface DataflowDetail {
-  source?: Source;
-  destination?: Destination;
-  errorMessage?: string;
+  source?: Source | undefined;
+  destination?: Destination | undefined;
+  errorMessage?: string | undefined;
 }
 export type DataflowList = DataflowDetail[];
 export interface AzElProgramTrackSettings {
@@ -652,11 +652,11 @@ export type ProgramTrackSettings =
   | { azEl?: never; oem: OemProgramTrackSettings; tle?: never }
   | { azEl?: never; oem?: never; tle: TleProgramTrackSettings };
 export interface TrackingOverrides {
-  programTrackSettings?: ProgramTrackSettings;
+  programTrackSettings?: ProgramTrackSettings | undefined;
 }
 export type EphemerisType = "TLE" | "OEM" | "AZ_EL" | "SERVICE_MANAGED" | (string & {});
 export interface EphemerisResponseData {
-  ephemerisId?: string;
+  ephemerisId?: string | undefined;
   ephemerisType: EphemerisType;
 }
 export type VersionStatus =
@@ -681,60 +681,60 @@ export type VersionFailureReasonCode =
   | (string & {});
 export type VersionFailureReasonCodes = VersionFailureReasonCode[];
 export interface ContactVersion {
-  versionId?: number;
-  created?: Date;
-  activated?: Date;
-  superseded?: Date;
-  lastUpdated?: Date;
-  status?: VersionStatus;
-  failureCodes?: VersionFailureReasonCode[];
-  failureMessage?: string;
+  versionId?: number | undefined;
+  created?: Date | undefined;
+  activated?: Date | undefined;
+  superseded?: Date | undefined;
+  lastUpdated?: Date | undefined;
+  status?: VersionStatus | undefined;
+  failureCodes?: VersionFailureReasonCode[] | undefined;
+  failureMessage?: string | undefined;
 }
 export interface DescribeContactResponse {
-  contactId?: string;
-  missionProfileArn?: string;
-  satelliteArn?: string;
-  startTime?: Date;
-  endTime?: Date;
-  prePassStartTime?: Date;
-  postPassEndTime?: Date;
-  groundStation?: string;
-  contactStatus?: ContactStatus;
-  errorMessage?: string;
-  maximumElevation?: Elevation;
-  tags?: { [key: string]: string | undefined };
-  region?: string;
-  dataflowList?: DataflowDetail[];
-  visibilityStartTime?: Date;
-  visibilityEndTime?: Date;
-  trackingOverrides?: TrackingOverrides;
-  ephemeris?: EphemerisResponseData;
-  version?: ContactVersion;
+  contactId?: string | undefined;
+  missionProfileArn?: string | undefined;
+  satelliteArn?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  prePassStartTime?: Date | undefined;
+  postPassEndTime?: Date | undefined;
+  groundStation?: string | undefined;
+  contactStatus?: ContactStatus | undefined;
+  errorMessage?: string | undefined;
+  maximumElevation?: Elevation | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  region?: string | undefined;
+  dataflowList?: DataflowDetail[] | undefined;
+  visibilityStartTime?: Date | undefined;
+  visibilityEndTime?: Date | undefined;
+  trackingOverrides?: TrackingOverrides | undefined;
+  ephemeris?: EphemerisResponseData | undefined;
+  version?: ContactVersion | undefined;
 }
 export interface DescribeContactVersionRequest {
   contactId: string;
   versionId: number;
 }
 export interface DescribeContactVersionResponse {
-  contactId?: string;
-  missionProfileArn?: string;
-  satelliteArn?: string;
-  startTime?: Date;
-  endTime?: Date;
-  prePassStartTime?: Date;
-  postPassEndTime?: Date;
-  groundStation?: string;
-  contactStatus?: ContactStatus;
-  errorMessage?: string;
-  maximumElevation?: Elevation;
-  tags?: { [key: string]: string | undefined };
-  region?: string;
-  dataflowList?: DataflowDetail[];
-  visibilityStartTime?: Date;
-  visibilityEndTime?: Date;
-  trackingOverrides?: TrackingOverrides;
-  ephemeris?: EphemerisResponseData;
-  version?: ContactVersion;
+  contactId?: string | undefined;
+  missionProfileArn?: string | undefined;
+  satelliteArn?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  prePassStartTime?: Date | undefined;
+  postPassEndTime?: Date | undefined;
+  groundStation?: string | undefined;
+  contactStatus?: ContactStatus | undefined;
+  errorMessage?: string | undefined;
+  maximumElevation?: Elevation | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  region?: string | undefined;
+  dataflowList?: DataflowDetail[] | undefined;
+  visibilityStartTime?: Date | undefined;
+  visibilityEndTime?: Date | undefined;
+  trackingOverrides?: TrackingOverrides | undefined;
+  ephemeris?: EphemerisResponseData | undefined;
+  version?: ContactVersion | undefined;
 }
 export interface DescribeEphemerisRequest {
   ephemerisId: string;
@@ -749,8 +749,8 @@ export type EphemerisStatus =
   | (string & {});
 export type EphemerisPriority = number;
 export interface EphemerisDescription {
-  sourceS3Object?: S3Object;
-  ephemerisData?: string;
+  sourceS3Object?: S3Object | undefined;
+  ephemerisData?: string | undefined;
 }
 export type EphemerisTypeDescription =
   | { tle: EphemerisDescription; oem?: never; azEl?: never }
@@ -810,24 +810,24 @@ export interface EphemerisErrorReason {
 }
 export type EphemerisErrorReasonList = EphemerisErrorReason[];
 export interface DescribeEphemerisResponse {
-  ephemerisId?: string;
-  satelliteId?: string;
-  status?: EphemerisStatus;
-  priority?: number;
-  creationTime?: Date;
-  enabled?: boolean;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
-  suppliedData?: EphemerisTypeDescription;
-  invalidReason?: EphemerisInvalidReason;
-  errorReasons?: EphemerisErrorReason[];
+  ephemerisId?: string | undefined;
+  satelliteId?: string | undefined;
+  status?: EphemerisStatus | undefined;
+  priority?: number | undefined;
+  creationTime?: Date | undefined;
+  enabled?: boolean | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  suppliedData?: EphemerisTypeDescription | undefined;
+  invalidReason?: EphemerisInvalidReason | undefined;
+  errorReasons?: EphemerisErrorReason[] | undefined;
 }
 export interface GetAgentConfigurationRequest {
   agentId: string;
 }
 export interface GetAgentConfigurationResponse {
-  agentId?: string;
-  taskingDocument?: string;
+  agentId?: string | undefined;
+  taskingDocument?: string | undefined;
 }
 export interface GetAgentTaskResponseUrlRequest {
   agentId: string;
@@ -846,21 +846,21 @@ export interface GetConfigResponse {
   configId: string;
   configArn: string;
   name: string;
-  configType?: ConfigCapabilityType;
+  configType?: ConfigCapabilityType | undefined;
   configData: ConfigTypeData;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDataflowEndpointGroupRequest {
   dataflowEndpointGroupId: string;
 }
 export type DataflowEndpointGroupArn = string;
 export interface GetDataflowEndpointGroupResponse {
-  dataflowEndpointGroupId?: string;
-  dataflowEndpointGroupArn?: string;
-  endpointsDetails?: EndpointDetails[];
-  tags?: { [key: string]: string | undefined };
-  contactPrePassDurationSeconds?: number;
-  contactPostPassDurationSeconds?: number;
+  dataflowEndpointGroupId?: string | undefined;
+  dataflowEndpointGroupArn?: string | undefined;
+  endpointsDetails?: EndpointDetails[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  contactPrePassDurationSeconds?: number | undefined;
+  contactPostPassDurationSeconds?: number | undefined;
 }
 export type Month = number;
 export type Year = number;
@@ -869,30 +869,30 @@ export interface GetMinuteUsageRequest {
   year: number;
 }
 export interface GetMinuteUsageResponse {
-  isReservedMinutesCustomer?: boolean;
-  totalReservedMinuteAllocation?: number;
-  upcomingMinutesScheduled?: number;
-  totalScheduledMinutes?: number;
-  estimatedMinutesRemaining?: number;
+  isReservedMinutesCustomer?: boolean | undefined;
+  totalReservedMinuteAllocation?: number | undefined;
+  upcomingMinutesScheduled?: number | undefined;
+  totalScheduledMinutes?: number | undefined;
+  estimatedMinutesRemaining?: number | undefined;
 }
 export interface GetMissionProfileRequest {
   missionProfileId: string;
 }
 export type AWSRegion = string;
 export interface GetMissionProfileResponse {
-  missionProfileId?: string;
-  missionProfileArn?: string;
-  name?: string;
-  region?: string;
-  contactPrePassDurationSeconds?: number;
-  contactPostPassDurationSeconds?: number;
-  minimumViableContactDurationSeconds?: number;
-  dataflowEdges?: string[][];
-  trackingConfigArn?: string;
-  telemetrySinkConfigArn?: string;
-  tags?: { [key: string]: string | undefined };
-  streamsKmsKey?: KmsKey;
-  streamsKmsRole?: string;
+  missionProfileId?: string | undefined;
+  missionProfileArn?: string | undefined;
+  name?: string | undefined;
+  region?: string | undefined;
+  contactPrePassDurationSeconds?: number | undefined;
+  contactPostPassDurationSeconds?: number | undefined;
+  minimumViableContactDurationSeconds?: number | undefined;
+  dataflowEdges?: string[][] | undefined;
+  trackingConfigArn?: string | undefined;
+  telemetrySinkConfigArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  streamsKmsKey?: KmsKey | undefined;
+  streamsKmsRole?: string | undefined;
 }
 export interface GetSatelliteRequest {
   satelliteId: string;
@@ -902,23 +902,23 @@ export type GroundStationIdList = string[];
 export type EphemerisSource = "CUSTOMER_PROVIDED" | "SPACE_TRACK" | (string & {});
 export interface EphemerisMetaData {
   source: EphemerisSource;
-  ephemerisId?: string;
-  epoch?: Date;
-  name?: string;
+  ephemerisId?: string | undefined;
+  epoch?: Date | undefined;
+  name?: string | undefined;
 }
 export interface GetSatelliteResponse {
-  satelliteId?: string;
-  satelliteArn?: string;
-  noradSatelliteID?: number;
-  groundStations?: string[];
-  currentEphemeris?: EphemerisMetaData;
+  satelliteId?: string | undefined;
+  satelliteArn?: string | undefined;
+  noradSatelliteID?: number | undefined;
+  groundStations?: string[] | undefined;
+  currentEphemeris?: EphemerisMetaData | undefined;
 }
 export type PaginationMaxResults = number;
 export type PaginationToken = string;
 export interface ListAntennasRequest {
   groundStationId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AntennaName = string;
 export interface AntennaListItem {
@@ -929,22 +929,22 @@ export interface AntennaListItem {
 export type AntennaList = AntennaListItem[];
 export interface ListAntennasResponse {
   antennaList: AntennaListItem[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListConfigsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ConfigListItem {
-  configId?: string;
-  configType?: ConfigCapabilityType;
-  configArn?: string;
-  name?: string;
+  configId?: string | undefined;
+  configType?: ConfigCapabilityType | undefined;
+  configArn?: string | undefined;
+  name?: string | undefined;
 }
 export type ConfigList = ConfigListItem[];
 export interface ListConfigsResponse {
-  nextToken?: string;
-  configList?: ConfigListItem[];
+  nextToken?: string | undefined;
+  configList?: ConfigListItem[] | undefined;
 }
 export type StatusList = ContactStatus[];
 export interface AzElEphemerisFilter {
@@ -952,87 +952,87 @@ export interface AzElEphemerisFilter {
 }
 export type EphemerisFilter = { azEl: AzElEphemerisFilter };
 export interface ListContactsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   statusList: ContactStatus[];
   startTime: Date;
   endTime: Date;
-  groundStation?: string;
-  satelliteArn?: string;
-  missionProfileArn?: string;
-  ephemeris?: EphemerisFilter;
+  groundStation?: string | undefined;
+  satelliteArn?: string | undefined;
+  missionProfileArn?: string | undefined;
+  ephemeris?: EphemerisFilter | undefined;
 }
 export interface ContactData {
-  contactId?: string;
-  missionProfileArn?: string;
-  satelliteArn?: string;
-  startTime?: Date;
-  endTime?: Date;
-  prePassStartTime?: Date;
-  postPassEndTime?: Date;
-  groundStation?: string;
-  contactStatus?: ContactStatus;
-  errorMessage?: string;
-  maximumElevation?: Elevation;
-  region?: string;
-  tags?: { [key: string]: string | undefined };
-  visibilityStartTime?: Date;
-  visibilityEndTime?: Date;
-  ephemeris?: EphemerisResponseData;
-  version?: ContactVersion;
+  contactId?: string | undefined;
+  missionProfileArn?: string | undefined;
+  satelliteArn?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  prePassStartTime?: Date | undefined;
+  postPassEndTime?: Date | undefined;
+  groundStation?: string | undefined;
+  contactStatus?: ContactStatus | undefined;
+  errorMessage?: string | undefined;
+  maximumElevation?: Elevation | undefined;
+  region?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  visibilityStartTime?: Date | undefined;
+  visibilityEndTime?: Date | undefined;
+  ephemeris?: EphemerisResponseData | undefined;
+  version?: ContactVersion | undefined;
 }
 export type ContactList = ContactData[];
 export interface ListContactsResponse {
-  nextToken?: string;
-  contactList?: ContactData[];
+  nextToken?: string | undefined;
+  contactList?: ContactData[] | undefined;
 }
 export interface ListContactVersionsRequest {
   contactId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ContactVersionsList = ContactVersion[];
 export interface ListContactVersionsResponse {
-  nextToken?: string;
-  contactVersionsList?: ContactVersion[];
+  nextToken?: string | undefined;
+  contactVersionsList?: ContactVersion[] | undefined;
 }
 export interface ListDataflowEndpointGroupsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DataflowEndpointListItem {
-  dataflowEndpointGroupId?: string;
-  dataflowEndpointGroupArn?: string;
+  dataflowEndpointGroupId?: string | undefined;
+  dataflowEndpointGroupArn?: string | undefined;
 }
 export type DataflowEndpointGroupList = DataflowEndpointListItem[];
 export interface ListDataflowEndpointGroupsResponse {
-  nextToken?: string;
-  dataflowEndpointGroupList?: DataflowEndpointListItem[];
+  nextToken?: string | undefined;
+  dataflowEndpointGroupList?: DataflowEndpointListItem[] | undefined;
 }
 export type EphemerisStatusList = EphemerisStatus[];
 export interface ListEphemeridesRequest {
-  satelliteId?: string;
-  ephemerisType?: EphemerisType;
+  satelliteId?: string | undefined;
+  ephemerisType?: EphemerisType | undefined;
   startTime: Date;
   endTime: Date;
-  statusList?: EphemerisStatus[];
-  maxResults?: number;
-  nextToken?: string;
+  statusList?: EphemerisStatus[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface EphemerisItem {
-  ephemerisId?: string;
-  ephemerisType?: EphemerisType;
-  status?: EphemerisStatus;
-  priority?: number;
-  enabled?: boolean;
-  creationTime?: Date;
-  name?: string;
-  sourceS3Object?: S3Object;
+  ephemerisId?: string | undefined;
+  ephemerisType?: EphemerisType | undefined;
+  status?: EphemerisStatus | undefined;
+  priority?: number | undefined;
+  enabled?: boolean | undefined;
+  creationTime?: Date | undefined;
+  name?: string | undefined;
+  sourceS3Object?: S3Object | undefined;
 }
 export type EphemeridesList = EphemerisItem[];
 export interface ListEphemeridesResponse {
-  nextToken?: string;
-  ephemerides?: EphemerisItem[];
+  nextToken?: string | undefined;
+  ephemerides?: EphemerisItem[] | undefined;
 }
 export type ReservationType = "MAINTENANCE" | "CONTACT" | (string & {});
 export type ReservationTypeFilterList = ReservationType[];
@@ -1040,16 +1040,16 @@ export interface ListGroundStationReservationsRequest {
   groundStationId: string;
   startTime: Date;
   endTime: Date;
-  reservationTypes?: ReservationType[];
-  maxResults?: number;
-  nextToken?: string;
+  reservationTypes?: ReservationType[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type MaintenanceType = "PLANNED" | "UNPLANNED" | (string & {});
 export interface MaintenanceReservationDetails {
   maintenanceType: MaintenanceType;
 }
 export interface ContactReservationDetails {
-  contactId?: string;
+  contactId?: string | undefined;
 }
 export type ReservationDetails =
   | { maintenance: MaintenanceReservationDetails; contact?: never }
@@ -1065,60 +1065,60 @@ export interface GroundStationReservationListItem {
 export type GroundStationReservationList = GroundStationReservationListItem[];
 export interface ListGroundStationReservationsResponse {
   reservationList: GroundStationReservationListItem[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListGroundStationsRequest {
-  satelliteId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  satelliteId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface GroundStationData {
-  groundStationId?: string;
-  groundStationName?: string;
-  region?: string;
+  groundStationId?: string | undefined;
+  groundStationName?: string | undefined;
+  region?: string | undefined;
 }
 export type GroundStationList = GroundStationData[];
 export interface ListGroundStationsResponse {
-  nextToken?: string;
-  groundStationList?: GroundStationData[];
+  nextToken?: string | undefined;
+  groundStationList?: GroundStationData[] | undefined;
 }
 export interface ListMissionProfilesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface MissionProfileListItem {
-  missionProfileId?: string;
-  missionProfileArn?: string;
-  region?: string;
-  name?: string;
+  missionProfileId?: string | undefined;
+  missionProfileArn?: string | undefined;
+  region?: string | undefined;
+  name?: string | undefined;
 }
 export type MissionProfileList = MissionProfileListItem[];
 export interface ListMissionProfilesResponse {
-  nextToken?: string;
-  missionProfileList?: MissionProfileListItem[];
+  nextToken?: string | undefined;
+  missionProfileList?: MissionProfileListItem[] | undefined;
 }
 export interface ListSatellitesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SatelliteListItem {
-  satelliteId?: string;
-  satelliteArn?: string;
-  noradSatelliteID?: number;
-  groundStations?: string[];
-  currentEphemeris?: EphemerisMetaData;
+  satelliteId?: string | undefined;
+  satelliteArn?: string | undefined;
+  noradSatelliteID?: number | undefined;
+  groundStations?: string[] | undefined;
+  currentEphemeris?: EphemerisMetaData | undefined;
 }
 export type SatelliteList = SatelliteListItem[];
 export interface ListSatellitesResponse {
-  nextToken?: string;
-  satellites?: SatelliteListItem[];
+  nextToken?: string | undefined;
+  satellites?: SatelliteListItem[] | undefined;
 }
 export type AnyArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type IpAddressList = string[];
 export type CapabilityArn = string;
@@ -1143,26 +1143,26 @@ export interface AgentDetails {
   agentVersion: string;
   instanceId: string;
   instanceType: string;
-  reservedCpuCores?: number[];
-  agentCpuCores?: number[];
+  reservedCpuCores?: number[] | undefined;
+  agentCpuCores?: number[] | undefined;
   componentVersions: ComponentVersion[];
 }
 export interface RegisterAgentRequest {
   discoveryData: DiscoveryData;
   agentDetails: AgentDetails;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterAgentResponse {
-  agentId?: string;
+  agentId?: string | undefined;
 }
 export interface ReserveContactRequest {
   missionProfileArn: string;
-  satelliteArn?: string;
+  satelliteArn?: string | undefined;
   startTime: Date;
   endTime: Date;
   groundStation: string;
-  tags?: { [key: string]: string | undefined };
-  trackingOverrides?: TrackingOverrides;
+  tags?: { [key: string]: string | undefined } | undefined;
+  trackingOverrides?: TrackingOverrides | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1178,15 +1178,15 @@ export interface UntagResourceResponse {}
 export type SignatureMap = { [key: string]: boolean | undefined };
 export interface AggregateStatus {
   status: AgentStatus;
-  signatureMap?: { [key: string]: boolean | undefined };
+  signatureMap?: { [key: string]: boolean | undefined } | undefined;
 }
 export interface ComponentStatusData {
   componentType: string;
   capabilityArn: string;
   status: AgentStatus;
-  bytesSent?: number;
-  bytesReceived?: number;
-  packetsDropped?: number;
+  bytesSent?: number | undefined;
+  bytesReceived?: number | undefined;
+  packetsDropped?: number | undefined;
   dataflowId: string;
 }
 export type ComponentStatusList = ComponentStatusData[];
@@ -1208,31 +1208,31 @@ export interface UpdateConfigRequest {
 export type ClientToken = string;
 export interface UpdateContactRequest {
   contactId: string;
-  clientToken?: string;
-  trackingOverrides?: TrackingOverrides;
-  satelliteArn?: string;
+  clientToken?: string | undefined;
+  trackingOverrides?: TrackingOverrides | undefined;
+  satelliteArn?: string | undefined;
 }
 export interface UpdateContactResponse {
-  contactId?: string;
-  versionId?: number;
+  contactId?: string | undefined;
+  versionId?: number | undefined;
 }
 export interface UpdateEphemerisRequest {
   ephemerisId: string;
   enabled: boolean;
-  name?: string;
-  priority?: number;
+  name?: string | undefined;
+  priority?: number | undefined;
 }
 export interface UpdateMissionProfileRequest {
   missionProfileId: string;
-  name?: string;
-  contactPrePassDurationSeconds?: number;
-  contactPostPassDurationSeconds?: number;
-  minimumViableContactDurationSeconds?: number;
-  dataflowEdges?: string[][];
-  trackingConfigArn?: string;
-  telemetrySinkConfigArn?: string;
-  streamsKmsKey?: KmsKey;
-  streamsKmsRole?: string;
+  name?: string | undefined;
+  contactPrePassDurationSeconds?: number | undefined;
+  contactPostPassDurationSeconds?: number | undefined;
+  minimumViableContactDurationSeconds?: number | undefined;
+  dataflowEdges?: string[][] | undefined;
+  trackingConfigArn?: string | undefined;
+  telemetrySinkConfigArn?: string | undefined;
+  streamsKmsKey?: KmsKey | undefined;
+  streamsKmsRole?: string | undefined;
 }
 export type CancelContactError =
   | DependencyException

@@ -161,10 +161,10 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateMonitorInput {
   monitorName: string;
   localResources: MonitorLocalResource[];
-  remoteResources?: MonitorRemoteResource[];
+  remoteResources?: MonitorRemoteResource[] | undefined;
   scopeArn: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MonitorArn = string;
 export type MonitorStatus =
@@ -183,7 +183,7 @@ export interface CreateMonitorOutput {
   remoteResources: MonitorRemoteResource[];
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AccountId = string;
 export type TargetId = { accountId: string };
@@ -200,8 +200,8 @@ export interface TargetResource {
 export type TargetResourceList = TargetResource[];
 export interface CreateScopeInput {
   targets: TargetResource[];
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ScopeId = string;
 export type ScopeStatus =
@@ -215,7 +215,7 @@ export interface CreateScopeOutput {
   scopeId: string;
   status: ScopeStatus;
   scopeArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteMonitorInput {
   monitorName: string;
@@ -236,13 +236,13 @@ export interface GetMonitorOutput {
   remoteResources: MonitorRemoteResource[];
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetQueryResultsMonitorTopContributorsInput {
   monitorName: string;
   queryId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type MetricUnit =
   | "Seconds"
@@ -289,83 +289,83 @@ export type DestinationCategory =
 export type Component = string;
 export type ComponentType = string;
 export interface TraversedComponent {
-  componentId?: string;
-  componentType?: string;
-  componentArn?: string;
-  serviceName?: string;
+  componentId?: string | undefined;
+  componentType?: string | undefined;
+  componentArn?: string | undefined;
+  serviceName?: string | undefined;
 }
 export type TraversedConstructsList = TraversedComponent[];
 export interface KubernetesMetadata {
-  localServiceName?: string;
-  localPodName?: string;
-  localPodNamespace?: string;
-  remoteServiceName?: string;
-  remotePodName?: string;
-  remotePodNamespace?: string;
+  localServiceName?: string | undefined;
+  localPodName?: string | undefined;
+  localPodNamespace?: string | undefined;
+  remoteServiceName?: string | undefined;
+  remotePodName?: string | undefined;
+  remotePodNamespace?: string | undefined;
 }
 export type InstanceArn = string;
 export type SubnetArn = string;
 export type VpcArn = string;
 export interface MonitorTopContributorsRow {
-  localIp?: string;
-  snatIp?: string;
-  localInstanceId?: string;
-  localVpcId?: string;
-  localRegion?: string;
-  localAz?: string;
-  localSubnetId?: string;
-  targetPort?: number;
-  destinationCategory?: DestinationCategory;
-  remoteVpcId?: string;
-  remoteRegion?: string;
-  remoteAz?: string;
-  remoteSubnetId?: string;
-  remoteInstanceId?: string;
-  remoteIp?: string;
-  dnatIp?: string;
-  value?: number;
-  traversedConstructs?: TraversedComponent[];
-  kubernetesMetadata?: KubernetesMetadata;
-  localInstanceArn?: string;
-  localSubnetArn?: string;
-  localVpcArn?: string;
-  remoteInstanceArn?: string;
-  remoteSubnetArn?: string;
-  remoteVpcArn?: string;
+  localIp?: string | undefined;
+  snatIp?: string | undefined;
+  localInstanceId?: string | undefined;
+  localVpcId?: string | undefined;
+  localRegion?: string | undefined;
+  localAz?: string | undefined;
+  localSubnetId?: string | undefined;
+  targetPort?: number | undefined;
+  destinationCategory?: DestinationCategory | undefined;
+  remoteVpcId?: string | undefined;
+  remoteRegion?: string | undefined;
+  remoteAz?: string | undefined;
+  remoteSubnetId?: string | undefined;
+  remoteInstanceId?: string | undefined;
+  remoteIp?: string | undefined;
+  dnatIp?: string | undefined;
+  value?: number | undefined;
+  traversedConstructs?: TraversedComponent[] | undefined;
+  kubernetesMetadata?: KubernetesMetadata | undefined;
+  localInstanceArn?: string | undefined;
+  localSubnetArn?: string | undefined;
+  localVpcArn?: string | undefined;
+  remoteInstanceArn?: string | undefined;
+  remoteSubnetArn?: string | undefined;
+  remoteVpcArn?: string | undefined;
 }
 export type MonitorTopContributorsRowList = MonitorTopContributorsRow[];
 export interface GetQueryResultsMonitorTopContributorsOutput {
-  unit?: MetricUnit;
-  topContributors?: MonitorTopContributorsRow[];
-  nextToken?: string;
+  unit?: MetricUnit | undefined;
+  topContributors?: MonitorTopContributorsRow[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetQueryResultsWorkloadInsightsTopContributorsInput {
   scopeId: string;
   queryId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface WorkloadInsightsTopContributorsRow {
-  accountId?: string;
-  localSubnetId?: string;
-  localAz?: string;
-  localVpcId?: string;
-  localRegion?: string;
-  remoteIdentifier?: string;
-  value?: number;
-  localSubnetArn?: string;
-  localVpcArn?: string;
+  accountId?: string | undefined;
+  localSubnetId?: string | undefined;
+  localAz?: string | undefined;
+  localVpcId?: string | undefined;
+  localRegion?: string | undefined;
+  remoteIdentifier?: string | undefined;
+  value?: number | undefined;
+  localSubnetArn?: string | undefined;
+  localVpcArn?: string | undefined;
 }
 export type WorkloadInsightsTopContributorsRowList = WorkloadInsightsTopContributorsRow[];
 export interface GetQueryResultsWorkloadInsightsTopContributorsOutput {
-  topContributors?: WorkloadInsightsTopContributorsRow[];
-  nextToken?: string;
+  topContributors?: WorkloadInsightsTopContributorsRow[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetQueryResultsWorkloadInsightsTopContributorsDataInput {
   scopeId: string;
   queryId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type WorkloadInsightsTopContributorsTimestampsList = Date[];
 export type WorkloadInsightsTopContributorsValuesList = number[];
@@ -378,7 +378,7 @@ export type WorkloadInsightsTopContributorsDataPoints = WorkloadInsightsTopContr
 export interface GetQueryResultsWorkloadInsightsTopContributorsDataOutput {
   unit: MetricUnit;
   datapoints: WorkloadInsightsTopContributorsDataPoint[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface GetQueryStatusMonitorTopContributorsInput {
   monitorName: string;
@@ -416,13 +416,13 @@ export interface GetScopeOutput {
   status: ScopeStatus;
   scopeArn: string;
   targets: TargetResource[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MaxResults = number;
 export interface ListMonitorsInput {
-  nextToken?: string;
-  maxResults?: number;
-  monitorStatus?: MonitorStatus;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  monitorStatus?: MonitorStatus | undefined;
 }
 export interface MonitorSummary {
   monitorArn: string;
@@ -432,11 +432,11 @@ export interface MonitorSummary {
 export type MonitorList = MonitorSummary[];
 export interface ListMonitorsOutput {
   monitors: MonitorSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListScopesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ScopeSummary {
   scopeId: string;
@@ -446,13 +446,13 @@ export interface ScopeSummary {
 export type ScopeSummaryList = ScopeSummary[];
 export interface ListScopesOutput {
   scopes: ScopeSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MonitorMetric =
   | "ROUND_TRIP_TIME"
@@ -467,7 +467,7 @@ export interface StartQueryMonitorTopContributorsInput {
   endTime: Date;
   metricName: MonitorMetric;
   destinationCategory: DestinationCategory;
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface StartQueryMonitorTopContributorsOutput {
   queryId: string;
@@ -483,7 +483,7 @@ export interface StartQueryWorkloadInsightsTopContributorsInput {
   endTime: Date;
   metricName: WorkloadInsightsMetric;
   destinationCategory: DestinationCategory;
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface StartQueryWorkloadInsightsTopContributorsOutput {
   queryId: string;
@@ -526,11 +526,11 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateMonitorInput {
   monitorName: string;
-  localResourcesToAdd?: MonitorLocalResource[];
-  localResourcesToRemove?: MonitorLocalResource[];
-  remoteResourcesToAdd?: MonitorRemoteResource[];
-  remoteResourcesToRemove?: MonitorRemoteResource[];
-  clientToken?: string;
+  localResourcesToAdd?: MonitorLocalResource[] | undefined;
+  localResourcesToRemove?: MonitorLocalResource[] | undefined;
+  remoteResourcesToAdd?: MonitorRemoteResource[] | undefined;
+  remoteResourcesToRemove?: MonitorRemoteResource[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateMonitorOutput {
   monitorArn: string;
@@ -540,18 +540,18 @@ export interface UpdateMonitorOutput {
   remoteResources: MonitorRemoteResource[];
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateScopeInput {
   scopeId: string;
-  resourcesToAdd?: TargetResource[];
-  resourcesToDelete?: TargetResource[];
+  resourcesToAdd?: TargetResource[] | undefined;
+  resourcesToDelete?: TargetResource[] | undefined;
 }
 export interface UpdateScopeOutput {
   scopeId: string;
   status: ScopeStatus;
   scopeArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CreateMonitorError =
   | AccessDeniedException

@@ -159,7 +159,7 @@ export type ResourceTagKey = string;
 export type ResourceTagValue = string;
 export interface ResourceTag {
   ResourceTagKey: string;
-  ResourceTagValue?: string;
+  ResourceTagValue?: string | undefined;
 }
 export type ResourceTags = ResourceTag[];
 export type UnlockDelayValue = number;
@@ -174,29 +174,29 @@ export interface LockConfiguration {
 export type ExcludeResourceTags = ResourceTag[];
 export interface CreateRuleRequest {
   RetentionPeriod: RetentionPeriod;
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
   ResourceType: ResourceType;
-  ResourceTags?: ResourceTag[];
-  LockConfiguration?: LockConfiguration;
-  ExcludeResourceTags?: ResourceTag[];
+  ResourceTags?: ResourceTag[] | undefined;
+  LockConfiguration?: LockConfiguration | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export type RuleIdentifier = string;
 export type RuleStatus = "pending" | "available" | (string & {});
 export type LockState = "locked" | "pending_unlock" | "unlocked" | (string & {});
 export type RuleArn = string;
 export interface CreateRuleResponse {
-  Identifier?: string;
-  RetentionPeriod?: RetentionPeriod;
-  Description?: string;
-  Tags?: Tag[];
-  ResourceType?: ResourceType;
-  ResourceTags?: ResourceTag[];
-  Status?: RuleStatus;
-  LockConfiguration?: LockConfiguration;
-  LockState?: LockState;
-  RuleArn?: string;
-  ExcludeResourceTags?: ResourceTag[];
+  Identifier?: string | undefined;
+  RetentionPeriod?: RetentionPeriod | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
+  Status?: RuleStatus | undefined;
+  LockConfiguration?: LockConfiguration | undefined;
+  LockState?: LockState | undefined;
+  RuleArn?: string | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export interface DeleteRuleRequest {
   Identifier: string;
@@ -206,61 +206,61 @@ export interface GetRuleRequest {
   Identifier: string;
 }
 export interface GetRuleResponse {
-  Identifier?: string;
-  Description?: string;
-  ResourceType?: ResourceType;
-  RetentionPeriod?: RetentionPeriod;
-  ResourceTags?: ResourceTag[];
-  Status?: RuleStatus;
-  LockConfiguration?: LockConfiguration;
-  LockState?: LockState;
-  LockEndTime?: Date;
-  RuleArn?: string;
-  ExcludeResourceTags?: ResourceTag[];
+  Identifier?: string | undefined;
+  Description?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  RetentionPeriod?: RetentionPeriod | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
+  Status?: RuleStatus | undefined;
+  LockConfiguration?: LockConfiguration | undefined;
+  LockState?: LockState | undefined;
+  LockEndTime?: Date | undefined;
+  RuleArn?: string | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListRulesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ResourceType: ResourceType;
-  ResourceTags?: ResourceTag[];
-  LockState?: LockState;
-  ExcludeResourceTags?: ResourceTag[];
+  ResourceTags?: ResourceTag[] | undefined;
+  LockState?: LockState | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export interface RuleSummary {
-  Identifier?: string;
-  Description?: string;
-  RetentionPeriod?: RetentionPeriod;
-  LockState?: LockState;
-  RuleArn?: string;
+  Identifier?: string | undefined;
+  Description?: string | undefined;
+  RetentionPeriod?: RetentionPeriod | undefined;
+  LockState?: LockState | undefined;
+  RuleArn?: string | undefined;
 }
 export type RuleSummaryList = RuleSummary[];
 export interface ListRulesResponse {
-  Rules?: RuleSummary[];
-  NextToken?: string;
+  Rules?: RuleSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface LockRuleRequest {
   Identifier: string;
   LockConfiguration: LockConfiguration;
 }
 export interface LockRuleResponse {
-  Identifier?: string;
-  Description?: string;
-  ResourceType?: ResourceType;
-  RetentionPeriod?: RetentionPeriod;
-  ResourceTags?: ResourceTag[];
-  Status?: RuleStatus;
-  LockConfiguration?: LockConfiguration;
-  LockState?: LockState;
-  RuleArn?: string;
-  ExcludeResourceTags?: ResourceTag[];
+  Identifier?: string | undefined;
+  Description?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  RetentionPeriod?: RetentionPeriod | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
+  Status?: RuleStatus | undefined;
+  LockConfiguration?: LockConfiguration | undefined;
+  LockState?: LockState | undefined;
+  RuleArn?: string | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -271,17 +271,17 @@ export interface UnlockRuleRequest {
   Identifier: string;
 }
 export interface UnlockRuleResponse {
-  Identifier?: string;
-  Description?: string;
-  ResourceType?: ResourceType;
-  RetentionPeriod?: RetentionPeriod;
-  ResourceTags?: ResourceTag[];
-  Status?: RuleStatus;
-  LockConfiguration?: LockConfiguration;
-  LockState?: LockState;
-  LockEndTime?: Date;
-  RuleArn?: string;
-  ExcludeResourceTags?: ResourceTag[];
+  Identifier?: string | undefined;
+  Description?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  RetentionPeriod?: RetentionPeriod | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
+  Status?: RuleStatus | undefined;
+  LockConfiguration?: LockConfiguration | undefined;
+  LockState?: LockState | undefined;
+  LockEndTime?: Date | undefined;
+  RuleArn?: string | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -291,23 +291,23 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateRuleRequest {
   Identifier: string;
-  RetentionPeriod?: RetentionPeriod;
-  Description?: string;
-  ResourceType?: ResourceType;
-  ResourceTags?: ResourceTag[];
-  ExcludeResourceTags?: ResourceTag[];
+  RetentionPeriod?: RetentionPeriod | undefined;
+  Description?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export interface UpdateRuleResponse {
-  Identifier?: string;
-  RetentionPeriod?: RetentionPeriod;
-  Description?: string;
-  ResourceType?: ResourceType;
-  ResourceTags?: ResourceTag[];
-  Status?: RuleStatus;
-  LockState?: LockState;
-  LockEndTime?: Date;
-  RuleArn?: string;
-  ExcludeResourceTags?: ResourceTag[];
+  Identifier?: string | undefined;
+  RetentionPeriod?: RetentionPeriod | undefined;
+  Description?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
+  Status?: RuleStatus | undefined;
+  LockState?: LockState | undefined;
+  LockEndTime?: Date | undefined;
+  RuleArn?: string | undefined;
+  ExcludeResourceTags?: ResourceTag[] | undefined;
 }
 export type ErrorMessage = string;
 export type ServiceQuotaExceededExceptionReason = "SERVICE_QUOTA_EXCEEDED" | (string & {});

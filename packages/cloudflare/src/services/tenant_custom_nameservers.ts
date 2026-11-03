@@ -45,14 +45,14 @@ export interface CreateTenantCustomNameserverRequest {
   /** The FQDN of the name server. */
   nsName: string;
   /** The number of the set that this name server belongs to. */
-  nsSet?: number;
+  nsSet?: number | undefined;
 }
 export type CreateResponseDnsRecordsItemType = "A" | "AAAA";
 export interface CreateResponseDnsRecordsItem {
   /** DNS record type. */
-  type?: CreateResponseDnsRecordsItemType | null;
+  type?: CreateResponseDnsRecordsItemType | null | undefined;
   /** DNS record contents (an IPv4 or IPv6 address). */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type CreateResponseDnsRecordsList = Array<CreateResponseDnsRecordsItem>;
 export type CreateResponseStatus = "moved" | "pending" | "verified";
@@ -67,7 +67,7 @@ export interface CreateTenantCustomNameserverResponse {
   /** Identifier. */
   zoneTag: string;
   /** The number of the set that this name server belongs to. */
-  nsSet?: number | null;
+  nsSet?: number | null | undefined;
 }
 export interface DeleteTenantCustomNameserverRequest {
   /** Tenant identifier tag. */
@@ -89,9 +89,9 @@ export interface GetTenantCustomNameserverRequest {
 export type GetResultItemDnsRecordsItemType = "A" | "AAAA";
 export interface GetResultItemDnsRecordsItem {
   /** DNS record type. */
-  type?: GetResultItemDnsRecordsItemType | null;
+  type?: GetResultItemDnsRecordsItemType | null | undefined;
   /** DNS record contents (an IPv4 or IPv6 address). */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type GetResultItemDnsRecordsList = Array<GetResultItemDnsRecordsItem>;
 export type GetResultItemStatus = "moved" | "pending" | "verified";
@@ -105,7 +105,7 @@ export interface GetResultItem {
   /** Identifier. */
   zoneTag: string;
   /** The number of the set that this name server belongs to. */
-  nsSet?: number | null;
+  nsSet?: number | null | undefined;
 }
 export type GetResultList = Array<GetResultItem>;
 export interface GetTenantCustomNameserverResponse {

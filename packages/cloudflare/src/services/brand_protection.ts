@@ -66,37 +66,37 @@ export type QueriesBulkRequestQueriesItemMap = { [key: string]: unknown | undefi
 export type QueriesBulkRequestQueriesList = Array<QueriesBulkRequestQueriesItemMap>;
 export interface BulkQueryRequest {
   accountId: string;
-  queries?: QueriesBulkRequestQueriesList;
+  queries?: QueriesBulkRequestQueriesList | undefined;
 }
 export interface BulkQueryResponse {}
 export interface CreateLogoRequest {
   accountId: string;
-  matchType?: string;
-  tag?: string;
-  threshold?: number;
-  image?: unknown;
+  matchType?: string | undefined;
+  tag?: string | undefined;
+  threshold?: number | undefined;
+  image?: unknown | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreateLogoResponse {
-  id?: number | null;
-  tag?: string | null;
-  uploadPath?: string | null;
+  id?: number | null | undefined;
+  tag?: string | null | undefined;
+  uploadPath?: string | null | undefined;
 }
 export interface QueriesCreateRequestStringMatchesItem {
   pattern: string;
-  maxEditDistance?: number;
+  maxEditDistance?: number | undefined;
 }
 export type QueriesCreateRequestStringMatchesList = Array<QueriesCreateRequestStringMatchesItem>;
 export interface CreateQueryRequest {
   accountId: string;
-  id?: string;
-  scan?: boolean;
-  tag?: string;
-  maxTime?: string;
-  minTime?: string;
-  stringMatches?: QueriesCreateRequestStringMatchesList;
-  bodyScan?: boolean;
-  bodyTag?: string;
+  id?: string | undefined;
+  scan?: boolean | undefined;
+  tag?: string | undefined;
+  maxTime?: string | undefined;
+  minTime?: string | undefined;
+  stringMatches?: QueriesCreateRequestStringMatchesList | undefined;
+  bodyScan?: boolean | undefined;
+  bodyTag?: string | undefined;
 }
 export interface CreateQueryResponse {}
 export interface CreateV2LogoRequest {
@@ -108,12 +108,12 @@ export interface CreateV2LogoRequest {
   /** Unique identifier for the logo query */
   tag: string;
   /** If true, search historic scanned images for matches above the similarity threshold */
-  searchLookback?: boolean;
+  searchLookback?: boolean | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreateV2LogoResponse {
   message: string;
-  queryId?: number | null;
+  queryId?: number | null | undefined;
 }
 export interface DeleteLogoRequest {
   accountId: string;
@@ -122,9 +122,9 @@ export interface DeleteLogoRequest {
 export interface DeleteLogoResponse {}
 export interface DeleteQueryRequest {
   accountId: string;
-  id?: string;
-  scan?: boolean;
-  tag?: string;
+  id?: string | undefined;
+  scan?: boolean | undefined;
+  tag?: string | undefined;
 }
 export interface DeleteQueryResponse {}
 export interface DeleteV2LogoRequest {
@@ -138,68 +138,68 @@ export interface DeleteV2LogoResponse {
 export type LogoMatchesDownloadRequestLogoIdList = Array<string>;
 export interface DownloadLogoMatchRequest {
   accountId: string;
-  limit?: string;
-  logoId?: LogoMatchesDownloadRequestLogoIdList;
-  offset?: string;
+  limit?: string | undefined;
+  logoId?: LogoMatchesDownloadRequestLogoIdList | undefined;
+  offset?: string | undefined;
 }
 export type LogoMatchesDownloadResponseMatchesItemMap = { [key: string]: unknown | undefined };
 export type LogoMatchesDownloadResponseMatchesList =
   Array<LogoMatchesDownloadResponseMatchesItemMap>;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface DownloadLogoMatchResponse {
-  matches?: LogoMatchesDownloadResponseMatchesList | null;
-  total?: number | null;
+  matches?: LogoMatchesDownloadResponseMatchesList | null | undefined;
+  total?: number | null | undefined;
 }
 export interface DownloadMatchRequest {
   accountId: string;
-  id?: string;
-  includeDismissed?: boolean;
-  includeDomainId?: boolean;
-  limit?: number;
-  offset?: number;
+  id?: string | undefined;
+  includeDismissed?: boolean | undefined;
+  includeDomainId?: boolean | undefined;
+  limit?: number | undefined;
+  offset?: number | undefined;
 }
 export type MatchesDownloadResponseMatchesItemMap = { [key: string]: unknown | undefined };
 export type MatchesDownloadResponseMatchesList = Array<MatchesDownloadResponseMatchesItemMap>;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface DownloadMatchResponse {
-  matches?: MatchesDownloadResponseMatchesList | null;
-  total?: number | null;
+  matches?: MatchesDownloadResponseMatchesList | null | undefined;
+  total?: number | null | undefined;
 }
 export type LogoMatchesGetRequestLogoIdList = Array<string>;
 export interface GetLogoMatchRequest {
   accountId: string;
-  limit?: string;
-  logoId?: LogoMatchesGetRequestLogoIdList;
-  offset?: string;
+  limit?: string | undefined;
+  logoId?: LogoMatchesGetRequestLogoIdList | undefined;
+  offset?: string | undefined;
 }
 export type LogoMatchesGetResponseMatchesItemMap = { [key: string]: unknown | undefined };
 export type LogoMatchesGetResponseMatchesList = Array<LogoMatchesGetResponseMatchesItemMap>;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetLogoMatchResponse {
-  matches?: LogoMatchesGetResponseMatchesList | null;
-  total?: number | null;
+  matches?: LogoMatchesGetResponseMatchesList | null | undefined;
+  total?: number | null | undefined;
 }
 export interface GetMatchRequest {
   accountId: string;
-  id?: string;
-  includeDismissed?: boolean;
-  includeDomainId?: boolean;
-  limit?: number;
-  offset?: number;
+  id?: string | undefined;
+  includeDismissed?: boolean | undefined;
+  includeDomainId?: boolean | undefined;
+  limit?: number | undefined;
+  offset?: number | undefined;
 }
 export type MatchesGetResponseMatchesItemMap = { [key: string]: unknown | undefined };
 export type MatchesGetResponseMatchesList = Array<MatchesGetResponseMatchesItemMap>;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetMatchResponse {
-  matches?: MatchesGetResponseMatchesList | null;
-  total?: number | null;
+  matches?: MatchesGetResponseMatchesList | null | undefined;
+  total?: number | null | undefined;
 }
 export interface GetV2LogoRequest {
   accountId: string;
   /** Optional query ID to retrieve a specific logo query */
-  id?: string;
+  id?: string | undefined;
   /** If true, include base64-encoded image data in the response */
-  download?: string;
+  download?: string | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetV2LogoResponse {
@@ -209,9 +209,9 @@ export interface GetV2LogoResponse {
   tag: string;
   uploadedAt: string;
   /** MIME type of the image (only present when download=true) */
-  contentType?: string | null;
+  contentType?: string | null | undefined;
   /** Base64-encoded image data (only present when download=true) */
-  imageData?: string | null;
+  imageData?: string | null | undefined;
 }
 export type V2LogoMatchesGetRequestOrder = "asc" | "desc";
 export type V2LogoMatchesGetRequestOrderBy =
@@ -222,13 +222,13 @@ export type V2LogoMatchesGetRequestOrderBy =
 export interface GetV2LogoMatchRequest {
   accountId: string;
   queryId: string;
-  download?: string;
-  limit?: string;
-  offset?: string;
+  download?: string | undefined;
+  limit?: string | undefined;
+  offset?: string | undefined;
   /** Sort order. Options: 'asc' (ascending) or 'desc' (descending) */
-  order?: V2LogoMatchesGetRequestOrder | (string & {});
+  order?: V2LogoMatchesGetRequestOrder | (string & {}) | undefined;
   /** Column to sort by. Options: 'matchedAt', 'domain', 'similarityScore', or 'registrar' */
-  orderBy?: V2LogoMatchesGetRequestOrderBy | (string & {});
+  orderBy?: V2LogoMatchesGetRequestOrderBy | (string & {}) | undefined;
 }
 export interface V2LogoMatchesGetResponseMatchesItem {
   id: number;
@@ -238,8 +238,8 @@ export interface V2LogoMatchesGetResponseMatchesItem {
   registrar: string;
   similarityScore: number;
   urlScanId: string;
-  contentType?: string | null;
-  imageData?: string | null;
+  contentType?: string | null | undefined;
+  imageData?: string | null | undefined;
 }
 export type V2LogoMatchesGetResponseMatchesList = Array<V2LogoMatchesGetResponseMatchesItem>;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
@@ -255,15 +255,15 @@ export interface GetV2MatchRequest {
   /** Query ID or comma-separated list of Query IDs. When multiple IDs are provided, matches are deduplicated across queries and each match includes a match_details array with per-match query metadata and dismissed state. */
   queryId: V2MatchesGetRequestQueryIdList;
   /** Filter matches by domain name (substring match) */
-  domainSearch?: string;
-  includeDismissed?: string;
-  includeDomainId?: string;
-  limit?: string;
-  offset?: string;
+  domainSearch?: string | undefined;
+  includeDismissed?: string | undefined;
+  includeDomainId?: string | undefined;
+  limit?: string | undefined;
+  offset?: string | undefined;
   /** Sort order. Options: 'asc' (ascending) or 'desc' (descending) */
-  order?: V2MatchesGetRequestOrder | (string & {});
+  order?: V2MatchesGetRequestOrder | (string & {}) | undefined;
   /** Column to sort by. Options: 'domain', 'first_seen', or 'registrar' */
-  orderBy?: V2MatchesGetRequestOrderBy | (string & {});
+  orderBy?: V2MatchesGetRequestOrderBy | (string & {}) | undefined;
 }
 export interface V2MatchesGetResponseMatchesItemPublicScans {
   submissionId: string;
@@ -287,9 +287,9 @@ export interface V2MatchesGetResponseMatchesItem {
   scanSubmissionId: number;
   source: string;
   /** Whether the match is dismissed. Only present for single-query requests. For multi-query requests, use the dismissed field in each match_details entry. */
-  dismissed?: boolean | null;
+  dismissed?: boolean | null | undefined;
   /** Per-match detail objects with query metadata and individual dismissed state. Only present when multiple query_ids are requested. */
-  matchDetails?: V2MatchesGetResponseMatchesItemMatchDetailsList | null;
+  matchDetails?: V2MatchesGetResponseMatchesItemMatchDetailsList | null | undefined;
 }
 export type V2MatchesGetResponseMatchesList = Array<V2MatchesGetResponseMatchesItem>;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
@@ -299,11 +299,11 @@ export interface GetV2MatchResponse {
 }
 export interface GetV2QueryRequest {
   accountId: string;
-  id?: string;
+  id?: string | undefined;
   /** Optional page number for paginated list requests. Defaults to 1 when only per_page is supplied. Omit page and per_page to preserve the legacy full-list response. */
-  page?: number;
+  page?: number | undefined;
   /** Optional number of queries per page for paginated list requests. Defaults to 100 when only page is supplied. Maximum 100. Omit page and per_page to preserve the legacy full-list response. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface V2QueriesGetResultCase0ItemParametersStringMatchesItem {
   pattern: string;
@@ -312,8 +312,8 @@ export type V2QueriesGetResultCase0ItemParametersStringMatchesList =
   Array<V2QueriesGetResultCase0ItemParametersStringMatchesItem>;
 export interface V2QueriesGetResultCase0ItemParameters {
   stringMatches: V2QueriesGetResultCase0ItemParametersStringMatchesList;
-  maxTime?: string | null;
-  minTime?: string | null;
+  maxTime?: string | null | undefined;
+  minTime?: string | null | undefined;
 }
 export interface V2QueriesGetResultCase0Item {
   created: string;
@@ -330,8 +330,8 @@ export type V2QueriesGetResultCase1ParametersStringMatchesList =
   Array<V2QueriesGetResultCase0ItemParametersStringMatchesItem>;
 export interface V2QueriesGetResultCase1Parameters {
   stringMatches: V2QueriesGetResultCase1ParametersStringMatchesList;
-  maxTime?: string | null;
-  minTime?: string | null;
+  maxTime?: string | null | undefined;
+  minTime?: string | null | undefined;
 }
 export interface V2QueriesGetResultCase1 {
   created: string;
@@ -352,8 +352,8 @@ export type SubmitResponseSubmittedUrlsItemMap = { [key: string]: unknown | unde
 export type SubmitResponseSubmittedUrlsList = Array<SubmitResponseSubmittedUrlsItemMap>;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface SubmitBrandProtectionResponse {
-  skippedUrls?: SubmitResponseSkippedUrlsList | null;
-  submittedUrls?: SubmitResponseSubmittedUrlsList | null;
+  skippedUrls?: SubmitResponseSkippedUrlsList | null | undefined;
+  submittedUrls?: SubmitResponseSubmittedUrlsList | null | undefined;
 }
 export interface UrlInfoBrandProtectionRequest {
   accountId: string;

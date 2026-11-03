@@ -132,7 +132,7 @@ export type IpV4List = string[];
 export type IpV6 = string;
 export type IpV6List = string[];
 export interface SecretsManagerCredentialsProvider {
-  SecretId?: string;
+  SecretId?: string | undefined;
 }
 export type CredentialsProvider = {
   SecretsManagerCredentialsProvider: SecretsManagerCredentialsProvider;
@@ -143,18 +143,18 @@ export interface DomainNetworkSettings {
   Subnets: string[];
 }
 export interface ActiveDirectorySettings {
-  DomainName?: string;
-  DomainIpv4List?: string[];
-  DomainIpv6List?: string[];
-  DomainCredentialsProvider?: CredentialsProvider;
-  DomainNetworkSettings?: DomainNetworkSettings;
+  DomainName?: string | undefined;
+  DomainIpv4List?: string[] | undefined;
+  DomainIpv6List?: string[] | undefined;
+  DomainCredentialsProvider?: CredentialsProvider | undefined;
+  DomainNetworkSettings?: DomainNetworkSettings | undefined;
 }
 export type ActiveDirectoryType = string;
 export interface ActiveDirectoryIdentityProvider {
-  DirectoryId?: string;
-  ActiveDirectorySettings?: ActiveDirectorySettings;
-  ActiveDirectoryType?: string;
-  IsSharedActiveDirectory?: boolean;
+  DirectoryId?: string | undefined;
+  ActiveDirectorySettings?: ActiveDirectorySettings | undefined;
+  ActiveDirectoryType?: string | undefined;
+  IsSharedActiveDirectory?: boolean | undefined;
 }
 export type IdentityProvider = { ActiveDirectoryIdentityProvider: ActiveDirectoryIdentityProvider };
 export type Tags = { [key: string]: string | undefined };
@@ -162,8 +162,8 @@ export interface AssociateUserRequest {
   Username: string;
   InstanceId: string;
   IdentityProvider: IdentityProvider;
-  Domain?: string;
-  Tags?: { [key: string]: string | undefined };
+  Domain?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Arn = string;
 export interface InstanceUserSummary {
@@ -171,11 +171,11 @@ export interface InstanceUserSummary {
   InstanceId: string;
   IdentityProvider: IdentityProvider;
   Status: string;
-  InstanceUserArn?: string;
-  StatusMessage?: string;
-  Domain?: string;
-  AssociationDate?: string;
-  DisassociationDate?: string;
+  InstanceUserArn?: string | undefined;
+  StatusMessage?: string | undefined;
+  Domain?: string | undefined;
+  AssociationDate?: string | undefined;
+  DisassociationDate?: string | undefined;
 }
 export interface AssociateUserResponse {
   InstanceUserSummary: InstanceUserSummary;
@@ -192,47 +192,47 @@ export interface LicenseServerSettings {
 export interface CreateLicenseServerEndpointRequest {
   IdentityProviderArn: string;
   LicenseServerSettings: LicenseServerSettings;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateLicenseServerEndpointResponse {
-  IdentityProviderArn?: string;
-  LicenseServerEndpointArn?: string;
+  IdentityProviderArn?: string | undefined;
+  LicenseServerEndpointArn?: string | undefined;
 }
 export interface DeleteLicenseServerEndpointRequest {
   LicenseServerEndpointArn: string;
   ServerType: string;
 }
 export interface ServerEndpoint {
-  Endpoint?: string;
+  Endpoint?: string | undefined;
 }
 export type LicenseServerEndpointId = string;
 export type LicenseServerEndpointProvisioningStatus = string;
 export type LicenseServerHealthStatus = string;
 export interface LicenseServer {
-  ProvisioningStatus?: string;
-  HealthStatus?: string;
-  Ipv4Address?: string;
-  Ipv6Address?: string;
+  ProvisioningStatus?: string | undefined;
+  HealthStatus?: string | undefined;
+  Ipv4Address?: string | undefined;
+  Ipv6Address?: string | undefined;
 }
 export type LicenseServerList = LicenseServer[];
 export interface LicenseServerEndpoint {
-  IdentityProviderArn?: string;
-  ServerType?: string;
-  ServerEndpoint?: ServerEndpoint;
-  StatusMessage?: string;
-  LicenseServerEndpointId?: string;
-  LicenseServerEndpointArn?: string;
-  LicenseServerEndpointProvisioningStatus?: string;
-  LicenseServers?: LicenseServer[];
-  CreationTime?: Date;
+  IdentityProviderArn?: string | undefined;
+  ServerType?: string | undefined;
+  ServerEndpoint?: ServerEndpoint | undefined;
+  StatusMessage?: string | undefined;
+  LicenseServerEndpointId?: string | undefined;
+  LicenseServerEndpointArn?: string | undefined;
+  LicenseServerEndpointProvisioningStatus?: string | undefined;
+  LicenseServers?: LicenseServer[] | undefined;
+  CreationTime?: Date | undefined;
 }
 export interface DeleteLicenseServerEndpointResponse {
-  LicenseServerEndpoint?: LicenseServerEndpoint;
+  LicenseServerEndpoint?: LicenseServerEndpoint | undefined;
 }
 export interface DeregisterIdentityProviderRequest {
-  IdentityProvider?: IdentityProvider;
-  Product?: string;
-  IdentityProviderArn?: string;
+  IdentityProvider?: IdentityProvider | undefined;
+  Product?: string | undefined;
+  IdentityProviderArn?: string | undefined;
 }
 export type SecurityGroup = string;
 export interface Settings {
@@ -244,118 +244,118 @@ export interface IdentityProviderSummary {
   Settings: Settings;
   Product: string;
   Status: string;
-  IdentityProviderArn?: string;
-  FailureMessage?: string;
-  OwnerAccountId?: string;
+  IdentityProviderArn?: string | undefined;
+  FailureMessage?: string | undefined;
+  OwnerAccountId?: string | undefined;
 }
 export interface DeregisterIdentityProviderResponse {
   IdentityProviderSummary: IdentityProviderSummary;
 }
 export interface DisassociateUserRequest {
-  Username?: string;
-  InstanceId?: string;
-  IdentityProvider?: IdentityProvider;
-  InstanceUserArn?: string;
-  Domain?: string;
+  Username?: string | undefined;
+  InstanceId?: string | undefined;
+  IdentityProvider?: IdentityProvider | undefined;
+  InstanceUserArn?: string | undefined;
+  Domain?: string | undefined;
 }
 export interface DisassociateUserResponse {
   InstanceUserSummary: InstanceUserSummary;
 }
 export type BoxInteger = number;
 export interface Filter {
-  Attribute?: string;
-  Operation?: string;
-  Value?: string;
+  Attribute?: string | undefined;
+  Operation?: string | undefined;
+  Value?: string | undefined;
 }
 export type FilterList = Filter[];
 export interface ListIdentityProvidersRequest {
-  MaxResults?: number;
-  Filters?: Filter[];
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
 }
 export type IdentityProviderSummaryList = IdentityProviderSummary[];
 export interface ListIdentityProvidersResponse {
   IdentityProviderSummaries: IdentityProviderSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListInstancesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type StringList = string[];
 export interface InstanceSummary {
   InstanceId: string;
   Status: string;
   Products: string[];
-  LastStatusCheckDate?: string;
-  StatusMessage?: string;
-  OwnerAccountId?: string;
-  IdentityProvider?: IdentityProvider;
+  LastStatusCheckDate?: string | undefined;
+  StatusMessage?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  IdentityProvider?: IdentityProvider | undefined;
 }
 export type InstanceSummaryList = InstanceSummary[];
 export interface ListInstancesResponse {
-  InstanceSummaries?: InstanceSummary[];
-  NextToken?: string;
+  InstanceSummaries?: InstanceSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLicenseServerEndpointsRequest {
-  MaxResults?: number;
-  Filters?: Filter[];
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
 }
 export type LicenseServerEndpointList = LicenseServerEndpoint[];
 export interface ListLicenseServerEndpointsResponse {
-  LicenseServerEndpoints?: LicenseServerEndpoint[];
-  NextToken?: string;
+  LicenseServerEndpoints?: LicenseServerEndpoint[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProductSubscriptionsRequest {
-  Product?: string;
+  Product?: string | undefined;
   IdentityProvider: IdentityProvider;
-  MaxResults?: number;
-  Filters?: Filter[];
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ProductUserSummary {
   Username: string;
   Product: string;
   IdentityProvider: IdentityProvider;
   Status: string;
-  ProductUserArn?: string;
-  StatusMessage?: string;
-  Domain?: string;
-  SubscriptionStartDate?: string;
-  SubscriptionEndDate?: string;
-  LicenseExpirationDate?: string;
+  ProductUserArn?: string | undefined;
+  StatusMessage?: string | undefined;
+  Domain?: string | undefined;
+  SubscriptionStartDate?: string | undefined;
+  SubscriptionEndDate?: string | undefined;
+  LicenseExpirationDate?: string | undefined;
 }
 export type ProductUserSummaryList = ProductUserSummary[];
 export interface ListProductSubscriptionsResponse {
-  ProductUserSummaries?: ProductUserSummary[];
-  NextToken?: string;
+  ProductUserSummaries?: ProductUserSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListUserAssociationsRequest {
   InstanceId: string;
   IdentityProvider: IdentityProvider;
-  MaxResults?: number;
-  Filters?: Filter[];
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
 }
 export type InstanceUserSummaryList = InstanceUserSummary[];
 export interface ListUserAssociationsResponse {
-  InstanceUserSummaries?: InstanceUserSummary[];
-  NextToken?: string;
+  InstanceUserSummaries?: InstanceUserSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface RegisterIdentityProviderRequest {
   IdentityProvider: IdentityProvider;
   Product: string;
-  Settings?: Settings;
-  Tags?: { [key: string]: string | undefined };
+  Settings?: Settings | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterIdentityProviderResponse {
   IdentityProviderSummary: IdentityProviderSummary;
@@ -364,18 +364,18 @@ export interface StartProductSubscriptionRequest {
   Username: string;
   IdentityProvider: IdentityProvider;
   Product: string;
-  Domain?: string;
-  Tags?: { [key: string]: string | undefined };
+  Domain?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartProductSubscriptionResponse {
   ProductUserSummary: ProductUserSummary;
 }
 export interface StopProductSubscriptionRequest {
-  Username?: string;
-  IdentityProvider?: IdentityProvider;
-  Product?: string;
-  ProductUserArn?: string;
-  Domain?: string;
+  Username?: string | undefined;
+  IdentityProvider?: IdentityProvider | undefined;
+  Product?: string | undefined;
+  ProductUserArn?: string | undefined;
+  Domain?: string | undefined;
 }
 export interface StopProductSubscriptionResponse {
   ProductUserSummary: ProductUserSummary;
@@ -394,12 +394,12 @@ export interface UntagResourceResponse {}
 export interface UpdateSettings {
   AddSubnets: string[];
   RemoveSubnets: string[];
-  SecurityGroupId?: string;
+  SecurityGroupId?: string | undefined;
 }
 export interface UpdateIdentityProviderSettingsRequest {
-  IdentityProvider?: IdentityProvider;
-  Product?: string;
-  IdentityProviderArn?: string;
+  IdentityProvider?: IdentityProvider | undefined;
+  Product?: string | undefined;
+  IdentityProviderArn?: string | undefined;
   UpdateSettings: UpdateSettings;
 }
 export interface UpdateIdentityProviderSettingsResponse {

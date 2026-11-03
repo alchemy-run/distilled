@@ -218,7 +218,7 @@ export interface DisassociateServiceQuotaTemplateResponse {}
 export interface GetAssociationForServiceQuotaTemplateRequest {}
 export type ServiceQuotaTemplateAssociationStatus = "ASSOCIATED" | "DISASSOCIATED" | (string & {});
 export interface GetAssociationForServiceQuotaTemplateResponse {
-  ServiceQuotaTemplateAssociationStatus?: ServiceQuotaTemplateAssociationStatus;
+  ServiceQuotaTemplateAssociationStatus?: ServiceQuotaTemplateAssociationStatus | undefined;
 }
 export interface GetAutoManagementConfigurationRequest {}
 export type OptInLevel = "ACCOUNT" | (string & {});
@@ -228,17 +228,17 @@ export type OptInStatus = "ENABLED" | "DISABLED" | (string & {});
 export type ExcludedService = string;
 export type QuotaName = string;
 export interface QuotaInfo {
-  QuotaCode?: string;
-  QuotaName?: string;
+  QuotaCode?: string | undefined;
+  QuotaName?: string | undefined;
 }
 export type QuotaInfoList = QuotaInfo[];
 export type ExclusionQuotaList = { [key: string]: QuotaInfo[] | undefined };
 export interface GetAutoManagementConfigurationResponse {
-  OptInLevel?: OptInLevel;
-  OptInType?: OptInType;
-  NotificationArn?: string;
-  OptInStatus?: OptInStatus;
-  ExclusionList?: { [key: string]: QuotaInfo[] | undefined };
+  OptInLevel?: OptInLevel | undefined;
+  OptInType?: OptInType | undefined;
+  NotificationArn?: string | undefined;
+  OptInStatus?: OptInStatus | undefined;
+  ExclusionList?: { [key: string]: QuotaInfo[] | undefined } | undefined;
 }
 export interface GetAWSDefaultServiceQuotaRequest {
   ServiceCode: string;
@@ -257,10 +257,10 @@ export type MetricDimensionValue = string;
 export type MetricDimensionsMapDefinition = { [key: string]: string | undefined };
 export type Statistic = string;
 export interface MetricInfo {
-  MetricNamespace?: string;
-  MetricName?: string;
-  MetricDimensions?: { [key: string]: string | undefined };
-  MetricStatisticRecommendation?: string;
+  MetricNamespace?: string | undefined;
+  MetricName?: string | undefined;
+  MetricDimensions?: { [key: string]: string | undefined } | undefined;
+  MetricStatisticRecommendation?: string | undefined;
 }
 export type PeriodValue = number;
 export type PeriodUnit =
@@ -273,8 +273,8 @@ export type PeriodUnit =
   | "WEEK"
   | (string & {});
 export interface QuotaPeriod {
-  PeriodValue?: number;
-  PeriodUnit?: PeriodUnit;
+  PeriodValue?: number | undefined;
+  PeriodUnit?: PeriodUnit | undefined;
 }
 export type ErrorCode =
   | "DEPENDENCY_ACCESS_DENIED_ERROR"
@@ -284,8 +284,8 @@ export type ErrorCode =
   | (string & {});
 export type ErrorMessage = string;
 export interface ErrorReason {
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type AppliedLevelEnum = "ACCOUNT" | "RESOURCE" | "ALL" | (string & {});
 export type QuotaContextScope = "RESOURCE" | "ACCOUNT" | (string & {});
@@ -293,39 +293,39 @@ export type QuotaContextScopeType = string;
 export type QuotaContextId = string;
 export type AdjustableAtLevelEnum = "ACCOUNT" | "PER_RESOURCE" | "ALL" | (string & {});
 export interface QuotaContextInfo {
-  ContextScope?: QuotaContextScope;
-  ContextScopeType?: string;
-  ContextId?: string;
-  AdjustableAtLevel?: AdjustableAtLevelEnum;
+  ContextScope?: QuotaContextScope | undefined;
+  ContextScopeType?: string | undefined;
+  ContextId?: string | undefined;
+  AdjustableAtLevel?: AdjustableAtLevelEnum | undefined;
 }
 export type QuotaDescription = string;
 export interface ServiceQuota {
-  ServiceCode?: string;
-  ServiceName?: string;
-  QuotaArn?: string;
-  QuotaCode?: string;
-  QuotaName?: string;
-  Value?: number;
-  Unit?: string;
-  Adjustable?: boolean;
-  GlobalQuota?: boolean;
-  UsageMetric?: MetricInfo;
-  Period?: QuotaPeriod;
-  ErrorReason?: ErrorReason;
-  QuotaAppliedAtLevel?: AppliedLevelEnum;
-  QuotaContext?: QuotaContextInfo;
-  Description?: string;
+  ServiceCode?: string | undefined;
+  ServiceName?: string | undefined;
+  QuotaArn?: string | undefined;
+  QuotaCode?: string | undefined;
+  QuotaName?: string | undefined;
+  Value?: number | undefined;
+  Unit?: string | undefined;
+  Adjustable?: boolean | undefined;
+  GlobalQuota?: boolean | undefined;
+  UsageMetric?: MetricInfo | undefined;
+  Period?: QuotaPeriod | undefined;
+  ErrorReason?: ErrorReason | undefined;
+  QuotaAppliedAtLevel?: AppliedLevelEnum | undefined;
+  QuotaContext?: QuotaContextInfo | undefined;
+  Description?: string | undefined;
 }
 export interface GetAWSDefaultServiceQuotaResponse {
-  Quota?: ServiceQuota;
+  Quota?: ServiceQuota | undefined;
 }
 export type ReportId = string;
 export type NextToken = string;
 export type MaxResultsUtilization = number;
 export interface GetQuotaUtilizationReportRequest {
   ReportId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ReportStatus = "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
 export type TotalCount = number;
@@ -333,28 +333,28 @@ export type UtilizationPct = number;
 export type DefaultValue = number;
 export type AppliedValue = number;
 export interface QuotaUtilizationInfo {
-  QuotaCode?: string;
-  ServiceCode?: string;
-  QuotaName?: string;
-  Namespace?: string;
-  Utilization?: number;
-  DefaultValue?: number;
-  AppliedValue?: number;
-  ServiceName?: string;
-  Adjustable?: boolean;
+  QuotaCode?: string | undefined;
+  ServiceCode?: string | undefined;
+  QuotaName?: string | undefined;
+  Namespace?: string | undefined;
+  Utilization?: number | undefined;
+  DefaultValue?: number | undefined;
+  AppliedValue?: number | undefined;
+  ServiceName?: string | undefined;
+  Adjustable?: boolean | undefined;
 }
 export type QuotaUtilizationInfoList = QuotaUtilizationInfo[];
 export type ReportErrorCode = string;
 export type ReportErrorMessage = string;
 export interface GetQuotaUtilizationReportResponse {
-  ReportId?: string;
-  Status?: ReportStatus;
-  GeneratedAt?: Date;
-  TotalCount?: number;
-  Quotas?: QuotaUtilizationInfo[];
-  NextToken?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ReportId?: string | undefined;
+  Status?: ReportStatus | undefined;
+  GeneratedAt?: Date | undefined;
+  TotalCount?: number | undefined;
+  Quotas?: QuotaUtilizationInfo[] | undefined;
+  NextToken?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface GetRequestedServiceQuotaChangeRequest {
   RequestId: string;
@@ -372,34 +372,34 @@ export type RequestStatus =
   | (string & {});
 export type Requester = string;
 export interface RequestedServiceQuotaChange {
-  Id?: string;
-  RequestType?: RequestType;
-  CaseId?: string;
-  ServiceCode?: string;
-  ServiceName?: string;
-  QuotaCode?: string;
-  QuotaName?: string;
-  DesiredValue?: number;
-  Status?: RequestStatus;
-  Created?: Date;
-  LastUpdated?: Date;
-  Requester?: string;
-  QuotaArn?: string;
-  GlobalQuota?: boolean;
-  Unit?: string;
-  QuotaRequestedAtLevel?: AppliedLevelEnum;
-  QuotaContext?: QuotaContextInfo;
+  Id?: string | undefined;
+  RequestType?: RequestType | undefined;
+  CaseId?: string | undefined;
+  ServiceCode?: string | undefined;
+  ServiceName?: string | undefined;
+  QuotaCode?: string | undefined;
+  QuotaName?: string | undefined;
+  DesiredValue?: number | undefined;
+  Status?: RequestStatus | undefined;
+  Created?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  Requester?: string | undefined;
+  QuotaArn?: string | undefined;
+  GlobalQuota?: boolean | undefined;
+  Unit?: string | undefined;
+  QuotaRequestedAtLevel?: AppliedLevelEnum | undefined;
+  QuotaContext?: QuotaContextInfo | undefined;
 }
 export interface GetRequestedServiceQuotaChangeResponse {
-  RequestedQuota?: RequestedServiceQuotaChange;
+  RequestedQuota?: RequestedServiceQuotaChange | undefined;
 }
 export interface GetServiceQuotaRequest {
   ServiceCode: string;
   QuotaCode: string;
-  ContextId?: string;
+  ContextId?: string | undefined;
 }
 export interface GetServiceQuotaResponse {
-  Quota?: ServiceQuota;
+  Quota?: ServiceQuota | undefined;
 }
 export interface GetServiceQuotaIncreaseRequestFromTemplateRequest {
   ServiceCode: string;
@@ -407,87 +407,87 @@ export interface GetServiceQuotaIncreaseRequestFromTemplateRequest {
   AwsRegion: string;
 }
 export interface ServiceQuotaIncreaseRequestInTemplate {
-  ServiceCode?: string;
-  ServiceName?: string;
-  QuotaCode?: string;
-  QuotaName?: string;
-  DesiredValue?: number;
-  AwsRegion?: string;
-  Unit?: string;
-  GlobalQuota?: boolean;
+  ServiceCode?: string | undefined;
+  ServiceName?: string | undefined;
+  QuotaCode?: string | undefined;
+  QuotaName?: string | undefined;
+  DesiredValue?: number | undefined;
+  AwsRegion?: string | undefined;
+  Unit?: string | undefined;
+  GlobalQuota?: boolean | undefined;
 }
 export interface GetServiceQuotaIncreaseRequestFromTemplateResponse {
-  ServiceQuotaIncreaseRequestInTemplate?: ServiceQuotaIncreaseRequestInTemplate;
+  ServiceQuotaIncreaseRequestInTemplate?: ServiceQuotaIncreaseRequestInTemplate | undefined;
 }
 export type MaxResults = number;
 export interface ListAWSDefaultServiceQuotasRequest {
   ServiceCode: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ServiceQuotaListDefinition = ServiceQuota[];
 export interface ListAWSDefaultServiceQuotasResponse {
-  NextToken?: string;
-  Quotas?: ServiceQuota[];
+  NextToken?: string | undefined;
+  Quotas?: ServiceQuota[] | undefined;
 }
 export interface ListRequestedServiceQuotaChangeHistoryRequest {
-  ServiceCode?: string;
-  Status?: RequestStatus;
-  NextToken?: string;
-  MaxResults?: number;
-  QuotaRequestedAtLevel?: AppliedLevelEnum;
+  ServiceCode?: string | undefined;
+  Status?: RequestStatus | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  QuotaRequestedAtLevel?: AppliedLevelEnum | undefined;
 }
 export type RequestedServiceQuotaChangeHistoryListDefinition = RequestedServiceQuotaChange[];
 export interface ListRequestedServiceQuotaChangeHistoryResponse {
-  NextToken?: string;
-  RequestedQuotas?: RequestedServiceQuotaChange[];
+  NextToken?: string | undefined;
+  RequestedQuotas?: RequestedServiceQuotaChange[] | undefined;
 }
 export interface ListRequestedServiceQuotaChangeHistoryByQuotaRequest {
   ServiceCode: string;
   QuotaCode: string;
-  Status?: RequestStatus;
-  NextToken?: string;
-  MaxResults?: number;
-  QuotaRequestedAtLevel?: AppliedLevelEnum;
+  Status?: RequestStatus | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  QuotaRequestedAtLevel?: AppliedLevelEnum | undefined;
 }
 export interface ListRequestedServiceQuotaChangeHistoryByQuotaResponse {
-  NextToken?: string;
-  RequestedQuotas?: RequestedServiceQuotaChange[];
+  NextToken?: string | undefined;
+  RequestedQuotas?: RequestedServiceQuotaChange[] | undefined;
 }
 export interface ListServiceQuotaIncreaseRequestsInTemplateRequest {
-  ServiceCode?: string;
-  AwsRegion?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ServiceCode?: string | undefined;
+  AwsRegion?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ServiceQuotaIncreaseRequestInTemplateList = ServiceQuotaIncreaseRequestInTemplate[];
 export interface ListServiceQuotaIncreaseRequestsInTemplateResponse {
-  ServiceQuotaIncreaseRequestInTemplateList?: ServiceQuotaIncreaseRequestInTemplate[];
-  NextToken?: string;
+  ServiceQuotaIncreaseRequestInTemplateList?: ServiceQuotaIncreaseRequestInTemplate[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListServiceQuotasRequest {
   ServiceCode: string;
-  NextToken?: string;
-  MaxResults?: number;
-  QuotaCode?: string;
-  QuotaAppliedAtLevel?: AppliedLevelEnum;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  QuotaCode?: string | undefined;
+  QuotaAppliedAtLevel?: AppliedLevelEnum | undefined;
 }
 export interface ListServiceQuotasResponse {
-  NextToken?: string;
-  Quotas?: ServiceQuota[];
+  NextToken?: string | undefined;
+  Quotas?: ServiceQuota[] | undefined;
 }
 export interface ListServicesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ServiceInfo {
-  ServiceCode?: string;
-  ServiceName?: string;
+  ServiceCode?: string | undefined;
+  ServiceName?: string | undefined;
 }
 export type ServiceInfoListDefinition = ServiceInfo[];
 export interface ListServicesResponse {
-  NextToken?: string;
-  Services?: ServiceInfo[];
+  NextToken?: string | undefined;
+  Services?: ServiceInfo[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
@@ -500,7 +500,7 @@ export interface Tag {
 }
 export type OutputTags = Tag[];
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutServiceQuotaIncreaseRequestIntoTemplateRequest {
   QuotaCode: string;
@@ -509,18 +509,18 @@ export interface PutServiceQuotaIncreaseRequestIntoTemplateRequest {
   DesiredValue: number;
 }
 export interface PutServiceQuotaIncreaseRequestIntoTemplateResponse {
-  ServiceQuotaIncreaseRequestInTemplate?: ServiceQuotaIncreaseRequestInTemplate;
+  ServiceQuotaIncreaseRequestInTemplate?: ServiceQuotaIncreaseRequestInTemplate | undefined;
 }
 export type SupportCaseAllowed = boolean;
 export interface RequestServiceQuotaIncreaseRequest {
   ServiceCode: string;
   QuotaCode: string;
   DesiredValue: number;
-  ContextId?: string;
-  SupportCaseAllowed?: boolean;
+  ContextId?: string | undefined;
+  SupportCaseAllowed?: boolean | undefined;
 }
 export interface RequestServiceQuotaIncreaseResponse {
-  RequestedQuota?: RequestedServiceQuotaChange;
+  RequestedQuota?: RequestedServiceQuotaChange | undefined;
 }
 export type ExcludedLimit = string;
 export type ExcludedQuotaList = string[];
@@ -528,16 +528,16 @@ export type ExclusionList = { [key: string]: string[] | undefined };
 export interface StartAutoManagementRequest {
   OptInLevel: OptInLevel;
   OptInType: OptInType;
-  NotificationArn?: string;
-  ExclusionList?: { [key: string]: string[] | undefined };
+  NotificationArn?: string | undefined;
+  ExclusionList?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface StartAutoManagementResponse {}
 export interface StartQuotaUtilizationReportRequest {}
 export type ReportMessage = string;
 export interface StartQuotaUtilizationReportResponse {
-  ReportId?: string;
-  Status?: ReportStatus;
-  Message?: string;
+  ReportId?: string | undefined;
+  Status?: ReportStatus | undefined;
+  Message?: string | undefined;
 }
 export interface StopAutoManagementRequest {}
 export interface StopAutoManagementResponse {}
@@ -554,9 +554,9 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateAutoManagementRequest {
-  OptInType?: OptInType;
-  NotificationArn?: string;
-  ExclusionList?: { [key: string]: string[] | undefined };
+  OptInType?: OptInType | undefined;
+  NotificationArn?: string | undefined;
+  ExclusionList?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface UpdateAutoManagementResponse {}
 export type ExceptionMessage = string;

@@ -46,21 +46,21 @@ export interface BulkDeleteFiltersRequest {
 }
 export interface BulkDeleteResultItem {
   /** The unique identifier of the filter. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type BulkDeleteResultList = Array<BulkDeleteResultItem>;
 export type BulkDeleteFiltersResponse = BulkDeleteResultList;
 export interface BulkUpdateRequestBodyItem {
   /** The unique identifier of the filter. */
-  id?: string;
+  id?: string | undefined;
   /** An informative summary of the filter. */
-  description?: string;
+  description?: string | undefined;
   /** The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/). */
-  expression?: string;
+  expression?: string | undefined;
   /** When true, indicates that the filter is currently paused. */
-  paused?: boolean;
+  paused?: boolean | undefined;
   /** A short reference tag. Allows you to select related filters. */
-  ref?: string;
+  ref?: string | undefined;
 }
 export type BulkUpdateRequestBodyList = Array<BulkUpdateRequestBodyItem>;
 export interface BulkPutFiltersRequest {
@@ -70,15 +70,15 @@ export interface BulkPutFiltersRequest {
 }
 export interface BulkUpdateResultItem {
   /** The unique identifier of the filter. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** An informative summary of the filter. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/). */
-  expression?: string | null;
+  expression?: string | null | undefined;
   /** When true, indicates that the filter is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** A short reference tag. Allows you to select related filters. */
-  ref?: string | null;
+  ref?: string | null | undefined;
 }
 export type BulkUpdateResultList = Array<BulkUpdateResultItem>;
 export interface BulkPutFiltersResponse {
@@ -122,33 +122,33 @@ export interface GetFilterRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetFilterResponse {
   /** The unique identifier of the filter. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** An informative summary of the filter. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/). */
-  expression?: string | null;
+  expression?: string | null | undefined;
   /** When true, indicates that the filter is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** A short reference tag. Allows you to select related filters. */
-  ref?: string | null;
+  ref?: string | null | undefined;
 }
 export interface ListFiltersRequest {
   /** Defines an identifier. */
   zoneId: string;
   /** The unique identifier of the filter. */
-  id?: string;
+  id?: string | undefined;
   /** A case-insensitive string to find in the description. */
-  description?: string;
+  description?: string | undefined;
   /** A case-insensitive string to find in the expression. */
-  expression?: string;
+  expression?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** When true, indicates that the filter is currently paused. */
-  paused?: boolean;
+  paused?: boolean | undefined;
   /** Number of filters per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** The filter ref (a short reference tag) to search for. Must be an exact match. */
-  ref?: string;
+  ref?: string | undefined;
 }
 export type ListResultItem = BulkUpdateResultItem;
 export type ListResultList = Array<BulkUpdateResultItem>;
@@ -164,26 +164,26 @@ export interface UpdateFilterRequest {
   /** The unique identifier of the filter. */
   filterId: string;
   /** An informative summary of the filter. */
-  description?: string;
+  description?: string | undefined;
   /** The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/). */
-  expression?: string;
+  expression?: string | undefined;
   /** When true, indicates that the filter is currently paused. */
-  paused?: boolean;
+  paused?: boolean | undefined;
   /** A short reference tag. Allows you to select related filters. */
-  ref?: string;
+  ref?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateFilterResponse {
   /** The unique identifier of the filter. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** An informative summary of the filter. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/). */
-  expression?: string | null;
+  expression?: string | null | undefined;
   /** When true, indicates that the filter is currently paused. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** A short reference tag. Allows you to select related filters. */
-  ref?: string | null;
+  ref?: string | null | undefined;
 }
 export type BulkDeleteFiltersError = CloudflareOpError;
 /** Deletes one or more existing filters. */

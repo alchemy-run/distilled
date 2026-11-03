@@ -34,16 +34,16 @@ export type SignableBody = string | ArrayBuffer | ArrayBufferView;
 
 export interface SignOptions {
   /** HTTP method. Defaults to `POST` when a body is present, else `GET`. */
-  readonly method?: string;
+  readonly method?: string | undefined;
   /** Absolute URL to sign. */
   readonly url: string;
   /** Request headers. Keys are case-insensitive; `Host` is derived from the URL. */
-  readonly headers?: Record<string, string>;
+  readonly headers?: Record<string, string> | undefined;
   /**
    * Request body used for the payload hash. Omit for UNSIGNED-PAYLOAD (set the
    * `X-Amz-Content-Sha256` header yourself) or for bodiless requests.
    */
-  readonly body?: SignableBody;
+  readonly body?: SignableBody | undefined;
   /** Public half of the key pair; it is written into the signed request. */
   readonly accessKeyId: string;
   readonly secretAccessKey: Redacted.Redacted<string>;
@@ -53,26 +53,26 @@ export interface SignOptions {
   /** SigV4 signing region. {@link guessScope} fills it from the host. */
   readonly region: string;
   /** Fixed `YYYYMMDDTHHMMSSZ` signing time; defaults to now. */
-  readonly datetime?: string;
+  readonly datetime?: string | undefined;
   /** Sign into the query string (presigned URL) instead of headers. */
-  readonly signQuery?: boolean;
+  readonly signQuery?: boolean | undefined;
   /** Include the normally unsignable headers (content-type, range, ...). */
-  readonly allHeaders?: boolean;
+  readonly allHeaders?: boolean | undefined;
   /**
    * Send and sign the body's SHA-256 as `X-Amz-Content-Sha256`, so services
    * signing as `s3` do not default to UNSIGNED-PAYLOAD.
    */
-  readonly hashPayload?: boolean;
+  readonly hashPayload?: boolean | undefined;
   /**
    * Add the session token to the query after signing, outside the signature.
    * Always on for `iotdevicegateway`.
    */
-  readonly appendSessionToken?: boolean;
+  readonly appendSessionToken?: boolean | undefined;
   /**
    * Encode the path once. By default non-S3 paths are encoded twice, as SigV4
    * requires for every AWS service except S3.
    */
-  readonly singleEncode?: boolean;
+  readonly singleEncode?: boolean | undefined;
 }
 
 /** `options` with the body's hash as `X-Amz-Content-Sha256`, given `hashPayload`. */
@@ -759,7 +759,7 @@ export interface PresignOptions extends Omit<
   "signQuery" | "body" | "hashPayload"
 > {
   /** Seconds the URL stays valid (`X-Amz-Expires`). S3 defaults to 86400; AWS allows at most 604800. */
-  readonly expiresIn?: number;
+  readonly expiresIn?: number | undefined;
 }
 
 /**

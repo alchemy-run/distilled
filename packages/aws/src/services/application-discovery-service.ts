@@ -162,7 +162,7 @@ export interface AssociateConfigurationItemsToApplicationResponse {}
 export type AgentId = string;
 export interface DeleteAgent {
   agentId: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export type DeleteAgents = DeleteAgent[];
 export interface BatchDeleteAgentsRequest {
@@ -180,13 +180,13 @@ export interface BatchDeleteAgentError {
 }
 export type BatchDeleteAgentErrors = BatchDeleteAgentError[];
 export interface BatchDeleteAgentsResponse {
-  errors?: BatchDeleteAgentError[];
+  errors?: BatchDeleteAgentError[] | undefined;
 }
 export type ImportTaskIdentifier = string;
 export type ToDeleteIdentifierList = string[];
 export interface BatchDeleteImportDataRequest {
   importTaskIds: string[];
-  deleteHistory?: boolean;
+  deleteHistory?: boolean | undefined;
 }
 export type BatchDeleteImportDataErrorCode =
   | "NOT_FOUND"
@@ -195,24 +195,24 @@ export type BatchDeleteImportDataErrorCode =
   | (string & {});
 export type BatchDeleteImportDataErrorDescription = string;
 export interface BatchDeleteImportDataError_ {
-  importTaskId?: string;
-  errorCode?: BatchDeleteImportDataErrorCode;
-  errorDescription?: string;
+  importTaskId?: string | undefined;
+  errorCode?: BatchDeleteImportDataErrorCode | undefined;
+  errorDescription?: string | undefined;
 }
 export type BatchDeleteImportDataErrorList = BatchDeleteImportDataError_[];
 export interface BatchDeleteImportDataResponse {
-  errors?: BatchDeleteImportDataError_[];
+  errors?: BatchDeleteImportDataError_[] | undefined;
 }
 export type ApplicationName = string;
 export type ApplicationDescription = string;
 export type ApplicationWave = string;
 export interface CreateApplicationRequest {
   name: string;
-  description?: string;
-  wave?: string;
+  description?: string | undefined;
+  wave?: string | undefined;
 }
 export interface CreateApplicationResponse {
-  configurationId?: string;
+  configurationId?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -233,7 +233,7 @@ export interface DeleteApplicationsRequest {
 export interface DeleteApplicationsResponse {}
 export interface DeleteTagsRequest {
   configurationIds: string[];
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface DeleteTagsResponse {}
 export type AgentIds = string[];
@@ -248,14 +248,14 @@ export interface Filter {
 export type Filters = Filter[];
 export type NextToken = string;
 export interface DescribeAgentsRequest {
-  agentIds?: string[];
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
+  agentIds?: string[] | undefined;
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AgentNetworkInfo {
-  ipAddress?: string;
-  macAddress?: string;
+  ipAddress?: string | undefined;
+  macAddress?: string | undefined;
 }
 export type AgentNetworkInfoList = AgentNetworkInfo[];
 export type AgentStatus =
@@ -267,21 +267,21 @@ export type AgentStatus =
   | "SHUTDOWN"
   | (string & {});
 export interface AgentInfo {
-  agentId?: string;
-  hostName?: string;
-  agentNetworkInfoList?: AgentNetworkInfo[];
-  connectorId?: string;
-  version?: string;
-  health?: AgentStatus;
-  lastHealthPingTime?: string;
-  collectionStatus?: string;
-  agentType?: string;
-  registeredTime?: string;
+  agentId?: string | undefined;
+  hostName?: string | undefined;
+  agentNetworkInfoList?: AgentNetworkInfo[] | undefined;
+  connectorId?: string | undefined;
+  version?: string | undefined;
+  health?: AgentStatus | undefined;
+  lastHealthPingTime?: string | undefined;
+  collectionStatus?: string | undefined;
+  agentType?: string | undefined;
+  registeredTime?: string | undefined;
 }
 export type AgentsInfo = AgentInfo[];
 export interface DescribeAgentsResponse {
-  agentsInfo?: AgentInfo[];
-  nextToken?: string;
+  agentsInfo?: AgentInfo[] | undefined;
+  nextToken?: string | undefined;
 }
 export type UUID = string;
 export interface DescribeBatchDeleteConfigurationTaskRequest {
@@ -298,32 +298,32 @@ export type DeletionConfigurationItemType = "SERVER" | (string & {});
 export type ErrorStatusCode = number;
 export type ErrorMessage = string;
 export interface FailedConfiguration {
-  configurationId?: string;
-  errorStatusCode?: number;
-  errorMessage?: string;
+  configurationId?: string | undefined;
+  errorStatusCode?: number | undefined;
+  errorMessage?: string | undefined;
 }
 export type FailedConfigurationList = FailedConfiguration[];
 export type WarningCode = number;
 export type WarningText = string;
 export interface DeletionWarning {
-  configurationId?: string;
-  warningCode?: number;
-  warningText?: string;
+  configurationId?: string | undefined;
+  warningCode?: number | undefined;
+  warningText?: string | undefined;
 }
 export type DeletionWarningsList = DeletionWarning[];
 export interface BatchDeleteConfigurationTask {
-  taskId?: string;
-  status?: BatchDeleteConfigurationTaskStatus;
-  startTime?: Date;
-  endTime?: Date;
-  configurationType?: DeletionConfigurationItemType;
-  requestedConfigurations?: string[];
-  deletedConfigurations?: string[];
-  failedConfigurations?: FailedConfiguration[];
-  deletionWarnings?: DeletionWarning[];
+  taskId?: string | undefined;
+  status?: BatchDeleteConfigurationTaskStatus | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  configurationType?: DeletionConfigurationItemType | undefined;
+  requestedConfigurations?: string[] | undefined;
+  deletedConfigurations?: string[] | undefined;
+  failedConfigurations?: FailedConfiguration[] | undefined;
+  deletionWarnings?: DeletionWarning[] | undefined;
 }
 export interface DescribeBatchDeleteConfigurationTaskResponse {
-  task?: BatchDeleteConfigurationTask;
+  task?: BatchDeleteConfigurationTask | undefined;
 }
 export interface DescribeConfigurationsRequest {
   configurationIds: string[];
@@ -331,15 +331,15 @@ export interface DescribeConfigurationsRequest {
 export type DescribeConfigurationsAttribute = { [key: string]: string | undefined };
 export type DescribeConfigurationsAttributes = { [key: string]: string | undefined }[];
 export interface DescribeConfigurationsResponse {
-  configurations?: { [key: string]: string | undefined }[];
+  configurations?: { [key: string]: string | undefined }[] | undefined;
 }
 export type ConfigurationsExportId = string;
 export type ContinuousExportIds = string[];
 export type DescribeContinuousExportsMaxResults = number;
 export interface DescribeContinuousExportsRequest {
-  exportIds?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  exportIds?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ContinuousExportStatus =
   | "START_IN_PROGRESS"
@@ -356,25 +356,25 @@ export type DataSource = "AGENT" | (string & {});
 export type DatabaseName = string;
 export type SchemaStorageConfig = { [key: string]: string | undefined };
 export interface ContinuousExportDescription {
-  exportId?: string;
-  status?: ContinuousExportStatus;
-  statusDetail?: string;
-  s3Bucket?: string;
-  startTime?: Date;
-  stopTime?: Date;
-  dataSource?: DataSource;
-  schemaStorageConfig?: { [key: string]: string | undefined };
+  exportId?: string | undefined;
+  status?: ContinuousExportStatus | undefined;
+  statusDetail?: string | undefined;
+  s3Bucket?: string | undefined;
+  startTime?: Date | undefined;
+  stopTime?: Date | undefined;
+  dataSource?: DataSource | undefined;
+  schemaStorageConfig?: { [key: string]: string | undefined } | undefined;
 }
 export type ContinuousExportDescriptions = ContinuousExportDescription[];
 export interface DescribeContinuousExportsResponse {
-  descriptions?: ContinuousExportDescription[];
-  nextToken?: string;
+  descriptions?: ContinuousExportDescription[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ExportIds = string[];
 export interface DescribeExportConfigurationsRequest {
-  exportIds?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  exportIds?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ExportStatus = "FAILED" | "SUCCEEDED" | "IN_PROGRESS" | (string & {});
 export type ExportStatusMessage = string;
@@ -384,16 +384,16 @@ export interface ExportInfo {
   exportId: string;
   exportStatus: ExportStatus;
   statusMessage: string;
-  configurationsDownloadUrl?: string;
+  configurationsDownloadUrl?: string | undefined;
   exportRequestTime: Date;
-  isTruncated?: boolean;
-  requestedStartTime?: Date;
-  requestedEndTime?: Date;
+  isTruncated?: boolean | undefined;
+  requestedStartTime?: Date | undefined;
+  requestedEndTime?: Date | undefined;
 }
 export type ExportsInfo = ExportInfo[];
 export interface DescribeExportConfigurationsResponse {
-  exportsInfo?: ExportInfo[];
-  nextToken?: string;
+  exportsInfo?: ExportInfo[] | undefined;
+  nextToken?: string | undefined;
 }
 export type FilterName = string;
 export interface ExportFilter {
@@ -403,14 +403,14 @@ export interface ExportFilter {
 }
 export type ExportFilters = ExportFilter[];
 export interface DescribeExportTasksRequest {
-  exportIds?: string[];
-  filters?: ExportFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  exportIds?: string[] | undefined;
+  filters?: ExportFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeExportTasksResponse {
-  exportsInfo?: ExportInfo[];
-  nextToken?: string;
+  exportsInfo?: ExportInfo[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ImportTaskFilterName =
   | "IMPORT_TASK_ID"
@@ -421,15 +421,15 @@ export type ImportTaskFilterName =
 export type ImportTaskFilterValue = string;
 export type ImportTaskFilterValueList = string[];
 export interface ImportTaskFilter {
-  name?: ImportTaskFilterName;
-  values?: string[];
+  name?: ImportTaskFilterName | undefined;
+  values?: string[] | undefined;
 }
 export type DescribeImportTasksFilterList = ImportTaskFilter[];
 export type DescribeImportTasksMaxResults = number;
 export interface DescribeImportTasksRequest {
-  filters?: ImportTaskFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ImportTaskFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ClientRequestToken = string;
 export type ImportTaskName = string;
@@ -456,25 +456,25 @@ export type FileClassification =
   | (string & {});
 export type S3PresignedUrl = string;
 export interface ImportTask {
-  importTaskId?: string;
-  clientRequestToken?: string;
-  name?: string;
-  importUrl?: string;
-  status?: ImportStatus;
-  importRequestTime?: Date;
-  importCompletionTime?: Date;
-  importDeletedTime?: Date;
-  fileClassification?: FileClassification;
-  serverImportSuccess?: number;
-  serverImportFailure?: number;
-  applicationImportSuccess?: number;
-  applicationImportFailure?: number;
-  errorsAndFailedEntriesZip?: string;
+  importTaskId?: string | undefined;
+  clientRequestToken?: string | undefined;
+  name?: string | undefined;
+  importUrl?: string | undefined;
+  status?: ImportStatus | undefined;
+  importRequestTime?: Date | undefined;
+  importCompletionTime?: Date | undefined;
+  importDeletedTime?: Date | undefined;
+  fileClassification?: FileClassification | undefined;
+  serverImportSuccess?: number | undefined;
+  serverImportFailure?: number | undefined;
+  applicationImportSuccess?: number | undefined;
+  applicationImportFailure?: number | undefined;
+  errorsAndFailedEntriesZip?: string | undefined;
 }
 export type ImportTaskList = ImportTask[];
 export interface DescribeImportTasksResponse {
-  nextToken?: string;
-  tasks?: ImportTask[];
+  nextToken?: string | undefined;
+  tasks?: ImportTask[] | undefined;
 }
 export interface TagFilter {
   name: string;
@@ -482,9 +482,9 @@ export interface TagFilter {
 }
 export type TagFilters = TagFilter[];
 export interface DescribeTagsRequest {
-  filters?: TagFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: TagFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ConfigurationItemType =
   | "SERVER"
@@ -493,16 +493,16 @@ export type ConfigurationItemType =
   | "APPLICATION"
   | (string & {});
 export interface ConfigurationTag {
-  configurationType?: ConfigurationItemType;
-  configurationId?: string;
-  key?: string;
-  value?: string;
-  timeOfCreation?: Date;
+  configurationType?: ConfigurationItemType | undefined;
+  configurationId?: string | undefined;
+  key?: string | undefined;
+  value?: string | undefined;
+  timeOfCreation?: Date | undefined;
 }
 export type ConfigurationTagSet = ConfigurationTag[];
 export interface DescribeTagsResponse {
-  tags?: ConfigurationTag[];
-  nextToken?: string;
+  tags?: ConfigurationTag[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DisassociateConfigurationItemsFromApplicationRequest {
   applicationConfigurationId: string;
@@ -511,7 +511,7 @@ export interface DisassociateConfigurationItemsFromApplicationRequest {
 export interface DisassociateConfigurationItemsFromApplicationResponse {}
 export interface ExportConfigurationsRequest {}
 export interface ExportConfigurationsResponse {
-  exportId?: string;
+  exportId?: string | undefined;
 }
 export interface GetDiscoverySummaryRequest {}
 export interface CustomerAgentInfo {
@@ -551,82 +551,82 @@ export interface CustomerAgentlessCollectorInfo {
   unknownAgentlessCollectors: number;
 }
 export interface GetDiscoverySummaryResponse {
-  servers?: number;
-  applications?: number;
-  serversMappedToApplications?: number;
-  serversMappedtoTags?: number;
-  agentSummary?: CustomerAgentInfo;
-  connectorSummary?: CustomerConnectorInfo;
-  meCollectorSummary?: CustomerMeCollectorInfo;
-  agentlessCollectorSummary?: CustomerAgentlessCollectorInfo;
+  servers?: number | undefined;
+  applications?: number | undefined;
+  serversMappedToApplications?: number | undefined;
+  serversMappedtoTags?: number | undefined;
+  agentSummary?: CustomerAgentInfo | undefined;
+  connectorSummary?: CustomerConnectorInfo | undefined;
+  meCollectorSummary?: CustomerMeCollectorInfo | undefined;
+  agentlessCollectorSummary?: CustomerAgentlessCollectorInfo | undefined;
 }
 export type OrderByElementFieldName = string;
 export type OrderString = "ASC" | "DESC" | (string & {});
 export interface OrderByElement {
   fieldName: string;
-  sortOrder?: OrderString;
+  sortOrder?: OrderString | undefined;
 }
 export type OrderByList = OrderByElement[];
 export interface ListConfigurationsRequest {
   configurationType: ConfigurationItemType;
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
-  orderBy?: OrderByElement[];
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  orderBy?: OrderByElement[] | undefined;
 }
 export type Configuration = { [key: string]: string | undefined };
 export type Configurations = { [key: string]: string | undefined }[];
 export interface ListConfigurationsResponse {
-  configurations?: { [key: string]: string | undefined }[];
-  nextToken?: string;
+  configurations?: { [key: string]: string | undefined }[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListServerNeighborsRequest {
   configurationId: string;
-  portInformationNeeded?: boolean;
-  neighborConfigurationIds?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  portInformationNeeded?: boolean | undefined;
+  neighborConfigurationIds?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type BoxedInteger = number;
 export interface NeighborConnectionDetail {
   sourceServerId: string;
   destinationServerId: string;
-  destinationPort?: number;
-  transportProtocol?: string;
+  destinationPort?: number | undefined;
+  transportProtocol?: string | undefined;
   connectionsCount: number;
 }
 export type NeighborDetailsList = NeighborConnectionDetail[];
 export interface ListServerNeighborsResponse {
   neighbors: NeighborConnectionDetail[];
-  nextToken?: string;
-  knownDependencyCount?: number;
+  nextToken?: string | undefined;
+  knownDependencyCount?: number | undefined;
 }
 export interface StartBatchDeleteConfigurationTaskRequest {
   configurationType: DeletionConfigurationItemType;
   configurationIds: string[];
 }
 export interface StartBatchDeleteConfigurationTaskResponse {
-  taskId?: string;
+  taskId?: string | undefined;
 }
 export interface StartContinuousExportRequest {}
 export interface StartContinuousExportResponse {
-  exportId?: string;
-  s3Bucket?: string;
-  startTime?: Date;
-  dataSource?: DataSource;
-  schemaStorageConfig?: { [key: string]: string | undefined };
+  exportId?: string | undefined;
+  s3Bucket?: string | undefined;
+  startTime?: Date | undefined;
+  dataSource?: DataSource | undefined;
+  schemaStorageConfig?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartDataCollectionByAgentIdsRequest {
   agentIds: string[];
 }
 export interface AgentConfigurationStatus {
-  agentId?: string;
-  operationSucceeded?: boolean;
-  description?: string;
+  agentId?: string | undefined;
+  operationSucceeded?: boolean | undefined;
+  description?: string | undefined;
 }
 export type AgentConfigurationStatusList = AgentConfigurationStatus[];
 export interface StartDataCollectionByAgentIdsResponse {
-  agentsConfigurationStatus?: AgentConfigurationStatus[];
+  agentsConfigurationStatus?: AgentConfigurationStatus[] | undefined;
 }
 export type ExportDataFormat = "CSV" | (string & {});
 export type ExportDataFormats = ExportDataFormat[];
@@ -634,8 +634,8 @@ export type ExportEnabled = boolean;
 export type UsageMetricBasisName = string;
 export type UsageMetricPercentageAdjust = number;
 export interface UsageMetricBasis {
-  name?: string;
-  percentageAdjust?: number;
+  name?: string | undefined;
+  percentageAdjust?: number | undefined;
 }
 export type Tenancy = "DEDICATED" | "SHARED" | (string & {});
 export type EC2InstanceType = string;
@@ -650,53 +650,53 @@ export interface ReservedInstanceOptions {
   termLength: TermLength;
 }
 export interface Ec2RecommendationsExportPreferences {
-  enabled?: boolean;
-  cpuPerformanceMetricBasis?: UsageMetricBasis;
-  ramPerformanceMetricBasis?: UsageMetricBasis;
-  tenancy?: Tenancy;
-  excludedInstanceTypes?: string[];
-  preferredRegion?: string;
-  reservedInstanceOptions?: ReservedInstanceOptions;
+  enabled?: boolean | undefined;
+  cpuPerformanceMetricBasis?: UsageMetricBasis | undefined;
+  ramPerformanceMetricBasis?: UsageMetricBasis | undefined;
+  tenancy?: Tenancy | undefined;
+  excludedInstanceTypes?: string[] | undefined;
+  preferredRegion?: string | undefined;
+  reservedInstanceOptions?: ReservedInstanceOptions | undefined;
 }
 export type ExportPreferences = {
   ec2RecommendationsPreferences: Ec2RecommendationsExportPreferences;
 };
 export interface StartExportTaskRequest {
-  exportDataFormat?: ExportDataFormat[];
-  filters?: ExportFilter[];
-  startTime?: Date;
-  endTime?: Date;
-  preferences?: ExportPreferences;
+  exportDataFormat?: ExportDataFormat[] | undefined;
+  filters?: ExportFilter[] | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  preferences?: ExportPreferences | undefined;
 }
 export interface StartExportTaskResponse {
-  exportId?: string;
+  exportId?: string | undefined;
 }
 export interface StartImportTaskRequest {
-  clientRequestToken?: string;
+  clientRequestToken?: string | undefined;
   name: string;
   importUrl: string;
 }
 export interface StartImportTaskResponse {
-  task?: ImportTask;
+  task?: ImportTask | undefined;
 }
 export interface StopContinuousExportRequest {
   exportId: string;
 }
 export interface StopContinuousExportResponse {
-  startTime?: Date;
-  stopTime?: Date;
+  startTime?: Date | undefined;
+  stopTime?: Date | undefined;
 }
 export interface StopDataCollectionByAgentIdsRequest {
   agentIds: string[];
 }
 export interface StopDataCollectionByAgentIdsResponse {
-  agentsConfigurationStatus?: AgentConfigurationStatus[];
+  agentsConfigurationStatus?: AgentConfigurationStatus[] | undefined;
 }
 export interface UpdateApplicationRequest {
   configurationId: string;
-  name?: string;
-  description?: string;
-  wave?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  wave?: string | undefined;
 }
 export interface UpdateApplicationResponse {}
 export type Message = string;

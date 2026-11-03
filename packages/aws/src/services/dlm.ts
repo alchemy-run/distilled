@@ -147,8 +147,8 @@ export type ResourceTypeValuesList = ResourceTypeValues[];
 export type ResourceLocationValues = "CLOUD" | "OUTPOST" | "LOCAL_ZONE" | (string & {});
 export type ResourceLocationList = ResourceLocationValues[];
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TargetTagList = Tag[];
 export type ScheduleName = string;
@@ -168,29 +168,29 @@ export type ExecuteOperationOnScriptFailure = boolean;
 export type ScriptExecutionTimeout = number;
 export type ScriptMaximumRetryCount = number;
 export interface Script {
-  Stages?: StageValues[];
-  ExecutionHandlerService?: ExecutionHandlerServiceValues;
-  ExecutionHandler?: string;
-  ExecuteOperationOnScriptFailure?: boolean;
-  ExecutionTimeout?: number;
-  MaximumRetryCount?: number;
+  Stages?: StageValues[] | undefined;
+  ExecutionHandlerService?: ExecutionHandlerServiceValues | undefined;
+  ExecutionHandler?: string | undefined;
+  ExecuteOperationOnScriptFailure?: boolean | undefined;
+  ExecutionTimeout?: number | undefined;
+  MaximumRetryCount?: number | undefined;
 }
 export type ScriptsList = Script[];
 export interface CreateRule {
-  Location?: LocationValues;
-  Interval?: number;
-  IntervalUnit?: IntervalUnitValues;
-  Times?: string[];
-  CronExpression?: string;
-  Scripts?: Script[];
+  Location?: LocationValues | undefined;
+  Interval?: number | undefined;
+  IntervalUnit?: IntervalUnitValues | undefined;
+  Times?: string[] | undefined;
+  CronExpression?: string | undefined;
+  Scripts?: Script[] | undefined;
 }
 export type StandardTierRetainRuleCount = number;
 export type StandardTierRetainRuleInterval = number;
 export type RetentionIntervalUnitValues = "DAYS" | "WEEKS" | "MONTHS" | "YEARS" | (string & {});
 export interface RetainRule {
-  Count?: number;
-  Interval?: number;
-  IntervalUnit?: RetentionIntervalUnitValues;
+  Count?: number | undefined;
+  Interval?: number | undefined;
+  IntervalUnit?: RetentionIntervalUnitValues | undefined;
 }
 export type Count = number;
 export type AvailabilityZone = string;
@@ -198,11 +198,11 @@ export type AvailabilityZoneList = string[];
 export type AvailabilityZoneId = string;
 export type AvailabilityZoneIdList = string[];
 export interface FastRestoreRule {
-  Count?: number;
-  Interval?: number;
-  IntervalUnit?: RetentionIntervalUnitValues;
-  AvailabilityZones?: string[];
-  AvailabilityZoneIds?: string[];
+  Count?: number | undefined;
+  Interval?: number | undefined;
+  IntervalUnit?: RetentionIntervalUnitValues | undefined;
+  AvailabilityZones?: string[] | undefined;
+  AvailabilityZoneIds?: string[] | undefined;
 }
 export type TargetRegion = string;
 export type Target = string;
@@ -210,103 +210,103 @@ export type Encrypted = boolean;
 export type CmkArn = string;
 export type CopyTagsNullable = boolean;
 export interface CrossRegionCopyRetainRule {
-  Interval?: number;
-  IntervalUnit?: RetentionIntervalUnitValues;
+  Interval?: number | undefined;
+  IntervalUnit?: RetentionIntervalUnitValues | undefined;
 }
 export interface CrossRegionCopyDeprecateRule {
-  Interval?: number;
-  IntervalUnit?: RetentionIntervalUnitValues;
+  Interval?: number | undefined;
+  IntervalUnit?: RetentionIntervalUnitValues | undefined;
 }
 export interface CrossRegionCopyRule {
-  TargetRegion?: string;
-  Target?: string;
-  Encrypted?: boolean;
-  CmkArn?: string;
-  CopyTags?: boolean;
-  RetainRule?: CrossRegionCopyRetainRule;
-  DeprecateRule?: CrossRegionCopyDeprecateRule;
+  TargetRegion?: string | undefined;
+  Target?: string | undefined;
+  Encrypted?: boolean | undefined;
+  CmkArn?: string | undefined;
+  CopyTags?: boolean | undefined;
+  RetainRule?: CrossRegionCopyRetainRule | undefined;
+  DeprecateRule?: CrossRegionCopyDeprecateRule | undefined;
 }
 export type CrossRegionCopyRules = CrossRegionCopyRule[];
 export type AwsAccountId = string;
 export type ShareTargetAccountList = string[];
 export interface ShareRule {
-  TargetAccounts?: string[];
-  UnshareInterval?: number;
-  UnshareIntervalUnit?: RetentionIntervalUnitValues;
+  TargetAccounts?: string[] | undefined;
+  UnshareInterval?: number | undefined;
+  UnshareIntervalUnit?: RetentionIntervalUnitValues | undefined;
 }
 export type ShareRules = ShareRule[];
 export interface DeprecateRule {
-  Count?: number;
-  Interval?: number;
-  IntervalUnit?: RetentionIntervalUnitValues;
+  Count?: number | undefined;
+  Interval?: number | undefined;
+  IntervalUnit?: RetentionIntervalUnitValues | undefined;
 }
 export interface RetentionArchiveTier {
-  Count?: number;
-  Interval?: number;
-  IntervalUnit?: RetentionIntervalUnitValues;
+  Count?: number | undefined;
+  Interval?: number | undefined;
+  IntervalUnit?: RetentionIntervalUnitValues | undefined;
 }
 export interface ArchiveRetainRule {
-  RetentionArchiveTier?: RetentionArchiveTier;
+  RetentionArchiveTier?: RetentionArchiveTier | undefined;
 }
 export interface ArchiveRule {
-  RetainRule?: ArchiveRetainRule;
+  RetainRule?: ArchiveRetainRule | undefined;
 }
 export interface Schedule {
-  Name?: string;
-  CopyTags?: boolean;
-  TagsToAdd?: Tag[];
-  VariableTags?: Tag[];
-  CreateRule?: CreateRule;
-  RetainRule?: RetainRule;
-  FastRestoreRule?: FastRestoreRule;
-  CrossRegionCopyRules?: CrossRegionCopyRule[];
-  ShareRules?: ShareRule[];
-  DeprecateRule?: DeprecateRule;
-  ArchiveRule?: ArchiveRule;
+  Name?: string | undefined;
+  CopyTags?: boolean | undefined;
+  TagsToAdd?: Tag[] | undefined;
+  VariableTags?: Tag[] | undefined;
+  CreateRule?: CreateRule | undefined;
+  RetainRule?: RetainRule | undefined;
+  FastRestoreRule?: FastRestoreRule | undefined;
+  CrossRegionCopyRules?: CrossRegionCopyRule[] | undefined;
+  ShareRules?: ShareRule[] | undefined;
+  DeprecateRule?: DeprecateRule | undefined;
+  ArchiveRule?: ArchiveRule | undefined;
 }
 export type ScheduleList = Schedule[];
 export type ExcludeBootVolume = boolean;
 export type NoReboot = boolean;
 export type ExcludeDataVolumeTagList = Tag[];
 export interface Parameters {
-  ExcludeBootVolume?: boolean;
-  NoReboot?: boolean;
-  ExcludeDataVolumeTags?: Tag[];
+  ExcludeBootVolume?: boolean | undefined;
+  NoReboot?: boolean | undefined;
+  ExcludeDataVolumeTags?: Tag[] | undefined;
 }
 export type EventSourceValues = "MANAGED_CWE" | (string & {});
 export type EventTypeValues = "shareSnapshot" | (string & {});
 export type SnapshotOwnerList = string[];
 export type DescriptionRegex = string;
 export interface EventParameters {
-  EventType?: EventTypeValues;
-  SnapshotOwner?: string[];
-  DescriptionRegex?: string;
+  EventType?: EventTypeValues | undefined;
+  SnapshotOwner?: string[] | undefined;
+  DescriptionRegex?: string | undefined;
 }
 export interface EventSource {
-  Type?: EventSourceValues;
-  Parameters?: EventParameters;
+  Type?: EventSourceValues | undefined;
+  Parameters?: EventParameters | undefined;
 }
 export type ActionName = string;
 export interface EncryptionConfiguration {
-  Encrypted?: boolean;
-  CmkArn?: string;
+  Encrypted?: boolean | undefined;
+  CmkArn?: string | undefined;
 }
 export interface CrossRegionCopyAction {
-  Target?: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  RetainRule?: CrossRegionCopyRetainRule;
+  Target?: string | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  RetainRule?: CrossRegionCopyRetainRule | undefined;
 }
 export type CrossRegionCopyActionList = CrossRegionCopyAction[];
 export interface Action {
-  Name?: string;
-  CrossRegionCopy?: CrossRegionCopyAction[];
+  Name?: string | undefined;
+  CrossRegionCopy?: CrossRegionCopyAction[] | undefined;
 }
 export type ActionList = Action[];
 export type PolicyLanguageValues = "SIMPLIFIED" | "STANDARD" | (string & {});
 export type CreateInterval = number;
 export type RetainInterval = number;
 export interface CrossRegionCopyTarget {
-  TargetRegion?: string;
+  TargetRegion?: string | undefined;
 }
 export type CrossRegionCopyTargetList = CrossRegionCopyTarget[];
 export type ExtendDeletion = boolean;
@@ -315,49 +315,49 @@ export type VolumeTypeValues = string;
 export type ExcludeVolumeTypesList = string[];
 export type ExcludeTagsList = Tag[];
 export interface Exclusions {
-  ExcludeBootVolumes?: boolean;
-  ExcludeVolumeTypes?: string[];
-  ExcludeTags?: Tag[];
+  ExcludeBootVolumes?: boolean | undefined;
+  ExcludeVolumeTypes?: string[] | undefined;
+  ExcludeTags?: Tag[] | undefined;
 }
 export interface PolicyDetails {
-  PolicyType?: PolicyTypeValues;
-  ResourceTypes?: ResourceTypeValues[];
-  ResourceLocations?: ResourceLocationValues[];
-  TargetTags?: Tag[];
-  Schedules?: Schedule[];
-  Parameters?: Parameters;
-  EventSource?: EventSource;
-  Actions?: Action[];
-  PolicyLanguage?: PolicyLanguageValues;
-  ResourceType?: ResourceTypeValues;
-  CreateInterval?: number;
-  RetainInterval?: number;
-  CopyTags?: boolean;
-  CrossRegionCopyTargets?: CrossRegionCopyTarget[];
-  ExtendDeletion?: boolean;
-  Exclusions?: Exclusions;
+  PolicyType?: PolicyTypeValues | undefined;
+  ResourceTypes?: ResourceTypeValues[] | undefined;
+  ResourceLocations?: ResourceLocationValues[] | undefined;
+  TargetTags?: Tag[] | undefined;
+  Schedules?: Schedule[] | undefined;
+  Parameters?: Parameters | undefined;
+  EventSource?: EventSource | undefined;
+  Actions?: Action[] | undefined;
+  PolicyLanguage?: PolicyLanguageValues | undefined;
+  ResourceType?: ResourceTypeValues | undefined;
+  CreateInterval?: number | undefined;
+  RetainInterval?: number | undefined;
+  CopyTags?: boolean | undefined;
+  CrossRegionCopyTargets?: CrossRegionCopyTarget[] | undefined;
+  ExtendDeletion?: boolean | undefined;
+  Exclusions?: Exclusions | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export type DefaultPolicyTypeValues = "VOLUME" | "INSTANCE" | (string & {});
 export interface CreateLifecyclePolicyRequest {
-  ExecutionRoleArn?: string;
-  Description?: string;
-  State?: SettablePolicyStateValues;
-  PolicyDetails?: PolicyDetails;
-  Tags?: { [key: string]: string | undefined };
-  DefaultPolicy?: DefaultPolicyTypeValues;
-  CreateInterval?: number;
-  RetainInterval?: number;
-  CopyTags?: boolean;
-  ExtendDeletion?: boolean;
-  CrossRegionCopyTargets?: CrossRegionCopyTarget[];
-  Exclusions?: Exclusions;
+  ExecutionRoleArn?: string | undefined;
+  Description?: string | undefined;
+  State?: SettablePolicyStateValues | undefined;
+  PolicyDetails?: PolicyDetails | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  DefaultPolicy?: DefaultPolicyTypeValues | undefined;
+  CreateInterval?: number | undefined;
+  RetainInterval?: number | undefined;
+  CopyTags?: boolean | undefined;
+  ExtendDeletion?: boolean | undefined;
+  CrossRegionCopyTargets?: CrossRegionCopyTarget[] | undefined;
+  Exclusions?: Exclusions | undefined;
 }
 export type PolicyId = string;
 export interface CreateLifecyclePolicyResponse {
-  PolicyId?: string;
+  PolicyId?: string | undefined;
 }
 export interface DeleteLifecyclePolicyRequest {
   PolicyId: string;
@@ -370,25 +370,25 @@ export type TargetTagsFilterList = string[];
 export type TagsToAddFilterList = string[];
 export type DefaultPoliciesTypeValues = "VOLUME" | "INSTANCE" | "ALL" | (string & {});
 export interface GetLifecyclePoliciesRequest {
-  PolicyIds?: string[];
-  State?: GettablePolicyStateValues;
-  ResourceTypes?: ResourceTypeValues[];
-  TargetTags?: string[];
-  TagsToAdd?: string[];
-  DefaultPolicyType?: DefaultPoliciesTypeValues;
+  PolicyIds?: string[] | undefined;
+  State?: GettablePolicyStateValues | undefined;
+  ResourceTypes?: ResourceTypeValues[] | undefined;
+  TargetTags?: string[] | undefined;
+  TagsToAdd?: string[] | undefined;
+  DefaultPolicyType?: DefaultPoliciesTypeValues | undefined;
 }
 export type DefaultPolicy = boolean;
 export interface LifecyclePolicySummary {
-  PolicyId?: string;
-  Description?: string;
-  State?: GettablePolicyStateValues;
-  Tags?: { [key: string]: string | undefined };
-  PolicyType?: PolicyTypeValues;
-  DefaultPolicy?: boolean;
+  PolicyId?: string | undefined;
+  Description?: string | undefined;
+  State?: GettablePolicyStateValues | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  PolicyType?: PolicyTypeValues | undefined;
+  DefaultPolicy?: boolean | undefined;
 }
 export type LifecyclePolicySummaryList = LifecyclePolicySummary[];
 export interface GetLifecyclePoliciesResponse {
-  Policies?: LifecyclePolicySummary[];
+  Policies?: LifecyclePolicySummary[] | undefined;
 }
 export interface GetLifecyclePolicyRequest {
   PolicyId: string;
@@ -396,81 +396,87 @@ export interface GetLifecyclePolicyRequest {
 export type StatusMessage = string;
 export type PolicyArn = string;
 export interface LifecyclePolicy {
-  PolicyId?: string;
-  Description?: string;
-  State?: GettablePolicyStateValues;
-  StatusMessage?: string;
-  ExecutionRoleArn?: string;
-  DateCreated?: Date;
-  DateModified?: Date;
-  PolicyDetails?: PolicyDetails;
-  Tags?: { [key: string]: string | undefined };
-  PolicyArn?: string;
-  DefaultPolicy?: boolean;
+  PolicyId?: string | undefined;
+  Description?: string | undefined;
+  State?: GettablePolicyStateValues | undefined;
+  StatusMessage?: string | undefined;
+  ExecutionRoleArn?: string | undefined;
+  DateCreated?: Date | undefined;
+  DateModified?: Date | undefined;
+  PolicyDetails?: PolicyDetails | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  PolicyArn?: string | undefined;
+  DefaultPolicy?: boolean | undefined;
 }
 export interface GetLifecyclePolicyResponse {
-  Policy?: LifecyclePolicy & {
-    PolicyDetails: PolicyDetails & {
-      TargetTags: (Tag & { Key: string; Value: string })[];
-      Schedules: (Schedule & {
-        TagsToAdd: (Tag & { Key: string; Value: string })[];
-        VariableTags: (Tag & { Key: string; Value: string })[];
-        CreateRule: CreateRule & { Scripts: (Script & { ExecutionHandler: ExecutionHandler })[] };
-        CrossRegionCopyRules: (CrossRegionCopyRule & { Encrypted: Encrypted })[];
-        ShareRules: (ShareRule & { TargetAccounts: ShareTargetAccountList })[];
-        ArchiveRule: ArchiveRule & {
-          RetainRule: ArchiveRetainRule & { RetentionArchiveTier: RetentionArchiveTier };
+  Policy?:
+    | (LifecyclePolicy & {
+        PolicyDetails: PolicyDetails & {
+          TargetTags: (Tag & { Key: string; Value: string })[];
+          Schedules: (Schedule & {
+            TagsToAdd: (Tag & { Key: string; Value: string })[];
+            VariableTags: (Tag & { Key: string; Value: string })[];
+            CreateRule: CreateRule & {
+              Scripts: (Script & { ExecutionHandler: ExecutionHandler })[];
+            };
+            CrossRegionCopyRules: (CrossRegionCopyRule & { Encrypted: Encrypted })[];
+            ShareRules: (ShareRule & { TargetAccounts: ShareTargetAccountList })[];
+            ArchiveRule: ArchiveRule & {
+              RetainRule: ArchiveRetainRule & { RetentionArchiveTier: RetentionArchiveTier };
+            };
+          })[];
+          Parameters: Parameters & {
+            ExcludeDataVolumeTags: (Tag & { Key: string; Value: string })[];
+          };
+          EventSource: EventSource & {
+            Type: EventSourceValues;
+            Parameters: EventParameters & {
+              EventType: EventTypeValues;
+              SnapshotOwner: SnapshotOwnerList;
+              DescriptionRegex: DescriptionRegex;
+            };
+          };
+          Actions: (Action & {
+            Name: ActionName;
+            CrossRegionCopy: (CrossRegionCopyAction & {
+              Target: Target;
+              EncryptionConfiguration: EncryptionConfiguration & { Encrypted: Encrypted };
+            })[];
+          })[];
+          Exclusions: Exclusions & { ExcludeTags: (Tag & { Key: string; Value: string })[] };
         };
-      })[];
-      Parameters: Parameters & { ExcludeDataVolumeTags: (Tag & { Key: string; Value: string })[] };
-      EventSource: EventSource & {
-        Type: EventSourceValues;
-        Parameters: EventParameters & {
-          EventType: EventTypeValues;
-          SnapshotOwner: SnapshotOwnerList;
-          DescriptionRegex: DescriptionRegex;
-        };
-      };
-      Actions: (Action & {
-        Name: ActionName;
-        CrossRegionCopy: (CrossRegionCopyAction & {
-          Target: Target;
-          EncryptionConfiguration: EncryptionConfiguration & { Encrypted: Encrypted };
-        })[];
-      })[];
-      Exclusions: Exclusions & { ExcludeTags: (Tag & { Key: string; Value: string })[] };
-    };
-  };
+      })
+    | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateLifecyclePolicyRequest {
   PolicyId: string;
-  ExecutionRoleArn?: string;
-  State?: SettablePolicyStateValues;
-  Description?: string;
-  PolicyDetails?: PolicyDetails;
-  CreateInterval?: number;
-  RetainInterval?: number;
-  CopyTags?: boolean;
-  ExtendDeletion?: boolean;
-  CrossRegionCopyTargets?: CrossRegionCopyTarget[];
-  Exclusions?: Exclusions;
+  ExecutionRoleArn?: string | undefined;
+  State?: SettablePolicyStateValues | undefined;
+  Description?: string | undefined;
+  PolicyDetails?: PolicyDetails | undefined;
+  CreateInterval?: number | undefined;
+  RetainInterval?: number | undefined;
+  CopyTags?: boolean | undefined;
+  ExtendDeletion?: boolean | undefined;
+  CrossRegionCopyTargets?: CrossRegionCopyTarget[] | undefined;
+  Exclusions?: Exclusions | undefined;
 }
 export interface UpdateLifecyclePolicyResponse {}
 export type ErrorMessage = string;

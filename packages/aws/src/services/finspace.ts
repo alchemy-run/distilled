@@ -169,12 +169,12 @@ export type FederationAttributeKey = string;
 export type FederationAttributeValue = string;
 export type AttributeMap = { [key: string]: string | undefined };
 export interface FederationParameters {
-  samlMetadataDocument?: string;
-  samlMetadataURL?: string;
-  applicationCallBackURL?: string;
-  federationURN?: string;
-  federationProviderName?: string;
-  attributeMap?: { [key: string]: string | undefined };
+  samlMetadataDocument?: string | undefined;
+  samlMetadataURL?: string | undefined;
+  applicationCallBackURL?: string | undefined;
+  federationURN?: string | undefined;
+  federationProviderName?: string | undefined;
+  attributeMap?: { [key: string]: string | undefined } | undefined;
 }
 export type EmailId = string | redacted.Redacted<string>;
 export type NameString = string;
@@ -187,20 +187,20 @@ export type DataBundleArn = string;
 export type DataBundleArns = string[];
 export interface CreateEnvironmentRequest {
   name: string;
-  description?: string;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
-  federationMode?: FederationMode;
-  federationParameters?: FederationParameters;
-  superuserParameters?: SuperuserParameters;
-  dataBundles?: string[];
+  description?: string | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  federationMode?: FederationMode | undefined;
+  federationParameters?: FederationParameters | undefined;
+  superuserParameters?: SuperuserParameters | undefined;
+  dataBundles?: string[] | undefined;
 }
 export type IdType = string;
 export type EnvironmentArn = string;
 export interface CreateEnvironmentResponse {
-  environmentId?: string;
-  environmentArn?: string;
-  environmentUrl?: string;
+  environmentId?: string | undefined;
+  environmentArn?: string | undefined;
+  environmentUrl?: string | undefined;
 }
 export type EnvironmentId = string;
 export type DatabaseName = string;
@@ -209,7 +209,7 @@ export type S3Path = string;
 export type DbPath = string;
 export interface ChangeRequest {
   changeType: ChangeType;
-  s3Path?: string;
+  s3Path?: string | undefined;
   dbPath: string;
 }
 export type ChangeRequests = ChangeRequest[];
@@ -234,18 +234,18 @@ export type ErrorDetails =
   | "A user recoverable error has occurred"
   | (string & {});
 export interface ErrorInfo {
-  errorMessage?: string;
-  errorType?: ErrorDetails;
+  errorMessage?: string | undefined;
+  errorType?: ErrorDetails | undefined;
 }
 export interface CreateKxChangesetResponse {
-  changesetId?: string;
-  databaseName?: string;
-  environmentId?: string;
-  changeRequests?: ChangeRequest[];
-  createdTimestamp?: Date;
-  lastModifiedTimestamp?: Date;
-  status?: ChangesetStatus;
-  errorInfo?: ErrorInfo;
+  changesetId?: string | undefined;
+  databaseName?: string | undefined;
+  environmentId?: string | undefined;
+  changeRequests?: ChangeRequest[] | undefined;
+  createdTimestamp?: Date | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  status?: ChangesetStatus | undefined;
+  errorInfo?: ErrorInfo | undefined;
 }
 export type ClientToken = string;
 export type KxEnvironmentId = string;
@@ -254,7 +254,7 @@ export type KxClusterType = "HDB" | "RDB" | "GATEWAY" | "GP" | "TICKERPLANT" | (
 export type VolumeName = string;
 export type TickerplantLogVolumes = string[];
 export interface TickerplantLogConfiguration {
-  tickerplantLogVolumes?: string[];
+  tickerplantLogVolumes?: string[] | undefined;
 }
 export type KxCacheStorageType = string;
 export type DbPaths = string[];
@@ -262,7 +262,7 @@ export type KxDataviewName = string;
 export interface KxDatabaseCacheConfiguration {
   cacheType: string;
   dbPaths: string[];
-  dataviewName?: string;
+  dataviewName?: string | undefined;
 }
 export type KxDatabaseCacheConfigurations = KxDatabaseCacheConfiguration[];
 export type VersionId = string;
@@ -271,21 +271,21 @@ export type KxVolumeName = string;
 export interface KxDataviewSegmentConfiguration {
   dbPaths: string[];
   volumeName: string;
-  onDemand?: boolean;
+  onDemand?: boolean | undefined;
 }
 export type KxDataviewSegmentConfigurationList = KxDataviewSegmentConfiguration[];
 export interface KxDataviewConfiguration {
-  dataviewName?: string;
-  dataviewVersionId?: string;
-  changesetId?: string;
-  segmentConfigurations?: KxDataviewSegmentConfiguration[];
+  dataviewName?: string | undefined;
+  dataviewVersionId?: string | undefined;
+  changesetId?: string | undefined;
+  segmentConfigurations?: KxDataviewSegmentConfiguration[] | undefined;
 }
 export interface KxDatabaseConfiguration {
   databaseName: string;
-  cacheConfigurations?: KxDatabaseCacheConfiguration[];
-  changesetId?: string;
-  dataviewName?: string;
-  dataviewConfiguration?: KxDataviewConfiguration;
+  cacheConfigurations?: KxDatabaseCacheConfiguration[] | undefined;
+  changesetId?: string | undefined;
+  dataviewName?: string | undefined;
+  dataviewConfiguration?: KxDataviewConfiguration | undefined;
 }
 export type KxDatabaseConfigurations = KxDatabaseConfiguration[];
 export type KxCacheStorageSize = number;
@@ -299,18 +299,18 @@ export type AutoScalingMetric = "CPU_UTILIZATION_PERCENTAGE" | (string & {});
 export type AutoScalingMetricTarget = number;
 export type CooldownTime = number;
 export interface AutoScalingConfiguration {
-  minNodeCount?: number;
-  maxNodeCount?: number;
-  autoScalingMetric?: AutoScalingMetric;
-  metricTarget?: number;
-  scaleInCooldownSeconds?: number;
-  scaleOutCooldownSeconds?: number;
+  minNodeCount?: number | undefined;
+  maxNodeCount?: number | undefined;
+  autoScalingMetric?: AutoScalingMetric | undefined;
+  metricTarget?: number | undefined;
+  scaleInCooldownSeconds?: number | undefined;
+  scaleOutCooldownSeconds?: number | undefined;
 }
 export type KxClusterDescription = string;
 export type NodeType = string;
 export interface CapacityConfiguration {
-  nodeType?: string;
-  nodeCount?: number;
+  nodeType?: string | undefined;
+  nodeCount?: number | undefined;
 }
 export type ReleaseLabel = string;
 export type VpcIdString = string;
@@ -320,34 +320,34 @@ export type SubnetIdString = string;
 export type SubnetIdList = string[];
 export type IPAddressType = "IP_V4" | (string & {});
 export interface VpcConfiguration {
-  vpcId?: string;
-  securityGroupIds?: string[];
-  subnetIds?: string[];
-  ipAddressType?: IPAddressType;
+  vpcId?: string | undefined;
+  securityGroupIds?: string[] | undefined;
+  subnetIds?: string[] | undefined;
+  ipAddressType?: IPAddressType | undefined;
 }
 export type InitializationScriptFilePath = string;
 export type KxCommandLineArgumentKey = string;
 export type KxCommandLineArgumentValue = string;
 export interface KxCommandLineArgument {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type KxCommandLineArguments = KxCommandLineArgument[];
 export type S3Bucket = string;
 export type S3Key = string;
 export type S3ObjectVersion = string;
 export interface CodeConfiguration {
-  s3Bucket?: string;
-  s3Key?: string;
-  s3ObjectVersion?: string;
+  s3Bucket?: string | undefined;
+  s3Key?: string | undefined;
+  s3ObjectVersion?: string | undefined;
 }
 export type ExecutionRoleArn = string;
 export type KxSavedownStorageType = "SDS01" | (string & {});
 export type KxSavedownStorageSize = number;
 export interface KxSavedownStorageConfiguration {
-  type?: KxSavedownStorageType;
-  size?: number;
-  volumeName?: string;
+  type?: KxSavedownStorageType | undefined;
+  size?: number | undefined;
+  volumeName?: string | undefined;
 }
 export type KxAzMode = "SINGLE" | "MULTI" | (string & {});
 export type AvailabilityZoneId = string;
@@ -357,33 +357,33 @@ export type ClusterNodeCount = number;
 export type CpuCount = number;
 export interface KxScalingGroupConfiguration {
   scalingGroupName: string;
-  memoryLimit?: number;
+  memoryLimit?: number | undefined;
   memoryReservation: number;
   nodeCount: number;
-  cpu?: number;
+  cpu?: number | undefined;
 }
 export interface CreateKxClusterRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   environmentId: string;
   clusterName: string;
   clusterType: KxClusterType;
-  tickerplantLogConfiguration?: TickerplantLogConfiguration;
-  databases?: KxDatabaseConfiguration[];
-  cacheStorageConfigurations?: KxCacheStorageConfiguration[];
-  autoScalingConfiguration?: AutoScalingConfiguration;
-  clusterDescription?: string;
-  capacityConfiguration?: CapacityConfiguration;
+  tickerplantLogConfiguration?: TickerplantLogConfiguration | undefined;
+  databases?: KxDatabaseConfiguration[] | undefined;
+  cacheStorageConfigurations?: KxCacheStorageConfiguration[] | undefined;
+  autoScalingConfiguration?: AutoScalingConfiguration | undefined;
+  clusterDescription?: string | undefined;
+  capacityConfiguration?: CapacityConfiguration | undefined;
   releaseLabel: string;
   vpcConfiguration: VpcConfiguration;
-  initializationScript?: string;
-  commandLineArguments?: KxCommandLineArgument[];
-  code?: CodeConfiguration;
-  executionRole?: string;
-  savedownStorageConfiguration?: KxSavedownStorageConfiguration;
+  initializationScript?: string | undefined;
+  commandLineArguments?: KxCommandLineArgument[] | undefined;
+  code?: CodeConfiguration | undefined;
+  executionRole?: string | undefined;
+  savedownStorageConfiguration?: KxSavedownStorageConfiguration | undefined;
   azMode: KxAzMode;
-  availabilityZoneId?: string;
-  tags?: { [key: string]: string | undefined };
-  scalingGroupConfiguration?: KxScalingGroupConfiguration;
+  availabilityZoneId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  scalingGroupConfiguration?: KxScalingGroupConfiguration | undefined;
 }
 export type KxClusterStatus =
   | "PENDING"
@@ -398,64 +398,64 @@ export type KxClusterStatus =
 export type KxClusterStatusReason = string;
 export type VolumeType = "NAS_1" | (string & {});
 export interface Volume {
-  volumeName?: string;
-  volumeType?: VolumeType;
+  volumeName?: string | undefined;
+  volumeType?: VolumeType | undefined;
 }
 export type Volumes = Volume[];
 export interface CreateKxClusterResponse {
-  environmentId?: string;
-  status?: KxClusterStatus;
-  statusReason?: string;
-  clusterName?: string;
-  clusterType?: KxClusterType;
-  tickerplantLogConfiguration?: TickerplantLogConfiguration;
-  volumes?: Volume[];
-  databases?: KxDatabaseConfiguration[];
-  cacheStorageConfigurations?: KxCacheStorageConfiguration[];
-  autoScalingConfiguration?: AutoScalingConfiguration;
-  clusterDescription?: string;
-  capacityConfiguration?: CapacityConfiguration;
-  releaseLabel?: string;
-  vpcConfiguration?: VpcConfiguration;
-  initializationScript?: string;
-  commandLineArguments?: KxCommandLineArgument[];
-  code?: CodeConfiguration;
-  executionRole?: string;
-  lastModifiedTimestamp?: Date;
-  savedownStorageConfiguration?: KxSavedownStorageConfiguration;
-  azMode?: KxAzMode;
-  availabilityZoneId?: string;
-  createdTimestamp?: Date;
-  scalingGroupConfiguration?: KxScalingGroupConfiguration;
+  environmentId?: string | undefined;
+  status?: KxClusterStatus | undefined;
+  statusReason?: string | undefined;
+  clusterName?: string | undefined;
+  clusterType?: KxClusterType | undefined;
+  tickerplantLogConfiguration?: TickerplantLogConfiguration | undefined;
+  volumes?: Volume[] | undefined;
+  databases?: KxDatabaseConfiguration[] | undefined;
+  cacheStorageConfigurations?: KxCacheStorageConfiguration[] | undefined;
+  autoScalingConfiguration?: AutoScalingConfiguration | undefined;
+  clusterDescription?: string | undefined;
+  capacityConfiguration?: CapacityConfiguration | undefined;
+  releaseLabel?: string | undefined;
+  vpcConfiguration?: VpcConfiguration | undefined;
+  initializationScript?: string | undefined;
+  commandLineArguments?: KxCommandLineArgument[] | undefined;
+  code?: CodeConfiguration | undefined;
+  executionRole?: string | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  savedownStorageConfiguration?: KxSavedownStorageConfiguration | undefined;
+  azMode?: KxAzMode | undefined;
+  availabilityZoneId?: string | undefined;
+  createdTimestamp?: Date | undefined;
+  scalingGroupConfiguration?: KxScalingGroupConfiguration | undefined;
 }
 export interface CreateKxDatabaseRequest {
   environmentId: string;
   databaseName: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   clientToken: string;
 }
 export type DatabaseArn = string;
 export interface CreateKxDatabaseResponse {
-  databaseName?: string;
-  databaseArn?: string;
-  environmentId?: string;
-  description?: string;
-  createdTimestamp?: Date;
-  lastModifiedTimestamp?: Date;
+  databaseName?: string | undefined;
+  databaseArn?: string | undefined;
+  environmentId?: string | undefined;
+  description?: string | undefined;
+  createdTimestamp?: Date | undefined;
+  lastModifiedTimestamp?: Date | undefined;
 }
 export interface CreateKxDataviewRequest {
   environmentId: string;
   databaseName: string;
   dataviewName: string;
   azMode: KxAzMode;
-  availabilityZoneId?: string;
-  changesetId?: string;
-  segmentConfigurations?: KxDataviewSegmentConfiguration[];
-  autoUpdate?: boolean;
-  readWrite?: boolean;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  availabilityZoneId?: string | undefined;
+  changesetId?: string | undefined;
+  segmentConfigurations?: KxDataviewSegmentConfiguration[] | undefined;
+  autoUpdate?: boolean | undefined;
+  readWrite?: boolean | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   clientToken: string;
 }
 export type KxDataviewStatus =
@@ -466,28 +466,28 @@ export type KxDataviewStatus =
   | "DELETING"
   | (string & {});
 export interface CreateKxDataviewResponse {
-  dataviewName?: string;
-  databaseName?: string;
-  environmentId?: string;
-  azMode?: KxAzMode;
-  availabilityZoneId?: string;
-  changesetId?: string;
-  segmentConfigurations?: KxDataviewSegmentConfiguration[];
-  description?: string;
-  autoUpdate?: boolean;
-  readWrite?: boolean;
-  createdTimestamp?: Date;
-  lastModifiedTimestamp?: Date;
-  status?: KxDataviewStatus;
+  dataviewName?: string | undefined;
+  databaseName?: string | undefined;
+  environmentId?: string | undefined;
+  azMode?: KxAzMode | undefined;
+  availabilityZoneId?: string | undefined;
+  changesetId?: string | undefined;
+  segmentConfigurations?: KxDataviewSegmentConfiguration[] | undefined;
+  description?: string | undefined;
+  autoUpdate?: boolean | undefined;
+  readWrite?: boolean | undefined;
+  createdTimestamp?: Date | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  status?: KxDataviewStatus | undefined;
 }
 export type KxEnvironmentName = string;
 export type KmsKeyARN = string;
 export interface CreateKxEnvironmentRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   kmsKeyId: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type EnvironmentStatus =
   | "CREATE_REQUESTED"
@@ -505,13 +505,13 @@ export type EnvironmentStatus =
   | "SUSPENDED"
   | (string & {});
 export interface CreateKxEnvironmentResponse {
-  name?: string;
-  status?: EnvironmentStatus;
-  environmentId?: string;
-  description?: string;
-  environmentArn?: string;
-  kmsKeyId?: string;
-  creationTimestamp?: Date;
+  name?: string | undefined;
+  status?: EnvironmentStatus | undefined;
+  environmentId?: string | undefined;
+  description?: string | undefined;
+  environmentArn?: string | undefined;
+  kmsKeyId?: string | undefined;
+  creationTimestamp?: Date | undefined;
 }
 export type KxHostType = string;
 export interface CreateKxScalingGroupRequest {
@@ -520,7 +520,7 @@ export interface CreateKxScalingGroupRequest {
   scalingGroupName: string;
   hostType: string;
   availabilityZoneId: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type KxScalingGroupStatus =
   | "CREATING"
@@ -531,13 +531,13 @@ export type KxScalingGroupStatus =
   | "DELETE_FAILED"
   | (string & {});
 export interface CreateKxScalingGroupResponse {
-  environmentId?: string;
-  scalingGroupName?: string;
-  hostType?: string;
-  availabilityZoneId?: string;
-  status?: KxScalingGroupStatus;
-  lastModifiedTimestamp?: Date;
-  createdTimestamp?: Date;
+  environmentId?: string | undefined;
+  scalingGroupName?: string | undefined;
+  hostType?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  status?: KxScalingGroupStatus | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  createdTimestamp?: Date | undefined;
 }
 export type KxUserNameString = string;
 export type RoleArn = string;
@@ -545,34 +545,34 @@ export interface CreateKxUserRequest {
   environmentId: string;
   userName: string;
   iamRole: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type KxUserArn = string;
 export interface CreateKxUserResponse {
-  userName?: string;
-  userArn?: string;
-  environmentId?: string;
-  iamRole?: string;
+  userName?: string | undefined;
+  userArn?: string | undefined;
+  environmentId?: string | undefined;
+  iamRole?: string | undefined;
 }
 export type KxVolumeType = "NAS_1" | (string & {});
 export type KxNAS1Type = "SSD_1000" | "SSD_250" | "HDD_12" | (string & {});
 export type KxNAS1Size = number;
 export interface KxNAS1Configuration {
-  type?: KxNAS1Type;
-  size?: number;
+  type?: KxNAS1Type | undefined;
+  size?: number | undefined;
 }
 export type AvailabilityZoneIds = string[];
 export interface CreateKxVolumeRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   environmentId: string;
   volumeType: KxVolumeType;
   volumeName: string;
-  description?: string;
-  nas1Configuration?: KxNAS1Configuration;
+  description?: string | undefined;
+  nas1Configuration?: KxNAS1Configuration | undefined;
   azMode: KxAzMode;
   availabilityZoneIds: string[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type KxVolumeArn = string;
 export type KxVolumeStatus =
@@ -588,17 +588,17 @@ export type KxVolumeStatus =
   | (string & {});
 export type KxVolumeStatusReason = string;
 export interface CreateKxVolumeResponse {
-  environmentId?: string;
-  volumeName?: string;
-  volumeType?: KxVolumeType;
-  volumeArn?: string;
-  nas1Configuration?: KxNAS1Configuration;
-  status?: KxVolumeStatus;
-  statusReason?: string;
-  azMode?: KxAzMode;
-  description?: string;
-  availabilityZoneIds?: string[];
-  createdTimestamp?: Date;
+  environmentId?: string | undefined;
+  volumeName?: string | undefined;
+  volumeType?: KxVolumeType | undefined;
+  volumeArn?: string | undefined;
+  nas1Configuration?: KxNAS1Configuration | undefined;
+  status?: KxVolumeStatus | undefined;
+  statusReason?: string | undefined;
+  azMode?: KxAzMode | undefined;
+  description?: string | undefined;
+  availabilityZoneIds?: string[] | undefined;
+  createdTimestamp?: Date | undefined;
 }
 export interface DeleteEnvironmentRequest {
   environmentId: string;
@@ -607,7 +607,7 @@ export interface DeleteEnvironmentResponse {}
 export interface DeleteKxClusterRequest {
   environmentId: string;
   clusterName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteKxClusterResponse {}
 export type KxClusterNodeIdString = string;
@@ -632,25 +632,25 @@ export interface DeleteKxDataviewRequest {
 export interface DeleteKxDataviewResponse {}
 export interface DeleteKxEnvironmentRequest {
   environmentId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteKxEnvironmentResponse {}
 export interface DeleteKxScalingGroupRequest {
   environmentId: string;
   scalingGroupName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteKxScalingGroupResponse {}
 export interface DeleteKxUserRequest {
   userName: string;
   environmentId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteKxUserResponse {}
 export interface DeleteKxVolumeRequest {
   environmentId: string;
   volumeName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteKxVolumeResponse {}
 export interface GetEnvironmentRequest {
@@ -658,21 +658,21 @@ export interface GetEnvironmentRequest {
 }
 export type SmsDomainUrl = string;
 export interface Environment {
-  name?: string;
-  environmentId?: string;
-  awsAccountId?: string;
-  status?: EnvironmentStatus;
-  environmentUrl?: string;
-  description?: string;
-  environmentArn?: string;
-  sageMakerStudioDomainUrl?: string;
-  kmsKeyId?: string;
-  dedicatedServiceAccountId?: string;
-  federationMode?: FederationMode;
-  federationParameters?: FederationParameters;
+  name?: string | undefined;
+  environmentId?: string | undefined;
+  awsAccountId?: string | undefined;
+  status?: EnvironmentStatus | undefined;
+  environmentUrl?: string | undefined;
+  description?: string | undefined;
+  environmentArn?: string | undefined;
+  sageMakerStudioDomainUrl?: string | undefined;
+  kmsKeyId?: string | undefined;
+  dedicatedServiceAccountId?: string | undefined;
+  federationMode?: FederationMode | undefined;
+  federationParameters?: FederationParameters | undefined;
 }
 export interface GetEnvironmentResponse {
-  environment?: Environment;
+  environment?: Environment | undefined;
 }
 export interface GetKxChangesetRequest {
   environmentId: string;
@@ -680,44 +680,44 @@ export interface GetKxChangesetRequest {
   changesetId: string;
 }
 export interface GetKxChangesetResponse {
-  changesetId?: string;
-  databaseName?: string;
-  environmentId?: string;
-  changeRequests?: ChangeRequest[];
-  createdTimestamp?: Date;
-  activeFromTimestamp?: Date;
-  lastModifiedTimestamp?: Date;
-  status?: ChangesetStatus;
-  errorInfo?: ErrorInfo;
+  changesetId?: string | undefined;
+  databaseName?: string | undefined;
+  environmentId?: string | undefined;
+  changeRequests?: ChangeRequest[] | undefined;
+  createdTimestamp?: Date | undefined;
+  activeFromTimestamp?: Date | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  status?: ChangesetStatus | undefined;
+  errorInfo?: ErrorInfo | undefined;
 }
 export interface GetKxClusterRequest {
   environmentId: string;
   clusterName: string;
 }
 export interface GetKxClusterResponse {
-  status?: KxClusterStatus;
-  statusReason?: string;
-  clusterName?: string;
-  clusterType?: KxClusterType;
-  tickerplantLogConfiguration?: TickerplantLogConfiguration;
-  volumes?: Volume[];
-  databases?: KxDatabaseConfiguration[];
-  cacheStorageConfigurations?: KxCacheStorageConfiguration[];
-  autoScalingConfiguration?: AutoScalingConfiguration;
-  clusterDescription?: string;
-  capacityConfiguration?: CapacityConfiguration;
-  releaseLabel?: string;
-  vpcConfiguration?: VpcConfiguration;
-  initializationScript?: string;
-  commandLineArguments?: KxCommandLineArgument[];
-  code?: CodeConfiguration;
-  executionRole?: string;
-  lastModifiedTimestamp?: Date;
-  savedownStorageConfiguration?: KxSavedownStorageConfiguration;
-  azMode?: KxAzMode;
-  availabilityZoneId?: string;
-  createdTimestamp?: Date;
-  scalingGroupConfiguration?: KxScalingGroupConfiguration;
+  status?: KxClusterStatus | undefined;
+  statusReason?: string | undefined;
+  clusterName?: string | undefined;
+  clusterType?: KxClusterType | undefined;
+  tickerplantLogConfiguration?: TickerplantLogConfiguration | undefined;
+  volumes?: Volume[] | undefined;
+  databases?: KxDatabaseConfiguration[] | undefined;
+  cacheStorageConfigurations?: KxCacheStorageConfiguration[] | undefined;
+  autoScalingConfiguration?: AutoScalingConfiguration | undefined;
+  clusterDescription?: string | undefined;
+  capacityConfiguration?: CapacityConfiguration | undefined;
+  releaseLabel?: string | undefined;
+  vpcConfiguration?: VpcConfiguration | undefined;
+  initializationScript?: string | undefined;
+  commandLineArguments?: KxCommandLineArgument[] | undefined;
+  code?: CodeConfiguration | undefined;
+  executionRole?: string | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  savedownStorageConfiguration?: KxSavedownStorageConfiguration | undefined;
+  azMode?: KxAzMode | undefined;
+  availabilityZoneId?: string | undefined;
+  createdTimestamp?: Date | undefined;
+  scalingGroupConfiguration?: KxScalingGroupConfiguration | undefined;
 }
 export interface GetKxConnectionStringRequest {
   userArn: string;
@@ -726,7 +726,7 @@ export interface GetKxConnectionStringRequest {
 }
 export type SignedKxConnectionString = string | redacted.Redacted<string>;
 export interface GetKxConnectionStringResponse {
-  signedConnectionString?: string | redacted.Redacted<string>;
+  signedConnectionString?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetKxDatabaseRequest {
   environmentId: string;
@@ -736,16 +736,16 @@ export type NumBytes = number;
 export type NumChangesets = number;
 export type NumFiles = number;
 export interface GetKxDatabaseResponse {
-  databaseName?: string;
-  databaseArn?: string;
-  environmentId?: string;
-  description?: string;
-  createdTimestamp?: Date;
-  lastModifiedTimestamp?: Date;
-  lastCompletedChangesetId?: string;
-  numBytes?: number;
-  numChangesets?: number;
-  numFiles?: number;
+  databaseName?: string | undefined;
+  databaseArn?: string | undefined;
+  environmentId?: string | undefined;
+  description?: string | undefined;
+  createdTimestamp?: Date | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  lastCompletedChangesetId?: string | undefined;
+  numBytes?: number | undefined;
+  numChangesets?: number | undefined;
+  numFiles?: number | undefined;
 }
 export interface GetKxDataviewRequest {
   environmentId: string;
@@ -754,30 +754,30 @@ export interface GetKxDataviewRequest {
 }
 export type AttachedClusterList = string[];
 export interface KxDataviewActiveVersion {
-  changesetId?: string;
-  segmentConfigurations?: KxDataviewSegmentConfiguration[];
-  attachedClusters?: string[];
-  createdTimestamp?: Date;
-  versionId?: string;
+  changesetId?: string | undefined;
+  segmentConfigurations?: KxDataviewSegmentConfiguration[] | undefined;
+  attachedClusters?: string[] | undefined;
+  createdTimestamp?: Date | undefined;
+  versionId?: string | undefined;
 }
 export type KxDataviewActiveVersionList = KxDataviewActiveVersion[];
 export type KxDataviewStatusReason = string;
 export interface GetKxDataviewResponse {
-  databaseName?: string;
-  dataviewName?: string;
-  azMode?: KxAzMode;
-  availabilityZoneId?: string;
-  changesetId?: string;
-  segmentConfigurations?: KxDataviewSegmentConfiguration[];
-  activeVersions?: KxDataviewActiveVersion[];
-  description?: string;
-  autoUpdate?: boolean;
-  readWrite?: boolean;
-  environmentId?: string;
-  createdTimestamp?: Date;
-  lastModifiedTimestamp?: Date;
-  status?: KxDataviewStatus;
-  statusReason?: string;
+  databaseName?: string | undefined;
+  dataviewName?: string | undefined;
+  azMode?: KxAzMode | undefined;
+  availabilityZoneId?: string | undefined;
+  changesetId?: string | undefined;
+  segmentConfigurations?: KxDataviewSegmentConfiguration[] | undefined;
+  activeVersions?: KxDataviewActiveVersion[] | undefined;
+  description?: string | undefined;
+  autoUpdate?: boolean | undefined;
+  readWrite?: boolean | undefined;
+  environmentId?: string | undefined;
+  createdTimestamp?: Date | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  status?: KxDataviewStatus | undefined;
+  statusReason?: string | undefined;
 }
 export interface GetKxEnvironmentRequest {
   environmentId: string;
@@ -817,15 +817,15 @@ export interface NetworkACLEntry {
   ruleNumber: number;
   protocol: string;
   ruleAction: RuleAction;
-  portRange?: PortRange;
-  icmpTypeCode?: IcmpTypeCode;
+  portRange?: PortRange | undefined;
+  icmpTypeCode?: IcmpTypeCode | undefined;
   cidrBlock: string;
 }
 export type NetworkACLConfiguration = NetworkACLEntry[];
 export interface TransitGatewayConfiguration {
   transitGatewayID: string;
   routableCIDRSpace: string;
-  attachmentNetworkAclConfiguration?: NetworkACLEntry[];
+  attachmentNetworkAclConfiguration?: NetworkACLEntry[] | undefined;
 }
 export type ValidHostname = string;
 export type ValidIPAddress = string;
@@ -836,23 +836,23 @@ export interface CustomDNSServer {
 export type CustomDNSConfiguration = CustomDNSServer[];
 export type StringValueLength1to255 = string;
 export interface GetKxEnvironmentResponse {
-  name?: string;
-  environmentId?: string;
-  awsAccountId?: string;
-  status?: EnvironmentStatus;
-  tgwStatus?: TgwStatus;
-  dnsStatus?: DnsStatus;
-  errorMessage?: string;
-  description?: string;
-  environmentArn?: string;
-  kmsKeyId?: string;
-  dedicatedServiceAccountId?: string;
-  transitGatewayConfiguration?: TransitGatewayConfiguration;
-  customDNSConfiguration?: CustomDNSServer[];
-  creationTimestamp?: Date;
-  updateTimestamp?: Date;
-  availabilityZoneIds?: string[];
-  certificateAuthorityArn?: string;
+  name?: string | undefined;
+  environmentId?: string | undefined;
+  awsAccountId?: string | undefined;
+  status?: EnvironmentStatus | undefined;
+  tgwStatus?: TgwStatus | undefined;
+  dnsStatus?: DnsStatus | undefined;
+  errorMessage?: string | undefined;
+  description?: string | undefined;
+  environmentArn?: string | undefined;
+  kmsKeyId?: string | undefined;
+  dedicatedServiceAccountId?: string | undefined;
+  transitGatewayConfiguration?: TransitGatewayConfiguration | undefined;
+  customDNSConfiguration?: CustomDNSServer[] | undefined;
+  creationTimestamp?: Date | undefined;
+  updateTimestamp?: Date | undefined;
+  availabilityZoneIds?: string[] | undefined;
+  certificateAuthorityArn?: string | undefined;
 }
 export interface GetKxScalingGroupRequest {
   environmentId: string;
@@ -861,262 +861,262 @@ export interface GetKxScalingGroupRequest {
 export type Arn = string;
 export type KxClusterNameList = string[];
 export interface GetKxScalingGroupResponse {
-  scalingGroupName?: string;
-  scalingGroupArn?: string;
-  hostType?: string;
-  clusters?: string[];
-  availabilityZoneId?: string;
-  status?: KxScalingGroupStatus;
-  statusReason?: string;
-  lastModifiedTimestamp?: Date;
-  createdTimestamp?: Date;
+  scalingGroupName?: string | undefined;
+  scalingGroupArn?: string | undefined;
+  hostType?: string | undefined;
+  clusters?: string[] | undefined;
+  availabilityZoneId?: string | undefined;
+  status?: KxScalingGroupStatus | undefined;
+  statusReason?: string | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  createdTimestamp?: Date | undefined;
 }
 export interface GetKxUserRequest {
   userName: string;
   environmentId: string;
 }
 export interface GetKxUserResponse {
-  userName?: string;
-  userArn?: string;
-  environmentId?: string;
-  iamRole?: string;
+  userName?: string | undefined;
+  userArn?: string | undefined;
+  environmentId?: string | undefined;
+  iamRole?: string | undefined;
 }
 export interface GetKxVolumeRequest {
   environmentId: string;
   volumeName: string;
 }
 export interface KxAttachedCluster {
-  clusterName?: string;
-  clusterType?: KxClusterType;
-  clusterStatus?: KxClusterStatus;
+  clusterName?: string | undefined;
+  clusterType?: KxClusterType | undefined;
+  clusterStatus?: KxClusterStatus | undefined;
 }
 export type KxAttachedClusters = KxAttachedCluster[];
 export interface GetKxVolumeResponse {
-  environmentId?: string;
-  volumeName?: string;
-  volumeType?: KxVolumeType;
-  volumeArn?: string;
-  nas1Configuration?: KxNAS1Configuration;
-  status?: KxVolumeStatus;
-  statusReason?: string;
-  createdTimestamp?: Date;
-  description?: string;
-  azMode?: KxAzMode;
-  availabilityZoneIds?: string[];
-  lastModifiedTimestamp?: Date;
-  attachedClusters?: KxAttachedCluster[];
+  environmentId?: string | undefined;
+  volumeName?: string | undefined;
+  volumeType?: KxVolumeType | undefined;
+  volumeArn?: string | undefined;
+  nas1Configuration?: KxNAS1Configuration | undefined;
+  status?: KxVolumeStatus | undefined;
+  statusReason?: string | undefined;
+  createdTimestamp?: Date | undefined;
+  description?: string | undefined;
+  azMode?: KxAzMode | undefined;
+  availabilityZoneIds?: string[] | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  attachedClusters?: KxAttachedCluster[] | undefined;
 }
 export type PaginationToken = string;
 export type ResultLimit = number;
 export interface ListEnvironmentsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type EnvironmentList = Environment[];
 export interface ListEnvironmentsResponse {
-  environments?: Environment[];
-  nextToken?: string;
+  environments?: Environment[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListKxChangesetsRequest {
   environmentId: string;
   databaseName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface KxChangesetListEntry {
-  changesetId?: string;
-  createdTimestamp?: Date;
-  activeFromTimestamp?: Date;
-  lastModifiedTimestamp?: Date;
-  status?: ChangesetStatus;
+  changesetId?: string | undefined;
+  createdTimestamp?: Date | undefined;
+  activeFromTimestamp?: Date | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  status?: ChangesetStatus | undefined;
 }
 export type KxChangesets = KxChangesetListEntry[];
 export interface ListKxChangesetsResponse {
-  kxChangesets?: KxChangesetListEntry[];
-  nextToken?: string;
+  kxChangesets?: KxChangesetListEntry[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListKxClusterNodesRequest {
   environmentId: string;
   clusterName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type KxNodeStatus = "RUNNING" | "PROVISIONING" | (string & {});
 export interface KxNode {
-  nodeId?: string;
-  availabilityZoneId?: string;
-  launchTime?: Date;
-  status?: KxNodeStatus;
+  nodeId?: string | undefined;
+  availabilityZoneId?: string | undefined;
+  launchTime?: Date | undefined;
+  status?: KxNodeStatus | undefined;
 }
 export type KxNodeSummaries = KxNode[];
 export interface ListKxClusterNodesResponse {
-  nodes?: KxNode[];
-  nextToken?: string;
+  nodes?: KxNode[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListKxClustersRequest {
   environmentId: string;
-  clusterType?: KxClusterType;
-  maxResults?: number;
-  nextToken?: string;
+  clusterType?: KxClusterType | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface KxCluster {
-  status?: KxClusterStatus;
-  statusReason?: string;
-  clusterName?: string;
-  clusterType?: KxClusterType;
-  clusterDescription?: string;
-  releaseLabel?: string;
-  volumes?: Volume[];
-  initializationScript?: string;
-  executionRole?: string;
-  azMode?: KxAzMode;
-  availabilityZoneId?: string;
-  lastModifiedTimestamp?: Date;
-  createdTimestamp?: Date;
+  status?: KxClusterStatus | undefined;
+  statusReason?: string | undefined;
+  clusterName?: string | undefined;
+  clusterType?: KxClusterType | undefined;
+  clusterDescription?: string | undefined;
+  releaseLabel?: string | undefined;
+  volumes?: Volume[] | undefined;
+  initializationScript?: string | undefined;
+  executionRole?: string | undefined;
+  azMode?: KxAzMode | undefined;
+  availabilityZoneId?: string | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  createdTimestamp?: Date | undefined;
 }
 export type KxClusters = KxCluster[];
 export interface ListKxClustersResponse {
-  kxClusterSummaries?: KxCluster[];
-  nextToken?: string;
+  kxClusterSummaries?: KxCluster[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListKxDatabasesRequest {
   environmentId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface KxDatabaseListEntry {
-  databaseName?: string;
-  createdTimestamp?: Date;
-  lastModifiedTimestamp?: Date;
+  databaseName?: string | undefined;
+  createdTimestamp?: Date | undefined;
+  lastModifiedTimestamp?: Date | undefined;
 }
 export type KxDatabases = KxDatabaseListEntry[];
 export interface ListKxDatabasesResponse {
-  kxDatabases?: KxDatabaseListEntry[];
-  nextToken?: string;
+  kxDatabases?: KxDatabaseListEntry[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListKxDataviewsRequest {
   environmentId: string;
   databaseName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface KxDataviewListEntry {
-  environmentId?: string;
-  databaseName?: string;
-  dataviewName?: string;
-  azMode?: KxAzMode;
-  availabilityZoneId?: string;
-  changesetId?: string;
-  segmentConfigurations?: KxDataviewSegmentConfiguration[];
-  activeVersions?: KxDataviewActiveVersion[];
-  status?: KxDataviewStatus;
-  description?: string;
-  autoUpdate?: boolean;
-  readWrite?: boolean;
-  createdTimestamp?: Date;
-  lastModifiedTimestamp?: Date;
-  statusReason?: string;
+  environmentId?: string | undefined;
+  databaseName?: string | undefined;
+  dataviewName?: string | undefined;
+  azMode?: KxAzMode | undefined;
+  availabilityZoneId?: string | undefined;
+  changesetId?: string | undefined;
+  segmentConfigurations?: KxDataviewSegmentConfiguration[] | undefined;
+  activeVersions?: KxDataviewActiveVersion[] | undefined;
+  status?: KxDataviewStatus | undefined;
+  description?: string | undefined;
+  autoUpdate?: boolean | undefined;
+  readWrite?: boolean | undefined;
+  createdTimestamp?: Date | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  statusReason?: string | undefined;
 }
 export type KxDataviews = KxDataviewListEntry[];
 export interface ListKxDataviewsResponse {
-  kxDataviews?: KxDataviewListEntry[];
-  nextToken?: string;
+  kxDataviews?: KxDataviewListEntry[] | undefined;
+  nextToken?: string | undefined;
 }
 export type BoxedInteger = number;
 export interface ListKxEnvironmentsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface KxEnvironment {
-  name?: string;
-  environmentId?: string;
-  awsAccountId?: string;
-  status?: EnvironmentStatus;
-  tgwStatus?: TgwStatus;
-  dnsStatus?: DnsStatus;
-  errorMessage?: string;
-  description?: string;
-  environmentArn?: string;
-  kmsKeyId?: string;
-  dedicatedServiceAccountId?: string;
-  transitGatewayConfiguration?: TransitGatewayConfiguration;
-  customDNSConfiguration?: CustomDNSServer[];
-  creationTimestamp?: Date;
-  updateTimestamp?: Date;
-  availabilityZoneIds?: string[];
-  certificateAuthorityArn?: string;
+  name?: string | undefined;
+  environmentId?: string | undefined;
+  awsAccountId?: string | undefined;
+  status?: EnvironmentStatus | undefined;
+  tgwStatus?: TgwStatus | undefined;
+  dnsStatus?: DnsStatus | undefined;
+  errorMessage?: string | undefined;
+  description?: string | undefined;
+  environmentArn?: string | undefined;
+  kmsKeyId?: string | undefined;
+  dedicatedServiceAccountId?: string | undefined;
+  transitGatewayConfiguration?: TransitGatewayConfiguration | undefined;
+  customDNSConfiguration?: CustomDNSServer[] | undefined;
+  creationTimestamp?: Date | undefined;
+  updateTimestamp?: Date | undefined;
+  availabilityZoneIds?: string[] | undefined;
+  certificateAuthorityArn?: string | undefined;
 }
 export type KxEnvironmentList = KxEnvironment[];
 export interface ListKxEnvironmentsResponse {
-  environments?: KxEnvironment[];
-  nextToken?: string;
+  environments?: KxEnvironment[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListKxScalingGroupsRequest {
   environmentId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface KxScalingGroup {
-  scalingGroupName?: string;
-  hostType?: string;
-  clusters?: string[];
-  availabilityZoneId?: string;
-  status?: KxScalingGroupStatus;
-  statusReason?: string;
-  lastModifiedTimestamp?: Date;
-  createdTimestamp?: Date;
+  scalingGroupName?: string | undefined;
+  hostType?: string | undefined;
+  clusters?: string[] | undefined;
+  availabilityZoneId?: string | undefined;
+  status?: KxScalingGroupStatus | undefined;
+  statusReason?: string | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  createdTimestamp?: Date | undefined;
 }
 export type KxScalingGroupList = KxScalingGroup[];
 export interface ListKxScalingGroupsResponse {
-  scalingGroups?: KxScalingGroup[];
-  nextToken?: string;
+  scalingGroups?: KxScalingGroup[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListKxUsersRequest {
   environmentId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface KxUser {
-  userArn?: string;
-  userName?: string;
-  iamRole?: string;
-  createTimestamp?: Date;
-  updateTimestamp?: Date;
+  userArn?: string | undefined;
+  userName?: string | undefined;
+  iamRole?: string | undefined;
+  createTimestamp?: Date | undefined;
+  updateTimestamp?: Date | undefined;
 }
 export type KxUserList = KxUser[];
 export interface ListKxUsersResponse {
-  users?: KxUser[];
-  nextToken?: string;
+  users?: KxUser[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListKxVolumesRequest {
   environmentId: string;
-  maxResults?: number;
-  nextToken?: string;
-  volumeType?: KxVolumeType;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  volumeType?: KxVolumeType | undefined;
 }
 export interface KxVolume {
-  volumeName?: string;
-  volumeType?: KxVolumeType;
-  status?: KxVolumeStatus;
-  description?: string;
-  statusReason?: string;
-  azMode?: KxAzMode;
-  availabilityZoneIds?: string[];
-  createdTimestamp?: Date;
-  lastModifiedTimestamp?: Date;
+  volumeName?: string | undefined;
+  volumeType?: KxVolumeType | undefined;
+  status?: KxVolumeStatus | undefined;
+  description?: string | undefined;
+  statusReason?: string | undefined;
+  azMode?: KxAzMode | undefined;
+  availabilityZoneIds?: string[] | undefined;
+  createdTimestamp?: Date | undefined;
+  lastModifiedTimestamp?: Date | undefined;
 }
 export type KxVolumes = KxVolume[];
 export interface ListKxVolumesResponse {
-  kxVolumeSummaries?: KxVolume[];
-  nextToken?: string;
+  kxVolumeSummaries?: KxVolume[] | undefined;
+  nextToken?: string | undefined;
 }
 export type FinSpaceTaggableArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1131,13 +1131,13 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateEnvironmentRequest {
   environmentId: string;
-  name?: string;
-  description?: string;
-  federationMode?: FederationMode;
-  federationParameters?: FederationParameters;
+  name?: string | undefined;
+  description?: string | undefined;
+  federationMode?: FederationMode | undefined;
+  federationParameters?: FederationParameters | undefined;
 }
 export interface UpdateEnvironmentResponse {
-  environment?: Environment;
+  environment?: Environment | undefined;
 }
 export type KxClusterCodeDeploymentStrategy = "NO_RESTART" | "ROLLING" | "FORCE" | (string & {});
 export interface KxClusterCodeDeploymentConfiguration {
@@ -1146,11 +1146,11 @@ export interface KxClusterCodeDeploymentConfiguration {
 export interface UpdateKxClusterCodeConfigurationRequest {
   environmentId: string;
   clusterName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   code: CodeConfiguration;
-  initializationScript?: string;
-  commandLineArguments?: KxCommandLineArgument[];
-  deploymentConfiguration?: KxClusterCodeDeploymentConfiguration;
+  initializationScript?: string | undefined;
+  commandLineArguments?: KxCommandLineArgument[] | undefined;
+  deploymentConfiguration?: KxClusterCodeDeploymentConfiguration | undefined;
 }
 export interface UpdateKxClusterCodeConfigurationResponse {}
 export type KxDeploymentStrategy = "NO_RESTART" | "ROLLING" | (string & {});
@@ -1160,129 +1160,129 @@ export interface KxDeploymentConfiguration {
 export interface UpdateKxClusterDatabasesRequest {
   environmentId: string;
   clusterName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   databases: KxDatabaseConfiguration[];
-  deploymentConfiguration?: KxDeploymentConfiguration;
+  deploymentConfiguration?: KxDeploymentConfiguration | undefined;
 }
 export interface UpdateKxClusterDatabasesResponse {}
 export interface UpdateKxDatabaseRequest {
   environmentId: string;
   databaseName: string;
-  description?: string;
+  description?: string | undefined;
   clientToken: string;
 }
 export interface UpdateKxDatabaseResponse {
-  databaseName?: string;
-  environmentId?: string;
-  description?: string;
-  lastModifiedTimestamp?: Date;
+  databaseName?: string | undefined;
+  environmentId?: string | undefined;
+  description?: string | undefined;
+  lastModifiedTimestamp?: Date | undefined;
 }
 export interface UpdateKxDataviewRequest {
   environmentId: string;
   databaseName: string;
   dataviewName: string;
-  description?: string;
-  changesetId?: string;
-  segmentConfigurations?: KxDataviewSegmentConfiguration[];
+  description?: string | undefined;
+  changesetId?: string | undefined;
+  segmentConfigurations?: KxDataviewSegmentConfiguration[] | undefined;
   clientToken: string;
 }
 export interface UpdateKxDataviewResponse {
-  environmentId?: string;
-  databaseName?: string;
-  dataviewName?: string;
-  azMode?: KxAzMode;
-  availabilityZoneId?: string;
-  changesetId?: string;
-  segmentConfigurations?: KxDataviewSegmentConfiguration[];
-  activeVersions?: KxDataviewActiveVersion[];
-  status?: KxDataviewStatus;
-  autoUpdate?: boolean;
-  readWrite?: boolean;
-  description?: string;
-  createdTimestamp?: Date;
-  lastModifiedTimestamp?: Date;
+  environmentId?: string | undefined;
+  databaseName?: string | undefined;
+  dataviewName?: string | undefined;
+  azMode?: KxAzMode | undefined;
+  availabilityZoneId?: string | undefined;
+  changesetId?: string | undefined;
+  segmentConfigurations?: KxDataviewSegmentConfiguration[] | undefined;
+  activeVersions?: KxDataviewActiveVersion[] | undefined;
+  status?: KxDataviewStatus | undefined;
+  autoUpdate?: boolean | undefined;
+  readWrite?: boolean | undefined;
+  description?: string | undefined;
+  createdTimestamp?: Date | undefined;
+  lastModifiedTimestamp?: Date | undefined;
 }
 export interface UpdateKxEnvironmentRequest {
   environmentId: string;
-  name?: string;
-  description?: string;
-  clientToken?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateKxEnvironmentResponse {
-  name?: string;
-  environmentId?: string;
-  awsAccountId?: string;
-  status?: EnvironmentStatus;
-  tgwStatus?: TgwStatus;
-  dnsStatus?: DnsStatus;
-  errorMessage?: string;
-  description?: string;
-  environmentArn?: string;
-  kmsKeyId?: string;
-  dedicatedServiceAccountId?: string;
-  transitGatewayConfiguration?: TransitGatewayConfiguration;
-  customDNSConfiguration?: CustomDNSServer[];
-  creationTimestamp?: Date;
-  updateTimestamp?: Date;
-  availabilityZoneIds?: string[];
+  name?: string | undefined;
+  environmentId?: string | undefined;
+  awsAccountId?: string | undefined;
+  status?: EnvironmentStatus | undefined;
+  tgwStatus?: TgwStatus | undefined;
+  dnsStatus?: DnsStatus | undefined;
+  errorMessage?: string | undefined;
+  description?: string | undefined;
+  environmentArn?: string | undefined;
+  kmsKeyId?: string | undefined;
+  dedicatedServiceAccountId?: string | undefined;
+  transitGatewayConfiguration?: TransitGatewayConfiguration | undefined;
+  customDNSConfiguration?: CustomDNSServer[] | undefined;
+  creationTimestamp?: Date | undefined;
+  updateTimestamp?: Date | undefined;
+  availabilityZoneIds?: string[] | undefined;
 }
 export interface UpdateKxEnvironmentNetworkRequest {
   environmentId: string;
-  transitGatewayConfiguration?: TransitGatewayConfiguration;
-  customDNSConfiguration?: CustomDNSServer[];
-  clientToken?: string;
+  transitGatewayConfiguration?: TransitGatewayConfiguration | undefined;
+  customDNSConfiguration?: CustomDNSServer[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateKxEnvironmentNetworkResponse {
-  name?: string;
-  environmentId?: string;
-  awsAccountId?: string;
-  status?: EnvironmentStatus;
-  tgwStatus?: TgwStatus;
-  dnsStatus?: DnsStatus;
-  errorMessage?: string;
-  description?: string;
-  environmentArn?: string;
-  kmsKeyId?: string;
-  dedicatedServiceAccountId?: string;
-  transitGatewayConfiguration?: TransitGatewayConfiguration;
-  customDNSConfiguration?: CustomDNSServer[];
-  creationTimestamp?: Date;
-  updateTimestamp?: Date;
-  availabilityZoneIds?: string[];
+  name?: string | undefined;
+  environmentId?: string | undefined;
+  awsAccountId?: string | undefined;
+  status?: EnvironmentStatus | undefined;
+  tgwStatus?: TgwStatus | undefined;
+  dnsStatus?: DnsStatus | undefined;
+  errorMessage?: string | undefined;
+  description?: string | undefined;
+  environmentArn?: string | undefined;
+  kmsKeyId?: string | undefined;
+  dedicatedServiceAccountId?: string | undefined;
+  transitGatewayConfiguration?: TransitGatewayConfiguration | undefined;
+  customDNSConfiguration?: CustomDNSServer[] | undefined;
+  creationTimestamp?: Date | undefined;
+  updateTimestamp?: Date | undefined;
+  availabilityZoneIds?: string[] | undefined;
 }
 export interface UpdateKxUserRequest {
   environmentId: string;
   userName: string;
   iamRole: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateKxUserResponse {
-  userName?: string;
-  userArn?: string;
-  environmentId?: string;
-  iamRole?: string;
+  userName?: string | undefined;
+  userArn?: string | undefined;
+  environmentId?: string | undefined;
+  iamRole?: string | undefined;
 }
 export interface UpdateKxVolumeRequest {
   environmentId: string;
   volumeName: string;
-  description?: string;
-  clientToken?: string;
-  nas1Configuration?: KxNAS1Configuration;
+  description?: string | undefined;
+  clientToken?: string | undefined;
+  nas1Configuration?: KxNAS1Configuration | undefined;
 }
 export interface UpdateKxVolumeResponse {
-  environmentId?: string;
-  volumeName?: string;
-  volumeType?: KxVolumeType;
-  volumeArn?: string;
-  nas1Configuration?: KxNAS1Configuration;
-  status?: KxVolumeStatus;
-  description?: string;
-  statusReason?: string;
-  createdTimestamp?: Date;
-  azMode?: KxAzMode;
-  availabilityZoneIds?: string[];
-  lastModifiedTimestamp?: Date;
-  attachedClusters?: KxAttachedCluster[];
+  environmentId?: string | undefined;
+  volumeName?: string | undefined;
+  volumeType?: KxVolumeType | undefined;
+  volumeArn?: string | undefined;
+  nas1Configuration?: KxNAS1Configuration | undefined;
+  status?: KxVolumeStatus | undefined;
+  description?: string | undefined;
+  statusReason?: string | undefined;
+  createdTimestamp?: Date | undefined;
+  azMode?: KxAzMode | undefined;
+  availabilityZoneIds?: string[] | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  attachedClusters?: KxAttachedCluster[] | undefined;
 }
 export type ErrorMessage2 = string;
 export type CreateEnvironmentError =

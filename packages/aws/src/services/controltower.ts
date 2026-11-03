@@ -160,9 +160,9 @@ export type TagMap = { [key: string]: string | undefined };
 export type Manifest = unknown;
 export interface CreateLandingZoneInput {
   version: string;
-  remediationTypes?: RemediationType[];
-  tags?: { [key: string]: string | undefined };
-  manifest?: any;
+  remediationTypes?: RemediationType[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  manifest?: any | undefined;
 }
 export type Arn = string;
 export type OperationIdentifier = string;
@@ -185,9 +185,9 @@ export interface DisableBaselineOutput {
 export type ControlIdentifier = string;
 export type TargetIdentifier = string;
 export interface DisableControlInput {
-  controlIdentifier?: string;
-  targetIdentifier?: string;
-  enabledControlIdentifier?: string;
+  controlIdentifier?: string | undefined;
+  targetIdentifier?: string | undefined;
+  enabledControlIdentifier?: string | undefined;
 }
 export interface DisableControlOutput {
   operationIdentifier: string;
@@ -201,10 +201,10 @@ export interface EnabledBaselineParameter {
 export type EnabledBaselineParameters = EnabledBaselineParameter[];
 export interface EnableBaselineInput {
   baselineVersion: string;
-  parameters?: EnabledBaselineParameter[];
+  parameters?: EnabledBaselineParameter[] | undefined;
   baselineIdentifier: string;
   targetIdentifier: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface EnableBaselineOutput {
   operationIdentifier: string;
@@ -218,12 +218,12 @@ export type EnabledControlParameters = EnabledControlParameter[];
 export interface EnableControlInput {
   controlIdentifier: string;
   targetIdentifier: string;
-  tags?: { [key: string]: string | undefined };
-  parameters?: EnabledControlParameter[];
+  tags?: { [key: string]: string | undefined } | undefined;
+  parameters?: EnabledControlParameter[] | undefined;
 }
 export interface EnableControlOutput {
   operationIdentifier: string;
-  arn?: string;
+  arn?: string | undefined;
 }
 export type BaselineArn = string;
 export interface GetBaselineInput {
@@ -232,7 +232,7 @@ export interface GetBaselineInput {
 export interface GetBaselineOutput {
   arn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetBaselineOperationInput {
   operationIdentifier: string;
@@ -245,12 +245,12 @@ export type BaselineOperationType =
   | (string & {});
 export type BaselineOperationStatus = "SUCCEEDED" | "FAILED" | "IN_PROGRESS" | (string & {});
 export interface BaselineOperation {
-  operationIdentifier?: string;
-  operationType?: BaselineOperationType;
-  status?: BaselineOperationStatus;
-  startTime?: Date;
-  endTime?: Date;
-  statusMessage?: string;
+  operationIdentifier?: string | undefined;
+  operationType?: BaselineOperationType | undefined;
+  status?: BaselineOperationStatus | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  statusMessage?: string | undefined;
 }
 export interface GetBaselineOperationOutput {
   baselineOperation: BaselineOperation;
@@ -266,15 +266,15 @@ export type ControlOperationType =
   | (string & {});
 export type ControlOperationStatus = "SUCCEEDED" | "FAILED" | "IN_PROGRESS" | (string & {});
 export interface ControlOperation {
-  operationType?: ControlOperationType;
-  startTime?: Date;
-  endTime?: Date;
-  status?: ControlOperationStatus;
-  statusMessage?: string;
-  operationIdentifier?: string;
-  controlIdentifier?: string;
-  targetIdentifier?: string;
-  enabledControlIdentifier?: string;
+  operationType?: ControlOperationType | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  status?: ControlOperationStatus | undefined;
+  statusMessage?: string | undefined;
+  operationIdentifier?: string | undefined;
+  controlIdentifier?: string | undefined;
+  targetIdentifier?: string | undefined;
+  enabledControlIdentifier?: string | undefined;
 }
 export interface GetControlOperationOutput {
   controlOperation: ControlOperation;
@@ -284,18 +284,18 @@ export interface GetEnabledBaselineInput {
 }
 export type EnabledBaselineDriftStatus = "IN_SYNC" | "DRIFTED" | (string & {});
 export interface EnabledBaselineInheritanceDrift {
-  status?: EnabledBaselineDriftStatus;
+  status?: EnabledBaselineDriftStatus | undefined;
 }
 export interface EnabledBaselineDriftTypes {
-  inheritance?: EnabledBaselineInheritanceDrift;
+  inheritance?: EnabledBaselineInheritanceDrift | undefined;
 }
 export interface EnabledBaselineDriftStatusSummary {
-  types?: EnabledBaselineDriftTypes;
+  types?: EnabledBaselineDriftTypes | undefined;
 }
 export type EnablementStatus = "SUCCEEDED" | "FAILED" | "UNDER_CHANGE" | (string & {});
 export interface EnablementStatusSummary {
-  status?: EnablementStatus;
-  lastOperationIdentifier?: string;
+  status?: EnablementStatus | undefined;
+  lastOperationIdentifier?: string | undefined;
 }
 export interface EnabledBaselineParameterSummary {
   key: string;
@@ -305,38 +305,38 @@ export type EnabledBaselineParameterSummaries = EnabledBaselineParameterSummary[
 export interface EnabledBaselineDetails {
   arn: string;
   baselineIdentifier: string;
-  baselineVersion?: string;
-  driftStatusSummary?: EnabledBaselineDriftStatusSummary;
+  baselineVersion?: string | undefined;
+  driftStatusSummary?: EnabledBaselineDriftStatusSummary | undefined;
   targetIdentifier: string;
-  parentIdentifier?: string;
+  parentIdentifier?: string | undefined;
   statusSummary: EnablementStatusSummary;
-  parameters?: EnabledBaselineParameterSummary[];
+  parameters?: EnabledBaselineParameterSummary[] | undefined;
 }
 export interface GetEnabledBaselineOutput {
-  enabledBaselineDetails?: EnabledBaselineDetails;
+  enabledBaselineDetails?: EnabledBaselineDetails | undefined;
 }
 export interface GetEnabledControlInput {
   enabledControlIdentifier: string;
 }
 export type DriftStatus = "DRIFTED" | "IN_SYNC" | "NOT_CHECKING" | "UNKNOWN" | (string & {});
 export interface EnabledControlInheritanceDrift {
-  status?: DriftStatus;
+  status?: DriftStatus | undefined;
 }
 export interface EnabledControlResourceDrift {
-  status?: DriftStatus;
+  status?: DriftStatus | undefined;
 }
 export interface EnabledControlDriftTypes {
-  inheritance?: EnabledControlInheritanceDrift;
-  resource?: EnabledControlResourceDrift;
+  inheritance?: EnabledControlInheritanceDrift | undefined;
+  resource?: EnabledControlResourceDrift | undefined;
 }
 export interface DriftStatusSummary {
-  driftStatus?: DriftStatus;
-  types?: EnabledControlDriftTypes;
+  driftStatus?: DriftStatus | undefined;
+  types?: EnabledControlDriftTypes | undefined;
 }
 export type ParentIdentifier = string;
 export type RegionName = string;
 export interface Region {
-  name?: string;
+  name?: string | undefined;
 }
 const Region = /*@__PURE__*/ __L.at(__c38, 0) as any as S.Schema<Region>;
 export type TargetRegions = Region[];
@@ -346,14 +346,14 @@ export interface EnabledControlParameterSummary {
 }
 export type EnabledControlParameterSummaries = EnabledControlParameterSummary[];
 export interface EnabledControlDetails {
-  arn?: string;
-  controlIdentifier?: string;
-  targetIdentifier?: string;
-  statusSummary?: EnablementStatusSummary;
-  driftStatusSummary?: DriftStatusSummary;
-  parentIdentifier?: string;
-  targetRegions?: Region[];
-  parameters?: EnabledControlParameterSummary[];
+  arn?: string | undefined;
+  controlIdentifier?: string | undefined;
+  targetIdentifier?: string | undefined;
+  statusSummary?: EnablementStatusSummary | undefined;
+  driftStatusSummary?: DriftStatusSummary | undefined;
+  parentIdentifier?: string | undefined;
+  targetRegions?: Region[] | undefined;
+  parameters?: EnabledControlParameterSummary[] | undefined;
 }
 export interface GetEnabledControlOutput {
   enabledControlDetails: EnabledControlDetails;
@@ -364,15 +364,15 @@ export interface GetLandingZoneInput {
 export type LandingZoneStatus = "ACTIVE" | "PROCESSING" | "FAILED" | (string & {});
 export type LandingZoneDriftStatus = "DRIFTED" | "IN_SYNC" | (string & {});
 export interface LandingZoneDriftStatusSummary {
-  status?: LandingZoneDriftStatus;
+  status?: LandingZoneDriftStatus | undefined;
 }
 export interface LandingZoneDetail {
   version: string;
-  remediationTypes?: RemediationType[];
-  arn?: string;
-  status?: LandingZoneStatus;
-  latestAvailableVersion?: string;
-  driftStatus?: LandingZoneDriftStatusSummary;
+  remediationTypes?: RemediationType[] | undefined;
+  arn?: string | undefined;
+  status?: LandingZoneStatus | undefined;
+  latestAvailableVersion?: string | undefined;
+  driftStatus?: LandingZoneDriftStatusSummary | undefined;
   manifest: any;
 }
 export interface GetLandingZoneOutput {
@@ -384,30 +384,30 @@ export interface GetLandingZoneOperationInput {
 export type LandingZoneOperationType = "DELETE" | "CREATE" | "UPDATE" | "RESET" | (string & {});
 export type LandingZoneOperationStatus = "SUCCEEDED" | "FAILED" | "IN_PROGRESS" | (string & {});
 export interface LandingZoneOperationDetail {
-  operationType?: LandingZoneOperationType;
-  operationIdentifier?: string;
-  status?: LandingZoneOperationStatus;
-  startTime?: Date;
-  endTime?: Date;
-  statusMessage?: string;
+  operationType?: LandingZoneOperationType | undefined;
+  operationIdentifier?: string | undefined;
+  status?: LandingZoneOperationStatus | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  statusMessage?: string | undefined;
 }
 export interface GetLandingZoneOperationOutput {
   operationDetails: LandingZoneOperationDetail;
 }
 export type ListBaselinesMaxResults = number;
 export interface ListBaselinesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BaselineSummary {
   arn: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type Baselines = BaselineSummary[];
 export interface ListBaselinesOutput {
   baselines: BaselineSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ControlIdentifiers = string[];
 export type TargetIdentifiers = string[];
@@ -415,34 +415,34 @@ export type EnabledControlIdentifiers = string[];
 export type ControlOperationStatuses = ControlOperationStatus[];
 export type ControlOperationTypes = ControlOperationType[];
 export interface ControlOperationFilter {
-  controlIdentifiers?: string[];
-  targetIdentifiers?: string[];
-  enabledControlIdentifiers?: string[];
-  statuses?: ControlOperationStatus[];
-  controlOperationTypes?: ControlOperationType[];
+  controlIdentifiers?: string[] | undefined;
+  targetIdentifiers?: string[] | undefined;
+  enabledControlIdentifiers?: string[] | undefined;
+  statuses?: ControlOperationStatus[] | undefined;
+  controlOperationTypes?: ControlOperationType[] | undefined;
 }
 export type ListControlOperationsNextToken = string;
 export type ListControlOperationsMaxResults = number;
 export interface ListControlOperationsInput {
-  filter?: ControlOperationFilter;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: ControlOperationFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ControlOperationSummary {
-  operationType?: ControlOperationType;
-  startTime?: Date;
-  endTime?: Date;
-  status?: ControlOperationStatus;
-  statusMessage?: string;
-  operationIdentifier?: string;
-  controlIdentifier?: string;
-  targetIdentifier?: string;
-  enabledControlIdentifier?: string;
+  operationType?: ControlOperationType | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  status?: ControlOperationStatus | undefined;
+  statusMessage?: string | undefined;
+  operationIdentifier?: string | undefined;
+  controlIdentifier?: string | undefined;
+  targetIdentifier?: string | undefined;
+  enabledControlIdentifier?: string | undefined;
 }
 export type ControlOperations = ControlOperationSummary[];
 export interface ListControlOperationsOutput {
   controlOperations: ControlOperationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type EnabledBaselineTargetIdentifiers = string[];
 export type EnabledBaselineBaselineIdentifiers = string[];
@@ -450,100 +450,100 @@ export type EnabledBaselineParentIdentifiers = string[];
 export type EnabledBaselineEnablementStatuses = EnablementStatus[];
 export type EnabledBaselineDriftStatuses = EnabledBaselineDriftStatus[];
 export interface EnabledBaselineFilter {
-  targetIdentifiers?: string[];
-  baselineIdentifiers?: string[];
-  parentIdentifiers?: string[];
-  statuses?: EnablementStatus[];
-  inheritanceDriftStatuses?: EnabledBaselineDriftStatus[];
+  targetIdentifiers?: string[] | undefined;
+  baselineIdentifiers?: string[] | undefined;
+  parentIdentifiers?: string[] | undefined;
+  statuses?: EnablementStatus[] | undefined;
+  inheritanceDriftStatuses?: EnabledBaselineDriftStatus[] | undefined;
 }
 export type ListEnabledBaselinesNextToken = string;
 export type ListEnabledBaselinesMaxResults = number;
 export interface ListEnabledBaselinesInput {
-  filter?: EnabledBaselineFilter;
-  nextToken?: string;
-  maxResults?: number;
-  includeChildren?: boolean;
+  filter?: EnabledBaselineFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  includeChildren?: boolean | undefined;
 }
 export interface EnabledBaselineSummary {
   arn: string;
   baselineIdentifier: string;
-  baselineVersion?: string;
-  driftStatusSummary?: EnabledBaselineDriftStatusSummary;
+  baselineVersion?: string | undefined;
+  driftStatusSummary?: EnabledBaselineDriftStatusSummary | undefined;
   targetIdentifier: string;
-  parentIdentifier?: string;
+  parentIdentifier?: string | undefined;
   statusSummary: EnablementStatusSummary;
 }
 export type EnabledBaselines = EnabledBaselineSummary[];
 export interface ListEnabledBaselinesOutput {
   enabledBaselines: EnabledBaselineSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxResults = number;
 export type EnablementStatuses = EnablementStatus[];
 export type DriftStatuses = DriftStatus[];
 export type ParentIdentifiers = string[];
 export interface EnabledControlFilter {
-  controlIdentifiers?: string[];
-  statuses?: EnablementStatus[];
-  driftStatuses?: DriftStatus[];
-  parentIdentifiers?: string[];
-  inheritanceDriftStatuses?: DriftStatus[];
-  resourceDriftStatuses?: DriftStatus[];
+  controlIdentifiers?: string[] | undefined;
+  statuses?: EnablementStatus[] | undefined;
+  driftStatuses?: DriftStatus[] | undefined;
+  parentIdentifiers?: string[] | undefined;
+  inheritanceDriftStatuses?: DriftStatus[] | undefined;
+  resourceDriftStatuses?: DriftStatus[] | undefined;
 }
 export interface ListEnabledControlsInput {
-  targetIdentifier?: string;
-  nextToken?: string;
-  maxResults?: number;
-  filter?: EnabledControlFilter;
-  includeChildren?: boolean;
+  targetIdentifier?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: EnabledControlFilter | undefined;
+  includeChildren?: boolean | undefined;
 }
 export interface EnabledControlSummary {
-  arn?: string;
-  controlIdentifier?: string;
-  targetIdentifier?: string;
-  statusSummary?: EnablementStatusSummary;
-  driftStatusSummary?: DriftStatusSummary;
-  parentIdentifier?: string;
+  arn?: string | undefined;
+  controlIdentifier?: string | undefined;
+  targetIdentifier?: string | undefined;
+  statusSummary?: EnablementStatusSummary | undefined;
+  driftStatusSummary?: DriftStatusSummary | undefined;
+  parentIdentifier?: string | undefined;
 }
 export type EnabledControls = EnabledControlSummary[];
 export interface ListEnabledControlsOutput {
   enabledControls: EnabledControlSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type LandingZoneOperationTypes = LandingZoneOperationType[];
 export type LandingZoneOperationStatuses = LandingZoneOperationStatus[];
 export interface LandingZoneOperationFilter {
-  types?: LandingZoneOperationType[];
-  statuses?: LandingZoneOperationStatus[];
+  types?: LandingZoneOperationType[] | undefined;
+  statuses?: LandingZoneOperationStatus[] | undefined;
 }
 export type ListLandingZoneOperationsMaxResults = number;
 export interface ListLandingZoneOperationsInput {
-  filter?: LandingZoneOperationFilter;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: LandingZoneOperationFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LandingZoneOperationSummary {
-  operationType?: LandingZoneOperationType;
-  operationIdentifier?: string;
-  status?: LandingZoneOperationStatus;
+  operationType?: LandingZoneOperationType | undefined;
+  operationIdentifier?: string | undefined;
+  status?: LandingZoneOperationStatus | undefined;
 }
 export type LandingZoneOperations = LandingZoneOperationSummary[];
 export interface ListLandingZoneOperationsOutput {
   landingZoneOperations: LandingZoneOperationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListLandingZonesMaxResults = number;
 export interface ListLandingZonesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LandingZoneSummary {
-  arn?: string;
+  arn?: string | undefined;
 }
 export type LandingZoneSummaries = LandingZoneSummary[];
 export interface ListLandingZonesOutput {
   landingZones: LandingZoneSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
@@ -582,7 +582,7 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateEnabledBaselineInput {
   baselineVersion: string;
-  parameters?: EnabledBaselineParameter[];
+  parameters?: EnabledBaselineParameter[] | undefined;
   enabledBaselineIdentifier: string;
 }
 export interface UpdateEnabledBaselineOutput {
@@ -597,9 +597,9 @@ export interface UpdateEnabledControlOutput {
 }
 export interface UpdateLandingZoneInput {
   version: string;
-  remediationTypes?: RemediationType[];
+  remediationTypes?: RemediationType[] | undefined;
   landingZoneIdentifier: string;
-  manifest?: any;
+  manifest?: any | undefined;
 }
 export interface UpdateLandingZoneOutput {
   operationIdentifier: string;

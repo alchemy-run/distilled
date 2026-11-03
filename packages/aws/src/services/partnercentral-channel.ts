@@ -211,24 +211,24 @@ export type HandshakeStatus =
   | "EXPIRED"
   | (string & {});
 export interface AcceptChannelHandshakeDetail {
-  id?: string;
-  arn?: string;
-  status?: HandshakeStatus;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: HandshakeStatus | undefined;
 }
 export interface AcceptChannelHandshakeResponse {
-  channelHandshakeDetail?: AcceptChannelHandshakeDetail;
+  channelHandshakeDetail?: AcceptChannelHandshakeDetail | undefined;
 }
 export interface CancelChannelHandshakeRequest {
   catalog: string;
   identifier: string;
 }
 export interface CancelChannelHandshakeDetail {
-  id?: string;
-  arn?: string;
-  status?: HandshakeStatus;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: HandshakeStatus | undefined;
 }
 export interface CancelChannelHandshakeResponse {
-  channelHandshakeDetail?: CancelChannelHandshakeDetail;
+  channelHandshakeDetail?: CancelChannelHandshakeDetail | undefined;
 }
 export type HandshakeType =
   | "START_SERVICE_PERIOD"
@@ -242,14 +242,14 @@ export type ServicePeriodType = "MINIMUM_NOTICE_PERIOD" | "FIXED_COMMITMENT_PERI
 export type MinimumNoticeDays = string;
 export interface StartServicePeriodPayload {
   programManagementAccountIdentifier: string;
-  note?: string;
+  note?: string | undefined;
   servicePeriodType: ServicePeriodType;
-  minimumNoticeDays?: string;
-  endDate?: Date;
+  minimumNoticeDays?: string | undefined;
+  endDate?: Date | undefined;
 }
 export interface RevokeServicePeriodPayload {
   programManagementAccountIdentifier: string;
-  note?: string;
+  note?: string | undefined;
 }
 export type ChannelHandshakePayload =
   | { startServicePeriodPayload: StartServicePeriodPayload; revokeServicePeriodPayload?: never }
@@ -266,16 +266,16 @@ export interface CreateChannelHandshakeRequest {
   handshakeType: HandshakeType;
   catalog: string;
   associatedResourceIdentifier: string;
-  payload?: ChannelHandshakePayload;
-  clientToken?: string;
-  tags?: Tag[];
+  payload?: ChannelHandshakePayload | undefined;
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateChannelHandshakeDetail {
-  id?: string;
-  arn?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
 }
 export interface CreateChannelHandshakeResponse {
-  channelHandshakeDetail?: CreateChannelHandshakeDetail;
+  channelHandshakeDetail?: CreateChannelHandshakeDetail | undefined;
 }
 export type Program = "SOLUTION_PROVIDER" | "DISTRIBUTION" | "DISTRIBUTION_SELLER" | (string & {});
 export type ProgramManagementAccountDisplayName = string;
@@ -285,16 +285,16 @@ export interface CreateProgramManagementAccountRequest {
   program: Program;
   displayName: string;
   accountId: string;
-  clientToken?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type ProgramManagementAccountId = string;
 export interface CreateProgramManagementAccountDetail {
-  id?: string;
-  arn?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
 }
 export interface CreateProgramManagementAccountResponse {
-  programManagementAccountDetail?: CreateProgramManagementAccountDetail;
+  programManagementAccountDetail?: CreateProgramManagementAccountDetail | undefined;
 }
 export type AssociationType = "DOWNSTREAM_SELLER" | "END_CUSTOMER" | "INTERNAL" | (string & {});
 export type RelationshipDisplayName = string;
@@ -308,18 +308,18 @@ export type Coverage = "ENTIRE_ORGANIZATION" | "MANAGEMENT_ACCOUNT_ONLY" | (stri
 export interface ResoldEnterprise {
   coverage: Coverage;
   tamLocation: string;
-  chargeAccountId?: string;
+  chargeAccountId?: string | undefined;
 }
 export type Provider = "DISTRIBUTOR" | "DISTRIBUTION_SELLER" | (string & {});
 export interface PartnerLedSupport {
   coverage: Coverage;
-  provider?: Provider;
+  provider?: Provider | undefined;
   tamLocation: string;
 }
 export interface ResoldUnifiedOperations {
   coverage: Coverage;
   tamLocation: string;
-  chargeAccountId?: string;
+  chargeAccountId?: string | undefined;
 }
 export type SupportPlan =
   | {
@@ -343,24 +343,24 @@ export interface CreateRelationshipRequest {
   programManagementAccountIdentifier: string;
   associatedAccountId: string;
   displayName: string;
-  resaleAccountModel?: ResaleAccountModel;
+  resaleAccountModel?: ResaleAccountModel | undefined;
   sector: Sector;
-  clientToken?: string;
-  tags?: Tag[];
-  requestedSupportPlan?: SupportPlan;
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
+  requestedSupportPlan?: SupportPlan | undefined;
 }
 export type RelationshipId = string;
 export interface CreateRelationshipDetail {
-  arn?: string;
-  id?: string;
+  arn?: string | undefined;
+  id?: string | undefined;
 }
 export interface CreateRelationshipResponse {
-  relationshipDetail?: CreateRelationshipDetail;
+  relationshipDetail?: CreateRelationshipDetail | undefined;
 }
 export interface DeleteProgramManagementAccountRequest {
   catalog: string;
   identifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteProgramManagementAccountResponse {}
 export type RelationshipIdentifier = string;
@@ -368,7 +368,7 @@ export interface DeleteRelationshipRequest {
   catalog: string;
   identifier: string;
   programManagementAccountIdentifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteRelationshipResponse {}
 export interface GetRelationshipRequest {
@@ -378,36 +378,36 @@ export interface GetRelationshipRequest {
 }
 export type Revision = string;
 export interface RelationshipDetail {
-  arn?: string;
-  id?: string;
-  revision?: string;
-  catalog?: string;
-  associationType?: AssociationType;
-  programManagementAccountId?: string;
-  associatedAccountId?: string;
-  displayName?: string;
-  resaleAccountModel?: ResaleAccountModel;
-  sector?: Sector;
-  createdAt?: Date;
-  updatedAt?: Date;
-  startDate?: Date;
+  arn?: string | undefined;
+  id?: string | undefined;
+  revision?: string | undefined;
+  catalog?: string | undefined;
+  associationType?: AssociationType | undefined;
+  programManagementAccountId?: string | undefined;
+  associatedAccountId?: string | undefined;
+  displayName?: string | undefined;
+  resaleAccountModel?: ResaleAccountModel | undefined;
+  sector?: Sector | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  startDate?: Date | undefined;
 }
 export interface GetRelationshipResponse {
-  relationshipDetail?: RelationshipDetail;
+  relationshipDetail?: RelationshipDetail | undefined;
 }
 export type ParticipantType = "SENDER" | "RECEIVER" | (string & {});
 export type HandshakeStatusList = HandshakeStatus[];
 export type AssociatedResourceIdentifierList = string[];
 export type ServicePeriodTypeList = ServicePeriodType[];
 export interface StartServicePeriodTypeFilters {
-  servicePeriodTypes?: ServicePeriodType[];
+  servicePeriodTypes?: ServicePeriodType[] | undefined;
 }
 export interface RevokeServicePeriodTypeFilters {
-  servicePeriodTypes?: ServicePeriodType[];
+  servicePeriodTypes?: ServicePeriodType[] | undefined;
 }
 export type ProgramList = Program[];
 export interface ProgramManagementAccountTypeFilters {
-  programs?: Program[];
+  programs?: Program[] | undefined;
 }
 export type ListChannelHandshakesTypeFilters =
   | {
@@ -462,31 +462,31 @@ export interface ListChannelHandshakesRequest {
   handshakeType: HandshakeType;
   catalog: string;
   participantType: ParticipantType;
-  maxResults?: number;
-  statuses?: HandshakeStatus[];
-  associatedResourceIdentifiers?: string[];
-  handshakeTypeFilters?: ListChannelHandshakesTypeFilters;
-  handshakeTypeSort?: ListChannelHandshakesTypeSort;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  statuses?: HandshakeStatus[] | undefined;
+  associatedResourceIdentifiers?: string[] | undefined;
+  handshakeTypeFilters?: ListChannelHandshakesTypeFilters | undefined;
+  handshakeTypeSort?: ListChannelHandshakesTypeSort | undefined;
+  nextToken?: string | undefined;
 }
 export type PartnerProfileDisplayName = string;
 export type AssociatedResourceId = string;
 export interface StartServicePeriodHandshakeDetail {
-  note?: string;
-  servicePeriodType?: ServicePeriodType;
-  minimumNoticeDays?: string;
-  startDate?: Date;
-  endDate?: Date;
+  note?: string | undefined;
+  servicePeriodType?: ServicePeriodType | undefined;
+  minimumNoticeDays?: string | undefined;
+  startDate?: Date | undefined;
+  endDate?: Date | undefined;
 }
 export interface RevokeServicePeriodHandshakeDetail {
-  note?: string;
-  servicePeriodType?: ServicePeriodType;
-  minimumNoticeDays?: string;
-  startDate?: Date;
-  endDate?: Date;
+  note?: string | undefined;
+  servicePeriodType?: ServicePeriodType | undefined;
+  minimumNoticeDays?: string | undefined;
+  startDate?: Date | undefined;
+  endDate?: Date | undefined;
 }
 export interface ProgramManagementAccountHandshakeDetail {
-  program?: Program;
+  program?: Program | undefined;
 }
 export type HandshakeDetail =
   | {
@@ -505,24 +505,24 @@ export type HandshakeDetail =
       programManagementAccountHandshakeDetail: ProgramManagementAccountHandshakeDetail;
     };
 export interface ChannelHandshakeSummary {
-  id?: string;
-  arn?: string;
-  catalog?: string;
-  handshakeType?: HandshakeType;
-  ownerAccountId?: string;
-  senderAccountId?: string;
-  senderDisplayName?: string;
-  receiverAccountId?: string;
-  associatedResourceId?: string;
-  detail?: HandshakeDetail;
-  createdAt?: Date;
-  updatedAt?: Date;
-  status?: HandshakeStatus;
+  id?: string | undefined;
+  arn?: string | undefined;
+  catalog?: string | undefined;
+  handshakeType?: HandshakeType | undefined;
+  ownerAccountId?: string | undefined;
+  senderAccountId?: string | undefined;
+  senderDisplayName?: string | undefined;
+  receiverAccountId?: string | undefined;
+  associatedResourceId?: string | undefined;
+  detail?: HandshakeDetail | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  status?: HandshakeStatus | undefined;
 }
 export type ChannelHandshakeSummaries = ChannelHandshakeSummary[];
 export interface ListChannelHandshakesResponse {
-  items?: ChannelHandshakeSummary[];
-  nextToken?: string;
+  items?: ChannelHandshakeSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ProgramManagementAccountDisplayNameList = string[];
 export type AccountIdList = string[];
@@ -535,31 +535,31 @@ export interface ListProgramManagementAccountsSortBase {
 }
 export interface ListProgramManagementAccountsRequest {
   catalog: string;
-  maxResults?: number;
-  displayNames?: string[];
-  programs?: Program[];
-  accountIds?: string[];
-  statuses?: ProgramManagementAccountStatus[];
-  sort?: ListProgramManagementAccountsSortBase;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  displayNames?: string[] | undefined;
+  programs?: Program[] | undefined;
+  accountIds?: string[] | undefined;
+  statuses?: ProgramManagementAccountStatus[] | undefined;
+  sort?: ListProgramManagementAccountsSortBase | undefined;
+  nextToken?: string | undefined;
 }
 export interface ProgramManagementAccountSummary {
-  id?: string;
-  revision?: string;
-  catalog?: string;
-  program?: Program;
-  displayName?: string;
-  accountId?: string;
-  arn?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  startDate?: Date;
-  status?: ProgramManagementAccountStatus;
+  id?: string | undefined;
+  revision?: string | undefined;
+  catalog?: string | undefined;
+  program?: Program | undefined;
+  displayName?: string | undefined;
+  accountId?: string | undefined;
+  arn?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  startDate?: Date | undefined;
+  status?: ProgramManagementAccountStatus | undefined;
 }
 export type ProgramManagementAccountSummaries = ProgramManagementAccountSummary[];
 export interface ListProgramManagementAccountsResponse {
-  items?: ProgramManagementAccountSummary[];
-  nextToken?: string;
+  items?: ProgramManagementAccountSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AssociationTypeList = AssociationType[];
 export type RelationshipDisplayNameList = string[];
@@ -571,51 +571,51 @@ export interface ListRelationshipsSortBase {
 }
 export interface ListRelationshipsRequest {
   catalog: string;
-  maxResults?: number;
-  associatedAccountIds?: string[];
-  associationTypes?: AssociationType[];
-  displayNames?: string[];
-  programManagementAccountIdentifiers?: string[];
-  sort?: ListRelationshipsSortBase;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  associatedAccountIds?: string[] | undefined;
+  associationTypes?: AssociationType[] | undefined;
+  displayNames?: string[] | undefined;
+  programManagementAccountIdentifiers?: string[] | undefined;
+  sort?: ListRelationshipsSortBase | undefined;
+  nextToken?: string | undefined;
 }
 export interface RelationshipSummary {
-  arn?: string;
-  id?: string;
-  revision?: string;
-  catalog?: string;
-  associationType?: AssociationType;
-  programManagementAccountId?: string;
-  associatedAccountId?: string;
-  displayName?: string;
-  sector?: Sector;
-  createdAt?: Date;
-  updatedAt?: Date;
-  startDate?: Date;
+  arn?: string | undefined;
+  id?: string | undefined;
+  revision?: string | undefined;
+  catalog?: string | undefined;
+  associationType?: AssociationType | undefined;
+  programManagementAccountId?: string | undefined;
+  associatedAccountId?: string | undefined;
+  displayName?: string | undefined;
+  sector?: Sector | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  startDate?: Date | undefined;
 }
 export type RelationshipSummaries = RelationshipSummary[];
 export interface ListRelationshipsResponse {
-  items?: RelationshipSummary[];
-  nextToken?: string;
+  items?: RelationshipSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type TaggableArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface RejectChannelHandshakeRequest {
   catalog: string;
   identifier: string;
 }
 export interface RejectChannelHandshakeDetail {
-  id?: string;
-  arn?: string;
-  status?: HandshakeStatus;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: HandshakeStatus | undefined;
 }
 export interface RejectChannelHandshakeResponse {
-  channelHandshakeDetail?: RejectChannelHandshakeDetail;
+  channelHandshakeDetail?: RejectChannelHandshakeDetail | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -631,34 +631,34 @@ export interface UntagResourceResponse {}
 export interface UpdateProgramManagementAccountRequest {
   catalog: string;
   identifier: string;
-  revision?: string;
-  displayName?: string;
+  revision?: string | undefined;
+  displayName?: string | undefined;
 }
 export interface UpdateProgramManagementAccountDetail {
-  id?: string;
-  arn?: string;
-  revision?: string;
-  displayName?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  revision?: string | undefined;
+  displayName?: string | undefined;
 }
 export interface UpdateProgramManagementAccountResponse {
-  programManagementAccountDetail?: UpdateProgramManagementAccountDetail;
+  programManagementAccountDetail?: UpdateProgramManagementAccountDetail | undefined;
 }
 export interface UpdateRelationshipRequest {
   catalog: string;
   identifier: string;
   programManagementAccountIdentifier: string;
-  revision?: string;
-  displayName?: string;
-  requestedSupportPlan?: SupportPlan;
+  revision?: string | undefined;
+  displayName?: string | undefined;
+  requestedSupportPlan?: SupportPlan | undefined;
 }
 export interface UpdateRelationshipDetail {
-  arn?: string;
-  id?: string;
-  revision?: string;
-  displayName?: string;
+  arn?: string | undefined;
+  id?: string | undefined;
+  revision?: string | undefined;
+  displayName?: string | undefined;
 }
 export interface UpdateRelationshipResponse {
-  relationshipDetail?: UpdateRelationshipDetail;
+  relationshipDetail?: UpdateRelationshipDetail | undefined;
 }
 export type ValidationExceptionReason =
   | "REQUEST_VALIDATION_FAILED"

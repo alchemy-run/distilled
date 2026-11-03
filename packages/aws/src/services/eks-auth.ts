@@ -158,9 +158,9 @@ export type JwtToken = string | redacted.Redacted<string>;
 export interface AssumeRoleForPodIdentityRequest {
   clusterName: string;
   token: string | redacted.Redacted<string>;
-  eksNodeName?: string;
-  instanceId?: string;
-  zone?: string;
+  eksNodeName?: string | undefined;
+  instanceId?: string | undefined;
+  zone?: string | undefined;
 }
 export interface Subject {
   namespace: string;

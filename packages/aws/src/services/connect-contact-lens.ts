@@ -126,10 +126,10 @@ export type ContactId = string;
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListRealtimeContactAnalysisSegmentsRequest {
-  InstanceId?: string;
-  ContactId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  InstanceId?: string | undefined;
+  ContactId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type TranscriptId = string;
 export type ParticipantId = string;
@@ -139,37 +139,37 @@ export type OffsetMillis = number;
 export type SentimentValue = "POSITIVE" | "NEUTRAL" | "NEGATIVE" | (string & {});
 export type CharacterOffset = number;
 export interface CharacterOffsets {
-  BeginOffsetChar?: number;
-  EndOffsetChar?: number;
+  BeginOffsetChar?: number | undefined;
+  EndOffsetChar?: number | undefined;
 }
 export interface IssueDetected {
-  CharacterOffsets?: CharacterOffsets;
+  CharacterOffsets?: CharacterOffsets | undefined;
 }
 export type IssuesDetected = IssueDetected[];
 export interface Transcript {
-  Id?: string;
-  ParticipantId?: string;
-  ParticipantRole?: string;
-  Content?: string;
-  BeginOffsetMillis?: number;
-  EndOffsetMillis?: number;
-  Sentiment?: SentimentValue;
-  IssuesDetected?: IssueDetected[];
+  Id?: string | undefined;
+  ParticipantId?: string | undefined;
+  ParticipantRole?: string | undefined;
+  Content?: string | undefined;
+  BeginOffsetMillis?: number | undefined;
+  EndOffsetMillis?: number | undefined;
+  Sentiment?: SentimentValue | undefined;
+  IssuesDetected?: IssueDetected[] | undefined;
 }
 export type CategoryName = string;
 export type MatchedCategories = string[];
 export interface PointOfInterest {
-  BeginOffsetMillis?: number;
-  EndOffsetMillis?: number;
+  BeginOffsetMillis?: number | undefined;
+  EndOffsetMillis?: number | undefined;
 }
 export type PointsOfInterest = PointOfInterest[];
 export interface CategoryDetails {
-  PointsOfInterest?: PointOfInterest[];
+  PointsOfInterest?: PointOfInterest[] | undefined;
 }
 export type MatchedDetails = { [key: string]: CategoryDetails | undefined };
 export interface Categories {
-  MatchedCategories?: string[];
-  MatchedDetails?: { [key: string]: CategoryDetails | undefined };
+  MatchedCategories?: string[] | undefined;
+  MatchedDetails?: { [key: string]: CategoryDetails | undefined } | undefined;
 }
 export type PostContactSummaryContent = string;
 export type PostContactSummaryStatus = "FAILED" | "COMPLETED" | (string & {});
@@ -181,17 +181,17 @@ export type PostContactSummaryFailureCode =
   | "INTERNAL_ERROR"
   | (string & {});
 export interface PostContactSummary {
-  Content?: string;
-  Status?: PostContactSummaryStatus;
-  FailureCode?: PostContactSummaryFailureCode;
+  Content?: string | undefined;
+  Status?: PostContactSummaryStatus | undefined;
+  FailureCode?: PostContactSummaryFailureCode | undefined;
 }
 export type ExtractionDefinitionId = string;
 export type ExtractionDefinitionName = string;
 export type ExtractionDefinitionDisplayLabel = string;
 export type ExtractedInformationContent = string;
 export interface ExtractedInformationValue {
-  Content?: string;
-  PointsOfInterest?: PointOfInterest[];
+  Content?: string | undefined;
+  PointsOfInterest?: PointOfInterest[] | undefined;
 }
 export type ExtractedInformationValues = ExtractedInformationValue[];
 export type ExtractedInformationFailureCode =
@@ -202,17 +202,17 @@ export type ExtractedInformationFailureCode =
   | "MAX_PACKAGE_FEATURE_ONLY"
   | (string & {});
 export interface ExtractedInformation {
-  ExtractionDefinitionId?: string;
-  ExtractionDefinitionName?: string;
-  ExtractionDefinitionDisplayLabel?: string;
-  ExtractedValues?: ExtractedInformationValue[];
-  FailureCode?: ExtractedInformationFailureCode;
+  ExtractionDefinitionId?: string | undefined;
+  ExtractionDefinitionName?: string | undefined;
+  ExtractionDefinitionDisplayLabel?: string | undefined;
+  ExtractedValues?: ExtractedInformationValue[] | undefined;
+  FailureCode?: ExtractedInformationFailureCode | undefined;
 }
 export interface RealtimeContactAnalysisSegment {
-  Transcript?: Transcript;
-  Categories?: Categories;
-  PostContactSummary?: PostContactSummary;
-  ExtractedInformation?: ExtractedInformation;
+  Transcript?: Transcript | undefined;
+  Categories?: Categories | undefined;
+  PostContactSummary?: PostContactSummary | undefined;
+  ExtractedInformation?: ExtractedInformation | undefined;
 }
 export type RealtimeContactAnalysisSegments = RealtimeContactAnalysisSegment[];
 export interface ListRealtimeContactAnalysisSegmentsResponse {
@@ -257,7 +257,7 @@ export interface ListRealtimeContactAnalysisSegmentsResponse {
       })[];
     };
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type Message = string;
 export type ListRealtimeContactAnalysisSegmentsError =

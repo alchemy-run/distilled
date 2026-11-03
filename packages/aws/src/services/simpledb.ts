@@ -204,12 +204,12 @@ export class TooManyRequestedAttributes
 export type DomainName = string;
 export interface DeletableAttribute {
   Name: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type DeletableAttributeList = DeletableAttribute[];
 export interface DeletableItem {
   ItemName: string;
-  Attributes?: DeletableAttribute[];
+  Attributes?: DeletableAttribute[] | undefined;
 }
 export type DeletableItemList = DeletableItem[];
 export interface BatchDeleteAttributesRequest {
@@ -220,7 +220,7 @@ export interface BatchDeleteAttributesResponse {}
 export interface ReplaceableAttribute {
   Name: string;
   Value: string;
-  Replace?: boolean;
+  Replace?: boolean | undefined;
 }
 export type ReplaceableAttributeList = ReplaceableAttribute[];
 export interface ReplaceableItem {
@@ -238,15 +238,15 @@ export interface CreateDomainRequest {
 }
 export interface CreateDomainResponse {}
 export interface UpdateCondition {
-  Name?: string;
-  Value?: string;
-  Exists?: boolean;
+  Name?: string | undefined;
+  Value?: string | undefined;
+  Exists?: boolean | undefined;
 }
 export interface DeleteAttributesRequest {
   DomainName: string;
   ItemName: string;
-  Attributes?: DeletableAttribute[];
-  Expected?: UpdateCondition;
+  Attributes?: DeletableAttribute[] | undefined;
+  Expected?: UpdateCondition | undefined;
 }
 export interface DeleteAttributesResponse {}
 export interface DeleteDomainRequest {
@@ -257,61 +257,61 @@ export interface DomainMetadataRequest {
   DomainName: string;
 }
 export interface DomainMetadataResponse {
-  ItemCount?: number;
-  ItemNamesSizeBytes?: number;
-  AttributeNameCount?: number;
-  AttributeNamesSizeBytes?: number;
-  AttributeValueCount?: number;
-  AttributeValuesSizeBytes?: number;
-  Timestamp?: number;
+  ItemCount?: number | undefined;
+  ItemNamesSizeBytes?: number | undefined;
+  AttributeNameCount?: number | undefined;
+  AttributeNamesSizeBytes?: number | undefined;
+  AttributeValueCount?: number | undefined;
+  AttributeValuesSizeBytes?: number | undefined;
+  Timestamp?: number | undefined;
 }
 export type AttributeNameList = string[];
 export interface GetAttributesRequest {
   DomainName: string;
   ItemName: string;
-  AttributeNames?: string[];
-  ConsistentRead?: boolean;
+  AttributeNames?: string[] | undefined;
+  ConsistentRead?: boolean | undefined;
 }
 export interface Attribute {
   Name: string;
-  AlternateNameEncoding?: string;
+  AlternateNameEncoding?: string | undefined;
   Value: string;
-  AlternateValueEncoding?: string;
+  AlternateValueEncoding?: string | undefined;
 }
 export type AttributeList = Attribute[];
 export interface GetAttributesResponse {
-  Attributes?: Attribute[];
+  Attributes?: Attribute[] | undefined;
 }
 export interface ListDomainsRequest {
-  MaxNumberOfDomains?: number;
-  NextToken?: string;
+  MaxNumberOfDomains?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DomainNameList = string[];
 export interface ListDomainsResponse {
-  DomainNames?: string[];
-  NextToken?: string;
+  DomainNames?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutAttributesRequest {
   DomainName: string;
   ItemName: string;
   Attributes: ReplaceableAttribute[];
-  Expected?: UpdateCondition;
+  Expected?: UpdateCondition | undefined;
 }
 export interface PutAttributesResponse {}
 export interface SelectRequest {
   SelectExpression: string;
-  NextToken?: string;
-  ConsistentRead?: boolean;
+  NextToken?: string | undefined;
+  ConsistentRead?: boolean | undefined;
 }
 export interface Item {
   Name: string;
-  AlternateNameEncoding?: string;
-  Attributes?: Attribute[];
+  AlternateNameEncoding?: string | undefined;
+  Attributes?: Attribute[] | undefined;
 }
 export type ItemList = Item[];
 export interface SelectResponse {
-  Items?: Item[];
-  NextToken?: string;
+  Items?: Item[] | undefined;
+  NextToken?: string | undefined;
 }
 export type BatchDeleteAttributesError = CommonErrors;
 /**

@@ -214,10 +214,10 @@ export interface GetGlyphsRequest {
   FontUnicodeRange: string;
 }
 export interface GetGlyphsResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
-  ETag?: string;
+  Blob?: Uint8Array | undefined;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
+  ETag?: string | undefined;
 }
 export type MapStyle = "Standard" | "Monochrome" | "Hybrid" | "Satellite" | (string & {});
 export type ColorScheme = "Light" | "Dark" | (string & {});
@@ -229,10 +229,10 @@ export interface GetSpritesRequest {
   Variant: Variant;
 }
 export interface GetSpritesResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
-  ETag?: string;
+  Blob?: Uint8Array | undefined;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
+  ETag?: string | undefined;
 }
 export type PositionListString = string | redacted.Redacted<string>;
 export type PositionString = string | redacted.Redacted<string>;
@@ -254,32 +254,32 @@ export type ScaleBarUnit =
 export type StaticMapStyle = "Satellite" | "Standard" | (string & {});
 export type SensitiveFloat = number;
 export interface GetStaticMapRequest {
-  BoundingBox?: string | redacted.Redacted<string>;
-  BoundedPositions?: string | redacted.Redacted<string>;
-  Center?: string | redacted.Redacted<string>;
-  ColorScheme?: ColorScheme;
-  CompactOverlay?: string | redacted.Redacted<string>;
-  CropLabels?: boolean;
-  GeoJsonOverlay?: string | redacted.Redacted<string>;
+  BoundingBox?: string | redacted.Redacted<string> | undefined;
+  BoundedPositions?: string | redacted.Redacted<string> | undefined;
+  Center?: string | redacted.Redacted<string> | undefined;
+  ColorScheme?: ColorScheme | undefined;
+  CompactOverlay?: string | redacted.Redacted<string> | undefined;
+  CropLabels?: boolean | undefined;
+  GeoJsonOverlay?: string | redacted.Redacted<string> | undefined;
   Height: number;
-  Key?: string | redacted.Redacted<string>;
-  LabelSize?: LabelSize;
-  Language?: string;
-  Padding?: number;
-  PoliticalView?: string | redacted.Redacted<string>;
-  PointsOfInterests?: MapFeatureMode;
-  Radius?: number;
+  Key?: string | redacted.Redacted<string> | undefined;
+  LabelSize?: LabelSize | undefined;
+  Language?: string | undefined;
+  Padding?: number | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  PointsOfInterests?: MapFeatureMode | undefined;
+  Radius?: number | undefined;
   FileName: string;
-  ScaleBarUnit?: ScaleBarUnit;
-  Style?: StaticMapStyle;
+  ScaleBarUnit?: ScaleBarUnit | undefined;
+  Style?: StaticMapStyle | undefined;
   Width: number;
-  Zoom?: number;
+  Zoom?: number | undefined;
 }
 export interface GetStaticMapResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
-  ETag?: string;
+  Blob?: Uint8Array | undefined;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
+  ETag?: string | undefined;
   PricingBucket: string;
 }
 export type Terrain = "Hillshade" | "Terrain3D" | (string & {});
@@ -310,22 +310,22 @@ export type PoiCategory =
 export type PoiCategoryList = PoiCategory[];
 export interface GetStyleDescriptorRequest {
   Style: MapStyle;
-  ColorScheme?: ColorScheme;
-  PoliticalView?: string | redacted.Redacted<string>;
-  Terrain?: Terrain;
-  ContourDensity?: ContourDensity;
-  Traffic?: Traffic;
-  TravelModes?: TravelMode[];
-  Buildings?: Buildings;
-  PoiDensity?: PoiDensity;
-  PoiCategories?: PoiCategory[];
-  Key?: string | redacted.Redacted<string>;
+  ColorScheme?: ColorScheme | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  Terrain?: Terrain | undefined;
+  ContourDensity?: ContourDensity | undefined;
+  Traffic?: Traffic | undefined;
+  TravelModes?: TravelMode[] | undefined;
+  Buildings?: Buildings | undefined;
+  PoiDensity?: PoiDensity | undefined;
+  PoiCategories?: PoiCategory[] | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetStyleDescriptorResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
-  ETag?: string;
+  Blob?: Uint8Array | undefined;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
+  ETag?: string | undefined;
 }
 export type TileAdditionalFeature =
   | "ContourLines"
@@ -337,18 +337,18 @@ export type TileAdditionalFeatureList = TileAdditionalFeature[];
 export type Tileset = string;
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface GetTileRequest {
-  AdditionalFeatures?: TileAdditionalFeature[];
+  AdditionalFeatures?: TileAdditionalFeature[] | undefined;
   Tileset: string;
   Z: string | redacted.Redacted<string>;
   X: string | redacted.Redacted<string>;
   Y: string | redacted.Redacted<string>;
-  Key?: string | redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetTileResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
-  ETag?: string;
+  Blob?: Uint8Array | undefined;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
+  ETag?: string | undefined;
   PricingBucket: string;
 }
 export type ValidationExceptionReason =

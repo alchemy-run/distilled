@@ -64,43 +64,43 @@ export type CreateServerRequestLabelsMap = { [key: string]: string | undefined }
 /** Public Network options. */
 export interface CreateServerRequestPublicNet {
   /** Attach an IPv4 on the public NIC. If false, no IPv4 address will be attached. */
-  enable_ipv4?: boolean;
+  enable_ipv4?: boolean | undefined;
   /** Attach an IPv6 on the public NIC. If false, no IPv6 address will be attached. */
-  enable_ipv6?: boolean;
+  enable_ipv6?: boolean | undefined;
   /** ID of the ipv4 Primary IP to use. If omitted and enable_ipv4 is true, a new ipv4 Primary IP will automatically be created. */
-  ipv4?: number | null;
+  ipv4?: number | null | undefined;
   /** ID of the ipv6 Primary IP to use. If omitted and enable_ipv6 is true, a new ipv6 Primary IP will automatically be created. */
-  ipv6?: number | null;
+  ipv6?: number | null | undefined;
 }
 export interface CreateServerRequest {
   /** Name of the Server to create (must be unique per Project and a valid hostname as per RFC 1123). */
   name: string;
   /** ID or name of the Location to create the Server in. */
-  location?: string;
+  location?: string | undefined;
   /** ID or name of the Server type this Server should be created with. */
   server_type: string;
   /** This automatically triggers a [Power on a Server-Server Action](#tag/server-actions/poweron_server) after the creation is finished and is returned in the `next_actions` response object. */
-  start_after_create?: boolean;
+  start_after_create?: boolean | undefined;
   /** ID or name of the Image the Server is created from. */
   image: string;
   /** ID of the Placement Group the Server should be in. */
-  placement_group?: number;
+  placement_group?: number | undefined;
   /** SSH key IDs (`integer`) or names (`string`) which should be injected into the Server at creation time. */
-  ssh_keys?: CreateServerRequestSshKeysList;
+  ssh_keys?: CreateServerRequestSshKeysList | undefined;
   /** Volume IDs which should be attached to the Server at the creation time. Volumes must be in the same Location. */
-  volumes?: CreateServerRequestVolumesList;
+  volumes?: CreateServerRequestVolumesList | undefined;
   /** Network IDs which should be attached to the Server private network interface at the creation time. */
-  networks?: CreateServerRequestNetworksList;
+  networks?: CreateServerRequestNetworksList | undefined;
   /** Firewalls which should be applied on the Server's public network interface at creation time. */
-  firewalls?: CreateServerRequestFirewallsList;
+  firewalls?: CreateServerRequestFirewallsList | undefined;
   /** Cloud-Init user data to use during Server creation. This field is limited to 32KiB. */
-  user_data?: string;
+  user_data?: string | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreateServerRequestLabelsMap;
+  labels?: CreateServerRequestLabelsMap | undefined;
   /** Auto-mount Volumes after attach. */
-  automount?: boolean;
+  automount?: boolean | undefined;
   /** Public Network options. */
-  public_net?: CreateServerRequestPublicNet;
+  public_net?: CreateServerRequestPublicNet | undefined;
 }
 /** Status of the Server. */
 export type CreateServerResponseServerStatus =
@@ -116,7 +116,7 @@ export type CreateServerResponseServerStatus =
 /** IP address (v4) and its reverse DNS entry of this Server. */
 export interface CreateServerResponseServerPublicNetIpv4 {
   /** ID of the [Primary IP](#tag/primary-ips). */
-  id?: number;
+  id?: number | undefined;
   /** IP address (v4) of this Server. */
   ip: string;
   /** Whether the IP is blocked by our abuse department. */
@@ -136,7 +136,7 @@ export type CreateServerResponseServerPublicNetIpv6DnsPtrList =
 /** IPv6 network assigned to this Server and its reverse DNS entry. */
 export interface CreateServerResponseServerPublicNetIpv6 {
   /** ID of the [Primary IP](#tag/primary-ips). */
-  id?: number;
+  id?: number | undefined;
   /** IP address (v6) of this Server. */
   ip: string;
   /** Whether the IP is blocked by our abuse department. */
@@ -150,9 +150,9 @@ export type CreateServerResponseServerPublicNetFloatingIpsList = Array<number>;
 export type CreateServerResponseServerPublicNetFirewallsItemStatus = "applied" | "pending";
 export interface CreateServerResponseServerPublicNetFirewallsItem {
   /** ID of the [Firewall](#tag/firewalls). */
-  id?: number;
+  id?: number | undefined;
   /** Status of the Firewall on the Server. */
-  status?: CreateServerResponseServerPublicNetFirewallsItemStatus;
+  status?: CreateServerResponseServerPublicNetFirewallsItemStatus | undefined;
 }
 /** Firewalls applied to the public network interface of this Server. */
 export type CreateServerResponseServerPublicNetFirewallsList =
@@ -166,19 +166,19 @@ export interface CreateServerResponseServerPublicNet {
   /** IDs of Floating IPs assigned to this Server. */
   floating_ips: CreateServerResponseServerPublicNetFloatingIpsList;
   /** Firewalls applied to the public network interface of this Server. */
-  firewalls?: CreateServerResponseServerPublicNetFirewallsList;
+  firewalls?: CreateServerResponseServerPublicNetFirewallsList | undefined;
 }
 /** Additional IP addresses of the server on the network. */
 export type CreateServerResponseServerPrivateNetItemAliasIpsList = Array<string>;
 export interface CreateServerResponseServerPrivateNetItem {
   /** The Network ID the server is attached to. */
-  network?: number;
+  network?: number | undefined;
   /** The server IP address on the network. */
-  ip?: string;
+  ip?: string | undefined;
   /** Additional IP addresses of the server on the network. */
-  alias_ips?: CreateServerResponseServerPrivateNetItemAliasIpsList;
+  alias_ips?: CreateServerResponseServerPrivateNetItemAliasIpsList | undefined;
   /** The server MAC address on the network. */
-  mac_address?: string;
+  mac_address?: string | undefined;
 }
 /** Private networks information. */
 export type CreateServerResponseServerPrivateNetList =
@@ -265,11 +265,11 @@ export interface CreateServerResponseServerServerType {
   /** Type of cpu. */
   cpu_type: CreateServerResponseServerServerTypeCpuType;
   /** Category of Server Type. */
-  category?: string;
+  category?: string | undefined;
   /** CPU architecture of the Server Type. */
   architecture: CreateServerResponseServerServerTypeArchitecture;
   /** This field is deprecated. Use the `deprecation` object in the `locations` field instead (`.locations[].deprecation`). */
-  deprecation?: CreateServerResponseServerServerTypeDeprecation | null;
+  deprecation?: CreateServerResponseServerServerTypeDeprecation | null | undefined;
   /** Supported [Location](#tag/locations) and per [Location](#tag/locations) details for the [Server Type](#tag/server-types). A [Server Type](#tag/server-types) is: - only supported in the [Location](#tag/locations) that are listed. - deprecated in the [Location](#tag/locations) when the `deprecation` property is set. - permanently unavailable in the [Location](#tag/locations) when the `deprecation.unavailable_after` date is in the past. - temporarily unavailable in the [Location](#tag/locations) when the `deprecation.available` is false. */
   locations: CreateServerResponseServerServerTypeLocationsList;
 }
@@ -352,7 +352,7 @@ export interface CreateServerResponseServerImage {
   /** Operating system version. */
   os_version: string | null;
   /** Indicates that rapid deploy of the Image is available. */
-  rapid_deploy?: boolean;
+  rapid_deploy?: boolean | undefined;
   /** Protection configuration for the Resource. */
   protection: CreateServerResponseServerImageProtection;
   /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -461,13 +461,13 @@ export interface CreateServerResponseServer {
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
   labels: CreateServerResponseServerLabelsMap;
   /** IDs of Volumes assigned to this Server. */
-  volumes?: CreateServerResponseServerVolumesList;
+  volumes?: CreateServerResponseServerVolumesList | undefined;
   /** Load Balancer IDs assigned to the server. */
-  load_balancers?: CreateServerResponseServerLoadBalancersList;
+  load_balancers?: CreateServerResponseServerLoadBalancersList | undefined;
   /** Size of the primary Disk. */
   primary_disk_size: number;
   /** The placement group the server is assigned to. */
-  placement_group?: CreateServerResponseServerPlacementGroup | null;
+  placement_group?: CreateServerResponseServerPlacementGroup | null | undefined;
 }
 /** Status of the Action. */
 export type CreateServerResponseActionStatus = "running" | "success" | "error";
@@ -571,7 +571,7 @@ export interface DeleteServerResponseAction {
   error: CreateServerResponseActionError | null;
 }
 export interface DeleteServerResponse {
-  action?: DeleteServerResponseAction;
+  action?: DeleteServerResponseAction | undefined;
 }
 export interface GetServerRequest {
   /** ID of the Server. */
@@ -598,7 +598,7 @@ export type GetServerResponseServerPublicNetIpv6DnsPtrList =
 /** IPv6 network assigned to this Server and its reverse DNS entry. */
 export interface GetServerResponseServerPublicNetIpv6 {
   /** ID of the [Primary IP](#tag/primary-ips). */
-  id?: number;
+  id?: number | undefined;
   /** IP address (v6) of this Server. */
   ip: string;
   /** Whether the IP is blocked by our abuse department. */
@@ -612,9 +612,9 @@ export type GetServerResponseServerPublicNetFloatingIpsList = Array<number>;
 export type GetServerResponseServerPublicNetFirewallsItemStatus = "applied" | "pending";
 export interface GetServerResponseServerPublicNetFirewallsItem {
   /** ID of the [Firewall](#tag/firewalls). */
-  id?: number;
+  id?: number | undefined;
   /** Status of the Firewall on the Server. */
-  status?: GetServerResponseServerPublicNetFirewallsItemStatus;
+  status?: GetServerResponseServerPublicNetFirewallsItemStatus | undefined;
 }
 /** Firewalls applied to the public network interface of this Server. */
 export type GetServerResponseServerPublicNetFirewallsList =
@@ -628,19 +628,19 @@ export interface GetServerResponseServerPublicNet {
   /** IDs of Floating IPs assigned to this Server. */
   floating_ips: GetServerResponseServerPublicNetFloatingIpsList;
   /** Firewalls applied to the public network interface of this Server. */
-  firewalls?: GetServerResponseServerPublicNetFirewallsList;
+  firewalls?: GetServerResponseServerPublicNetFirewallsList | undefined;
 }
 /** Additional IP addresses of the server on the network. */
 export type GetServerResponseServerPrivateNetItemAliasIpsList = Array<string>;
 export interface GetServerResponseServerPrivateNetItem {
   /** The Network ID the server is attached to. */
-  network?: number;
+  network?: number | undefined;
   /** The server IP address on the network. */
-  ip?: string;
+  ip?: string | undefined;
   /** Additional IP addresses of the server on the network. */
-  alias_ips?: GetServerResponseServerPrivateNetItemAliasIpsList;
+  alias_ips?: GetServerResponseServerPrivateNetItemAliasIpsList | undefined;
   /** The server MAC address on the network. */
-  mac_address?: string;
+  mac_address?: string | undefined;
 }
 /** Private networks information. */
 export type GetServerResponseServerPrivateNetList = Array<GetServerResponseServerPrivateNetItem>;
@@ -698,11 +698,11 @@ export interface GetServerResponseServerServerType {
   /** Type of cpu. */
   cpu_type: GetServerResponseServerServerTypeCpuType;
   /** Category of Server Type. */
-  category?: string;
+  category?: string | undefined;
   /** CPU architecture of the Server Type. */
   architecture: GetServerResponseServerServerTypeArchitecture;
   /** This field is deprecated. Use the `deprecation` object in the `locations` field instead (`.locations[].deprecation`). */
-  deprecation?: CreateServerResponseServerServerTypeDeprecation | null;
+  deprecation?: CreateServerResponseServerServerTypeDeprecation | null | undefined;
   /** Supported [Location](#tag/locations) and per [Location](#tag/locations) details for the [Server Type](#tag/server-types). A [Server Type](#tag/server-types) is: - only supported in the [Location](#tag/locations) that are listed. - deprecated in the [Location](#tag/locations) when the `deprecation` property is set. - permanently unavailable in the [Location](#tag/locations) when the `deprecation.unavailable_after` date is in the past. - temporarily unavailable in the [Location](#tag/locations) when the `deprecation.available` is false. */
   locations: GetServerResponseServerServerTypeLocationsList;
 }
@@ -760,7 +760,7 @@ export interface GetServerResponseServerImage {
   /** Operating system version. */
   os_version: string | null;
   /** Indicates that rapid deploy of the Image is available. */
-  rapid_deploy?: boolean;
+  rapid_deploy?: boolean | undefined;
   /** Protection configuration for the Resource. */
   protection: CreateServerResponseServerImageProtection;
   /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -861,16 +861,16 @@ export interface GetServerResponseServer {
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
   labels: GetServerResponseServerLabelsMap;
   /** IDs of Volumes assigned to this Server. */
-  volumes?: GetServerResponseServerVolumesList;
+  volumes?: GetServerResponseServerVolumesList | undefined;
   /** Load Balancer IDs assigned to the server. */
-  load_balancers?: GetServerResponseServerLoadBalancersList;
+  load_balancers?: GetServerResponseServerLoadBalancersList | undefined;
   /** Size of the primary Disk. */
   primary_disk_size: number;
   /** The placement group the server is assigned to. */
-  placement_group?: GetServerResponseServerPlacementGroup | null;
+  placement_group?: GetServerResponseServerPlacementGroup | null | undefined;
 }
 export interface GetServerResponse {
-  server?: GetServerResponseServer;
+  server?: GetServerResponseServer | undefined;
 }
 export type GetServerMetricsRequestTypeItem = "cpu" | "disk" | "network";
 export type GetServerMetricsRequestTypeList = Array<
@@ -886,7 +886,7 @@ export interface GetServerMetricsRequest {
   /** End of period to get Metrics for (must be in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   end: string;
   /** Resolution of results in seconds. */
-  step?: string;
+  step?: string | undefined;
 }
 export type GetServerMetricsResponseMetricsTimeSeriesValueValuesItemList = Array<unknown>;
 /** Metrics timestamps with values. */
@@ -938,17 +938,17 @@ export type ListServersRequestStatusItem =
 export type ListServersRequestStatusList = Array<ListServersRequestStatusItem | (string & {})>;
 export interface ListServersRequest {
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter resources by labels. The response will only contain resources matching the label selector. For more information, see "[Label Selector](#description/label-selector)". */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListServersRequestSortList;
+  sort?: ListServersRequestSortList | undefined;
   /** Filter resources by status. May be used multiple times. The response will only contain the resources with the specified status. */
-  status?: ListServersRequestStatusList;
+  status?: ListServersRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Server. */
 export type ListServersResponseServersItemStatus =
@@ -971,7 +971,7 @@ export type ListServersResponseServersItemPublicNetIpv6DnsPtrList =
 /** IPv6 network assigned to this Server and its reverse DNS entry. */
 export interface ListServersResponseServersItemPublicNetIpv6 {
   /** ID of the [Primary IP](#tag/primary-ips). */
-  id?: number;
+  id?: number | undefined;
   /** IP address (v6) of this Server. */
   ip: string;
   /** Whether the IP is blocked by our abuse department. */
@@ -985,9 +985,9 @@ export type ListServersResponseServersItemPublicNetFloatingIpsList = Array<numbe
 export type ListServersResponseServersItemPublicNetFirewallsItemStatus = "applied" | "pending";
 export interface ListServersResponseServersItemPublicNetFirewallsItem {
   /** ID of the [Firewall](#tag/firewalls). */
-  id?: number;
+  id?: number | undefined;
   /** Status of the Firewall on the Server. */
-  status?: ListServersResponseServersItemPublicNetFirewallsItemStatus;
+  status?: ListServersResponseServersItemPublicNetFirewallsItemStatus | undefined;
 }
 /** Firewalls applied to the public network interface of this Server. */
 export type ListServersResponseServersItemPublicNetFirewallsList =
@@ -1001,19 +1001,19 @@ export interface ListServersResponseServersItemPublicNet {
   /** IDs of Floating IPs assigned to this Server. */
   floating_ips: ListServersResponseServersItemPublicNetFloatingIpsList;
   /** Firewalls applied to the public network interface of this Server. */
-  firewalls?: ListServersResponseServersItemPublicNetFirewallsList;
+  firewalls?: ListServersResponseServersItemPublicNetFirewallsList | undefined;
 }
 /** Additional IP addresses of the server on the network. */
 export type ListServersResponseServersItemPrivateNetItemAliasIpsList = Array<string>;
 export interface ListServersResponseServersItemPrivateNetItem {
   /** The Network ID the server is attached to. */
-  network?: number;
+  network?: number | undefined;
   /** The server IP address on the network. */
-  ip?: string;
+  ip?: string | undefined;
   /** Additional IP addresses of the server on the network. */
-  alias_ips?: ListServersResponseServersItemPrivateNetItemAliasIpsList;
+  alias_ips?: ListServersResponseServersItemPrivateNetItemAliasIpsList | undefined;
   /** The server MAC address on the network. */
-  mac_address?: string;
+  mac_address?: string | undefined;
 }
 /** Private networks information. */
 export type ListServersResponseServersItemPrivateNetList =
@@ -1072,11 +1072,11 @@ export interface ListServersResponseServersItemServerType {
   /** Type of cpu. */
   cpu_type: ListServersResponseServersItemServerTypeCpuType;
   /** Category of Server Type. */
-  category?: string;
+  category?: string | undefined;
   /** CPU architecture of the Server Type. */
   architecture: ListServersResponseServersItemServerTypeArchitecture;
   /** This field is deprecated. Use the `deprecation` object in the `locations` field instead (`.locations[].deprecation`). */
-  deprecation?: CreateServerResponseServerServerTypeDeprecation | null;
+  deprecation?: CreateServerResponseServerServerTypeDeprecation | null | undefined;
   /** Supported [Location](#tag/locations) and per [Location](#tag/locations) details for the [Server Type](#tag/server-types). A [Server Type](#tag/server-types) is: - only supported in the [Location](#tag/locations) that are listed. - deprecated in the [Location](#tag/locations) when the `deprecation` property is set. - permanently unavailable in the [Location](#tag/locations) when the `deprecation.unavailable_after` date is in the past. - temporarily unavailable in the [Location](#tag/locations) when the `deprecation.available` is false. */
   locations: ListServersResponseServersItemServerTypeLocationsList;
 }
@@ -1136,7 +1136,7 @@ export interface ListServersResponseServersItemImage {
   /** Operating system version. */
   os_version: string | null;
   /** Indicates that rapid deploy of the Image is available. */
-  rapid_deploy?: boolean;
+  rapid_deploy?: boolean | undefined;
   /** Protection configuration for the Resource. */
   protection: CreateServerResponseServerImageProtection;
   /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -1240,13 +1240,13 @@ export interface ListServersResponseServersItem {
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
   labels: ListServersResponseServersItemLabelsMap;
   /** IDs of Volumes assigned to this Server. */
-  volumes?: ListServersResponseServersItemVolumesList;
+  volumes?: ListServersResponseServersItemVolumesList | undefined;
   /** Load Balancer IDs assigned to the server. */
-  load_balancers?: ListServersResponseServersItemLoadBalancersList;
+  load_balancers?: ListServersResponseServersItemLoadBalancersList | undefined;
   /** Size of the primary Disk. */
   primary_disk_size: number;
   /** The placement group the server is assigned to. */
-  placement_group?: ListServersResponseServersItemPlacementGroup | null;
+  placement_group?: ListServersResponseServersItemPlacementGroup | null | undefined;
 }
 export type ListServersResponseServersList = Array<ListServersResponseServersItem>;
 /** See "[Pagination](#description/pagination)" for more information. */
@@ -1278,9 +1278,9 @@ export interface UpdateServerRequest {
   /** ID of the Server. */
   id: number;
   /** New name to set. */
-  name?: string;
+  name?: string | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-  labels?: UpdateServerRequestLabelsMap;
+  labels?: UpdateServerRequestLabelsMap | undefined;
 }
 /** Status of the Server. */
 export type UpdateServerResponseServerStatus =
@@ -1303,7 +1303,7 @@ export type UpdateServerResponseServerPublicNetIpv6DnsPtrList =
 /** IPv6 network assigned to this Server and its reverse DNS entry. */
 export interface UpdateServerResponseServerPublicNetIpv6 {
   /** ID of the [Primary IP](#tag/primary-ips). */
-  id?: number;
+  id?: number | undefined;
   /** IP address (v6) of this Server. */
   ip: string;
   /** Whether the IP is blocked by our abuse department. */
@@ -1317,9 +1317,9 @@ export type UpdateServerResponseServerPublicNetFloatingIpsList = Array<number>;
 export type UpdateServerResponseServerPublicNetFirewallsItemStatus = "applied" | "pending";
 export interface UpdateServerResponseServerPublicNetFirewallsItem {
   /** ID of the [Firewall](#tag/firewalls). */
-  id?: number;
+  id?: number | undefined;
   /** Status of the Firewall on the Server. */
-  status?: UpdateServerResponseServerPublicNetFirewallsItemStatus;
+  status?: UpdateServerResponseServerPublicNetFirewallsItemStatus | undefined;
 }
 /** Firewalls applied to the public network interface of this Server. */
 export type UpdateServerResponseServerPublicNetFirewallsList =
@@ -1333,19 +1333,19 @@ export interface UpdateServerResponseServerPublicNet {
   /** IDs of Floating IPs assigned to this Server. */
   floating_ips: UpdateServerResponseServerPublicNetFloatingIpsList;
   /** Firewalls applied to the public network interface of this Server. */
-  firewalls?: UpdateServerResponseServerPublicNetFirewallsList;
+  firewalls?: UpdateServerResponseServerPublicNetFirewallsList | undefined;
 }
 /** Additional IP addresses of the server on the network. */
 export type UpdateServerResponseServerPrivateNetItemAliasIpsList = Array<string>;
 export interface UpdateServerResponseServerPrivateNetItem {
   /** The Network ID the server is attached to. */
-  network?: number;
+  network?: number | undefined;
   /** The server IP address on the network. */
-  ip?: string;
+  ip?: string | undefined;
   /** Additional IP addresses of the server on the network. */
-  alias_ips?: UpdateServerResponseServerPrivateNetItemAliasIpsList;
+  alias_ips?: UpdateServerResponseServerPrivateNetItemAliasIpsList | undefined;
   /** The server MAC address on the network. */
-  mac_address?: string;
+  mac_address?: string | undefined;
 }
 /** Private networks information. */
 export type UpdateServerResponseServerPrivateNetList =
@@ -1404,11 +1404,11 @@ export interface UpdateServerResponseServerServerType {
   /** Type of cpu. */
   cpu_type: UpdateServerResponseServerServerTypeCpuType;
   /** Category of Server Type. */
-  category?: string;
+  category?: string | undefined;
   /** CPU architecture of the Server Type. */
   architecture: UpdateServerResponseServerServerTypeArchitecture;
   /** This field is deprecated. Use the `deprecation` object in the `locations` field instead (`.locations[].deprecation`). */
-  deprecation?: CreateServerResponseServerServerTypeDeprecation | null;
+  deprecation?: CreateServerResponseServerServerTypeDeprecation | null | undefined;
   /** Supported [Location](#tag/locations) and per [Location](#tag/locations) details for the [Server Type](#tag/server-types). A [Server Type](#tag/server-types) is: - only supported in the [Location](#tag/locations) that are listed. - deprecated in the [Location](#tag/locations) when the `deprecation` property is set. - permanently unavailable in the [Location](#tag/locations) when the `deprecation.unavailable_after` date is in the past. - temporarily unavailable in the [Location](#tag/locations) when the `deprecation.available` is false. */
   locations: UpdateServerResponseServerServerTypeLocationsList;
 }
@@ -1466,7 +1466,7 @@ export interface UpdateServerResponseServerImage {
   /** Operating system version. */
   os_version: string | null;
   /** Indicates that rapid deploy of the Image is available. */
-  rapid_deploy?: boolean;
+  rapid_deploy?: boolean | undefined;
   /** Protection configuration for the Resource. */
   protection: CreateServerResponseServerImageProtection;
   /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -1570,16 +1570,16 @@ export interface UpdateServerResponseServer {
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
   labels: UpdateServerResponseServerLabelsMap;
   /** IDs of Volumes assigned to this Server. */
-  volumes?: UpdateServerResponseServerVolumesList;
+  volumes?: UpdateServerResponseServerVolumesList | undefined;
   /** Load Balancer IDs assigned to the server. */
-  load_balancers?: UpdateServerResponseServerLoadBalancersList;
+  load_balancers?: UpdateServerResponseServerLoadBalancersList | undefined;
   /** Size of the primary Disk. */
   primary_disk_size: number;
   /** The placement group the server is assigned to. */
-  placement_group?: UpdateServerResponseServerPlacementGroup | null;
+  placement_group?: UpdateServerResponseServerPlacementGroup | null | undefined;
 }
 export interface UpdateServerResponse {
-  server?: UpdateServerResponseServer;
+  server?: UpdateServerResponseServer | undefined;
 }
 export type CreateServerError = ServerLimitExceeded | ServerPlacementError | HetznerOpError;
 /** Create a Server Creates a new Server. Returns preliminary information about the Server as well as an Action that covers progress of creation. #### Operation specific errors */

@@ -1000,13 +1000,13 @@ export interface AssociateAccessGrantsIdentityCenterResponse {}
 export type AccessGrantsLocationId = string;
 export type S3Prefix = string;
 export interface AccessGrantsLocationConfiguration {
-  S3SubPrefix?: string;
+  S3SubPrefix?: string | undefined;
 }
 export type GranteeType = "DIRECTORY_USER" | "DIRECTORY_GROUP" | "IAM" | (string & {});
 export type GranteeIdentifier = string;
 export interface Grantee {
-  GranteeType?: GranteeType;
-  GranteeIdentifier?: string;
+  GranteeType?: GranteeType | undefined;
+  GranteeIdentifier?: string | undefined;
 }
 export type Permission = "READ" | "WRITE" | "READWRITE" | (string & {});
 export type IdentityCenterApplicationArn = string;
@@ -1021,56 +1021,56 @@ export type TagList = Tag[];
 export interface CreateAccessGrantRequest {
   AccountId: string;
   AccessGrantsLocationId: string;
-  AccessGrantsLocationConfiguration?: AccessGrantsLocationConfiguration;
+  AccessGrantsLocationConfiguration?: AccessGrantsLocationConfiguration | undefined;
   Grantee: Grantee;
   Permission: Permission;
-  ApplicationArn?: string;
-  S3PrefixType?: S3PrefixType;
-  Tags?: Tag[];
+  ApplicationArn?: string | undefined;
+  S3PrefixType?: S3PrefixType | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type CreationTimestamp = Date;
 export type AccessGrantId = string;
 export type AccessGrantArn = string;
 export interface CreateAccessGrantResult {
-  CreatedAt?: Date;
-  AccessGrantId?: string;
-  AccessGrantArn?: string;
-  Grantee?: Grantee;
-  AccessGrantsLocationId?: string;
-  AccessGrantsLocationConfiguration?: AccessGrantsLocationConfiguration;
-  Permission?: Permission;
-  ApplicationArn?: string;
-  GrantScope?: string;
+  CreatedAt?: Date | undefined;
+  AccessGrantId?: string | undefined;
+  AccessGrantArn?: string | undefined;
+  Grantee?: Grantee | undefined;
+  AccessGrantsLocationId?: string | undefined;
+  AccessGrantsLocationConfiguration?: AccessGrantsLocationConfiguration | undefined;
+  Permission?: Permission | undefined;
+  ApplicationArn?: string | undefined;
+  GrantScope?: string | undefined;
 }
 export interface CreateAccessGrantsInstanceRequest {
   AccountId: string;
-  IdentityCenterArn?: string;
-  Tags?: Tag[];
+  IdentityCenterArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type AccessGrantsInstanceId = string;
 export type AccessGrantsInstanceArn = string;
 export interface CreateAccessGrantsInstanceResult {
-  CreatedAt?: Date;
-  AccessGrantsInstanceId?: string;
-  AccessGrantsInstanceArn?: string;
-  IdentityCenterArn?: string;
-  IdentityCenterInstanceArn?: string;
-  IdentityCenterApplicationArn?: string;
+  CreatedAt?: Date | undefined;
+  AccessGrantsInstanceId?: string | undefined;
+  AccessGrantsInstanceArn?: string | undefined;
+  IdentityCenterArn?: string | undefined;
+  IdentityCenterInstanceArn?: string | undefined;
+  IdentityCenterApplicationArn?: string | undefined;
 }
 export type IAMRoleArn = string;
 export interface CreateAccessGrantsLocationRequest {
   AccountId: string;
   LocationScope: string;
   IAMRoleArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type AccessGrantsLocationArn = string;
 export interface CreateAccessGrantsLocationResult {
-  CreatedAt?: Date;
-  AccessGrantsLocationId?: string;
-  AccessGrantsLocationArn?: string;
-  LocationScope?: string;
-  IAMRoleArn?: string;
+  CreatedAt?: Date | undefined;
+  AccessGrantsLocationId?: string | undefined;
+  AccessGrantsLocationArn?: string | undefined;
+  LocationScope?: string | undefined;
+  IAMRoleArn?: string | undefined;
 }
 export type AccessPointName = string;
 export type BucketName = string;
@@ -1080,10 +1080,10 @@ export interface VpcConfiguration {
 }
 export type Setting = boolean;
 export interface PublicAccessBlockConfiguration {
-  BlockPublicAcls?: boolean;
-  IgnorePublicAcls?: boolean;
-  BlockPublicPolicy?: boolean;
-  RestrictPublicBuckets?: boolean;
+  BlockPublicAcls?: boolean | undefined;
+  IgnorePublicAcls?: boolean | undefined;
+  BlockPublicPolicy?: boolean | undefined;
+  RestrictPublicBuckets?: boolean | undefined;
 }
 export type Prefix = string;
 export type PrefixesList = string[];
@@ -1099,24 +1099,24 @@ export type ScopePermission =
   | (string & {});
 export type ScopePermissionList = ScopePermission[];
 export interface Scope {
-  Prefixes?: string[];
-  Permissions?: ScopePermission[];
+  Prefixes?: string[] | undefined;
+  Permissions?: ScopePermission[] | undefined;
 }
 export interface CreateAccessPointRequest {
   AccountId: string;
   Name: string;
   Bucket: string;
-  VpcConfiguration?: VpcConfiguration;
-  PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration;
-  BucketAccountId?: string;
-  Scope?: Scope;
-  Tags?: Tag[];
+  VpcConfiguration?: VpcConfiguration | undefined;
+  PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration | undefined;
+  BucketAccountId?: string | undefined;
+  Scope?: Scope | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type S3AccessPointArn = string;
 export type Alias = string;
 export interface CreateAccessPointResult {
-  AccessPointArn?: string;
-  Alias?: string;
+  AccessPointArn?: string | undefined;
+  Alias?: string | undefined;
 }
 export type ObjectLambdaAccessPointName = string;
 export type ObjectLambdaSupportingAccessPointArn = string;
@@ -1139,7 +1139,7 @@ export type FunctionArnString = string;
 export type AwsLambdaTransformationPayload = string;
 export interface AwsLambdaTransformation {
   FunctionArn: string;
-  FunctionPayload?: string;
+  FunctionPayload?: string | undefined;
 }
 export type ObjectLambdaContentTransformation = { AwsLambda: AwsLambdaTransformation };
 export interface ObjectLambdaTransformationConfiguration {
@@ -1150,8 +1150,8 @@ export type ObjectLambdaTransformationConfigurationsList =
   ObjectLambdaTransformationConfiguration[];
 export interface ObjectLambdaConfiguration {
   SupportingAccessPoint: string;
-  CloudWatchMetricsEnabled?: boolean;
-  AllowedFeatures?: ObjectLambdaAllowedFeature[];
+  CloudWatchMetricsEnabled?: boolean | undefined;
+  AllowedFeatures?: ObjectLambdaAllowedFeature[] | undefined;
   TransformationConfigurations: ObjectLambdaTransformationConfiguration[];
 }
 export interface CreateAccessPointForObjectLambdaRequest {
@@ -1163,12 +1163,12 @@ export type ObjectLambdaAccessPointArn = string;
 export type ObjectLambdaAccessPointAliasValue = string;
 export type ObjectLambdaAccessPointAliasStatus = "PROVISIONING" | "READY" | (string & {});
 export interface ObjectLambdaAccessPointAlias {
-  Value?: string;
-  Status?: ObjectLambdaAccessPointAliasStatus;
+  Value?: string | undefined;
+  Status?: ObjectLambdaAccessPointAliasStatus | undefined;
 }
 export interface CreateAccessPointForObjectLambdaResult {
-  ObjectLambdaAccessPointArn?: string;
-  Alias?: ObjectLambdaAccessPointAlias;
+  ObjectLambdaAccessPointArn?: string | undefined;
+  Alias?: ObjectLambdaAccessPointAlias | undefined;
 }
 export type BucketCannedACL =
   | "private"
@@ -1190,7 +1190,7 @@ export type BucketLocationConstraint =
   | "eu-central-1"
   | (string & {});
 export interface CreateBucketConfiguration {
-  LocationConstraint?: BucketLocationConstraint;
+  LocationConstraint?: BucketLocationConstraint | undefined;
 }
 export type GrantFullControl = string;
 export type GrantRead = string;
@@ -1200,30 +1200,30 @@ export type GrantWriteACP = string;
 export type ObjectLockEnabledForBucket = boolean;
 export type NonEmptyMaxLength64String = string;
 export interface CreateBucketRequest {
-  ACL?: BucketCannedACL;
+  ACL?: BucketCannedACL | undefined;
   Bucket: string;
-  CreateBucketConfiguration?: CreateBucketConfiguration;
-  GrantFullControl?: string;
-  GrantRead?: string;
-  GrantReadACP?: string;
-  GrantWrite?: string;
-  GrantWriteACP?: string;
-  ObjectLockEnabledForBucket?: boolean;
-  OutpostId?: string;
+  CreateBucketConfiguration?: CreateBucketConfiguration | undefined;
+  GrantFullControl?: string | undefined;
+  GrantRead?: string | undefined;
+  GrantReadACP?: string | undefined;
+  GrantWrite?: string | undefined;
+  GrantWriteACP?: string | undefined;
+  ObjectLockEnabledForBucket?: boolean | undefined;
+  OutpostId?: string | undefined;
 }
 export type Location = string;
 export type S3RegionalBucketArn = string;
 export interface CreateBucketResult {
-  Location?: string;
-  BucketArn?: string;
+  Location?: string | undefined;
+  BucketArn?: string | undefined;
 }
 export type ConfirmationRequired = boolean;
 export type MaxLength1024String = string;
 export type UserArguments = { [key: string]: string | undefined };
 export interface LambdaInvokeOperation {
-  FunctionArn?: string;
-  InvocationSchemaVersion?: string;
-  UserArguments?: { [key: string]: string | undefined };
+  FunctionArn?: string | undefined;
+  InvocationSchemaVersion?: string | undefined;
+  UserArguments?: { [key: string]: string | undefined } | undefined;
 }
 export type S3RegionalOrS3ExpressBucketArnString = string;
 export type S3CannedAccessControlList =
@@ -1238,9 +1238,9 @@ export type S3CannedAccessControlList =
 export type S3GranteeTypeIdentifier = "id" | "emailAddress" | "uri" | (string & {});
 export type NonEmptyMaxLength1024String = string;
 export interface S3Grantee {
-  TypeIdentifier?: S3GranteeTypeIdentifier;
-  Identifier?: string;
-  DisplayName?: string;
+  TypeIdentifier?: S3GranteeTypeIdentifier | undefined;
+  Identifier?: string | undefined;
+  DisplayName?: string | undefined;
 }
 export type S3Permission =
   | "FULL_CONTROL"
@@ -1250,8 +1250,8 @@ export type S3Permission =
   | "WRITE_ACP"
   | (string & {});
 export interface S3Grant {
-  Grantee?: S3Grantee;
-  Permission?: S3Permission;
+  Grantee?: S3Grantee | undefined;
+  Permission?: S3Permission | undefined;
 }
 export type S3GrantList = S3Grant[];
 export type S3MetadataDirective = "COPY" | "REPLACE" | (string & {});
@@ -1260,17 +1260,17 @@ export type S3UserMetadata = { [key: string]: string | undefined };
 export type S3ContentLength = number;
 export type S3SSEAlgorithm = "AES256" | "KMS" | (string & {});
 export interface S3ObjectMetadata {
-  CacheControl?: string;
-  ContentDisposition?: string;
-  ContentEncoding?: string;
-  ContentLanguage?: string;
-  UserMetadata?: { [key: string]: string | undefined };
-  ContentLength?: number;
-  ContentMD5?: string;
-  ContentType?: string;
-  HttpExpiresDate?: Date;
-  RequesterCharged?: boolean;
-  SSEAlgorithm?: S3SSEAlgorithm;
+  CacheControl?: string | undefined;
+  ContentDisposition?: string | undefined;
+  ContentEncoding?: string | undefined;
+  ContentLanguage?: string | undefined;
+  UserMetadata?: { [key: string]: string | undefined } | undefined;
+  ContentLength?: number | undefined;
+  ContentMD5?: string | undefined;
+  ContentType?: string | undefined;
+  HttpExpiresDate?: Date | undefined;
+  RequesterCharged?: boolean | undefined;
+  SSEAlgorithm?: S3SSEAlgorithm | undefined;
 }
 export interface S3Tag {
   Key: string;
@@ -1306,56 +1306,56 @@ export type S3ObjectLockEventHold = "ON" | "OFF" | (string & {});
 export type S3ObjectLockEventHoldDurationDays = number;
 export type S3ObjectLockEventHoldDurationYears = number;
 export interface S3ObjectLockEventHoldDuration {
-  Days?: number;
-  Years?: number;
+  Days?: number | undefined;
+  Years?: number | undefined;
 }
 export interface S3CopyObjectOperation {
-  TargetResource?: string;
-  CannedAccessControlList?: S3CannedAccessControlList;
-  AccessControlGrants?: S3Grant[];
-  MetadataDirective?: S3MetadataDirective;
-  AnnotationDirective?: S3AnnotationDirective;
-  ModifiedSinceConstraint?: Date;
-  NewObjectMetadata?: S3ObjectMetadata;
-  NewObjectTagging?: S3Tag[];
-  RedirectLocation?: string;
-  RequesterPays?: boolean;
-  StorageClass?: S3StorageClass;
-  UnModifiedSinceConstraint?: Date;
-  SSEAwsKmsKeyId?: string;
-  TargetKeyPrefix?: string;
-  ObjectLockLegalHoldStatus?: S3ObjectLockLegalHoldStatus;
-  ObjectLockMode?: S3ObjectLockMode;
-  ObjectLockRetainUntilDate?: Date;
-  BucketKeyEnabled?: boolean;
-  ChecksumAlgorithm?: S3ChecksumAlgorithm;
-  ObjectLockEventHold?: S3ObjectLockEventHold;
-  ObjectLockEventHoldDuration?: S3ObjectLockEventHoldDuration;
+  TargetResource?: string | undefined;
+  CannedAccessControlList?: S3CannedAccessControlList | undefined;
+  AccessControlGrants?: S3Grant[] | undefined;
+  MetadataDirective?: S3MetadataDirective | undefined;
+  AnnotationDirective?: S3AnnotationDirective | undefined;
+  ModifiedSinceConstraint?: Date | undefined;
+  NewObjectMetadata?: S3ObjectMetadata | undefined;
+  NewObjectTagging?: S3Tag[] | undefined;
+  RedirectLocation?: string | undefined;
+  RequesterPays?: boolean | undefined;
+  StorageClass?: S3StorageClass | undefined;
+  UnModifiedSinceConstraint?: Date | undefined;
+  SSEAwsKmsKeyId?: string | undefined;
+  TargetKeyPrefix?: string | undefined;
+  ObjectLockLegalHoldStatus?: S3ObjectLockLegalHoldStatus | undefined;
+  ObjectLockMode?: S3ObjectLockMode | undefined;
+  ObjectLockRetainUntilDate?: Date | undefined;
+  BucketKeyEnabled?: boolean | undefined;
+  ChecksumAlgorithm?: S3ChecksumAlgorithm | undefined;
+  ObjectLockEventHold?: S3ObjectLockEventHold | undefined;
+  ObjectLockEventHoldDuration?: S3ObjectLockEventHoldDuration | undefined;
 }
 export interface S3ObjectOwner {
-  ID?: string;
-  DisplayName?: string;
+  ID?: string | undefined;
+  DisplayName?: string | undefined;
 }
 export interface S3AccessControlList {
   Owner: S3ObjectOwner;
-  Grants?: S3Grant[];
+  Grants?: S3Grant[] | undefined;
 }
 export interface S3AccessControlPolicy {
-  AccessControlList?: S3AccessControlList;
-  CannedAccessControlList?: S3CannedAccessControlList;
+  AccessControlList?: S3AccessControlList | undefined;
+  CannedAccessControlList?: S3CannedAccessControlList | undefined;
 }
 export interface S3SetObjectAclOperation {
-  AccessControlPolicy?: S3AccessControlPolicy;
+  AccessControlPolicy?: S3AccessControlPolicy | undefined;
 }
 export interface S3SetObjectTaggingOperation {
-  TagSet?: S3Tag[];
+  TagSet?: S3Tag[] | undefined;
 }
 export interface S3DeleteObjectTaggingOperation {}
 export type S3ExpirationInDays = number;
 export type S3GlacierJobTier = "BULK" | "STANDARD" | (string & {});
 export interface S3InitiateRestoreObjectOperation {
-  ExpirationInDays?: number;
-  GlacierJobTier?: S3GlacierJobTier;
+  ExpirationInDays?: number | undefined;
+  GlacierJobTier?: S3GlacierJobTier | undefined;
 }
 export interface S3ObjectLockLegalHold {
   Status: S3ObjectLockLegalHoldStatus;
@@ -1368,17 +1368,17 @@ export type S3ObjectLockRetentionEventHold = "ON" | "OFF" | (string & {});
 export type S3ObjectLockRetentionEventHoldDurationDays = number;
 export type S3ObjectLockRetentionEventHoldDurationYears = number;
 export interface S3ObjectLockRetentionEventHoldDuration {
-  Days?: number;
-  Years?: number;
+  Days?: number | undefined;
+  Years?: number | undefined;
 }
 export interface S3Retention {
-  RetainUntilDate?: Date;
-  Mode?: S3ObjectLockRetentionMode;
-  EventHold?: S3ObjectLockRetentionEventHold;
-  EventHoldDuration?: S3ObjectLockRetentionEventHoldDuration;
+  RetainUntilDate?: Date | undefined;
+  Mode?: S3ObjectLockRetentionMode | undefined;
+  EventHold?: S3ObjectLockRetentionEventHold | undefined;
+  EventHoldDuration?: S3ObjectLockRetentionEventHoldDuration | undefined;
 }
 export interface S3SetObjectRetentionOperation {
-  BypassGovernanceRetention?: boolean;
+  BypassGovernanceRetention?: boolean | undefined;
   Retention: S3Retention;
 }
 export interface S3ReplicateObjectOperation {}
@@ -1396,44 +1396,44 @@ export type ComputeObjectChecksumAlgorithm =
   | (string & {});
 export type ComputeObjectChecksumType = "FULL_OBJECT" | "COMPOSITE" | (string & {});
 export interface S3ComputeObjectChecksumOperation {
-  ChecksumAlgorithm?: ComputeObjectChecksumAlgorithm;
-  ChecksumType?: ComputeObjectChecksumType;
+  ChecksumAlgorithm?: ComputeObjectChecksumAlgorithm | undefined;
+  ChecksumType?: ComputeObjectChecksumType | undefined;
 }
 export type NonEmptyKmsKeyArnString = string;
 export interface S3UpdateObjectEncryptionSSEKMS {
   KMSKeyArn: string;
-  BucketKeyEnabled?: boolean;
+  BucketKeyEnabled?: boolean | undefined;
 }
 export interface ObjectEncryption {
-  SSEKMS?: S3UpdateObjectEncryptionSSEKMS;
+  SSEKMS?: S3UpdateObjectEncryptionSSEKMS | undefined;
 }
 export interface S3UpdateObjectEncryptionOperation {
-  ObjectEncryption?: ObjectEncryption;
+  ObjectEncryption?: ObjectEncryption | undefined;
 }
 export interface JobOperation {
-  LambdaInvoke?: LambdaInvokeOperation;
-  S3PutObjectCopy?: S3CopyObjectOperation;
-  S3PutObjectAcl?: S3SetObjectAclOperation;
-  S3PutObjectTagging?: S3SetObjectTaggingOperation;
-  S3DeleteObjectTagging?: S3DeleteObjectTaggingOperation;
-  S3InitiateRestoreObject?: S3InitiateRestoreObjectOperation;
-  S3PutObjectLegalHold?: S3SetObjectLegalHoldOperation;
-  S3PutObjectRetention?: S3SetObjectRetentionOperation;
-  S3ReplicateObject?: S3ReplicateObjectOperation;
-  S3ComputeObjectChecksum?: S3ComputeObjectChecksumOperation;
-  S3UpdateObjectEncryption?: S3UpdateObjectEncryptionOperation;
+  LambdaInvoke?: LambdaInvokeOperation | undefined;
+  S3PutObjectCopy?: S3CopyObjectOperation | undefined;
+  S3PutObjectAcl?: S3SetObjectAclOperation | undefined;
+  S3PutObjectTagging?: S3SetObjectTaggingOperation | undefined;
+  S3DeleteObjectTagging?: S3DeleteObjectTaggingOperation | undefined;
+  S3InitiateRestoreObject?: S3InitiateRestoreObjectOperation | undefined;
+  S3PutObjectLegalHold?: S3SetObjectLegalHoldOperation | undefined;
+  S3PutObjectRetention?: S3SetObjectRetentionOperation | undefined;
+  S3ReplicateObject?: S3ReplicateObjectOperation | undefined;
+  S3ComputeObjectChecksum?: S3ComputeObjectChecksumOperation | undefined;
+  S3UpdateObjectEncryption?: S3UpdateObjectEncryptionOperation | undefined;
 }
 export type S3BucketArnString = string;
 export type JobReportFormat = "Report_CSV_20180820" | (string & {});
 export type ReportPrefixString = string;
 export type JobReportScope = "AllTasks" | "FailedTasksOnly" | (string & {});
 export interface JobReport {
-  Bucket?: string;
-  Format?: JobReportFormat;
+  Bucket?: string | undefined;
+  Format?: JobReportFormat | undefined;
   Enabled: boolean;
-  Prefix?: string;
-  ReportScope?: JobReportScope;
-  ExpectedBucketOwner?: string;
+  Prefix?: string | undefined;
+  ReportScope?: JobReportScope | undefined;
+  ExpectedBucketOwner?: string | undefined;
 }
 export type JobManifestFormat =
   | "S3BatchOperations_CSV_20180820"
@@ -1443,13 +1443,13 @@ export type JobManifestFieldName = "Ignore" | "Bucket" | "Key" | "VersionId" | (
 export type JobManifestFieldList = JobManifestFieldName[];
 export interface JobManifestSpec {
   Format: JobManifestFormat;
-  Fields?: JobManifestFieldName[];
+  Fields?: JobManifestFieldName[] | undefined;
 }
 export type S3KeyArnString = string;
 export type S3ObjectVersionId = string;
 export interface JobManifestLocation {
   ObjectArn: string;
-  ObjectVersionId?: string;
+  ObjectVersionId?: string | undefined;
   ETag: string;
 }
 export interface JobManifest {
@@ -1464,15 +1464,15 @@ export interface SSEKMSEncryption {
   KeyId: string;
 }
 export interface GeneratedManifestEncryption {
-  SSES3?: SSES3Encryption;
-  SSEKMS?: SSEKMSEncryption;
+  SSES3?: SSES3Encryption | undefined;
+  SSEKMS?: SSEKMSEncryption | undefined;
 }
 export type GeneratedManifestFormat = "S3InventoryReport_CSV_20211130" | (string & {});
 export interface S3ManifestOutputLocation {
-  ExpectedManifestBucketOwner?: string;
+  ExpectedManifestBucketOwner?: string | undefined;
   Bucket: string;
-  ManifestPrefix?: string;
-  ManifestEncryption?: GeneratedManifestEncryption;
+  ManifestPrefix?: string | undefined;
+  ManifestEncryption?: GeneratedManifestEncryption | undefined;
   ManifestFormat: GeneratedManifestFormat;
 }
 export type ObjectCreationTime = Date;
@@ -1480,20 +1480,20 @@ export type ReplicationStatus = "COMPLETED" | "FAILED" | "REPLICA" | "NONE" | (s
 export type ReplicationStatusFilterList = ReplicationStatus[];
 export type NonEmptyMaxLength1024StringList = string[];
 export interface KeyNameConstraint {
-  MatchAnyPrefix?: string[];
-  MatchAnySuffix?: string[];
-  MatchAnySubstring?: string[];
+  MatchAnyPrefix?: string[] | undefined;
+  MatchAnySuffix?: string[] | undefined;
+  MatchAnySubstring?: string[] | undefined;
 }
 export type ObjectSizeGreaterThanBytes = number;
 export type ObjectSizeLessThanBytes = number;
 export type StorageClassList = S3StorageClass[];
 export interface SSES3Filter {}
 export interface SSEKMSFilter {
-  KmsKeyArn?: string;
-  BucketKeyEnabled?: boolean;
+  KmsKeyArn?: string | undefined;
+  BucketKeyEnabled?: boolean | undefined;
 }
 export interface DSSEKMSFilter {
-  KmsKeyArn?: string;
+  KmsKeyArn?: string | undefined;
 }
 export interface SSECFilter {}
 export interface NotSSEFilter {}
@@ -1505,52 +1505,52 @@ export type ObjectEncryptionFilter =
   | { SSES3?: never; SSEKMS?: never; DSSEKMS?: never; SSEC?: never; NOTSSE: NotSSEFilter };
 export type ObjectEncryptionFilterList = ObjectEncryptionFilter[];
 export interface JobManifestGeneratorFilter {
-  EligibleForReplication?: boolean;
-  CreatedAfter?: Date;
-  CreatedBefore?: Date;
-  ObjectReplicationStatuses?: ReplicationStatus[];
-  KeyNameConstraint?: KeyNameConstraint;
-  ObjectSizeGreaterThanBytes?: number;
-  ObjectSizeLessThanBytes?: number;
-  MatchAnyStorageClass?: S3StorageClass[];
-  MatchAnyObjectEncryption?: ObjectEncryptionFilter[];
+  EligibleForReplication?: boolean | undefined;
+  CreatedAfter?: Date | undefined;
+  CreatedBefore?: Date | undefined;
+  ObjectReplicationStatuses?: ReplicationStatus[] | undefined;
+  KeyNameConstraint?: KeyNameConstraint | undefined;
+  ObjectSizeGreaterThanBytes?: number | undefined;
+  ObjectSizeLessThanBytes?: number | undefined;
+  MatchAnyStorageClass?: S3StorageClass[] | undefined;
+  MatchAnyObjectEncryption?: ObjectEncryptionFilter[] | undefined;
 }
 export interface S3JobManifestGenerator {
-  ExpectedBucketOwner?: string;
+  ExpectedBucketOwner?: string | undefined;
   SourceBucket: string;
-  ManifestOutputLocation?: S3ManifestOutputLocation;
-  Filter?: JobManifestGeneratorFilter;
+  ManifestOutputLocation?: S3ManifestOutputLocation | undefined;
+  Filter?: JobManifestGeneratorFilter | undefined;
   EnableManifestOutput: boolean;
 }
 export type JobManifestGenerator = { S3JobManifestGenerator: S3JobManifestGenerator };
 export interface CreateJobRequest {
   AccountId: string;
-  ConfirmationRequired?: boolean;
+  ConfirmationRequired?: boolean | undefined;
   Operation: JobOperation;
   Report: JobReport;
   ClientRequestToken: string;
-  Manifest?: JobManifest;
-  Description?: string;
+  Manifest?: JobManifest | undefined;
+  Description?: string | undefined;
   Priority: number;
   RoleArn: string;
-  Tags?: S3Tag[];
-  ManifestGenerator?: JobManifestGenerator;
+  Tags?: S3Tag[] | undefined;
+  ManifestGenerator?: JobManifestGenerator | undefined;
 }
 export type JobId = string;
 export interface CreateJobResult {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export type MultiRegionAccessPointClientToken = string;
 export type MultiRegionAccessPointName = string;
 export interface Region {
   Bucket: string;
-  BucketAccountId?: string;
+  BucketAccountId?: string | undefined;
 }
 const Region = /*@__PURE__*/ __L.at(__c20, 0) as any as S.Schema<Region>;
 export type RegionCreationList = Region[];
 export interface CreateMultiRegionAccessPointInput {
   Name: string;
-  PublicAccessBlock?: PublicAccessBlockConfiguration;
+  PublicAccessBlock?: PublicAccessBlockConfiguration | undefined;
   Regions: Region[];
 }
 export interface CreateMultiRegionAccessPointRequest {
@@ -1560,7 +1560,7 @@ export interface CreateMultiRegionAccessPointRequest {
 }
 export type AsyncRequestTokenARN = string;
 export interface CreateMultiRegionAccessPointResult {
-  RequestTokenARN?: string;
+  RequestTokenARN?: string | undefined;
 }
 export type StorageLensGroupName = string;
 export type MatchAnyPrefix = string[];
@@ -1569,47 +1569,47 @@ export type MatchAnySuffix = string[];
 export type MatchAnyTag = S3Tag[];
 export type ObjectAgeValue = number;
 export interface MatchObjectAge {
-  DaysGreaterThan?: number;
-  DaysLessThan?: number;
+  DaysGreaterThan?: number | undefined;
+  DaysLessThan?: number | undefined;
 }
 export type ObjectSizeValue = number;
 export interface MatchObjectSize {
-  BytesGreaterThan?: number;
-  BytesLessThan?: number;
+  BytesGreaterThan?: number | undefined;
+  BytesLessThan?: number | undefined;
 }
 export interface StorageLensGroupAndOperator {
-  MatchAnyPrefix?: string[];
-  MatchAnySuffix?: string[];
-  MatchAnyTag?: S3Tag[];
-  MatchObjectAge?: MatchObjectAge;
-  MatchObjectSize?: MatchObjectSize;
+  MatchAnyPrefix?: string[] | undefined;
+  MatchAnySuffix?: string[] | undefined;
+  MatchAnyTag?: S3Tag[] | undefined;
+  MatchObjectAge?: MatchObjectAge | undefined;
+  MatchObjectSize?: MatchObjectSize | undefined;
 }
 export interface StorageLensGroupOrOperator {
-  MatchAnyPrefix?: string[];
-  MatchAnySuffix?: string[];
-  MatchAnyTag?: S3Tag[];
-  MatchObjectAge?: MatchObjectAge;
-  MatchObjectSize?: MatchObjectSize;
+  MatchAnyPrefix?: string[] | undefined;
+  MatchAnySuffix?: string[] | undefined;
+  MatchAnyTag?: S3Tag[] | undefined;
+  MatchObjectAge?: MatchObjectAge | undefined;
+  MatchObjectSize?: MatchObjectSize | undefined;
 }
 export interface StorageLensGroupFilter {
-  MatchAnyPrefix?: string[];
-  MatchAnySuffix?: string[];
-  MatchAnyTag?: S3Tag[];
-  MatchObjectAge?: MatchObjectAge;
-  MatchObjectSize?: MatchObjectSize;
-  And?: StorageLensGroupAndOperator;
-  Or?: StorageLensGroupOrOperator;
+  MatchAnyPrefix?: string[] | undefined;
+  MatchAnySuffix?: string[] | undefined;
+  MatchAnyTag?: S3Tag[] | undefined;
+  MatchObjectAge?: MatchObjectAge | undefined;
+  MatchObjectSize?: MatchObjectSize | undefined;
+  And?: StorageLensGroupAndOperator | undefined;
+  Or?: StorageLensGroupOrOperator | undefined;
 }
 export type StorageLensGroupArn = string;
 export interface StorageLensGroup {
   Name: string;
   Filter: StorageLensGroupFilter;
-  StorageLensGroupArn?: string;
+  StorageLensGroupArn?: string | undefined;
 }
 export interface CreateStorageLensGroupRequest {
   AccountId: string;
   StorageLensGroup: StorageLensGroup;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateStorageLensGroupResponse {}
 export interface DeleteAccessGrantRequest {
@@ -1694,7 +1694,7 @@ export interface DeleteMultiRegionAccessPointRequest {
   Details: DeleteMultiRegionAccessPointInput;
 }
 export interface DeleteMultiRegionAccessPointResult {
-  RequestTokenARN?: string;
+  RequestTokenARN?: string | undefined;
 }
 export interface DeletePublicAccessBlockRequest {
   AccountId: string;
@@ -1741,20 +1741,20 @@ export type JobNumberOfTasksSucceeded = number;
 export type JobNumberOfTasksFailed = number;
 export type JobTimeInStateSeconds = number;
 export interface JobTimers {
-  ElapsedTimeInActiveSeconds?: number;
+  ElapsedTimeInActiveSeconds?: number | undefined;
 }
 export interface JobProgressSummary {
-  TotalNumberOfTasks?: number;
-  NumberOfTasksSucceeded?: number;
-  NumberOfTasksFailed?: number;
-  Timers?: JobTimers;
+  TotalNumberOfTasks?: number | undefined;
+  NumberOfTasksSucceeded?: number | undefined;
+  NumberOfTasksFailed?: number | undefined;
+  Timers?: JobTimers | undefined;
 }
 export type JobStatusUpdateReason = string;
 export type JobFailureCode = string;
 export type JobFailureReason = string;
 export interface JobFailure {
-  FailureCode?: string;
-  FailureReason?: string;
+  FailureCode?: string | undefined;
+  FailureReason?: string | undefined;
 }
 export type JobFailureList = JobFailure[];
 export type JobCreationTime = Date;
@@ -1762,32 +1762,32 @@ export type JobTerminationDate = Date;
 export type SuspendedDate = Date;
 export type SuspendedCause = string;
 export interface S3GeneratedManifestDescriptor {
-  Format?: GeneratedManifestFormat;
-  Location?: JobManifestLocation;
+  Format?: GeneratedManifestFormat | undefined;
+  Location?: JobManifestLocation | undefined;
 }
 export interface JobDescriptor {
-  JobId?: string;
-  ConfirmationRequired?: boolean;
-  Description?: string;
-  JobArn?: string;
-  Status?: JobStatus;
-  Manifest?: JobManifest;
-  Operation?: JobOperation;
-  Priority?: number;
-  ProgressSummary?: JobProgressSummary;
-  StatusUpdateReason?: string;
-  FailureReasons?: JobFailure[];
-  Report?: JobReport;
-  CreationTime?: Date;
-  TerminationDate?: Date;
-  RoleArn?: string;
-  SuspendedDate?: Date;
-  SuspendedCause?: string;
-  ManifestGenerator?: JobManifestGenerator;
-  GeneratedManifestDescriptor?: S3GeneratedManifestDescriptor;
+  JobId?: string | undefined;
+  ConfirmationRequired?: boolean | undefined;
+  Description?: string | undefined;
+  JobArn?: string | undefined;
+  Status?: JobStatus | undefined;
+  Manifest?: JobManifest | undefined;
+  Operation?: JobOperation | undefined;
+  Priority?: number | undefined;
+  ProgressSummary?: JobProgressSummary | undefined;
+  StatusUpdateReason?: string | undefined;
+  FailureReasons?: JobFailure[] | undefined;
+  Report?: JobReport | undefined;
+  CreationTime?: Date | undefined;
+  TerminationDate?: Date | undefined;
+  RoleArn?: string | undefined;
+  SuspendedDate?: Date | undefined;
+  SuspendedCause?: string | undefined;
+  ManifestGenerator?: JobManifestGenerator | undefined;
+  GeneratedManifestDescriptor?: S3GeneratedManifestDescriptor | undefined;
 }
 export interface DescribeJobResult {
-  Job?: JobDescriptor;
+  Job?: JobDescriptor | undefined;
 }
 export interface DescribeMultiRegionAccessPointOperationRequest {
   AccountId: string;
@@ -1805,40 +1805,40 @@ export interface PutMultiRegionAccessPointPolicyInput {
   Policy: string;
 }
 export interface AsyncRequestParameters {
-  CreateMultiRegionAccessPointRequest?: CreateMultiRegionAccessPointInput;
-  DeleteMultiRegionAccessPointRequest?: DeleteMultiRegionAccessPointInput;
-  PutMultiRegionAccessPointPolicyRequest?: PutMultiRegionAccessPointPolicyInput;
+  CreateMultiRegionAccessPointRequest?: CreateMultiRegionAccessPointInput | undefined;
+  DeleteMultiRegionAccessPointRequest?: DeleteMultiRegionAccessPointInput | undefined;
+  PutMultiRegionAccessPointPolicyRequest?: PutMultiRegionAccessPointPolicyInput | undefined;
 }
 export type AsyncRequestStatus = string;
 export type RegionName = string;
 export interface MultiRegionAccessPointRegionalResponse {
-  Name?: string;
-  RequestStatus?: string;
+  Name?: string | undefined;
+  RequestStatus?: string | undefined;
 }
 export type MultiRegionAccessPointRegionalResponseList = MultiRegionAccessPointRegionalResponse[];
 export interface MultiRegionAccessPointsAsyncResponse {
-  Regions?: MultiRegionAccessPointRegionalResponse[];
+  Regions?: MultiRegionAccessPointRegionalResponse[] | undefined;
 }
 export interface AsyncErrorDetails {
-  Code?: string;
-  Message?: string;
-  Resource?: string;
-  RequestId?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
+  Resource?: string | undefined;
+  RequestId?: string | undefined;
 }
 export interface AsyncResponseDetails {
-  MultiRegionAccessPointDetails?: MultiRegionAccessPointsAsyncResponse;
-  ErrorDetails?: AsyncErrorDetails;
+  MultiRegionAccessPointDetails?: MultiRegionAccessPointsAsyncResponse | undefined;
+  ErrorDetails?: AsyncErrorDetails | undefined;
 }
 export interface AsyncOperation {
-  CreationTime?: Date;
-  Operation?: AsyncOperationName;
-  RequestTokenARN?: string;
-  RequestParameters?: AsyncRequestParameters;
-  RequestStatus?: string;
-  ResponseDetails?: AsyncResponseDetails;
+  CreationTime?: Date | undefined;
+  Operation?: AsyncOperationName | undefined;
+  RequestTokenARN?: string | undefined;
+  RequestParameters?: AsyncRequestParameters | undefined;
+  RequestStatus?: string | undefined;
+  ResponseDetails?: AsyncResponseDetails | undefined;
 }
 export interface DescribeMultiRegionAccessPointOperationResult {
-  AsyncOperation?: AsyncOperation;
+  AsyncOperation?: AsyncOperation | undefined;
 }
 export interface DissociateAccessGrantsIdentityCenterRequest {
   AccountId: string;
@@ -1849,34 +1849,34 @@ export interface GetAccessGrantRequest {
   AccessGrantId: string;
 }
 export interface GetAccessGrantResult {
-  CreatedAt?: Date;
-  AccessGrantId?: string;
-  AccessGrantArn?: string;
-  Grantee?: Grantee;
-  Permission?: Permission;
-  AccessGrantsLocationId?: string;
-  AccessGrantsLocationConfiguration?: AccessGrantsLocationConfiguration;
-  GrantScope?: string;
-  ApplicationArn?: string;
+  CreatedAt?: Date | undefined;
+  AccessGrantId?: string | undefined;
+  AccessGrantArn?: string | undefined;
+  Grantee?: Grantee | undefined;
+  Permission?: Permission | undefined;
+  AccessGrantsLocationId?: string | undefined;
+  AccessGrantsLocationConfiguration?: AccessGrantsLocationConfiguration | undefined;
+  GrantScope?: string | undefined;
+  ApplicationArn?: string | undefined;
 }
 export interface GetAccessGrantsInstanceRequest {
   AccountId: string;
 }
 export interface GetAccessGrantsInstanceResult {
-  AccessGrantsInstanceArn?: string;
-  AccessGrantsInstanceId?: string;
-  IdentityCenterArn?: string;
-  IdentityCenterInstanceArn?: string;
-  IdentityCenterApplicationArn?: string;
-  CreatedAt?: Date;
+  AccessGrantsInstanceArn?: string | undefined;
+  AccessGrantsInstanceId?: string | undefined;
+  IdentityCenterArn?: string | undefined;
+  IdentityCenterInstanceArn?: string | undefined;
+  IdentityCenterApplicationArn?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export interface GetAccessGrantsInstanceForPrefixRequest {
   AccountId: string;
   S3Prefix: string;
 }
 export interface GetAccessGrantsInstanceForPrefixResult {
-  AccessGrantsInstanceArn?: string;
-  AccessGrantsInstanceId?: string;
+  AccessGrantsInstanceArn?: string | undefined;
+  AccessGrantsInstanceId?: string | undefined;
 }
 export interface GetAccessGrantsInstanceResourcePolicyRequest {
   AccountId: string;
@@ -1884,20 +1884,20 @@ export interface GetAccessGrantsInstanceResourcePolicyRequest {
 export type PolicyDocument = string;
 export type Organization = string;
 export interface GetAccessGrantsInstanceResourcePolicyResult {
-  Policy?: string;
-  Organization?: string;
-  CreatedAt?: Date;
+  Policy?: string | undefined;
+  Organization?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export interface GetAccessGrantsLocationRequest {
   AccountId: string;
   AccessGrantsLocationId: string;
 }
 export interface GetAccessGrantsLocationResult {
-  CreatedAt?: Date;
-  AccessGrantsLocationId?: string;
-  AccessGrantsLocationArn?: string;
-  LocationScope?: string;
-  IAMRoleArn?: string;
+  CreatedAt?: Date | undefined;
+  AccessGrantsLocationId?: string | undefined;
+  AccessGrantsLocationArn?: string | undefined;
+  LocationScope?: string | undefined;
+  IAMRoleArn?: string | undefined;
 }
 export interface GetAccessPointRequest {
   AccountId: string;
@@ -1910,42 +1910,42 @@ export type Endpoints = { [key: string]: string | undefined };
 export type DataSourceId = string;
 export type DataSourceType = string;
 export interface GetAccessPointResult {
-  Name?: string;
-  Bucket?: string;
-  NetworkOrigin?: NetworkOrigin;
-  VpcConfiguration?: VpcConfiguration;
-  PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration;
-  CreationDate?: Date;
-  Alias?: string;
-  AccessPointArn?: string;
-  Endpoints?: { [key: string]: string | undefined };
-  BucketAccountId?: string;
-  DataSourceId?: string;
-  DataSourceType?: string;
+  Name?: string | undefined;
+  Bucket?: string | undefined;
+  NetworkOrigin?: NetworkOrigin | undefined;
+  VpcConfiguration?: VpcConfiguration | undefined;
+  PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration | undefined;
+  CreationDate?: Date | undefined;
+  Alias?: string | undefined;
+  AccessPointArn?: string | undefined;
+  Endpoints?: { [key: string]: string | undefined } | undefined;
+  BucketAccountId?: string | undefined;
+  DataSourceId?: string | undefined;
+  DataSourceType?: string | undefined;
 }
 export interface GetAccessPointConfigurationForObjectLambdaRequest {
   AccountId: string;
   Name: string;
 }
 export interface GetAccessPointConfigurationForObjectLambdaResult {
-  Configuration?: ObjectLambdaConfiguration;
+  Configuration?: ObjectLambdaConfiguration | undefined;
 }
 export interface GetAccessPointForObjectLambdaRequest {
   AccountId: string;
   Name: string;
 }
 export interface GetAccessPointForObjectLambdaResult {
-  Name?: string;
-  PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration;
-  CreationDate?: Date;
-  Alias?: ObjectLambdaAccessPointAlias;
+  Name?: string | undefined;
+  PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration | undefined;
+  CreationDate?: Date | undefined;
+  Alias?: ObjectLambdaAccessPointAlias | undefined;
 }
 export interface GetAccessPointPolicyRequest {
   AccountId: string;
   Name: string;
 }
 export interface GetAccessPointPolicyResult {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface GetAccessPointPolicyForObjectLambdaRequest {
   AccountId: string;
@@ -1953,7 +1953,7 @@ export interface GetAccessPointPolicyForObjectLambdaRequest {
 }
 export type ObjectLambdaPolicy = string;
 export interface GetAccessPointPolicyForObjectLambdaResult {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface GetAccessPointPolicyStatusRequest {
   AccountId: string;
@@ -1961,24 +1961,24 @@ export interface GetAccessPointPolicyStatusRequest {
 }
 export type IsPublic = boolean;
 export interface PolicyStatus {
-  IsPublic?: boolean;
+  IsPublic?: boolean | undefined;
 }
 export interface GetAccessPointPolicyStatusResult {
-  PolicyStatus?: PolicyStatus;
+  PolicyStatus?: PolicyStatus | undefined;
 }
 export interface GetAccessPointPolicyStatusForObjectLambdaRequest {
   AccountId: string;
   Name: string;
 }
 export interface GetAccessPointPolicyStatusForObjectLambdaResult {
-  PolicyStatus?: PolicyStatus;
+  PolicyStatus?: PolicyStatus | undefined;
 }
 export interface GetAccessPointScopeRequest {
   AccountId: string;
   Name: string;
 }
 export interface GetAccessPointScopeResult {
-  Scope?: Scope;
+  Scope?: Scope | undefined;
 }
 export interface GetBucketRequest {
   AccountId: string;
@@ -1986,9 +1986,9 @@ export interface GetBucketRequest {
 }
 export type PublicAccessBlockEnabled = boolean;
 export interface GetBucketResult {
-  Bucket?: string;
-  PublicAccessBlockEnabled?: boolean;
-  CreationDate?: Date;
+  Bucket?: string | undefined;
+  PublicAccessBlockEnabled?: boolean | undefined;
+  CreationDate?: Date | undefined;
 }
 export interface GetBucketLifecycleConfigurationRequest {
   AccountId: string;
@@ -1997,23 +1997,23 @@ export interface GetBucketLifecycleConfigurationRequest {
 export type Days = number;
 export type ExpiredObjectDeleteMarker = boolean;
 export interface LifecycleExpiration {
-  Date?: Date;
-  Days?: number;
-  ExpiredObjectDeleteMarker?: boolean;
+  Date?: Date | undefined;
+  Days?: number | undefined;
+  ExpiredObjectDeleteMarker?: boolean | undefined;
 }
 export type ID = string;
 export interface LifecycleRuleAndOperator {
-  Prefix?: string;
-  Tags?: S3Tag[];
-  ObjectSizeGreaterThan?: number;
-  ObjectSizeLessThan?: number;
+  Prefix?: string | undefined;
+  Tags?: S3Tag[] | undefined;
+  ObjectSizeGreaterThan?: number | undefined;
+  ObjectSizeLessThan?: number | undefined;
 }
 export interface LifecycleRuleFilter {
-  Prefix?: string;
-  Tag?: S3Tag;
-  And?: LifecycleRuleAndOperator;
-  ObjectSizeGreaterThan?: number;
-  ObjectSizeLessThan?: number;
+  Prefix?: string | undefined;
+  Tag?: S3Tag | undefined;
+  And?: LifecycleRuleAndOperator | undefined;
+  ObjectSizeGreaterThan?: number | undefined;
+  ObjectSizeLessThan?: number | undefined;
 }
 export type ExpirationStatus = "Enabled" | "Disabled" | (string & {});
 export type TransitionStorageClass =
@@ -2024,45 +2024,45 @@ export type TransitionStorageClass =
   | "DEEP_ARCHIVE"
   | (string & {});
 export interface Transition {
-  Date?: Date;
-  Days?: number;
-  StorageClass?: TransitionStorageClass;
+  Date?: Date | undefined;
+  Days?: number | undefined;
+  StorageClass?: TransitionStorageClass | undefined;
 }
 export type TransitionList = Transition[];
 export interface NoncurrentVersionTransition {
-  NoncurrentDays?: number;
-  StorageClass?: TransitionStorageClass;
+  NoncurrentDays?: number | undefined;
+  StorageClass?: TransitionStorageClass | undefined;
 }
 export type NoncurrentVersionTransitionList = NoncurrentVersionTransition[];
 export type NoncurrentVersionCount = number;
 export interface NoncurrentVersionExpiration {
-  NoncurrentDays?: number;
-  NewerNoncurrentVersions?: number;
+  NoncurrentDays?: number | undefined;
+  NewerNoncurrentVersions?: number | undefined;
 }
 export type DaysAfterInitiation = number;
 export interface AbortIncompleteMultipartUpload {
-  DaysAfterInitiation?: number;
+  DaysAfterInitiation?: number | undefined;
 }
 export interface LifecycleRule {
-  Expiration?: LifecycleExpiration;
-  ID?: string;
-  Filter?: LifecycleRuleFilter;
+  Expiration?: LifecycleExpiration | undefined;
+  ID?: string | undefined;
+  Filter?: LifecycleRuleFilter | undefined;
   Status: ExpirationStatus;
-  Transitions?: Transition[];
-  NoncurrentVersionTransitions?: NoncurrentVersionTransition[];
-  NoncurrentVersionExpiration?: NoncurrentVersionExpiration;
-  AbortIncompleteMultipartUpload?: AbortIncompleteMultipartUpload;
+  Transitions?: Transition[] | undefined;
+  NoncurrentVersionTransitions?: NoncurrentVersionTransition[] | undefined;
+  NoncurrentVersionExpiration?: NoncurrentVersionExpiration | undefined;
+  AbortIncompleteMultipartUpload?: AbortIncompleteMultipartUpload | undefined;
 }
 export type LifecycleRules = LifecycleRule[];
 export interface GetBucketLifecycleConfigurationResult {
-  Rules?: LifecycleRule[];
+  Rules?: LifecycleRule[] | undefined;
 }
 export interface GetBucketPolicyRequest {
   AccountId: string;
   Bucket: string;
 }
 export interface GetBucketPolicyResult {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface GetBucketReplicationRequest {
   AccountId: string;
@@ -2071,13 +2071,13 @@ export interface GetBucketReplicationRequest {
 export type Role = string;
 export type Priority = number;
 export interface ReplicationRuleAndOperator {
-  Prefix?: string;
-  Tags?: S3Tag[];
+  Prefix?: string | undefined;
+  Tags?: S3Tag[] | undefined;
 }
 export interface ReplicationRuleFilter {
-  Prefix?: string;
-  Tag?: S3Tag;
-  And?: ReplicationRuleAndOperator;
+  Prefix?: string | undefined;
+  Tag?: S3Tag | undefined;
+  And?: ReplicationRuleAndOperator | undefined;
 }
 export type ReplicationRuleStatus = "Enabled" | "Disabled" | (string & {});
 export type SseKmsEncryptedObjectsStatus = "Enabled" | "Disabled" | (string & {});
@@ -2089,8 +2089,8 @@ export interface ReplicaModifications {
   Status: ReplicaModificationsStatus;
 }
 export interface SourceSelectionCriteria {
-  SseKmsEncryptedObjects?: SseKmsEncryptedObjects;
-  ReplicaModifications?: ReplicaModifications;
+  SseKmsEncryptedObjects?: SseKmsEncryptedObjects | undefined;
+  ReplicaModifications?: ReplicaModifications | undefined;
 }
 export type ExistingObjectReplicationStatus = "Enabled" | "Disabled" | (string & {});
 export interface ExistingObjectReplication {
@@ -2100,7 +2100,7 @@ export type BucketIdentifierString = string;
 export type ReplicationTimeStatus = "Enabled" | "Disabled" | (string & {});
 export type Minutes = number;
 export interface ReplicationTimeValue {
-  Minutes?: number;
+  Minutes?: number | undefined;
 }
 export interface ReplicationTime {
   Status: ReplicationTimeStatus;
@@ -2112,12 +2112,12 @@ export interface AccessControlTranslation {
 }
 export type ReplicaKmsKeyID = string;
 export interface EncryptionConfiguration {
-  ReplicaKmsKeyID?: string;
+  ReplicaKmsKeyID?: string | undefined;
 }
 export type MetricsStatus = "Enabled" | "Disabled" | (string & {});
 export interface Metrics {
   Status: MetricsStatus;
-  EventThreshold?: ReplicationTimeValue;
+  EventThreshold?: ReplicationTimeValue | undefined;
 }
 export type ReplicationStorageClass =
   | "STANDARD"
@@ -2131,28 +2131,28 @@ export type ReplicationStorageClass =
   | "GLACIER_IR"
   | (string & {});
 export interface Destination {
-  Account?: string;
+  Account?: string | undefined;
   Bucket: string;
-  ReplicationTime?: ReplicationTime;
-  AccessControlTranslation?: AccessControlTranslation;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  Metrics?: Metrics;
-  StorageClass?: ReplicationStorageClass;
+  ReplicationTime?: ReplicationTime | undefined;
+  AccessControlTranslation?: AccessControlTranslation | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  Metrics?: Metrics | undefined;
+  StorageClass?: ReplicationStorageClass | undefined;
 }
 export type DeleteMarkerReplicationStatus = "Enabled" | "Disabled" | (string & {});
 export interface DeleteMarkerReplication {
   Status: DeleteMarkerReplicationStatus;
 }
 export interface ReplicationRule {
-  ID?: string;
-  Priority?: number;
-  Prefix?: string;
-  Filter?: ReplicationRuleFilter;
+  ID?: string | undefined;
+  Priority?: number | undefined;
+  Prefix?: string | undefined;
+  Filter?: ReplicationRuleFilter | undefined;
   Status: ReplicationRuleStatus;
-  SourceSelectionCriteria?: SourceSelectionCriteria;
-  ExistingObjectReplication?: ExistingObjectReplication;
+  SourceSelectionCriteria?: SourceSelectionCriteria | undefined;
+  ExistingObjectReplication?: ExistingObjectReplication | undefined;
   Destination: Destination;
-  DeleteMarkerReplication?: DeleteMarkerReplication;
+  DeleteMarkerReplication?: DeleteMarkerReplication | undefined;
   Bucket: string;
 }
 export type ReplicationRules = ReplicationRule[];
@@ -2161,7 +2161,7 @@ export interface ReplicationConfiguration {
   Rules: ReplicationRule[];
 }
 export interface GetBucketReplicationResult {
-  ReplicationConfiguration?: ReplicationConfiguration;
+  ReplicationConfiguration?: ReplicationConfiguration | undefined;
 }
 export interface GetBucketTaggingRequest {
   AccountId: string;
@@ -2177,8 +2177,8 @@ export interface GetBucketVersioningRequest {
 export type BucketVersioningStatus = "Enabled" | "Suspended" | (string & {});
 export type MFADeleteStatus = "Enabled" | "Disabled" | (string & {});
 export interface GetBucketVersioningResult {
-  Status?: BucketVersioningStatus;
-  MFADelete?: MFADeleteStatus;
+  Status?: BucketVersioningStatus | undefined;
+  MFADelete?: MFADeleteStatus | undefined;
 }
 export type DurationSeconds = number;
 export type Privilege = "Minimal" | "Default" | (string & {});
@@ -2187,32 +2187,32 @@ export interface GetDataAccessRequest {
   AccountId: string;
   Target: string;
   Permission: Permission;
-  DurationSeconds?: number;
-  Privilege?: Privilege;
-  TargetType?: S3PrefixType;
-  AuditContext?: string;
+  DurationSeconds?: number | undefined;
+  Privilege?: Privilege | undefined;
+  TargetType?: S3PrefixType | undefined;
+  AuditContext?: string | undefined;
 }
 export type AccessKeyId = string | redacted.Redacted<string>;
 export type SecretAccessKey = string | redacted.Redacted<string>;
 export type SessionToken = string | redacted.Redacted<string>;
 export type Expiration = Date;
 export interface Credentials {
-  AccessKeyId?: string | redacted.Redacted<string>;
-  SecretAccessKey?: string | redacted.Redacted<string>;
-  SessionToken?: string | redacted.Redacted<string>;
-  Expiration?: Date;
+  AccessKeyId?: string | redacted.Redacted<string> | undefined;
+  SecretAccessKey?: string | redacted.Redacted<string> | undefined;
+  SessionToken?: string | redacted.Redacted<string> | undefined;
+  Expiration?: Date | undefined;
 }
 export interface GetDataAccessResult {
-  Credentials?: Credentials;
-  MatchedGrantTarget?: string;
-  Grantee?: Grantee;
+  Credentials?: Credentials | undefined;
+  MatchedGrantTarget?: string | undefined;
+  Grantee?: Grantee | undefined;
 }
 export interface GetJobTaggingRequest {
   AccountId: string;
   JobId: string;
 }
 export interface GetJobTaggingResult {
-  Tags?: S3Tag[];
+  Tags?: S3Tag[] | undefined;
 }
 export interface GetMultiRegionAccessPointRequest {
   AccountId: string;
@@ -2228,45 +2228,45 @@ export type MultiRegionAccessPointStatus =
   | "DELETING"
   | (string & {});
 export interface RegionReport {
-  Bucket?: string;
-  Region?: string;
-  BucketAccountId?: string;
+  Bucket?: string | undefined;
+  Region?: string | undefined;
+  BucketAccountId?: string | undefined;
 }
 export type RegionReportList = RegionReport[];
 export interface MultiRegionAccessPointReport {
-  Name?: string;
-  Alias?: string;
-  CreatedAt?: Date;
-  PublicAccessBlock?: PublicAccessBlockConfiguration;
-  Status?: MultiRegionAccessPointStatus;
-  Regions?: RegionReport[];
+  Name?: string | undefined;
+  Alias?: string | undefined;
+  CreatedAt?: Date | undefined;
+  PublicAccessBlock?: PublicAccessBlockConfiguration | undefined;
+  Status?: MultiRegionAccessPointStatus | undefined;
+  Regions?: RegionReport[] | undefined;
 }
 export interface GetMultiRegionAccessPointResult {
-  AccessPoint?: MultiRegionAccessPointReport;
+  AccessPoint?: MultiRegionAccessPointReport | undefined;
 }
 export interface GetMultiRegionAccessPointPolicyRequest {
   AccountId: string;
   Name: string;
 }
 export interface EstablishedMultiRegionAccessPointPolicy {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface ProposedMultiRegionAccessPointPolicy {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface MultiRegionAccessPointPolicyDocument {
-  Established?: EstablishedMultiRegionAccessPointPolicy;
-  Proposed?: ProposedMultiRegionAccessPointPolicy;
+  Established?: EstablishedMultiRegionAccessPointPolicy | undefined;
+  Proposed?: ProposedMultiRegionAccessPointPolicy | undefined;
 }
 export interface GetMultiRegionAccessPointPolicyResult {
-  Policy?: MultiRegionAccessPointPolicyDocument;
+  Policy?: MultiRegionAccessPointPolicyDocument | undefined;
 }
 export interface GetMultiRegionAccessPointPolicyStatusRequest {
   AccountId: string;
   Name: string;
 }
 export interface GetMultiRegionAccessPointPolicyStatusResult {
-  Established?: PolicyStatus;
+  Established?: PolicyStatus | undefined;
 }
 export type MultiRegionAccessPointId = string;
 export interface GetMultiRegionAccessPointRoutesRequest {
@@ -2275,20 +2275,20 @@ export interface GetMultiRegionAccessPointRoutesRequest {
 }
 export type TrafficDialPercentage = number;
 export interface MultiRegionAccessPointRoute {
-  Bucket?: string;
-  Region?: string;
+  Bucket?: string | undefined;
+  Region?: string | undefined;
   TrafficDialPercentage: number;
 }
 export type RouteList = MultiRegionAccessPointRoute[];
 export interface GetMultiRegionAccessPointRoutesResult {
-  Mrap?: string;
-  Routes?: MultiRegionAccessPointRoute[];
+  Mrap?: string | undefined;
+  Routes?: MultiRegionAccessPointRoute[] | undefined;
 }
 export interface GetPublicAccessBlockRequest {
   AccountId: string;
 }
 export interface GetPublicAccessBlockOutput {
-  PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration;
+  PublicAccessBlockConfiguration?: PublicAccessBlockConfiguration | undefined;
 }
 export interface GetStorageLensConfigurationRequest {
   ConfigId: string;
@@ -2296,71 +2296,71 @@ export interface GetStorageLensConfigurationRequest {
 }
 export type IsEnabled = boolean;
 export interface ActivityMetrics {
-  IsEnabled?: boolean;
+  IsEnabled?: boolean | undefined;
 }
 export type StorageLensPrefixLevelDelimiter = string;
 export type StorageLensPrefixLevelMaxDepth = number;
 export type MinStorageBytesPercentage = number;
 export interface SelectionCriteria {
-  Delimiter?: string;
-  MaxDepth?: number;
-  MinStorageBytesPercentage?: number;
+  Delimiter?: string | undefined;
+  MaxDepth?: number | undefined;
+  MinStorageBytesPercentage?: number | undefined;
 }
 export interface PrefixLevelStorageMetrics {
-  IsEnabled?: boolean;
-  SelectionCriteria?: SelectionCriteria;
+  IsEnabled?: boolean | undefined;
+  SelectionCriteria?: SelectionCriteria | undefined;
 }
 export interface PrefixLevel {
   StorageMetrics: PrefixLevelStorageMetrics;
 }
 export interface AdvancedCostOptimizationMetrics {
-  IsEnabled?: boolean;
+  IsEnabled?: boolean | undefined;
 }
 export interface AdvancedDataProtectionMetrics {
-  IsEnabled?: boolean;
+  IsEnabled?: boolean | undefined;
 }
 export interface DetailedStatusCodesMetrics {
-  IsEnabled?: boolean;
+  IsEnabled?: boolean | undefined;
 }
 export interface AdvancedPerformanceMetrics {
-  IsEnabled?: boolean;
+  IsEnabled?: boolean | undefined;
 }
 export interface BucketLevel {
-  ActivityMetrics?: ActivityMetrics;
-  PrefixLevel?: PrefixLevel;
-  AdvancedCostOptimizationMetrics?: AdvancedCostOptimizationMetrics;
-  AdvancedDataProtectionMetrics?: AdvancedDataProtectionMetrics;
-  DetailedStatusCodesMetrics?: DetailedStatusCodesMetrics;
-  AdvancedPerformanceMetrics?: AdvancedPerformanceMetrics;
+  ActivityMetrics?: ActivityMetrics | undefined;
+  PrefixLevel?: PrefixLevel | undefined;
+  AdvancedCostOptimizationMetrics?: AdvancedCostOptimizationMetrics | undefined;
+  AdvancedDataProtectionMetrics?: AdvancedDataProtectionMetrics | undefined;
+  DetailedStatusCodesMetrics?: DetailedStatusCodesMetrics | undefined;
+  AdvancedPerformanceMetrics?: AdvancedPerformanceMetrics | undefined;
 }
 export type StorageLensGroupLevelInclude = string[];
 export type StorageLensGroupLevelExclude = string[];
 export interface StorageLensGroupLevelSelectionCriteria {
-  Include?: string[];
-  Exclude?: string[];
+  Include?: string[] | undefined;
+  Exclude?: string[] | undefined;
 }
 export interface StorageLensGroupLevel {
-  SelectionCriteria?: StorageLensGroupLevelSelectionCriteria;
+  SelectionCriteria?: StorageLensGroupLevelSelectionCriteria | undefined;
 }
 export interface AccountLevel {
-  ActivityMetrics?: ActivityMetrics;
-  BucketLevel?: BucketLevel;
-  AdvancedCostOptimizationMetrics?: AdvancedCostOptimizationMetrics;
-  AdvancedDataProtectionMetrics?: AdvancedDataProtectionMetrics;
-  DetailedStatusCodesMetrics?: DetailedStatusCodesMetrics;
-  AdvancedPerformanceMetrics?: AdvancedPerformanceMetrics;
-  StorageLensGroupLevel?: StorageLensGroupLevel;
+  ActivityMetrics?: ActivityMetrics | undefined;
+  BucketLevel?: BucketLevel | undefined;
+  AdvancedCostOptimizationMetrics?: AdvancedCostOptimizationMetrics | undefined;
+  AdvancedDataProtectionMetrics?: AdvancedDataProtectionMetrics | undefined;
+  DetailedStatusCodesMetrics?: DetailedStatusCodesMetrics | undefined;
+  AdvancedPerformanceMetrics?: AdvancedPerformanceMetrics | undefined;
+  StorageLensGroupLevel?: StorageLensGroupLevel | undefined;
 }
 export type Buckets = string[];
 export type S3AWSRegion = string;
 export type Regions = string[];
 export interface Include {
-  Buckets?: string[];
-  Regions?: string[];
+  Buckets?: string[] | undefined;
+  Regions?: string[] | undefined;
 }
 export interface Exclude {
-  Buckets?: string[];
-  Regions?: string[];
+  Buckets?: string[] | undefined;
+  Regions?: string[] | undefined;
 }
 export type Format = "CSV" | "Parquet" | (string & {});
 export type OutputSchemaVersion = "V_1" | (string & {});
@@ -2370,32 +2370,32 @@ export interface SSEKMS {
   KeyId: string;
 }
 export interface StorageLensDataExportEncryption {
-  SSES3?: SSES3;
-  SSEKMS?: SSEKMS;
+  SSES3?: SSES3 | undefined;
+  SSEKMS?: SSEKMS | undefined;
 }
 export interface S3BucketDestination {
   Format: Format;
   OutputSchemaVersion: OutputSchemaVersion;
   AccountId: string;
   Arn: string;
-  Prefix?: string;
-  Encryption?: StorageLensDataExportEncryption;
+  Prefix?: string | undefined;
+  Encryption?: StorageLensDataExportEncryption | undefined;
 }
 export interface CloudWatchMetrics {
   IsEnabled: boolean;
 }
 export interface StorageLensTableDestination {
   IsEnabled: boolean;
-  Encryption?: StorageLensDataExportEncryption;
+  Encryption?: StorageLensDataExportEncryption | undefined;
 }
 export interface StorageLensDataExport {
-  S3BucketDestination?: S3BucketDestination;
-  CloudWatchMetrics?: CloudWatchMetrics;
-  StorageLensTableDestination?: StorageLensTableDestination;
+  S3BucketDestination?: S3BucketDestination | undefined;
+  CloudWatchMetrics?: CloudWatchMetrics | undefined;
+  StorageLensTableDestination?: StorageLensTableDestination | undefined;
 }
 export interface StorageLensExpandedPrefixesDataExport {
-  S3BucketDestination?: S3BucketDestination;
-  StorageLensTableDestination?: StorageLensTableDestination;
+  S3BucketDestination?: S3BucketDestination | undefined;
+  StorageLensTableDestination?: StorageLensTableDestination | undefined;
 }
 export type AwsOrgArn = string;
 export interface StorageLensAwsOrg {
@@ -2405,17 +2405,17 @@ export type StorageLensArn = string;
 export interface StorageLensConfiguration {
   Id: string;
   AccountLevel: AccountLevel;
-  Include?: Include;
-  Exclude?: Exclude;
-  DataExport?: StorageLensDataExport;
-  ExpandedPrefixesDataExport?: StorageLensExpandedPrefixesDataExport;
+  Include?: Include | undefined;
+  Exclude?: Exclude | undefined;
+  DataExport?: StorageLensDataExport | undefined;
+  ExpandedPrefixesDataExport?: StorageLensExpandedPrefixesDataExport | undefined;
   IsEnabled: boolean;
-  AwsOrg?: StorageLensAwsOrg;
-  StorageLensArn?: string;
-  PrefixDelimiter?: string;
+  AwsOrg?: StorageLensAwsOrg | undefined;
+  StorageLensArn?: string | undefined;
+  PrefixDelimiter?: string | undefined;
 }
 export interface GetStorageLensConfigurationResult {
-  StorageLensConfiguration?: StorageLensConfiguration;
+  StorageLensConfiguration?: StorageLensConfiguration | undefined;
 }
 export interface GetStorageLensConfigurationTaggingRequest {
   ConfigId: string;
@@ -2427,152 +2427,152 @@ export interface StorageLensTag {
 }
 export type StorageLensTags = StorageLensTag[];
 export interface GetStorageLensConfigurationTaggingResult {
-  Tags?: StorageLensTag[];
+  Tags?: StorageLensTag[] | undefined;
 }
 export interface GetStorageLensGroupRequest {
   Name: string;
   AccountId: string;
 }
 export interface GetStorageLensGroupResult {
-  StorageLensGroup?: StorageLensGroup;
+  StorageLensGroup?: StorageLensGroup | undefined;
 }
 export type ContinuationToken = string;
 export type MaxResults = number;
 export interface ListAccessGrantsRequest {
   AccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  GranteeType?: GranteeType;
-  GranteeIdentifier?: string;
-  Permission?: Permission;
-  GrantScope?: string;
-  ApplicationArn?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  GranteeType?: GranteeType | undefined;
+  GranteeIdentifier?: string | undefined;
+  Permission?: Permission | undefined;
+  GrantScope?: string | undefined;
+  ApplicationArn?: string | undefined;
 }
 export interface ListAccessGrantEntry {
-  CreatedAt?: Date;
-  AccessGrantId?: string;
-  AccessGrantArn?: string;
-  Grantee?: Grantee;
-  Permission?: Permission;
-  AccessGrantsLocationId?: string;
-  AccessGrantsLocationConfiguration?: AccessGrantsLocationConfiguration;
-  GrantScope?: string;
-  ApplicationArn?: string;
+  CreatedAt?: Date | undefined;
+  AccessGrantId?: string | undefined;
+  AccessGrantArn?: string | undefined;
+  Grantee?: Grantee | undefined;
+  Permission?: Permission | undefined;
+  AccessGrantsLocationId?: string | undefined;
+  AccessGrantsLocationConfiguration?: AccessGrantsLocationConfiguration | undefined;
+  GrantScope?: string | undefined;
+  ApplicationArn?: string | undefined;
 }
 export type AccessGrantsList = ListAccessGrantEntry[];
 export interface ListAccessGrantsResult {
-  NextToken?: string;
-  AccessGrantsList?: ListAccessGrantEntry[];
+  NextToken?: string | undefined;
+  AccessGrantsList?: ListAccessGrantEntry[] | undefined;
 }
 export interface ListAccessGrantsInstancesRequest {
   AccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListAccessGrantsInstanceEntry {
-  AccessGrantsInstanceId?: string;
-  AccessGrantsInstanceArn?: string;
-  CreatedAt?: Date;
-  IdentityCenterArn?: string;
-  IdentityCenterInstanceArn?: string;
-  IdentityCenterApplicationArn?: string;
+  AccessGrantsInstanceId?: string | undefined;
+  AccessGrantsInstanceArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  IdentityCenterArn?: string | undefined;
+  IdentityCenterInstanceArn?: string | undefined;
+  IdentityCenterApplicationArn?: string | undefined;
 }
 export type AccessGrantsInstancesList = ListAccessGrantsInstanceEntry[];
 export interface ListAccessGrantsInstancesResult {
-  NextToken?: string;
-  AccessGrantsInstancesList?: ListAccessGrantsInstanceEntry[];
+  NextToken?: string | undefined;
+  AccessGrantsInstancesList?: ListAccessGrantsInstanceEntry[] | undefined;
 }
 export interface ListAccessGrantsLocationsRequest {
   AccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  LocationScope?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  LocationScope?: string | undefined;
 }
 export interface ListAccessGrantsLocationsEntry {
-  CreatedAt?: Date;
-  AccessGrantsLocationId?: string;
-  AccessGrantsLocationArn?: string;
-  LocationScope?: string;
-  IAMRoleArn?: string;
+  CreatedAt?: Date | undefined;
+  AccessGrantsLocationId?: string | undefined;
+  AccessGrantsLocationArn?: string | undefined;
+  LocationScope?: string | undefined;
+  IAMRoleArn?: string | undefined;
 }
 export type AccessGrantsLocationsList = ListAccessGrantsLocationsEntry[];
 export interface ListAccessGrantsLocationsResult {
-  NextToken?: string;
-  AccessGrantsLocationsList?: ListAccessGrantsLocationsEntry[];
+  NextToken?: string | undefined;
+  AccessGrantsLocationsList?: ListAccessGrantsLocationsEntry[] | undefined;
 }
 export interface ListAccessPointsRequest {
   AccountId: string;
-  Bucket?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  DataSourceId?: string;
-  DataSourceType?: string;
+  Bucket?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  DataSourceId?: string | undefined;
+  DataSourceType?: string | undefined;
 }
 export interface AccessPoint {
   Name: string;
   NetworkOrigin: NetworkOrigin;
-  VpcConfiguration?: VpcConfiguration;
+  VpcConfiguration?: VpcConfiguration | undefined;
   Bucket: string;
-  AccessPointArn?: string;
-  Alias?: string;
-  BucketAccountId?: string;
-  DataSourceId?: string;
-  DataSourceType?: string;
+  AccessPointArn?: string | undefined;
+  Alias?: string | undefined;
+  BucketAccountId?: string | undefined;
+  DataSourceId?: string | undefined;
+  DataSourceType?: string | undefined;
 }
 export type AccessPointList = AccessPoint[];
 export interface ListAccessPointsResult {
-  AccessPointList?: AccessPoint[];
-  NextToken?: string;
+  AccessPointList?: AccessPoint[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAccessPointsForDirectoryBucketsRequest {
   AccountId: string;
-  DirectoryBucket?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  DirectoryBucket?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListAccessPointsForDirectoryBucketsResult {
-  AccessPointList?: AccessPoint[];
-  NextToken?: string;
+  AccessPointList?: AccessPoint[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAccessPointsForObjectLambdaRequest {
   AccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ObjectLambdaAccessPoint {
   Name: string;
-  ObjectLambdaAccessPointArn?: string;
-  Alias?: ObjectLambdaAccessPointAlias;
+  ObjectLambdaAccessPointArn?: string | undefined;
+  Alias?: ObjectLambdaAccessPointAlias | undefined;
 }
 export type ObjectLambdaAccessPointList = ObjectLambdaAccessPoint[];
 export interface ListAccessPointsForObjectLambdaResult {
-  ObjectLambdaAccessPointList?: ObjectLambdaAccessPoint[];
-  NextToken?: string;
+  ObjectLambdaAccessPointList?: ObjectLambdaAccessPoint[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCallerAccessGrantsRequest {
   AccountId: string;
-  GrantScope?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  AllowedByApplication?: boolean;
+  GrantScope?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  AllowedByApplication?: boolean | undefined;
 }
 export interface ListCallerAccessGrantsEntry {
-  Permission?: Permission;
-  GrantScope?: string;
-  ApplicationArn?: string;
+  Permission?: Permission | undefined;
+  GrantScope?: string | undefined;
+  ApplicationArn?: string | undefined;
 }
 export type CallerAccessGrantsList = ListCallerAccessGrantsEntry[];
 export interface ListCallerAccessGrantsResult {
-  NextToken?: string;
-  CallerAccessGrantsList?: ListCallerAccessGrantsEntry[];
+  NextToken?: string | undefined;
+  CallerAccessGrantsList?: ListCallerAccessGrantsEntry[] | undefined;
 }
 export type JobStatusList = JobStatus[];
 export type StringForNextToken = string;
 export interface ListJobsRequest {
   AccountId: string;
-  JobStatuses?: JobStatus[];
-  NextToken?: string;
-  MaxResults?: number;
+  JobStatuses?: JobStatus[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type OperationName =
   | "LambdaInvoke"
@@ -2588,66 +2588,66 @@ export type OperationName =
   | "S3UpdateObjectEncryption"
   | (string & {});
 export interface JobListDescriptor {
-  JobId?: string;
-  Description?: string;
-  Operation?: OperationName;
-  Priority?: number;
-  Status?: JobStatus;
-  CreationTime?: Date;
-  TerminationDate?: Date;
-  ProgressSummary?: JobProgressSummary;
+  JobId?: string | undefined;
+  Description?: string | undefined;
+  Operation?: OperationName | undefined;
+  Priority?: number | undefined;
+  Status?: JobStatus | undefined;
+  CreationTime?: Date | undefined;
+  TerminationDate?: Date | undefined;
+  ProgressSummary?: JobProgressSummary | undefined;
 }
 export type JobListDescriptorList = JobListDescriptor[];
 export interface ListJobsResult {
-  NextToken?: string;
-  Jobs?: JobListDescriptor[];
+  NextToken?: string | undefined;
+  Jobs?: JobListDescriptor[] | undefined;
 }
 export interface ListMultiRegionAccessPointsRequest {
   AccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type MultiRegionAccessPointReportList = MultiRegionAccessPointReport[];
 export interface ListMultiRegionAccessPointsResult {
-  AccessPoints?: MultiRegionAccessPointReport[];
-  NextToken?: string;
+  AccessPoints?: MultiRegionAccessPointReport[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRegionalBucketsRequest {
   AccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  OutpostId?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  OutpostId?: string | undefined;
 }
 export interface RegionalBucket {
   Bucket: string;
-  BucketArn?: string;
+  BucketArn?: string | undefined;
   PublicAccessBlockEnabled: boolean;
   CreationDate: Date;
-  OutpostId?: string;
+  OutpostId?: string | undefined;
 }
 export type RegionalBucketList = RegionalBucket[];
 export interface ListRegionalBucketsResult {
-  RegionalBucketList?: RegionalBucket[];
-  NextToken?: string;
+  RegionalBucketList?: RegionalBucket[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListStorageLensConfigurationsRequest {
   AccountId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListStorageLensConfigurationEntry {
   Id: string;
   StorageLensArn: string;
   HomeRegion: string;
-  IsEnabled?: boolean;
+  IsEnabled?: boolean | undefined;
 }
 export type StorageLensConfigurationList = ListStorageLensConfigurationEntry[];
 export interface ListStorageLensConfigurationsResult {
-  NextToken?: string;
-  StorageLensConfigurationList?: ListStorageLensConfigurationEntry[];
+  NextToken?: string | undefined;
+  StorageLensConfigurationList?: ListStorageLensConfigurationEntry[] | undefined;
 }
 export interface ListStorageLensGroupsRequest {
   AccountId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListStorageLensGroupEntry {
   Name: string;
@@ -2656,8 +2656,8 @@ export interface ListStorageLensGroupEntry {
 }
 export type StorageLensGroupList = ListStorageLensGroupEntry[];
 export interface ListStorageLensGroupsResult {
-  NextToken?: string;
-  StorageLensGroupList?: ListStorageLensGroupEntry[];
+  NextToken?: string | undefined;
+  StorageLensGroupList?: ListStorageLensGroupEntry[] | undefined;
 }
 export type S3ResourceArn = string;
 export interface ListTagsForResourceRequest {
@@ -2665,17 +2665,17 @@ export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResult {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutAccessGrantsInstanceResourcePolicyRequest {
   AccountId: string;
   Policy: string;
-  Organization?: string;
+  Organization?: string | undefined;
 }
 export interface PutAccessGrantsInstanceResourcePolicyResult {
-  Policy?: string;
-  Organization?: string;
-  CreatedAt?: Date;
+  Policy?: string | undefined;
+  Organization?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export interface PutAccessPointConfigurationForObjectLambdaRequest {
   AccountId: string;
@@ -2702,19 +2702,19 @@ export interface PutAccessPointScopeRequest {
 }
 export interface PutAccessPointScopeResponse {}
 export interface LifecycleConfiguration {
-  Rules?: LifecycleRule[];
+  Rules?: LifecycleRule[] | undefined;
 }
 export interface PutBucketLifecycleConfigurationRequest {
   AccountId: string;
   Bucket: string;
-  LifecycleConfiguration?: LifecycleConfiguration;
+  LifecycleConfiguration?: LifecycleConfiguration | undefined;
 }
 export interface PutBucketLifecycleConfigurationResponse {}
 export type ConfirmRemoveSelfBucketAccess = boolean;
 export interface PutBucketPolicyRequest {
   AccountId: string;
   Bucket: string;
-  ConfirmRemoveSelfBucketAccess?: boolean;
+  ConfirmRemoveSelfBucketAccess?: boolean | undefined;
   Policy: string;
 }
 export interface PutBucketPolicyResponse {}
@@ -2736,13 +2736,13 @@ export interface PutBucketTaggingResponse {}
 export type MFA = string;
 export type MFADelete = "Enabled" | "Disabled" | (string & {});
 export interface VersioningConfiguration {
-  MFADelete?: MFADelete;
-  Status?: BucketVersioningStatus;
+  MFADelete?: MFADelete | undefined;
+  Status?: BucketVersioningStatus | undefined;
 }
 export interface PutBucketVersioningRequest {
   AccountId: string;
   Bucket: string;
-  MFA?: string;
+  MFA?: string | undefined;
   VersioningConfiguration: VersioningConfiguration;
 }
 export interface PutBucketVersioningResponse {}
@@ -2758,7 +2758,7 @@ export interface PutMultiRegionAccessPointPolicyRequest {
   Details: PutMultiRegionAccessPointPolicyInput;
 }
 export interface PutMultiRegionAccessPointPolicyResult {
-  RequestTokenARN?: string;
+  RequestTokenARN?: string | undefined;
 }
 export interface PutPublicAccessBlockRequest {
   PublicAccessBlockConfiguration: PublicAccessBlockConfiguration;
@@ -2769,7 +2769,7 @@ export interface PutStorageLensConfigurationRequest {
   ConfigId: string;
   AccountId: string;
   StorageLensConfiguration: StorageLensConfiguration;
-  Tags?: StorageLensTag[];
+  Tags?: StorageLensTag[] | undefined;
 }
 export interface PutStorageLensConfigurationResponse {}
 export interface PutStorageLensConfigurationTaggingRequest {
@@ -2803,11 +2803,11 @@ export interface UpdateAccessGrantsLocationRequest {
   IAMRoleArn: string;
 }
 export interface UpdateAccessGrantsLocationResult {
-  CreatedAt?: Date;
-  AccessGrantsLocationId?: string;
-  AccessGrantsLocationArn?: string;
-  LocationScope?: string;
-  IAMRoleArn?: string;
+  CreatedAt?: Date | undefined;
+  AccessGrantsLocationId?: string | undefined;
+  AccessGrantsLocationArn?: string | undefined;
+  LocationScope?: string | undefined;
+  IAMRoleArn?: string | undefined;
 }
 export interface UpdateJobPriorityRequest {
   AccountId: string;
@@ -2823,12 +2823,12 @@ export interface UpdateJobStatusRequest {
   AccountId: string;
   JobId: string;
   RequestedJobStatus: RequestedJobStatus;
-  StatusUpdateReason?: string;
+  StatusUpdateReason?: string | undefined;
 }
 export interface UpdateJobStatusResult {
-  JobId?: string;
-  Status?: JobStatus;
-  StatusUpdateReason?: string;
+  JobId?: string | undefined;
+  Status?: JobStatus | undefined;
+  StatusUpdateReason?: string | undefined;
 }
 export interface UpdateStorageLensGroupRequest {
   Name: string;

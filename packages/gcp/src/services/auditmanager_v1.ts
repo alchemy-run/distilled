@@ -89,7 +89,7 @@ export interface CancelOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -97,7 +97,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export type AuditScheduleReportFormatEnum =
   | "AUDIT_REPORT_FORMAT_UNSPECIFIED"
@@ -112,13 +112,13 @@ export type ScheduleConfigFrequencyEnum =
 /** Timing and frequency parameters for recurring audit runs. */
 export interface ScheduleConfig {
   /** Optional. Time zone for the audit schedule in IANA format (for example, `America/New_York`). The time zone is used to interpret the `start_time` and the `end_time`, and to calculate subsequent run dates. If not specified, the time zone default is UTC. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Required. Date and time when the first audit run is triggered. Subsequent runs are based on this time and the chosen frequency. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Required. Frequency of audit runs. */
-  frequency?: ScheduleConfigFrequencyEnum | (string & {});
+  frequency?: ScheduleConfigFrequencyEnum | (string & {}) | undefined;
   /** Optional. Date that the schedule stops. If not specified, the schedule runs indefinitely. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export type AuditScheduleStateEnum =
   | "SCHEDULE_STATE_UNSPECIFIED"
@@ -131,59 +131,59 @@ export type AuditScheduleStateEnum =
 /** An audit schedule, in one of the following formats: * `projects/{project}/locations/{location}/auditSchedules/{audit_schedule}` * `folders/{folder}/locations/{location}/auditSchedules/{audit_schedule}` */
 export interface AuditSchedule {
   /** Required. Format for the audit report. */
-  reportFormat?: AuditScheduleReportFormatEnum | (string & {});
+  reportFormat?: AuditScheduleReportFormatEnum | (string & {}) | undefined;
   /** Required. Configuration that defines when and how often audit runs are automatically triggered for this schedule. */
-  scheduleConfig?: ScheduleConfig;
+  scheduleConfig?: ScheduleConfig | undefined;
   /** Required. Framework (set of controls) that the audit scope report is generated against. For example, `NIST_800_53`. */
-  complianceFramework?: string;
+  complianceFramework?: string | undefined;
   /** Output only. Calculated timestamp for the next scheduled run. */
-  nextRunTime?: string;
+  nextRunTime?: string | undefined;
   /** Output only. Timestamp when the schedule was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Timestamp when the audit run was last triggered. */
-  lastTriggerTime?: string;
+  lastTriggerTime?: string | undefined;
   /** Required. Cloud Storage bucket where Audit Manager can upload the audit report and evidence. The format is `gs://{bucket_name}`. */
-  gcsUri?: string;
+  gcsUri?: string | undefined;
   /** Output only. Describes the error if the schedule is in an error state. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Optional. State of the audit schedule. While most states are managed by the system, you can use UpdateAuditSchedule to start, pause, or delete the schedule. */
-  state?: AuditScheduleStateEnum | (string & {});
+  state?: AuditScheduleStateEnum | (string & {}) | undefined;
   /** Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Display name for the audit schedule. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Timestamp when the schedule was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateFoldersLocationsAuditSchedulesRequest {
   /** Required. ID to use for the audit schedule, which becomes the final component of the audit schedule's resource name. */
-  auditScheduleId?: string;
+  auditScheduleId?: string | undefined;
   /** Optional. If `true`, only validates the request and does not create the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Project or folder that this audit schedule is for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` */
   parent: string;
   /** Request body */
-  body?: AuditSchedule;
+  body?: AuditSchedule | undefined;
 }
 export interface CreateOrganizationsLocationsAuditSchedulesRequest {
   /** Optional. If `true`, only validates the request and does not create the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. ID to use for the audit schedule, which becomes the final component of the audit schedule's resource name. */
-  auditScheduleId?: string;
+  auditScheduleId?: string | undefined;
   /** Required. Project or folder that this audit schedule is for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` */
   parent: string;
   /** Request body */
-  body?: AuditSchedule;
+  body?: AuditSchedule | undefined;
 }
 export interface CreateProjectsLocationsAuditSchedulesRequest {
   /** Optional. If `true`, only validates the request and does not create the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Project or folder that this audit schedule is for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` */
   parent: string;
   /** Required. ID to use for the audit schedule, which becomes the final component of the audit schedule's resource name. */
-  auditScheduleId?: string;
+  auditScheduleId?: string | undefined;
   /** Request body */
-  body?: AuditSchedule;
+  body?: AuditSchedule | undefined;
 }
 export interface DeleteOrganizationsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -196,46 +196,46 @@ export interface DeleteProjectsLocationsOperationsRequest {
 /** Details about the bucket where you want to upload the audit report. */
 export interface EligibleDestination {
   /** The location of the Cloud Storage bucket where you want to upload the audit report and evidence during the GenerateAuditReport API call. */
-  eligibleGcsBucket?: string;
+  eligibleGcsBucket?: string | undefined;
 }
 export type EligibleDestinationList = Array<EligibleDestination>;
 /** Request message for EnrollResource. */
 export interface EnrollResourceRequest {
   /** Optional. If `true`, only validates the request and does not enroll the resource. This executes standard request validation (such as schema, IAM, and destination checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. Cloud Storage buckets that you can upload your audit reports to during the audit process. When you enroll an organization or folder, you can choose a Cloud Storage bucket from any project in the organization or folder. If you run an audit at the project level using the service agent at the organization or folder level, all the buckets that are associated with the service agent are available. */
-  destinations?: EligibleDestinationList;
+  destinations?: EligibleDestinationList | undefined;
 }
 export interface EnrollResourceFoldersLocationsRequest {
   /** Required. Organization, folder, or project to enroll in Audit Manager, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
   /** Request body */
-  body?: EnrollResourceRequest;
+  body?: EnrollResourceRequest | undefined;
 }
 /** Cloud Storage bucket where the audit report is uploaded to. */
 export interface DestinationDetails {
   /** URI for the Cloud Storage bucket, in the format `gs://{bucket_name}`. */
-  gcsBucketUri?: string;
+  gcsBucketUri?: string | undefined;
 }
 export type DestinationDetailsList = Array<DestinationDetails>;
 /** Organization, folder, or project to enroll for audit reports. */
 export interface Enrollment {
   /** Identifier. Name of the enrollment, in one of the following formats: * `projects/{project}/locations/{location}/enrollments/{enrollment}` * `folders/{folder}/locations/{location}/enrollments/{enrollment}` * `organizations/{organization}/locations/{location}/enrollments/{enrollment}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Cloud Storage buckets where you want to upload the audit reports. */
-  destinationDetails?: DestinationDetailsList;
+  destinationDetails?: DestinationDetailsList | undefined;
 }
 export interface EnrollResourceOrganizationsLocationsRequest {
   /** Required. Organization, folder, or project to enroll in Audit Manager, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
   /** Request body */
-  body?: EnrollResourceRequest;
+  body?: EnrollResourceRequest | undefined;
 }
 export interface EnrollResourceProjectsLocationsRequest {
   /** Required. Organization, folder, or project to enroll in Audit Manager, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
   /** Request body */
-  body?: EnrollResourceRequest;
+  body?: EnrollResourceRequest | undefined;
 }
 export type GenerateAuditReportRequestReportFormatEnum =
   | "AUDIT_REPORT_FORMAT_UNSPECIFIED"
@@ -243,45 +243,45 @@ export type GenerateAuditReportRequestReportFormatEnum =
 /** Request message for GenerateAuditReport. */
 export interface GenerateAuditReportRequest {
   /** Required. Format for the audit report. */
-  reportFormat?: GenerateAuditReportRequestReportFormatEnum | (string & {});
+  reportFormat?: GenerateAuditReportRequestReportFormatEnum | (string & {}) | undefined;
   /** Optional. Deprecated. Compliance standard for the audit report. Use the `compliance_framework` field instead. */
-  complianceStandard?: string;
+  complianceStandard?: string | undefined;
   /** Optional. If `true`, only validates the request and does not generate the audit report. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without triggering expensive Long-Running Operations (LROs) or consuming resource quotas. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** URL for the Cloud Storage bucket where the report and evidence is uploaded. You must select a bucket that was provided during the enrollment process. */
-  gcsUri?: string;
+  gcsUri?: string | undefined;
   /** Required. The framework that's used for the audit report. For example, `NIST_800_53`. */
-  complianceFramework?: string;
+  complianceFramework?: string | undefined;
 }
 export interface GenerateFoldersLocationsAuditReportsRequest {
   /** Required. Organization, folder, or project that the audit applies to, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
   /** Request body */
-  body?: GenerateAuditReportRequest;
+  body?: GenerateAuditReportRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
 }
 export type GenerateAuditScopeReportRequestReportFormatEnum =
   | "AUDIT_SCOPE_REPORT_FORMAT_UNSPECIFIED"
@@ -289,50 +289,50 @@ export type GenerateAuditScopeReportRequestReportFormatEnum =
 /** Request message for GenerateAuditScopeReport. */
 export interface GenerateAuditScopeReportRequest {
   /** Required. Format for the audit scope report. */
-  reportFormat?: GenerateAuditScopeReportRequestReportFormatEnum | (string & {});
+  reportFormat?: GenerateAuditScopeReportRequestReportFormatEnum | (string & {}) | undefined;
   /** Optional. Deprecated. The standard (industry or regulatory requirements) that the audit scope report is run against. Use the `compliance_framework` field instead. */
-  complianceStandard?: string;
+  complianceStandard?: string | undefined;
   /** Required. Framework (set of controls) that the audit scope report is generated against. For example, `NIST_800_53`. */
-  complianceFramework?: string;
+  complianceFramework?: string | undefined;
   /** Optional. If `true`, only validates the request and does not generate the audit scope report. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface GenerateFoldersLocationsAuditScopeReportsRequest {
   /** Required. Project or folder that the audit scope report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
   /** Request body */
-  body?: GenerateAuditScopeReportRequest;
+  body?: GenerateAuditScopeReportRequest | undefined;
 }
 /** Audit scope report. */
 export interface AuditScopeReport {
   /** Audit scope report content in byte format. */
-  scopeReportContents?: string;
+  scopeReportContents?: string | undefined;
   /** Identifier. Name for the audit scope report, in one of the following formats: * `projects/{project}/locations/{location}/auditScopeReports/{audit_scope_report}` * `folders/{folder}/locations/{location}/auditScopeReports/{audit_scope_report}` * `organizations/{organization}/locations/{location}/auditScopeReports/{audit_scope_report}` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GenerateOrganizationsLocationsAuditReportsRequest {
   /** Required. Organization, folder, or project that the audit applies to, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
   /** Request body */
-  body?: GenerateAuditReportRequest;
+  body?: GenerateAuditReportRequest | undefined;
 }
 export interface GenerateOrganizationsLocationsAuditScopeReportsRequest {
   /** Required. Project or folder that the audit scope report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
   /** Request body */
-  body?: GenerateAuditScopeReportRequest;
+  body?: GenerateAuditScopeReportRequest | undefined;
 }
 export interface GenerateProjectsLocationsAuditReportsRequest {
   /** Required. Organization, folder, or project that the audit applies to, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
   /** Request body */
-  body?: GenerateAuditReportRequest;
+  body?: GenerateAuditReportRequest | undefined;
 }
 export interface GenerateProjectsLocationsAuditScopeReportsRequest {
   /** Required. Project or folder that the audit scope report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   scope: string;
   /** Request body */
-  body?: GenerateAuditScopeReportRequest;
+  body?: GenerateAuditScopeReportRequest | undefined;
 }
 export interface GetFoldersLocationsAuditReportsRequest {
   /** Required. Name of the audit report, in one of the following formats: * `projects/{project}/locations/{location}/auditReports/{audit_report}` * `folders/{folder}/locations/{location}/auditReports/{audit_report}` * `organizations/{organization}/locations/{location}/auditReports/{audit_report}` */
@@ -341,15 +341,15 @@ export interface GetFoldersLocationsAuditReportsRequest {
 /** Additional information about the number of checks that were made during an audit operation. */
 export interface ReportSummary {
   /** Number of checks that require a manual review. */
-  manualReviewNeededCount?: number;
+  manualReviewNeededCount?: number | undefined;
   /** Total number of evaluated checks. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** Number of checks that can't be performed due to errors. */
-  errorCount?: number;
+  errorCount?: number | undefined;
   /** Number of compliant checks. */
-  compliantCount?: number;
+  compliantCount?: number | undefined;
   /** Number of checks with violations. */
-  violationCount?: number;
+  violationCount?: number | undefined;
 }
 export type ControlDetailsComplianceStateEnum =
   | "COMPLIANCE_STATE_UNSPECIFIED"
@@ -381,41 +381,41 @@ export type ControlFamilyEnum =
 /** Regulatory family of the control. */
 export interface ControlFamily {
   /** Display name of the regulatory control family. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** ID of the regulatory control family. To find the list of supported control families, use the ListControls method and review the `control_family` field in the response. */
-  familyId?: string;
+  familyId?: string | undefined;
 }
 /** A control. */
 export interface Control {
   /** Output only. A description of Google's responsibility for this control. */
-  googleResponsibilityDescription?: string;
+  googleResponsibilityDescription?: string | undefined;
   /** Output only. Display name of the control. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. A description of how Google implements its responsibility for this control. */
-  googleResponsibilityImplementation?: string;
+  googleResponsibilityImplementation?: string | undefined;
   /** Output only. Who is responsible for implementing this control. Set to one of the following values: `GOOGLE`, `CUSTOMER`, or `SHARED`. */
-  responsibilityType?: string;
+  responsibilityType?: string | undefined;
   /** Output only. Category that the control belongs to. */
-  family?: ControlFamilyEnum;
+  family?: ControlFamilyEnum | undefined;
   /** Output only. A description of your responsibility for this control. */
-  customerResponsibilityDescription?: string;
+  customerResponsibilityDescription?: string | undefined;
   /** Output only. Regulatory family of the control. */
-  controlFamily?: ControlFamily;
+  controlFamily?: ControlFamily | undefined;
   /** Output only. Description of the control. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Control identifier that's used to fetch the findings. The identifier is the same as the control report name. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. A description of how you can implement your responsibility for this control. */
-  customerResponsibilityImplementation?: string;
+  customerResponsibilityImplementation?: string | undefined;
 }
 /** Evaluation details for a control. */
 export interface ControlDetails {
   /** A control report summary that provides a high-level overview of the compliance controls and the assessment status. */
-  controlReportSummary?: ReportSummary;
+  controlReportSummary?: ReportSummary | undefined;
   /** Output only. Overall status of the findings for the control. */
-  complianceState?: ControlDetailsComplianceStateEnum;
+  complianceState?: ControlDetailsComplianceStateEnum | undefined;
   /** Control that the findings are being reported for. */
-  control?: Control;
+  control?: Control | undefined;
 }
 export type ControlDetailsList = Array<ControlDetails>;
 export type AuditReportReportGenerationStateEnum =
@@ -427,27 +427,27 @@ export type AuditReportReportGenerationStateEnum =
 /** An audit report. */
 export interface AuditReport {
   /** Output only. Organization, folder, or project that the report is generated for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
-  scope?: string;
+  scope?: string | undefined;
   /** Output only. Deprecated. Compliance standard to be audited against. Use the `compliance_framework` field instead. */
-  complianceStandard?: string;
+  complianceStandard?: string | undefined;
   /** Output only. Overall status of the controls. */
-  controlDetails?: ControlDetailsList;
+  controlDetails?: ControlDetailsList | undefined;
   /** Output only. Report summary that includes information about compliance and violation counts. */
-  reportSummary?: ReportSummary;
+  reportSummary?: ReportSummary | undefined;
   /** Output only. State of audit report generation. */
-  reportGenerationState?: AuditReportReportGenerationStateEnum;
+  reportGenerationState?: AuditReportReportGenerationStateEnum | undefined;
   /** Identifier. Name of the audit report, in one of the following formats: * `projects/{project}/locations/{location}/auditReports/{audit_report}` * `folders/{folder}/locations/{location}/auditReports/{audit_report}` * `organizations/{organization}/locations/{location}/auditReports/{audit_report}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Creation time of the audit report. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Compliance framework to use for the audit report. For example, `CIS_GCP_FOUNDATIONS_V1_2_0`. */
-  complianceFramework?: string;
+  complianceFramework?: string | undefined;
   /** Output only. Cloud Storage bucket where the audit report is uploaded to. */
-  destinationDetails?: DestinationDetails;
+  destinationDetails?: DestinationDetails | undefined;
   /** Output only. Client operation ID for the audit report. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Output only. Project number, folder ID, or organization ID that the audit report was generated for. */
-  scopeId?: string;
+  scopeId?: string | undefined;
 }
 export interface GetFoldersLocationsAuditSchedulesRequest {
   /** Required. Name of the audit schedule to retrieve, in one of the following formats: * `projects/{project}/locations/{location}/auditSchedules/{audit_schedule}` * `folders/{folder}/locations/{location}/auditSchedules/{audit_schedule}` * `organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule}` */
@@ -473,15 +473,15 @@ export type ResourceEnrollmentStatusEnrollmentStateEnum =
 /** An organization, folder, or project with its enrollment status. */
 export interface ResourceEnrollmentStatus {
   /** Identifier. Name of the resource enrollment status, in one of the following formats: * `folders/{folder}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}` * `projects/{project}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}` * `organizations/{organization}/locations/{location}/resourceEnrollmentStatuses/{resource_enrollment_status}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Enrollment state of the organization, folder, or project. */
-  enrollmentState?: ResourceEnrollmentStatusEnrollmentStateEnum;
+  enrollmentState?: ResourceEnrollmentStatusEnrollmentStateEnum | undefined;
   /** Output only. Enrolled destination details for the organization, folder, or project. */
-  enrollment?: Enrollment;
+  enrollment?: Enrollment | undefined;
   /** Output only. Deprecated. Whether the organization, folder, or project is enrolled. Use `enrollment_state` instead. */
-  enrolled?: boolean;
+  enrolled?: boolean | undefined;
   /** Output only. Display name for the organization, folder, or project. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetOrganizationsLocationsAuditReportsRequest {
   /** Required. Name of the audit report, in one of the following formats: * `projects/{project}/locations/{location}/auditReports/{audit_report}` * `folders/{folder}/locations/{location}/auditReports/{audit_report}` * `organizations/{organization}/locations/{location}/auditReports/{audit_report}` */
@@ -515,15 +515,15 @@ export type StringMap = { [key: string]: string | undefined };
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsAuditReportsRequest {
   /** Required. Name of the audit report, in one of the following formats: * `projects/{project}/locations/{location}/auditReports/{audit_report}` * `folders/{folder}/locations/{location}/auditReports/{audit_report}` * `organizations/{organization}/locations/{location}/auditReports/{audit_report}` */
@@ -551,25 +551,25 @@ export interface GetProjectsLocationsResourceEnrollmentStatusesRequest {
 }
 export interface ListFoldersLocationsAuditReportsRequest {
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent organization, folder, or project to list reports for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type AuditReportList = Array<AuditReport>;
 /** Response message for ListAuditReports. */
 export interface ListAuditReportsResponse {
   /** Output only. Audit reports. */
-  auditReports?: AuditReportList;
+  auditReports?: AuditReportList | undefined;
   /** Output only. A token that you can send as the `page_token` in a subsequent request to retrieve the next page of results. If this field is empty, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListFoldersLocationsAuditSchedulesRequest {
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent for the audit schedule, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
 }
@@ -578,107 +578,107 @@ export type StringList = Array<string>;
 /** Response message for ListAuditSchedules. */
 export interface ListAuditSchedulesResponse {
   /** List of audit schedules. */
-  auditSchedules?: AuditScheduleList;
+  auditSchedules?: AuditScheduleList | undefined;
   /** Locations that can't be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token that you can send as the `page_token` in a subsequent request to retrieve the next page of results. If this field is empty, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListFoldersLocationsResourceEnrollmentStatusesRequest {
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent organization or folder to list enrollment statuses for, in one of the following formats: * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ResourceEnrollmentStatusList = Array<ResourceEnrollmentStatus>;
 /** Response message for ListResourceEnrollmentStatuses. */
 export interface ListResourceEnrollmentStatusesResponse {
   /** Resources with their enrollment status. */
-  resourceEnrollmentStatuses?: ResourceEnrollmentStatusList;
+  resourceEnrollmentStatuses?: ResourceEnrollmentStatusList | undefined;
   /** Output only. A token that you can send as the `page_token` in a subsequent request to retrieve the next page of results. If this field is empty, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListFoldersLocationsStandardsControlsRequest {
   /** Required. Standard to list controls for, in one of the following formats: * `projects/{project}/locations/{location}/standards/{standard}` * `folders/{folder}/locations/{location}/standards/{standard}` * `organizations/{organization}/locations/{location}/standards/{standard}` */
   parent: string;
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ControlList = Array<Control>;
 /** Response message for ListControls. */
 export interface ListControlsResponse {
   /** Output only. A token that you can send as the `page_token` in a subsequent request to retrieve the next page of results. If this field is empty, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. Controls for a given regulatory standard. */
-  controls?: ControlList;
+  controls?: ControlList | undefined;
 }
 export interface ListOrganizationsLocationsAuditReportsRequest {
   /** Required. Parent organization, folder, or project to list reports for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListOrganizationsLocationsAuditSchedulesRequest {
   /** Required. Parent for the audit schedule, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListOrganizationsLocationsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListOrganizationsLocationsResourceEnrollmentStatusesRequest {
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent organization or folder to list enrollment statuses for, in one of the following formats: * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListOrganizationsLocationsStandardsControlsRequest {
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Standard to list controls for, in one of the following formats: * `projects/{project}/locations/{location}/standards/{standard}` * `folders/{folder}/locations/{location}/standards/{standard}` * `organizations/{organization}/locations/{location}/standards/{standard}` */
   parent: string;
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
 }
@@ -686,75 +686,75 @@ export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAuditReportsRequest {
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent organization, folder, or project to list reports for, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
 }
 export interface ListProjectsLocationsAuditSchedulesRequest {
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent for the audit schedule, in one of the following formats: * `projects/{project}/locations/{location}` * `folders/{folder}/locations/{location}` * `organizations/{organization}/locations/{location}` */
   parent: string;
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface ListProjectsLocationsStandardsControlsRequest {
   /** Optional. Maximum number of items to return in a single page. The service might return fewer items than this value. If unspecified, the service picks an appropriate default. The maximum value is 100; values above 100 are reduced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Standard to list controls for, in one of the following formats: * `projects/{project}/locations/{location}/standards/{standard}` * `folders/{folder}/locations/{location}/standards/{standard}` * `organizations/{organization}/locations/{location}/standards/{standard}` */
   parent: string;
   /** Optional. A page token, received from a previous call, to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export interface PatchFoldersLocationsAuditSchedulesRequest {
   /** Optional. If `true`, only validates the request and does not update the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule} */
   name: string;
   /** Optional. List of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: AuditSchedule;
+  body?: AuditSchedule | undefined;
 }
 export interface PatchOrganizationsLocationsAuditSchedulesRequest {
   /** Optional. If `true`, only validates the request and does not update the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. List of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule} */
   name: string;
   /** Request body */
-  body?: AuditSchedule;
+  body?: AuditSchedule | undefined;
 }
 export interface PatchProjectsLocationsAuditSchedulesRequest {
   /** Optional. List of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. Unique identifier for the audit schedule. Format: projects/{project}/locations/{location}/auditSchedules/{audit_schedule} folders/{folder}/locations/{location}/auditSchedules/{audit_schedule} organizations/{organization}/locations/{location}/auditSchedules/{audit_schedule} */
   name: string;
   /** Optional. If `true`, only validates the request and does not update the audit schedule. This executes standard request validation (such as schema, framework existence, scope, and IAM checks) and skips the apply phase. Use this field for the following purposes: * **Infrastructure as Code (IaC)**: Allow tools like Terraform to run dry-run mutations (e.g., `terraform plan`) without creating real resources or incurring costs. * **User Interface Validation**: Enable real-time form and permission validation in custom UIs before submitting requests. * **CI/CD & Automation**: Test your scripts, permissions, and parameters safely without consuming resource quotas. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: AuditSchedule;
+  body?: AuditSchedule | undefined;
 }
 export type CancelOrganizationsLocationsOperationsError =
   | NotFound

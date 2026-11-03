@@ -123,7 +123,7 @@ export interface PresignS3UrlOptions {
    * HTTP method the presigned URL authorizes.
    * @default "GET"
    */
-  readonly method?: "GET" | "PUT" | "HEAD" | "DELETE";
+  readonly method?: "GET" | "PUT" | "HEAD" | "DELETE" | undefined;
   /**
    * Name of the bucket the object lives in.
    */
@@ -136,32 +136,32 @@ export interface PresignS3UrlOptions {
    * Specific object version to access, signed as the `versionId` query
    * parameter. If omitted, S3 uses the current version.
    */
-  readonly versionId?: string;
+  readonly versionId?: string | undefined;
   /**
    * Region the bucket lives in (used for both the endpoint and the SigV4
    * credential scope). Defaults to the {@link Region.Region} service.
    */
-  readonly region?: string;
+  readonly region?: string | undefined;
   /**
    * Number of seconds the URL remains valid.
    * @default 900
    */
-  readonly expiresIn?: number;
+  readonly expiresIn?: number | undefined;
   /**
    * `Content-Type` header to sign into the URL. The consumer (e.g. a PUT
    * uploader) must send exactly this `Content-Type` or S3 rejects the
    * request with a signature mismatch.
    */
-  readonly contentType?: string;
+  readonly contentType?: string | undefined;
   /**
    * `response-content-type` override for GET URLs -- S3 responds with this
    * `Content-Type` regardless of the stored object's metadata.
    */
-  readonly responseContentType?: string;
+  readonly responseContentType?: string | undefined;
   /**
    * Fixed signing datetime in `YYYYMMDDTHHMMSSZ` format. Defaults to now.
    */
-  readonly datetime?: string;
+  readonly datetime?: string | undefined;
 }
 
 /**

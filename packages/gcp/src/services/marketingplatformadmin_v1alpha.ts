@@ -94,19 +94,19 @@ export type AdminAccessBindingOrganizationRolesItemEnumList = Array<
 /** A resource message representing a binding to a set of roles. */
 export interface AdminAccessBinding {
   /** Resource name of the user group. */
-  userGroup?: string;
+  userGroup?: string | undefined;
   /** Email address of the user. */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** Optional. A list of roles granted to the parent organization. USER_ADMIN_ROLE and BILLING_ADMIN_ROLE will be automatically added if ORG_ADMIN_ROLE is assigned. No roles will be assigned if no roles are specified. */
-  organizationRoles?: AdminAccessBindingOrganizationRolesItemEnumList;
+  organizationRoles?: AdminAccessBindingOrganizationRolesItemEnumList | undefined;
   /** Identifier. The resource name of this AdminAccessBinding. Format: organizations/{org_id}/adminAccessBindings/{admin_access_binding_id} Example: "organizations/123abc/adminAccessBindings/456def" */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateOrganizationsAdminAccessBindingsRequest {
   /** Required. The parent organization, which owns this Admin Access Binding. Format: organizations/{org_id} */
   parent: string;
   /** Request body */
-  body?: AdminAccessBinding;
+  body?: AdminAccessBinding | undefined;
 }
 export type AnalyticsAccountLinkLinkVerificationStateEnum =
   | "LINK_VERIFICATION_STATE_UNSPECIFIED"
@@ -115,34 +115,34 @@ export type AnalyticsAccountLinkLinkVerificationStateEnum =
 /** A resource message representing the link between a Google Analytics account and a Google Marketing Platform organization. */
 export interface AnalyticsAccountLink {
   /** Output only. The verification state of the link between the Analytics account and the parent organization. */
-  linkVerificationState?: AnalyticsAccountLinkLinkVerificationStateEnum | (string & {});
+  linkVerificationState?: AnalyticsAccountLinkLinkVerificationStateEnum | (string & {}) | undefined;
   /** Identifier. Resource name of this AnalyticsAccountLink. Note the resource ID is the same as the ID of the Analtyics account. Format: organizations/{org_id}/analyticsAccountLinks/{analytics_account_link_id} Example: "organizations/xyz/analyticsAccountLinks/1234" */
-  name?: string;
+  name?: string | undefined;
   /** Required. Immutable. The resource name of the AnalyticsAdmin API account. The account ID will be used as the ID of this AnalyticsAccountLink resource, which will become the final component of the resource name. Format: analyticsadmin.googleapis.com/accounts/{account_id} */
-  analyticsAccount?: string;
+  analyticsAccount?: string | undefined;
   /** Output only. The human-readable name for the Analytics account. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface CreateOrganizationsAnalyticsAccountLinksRequest {
   /** Required. The parent resource where this Analytics account link will be created. Format: organizations/{org_id} */
   parent: string;
   /** Request body */
-  body?: AnalyticsAccountLink;
+  body?: AnalyticsAccountLink | undefined;
 }
 /** A resource message representing a user group in a GMP organization. */
 export interface UserGroup {
   /** Identifier. Resource name of this UserGroup. Format: organizations/{org_id}/userGroups/{user_group_id} Example: "organizations/123abc/userGroups/456def" */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The human-readable name for the user group. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. The description of the user group. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateOrganizationsUserGroupsRequest {
   /** Required. The parent resource where this UserGroup will be created. Format: organizations/{org_id} */
   parent: string;
   /** Request body */
-  body?: UserGroup;
+  body?: UserGroup | undefined;
 }
 export type UserGroupMemberMembershipRoleEnum =
   | "MEMBERSHIP_ROLE_UNSPECIFIED"
@@ -151,19 +151,19 @@ export type UserGroupMemberMembershipRoleEnum =
 /** A resource message representing a member of a user group. */
 export interface UserGroupMember {
   /** Email address of the user member. */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** User group resource name of the group member. */
-  userGroup?: string;
+  userGroup?: string | undefined;
   /** Identifier. The resource name of this UserGroupMember. Format: organizations/{org_id}/userGroups/{user_group_id}/members/{member_id} Example: "organizations/123abc/userGroups/456def/members/789ghi" */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The role of the member in the user group. */
-  membershipRole?: UserGroupMemberMembershipRoleEnum | (string & {});
+  membershipRole?: UserGroupMemberMembershipRoleEnum | (string & {}) | undefined;
 }
 export interface CreateOrganizationsUserGroupsMembersRequest {
   /** Required. The parent resource where this UserGroupMember will be created. Format: organizations/{org_id}/userGroups/{user_group_id} */
   parent: string;
   /** Request body */
-  body?: UserGroupMember;
+  body?: UserGroupMember | undefined;
 }
 export interface DeleteOrganizationsAnalyticsAccountLinksRequest {
   /** Required. The name of the Analytics account link to delete. Format: organizations/{org_id}/analyticsAccountLinks/{analytics_account_link_id} */
@@ -182,44 +182,44 @@ export interface DeleteOrganizationsUserGroupsMembersRequest {
 /** Request message for FindSalesPartnerManagedClients RPC. */
 export interface FindSalesPartnerManagedClientsRequest {
   /** Optional. If set, only active and just ended clients will be returned. */
-  isActive?: boolean;
+  isActive?: boolean | undefined;
 }
 export interface FindSalesPartnerManagedClientsOrganizationsRequest {
   /** Required. The name of the sales partner organization. Format: organizations/{org_id} */
   organization: string;
   /** Request body */
-  body?: FindSalesPartnerManagedClientsRequest;
+  body?: FindSalesPartnerManagedClientsRequest | undefined;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Marketingplatformadmin_Date {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
 }
 /** A resource message representing a Google Marketing Platform organization. */
 export interface Organization {
   /** Identifier. The resource name of the GMP organization. Format: organizations/{org_id} */
-  name?: string;
+  name?: string | undefined;
   /** The human-readable name for the organization. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Contains the client data. */
 export interface ClientData {
   /** The end date of the contract between the sales org and the end client. */
-  endDate?: Marketingplatformadmin_Date;
+  endDate?: Marketingplatformadmin_Date | undefined;
   /** The end client that has/had contract with the requested sales org. */
-  organization?: Organization;
+  organization?: Organization | undefined;
   /** The start date of the contract between the sales org and the end client. */
-  startDate?: Marketingplatformadmin_Date;
+  startDate?: Marketingplatformadmin_Date | undefined;
 }
 export type ClientDataList = Array<ClientData>;
 /** Response message for FindSalesPartnerManagedClients RPC. */
 export interface FindSalesPartnerManagedClientsResponse {
   /** The clients managed by the sales org. */
-  clientData?: ClientDataList;
+  clientData?: ClientDataList | undefined;
 }
 export interface GetOrganizationsRequest {
   /** Required. The name of the Organization to retrieve. Format: organizations/{org_id} */
@@ -239,23 +239,23 @@ export interface GetOrganizationsUserGroupsMembersRequest {
 }
 export interface ListOrganizationsRequest {
   /** Optional. A page token, received from a previous ListOrganizations call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListOrganizations` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of organizations to return in one call. The service may return fewer than this value. If unspecified, at most 50 organizations will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type OrganizationList = Array<Organization>;
 /** Response message for ListOrganizations RPC. */
 export interface ListOrganizationsResponse {
   /** The Organization resource that the user has access to, which includes the org id and display name. */
-  organizations?: OrganizationList;
+  organizations?: OrganizationList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsAdminAccessBindingsRequest {
   /** Optional. A page token, received from a previous ListAdminAccessBindings call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAdminAccessBindings` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of Admin Access Bindings to return in one call. The service may return fewer than this value. If unspecified, at most 50 Admin Access Bindings will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent organization, which owns this collection of Admin Access Bindings. Format: organizations/{org_id} */
   parent: string;
 }
@@ -263,31 +263,31 @@ export type AdminAccessBindingList = Array<AdminAccessBinding>;
 /** Response message for ListAdminAccessBindings RPC. */
 export interface ListAdminAccessBindingsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Admin Access Bindings in the organization. */
-  adminAccessBindings?: AdminAccessBindingList;
+  adminAccessBindings?: AdminAccessBindingList | undefined;
 }
 export interface ListOrganizationsAnalyticsAccountLinksRequest {
   /** Optional. The maximum number of Analytics account links to return in one call. The service may return fewer than this value. If unspecified, at most 50 Analytics account links will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent organization, which owns this collection of Analytics account links. Format: organizations/{org_id} */
   parent: string;
   /** Optional. A page token, received from a previous ListAnalyticsAccountLinks call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAnalyticsAccountLinks` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type AnalyticsAccountLinkList = Array<AnalyticsAccountLink>;
 /** Response message for ListAnalyticsAccountLinks RPC. */
 export interface ListAnalyticsAccountLinksResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Analytics account links in this organization. */
-  analyticsAccountLinks?: AnalyticsAccountLinkList;
+  analyticsAccountLinks?: AnalyticsAccountLinkList | undefined;
 }
 export interface ListOrganizationsUserGroupsRequest {
   /** Optional. A page token, received from a previous ListUserGroups call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUserGroups` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of user groups to return in one call. The service may return fewer than this value. If unspecified, at most 50 user groups will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent org where this UserGroup will be listed. Format: organizations/{org_id} */
   parent: string;
 }
@@ -295,60 +295,60 @@ export type UserGroupList = Array<UserGroup>;
 /** Response message for ListUserGroups RPC. */
 export interface ListUserGroupsResponse {
   /** User groups in the organization. */
-  userGroups?: UserGroupList;
+  userGroups?: UserGroupList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsUserGroupsMembersRequest {
   /** Optional. A page token, received from a previous ListUserGroupMembers call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUserGroupMembers` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent user group where this UserGroupMember will be listed. Format: organizations/{org_id}/userGroups/{user_group_id} */
   parent: string;
   /** Optional. The maximum number of user group members to return in one call. The service may return fewer than this value. If unspecified, at most 50 user group members will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type UserGroupMemberList = Array<UserGroupMember>;
 /** Response message for ListUserGroupMembers RPC. */
 export interface ListUserGroupMembersResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** User group members in the user group. */
-  userGroupMembers?: UserGroupMemberList;
+  userGroupMembers?: UserGroupMemberList | undefined;
 }
 export interface PatchOrganizationsAdminAccessBindingsRequest {
   /** Required. The list of fields to update. Field names must be in snake case (for example, "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The resource name of this AdminAccessBinding. Format: organizations/{org_id}/adminAccessBindings/{admin_access_binding_id} Example: "organizations/123abc/adminAccessBindings/456def" */
   name: string;
   /** Request body */
-  body?: AdminAccessBinding;
+  body?: AdminAccessBinding | undefined;
 }
 export interface PatchOrganizationsUserGroupsRequest {
   /** Required. The list of fields to update. Field names must be in snake case (for example, "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. Resource name of this UserGroup. Format: organizations/{org_id}/userGroups/{user_group_id} Example: "organizations/123abc/userGroups/456def" */
   name: string;
   /** Request body */
-  body?: UserGroup;
+  body?: UserGroup | undefined;
 }
 export interface PatchOrganizationsUserGroupsMembersRequest {
   /** Identifier. The resource name of this UserGroupMember. Format: organizations/{org_id}/userGroups/{user_group_id}/members/{member_id} Example: "organizations/123abc/userGroups/456def/members/789ghi" */
   name: string;
   /** Required. The list of fields to update. Field names must be in snake case (for example, "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: UserGroupMember;
+  body?: UserGroupMember | undefined;
 }
 /** Request message for ReportPropertyUsage RPC. */
 export interface ReportPropertyUsageRequest {
   /** Required. The target month to list property usages. Format: YYYY-MM. For example, "2025-05" */
-  month?: string;
+  month?: string | undefined;
 }
 export interface ReportPropertyUsageOrganizationsRequest {
   /** Required. Specifies the organization whose property usage will be listed. Format: organizations/{org_id} */
   organization: string;
   /** Request body */
-  body?: ReportPropertyUsageRequest;
+  body?: ReportPropertyUsageRequest | undefined;
 }
 export type PropertyUsageServiceLevelEnum =
   | "ANALYTICS_SERVICE_LEVEL_UNSPECIFIED"
@@ -362,47 +362,47 @@ export type PropertyUsagePropertyTypeEnum =
 /** Contains the count of events received by the property, along with metadata that influences the volume of `billable` events. */
 export interface PropertyUsage {
   /** Total event count that the property received during the requested month. */
-  totalEventCount?: string;
+  totalEventCount?: string | undefined;
   /** The service level of the property. */
-  serviceLevel?: PropertyUsageServiceLevelEnum;
+  serviceLevel?: PropertyUsageServiceLevelEnum | undefined;
   /** The subtype of the analytics property. This affects the billable event count. */
-  propertyType?: PropertyUsagePropertyTypeEnum;
+  propertyType?: PropertyUsagePropertyTypeEnum | undefined;
   /** The ID of the property's parent account. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** The number of events for which the property is billed in the requested month. */
-  billableEventCount?: string;
+  billableEventCount?: string | undefined;
   /** The display name of the property. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The name of the Google Analytics Admin API property resource. Format: analyticsadmin.googleapis.com/properties/{property_id} */
-  property?: string;
+  property?: string | undefined;
 }
 export type PropertyUsageList = Array<PropertyUsage>;
 /** Represents an amount of money with its currency type. */
 export interface Money {
   /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number;
+  nanos?: number | undefined;
   /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string;
+  units?: string | undefined;
 }
 /** Contains the bill amount. */
 export interface BillInfo {
   /** The amount of the event fee. */
-  eventFee?: Money;
+  eventFee?: Money | undefined;
   /** The total amount of the bill. */
-  total?: Money;
+  total?: Money | undefined;
   /** The amount of the price protection credit, this is only available for eligible customers. */
-  priceProtectionCredit?: Money;
+  priceProtectionCredit?: Money | undefined;
   /** The amount of the monthly base fee. */
-  baseFee?: Money;
+  baseFee?: Money | undefined;
 }
 /** Response message for ReportPropertyUsage RPC. */
 export interface ReportPropertyUsageResponse {
   /** Usage data for all properties in the specified organization and month. */
-  propertyUsages?: PropertyUsageList;
+  propertyUsages?: PropertyUsageList | undefined;
   /** Bill amount in the specified organization and month. Will be empty if user only has access to usage data. */
-  billInfo?: BillInfo;
+  billInfo?: BillInfo | undefined;
 }
 export type SetPropertyServiceLevelRequestServiceLevelEnum =
   | "ANALYTICS_SERVICE_LEVEL_UNSPECIFIED"
@@ -411,15 +411,15 @@ export type SetPropertyServiceLevelRequestServiceLevelEnum =
 /** Request message for SetPropertyServiceLevel RPC. */
 export interface SetPropertyServiceLevelRequest {
   /** Required. The Analytics property to change the ServiceLevel setting. This field is the name of the Google Analytics Admin API property resource. Format: analyticsadmin.googleapis.com/properties/{property_id} */
-  analyticsProperty?: string;
+  analyticsProperty?: string | undefined;
   /** Required. The service level to set for this property. */
-  serviceLevel?: SetPropertyServiceLevelRequestServiceLevelEnum | (string & {});
+  serviceLevel?: SetPropertyServiceLevelRequestServiceLevelEnum | (string & {}) | undefined;
 }
 export interface SetPropertyServiceLevelOrganizationsAnalyticsAccountLinksRequest {
   /** Required. The parent AnalyticsAccountLink scope where this property is in. Format: organizations/{org_id}/analyticsAccountLinks/{analytics_account_link_id} */
   analyticsAccountLink: string;
   /** Request body */
-  body?: SetPropertyServiceLevelRequest;
+  body?: SetPropertyServiceLevelRequest | undefined;
 }
 /** Response message for SetPropertyServiceLevel RPC. */
 export interface SetPropertyServiceLevelResponse {}

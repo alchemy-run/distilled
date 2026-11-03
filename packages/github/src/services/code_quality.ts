@@ -88,7 +88,7 @@ export interface CodeQualityFindingRule {
   /** A short description of the rule used to detect the finding. */
   description: string;
   /** A detailed description of the rule used to detect the finding. */
-  help?: string;
+  help?: string | undefined;
   /** The severity of the rule used to detect the finding. */
   severity: CodeQualityFindingRuleSeverity;
   /** The category of the rule used to detect the finding. */
@@ -99,13 +99,13 @@ export interface CodeQualityFindingLocation {
   /** The file path where the finding was detected. */
   path: string;
   /** The line number where the finding starts. */
-  start_line?: number;
+  start_line?: number | undefined;
   /** The column number where the finding starts. */
-  start_column?: number;
+  start_column?: number | undefined;
   /** The line number where the finding ends. */
-  end_line?: number;
+  end_line?: number | undefined;
   /** The column number where the finding ends. */
-  end_column?: number;
+  end_column?: number | undefined;
 }
 /** Code quality finding message */
 export interface CodeQualityFindingMessage {
@@ -126,7 +126,7 @@ export interface CodeQualityFinding {
   location: CodeQualityFindingLocation;
   message: CodeQualityFindingMessage;
   /** The time the code quality finding was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export interface GetSetupRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -155,19 +155,19 @@ export type CodeQualitySetupAiFindingsOption = "disabled" | "on_push";
 /** Configuration for code quality setup. */
 export interface CodeQualitySetup {
   /** Code quality setup has been configured or not. */
-  state?: CodeQualitySetupState;
+  state?: CodeQualitySetupState | undefined;
   /** Languages to be analyzed. */
-  languages?: CodeQualitySetupLanguagesList;
+  languages?: CodeQualitySetupLanguagesList | undefined;
   /** Runner type to be used. */
-  runner_type?: CodeQualitySetupRunnerType | null;
+  runner_type?: CodeQualitySetupRunnerType | null | undefined;
   /** Runner label to be used if the runner type is labeled. */
-  runner_label?: string | null;
+  runner_label?: string | null | undefined;
   /** Timestamp of latest configuration update. */
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
   /** The frequency of the periodic analysis. */
-  schedule?: CodeQualitySetupSchedule | null;
+  schedule?: CodeQualitySetupSchedule | null | undefined;
   /** The AI findings configuration for the repository. */
-  ai_findings_option?: CodeQualitySetupAiFindingsOption | null;
+  ai_findings_option?: CodeQualitySetupAiFindingsOption | null | undefined;
 }
 export type ListFindingsForRepoRequestDirection = "asc" | "desc";
 export type ListFindingsForRepoRequestState = "open" | "dismissed";
@@ -177,15 +177,15 @@ export interface ListFindingsForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The direction to sort the results by. */
-  direction?: ListFindingsForRepoRequestDirection | (string & {});
+  direction?: ListFindingsForRepoRequestDirection | (string & {}) | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** If specified, only code quality findings with this state will be returned. */
-  state?: ListFindingsForRepoRequestState | (string & {});
+  state?: ListFindingsForRepoRequestState | (string & {}) | undefined;
 }
 export type ListFindingsForRepoResponseBodyList = Array<CodeQualityFinding>;
 export type ListFindingsForRepoResponse = ListFindingsForRepoResponseBodyList;
@@ -212,15 +212,15 @@ export interface UpdateSetupRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The desired state of code quality setup. */
-  state?: UpdateSetupRequestState | (string & {});
+  state?: UpdateSetupRequestState | (string & {}) | undefined;
   /** Runner type to be used. */
-  runner_type?: UpdateSetupRequestRunnerType | (string & {});
+  runner_type?: UpdateSetupRequestRunnerType | (string & {}) | undefined;
   /** Runner label to be used if the runner type is labeled. */
-  runner_label?: string | null;
+  runner_label?: string | null | undefined;
   /** Languages to be analyzed. */
-  languages?: UpdateSetupRequestLanguagesList;
+  languages?: UpdateSetupRequestLanguagesList | undefined;
   /** Whether AI findings run for Code Quality on this repository. */
-  ai_findings_option?: UpdateSetupRequestAiFindingsOption | (string & {});
+  ai_findings_option?: UpdateSetupRequestAiFindingsOption | (string & {}) | undefined;
 }
 export type UpdateSetupResponse = unknown;
 export type GetFindingError = Forbidden | NotFound | GithubOpError;

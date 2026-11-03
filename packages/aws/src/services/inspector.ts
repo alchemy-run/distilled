@@ -188,7 +188,7 @@ export type AttributeKey = string;
 export type AttributeValue = string;
 export interface Attribute {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type UserAttributeList = Attribute[];
 export interface AddAttributesToFindingsRequest {
@@ -214,7 +214,7 @@ export interface AddAttributesToFindingsResponse {
 export type AssessmentTargetName = string;
 export interface CreateAssessmentTargetRequest {
   assessmentTargetName: string;
-  resourceGroupArn?: string;
+  resourceGroupArn?: string | undefined;
 }
 export interface CreateAssessmentTargetResponse {
   assessmentTargetArn: string;
@@ -227,7 +227,7 @@ export interface CreateAssessmentTemplateRequest {
   assessmentTemplateName: string;
   durationInSeconds: number;
   rulesPackageArns: string[];
-  userAttributesForFindings?: Attribute[];
+  userAttributesForFindings?: Attribute[] | undefined;
 }
 export interface CreateAssessmentTemplateResponse {
   assessmentTemplateArn: string;
@@ -243,7 +243,7 @@ export type TagKey = string;
 export type TagValue = string;
 export interface ResourceGroupTag {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type ResourceGroupTags = ResourceGroupTag[];
 export interface CreateResourceGroupRequest {
@@ -307,15 +307,15 @@ export type AssessmentRunNotificationSnsStatusCode =
 export interface AssessmentRunNotification {
   date: Date;
   event: InspectorEvent;
-  message?: string;
+  message?: string | undefined;
   error: boolean;
-  snsTopicArn?: string;
-  snsPublishStatusCode?: AssessmentRunNotificationSnsStatusCode;
+  snsTopicArn?: string | undefined;
+  snsPublishStatusCode?: AssessmentRunNotificationSnsStatusCode | undefined;
 }
 export type AssessmentRunNotificationList = AssessmentRunNotification[];
 export type Severity = "Low" | "Medium" | "High" | "Informational" | "Undefined" | (string & {});
 export type FindingCount = number;
-export type AssessmentRunFindingCounts = { [key in Severity]?: number };
+export type AssessmentRunFindingCounts = { [key in Severity]?: number | undefined };
 export interface AssessmentRun {
   arn: string;
   name: string;
@@ -325,8 +325,8 @@ export interface AssessmentRun {
   rulesPackageArns: string[];
   userAttributesForFindings: Attribute[];
   createdAt: Date;
-  startedAt?: Date;
-  completedAt?: Date;
+  startedAt?: Date | undefined;
+  completedAt?: Date | undefined;
   stateChangedAt: Date;
   dataCollected: boolean;
   stateChanges: AssessmentRunStateChange[];
@@ -344,7 +344,7 @@ export interface DescribeAssessmentTargetsRequest {
 export interface AssessmentTarget {
   arn: string;
   name: string;
-  resourceGroupArn?: string;
+  resourceGroupArn?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -364,7 +364,7 @@ export interface AssessmentTemplate {
   durationInSeconds: number;
   rulesPackageArns: string[];
   userAttributesForFindings: Attribute[];
-  lastAssessmentRunArn?: string;
+  lastAssessmentRunArn?: string | undefined;
   assessmentRunCount: number;
   createdAt: Date;
 }
@@ -383,14 +383,14 @@ export type BatchDescribeExclusionsArnList = string[];
 export type Locale = "EN_US" | (string & {});
 export interface DescribeExclusionsRequest {
   exclusionArns: string[];
-  locale?: Locale;
+  locale?: Locale | undefined;
 }
 export type Text = string;
 export type ScopeType = "INSTANCE_ID" | "RULES_PACKAGE_ARN" | (string & {});
 export type ScopeValue = string;
 export interface Scope {
-  key?: ScopeType;
-  value?: string;
+  key?: ScopeType | undefined;
+  value?: string | undefined;
 }
 export type ScopeList = Scope[];
 export type AttributeList = Attribute[];
@@ -400,7 +400,7 @@ export interface Exclusion {
   description: string;
   recommendation: string;
   scopes: Scope[];
-  attributes?: Attribute[];
+  attributes?: Attribute[] | undefined;
 }
 export type ExclusionMap = { [key: string]: Exclusion | undefined };
 export interface DescribeExclusionsResponse {
@@ -409,14 +409,14 @@ export interface DescribeExclusionsResponse {
 }
 export interface DescribeFindingsRequest {
   findingArns: string[];
-  locale?: Locale;
+  locale?: Locale | undefined;
 }
 export type NumericVersion = number;
 export type ServiceName = string;
 export interface InspectorServiceAttributes {
   schemaVersion: number;
-  assessmentRunArn?: string;
-  rulesPackageArn?: string;
+  assessmentRunArn?: string | undefined;
+  rulesPackageArn?: string | undefined;
 }
 export type AssetType = "ec2-instance" | (string & {});
 export type AgentId = string;
@@ -427,61 +427,61 @@ export type Ipv4Address = string;
 export type Ipv4AddressList = string[];
 export interface Tag {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type Tags = Tag[];
 export interface PrivateIp {
-  privateDnsName?: string;
-  privateIpAddress?: string;
+  privateDnsName?: string | undefined;
+  privateIpAddress?: string | undefined;
 }
 export type PrivateIpAddresses = PrivateIp[];
 export type Ipv6Addresses = string[];
 export interface SecurityGroup {
-  groupName?: string;
-  groupId?: string;
+  groupName?: string | undefined;
+  groupId?: string | undefined;
 }
 export type SecurityGroups = SecurityGroup[];
 export interface NetworkInterface {
-  networkInterfaceId?: string;
-  subnetId?: string;
-  vpcId?: string;
-  privateDnsName?: string;
-  privateIpAddress?: string;
-  privateIpAddresses?: PrivateIp[];
-  publicDnsName?: string;
-  publicIp?: string;
-  ipv6Addresses?: string[];
-  securityGroups?: SecurityGroup[];
+  networkInterfaceId?: string | undefined;
+  subnetId?: string | undefined;
+  vpcId?: string | undefined;
+  privateDnsName?: string | undefined;
+  privateIpAddress?: string | undefined;
+  privateIpAddresses?: PrivateIp[] | undefined;
+  publicDnsName?: string | undefined;
+  publicIp?: string | undefined;
+  ipv6Addresses?: string[] | undefined;
+  securityGroups?: SecurityGroup[] | undefined;
 }
 export type NetworkInterfaces = NetworkInterface[];
 export interface AssetAttributes {
   schemaVersion: number;
-  agentId?: string;
-  autoScalingGroup?: string;
-  amiId?: string;
-  hostname?: string;
-  ipv4Addresses?: string[];
-  tags?: Tag[];
-  networkInterfaces?: NetworkInterface[];
+  agentId?: string | undefined;
+  autoScalingGroup?: string | undefined;
+  amiId?: string | undefined;
+  hostname?: string | undefined;
+  ipv4Addresses?: string[] | undefined;
+  tags?: Tag[] | undefined;
+  networkInterfaces?: NetworkInterface[] | undefined;
 }
 export type FindingId = string;
 export type NumericSeverity = number;
 export type IocConfidence = number;
 export interface Finding {
   arn: string;
-  schemaVersion?: number;
-  service?: string;
-  serviceAttributes?: InspectorServiceAttributes;
-  assetType?: AssetType;
-  assetAttributes?: AssetAttributes;
-  id?: string;
-  title?: string;
-  description?: string;
-  recommendation?: string;
-  severity?: Severity;
-  numericSeverity?: number;
-  confidence?: number;
-  indicatorOfCompromise?: boolean;
+  schemaVersion?: number | undefined;
+  service?: string | undefined;
+  serviceAttributes?: InspectorServiceAttributes | undefined;
+  assetType?: AssetType | undefined;
+  assetAttributes?: AssetAttributes | undefined;
+  id?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  recommendation?: string | undefined;
+  severity?: Severity | undefined;
+  numericSeverity?: number | undefined;
+  confidence?: number | undefined;
+  indicatorOfCompromise?: boolean | undefined;
   attributes: Attribute[];
   userAttributes: Attribute[];
   createdAt: Date;
@@ -507,7 +507,7 @@ export interface DescribeResourceGroupsResponse {
 }
 export interface DescribeRulesPackagesRequest {
   rulesPackageArns: string[];
-  locale?: Locale;
+  locale?: Locale | undefined;
 }
 export type RulesPackageName = string;
 export type Version = string;
@@ -517,7 +517,7 @@ export interface RulesPackage {
   name: string;
   version: string;
   provider: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type RulesPackageList = RulesPackage[];
 export interface DescribeRulesPackagesResponse {
@@ -535,16 +535,16 @@ export type ReportStatus = "WORK_IN_PROGRESS" | "FAILED" | "COMPLETED" | (string
 export type Url = string;
 export interface GetAssessmentReportResponse {
   status: ReportStatus;
-  url?: string;
+  url?: string | undefined;
 }
 export type PaginationToken = string;
 export type ListMaxResults = number;
 export interface GetExclusionsPreviewRequest {
   assessmentTemplateArn: string;
   previewToken: string;
-  nextToken?: string;
-  maxResults?: number;
-  locale?: Locale;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  locale?: Locale | undefined;
 }
 export type PreviewStatus = "WORK_IN_PROGRESS" | "COMPLETED" | (string & {});
 export interface ExclusionPreview {
@@ -552,13 +552,13 @@ export interface ExclusionPreview {
   description: string;
   recommendation: string;
   scopes: Scope[];
-  attributes?: Attribute[];
+  attributes?: Attribute[] | undefined;
 }
 export type ExclusionPreviewList = ExclusionPreview[];
 export interface GetExclusionsPreviewResponse {
   previewStatus: PreviewStatus;
-  exclusionPreviews?: ExclusionPreview[];
-  nextToken?: string;
+  exclusionPreviews?: ExclusionPreview[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetTelemetryMetadataRequest {
   assessmentRunArn: string;
@@ -567,7 +567,7 @@ export type MessageType = string;
 export interface TelemetryMetadata {
   messageType: string;
   count: number;
-  dataSize?: number;
+  dataSize?: number | undefined;
 }
 export type TelemetryMetadataList = TelemetryMetadata[];
 export interface GetTelemetryMetadataResponse {
@@ -590,88 +590,88 @@ export interface AgentFilter {
 }
 export interface ListAssessmentRunAgentsRequest {
   assessmentRunArn: string;
-  filter?: AgentFilter;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: AgentFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AssessmentRunAgent {
   agentId: string;
   assessmentRunArn: string;
   agentHealth: AgentHealth;
   agentHealthCode: AgentHealthCode;
-  agentHealthDetails?: string;
-  autoScalingGroup?: string;
+  agentHealthDetails?: string | undefined;
+  autoScalingGroup?: string | undefined;
   telemetryMetadata: TelemetryMetadata[];
 }
 export type AssessmentRunAgentList = AssessmentRunAgent[];
 export interface ListAssessmentRunAgentsResponse {
   assessmentRunAgents: AssessmentRunAgent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListParentArnList = string[];
 export type NamePattern = string;
 export type AssessmentRunStateList = AssessmentRunState[];
 export interface DurationRange {
-  minSeconds?: number;
-  maxSeconds?: number;
+  minSeconds?: number | undefined;
+  maxSeconds?: number | undefined;
 }
 export type FilterRulesPackageArnList = string[];
 export interface TimestampRange {
-  beginDate?: Date;
-  endDate?: Date;
+  beginDate?: Date | undefined;
+  endDate?: Date | undefined;
 }
 export interface AssessmentRunFilter {
-  namePattern?: string;
-  states?: AssessmentRunState[];
-  durationRange?: DurationRange;
-  rulesPackageArns?: string[];
-  startTimeRange?: TimestampRange;
-  completionTimeRange?: TimestampRange;
-  stateChangeTimeRange?: TimestampRange;
+  namePattern?: string | undefined;
+  states?: AssessmentRunState[] | undefined;
+  durationRange?: DurationRange | undefined;
+  rulesPackageArns?: string[] | undefined;
+  startTimeRange?: TimestampRange | undefined;
+  completionTimeRange?: TimestampRange | undefined;
+  stateChangeTimeRange?: TimestampRange | undefined;
 }
 export interface ListAssessmentRunsRequest {
-  assessmentTemplateArns?: string[];
-  filter?: AssessmentRunFilter;
-  nextToken?: string;
-  maxResults?: number;
+  assessmentTemplateArns?: string[] | undefined;
+  filter?: AssessmentRunFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ListReturnedArnList = string[];
 export interface ListAssessmentRunsResponse {
   assessmentRunArns: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface AssessmentTargetFilter {
-  assessmentTargetNamePattern?: string;
+  assessmentTargetNamePattern?: string | undefined;
 }
 export interface ListAssessmentTargetsRequest {
-  filter?: AssessmentTargetFilter;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: AssessmentTargetFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListAssessmentTargetsResponse {
   assessmentTargetArns: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface AssessmentTemplateFilter {
-  namePattern?: string;
-  durationRange?: DurationRange;
-  rulesPackageArns?: string[];
+  namePattern?: string | undefined;
+  durationRange?: DurationRange | undefined;
+  rulesPackageArns?: string[] | undefined;
 }
 export interface ListAssessmentTemplatesRequest {
-  assessmentTargetArns?: string[];
-  filter?: AssessmentTemplateFilter;
-  nextToken?: string;
-  maxResults?: number;
+  assessmentTargetArns?: string[] | undefined;
+  filter?: AssessmentTemplateFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListAssessmentTemplatesResponse {
   assessmentTemplateArns: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListEventSubscriptionsMaxResults = number;
 export interface ListEventSubscriptionsRequest {
-  resourceArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  resourceArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EventSubscription {
   event: InspectorEvent;
@@ -686,16 +686,16 @@ export interface Subscription {
 export type SubscriptionList = Subscription[];
 export interface ListEventSubscriptionsResponse {
   subscriptions: Subscription[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListExclusionsRequest {
   assessmentRunArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListExclusionsResponse {
   exclusionArns: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type AgentIdList = string[];
 export type AutoScalingGroupList = string[];
@@ -703,32 +703,32 @@ export type RuleName = string;
 export type RuleNameList = string[];
 export type SeverityList = Severity[];
 export interface FindingFilter {
-  agentIds?: string[];
-  autoScalingGroups?: string[];
-  ruleNames?: string[];
-  severities?: Severity[];
-  rulesPackageArns?: string[];
-  attributes?: Attribute[];
-  userAttributes?: Attribute[];
-  creationTimeRange?: TimestampRange;
+  agentIds?: string[] | undefined;
+  autoScalingGroups?: string[] | undefined;
+  ruleNames?: string[] | undefined;
+  severities?: Severity[] | undefined;
+  rulesPackageArns?: string[] | undefined;
+  attributes?: Attribute[] | undefined;
+  userAttributes?: Attribute[] | undefined;
+  creationTimeRange?: TimestampRange | undefined;
 }
 export interface ListFindingsRequest {
-  assessmentRunArns?: string[];
-  filter?: FindingFilter;
-  nextToken?: string;
-  maxResults?: number;
+  assessmentRunArns?: string[] | undefined;
+  filter?: FindingFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListFindingsResponse {
   findingArns: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListRulesPackagesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListRulesPackagesResponse {
   rulesPackageArns: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -740,26 +740,26 @@ export interface ListTagsForResourceResponse {
 export type PreviewAgentsMaxResults = number;
 export interface PreviewAgentsRequest {
   previewAgentsArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AgentVersion = string;
 export type OperatingSystem = string;
 export type KernelVersion = string;
 export interface AgentPreview {
-  hostname?: string;
+  hostname?: string | undefined;
   agentId: string;
-  autoScalingGroup?: string;
-  agentHealth?: AgentHealth;
-  agentVersion?: string;
-  operatingSystem?: string;
-  kernelVersion?: string;
-  ipv4Address?: string;
+  autoScalingGroup?: string | undefined;
+  agentHealth?: AgentHealth | undefined;
+  agentVersion?: string | undefined;
+  operatingSystem?: string | undefined;
+  kernelVersion?: string | undefined;
+  ipv4Address?: string | undefined;
 }
 export type AgentPreviewList = AgentPreview[];
 export interface PreviewAgentsResponse {
   agentPreviews: AgentPreview[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface RegisterCrossAccountAccessRoleRequest {
   roleArn: string;
@@ -775,12 +775,12 @@ export interface RemoveAttributesFromFindingsResponse {
 }
 export interface SetTagsForResourceRequest {
   resourceArn: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface SetTagsForResourceResponse {}
 export interface StartAssessmentRunRequest {
   assessmentTemplateArn: string;
-  assessmentRunName?: string;
+  assessmentRunName?: string | undefined;
 }
 export interface StartAssessmentRunResponse {
   assessmentRunArn: string;
@@ -788,7 +788,7 @@ export interface StartAssessmentRunResponse {
 export type StopAction = "START_EVALUATION" | "SKIP_EVALUATION" | (string & {});
 export interface StopAssessmentRunRequest {
   assessmentRunArn: string;
-  stopAction?: StopAction;
+  stopAction?: StopAction | undefined;
 }
 export interface StopAssessmentRunResponse {}
 export interface SubscribeToEventRequest {
@@ -806,7 +806,7 @@ export interface UnsubscribeFromEventResponse {}
 export interface UpdateAssessmentTargetRequest {
   assessmentTargetArn: string;
   assessmentTargetName: string;
-  resourceGroupArn?: string;
+  resourceGroupArn?: string | undefined;
 }
 export interface UpdateAssessmentTargetResponse {}
 export type ErrorMessage = string;

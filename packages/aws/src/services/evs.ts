@@ -155,7 +155,7 @@ export type ClientToken = string;
 export type EnvironmentId = string;
 export type AllocationId = string;
 export interface AssociateEipToVlanRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   environmentId: string;
   vlanName: string;
   allocationId: string;
@@ -174,35 +174,35 @@ export type StateDetails = string;
 export type AssociationId = string;
 export type IpAddress = string;
 export interface EipAssociation {
-  associationId?: string;
-  allocationId?: string;
-  ipAddress?: string;
+  associationId?: string | undefined;
+  allocationId?: string | undefined;
+  ipAddress?: string | undefined;
 }
 export type EipAssociationList = EipAssociation[];
 export type NetworkAclId = string;
 export interface Vlan {
-  vlanId?: number;
-  cidr?: string;
-  availabilityZone?: string;
-  functionName?: string;
-  subnetId?: string;
-  createdAt?: Date;
-  modifiedAt?: Date;
-  vlanState?: VlanState;
-  stateDetails?: string;
-  eipAssociations?: EipAssociation[];
-  isPublic?: boolean;
-  networkAclId?: string;
+  vlanId?: number | undefined;
+  cidr?: string | undefined;
+  availabilityZone?: string | undefined;
+  functionName?: string | undefined;
+  subnetId?: string | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  vlanState?: VlanState | undefined;
+  stateDetails?: string | undefined;
+  eipAssociations?: EipAssociation[] | undefined;
+  isPublic?: boolean | undefined;
+  networkAclId?: string | undefined;
 }
 export interface AssociateEipToVlanResponse {
-  vlan?: Vlan;
+  vlan?: Vlan | undefined;
 }
 export type ConnectorId = string;
 export type EntitlementType = "WINDOWS_SERVER" | (string & {});
 export type VmId = string;
 export type VmIdList = string[];
 export interface CreateEntitlementRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   environmentId: string;
   connectorId: string;
   entitlementType: EntitlementType;
@@ -222,20 +222,20 @@ export interface ErrorDetail {
   errorMessage: string;
 }
 export interface VmEntitlement {
-  vmId?: string;
-  environmentId?: string;
-  connectorId?: string;
-  vmName?: string;
-  type?: EntitlementType;
-  status?: EntitlementStatus;
-  lastSyncedAt?: Date;
-  startedAt?: Date;
-  stoppedAt?: Date;
-  errorDetail?: ErrorDetail;
+  vmId?: string | undefined;
+  environmentId?: string | undefined;
+  connectorId?: string | undefined;
+  vmName?: string | undefined;
+  type?: EntitlementType | undefined;
+  status?: EntitlementStatus | undefined;
+  lastSyncedAt?: Date | undefined;
+  startedAt?: Date | undefined;
+  stoppedAt?: Date | undefined;
+  errorDetail?: ErrorDetail | undefined;
 }
 export type VmEntitlementList = VmEntitlement[];
 export interface CreateEntitlementResponse {
-  entitlements?: VmEntitlement[];
+  entitlements?: VmEntitlement[] | undefined;
 }
 export type EnvironmentName = string;
 export type TagKey = string;
@@ -244,7 +244,7 @@ export type RequestTagMap = { [key: string]: string | undefined };
 export type SecurityGroupId = string;
 export type SecurityGroups = string[];
 export interface ServiceAccessSecurityGroups {
-  securityGroups?: string[];
+  securityGroups?: string[] | undefined;
 }
 export type VpcId = string;
 export type VcfVersion = "VCF-5.2.1" | "VCF-5.2.2" | "SELF_DEPLOYED" | (string & {});
@@ -262,8 +262,8 @@ export interface InitialVlans {
   hcx: InitialVlanInfo;
   expansionVlan1: InitialVlanInfo;
   expansionVlan2: InitialVlanInfo;
-  isHcxPublic?: boolean;
-  hcxNetworkAclId?: string;
+  isHcxPublic?: boolean | undefined;
+  hcxNetworkAclId?: string | undefined;
 }
 export type RouteServerPeering = string;
 export type RouteServerPeeringList = string[];
@@ -286,8 +286,8 @@ export interface HostInfoForCreate {
   hostName: string;
   keyName: string;
   instanceType: InstanceType;
-  placementGroupId?: string;
-  dedicatedHostId?: string;
+  placementGroupId?: string | undefined;
+  dedicatedHostId?: string | undefined;
 }
 export type HostInfoForCreateList = HostInfoForCreate[];
 export interface VcfHostnames {
@@ -302,21 +302,21 @@ export interface VcfHostnames {
   cloudBuilder: string;
 }
 export interface CreateEnvironmentRequest {
-  clientToken?: string;
-  environmentName?: string;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
-  serviceAccessSecurityGroups?: ServiceAccessSecurityGroups;
+  clientToken?: string | undefined;
+  environmentName?: string | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  serviceAccessSecurityGroups?: ServiceAccessSecurityGroups | undefined;
   vpcId: string;
   serviceAccessSubnetId: string;
   vcfVersion: VcfVersion;
   termsAccepted: boolean;
   initialVlans: InitialVlans;
-  connectivityInfo?: ConnectivityInfo;
-  licenseInfo?: LicenseInfo[];
-  hosts?: HostInfoForCreate[];
-  vcfHostnames?: VcfHostnames;
-  siteId?: string;
+  connectivityInfo?: ConnectivityInfo | undefined;
+  licenseInfo?: LicenseInfo[] | undefined;
+  hosts?: HostInfoForCreate[] | undefined;
+  vcfHostnames?: VcfHostnames | undefined;
+  siteId?: string | undefined;
 }
 export type EnvironmentState =
   | "CREATING"
@@ -343,46 +343,46 @@ export type CheckType =
   | "CONNECTOR_HEALTH"
   | (string & {});
 export interface Check {
-  type?: CheckType;
-  id?: string;
-  result?: CheckResult;
-  impairedSince?: Date;
+  type?: CheckType | undefined;
+  id?: string | undefined;
+  result?: CheckResult | undefined;
+  impairedSince?: Date | undefined;
 }
 export type ChecksList = Check[];
 export interface Secret {
-  secretArn?: string;
+  secretArn?: string | undefined;
 }
 export type SecretList = Secret[];
 export interface Environment {
-  environmentId?: string;
-  environmentState?: EnvironmentState;
-  stateDetails?: string;
-  createdAt?: Date;
-  modifiedAt?: Date;
-  environmentArn?: string;
-  environmentName?: string;
-  vpcId?: string;
-  serviceAccessSubnetId?: string;
-  vcfVersion?: VcfVersion;
-  termsAccepted?: boolean;
-  licenseInfo?: LicenseInfo[];
-  siteId?: string;
-  environmentStatus?: CheckResult;
-  checks?: Check[];
-  connectivityInfo?: ConnectivityInfo;
-  vcfHostnames?: VcfHostnames;
-  kmsKeyId?: string;
-  serviceAccessSecurityGroups?: ServiceAccessSecurityGroups;
-  credentials?: Secret[];
+  environmentId?: string | undefined;
+  environmentState?: EnvironmentState | undefined;
+  stateDetails?: string | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  environmentArn?: string | undefined;
+  environmentName?: string | undefined;
+  vpcId?: string | undefined;
+  serviceAccessSubnetId?: string | undefined;
+  vcfVersion?: VcfVersion | undefined;
+  termsAccepted?: boolean | undefined;
+  licenseInfo?: LicenseInfo[] | undefined;
+  siteId?: string | undefined;
+  environmentStatus?: CheckResult | undefined;
+  checks?: Check[] | undefined;
+  connectivityInfo?: ConnectivityInfo | undefined;
+  vcfHostnames?: VcfHostnames | undefined;
+  kmsKeyId?: string | undefined;
+  serviceAccessSecurityGroups?: ServiceAccessSecurityGroups | undefined;
+  credentials?: Secret[] | undefined;
 }
 export interface CreateEnvironmentResponse {
-  environment?: Environment;
+  environment?: Environment | undefined;
 }
 export type ConnectorType = "OPERATIONS_MANAGER" | "SDDC_MANAGER" | "VCENTER" | (string & {});
 export type ApplianceFqdn = string;
 export type SecretIdentifier = string;
 export interface CreateEnvironmentConnectorRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   environmentId: string;
   type: ConnectorType;
   applianceFqdn: string;
@@ -398,44 +398,44 @@ export type ConnectorState =
   | "DELETED"
   | (string & {});
 export interface ConnectorCheck {
-  type?: CheckType;
-  result?: CheckResult;
-  lastCheckAttempt?: Date;
-  impairedSince?: Date;
+  type?: CheckType | undefined;
+  result?: CheckResult | undefined;
+  lastCheckAttempt?: Date | undefined;
+  impairedSince?: Date | undefined;
 }
 export type ConnectorsChecksList = ConnectorCheck[];
 export interface Connector {
-  environmentId?: string;
-  connectorId?: string;
-  type?: ConnectorType;
-  applianceFqdn?: string;
-  secretArn?: string;
-  state?: ConnectorState;
-  stateDetails?: string;
-  status?: CheckResult;
-  checks?: ConnectorCheck[];
-  createdAt?: Date;
-  modifiedAt?: Date;
+  environmentId?: string | undefined;
+  connectorId?: string | undefined;
+  type?: ConnectorType | undefined;
+  applianceFqdn?: string | undefined;
+  secretArn?: string | undefined;
+  state?: ConnectorState | undefined;
+  stateDetails?: string | undefined;
+  status?: CheckResult | undefined;
+  checks?: ConnectorCheck[] | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
 }
 export interface CreateEnvironmentConnectorResponse {
-  connector?: Connector;
+  connector?: Connector | undefined;
 }
 export type EsxVersion = string;
 export interface CreateEnvironmentHostRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   environmentId: string;
   host: HostInfoForCreate;
-  esxVersion?: string;
+  esxVersion?: string | undefined;
 }
 export interface EnvironmentSummary {
-  environmentId?: string;
-  environmentName?: string;
-  vcfVersion?: VcfVersion;
-  environmentStatus?: CheckResult;
-  environmentState?: EnvironmentState;
-  createdAt?: Date;
-  modifiedAt?: Date;
-  environmentArn?: string;
+  environmentId?: string | undefined;
+  environmentName?: string | undefined;
+  vcfVersion?: VcfVersion | undefined;
+  environmentStatus?: CheckResult | undefined;
+  environmentState?: EnvironmentState | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  environmentArn?: string | undefined;
 }
 export type HostState =
   | "CREATING"
@@ -448,70 +448,70 @@ export type HostState =
   | (string & {});
 export type NetworkInterfaceId = string;
 export interface NetworkInterface {
-  networkInterfaceId?: string;
+  networkInterfaceId?: string | undefined;
 }
 export type NetworkInterfaceList = NetworkInterface[];
 export interface Host {
-  hostName?: string;
-  ipAddress?: string;
-  keyName?: string;
-  instanceType?: InstanceType;
-  placementGroupId?: string;
-  dedicatedHostId?: string;
-  createdAt?: Date;
-  modifiedAt?: Date;
-  hostState?: HostState;
-  stateDetails?: string;
-  ec2InstanceId?: string;
-  networkInterfaces?: NetworkInterface[];
+  hostName?: string | undefined;
+  ipAddress?: string | undefined;
+  keyName?: string | undefined;
+  instanceType?: InstanceType | undefined;
+  placementGroupId?: string | undefined;
+  dedicatedHostId?: string | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  hostState?: HostState | undefined;
+  stateDetails?: string | undefined;
+  ec2InstanceId?: string | undefined;
+  networkInterfaces?: NetworkInterface[] | undefined;
 }
 export interface CreateEnvironmentHostResponse {
-  environmentSummary?: EnvironmentSummary;
-  host?: Host;
+  environmentSummary?: EnvironmentSummary | undefined;
+  host?: Host | undefined;
 }
 export interface DeleteEntitlementRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   environmentId: string;
   connectorId: string;
   entitlementType: EntitlementType;
   vmIds: string[];
 }
 export interface DeleteEntitlementResponse {
-  entitlements?: VmEntitlement[];
+  entitlements?: VmEntitlement[] | undefined;
 }
 export interface DeleteEnvironmentRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   environmentId: string;
 }
 export interface DeleteEnvironmentResponse {
-  environment?: Environment;
+  environment?: Environment | undefined;
 }
 export interface DeleteEnvironmentConnectorRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   environmentId: string;
   connectorId: string;
 }
 export interface DeleteEnvironmentConnectorResponse {
-  connector?: Connector;
-  environmentSummary?: EnvironmentSummary;
+  connector?: Connector | undefined;
+  environmentSummary?: EnvironmentSummary | undefined;
 }
 export interface DeleteEnvironmentHostRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   environmentId: string;
   hostName: string;
 }
 export interface DeleteEnvironmentHostResponse {
-  environmentSummary?: EnvironmentSummary;
-  host?: Host;
+  environmentSummary?: EnvironmentSummary | undefined;
+  host?: Host | undefined;
 }
 export interface DisassociateEipFromVlanRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   environmentId: string;
   vlanName: string;
   associationId: string;
 }
 export interface DisassociateEipFromVlanResponse {
-  vlan?: Vlan;
+  vlan?: Vlan | undefined;
 }
 export interface GetAccountSettingsRequest {}
 export type SettingName = string;
@@ -522,11 +522,11 @@ export interface AccountSetting {
 }
 export type AccountSettingList = AccountSetting[];
 export interface GetAccountSettingsResponse {
-  settings?: AccountSetting[];
+  settings?: AccountSetting[] | undefined;
 }
 export interface GetDepotUrlRequest {
   environmentId: string;
-  rotate?: boolean;
+  rotate?: boolean | undefined;
 }
 export interface GetDepotUrlResponse {
   depotUrl: string;
@@ -536,7 +536,7 @@ export interface GetEnvironmentRequest {
   environmentId: string;
 }
 export interface GetEnvironmentResponse {
-  environment?: Environment;
+  environment?: Environment | undefined;
 }
 export interface GetVersionsRequest {}
 export type InstanceTypeList = InstanceType[];
@@ -560,69 +560,69 @@ export interface GetVersionsResponse {
 export type PaginationToken = string;
 export type MaxResults = number;
 export interface ListEnvironmentConnectorsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   environmentId: string;
 }
 export type ConnectorList = Connector[];
 export interface ListEnvironmentConnectorsResponse {
-  nextToken?: string;
-  connectors?: Connector[];
+  nextToken?: string | undefined;
+  connectors?: Connector[] | undefined;
 }
 export interface ListEnvironmentHostsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   environmentId: string;
 }
 export type HostList = Host[];
 export interface ListEnvironmentHostsResponse {
-  nextToken?: string;
-  environmentHosts?: Host[];
+  nextToken?: string | undefined;
+  environmentHosts?: Host[] | undefined;
 }
 export type EnvironmentStateList = EnvironmentState[];
 export interface ListEnvironmentsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  state?: EnvironmentState[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  state?: EnvironmentState[] | undefined;
 }
 export type EnvironmentSummaryList = EnvironmentSummary[];
 export interface ListEnvironmentsResponse {
-  nextToken?: string;
-  environmentSummaries?: EnvironmentSummary[];
+  nextToken?: string | undefined;
+  environmentSummaries?: EnvironmentSummary[] | undefined;
 }
 export interface ListEnvironmentVlansRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   environmentId: string;
 }
 export type VlanList = Vlan[];
 export interface ListEnvironmentVlansResponse {
-  nextToken?: string;
-  environmentVlans?: Vlan[];
+  nextToken?: string | undefined;
+  environmentVlans?: Vlan[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export type ResponseTagMap = { [key: string]: string | undefined };
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListVmEntitlementsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   environmentId: string;
   connectorId: string;
   entitlementType: EntitlementType;
 }
 export interface ListVmEntitlementsResponse {
-  nextToken?: string;
-  entitlements?: VmEntitlement[];
+  nextToken?: string | undefined;
+  entitlements?: VmEntitlement[] | undefined;
 }
 export interface PutAccountSettingsRequest {
   settings: AccountSetting[];
 }
 export interface PutAccountSettingsResponse {
-  settings?: AccountSetting[];
+  settings?: AccountSetting[] | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -636,14 +636,14 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateEnvironmentConnectorRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   environmentId: string;
   connectorId: string;
-  applianceFqdn?: string;
-  secretIdentifier?: string;
+  applianceFqdn?: string | undefined;
+  secretIdentifier?: string | undefined;
 }
 export interface UpdateEnvironmentConnectorResponse {
-  connector?: Connector;
+  connector?: Connector | undefined;
 }
 export type ValidationExceptionReason =
   | "unknownOperation"

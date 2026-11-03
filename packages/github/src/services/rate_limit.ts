@@ -46,17 +46,17 @@ export interface RateLimit2 {
 }
 export interface RateLimitOverviewResources {
   core: RateLimit2;
-  graphql?: RateLimit2;
+  graphql?: RateLimit2 | undefined;
   search: RateLimit2;
-  code_search?: RateLimit2;
-  source_import?: RateLimit2;
-  integration_manifest?: RateLimit2;
-  actions_runner_registration?: RateLimit2;
-  scim?: RateLimit2;
-  dependency_snapshots?: RateLimit2;
-  dependency_sbom?: RateLimit2;
-  code_scanning_autofix?: RateLimit2;
-  copilot_usage_records?: RateLimit2;
+  code_search?: RateLimit2 | undefined;
+  source_import?: RateLimit2 | undefined;
+  integration_manifest?: RateLimit2 | undefined;
+  actions_runner_registration?: RateLimit2 | undefined;
+  scim?: RateLimit2 | undefined;
+  dependency_snapshots?: RateLimit2 | undefined;
+  dependency_sbom?: RateLimit2 | undefined;
+  code_scanning_autofix?: RateLimit2 | undefined;
+  copilot_usage_records?: RateLimit2 | undefined;
 }
 /** Rate Limit Overview */
 export interface RateLimitOverview {

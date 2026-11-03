@@ -93,24 +93,24 @@ export interface AggregatedProjectsJobsRequest {
   /** The project which owns the jobs. */
   projectId: string;
   /** Optional. The job name. */
-  name?: string;
+  name?: string | undefined;
   /** If there are many jobs, limit response to at most this many. The actual number of jobs returned will be the lesser of max_responses and an unspecified server-defined limit. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. */
-  regionalFanoutRequested?: boolean;
+  regionalFanoutRequested?: boolean | undefined;
   /** Deprecated. ListJobs always returns summaries now. Use GetJob for other JobViews. */
-  view?: AggregatedProjectsJobsViewEnum | (string & {});
+  view?: AggregatedProjectsJobsViewEnum | (string & {}) | undefined;
   /** Set this to the 'next_page_token' field of a previous response to request additional results in a long list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The kind of filter to use. */
-  filter?: AggregatedProjectsJobsFilterEnum | (string & {});
+  filter?: AggregatedProjectsJobsFilterEnum | (string & {}) | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Indicates which [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) failed to respond to a request for data. */
 export interface FailedLocation {
   /** The name of the [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that failed to respond. */
-  name?: string;
+  name?: string | undefined;
 }
 export type FailedLocationList = Array<FailedLocation>;
 export type DocumentMap = { [key: string]: unknown | undefined };
@@ -118,13 +118,13 @@ export type StringList_ = Array<string>;
 /** Defines an SDK harness container for executing Dataflow pipelines. */
 export interface SdkHarnessContainerImage {
   /** Environment ID for the Beam runner API proto Environment that corresponds to the current SDK Harness. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** If true, recommends the Dataflow service to use only one core per SDK container instance with this image. If false (or unset) recommends using more than one core per SDK container instance with this image for efficiency. Note that Dataflow service may choose to override this property if needed. */
-  useSingleCorePerContainer?: boolean;
+  useSingleCorePerContainer?: boolean | undefined;
   /** A docker container image that resides in Google Container Registry. */
-  containerImage?: string;
+  containerImage?: string | undefined;
   /** The set of capabilities enumerated in the above Environment proto. See also [beam_runner_api.proto](https://github.com/apache/beam/blob/master/model/pipeline/src/main/proto/org/apache/beam/model/pipeline/v1/beam_runner_api.proto) */
-  capabilities?: StringList_;
+  capabilities?: StringList_ | undefined;
 }
 export type SdkHarnessContainerImageList = Array<SdkHarnessContainerImage>;
 export type WorkerPoolTeardownPolicyEnum =
@@ -140,11 +140,11 @@ export type StringMap = { [key: string]: string | undefined };
 /** The packages that must be installed in order for a worker to run the steps of the Cloud Dataflow job that will be assigned to its worker pool. This is the mechanism by which the Cloud Dataflow SDK causes code to be loaded onto the workers. For example, the Cloud Dataflow Java SDK might use this to install jars containing the user's code and all of the various dependencies (libraries, data files, etc.) required in order for that code to run. */
 export interface Package {
   /** Optional. The hex-encoded SHA256 checksum of the package. If the checksum is provided, the worker will verify the checksum of the package before using it. If the checksum does not match, the worker will fail to start. */
-  sha256?: string;
+  sha256?: string | undefined;
   /** The name of the package. */
-  name?: string;
+  name?: string | undefined;
   /** The resource to read the package from. The supported resource type is: Google Cloud Storage: storage.googleapis.com/{bucket} bucket.storage.googleapis.com/ */
-  location?: string;
+  location?: string | undefined;
 }
 export type PackageList = Array<Package>;
 export type WorkerPoolDefaultPackageSetEnum =
@@ -155,68 +155,68 @@ export type WorkerPoolDefaultPackageSetEnum =
 /** Describes the data disk used by a workflow job. */
 export interface Disk {
   /** Size of disk in GB. If zero or unspecified, the service will attempt to choose a reasonable default. */
-  sizeGb?: number;
+  sizeGb?: number | undefined;
   /** Disk storage type, as defined by Google Compute Engine. This must be a disk type appropriate to the project and zone in which the workers will run. If unknown or unspecified, the service will attempt to choose a reasonable default. For example, the standard persistent disk type is a resource name typically ending in "pd-standard". If SSD persistent disks are available, the resource name typically ends with "pd-ssd". The actual valid values are defined the Google Compute Engine API, not by the Cloud Dataflow API; consult the Google Compute Engine documentation for more information about determining the set of available disk types for a particular project and zone. Google Compute Engine Disk types are local to a particular project in a particular zone, and so the resource name will typically look something like this: compute.googleapis.com/projects/project-id/zones/zone/diskTypes/pd-standard */
-  diskType?: string;
+  diskType?: string | undefined;
   /** Directory in a VM where disk is mounted. */
-  mountPoint?: string;
+  mountPoint?: string | undefined;
 }
 export type DiskList = Array<Disk>;
 /** Provides data to pass through to the worker harness. */
 export interface WorkerSettings {
   /** The Cloud Dataflow service path relative to the root URL, for example, "dataflow/v1b3/projects". */
-  servicePath?: string;
+  servicePath?: string | undefined;
   /** The base URL for accessing Google Cloud APIs. When workers access Google Cloud APIs, they logically do so via relative URLs. If this field is specified, it supplies the base URL to use for resolving these relative URLs. The normative algorithm used is defined by RFC 1808, "Relative Uniform Resource Locators". If not specified, the default value is "http://www.googleapis.com/" */
-  baseUrl?: string;
+  baseUrl?: string | undefined;
   /** Whether to send work progress updates to the service. */
-  reportingEnabled?: boolean;
+  reportingEnabled?: boolean | undefined;
   /** The Shuffle service path relative to the root URL, for example, "shuffle/v1beta1". */
-  shuffleServicePath?: string;
+  shuffleServicePath?: string | undefined;
   /** The prefix of the resources the system should use for temporary storage. The supported resource type is: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
-  tempStoragePrefix?: string;
+  tempStoragePrefix?: string | undefined;
   /** The ID of the worker running this pipeline. */
-  workerId?: string;
+  workerId?: string | undefined;
 }
 /** Taskrunner configuration settings. */
 export interface TaskRunnerSettings {
   /** The base URL for the taskrunner to use when accessing Google Cloud APIs. When workers access Google Cloud APIs, they logically do so via relative URLs. If this field is specified, it supplies the base URL to use for resolving these relative URLs. The normative algorithm used is defined by RFC 1808, "Relative Uniform Resource Locators". If not specified, the default value is "http://www.googleapis.com/" */
-  baseUrl?: string;
+  baseUrl?: string | undefined;
   /** The suggested backend language. */
-  languageHint?: string;
+  languageHint?: string | undefined;
   /** Whether to also send taskrunner log info to stderr. */
-  alsologtostderr?: boolean;
+  alsologtostderr?: boolean | undefined;
   /** Whether to send taskrunner log info to Google Compute Engine VM serial console. */
-  logToSerialconsole?: boolean;
+  logToSerialconsole?: boolean | undefined;
   /** The directory on the VM to store logs. */
-  logDir?: string;
+  logDir?: string | undefined;
   /** The OAuth2 scopes to be requested by the taskrunner in order to access the Cloud Dataflow API. */
-  oauthScopes?: StringList_;
+  oauthScopes?: StringList_ | undefined;
   /** The ID string of the VM. */
-  vmId?: string;
+  vmId?: string | undefined;
   /** The prefix of the resources the taskrunner should use for temporary storage. The supported resource type is: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
-  tempStoragePrefix?: string;
+  tempStoragePrefix?: string | undefined;
   /** Whether to continue taskrunner if an exception is hit. */
-  continueOnException?: boolean;
+  continueOnException?: boolean | undefined;
   /** The UNIX user ID on the worker VM to use for tasks launched by taskrunner; e.g. "root". */
-  taskUser?: string;
+  taskUser?: string | undefined;
   /** The file to store the workflow in. */
-  workflowFileName?: string;
+  workflowFileName?: string | undefined;
   /** The streaming worker main class name. */
-  streamingWorkerMainClass?: string;
+  streamingWorkerMainClass?: string | undefined;
   /** The location on the worker for task-specific subdirectories. */
-  baseTaskDir?: string;
+  baseTaskDir?: string | undefined;
   /** The settings to pass to the parallel worker harness. */
-  parallelWorkerSettings?: WorkerSettings;
+  parallelWorkerSettings?: WorkerSettings | undefined;
   /** Indicates where to put logs. If this is not specified, the logs will not be uploaded. The supported resource type is: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
-  logUploadLocation?: string;
+  logUploadLocation?: string | undefined;
   /** The API version of endpoint, e.g. "v1b3" */
-  dataflowApiVersion?: string;
+  dataflowApiVersion?: string | undefined;
   /** The file to store preprocessing commands in. */
-  commandlinesFileName?: string;
+  commandlinesFileName?: string | undefined;
   /** The UNIX group ID on the worker VM to use for tasks launched by taskrunner; e.g. "wheel". */
-  taskGroup?: string;
+  taskGroup?: string | undefined;
   /** The command to launch the worker harness. */
-  harnessCommand?: string;
+  harnessCommand?: string | undefined;
 }
 export type AutoscalingSettingsAlgorithmEnum =
   | "AUTOSCALING_ALGORITHM_UNKNOWN"
@@ -225,60 +225,60 @@ export type AutoscalingSettingsAlgorithmEnum =
 /** Settings for WorkerPool autoscaling. */
 export interface AutoscalingSettings {
   /** The algorithm to use for autoscaling. */
-  algorithm?: AutoscalingSettingsAlgorithmEnum | (string & {});
+  algorithm?: AutoscalingSettingsAlgorithmEnum | (string & {}) | undefined;
   /** The maximum number of workers to cap scaling at. */
-  maxNumWorkers?: number;
+  maxNumWorkers?: number | undefined;
 }
 /** Describes one particular pool of Cloud Dataflow workers to be instantiated by the Cloud Dataflow service in order to perform the computations required by a job. Note that a workflow job may use multiple pools, in order to match the various computational requirements of the various stages of the job. */
 export interface WorkerPool {
   /** Set of SDK harness containers needed to execute this pipeline. This will only be set in the Fn API path. For non-cross-language pipelines this should have only one entry. Cross-language pipelines will have two or more entries. */
-  sdkHarnessContainerImages?: SdkHarnessContainerImageList;
+  sdkHarnessContainerImages?: SdkHarnessContainerImageList | undefined;
   /** Subnetwork to which VMs will be assigned, if desired. Expected to be of the form "regions/REGION/subnetworks/SUBNETWORK". */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
   /** Network to which VMs will be assigned. If empty or unspecified, the service will use the network "default". */
-  network?: string;
+  network?: string | undefined;
   /** The kind of the worker pool; currently only `harness` and `shuffle` are supported. */
-  kind?: string;
+  kind?: string | undefined;
   /** Sets the policy for determining when to turndown worker pool. Allowed values are: `TEARDOWN_ALWAYS`, `TEARDOWN_ON_SUCCESS`, and `TEARDOWN_NEVER`. `TEARDOWN_ALWAYS` means workers are always torn down regardless of whether the job succeeds. `TEARDOWN_ON_SUCCESS` means workers are torn down if the job succeeds. `TEARDOWN_NEVER` means the workers are never torn down. If the workers are not torn down by the service, they will continue to run and use Google Compute Engine VM resources in the user's project until they are explicitly terminated by the user. Because of this, Google recommends using the `TEARDOWN_ALWAYS` policy except for small, manually supervised test jobs. If unknown or unspecified, the service will attempt to choose a reasonable default. */
-  teardownPolicy?: WorkerPoolTeardownPolicyEnum | (string & {});
+  teardownPolicy?: WorkerPoolTeardownPolicyEnum | (string & {}) | undefined;
   /** Fully qualified source image for disks. */
-  diskSourceImage?: string;
+  diskSourceImage?: string | undefined;
   /** Configuration for VM IPs. */
-  ipConfiguration?: WorkerPoolIpConfigurationEnum | (string & {});
+  ipConfiguration?: WorkerPoolIpConfigurationEnum | (string & {}) | undefined;
   /** Required. Docker container image that executes the Cloud Dataflow worker harness, residing in Google Container Registry. Deprecated for the Fn API path. Use sdk_harness_container_images instead. */
-  workerHarnessContainerImage?: string;
+  workerHarnessContainerImage?: string | undefined;
   /** Optional. IOPS provisioned for the root disk for VMs. */
-  diskProvisionedIops?: string;
+  diskProvisionedIops?: string | undefined;
   /** The action to take on host maintenance, as defined by the Google Compute Engine API. */
-  onHostMaintenance?: string;
+  onHostMaintenance?: string | undefined;
   /** Metadata to set on the Google Compute Engine VMs. */
-  metadata?: StringMap;
+  metadata?: StringMap | undefined;
   /** The number of threads per worker harness. If empty or unspecified, the service will choose a number of threads (according to the number of cores on the selected machine type for batch, or 1 by convention for streaming). */
-  numThreadsPerWorker?: number;
+  numThreadsPerWorker?: number | undefined;
   /** Optional. Throughput provisioned for the root disk for VMs. */
-  diskProvisionedThroughputMibps?: string;
+  diskProvisionedThroughputMibps?: string | undefined;
   /** Size of root disk for VMs, in GB. If zero or unspecified, the service will attempt to choose a reasonable default. */
-  diskSizeGb?: number;
+  diskSizeGb?: number | undefined;
   /** Type of root disk for VMs. If empty or unspecified, the service will attempt to choose a reasonable default. */
-  diskType?: string;
+  diskType?: string | undefined;
   /** Packages to be installed on workers. */
-  packages?: PackageList;
+  packages?: PackageList | undefined;
   /** The default package set to install. This allows the service to select a default set of packages which are useful to worker harnesses written in a particular language. */
-  defaultPackageSet?: WorkerPoolDefaultPackageSetEnum | (string & {});
+  defaultPackageSet?: WorkerPoolDefaultPackageSetEnum | (string & {}) | undefined;
   /** Number of Google Compute Engine workers in this pool needed to execute the job. If zero or unspecified, the service will attempt to choose a reasonable default. */
-  numWorkers?: number;
+  numWorkers?: number | undefined;
   /** Data disks that are used by a VM in this workflow. */
-  dataDisks?: DiskList;
+  dataDisks?: DiskList | undefined;
   /** Machine type (e.g. "n1-standard-1"). If empty or unspecified, the service will attempt to choose a reasonable default. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Settings passed through to Google Compute Engine workers when using the standard Dataflow task runner. Users should ignore this field. */
-  taskrunnerSettings?: TaskRunnerSettings;
+  taskrunnerSettings?: TaskRunnerSettings | undefined;
   /** Zone to run the worker pools in. If empty or unspecified, the service will attempt to choose a reasonable default. */
-  zone?: string;
+  zone?: string | undefined;
   /** Settings for autoscaling of this WorkerPool. */
-  autoscalingSettings?: AutoscalingSettings;
+  autoscalingSettings?: AutoscalingSettings | undefined;
   /** Extra arguments for this worker pool. */
-  poolArgs?: DocumentMap;
+  poolArgs?: DocumentMap | undefined;
 }
 export type WorkerPoolList = Array<WorkerPool>;
 export type DataSamplingConfigBehaviorsItemEnum =
@@ -292,14 +292,14 @@ export type DataSamplingConfigBehaviorsItemEnumList = Array<
 /** Configuration options for sampling elements. */
 export interface DataSamplingConfig {
   /** List of given sampling behaviors to enable. For example, specifying behaviors = [ALWAYS_ON] samples in-flight elements but does not sample exceptions. Can be used to specify multiple behaviors like, behaviors = [ALWAYS_ON, EXCEPTIONS] for specifying periodic sampling and exception sampling. If DISABLED is in the list, then sampling will be disabled and ignore the other given behaviors. Ordering does not matter. */
-  behaviors?: DataSamplingConfigBehaviorsItemEnumList;
+  behaviors?: DataSamplingConfigBehaviorsItemEnumList | undefined;
 }
 /** Describes any options that have an effect on the debugging of pipelines. */
 export interface DebugOptions {
   /** Configuration options for sampling elements from a running pipeline. */
-  dataSampling?: DataSamplingConfig;
+  dataSampling?: DataSamplingConfig | undefined;
   /** Optional. When true, enables the logging of the literal hot key to the user's Cloud Logging. */
-  enableHotKeyLogging?: boolean;
+  enableHotKeyLogging?: boolean | undefined;
 }
 export type EnvironmentShuffleModeEnum = "SHUFFLE_MODE_UNSPECIFIED" | "VM_BASED" | "SERVICE_BASED";
 export type EnvironmentFlexResourceSchedulingGoalEnum =
@@ -313,45 +313,48 @@ export type EnvironmentStreamingModeEnum =
 /** Describes the environment in which a Dataflow Job runs. */
 export interface Environment {
   /** Optional. A description of the process that generated the request. */
-  userAgent?: DocumentMap;
+  userAgent?: DocumentMap | undefined;
   /** The type of cluster manager API to use. If unknown or unspecified, the service will attempt to choose a reasonable default. This should be in the form of the API service name, e.g. "compute.googleapis.com". */
-  clusterManagerApiService?: string;
+  clusterManagerApiService?: string | undefined;
   /** A structure describing which components and their versions of the service are required in order to run the job. */
-  version?: DocumentMap;
+  version?: DocumentMap | undefined;
   /** The worker pools. At least one "harness" worker pool must be specified in order for the job to have workers. */
-  workerPools?: WorkerPoolList;
+  workerPools?: WorkerPoolList | undefined;
   /** The list of experiments to enable. This field should be used for SDK related experiments and not for service related experiments. The proper field for service related experiments is service_options. */
-  experiments?: StringList_;
+  experiments?: StringList_ | undefined;
   /** Optional. Identity to run virtual machines as. Defaults to the default account. */
-  serviceAccountEmail?: string;
+  serviceAccountEmail?: string | undefined;
   /** Optional. True when any worker pool that uses public IPs is present. */
-  usePublicIps?: boolean;
+  usePublicIps?: boolean | undefined;
   /** Optional. The Compute Engine zone (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1-a". Mutually exclusive with worker_region. If neither worker_region nor worker_zone is specified, a zone in the control plane's region is chosen based on available capacity. */
-  workerZone?: string;
+  workerZone?: string | undefined;
   /** Output only. Whether the job uses the Streaming Engine resource-based billing model. */
-  useStreamingEngineResourceBasedBilling?: boolean;
+  useStreamingEngineResourceBasedBilling?: boolean | undefined;
   /** Optional. If set, contains the Cloud KMS key identifier used to encrypt data at rest, AKA a Customer Managed Encryption Key (CMEK). Format: projects/PROJECT_ID/locations/LOCATION/keyRings/KEY_RING/cryptoKeys/KEY */
-  serviceKmsKeyName?: string;
+  serviceKmsKeyName?: string | undefined;
   /** Optional. The Compute Engine region (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1". Mutually exclusive with worker_zone. If neither worker_region nor worker_zone is specified, default to the control plane's region. */
-  workerRegion?: string;
+  workerRegion?: string | undefined;
   /** Optional. Any debugging options to be supplied to the job. */
-  debugOptions?: DebugOptions;
+  debugOptions?: DebugOptions | undefined;
   /** Experimental settings. */
-  internalExperiments?: DocumentMap;
+  internalExperiments?: DocumentMap | undefined;
   /** Output only. The shuffle mode used for the job. */
-  shuffleMode?: EnvironmentShuffleModeEnum | (string & {});
+  shuffleMode?: EnvironmentShuffleModeEnum | (string & {}) | undefined;
   /** The prefix of the resources the system should use for temporary storage. The system will append the suffix "/temp-{JOBNAME} to this resource prefix, where {JOBNAME} is the value of the job_name field. The resulting bucket and object prefix is used as the prefix of the resources used to store temporary data needed during the job execution. NOTE: This will override the value in taskrunner_settings. The supported resource type is: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
-  tempStoragePrefix?: string;
+  tempStoragePrefix?: string | undefined;
   /** Optional. Which Flexible Resource Scheduling mode to run in. */
-  flexResourceSchedulingGoal?: EnvironmentFlexResourceSchedulingGoalEnum | (string & {});
+  flexResourceSchedulingGoal?:
+    | EnvironmentFlexResourceSchedulingGoalEnum
+    | (string & {})
+    | undefined;
   /** Optional. Specifies the Streaming Engine message processing guarantees. Reduces cost and latency but might result in duplicate messages committed to storage. Designed to run simple mapping streaming ETL jobs at the lowest cost. For example, Change Data Capture (CDC) to BigQuery is a canonical use case. For more information, see [Set the pipeline streaming mode](https://cloud.google.com/dataflow/docs/guides/streaming-modes). */
-  streamingMode?: EnvironmentStreamingModeEnum | (string & {});
+  streamingMode?: EnvironmentStreamingModeEnum | (string & {}) | undefined;
   /** Optional. The dataset for the current project where various workflow related tables are stored. The supported resource type is: Google BigQuery: bigquery.googleapis.com/{dataset} */
-  dataset?: string;
+  dataset?: string | undefined;
   /** The Cloud Dataflow SDK pipeline options specified by the user. These options are passed through the service and are used to recreate the SDK pipeline options on the worker in a language agnostic and platform independent way. */
-  sdkPipelineOptions?: DocumentMap;
+  sdkPipelineOptions?: DocumentMap | undefined;
   /** Optional. The list of service options to enable. This field should be used for service related experiments only. These experiments, when graduating to GA, should be replaced by dedicated fields or become default (i.e. always on). */
-  serviceOptions?: StringList_;
+  serviceOptions?: StringList_ | undefined;
 }
 export type JobRequestedStateEnum =
   | "JOB_STATE_UNKNOWN"
@@ -372,29 +375,29 @@ export type JobRequestedStateEnum =
 /** Metadata for a BigQuery connector used by the job. */
 export interface BigQueryIODetails {
   /** Project accessed in the connection. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Dataset accessed in the connection. */
-  dataset?: string;
+  dataset?: string | undefined;
   /** Table accessed in the connection. */
-  table?: string;
+  table?: string | undefined;
   /** Query used to access data in the connection. */
-  query?: string;
+  query?: string | undefined;
 }
 export type BigQueryIODetailsList = Array<BigQueryIODetails>;
 /** Metadata for a File connector used by the job. */
 export interface FileIODetails {
   /** File Pattern used to access files by the connector. */
-  filePattern?: string;
+  filePattern?: string | undefined;
 }
 export type FileIODetailsList = Array<FileIODetails>;
 /** Metadata for a Cloud Bigtable connector used by the job. */
 export interface BigTableIODetails {
   /** InstanceId accessed in the connection. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** TableId accessed in the connection. */
-  tableId?: string;
+  tableId?: string | undefined;
   /** ProjectId accessed in the connection. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export type BigTableIODetailsList = Array<BigTableIODetails>;
 export type SdkBugSeverityEnum = "SEVERITY_UNSPECIFIED" | "NOTICE" | "WARNING" | "SEVERE";
@@ -402,11 +405,11 @@ export type SdkBugTypeEnum = "TYPE_UNSPECIFIED" | "GENERAL" | "PERFORMANCE" | "D
 /** A bug found in the Dataflow SDK. */
 export interface SdkBug {
   /** Output only. How severe the SDK bug is. */
-  severity?: SdkBugSeverityEnum | (string & {});
+  severity?: SdkBugSeverityEnum | (string & {}) | undefined;
   /** Output only. Link to more information on the bug. */
-  uri?: string;
+  uri?: string | undefined;
   /** Output only. Describes the impact of this SDK bug. */
-  type?: SdkBugTypeEnum | (string & {});
+  type?: SdkBugTypeEnum | (string & {}) | undefined;
 }
 export type SdkBugList = Array<SdkBug>;
 export type SdkVersionSdkSupportStatusEnum =
@@ -418,58 +421,58 @@ export type SdkVersionSdkSupportStatusEnum =
 /** The version of the SDK used to run the job. */
 export interface SdkVersion {
   /** Output only. Known bugs found in this SDK version. */
-  bugs?: SdkBugList;
+  bugs?: SdkBugList | undefined;
   /** A readable string describing the version of the SDK. */
-  versionDisplayName?: string;
+  versionDisplayName?: string | undefined;
   /** The version of the SDK used to run the job. */
-  version?: string;
+  version?: string | undefined;
   /** The support status for this SDK version. */
-  sdkSupportStatus?: SdkVersionSdkSupportStatusEnum | (string & {});
+  sdkSupportStatus?: SdkVersionSdkSupportStatusEnum | (string & {}) | undefined;
 }
 /** Metadata for a Pub/Sub connector used by the job. */
 export interface PubSubIODetails {
   /** Subscription used in the connection. */
-  subscription?: string;
+  subscription?: string | undefined;
   /** Topic accessed in the connection. */
-  topic?: string;
+  topic?: string | undefined;
 }
 export type PubSubIODetailsList = Array<PubSubIODetails>;
 /** Metadata for a Datastore connector used by the job. */
 export interface DatastoreIODetails {
   /** Namespace used in the connection. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** ProjectId accessed in the connection. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export type DatastoreIODetailsList = Array<DatastoreIODetails>;
 /** Metadata for a Spanner connector used by the job. */
 export interface SpannerIODetails {
   /** ProjectId accessed in the connection. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** InstanceId accessed in the connection. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** DatabaseId accessed in the connection. */
-  databaseId?: string;
+  databaseId?: string | undefined;
 }
 export type SpannerIODetailsList = Array<SpannerIODetails>;
 /** Metadata available primarily for filtering jobs. Will be included in the ListJob response and Job SUMMARY view. */
 export interface JobMetadata {
   /** List of display properties to help UI filter jobs. */
-  userDisplayProperties?: StringMap;
+  userDisplayProperties?: StringMap | undefined;
   /** Identification of a BigQuery source used in the Dataflow job. */
-  bigqueryDetails?: BigQueryIODetailsList;
+  bigqueryDetails?: BigQueryIODetailsList | undefined;
   /** Identification of a File source used in the Dataflow job. */
-  fileDetails?: FileIODetailsList;
+  fileDetails?: FileIODetailsList | undefined;
   /** Identification of a Cloud Bigtable source used in the Dataflow job. */
-  bigTableDetails?: BigTableIODetailsList;
+  bigTableDetails?: BigTableIODetailsList | undefined;
   /** The SDK version used to run the job. */
-  sdkVersion?: SdkVersion;
+  sdkVersion?: SdkVersion | undefined;
   /** Identification of a Pub/Sub source used in the Dataflow job. */
-  pubsubDetails?: PubSubIODetailsList;
+  pubsubDetails?: PubSubIODetailsList | undefined;
   /** Identification of a Datastore source used in the Dataflow job. */
-  datastoreDetails?: DatastoreIODetailsList;
+  datastoreDetails?: DatastoreIODetailsList | undefined;
   /** Identification of a Spanner source used in the Dataflow job. */
-  spannerDetails?: SpannerIODetailsList;
+  spannerDetails?: SpannerIODetailsList | undefined;
 }
 export type JobCurrentStateEnum =
   | "JOB_STATE_UNKNOWN"
@@ -490,39 +493,39 @@ export type JobCurrentStateEnum =
 /** Defines a particular step within a Cloud Dataflow job. A job consists of multiple steps, each of which performs some specific operation as part of the overall job. Data is typically passed from one step to another as part of the job. **Note:** The properties of this object are not stable and might change. Here's an example of a sequence of steps which together implement a Map-Reduce job: * Read a collection of data from some source, parsing the collection's elements. * Validate the elements. * Apply a user-defined function to map each element to some value and extract an element-specific key value. * Group elements with the same key into a single element with that key, transforming a multiply-keyed collection into a uniquely-keyed collection. * Write the elements out to some data sink. Note that the Cloud Dataflow service may be used to run many different types of jobs, not just Map-Reduce. */
 export interface Step {
   /** The name that identifies the step. This must be unique for each step with respect to all other steps in the Cloud Dataflow job. */
-  name?: string;
+  name?: string | undefined;
   /** Named properties associated with the step. Each kind of predefined step has its own required set of properties. Must be provided on Create. Only retrieved with JOB_VIEW_ALL. */
-  properties?: DocumentMap;
+  properties?: DocumentMap | undefined;
   /** The kind of step in the Cloud Dataflow job. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type StepList = Array<Step>;
 /** Data provided with a pipeline or transform to provide descriptive info. */
 export interface DisplayData {
   /** An optional label to display in a dax UI for the element. */
-  label?: string;
+  label?: string | undefined;
   /** An optional full URL. */
-  url?: string;
+  url?: string | undefined;
   /** The namespace for the key. This is usually a class name or programming language namespace (i.e. python module) which defines the display data. This allows a dax monitoring system to specially handle the data and perform custom rendering. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** A possible additional shorter value to display. For example a java_class_name_value of com.mypackage.MyDoFn will be stored with MyDoFn as the short_str_value and com.mypackage.MyDoFn as the java_class_name value. short_str_value can be displayed and java_class_name_value will be displayed as a tooltip. */
-  shortStrValue?: string;
+  shortStrValue?: string | undefined;
   /** Contains value if the data is of float type. */
-  floatValue?: number;
+  floatValue?: number | undefined;
   /** Contains value if the data is of a boolean type. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
   /** The key identifying the display data. This is intended to be used as a label for the display data when viewed in a dax monitoring system. */
-  key?: string;
+  key?: string | undefined;
   /** Contains value if the data is of timestamp type. */
-  timestampValue?: string;
+  timestampValue?: string | undefined;
   /** Contains value if the data is of string type. */
-  strValue?: string;
+  strValue?: string | undefined;
   /** Contains value if the data is of java class type. */
-  javaClassValue?: string;
+  javaClassValue?: string | undefined;
   /** Contains value if the data is of int64 type. */
-  int64Value?: string;
+  int64Value?: string | undefined;
   /** Contains value if the data is of duration type. */
-  durationValue?: string;
+  durationValue?: string | undefined;
 }
 export type DisplayDataList = Array<DisplayData>;
 export type TransformSummaryKindEnum =
@@ -538,29 +541,29 @@ export type TransformSummaryKindEnum =
 /** Description of the type, names/ids, and input/outputs for a transform. */
 export interface TransformSummary {
   /** Transform-specific display data. */
-  displayData?: DisplayDataList;
+  displayData?: DisplayDataList | undefined;
   /** User provided name for this transform instance. */
-  name?: string;
+  name?: string | undefined;
   /** User names for all collection inputs to this transform. */
-  inputCollectionName?: StringList_;
+  inputCollectionName?: StringList_ | undefined;
   /** SDK generated id of this transform instance. */
-  id?: string;
+  id?: string | undefined;
   /** Type of transform. */
-  kind?: TransformSummaryKindEnum | (string & {});
+  kind?: TransformSummaryKindEnum | (string & {}) | undefined;
   /** User names for all collection outputs to this transform. */
-  outputCollectionName?: StringList_;
+  outputCollectionName?: StringList_ | undefined;
 }
 export type TransformSummaryList = Array<TransformSummary>;
 /** Description of an input or output of an execution stage. */
 export interface StageSource {
   /** Human-readable name for this source; may be user or system generated. */
-  userName?: string;
+  userName?: string | undefined;
   /** User name for the original user transform or collection with which this source is most closely associated. */
-  originalTransformOrCollection?: string;
+  originalTransformOrCollection?: string | undefined;
   /** Dataflow service generated name for this source. */
-  name?: string;
+  name?: string | undefined;
   /** Size of the source, if measurable. */
-  sizeBytes?: string;
+  sizeBytes?: string | undefined;
 }
 export type StageSourceList = Array<StageSource>;
 export type ExecutionStageSummaryKindEnum =
@@ -576,58 +579,58 @@ export type ExecutionStageSummaryKindEnum =
 /** Description of a transform executed as part of an execution stage. */
 export interface ComponentTransform {
   /** Human-readable name for this transform; may be user or system generated. */
-  userName?: string;
+  userName?: string | undefined;
   /** User name for the original user transform with which this transform is most closely associated. */
-  originalTransform?: string;
+  originalTransform?: string | undefined;
   /** Dataflow service generated name for this source. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ComponentTransformList = Array<ComponentTransform>;
 /** Description of an interstitial value between transforms in an execution stage. */
 export interface ComponentSource {
   /** Dataflow service generated name for this source. */
-  name?: string;
+  name?: string | undefined;
   /** User name for the original user transform or collection with which this source is most closely associated. */
-  originalTransformOrCollection?: string;
+  originalTransformOrCollection?: string | undefined;
   /** Human-readable name for this transform; may be user or system generated. */
-  userName?: string;
+  userName?: string | undefined;
 }
 export type ComponentSourceList = Array<ComponentSource>;
 /** Description of the composing transforms, names/ids, and input/outputs of a stage of execution. Some composing transforms and sources may have been generated by the Dataflow service during execution planning. */
 export interface ExecutionStageSummary {
   /** Input sources for this stage. */
-  inputSource?: StageSourceList;
+  inputSource?: StageSourceList | undefined;
   /** Type of transform this stage is executing. */
-  kind?: ExecutionStageSummaryKindEnum | (string & {});
+  kind?: ExecutionStageSummaryKindEnum | (string & {}) | undefined;
   /** Dataflow service generated id for this stage. */
-  id?: string;
+  id?: string | undefined;
   /** Other stages that must complete before this stage can run. */
-  prerequisiteStage?: StringList_;
+  prerequisiteStage?: StringList_ | undefined;
   /** Transforms that comprise this execution stage. */
-  componentTransform?: ComponentTransformList;
+  componentTransform?: ComponentTransformList | undefined;
   /** Collections produced and consumed by component transforms of this stage. */
-  componentSource?: ComponentSourceList;
+  componentSource?: ComponentSourceList | undefined;
   /** Output sources for this stage. */
-  outputSource?: StageSourceList;
+  outputSource?: StageSourceList | undefined;
   /** Dataflow service generated name for this stage. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ExecutionStageSummaryList = Array<ExecutionStageSummary>;
 /** A descriptive representation of submitted pipeline as well as the executed form. This data is provided by the Dataflow service for ease of visualizing the pipeline and interpreting Dataflow provided metrics. */
 export interface PipelineDescription {
   /** Description of each transform in the pipeline and collections between them. */
-  originalPipelineTransform?: TransformSummaryList;
+  originalPipelineTransform?: TransformSummaryList | undefined;
   /** Pipeline level display data. */
-  displayData?: DisplayDataList;
+  displayData?: DisplayDataList | undefined;
   /** A hash value of the submitted pipeline portable graph step names if exists. */
-  stepNamesHash?: string;
+  stepNamesHash?: string | undefined;
   /** Description of each stage of execution of the pipeline. */
-  executionPipelineStage?: ExecutionStageSummaryList;
+  executionPipelineStage?: ExecutionStageSummaryList | undefined;
 }
 /** Resources used by the Dataflow Service to run the job. */
 export interface ServiceResources {
   /** Output only. List of Cloud Zones being used by the Dataflow Service for this job. Example: us-central1-c */
-  zones?: StringList_;
+  zones?: StringList_ | undefined;
 }
 export type ExecutionStageStateExecutionStageStateEnum =
   | "JOB_STATE_UNKNOWN"
@@ -648,171 +651,171 @@ export type ExecutionStageStateExecutionStageStateEnum =
 /** A message describing the state of a particular execution stage. */
 export interface ExecutionStageState {
   /** The name of the execution stage. */
-  executionStageName?: string;
+  executionStageName?: string | undefined;
   /** The time at which the stage transitioned to this state. */
-  currentStateTime?: string;
+  currentStateTime?: string | undefined;
   /** Executions stage states allow the same set of values as JobState. */
-  executionStageState?: ExecutionStageStateExecutionStageStateEnum | (string & {});
+  executionStageState?: ExecutionStageStateExecutionStageStateEnum | (string & {}) | undefined;
 }
 export type ExecutionStageStateList = Array<ExecutionStageState>;
 /** The parameters to use for autoscaling when this schedule is active. */
 export interface Parameters {
   /** Optional. The minimum number of workers for this schedule. */
-  minWorkerCount?: number;
+  minWorkerCount?: number | undefined;
   /** Optional. The target CPU utilization for this schedule. */
-  cpuUtilizationTarget?: number;
+  cpuUtilizationTarget?: number | undefined;
   /** Optional. The target latency for this schedule. */
-  latencyTarget?: string;
+  latencyTarget?: string | undefined;
   /** Optional. The maximum number of workers for this schedule. */
-  maxWorkerCount?: number;
+  maxWorkerCount?: number | undefined;
 }
 /** A schedule for autoscaling. */
 export interface AutoscalingSchedule {
   /** Optional. Specifies the priority of the schedule. If two schedules overlap, the one with the higher priority will be used. The higher the value, the higher the priority of the schedule. */
-  priority?: string;
+  priority?: string | undefined;
   /** Output only. When the customer last updated the schedule. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. A crontab specification of when this schedule should trigger applying overrides. The overrides will be applied from the trigger time until the specified duration elapses. */
-  crontab?: string;
+  crontab?: string | undefined;
   /** Optional. The parameters to use for autoscaling when this schedule is active. */
-  parameters?: Parameters;
+  parameters?: Parameters | undefined;
   /** Optional. The duration for which the parameter overrides for this schedule will be applied when triggered by the crontab. */
-  duration?: string;
+  duration?: string | undefined;
   /** Optional. The time zone for the schedule. The value of this field must be a time zone name from the [tz database](http://en.wikipedia.org/wiki/Tz_database). The default value is UTC. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Optional. The name of the schedule. */
-  name?: string;
+  name?: string | undefined;
 }
 export type AutoscalingScheduleList = Array<AutoscalingSchedule>;
 /** Additional job parameters that can only be updated during runtime using the projects.jobs.update method. These fields have no effect when specified during job creation. */
 export interface RuntimeUpdatableParams {
   /** Optional. Deprecated: Use `latency_tier` instead. The backlog threshold tier for autoscaling. Value must be one of "low-latency", "medium-latency", or "high-latency". */
-  autoscalingTier?: string;
+  autoscalingTier?: string | undefined;
   /** Optional. Deprecated: Use `latency_tier` instead. The backlog threshold duration in seconds for autoscaling. Value must be non-negative. */
-  acceptableBacklogDuration?: string;
+  acceptableBacklogDuration?: string | undefined;
   /** The maximum number of workers to cap autoscaling at. This field is currently only supported for Streaming Engine jobs. */
-  maxNumWorkers?: number;
+  maxNumWorkers?: number | undefined;
   /** The minimum number of workers to scale down to. This field is currently only supported for Streaming Engine jobs. */
-  minNumWorkers?: number;
+  minNumWorkers?: number | undefined;
   /** Optional. The schedule for autoscaling. */
-  schedules?: AutoscalingScheduleList;
+  schedules?: AutoscalingScheduleList | undefined;
   /** Target worker utilization, compared against the aggregate utilization of the worker pool by autoscaler, to determine upscaling and downscaling when absent other constraints such as backlog. For more information, see [Update an existing pipeline](https://cloud.google.com/dataflow/docs/guides/updating-a-pipeline). */
-  workerUtilizationHint?: number;
+  workerUtilizationHint?: number | undefined;
   /** Optional. The backlog threshold tier for autoscaling. Value must be one of "low-latency", "medium-latency", or "high-latency". */
-  latencyTier?: string;
+  latencyTier?: string | undefined;
 }
 /** Contains information about how a particular google.dataflow.v1beta3.Step will be executed. */
 export interface JobExecutionStageInfo {
   /** The steps associated with the execution stage. Note that stages may have several steps, and that a given step might be run by more than one stage. */
-  stepName?: StringList_;
+  stepName?: StringList_ | undefined;
 }
 export type JobExecutionStageInfoMap = { [key: string]: JobExecutionStageInfo | undefined };
 /** Additional information about how a Cloud Dataflow job will be executed that isn't contained in the submitted job. */
 export interface JobExecutionInfo {
   /** A mapping from each stage to the information about that stage. */
-  stages?: JobExecutionStageInfoMap;
+  stages?: JobExecutionStageInfoMap | undefined;
 }
 export type JobTypeEnum = "JOB_TYPE_UNKNOWN" | "JOB_TYPE_BATCH" | "JOB_TYPE_STREAMING";
 /** Defines a job to be run by the Cloud Dataflow service. Do not enter confidential information when you supply string values using the API. */
 export interface Job {
   /** Optional. The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
-  location?: string;
+  location?: string | undefined;
   /** If another job is an update of this job (and thus, this job is in `JOB_STATE_UPDATED`), this field contains the ID of that job. */
-  replacedByJobId?: string;
+  replacedByJobId?: string | undefined;
   /** Optional. The environment for the job. */
-  environment?: Environment;
+  environment?: Environment | undefined;
   /** The timestamp when the job was initially created. Immutable and set by the Cloud Dataflow service. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The timestamp associated with the current state. */
-  currentStateTime?: string;
+  currentStateTime?: string | undefined;
   /** A set of files the system should be aware of that are used for temporary storage. These temporary files will be removed on job completion. No duplicates are allowed. No file patterns are supported. The supported files are: Google Cloud Storage: storage.googleapis.com/{bucket}/{object} bucket.storage.googleapis.com/{object} */
-  tempFiles?: StringList_;
+  tempFiles?: StringList_ | undefined;
   /** The client's unique identifier of the job, re-used across retried attempts. If this field is set, the service will ensure its uniqueness. The request to create a job will fail if the service has knowledge of a previously submitted job with the same client's ID and job name. The caller may use this field to ensure idempotence of job creation across retried attempts to create a job. By default, the field is empty and, in that case, the service ignores it. */
-  clientRequestId?: string;
+  clientRequestId?: string | undefined;
   /** If this job is an update of an existing job, this field is the job ID of the job it replaced. When sending a `CreateJobRequest`, you can update a job by specifying it here. The job named here is stopped, and its intermediate state is transferred to this job. */
-  replaceJobId?: string;
+  replaceJobId?: string | undefined;
   /** The job's requested state. Applies to `UpdateJob` requests. Set `requested_state` with `UpdateJob` requests to switch between the states `JOB_STATE_STOPPED` and `JOB_STATE_RUNNING`. You can also use `UpdateJob` requests to change a job's state from `JOB_STATE_RUNNING` to `JOB_STATE_CANCELLED`, `JOB_STATE_DONE`, or `JOB_STATE_DRAINED`. These states irrevocably terminate the job if it hasn't already reached a terminal state. This field has no effect on `CreateJob` requests. */
-  requestedState?: JobRequestedStateEnum | (string & {});
+  requestedState?: JobRequestedStateEnum | (string & {}) | undefined;
   /** Output only. Indicates whether the job can be paused. */
-  pausable?: boolean;
+  pausable?: boolean | undefined;
   /** The Cloud Storage location where the steps are stored. */
-  stepsLocation?: string;
+  stepsLocation?: string | undefined;
   /** This field is populated by the Dataflow service to support filtering jobs by the metadata values provided here. Populated for ListJobs and all GetJob views SUMMARY and higher. */
-  jobMetadata?: JobMetadata;
+  jobMetadata?: JobMetadata | undefined;
   /** The current state of the job. Jobs are created in the `JOB_STATE_STOPPED` state unless otherwise specified. A job in the `JOB_STATE_RUNNING` state may asynchronously enter a terminal state. After a job has reached a terminal state, no further state updates may be made. This field might be mutated by the Dataflow service; callers cannot mutate it. */
-  currentState?: JobCurrentStateEnum | (string & {});
+  currentState?: JobCurrentStateEnum | (string & {}) | undefined;
   /** User-defined labels for this job. The labels map can contain no more than 64 entries. Entries of the labels map are UTF8 strings that comply with the following restrictions: * Keys must conform to regexp: \p{Ll}\p{Lo}{0,62} * Values must conform to regexp: [\p{Ll}\p{Lo}\p{N}_-]{0,63} * Both keys and values are additionally constrained to be <= 128 bytes in size. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The ID of the Google Cloud project that the job belongs to. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Exactly one of step or steps_location should be specified. The top-level steps that constitute the entire job. Only retrieved with JOB_VIEW_ALL. */
-  steps?: StepList;
+  steps?: StepList | undefined;
   /** If this is specified, the job's initial state is populated from the given snapshot. */
-  createdFromSnapshotId?: string;
+  createdFromSnapshotId?: string | undefined;
   /** The timestamp when the job was started (transitioned to JOB_STATE_PENDING). Flexible resource scheduling jobs are started with some delay after job creation, so start_time is unset before start and is updated when the job is started by the Cloud Dataflow service. For other jobs, start_time always equals to create_time and is immutable and set by the Cloud Dataflow service. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Optional. The map of transform name prefixes of the job to be replaced to the corresponding name prefixes of the new job. */
-  transformNameMapping?: StringMap;
+  transformNameMapping?: StringMap | undefined;
   /** Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** The unique ID of this job. This field is set by the Dataflow service when the job is created, and is immutable for the life of the job. */
-  id?: string;
+  id?: string | undefined;
   /** Preliminary field: The format of this data may change at any time. A description of the user pipeline and stages through which it is executed. Created by Cloud Dataflow service. Only retrieved with JOB_VIEW_DESCRIPTION or JOB_VIEW_ALL. */
-  pipelineDescription?: PipelineDescription;
+  pipelineDescription?: PipelineDescription | undefined;
   /** Output only. Resources used by the Dataflow Service to run the job. */
-  serviceResources?: ServiceResources;
+  serviceResources?: ServiceResources | undefined;
   /** This field may be mutated by the Cloud Dataflow service; callers cannot mutate it. */
-  stageStates?: ExecutionStageStateList;
+  stageStates?: ExecutionStageStateList | undefined;
   /** Optional. The user-specified Dataflow job name. Only one active job with a given name can exist in a project within one region at any given time. Jobs in different regions can have the same name. If a caller attempts to create a job with the same name as an active job that already exists, the attempt returns the existing job. The name must match the regular expression `[a-z]([-a-z0-9]{0,1022}[a-z0-9])?` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Reserved for future use. This field is set only in responses from the server; it is ignored if it is set in any requests. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** This field may ONLY be modified at runtime using the projects.jobs.update method to adjust job behavior. This field has no effect when specified at job creation. */
-  runtimeUpdatableParams?: RuntimeUpdatableParams;
+  runtimeUpdatableParams?: RuntimeUpdatableParams | undefined;
   /** Deprecated. */
-  executionInfo?: JobExecutionInfo;
+  executionInfo?: JobExecutionInfo | undefined;
   /** Optional. The type of Dataflow job. */
-  type?: JobTypeEnum | (string & {});
+  type?: JobTypeEnum | (string & {}) | undefined;
 }
 export type JobList = Array<Job>;
 /** Response to a request to list Cloud Dataflow jobs in a project. This might be a partial response, depending on the page size in the ListJobsRequest. However, if the project does not have any jobs, an instance of ListJobsResponse is not returned and the requests's response body is empty {}. */
 export interface ListJobsResponse {
   /** Zero or more messages describing the [regional endpoints] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that failed to respond. */
-  failedLocation?: FailedLocationList;
+  failedLocation?: FailedLocationList | undefined;
   /** A subset of the requested job information. */
-  jobs?: JobList;
+  jobs?: JobList | undefined;
   /** Set if there may be more results than fit in this response. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** Represents a dynamically typed value. */
 export interface ConfigStoreSettingValue {
   /** Represents a boolean value. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
   /** Represents a string value. */
-  stringValue?: string;
+  stringValue?: string | undefined;
 }
 /** A ConfigStoreSetting resource. */
 export interface ConfigStoreSetting {
   /** Identifier. The resource name of the setting. */
-  name?: string;
+  name?: string | undefined;
   /** Required. The dynamic value of the setting. */
-  value?: ConfigStoreSettingValue;
+  value?: ConfigStoreSettingValue | undefined;
 }
 export interface CreateFoldersLocationsConfigStoreSettingsRequest {
   /** Required. The parent resource where this setting will be created. */
   parent: string;
   /** Required. The ID to use for the setting. */
-  configStoreSettingId?: string;
+  configStoreSettingId?: string | undefined;
   /** Request body */
-  body?: ConfigStoreSetting;
+  body?: ConfigStoreSetting | undefined;
 }
 export interface CreateOrganizationsLocationsConfigStoreSettingsRequest {
   /** Required. The ID to use for the setting. */
-  configStoreSettingId?: string;
+  configStoreSettingId?: string | undefined;
   /** Required. The parent resource where this setting will be created. */
   parent: string;
   /** Request body */
-  body?: ConfigStoreSetting;
+  body?: ConfigStoreSetting | undefined;
 }
 export type CreateProjectsJobsViewEnum =
   | "JOB_VIEW_UNKNOWN"
@@ -821,23 +824,23 @@ export type CreateProjectsJobsViewEnum =
   | "JOB_VIEW_DESCRIPTION";
 export interface CreateProjectsJobsRequest {
   /** The level of information requested in response. */
-  view?: CreateProjectsJobsViewEnum | (string & {});
+  view?: CreateProjectsJobsViewEnum | (string & {}) | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
-  location?: string;
+  location?: string | undefined;
   /** Deprecated. This field is now in the Job message. */
-  replaceJobId?: string;
+  replaceJobId?: string | undefined;
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** Request body */
-  body?: Job;
+  body?: Job | undefined;
 }
 export interface CreateProjectsLocationsConfigStoreSettingsRequest {
   /** Required. The parent resource where this setting will be created. */
   parent: string;
   /** Required. The ID to use for the setting. */
-  configStoreSettingId?: string;
+  configStoreSettingId?: string | undefined;
   /** Request body */
-  body?: ConfigStoreSetting;
+  body?: ConfigStoreSetting | undefined;
 }
 export type CreateProjectsLocationsJobsViewEnum =
   | "JOB_VIEW_UNKNOWN"
@@ -848,13 +851,13 @@ export interface CreateProjectsLocationsJobsRequest {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
   location: string;
   /** Deprecated. This field is now in the Job message. */
-  replaceJobId?: string;
+  replaceJobId?: string | undefined;
   /** The level of information requested in response. */
-  view?: CreateProjectsLocationsJobsViewEnum | (string & {});
+  view?: CreateProjectsLocationsJobsViewEnum | (string & {}) | undefined;
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** Request body */
-  body?: Job;
+  body?: Job | undefined;
 }
 export type RuntimeEnvironmentIpConfigurationEnum =
   | "WORKER_IP_UNSPECIFIED"
@@ -867,56 +870,56 @@ export type RuntimeEnvironmentStreamingModeEnum =
 /** The environment values to set at runtime. */
 export interface RuntimeEnvironment {
   /** Optional. The machine type to use for the job. Defaults to the value from the template if not specified. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Optional. Additional pipeline option flags for the job. */
-  additionalPipelineOptions?: StringList_;
+  additionalPipelineOptions?: StringList_ | undefined;
   /** Optional. The email address of the service account to run the job as. */
-  serviceAccountEmail?: string;
+  serviceAccountEmail?: string | undefined;
   /** Optional. Network to which VMs will be assigned. If empty or unspecified, the service will use the network "default". */
-  network?: string;
+  network?: string | undefined;
   /** Optional. Whether to enable Streaming Engine for the job. */
-  enableStreamingEngine?: boolean;
+  enableStreamingEngine?: boolean | undefined;
   /** Optional. Additional experiment flags for the job, specified with the `--experiments` option. */
-  additionalExperiments?: StringList_;
+  additionalExperiments?: StringList_ | undefined;
   /** Optional. Subnetwork to which VMs will be assigned, if desired. You can specify a subnetwork using either a complete URL or an abbreviated path. Expected to be of the form "https://www.googleapis.com/compute/v1/projects/HOST_PROJECT_ID/regions/REGION/subnetworks/SUBNETWORK" or "regions/REGION/subnetworks/SUBNETWORK". If the subnetwork is located in a Shared VPC network, you must use the complete URL. */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
   /** Optional. Name for the Cloud KMS key for the job. Key format is: projects//locations//keyRings//cryptoKeys/ */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** Optional. Additional user labels to be specified for the job. Keys and values should follow the restrictions specified in the [labeling restrictions](https://cloud.google.com/compute/docs/labeling-resources#restrictions) page. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1kg", "count": "3" }. */
-  additionalUserLabels?: StringMap;
+  additionalUserLabels?: StringMap | undefined;
   /** Required. The Cloud Storage path to use for temporary files. Must be a valid Cloud Storage URL, beginning with `gs://`. */
-  tempLocation?: string;
+  tempLocation?: string | undefined;
   /** Optional. Configuration for VM IPs. */
-  ipConfiguration?: RuntimeEnvironmentIpConfigurationEnum | (string & {});
+  ipConfiguration?: RuntimeEnvironmentIpConfigurationEnum | (string & {}) | undefined;
   /** Required. The Compute Engine region (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1". Mutually exclusive with worker_zone. If neither worker_region nor worker_zone is specified, default to the control plane's region. */
-  workerRegion?: string;
+  workerRegion?: string | undefined;
   /** Optional. The maximum number of Google Compute Engine instances to be made available to your pipeline during execution, from 1 to 1000. The default value is 1. */
-  maxWorkers?: number;
+  maxWorkers?: number | undefined;
   /** Optional. The Compute Engine [availability zone](https://cloud.google.com/compute/docs/regions-zones/regions-zones) for launching worker instances to run your pipeline. In the future, worker_zone will take precedence. */
-  zone?: string;
+  zone?: string | undefined;
   /** Optional. Specifies the Streaming Engine message processing guarantees. Reduces cost and latency but might result in duplicate messages committed to storage. Designed to run simple mapping streaming ETL jobs at the lowest cost. For example, Change Data Capture (CDC) to BigQuery is a canonical use case. For more information, see [Set the pipeline streaming mode](https://cloud.google.com/dataflow/docs/guides/streaming-modes). */
-  streamingMode?: RuntimeEnvironmentStreamingModeEnum | (string & {});
+  streamingMode?: RuntimeEnvironmentStreamingModeEnum | (string & {}) | undefined;
   /** Optional. Whether to bypass the safety checks for the job's temporary directory. Use with caution. */
-  bypassTempDirValidation?: boolean;
+  bypassTempDirValidation?: boolean | undefined;
   /** Optional. The disk size, in gigabytes, to use on each remote Compute Engine worker instance. */
-  diskSizeGb?: number;
+  diskSizeGb?: number | undefined;
   /** Optional. The initial number of Google Compute Engine instances for the job. The default value is 11. */
-  numWorkers?: number;
+  numWorkers?: number | undefined;
   /** Optional. The Compute Engine zone (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1-a". Mutually exclusive with worker_region. If neither worker_region nor worker_zone is specified, a zone in the control plane's region is chosen based on available capacity. If both `worker_zone` and `zone` are set, `worker_zone` takes precedence. */
-  workerZone?: string;
+  workerZone?: string | undefined;
 }
 /** A request to create a Cloud Dataflow job from a template. */
 export interface CreateJobFromTemplateRequest {
   /** Required. The job name to use for the created job. */
-  jobName?: string;
+  jobName?: string | undefined;
   /** Required. A Cloud Storage path to the template from which to create the job. Must be a valid Cloud Storage URL, beginning with `gs://`. */
-  gcsPath?: string;
+  gcsPath?: string | undefined;
   /** The runtime parameters to pass to the job. */
-  parameters?: StringMap;
+  parameters?: StringMap | undefined;
   /** The runtime environment for the job. */
-  environment?: RuntimeEnvironment;
+  environment?: RuntimeEnvironment | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface CreateProjectsLocationsTemplatesRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
@@ -924,13 +927,13 @@ export interface CreateProjectsLocationsTemplatesRequest {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
   location: string;
   /** Request body */
-  body?: CreateJobFromTemplateRequest;
+  body?: CreateJobFromTemplateRequest | undefined;
 }
 export interface CreateProjectsTemplatesRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** Request body */
-  body?: CreateJobFromTemplateRequest;
+  body?: CreateJobFromTemplateRequest | undefined;
 }
 export interface DeleteFoldersLocationsConfigStoreSettingsRequest {
   /** Required. The name of the ConfigStoreSetting to delete. */
@@ -958,20 +961,20 @@ export interface DeleteProjectsLocationsSnapshotsRequest {
 export interface DeleteSnapshotResponse {}
 export interface DeleteSnapshotsProjectsRequest {
   /** The ID of the snapshot. */
-  snapshotId?: string;
+  snapshotId?: string | undefined;
   /** The ID of the Cloud Platform project that the snapshot belongs to. */
   projectId: string;
   /** The location that contains this snapshot. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Request to get updated debug configuration for component. */
 export interface GetDebugConfigRequest {
   /** The worker id, i.e., VM hostname. */
-  workerId?: string;
+  workerId?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
-  location?: string;
+  location?: string | undefined;
   /** The internal component id for which debug configuration is requested. */
-  componentId?: string;
+  componentId?: string | undefined;
 }
 export interface GetConfigProjectsJobsDebugRequest {
   /** The job id. */
@@ -979,12 +982,12 @@ export interface GetConfigProjectsJobsDebugRequest {
   /** The project id. */
   projectId: string;
   /** Request body */
-  body?: GetDebugConfigRequest;
+  body?: GetDebugConfigRequest | undefined;
 }
 /** Response to a get debug configuration request. */
 export interface GetDebugConfigResponse {
   /** The encoded debug configuration for the requested component. */
-  config?: string;
+  config?: string | undefined;
 }
 export interface GetConfigProjectsLocationsJobsDebugRequest {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
@@ -994,7 +997,7 @@ export interface GetConfigProjectsLocationsJobsDebugRequest {
   /** The project id. */
   projectId: string;
   /** Request body */
-  body?: GetDebugConfigRequest;
+  body?: GetDebugConfigRequest | undefined;
 }
 export interface GetExecutionDetailsProjectsLocationsJobsRequest {
   /** A project id. */
@@ -1004,24 +1007,24 @@ export interface GetExecutionDetailsProjectsLocationsJobsRequest {
   /** The job to get execution details for. */
   jobId: string;
   /** If supplied, this should be the value of next_page_token returned by an earlier call. This will cause the next page of results to be returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** If specified, determines the maximum number of stages to return. If unspecified, the service may choose an appropriate default, or may return an arbitrarily large number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** A point in the timeseries. */
 export interface Point {
   /** The value of the point. */
-  value?: number;
+  value?: number | undefined;
   /** The timestamp of the point. */
-  time?: string;
+  time?: string | undefined;
 }
 export type PointList = Array<Point>;
 /** Information about the progress of some component of job execution. */
 export interface ProgressTimeseries {
   /** History of progress for the component. Points are sorted by time. */
-  dataPoints?: PointList;
+  dataPoints?: PointList | undefined;
   /** The current progress of the component, in the range [0,1]. */
-  currentProgress?: number;
+  currentProgress?: number | undefined;
 }
 export type StageSummaryStateEnum =
   | "EXECUTION_STATE_UNKNOWN"
@@ -1033,140 +1036,140 @@ export type StageSummaryStateEnum =
 /** Identifies a metric, by describing the source which generated the metric. */
 export interface MetricStructuredName {
   /** Origin (namespace) of metric name. May be blank for user-define metrics; will be "dataflow" for metrics defined by the Dataflow service or SDK. */
-  origin?: string;
+  origin?: string | undefined;
   /** Worker-defined metric name. */
-  name?: string;
+  name?: string | undefined;
   /** Zero or more labeled fields which identify the part of the job this metric is associated with, such as the name of a step or collection. For example, built-in counters associated with steps will have context['step'] = . Counters associated with PCollections in the SDK will have context['pcollection'] = . */
-  context?: StringMap;
+  context?: StringMap | undefined;
 }
 /** Describes the state of a metric. */
 export interface MetricUpdate {
   /** Worker-computed aggregate value for the "Mean" aggregation kind. This holds the count of the aggregated values and is used in combination with mean_sum above to obtain the actual mean aggregate value. The only possible value type is Long. */
-  meanCount?: unknown;
+  meanCount?: unknown | undefined;
   /** Name of the metric. */
-  name?: MetricStructuredName;
+  name?: MetricStructuredName | undefined;
   /** Worker-computed aggregate value for aggregation kinds "Sum", "Max", "Min", "And", and "Or". The possible value types are Long, Double, and Boolean. */
-  scalar?: unknown;
+  scalar?: unknown | undefined;
   /** A struct value describing properties of a Gauge. Metrics of gauge type show the value of a metric across time, and is aggregated based on the newest value. */
-  gauge?: unknown;
+  gauge?: unknown | undefined;
   /** Worker-computed aggregate value for the "Trie" aggregation kind. The only possible value type is a BoundedTrieNode. Introduced this field to avoid breaking older SDKs when Dataflow service starts to populate the `bounded_trie` field. */
-  boundedTrie?: unknown;
+  boundedTrie?: unknown | undefined;
   /** A struct value describing properties of a distribution of numeric values. */
-  distribution?: unknown;
+  distribution?: unknown | undefined;
   /** True if this metric is reported as the total cumulative aggregate value accumulated since the worker started working on this WorkItem. By default this is false, indicating that this metric is reported as a delta that is not associated with any WorkItem. */
-  cumulative?: boolean;
+  cumulative?: boolean | undefined;
   /** Worker-computed aggregate value for internal use by the Dataflow service. */
-  internal?: unknown;
+  internal?: unknown | undefined;
   /** Worker-computed aggregate value for the "Set" aggregation kind. The only possible value type is a list of Values whose type can be Long, Double, String, or BoundedTrie according to the metric's type. All Values in the list must be of the same type. */
-  set?: unknown;
+  set?: unknown | undefined;
   /** Timestamp associated with the metric value. Optional when workers are reporting work progress; it will be filled in responses from the metrics API. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Worker-computed aggregate value for the "Mean" aggregation kind. This holds the sum of the aggregated values and is used in combination with mean_count below to obtain the actual mean aggregate value. The only possible value types are Long and Double. */
-  meanSum?: unknown;
+  meanSum?: unknown | undefined;
   /** Worker-computed aggregate value for the "Trie" aggregation kind. The only possible value type is a BoundedTrieNode. */
-  trie?: unknown;
+  trie?: unknown | undefined;
   /** Metric aggregation kind. The possible metric aggregation kinds are "Sum", "Max", "Min", "Mean", "Set", "And", "Or", and "Distribution". The specified aggregation kind is case-insensitive. If omitted, this is not an aggregated value but instead a single metric sample value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type MetricUpdateList = Array<MetricUpdate>;
 /** Information about a hot key. */
 export interface HotKeyInfo {
   /** If true, then the above key is truncated and cannot be deserialized. This occurs if the key above is populated and the key size is >5MB. */
-  keyTruncated?: boolean;
+  keyTruncated?: boolean | undefined;
   /** The age of the hot key measured from when it was first detected. */
-  hotKeyAge?: string;
+  hotKeyAge?: string | undefined;
   /** A detected hot key that is causing limited parallelism. This field will be populated only if the following flag is set to true: "--enable_hot_key_logging". */
-  key?: string;
+  key?: string | undefined;
 }
 export type HotKeyInfoMap = { [key: string]: HotKeyInfo | undefined };
 /** Information useful for debugging a hot key detection. */
 export interface HotKeyDebuggingInfo {
   /** Debugging information for each detected hot key. Keyed by a hash of the key. */
-  detectedHotKeys?: HotKeyInfoMap;
+  detectedHotKeys?: HotKeyInfoMap | undefined;
 }
 /** Information useful for debugging a straggler. Each type will provide specialized debugging information relevant for a particular cause. The StragglerDebuggingInfo will be 1:1 mapping to the StragglerCause enum. */
 export interface StragglerDebuggingInfo {
   /** Hot key debugging details. */
-  hotKey?: HotKeyDebuggingInfo;
+  hotKey?: HotKeyDebuggingInfo | undefined;
 }
 export type StragglerDebuggingInfoMap = { [key: string]: StragglerDebuggingInfo | undefined };
 /** Information useful for straggler identification and debugging. */
 export interface StragglerInfo {
   /** The time when the work item attempt became a straggler. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The straggler causes, keyed by the string representation of the StragglerCause enum and contains specialized debugging information for each straggler cause. */
-  causes?: StragglerDebuggingInfoMap;
+  causes?: StragglerDebuggingInfoMap | undefined;
 }
 /** Information useful for streaming straggler identification and debugging. */
 export interface StreamingStragglerInfo {
   /** The system watermark lag at the time of the straggler detection. */
-  systemWatermarkLag?: string;
+  systemWatermarkLag?: string | undefined;
   /** Name of the worker where the straggler was detected. */
-  workerName?: string;
+  workerName?: string | undefined;
   /** End time of this straggler. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Start time of this straggler. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The event-time watermark lag at the time of the straggler detection. */
-  dataWatermarkLag?: string;
+  dataWatermarkLag?: string | undefined;
 }
 /** Information for a straggler. */
 export interface Straggler {
   /** Batch straggler identification and debugging information. */
-  batchStraggler?: StragglerInfo;
+  batchStraggler?: StragglerInfo | undefined;
   /** Streaming straggler identification and debugging information. */
-  streamingStraggler?: StreamingStragglerInfo;
+  streamingStraggler?: StreamingStragglerInfo | undefined;
 }
 export type StragglerList = Array<Straggler>;
 /** Summarized straggler identification details. */
 export interface StragglerSummary {
   /** The total count of stragglers. */
-  totalStragglerCount?: string;
+  totalStragglerCount?: string | undefined;
   /** Aggregated counts of straggler causes, keyed by the string representation of the StragglerCause enum. */
-  stragglerCauseCount?: StringMap;
+  stragglerCauseCount?: StringMap | undefined;
   /** The most recent stragglers. */
-  recentStragglers?: StragglerList;
+  recentStragglers?: StragglerList | undefined;
 }
 /** Information about a particular execution stage of a job. */
 export interface StageSummary {
   /** Progress for this stage. Only applicable to Batch jobs. */
-  progress?: ProgressTimeseries;
+  progress?: ProgressTimeseries | undefined;
   /** State of this stage. */
-  state?: StageSummaryStateEnum;
+  state?: StageSummaryStateEnum | undefined;
   /** Metrics for this stage. */
-  metrics?: MetricUpdateList;
+  metrics?: MetricUpdateList | undefined;
   /** ID of this stage */
-  stageId?: string;
+  stageId?: string | undefined;
   /** Straggler summary for this stage. */
-  stragglerSummary?: StragglerSummary;
+  stragglerSummary?: StragglerSummary | undefined;
   /** Start time of this stage. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of this stage. If the work item is completed, this is the actual end time of the stage. Otherwise, it is the predicted end time. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export type StageSummaryList = Array<StageSummary>;
 /** Information about the execution of a job. */
 export interface JobExecutionDetails {
   /** The stages of the job execution. */
-  stages?: StageSummaryList;
+  stages?: StageSummaryList | undefined;
   /** If present, this response does not contain all requested tasks. To obtain the next page of results, repeat the request with page_token set to this value. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface GetExecutionDetailsProjectsLocationsJobsStagesRequest {
   /** A project id. */
   projectId: string;
   /** If specified, determines the maximum number of work items to return. If unspecified, the service may choose an appropriate default, or may return an arbitrarily large number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Upper time bound of work items to include, by start time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The stage for which to fetch information. */
   stageId: string;
   /** The job to get execution details for. */
   jobId: string;
   /** If supplied, this should be the value of next_page_token returned by an earlier call. This will cause the next page of results to be returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Lower time bound of work items to include, by start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
   location: string;
 }
@@ -1180,37 +1183,37 @@ export type WorkItemDetailsStateEnum =
 /** Information about an individual work item execution. */
 export interface WorkItemDetails {
   /** End time of this work item attempt. If the work item is completed, this is the actual end time of the work item. Otherwise, it is the predicted end time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Name of this work item. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** Metrics for this work item. */
-  metrics?: MetricUpdateList;
+  metrics?: MetricUpdateList | undefined;
   /** Attempt ID of this work item */
-  attemptId?: string;
+  attemptId?: string | undefined;
   /** Start time of this work item attempt. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Information about straggler detections for this work item. */
-  stragglerInfo?: StragglerInfo;
+  stragglerInfo?: StragglerInfo | undefined;
   /** State of this work item. */
-  state?: WorkItemDetailsStateEnum;
+  state?: WorkItemDetailsStateEnum | undefined;
   /** Progress of this work item. */
-  progress?: ProgressTimeseries;
+  progress?: ProgressTimeseries | undefined;
 }
 export type WorkItemDetailsList = Array<WorkItemDetails>;
 /** Information about a worker */
 export interface WorkerDetails {
   /** Work items processed by this worker, sorted by time. */
-  workItems?: WorkItemDetailsList;
+  workItems?: WorkItemDetailsList | undefined;
   /** Name of this worker */
-  workerName?: string;
+  workerName?: string | undefined;
 }
 export type WorkerDetailsList = Array<WorkerDetails>;
 /** Information about the workers and work items within a stage. */
 export interface StageExecutionDetails {
   /** Workers that have done work on the stage. */
-  workers?: WorkerDetailsList;
+  workers?: WorkerDetailsList | undefined;
   /** If present, this response does not contain all requested tasks. To obtain the next page of results, repeat the request with page_token set to this value. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface GetFoldersLocationsConfigStoreSettingsRequest {
   /** Required. The name of the ConfigStoreSetting to retrieve. */
@@ -1218,20 +1221,20 @@ export interface GetFoldersLocationsConfigStoreSettingsRequest {
 }
 export interface GetMetricsProjectsJobsRequest {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
-  location?: string;
+  location?: string | undefined;
   /** A project id. */
   projectId: string;
   /** Return only metric data that has changed since this time. Default is to return all information about all metrics for the job. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The job to get metrics for. */
   jobId: string;
 }
 /** JobMetrics contains a collection of metrics describing the detailed progress of a Dataflow job. Metrics correspond to user-defined and system-defined metrics in the job. For more information, see [Dataflow job metrics] (https://cloud.google.com/dataflow/docs/guides/using-monitoring-intf). This resource captures only the most recent values of each metric; time-series data can be queried for them (under the same metric names) from Cloud Monitoring. */
 export interface JobMetrics {
   /** Timestamp as of which metric values are current. */
-  metricTime?: string;
+  metricTime?: string | undefined;
   /** All metrics for this job. */
-  metrics?: MetricUpdateList;
+  metrics?: MetricUpdateList | undefined;
 }
 export interface GetMetricsProjectsLocationsJobsRequest {
   /** The job to get metrics for. */
@@ -1241,7 +1244,7 @@ export interface GetMetricsProjectsLocationsJobsRequest {
   /** A project id. */
   projectId: string;
   /** Return only metric data that has changed since this time. Default is to return all information about all metrics for the job. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export interface GetOrganizationsLocationsConfigStoreSettingsRequest {
   /** Required. The name of the ConfigStoreSetting to retrieve. */
@@ -1256,9 +1259,9 @@ export interface GetProjectsJobsRequest {
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
-  location?: string;
+  location?: string | undefined;
   /** The level of information requested in response. */
-  view?: GetProjectsJobsViewEnum | (string & {});
+  view?: GetProjectsJobsViewEnum | (string & {}) | undefined;
   /** The job ID. */
   jobId: string;
 }
@@ -1279,7 +1282,7 @@ export interface GetProjectsLocationsJobsRequest {
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** The level of information requested in response. */
-  view?: GetProjectsLocationsJobsViewEnum | (string & {});
+  view?: GetProjectsLocationsJobsViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsSnapshotsRequest {
   /** The ID of the snapshot. */
@@ -1299,42 +1302,42 @@ export type SnapshotStateEnum =
 /** Represents a Pubsub snapshot. */
 export interface PubsubSnapshotMetadata {
   /** The name of the Pubsub topic. */
-  topicName?: string;
+  topicName?: string | undefined;
   /** The expire time of the Pubsub snapshot. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** The name of the Pubsub snapshot. */
-  snapshotName?: string;
+  snapshotName?: string | undefined;
 }
 export type PubsubSnapshotMetadataList = Array<PubsubSnapshotMetadata>;
 /** Represents a snapshot of a job. */
 export interface Snapshot {
   /** State of the snapshot. */
-  state?: SnapshotStateEnum;
+  state?: SnapshotStateEnum | undefined;
   /** User specified description of the snapshot. Maybe empty. */
-  description?: string;
+  description?: string | undefined;
   /** The disk byte size of the snapshot. Only available for snapshots in READY state. */
-  diskSizeBytes?: string;
+  diskSizeBytes?: string | undefined;
   /** The job this snapshot was created from. */
-  sourceJobId?: string;
+  sourceJobId?: string | undefined;
   /** The project this snapshot belongs to. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** The time after which this snapshot will be automatically deleted. */
-  ttl?: string;
+  ttl?: string | undefined;
   /** The unique ID of this snapshot. */
-  id?: string;
+  id?: string | undefined;
   /** Pub/Sub snapshot metadata. */
-  pubsubMetadata?: PubsubSnapshotMetadataList;
+  pubsubMetadata?: PubsubSnapshotMetadataList | undefined;
   /** Cloud region where this snapshot lives in, e.g., "us-central1". */
-  region?: string;
+  region?: string | undefined;
   /** The time this snapshot was created. */
-  creationTime?: string;
+  creationTime?: string | undefined;
 }
 export type GetProjectsLocationsTemplatesViewEnum = "METADATA_ONLY";
 export interface GetProjectsLocationsTemplatesRequest {
   /** Required. A Cloud Storage path to the template from which to create the job. Must be valid Cloud Storage URL, beginning with 'gs://'. */
-  gcsPath?: string;
+  gcsPath?: string | undefined;
   /** The view to retrieve. Defaults to METADATA_ONLY. */
-  view?: GetProjectsLocationsTemplatesViewEnum | (string & {});
+  view?: GetProjectsLocationsTemplatesViewEnum | (string & {}) | undefined;
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
@@ -1343,11 +1346,11 @@ export interface GetProjectsLocationsTemplatesRequest {
 /** ParameterMetadataEnumOption specifies the option shown in the enum form. */
 export interface ParameterMetadataEnumOption {
   /** Required. The value of the enum option. */
-  value?: string;
+  value?: string | undefined;
   /** Optional. The description to display for the enum option. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. The label to display for the enum option. */
-  label?: string;
+  label?: string | undefined;
 }
 export type ParameterMetadataEnumOptionList = Array<ParameterMetadataEnumOption>;
 export type ParameterMetadataParamTypeEnum =
@@ -1377,94 +1380,94 @@ export type ParameterMetadataParamTypeEnum =
 /** Metadata for a specific parameter. */
 export interface ParameterMetadata {
   /** Optional. The value(s) of the 'parent_name' parameter which will trigger this parameter to be shown. If left empty, ANY non-empty value in parent_name will trigger this parameter to be shown. Only considered when this parameter is conditional (when 'parent_name' has been provided). */
-  parentTriggerValues?: StringList_;
+  parentTriggerValues?: StringList_ | undefined;
   /** Optional. The options shown when ENUM ParameterType is specified. */
-  enumOptions?: ParameterMetadataEnumOptionList;
+  enumOptions?: ParameterMetadataEnumOptionList | undefined;
   /** Optional. The default values will pre-populate the parameter with the given value from the proto. If default_value is left empty, the parameter will be populated with a default of the relevant type, e.g. false for a boolean. */
-  defaultValue?: string;
+  defaultValue?: string | undefined;
   /** Optional. Whether the parameter should be hidden in the UI. */
-  hiddenUi?: boolean;
+  hiddenUi?: boolean | undefined;
   /** Optional. Regexes that the parameter must match. */
-  regexes?: StringList_;
+  regexes?: StringList_ | undefined;
   /** Optional. Specifies the name of the parent parameter. Used in conjunction with 'parent_trigger_values' to make this parameter conditional (will only be rendered conditionally). Should be mappable to a ParameterMetadata.name field. */
-  parentName?: string;
+  parentName?: string | undefined;
   /** Optional. Whether the parameter is optional. Defaults to false. */
-  isOptional?: boolean;
+  isOptional?: boolean | undefined;
   /** Optional. Additional metadata for describing this parameter. */
-  customMetadata?: StringMap;
+  customMetadata?: StringMap | undefined;
   /** Required. The help text to display for the parameter. */
-  helpText?: string;
+  helpText?: string | undefined;
   /** Optional. The type of the parameter. Used for selecting input picker. */
-  paramType?: ParameterMetadataParamTypeEnum | (string & {});
+  paramType?: ParameterMetadataParamTypeEnum | (string & {}) | undefined;
   /** Optional. Specifies a group name for this parameter to be rendered under. Group header text will be rendered exactly as specified in this field. Only considered when parent_name is NOT provided. */
-  groupName?: string;
+  groupName?: string | undefined;
   /** Required. The label to display for the parameter. */
-  label?: string;
+  label?: string | undefined;
   /** Required. The name of the parameter. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ParameterMetadataList = Array<ParameterMetadata>;
 /** Metadata describing a template. */
 export interface TemplateMetadata {
   /** Optional. Indicates if the streaming template supports exactly once mode. */
-  supportsExactlyOnce?: boolean;
+  supportsExactlyOnce?: boolean | undefined;
   /** Optional. Indicates the default streaming mode for a streaming template. Only valid if both supports_at_least_once and supports_exactly_once are true. Possible values: UNSPECIFIED, EXACTLY_ONCE and AT_LEAST_ONCE */
-  defaultStreamingMode?: string;
+  defaultStreamingMode?: string | undefined;
   /** Required. The name of the template. */
-  name?: string;
+  name?: string | undefined;
   /** The parameters for the template. */
-  parameters?: ParameterMetadataList;
+  parameters?: ParameterMetadataList | undefined;
   /** Optional. Indicates if the template is streaming or not. */
-  streaming?: boolean;
+  streaming?: boolean | undefined;
   /** Optional. For future use. */
-  yamlDefinition?: string;
+  yamlDefinition?: string | undefined;
   /** Optional. A description of the template. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Indicates if the streaming template supports at least once mode. */
-  supportsAtLeastOnce?: boolean;
+  supportsAtLeastOnce?: boolean | undefined;
 }
 export type GetTemplateResponseTemplateTypeEnum = "UNKNOWN" | "LEGACY" | "FLEX";
 export type SDKInfoLanguageEnum = "UNKNOWN" | "JAVA" | "PYTHON" | "GO" | "YAML";
 /** SDK Information. */
 export interface SDKInfo {
   /** Required. The SDK Language. */
-  language?: SDKInfoLanguageEnum | (string & {});
+  language?: SDKInfoLanguageEnum | (string & {}) | undefined;
   /** Optional. The SDK version. */
-  version?: string;
+  version?: string | undefined;
 }
 /** RuntimeMetadata describing a runtime environment. */
 export interface RuntimeMetadata {
   /** SDK Info for the template. */
-  sdkInfo?: SDKInfo;
+  sdkInfo?: SDKInfo | undefined;
   /** The parameters for the template. */
-  parameters?: ParameterMetadataList;
+  parameters?: ParameterMetadataList | undefined;
 }
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The response to a GetTemplate request. */
 export interface GetTemplateResponse {
   /** The template metadata describing the template name, available parameters, etc. */
-  metadata?: TemplateMetadata;
+  metadata?: TemplateMetadata | undefined;
   /** Template Type. */
-  templateType?: GetTemplateResponseTemplateTypeEnum;
+  templateType?: GetTemplateResponseTemplateTypeEnum | undefined;
   /** Describes the runtime metadata with SDKInfo and available parameters. */
-  runtimeMetadata?: RuntimeMetadata;
+  runtimeMetadata?: RuntimeMetadata | undefined;
   /** The status of the get template request. Any problems with the request will be indicated in the error_details. */
-  status?: Status;
+  status?: Status | undefined;
 }
 export interface GetProjectsSnapshotsRequest {
   /** The ID of the snapshot. */
   snapshotId: string;
   /** The location that contains this snapshot. */
-  location?: string;
+  location?: string | undefined;
   /** The ID of the Cloud Platform project that the snapshot belongs to. */
   projectId: string;
 }
@@ -1473,18 +1476,18 @@ export interface GetProjectsTemplatesRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
-  location?: string;
+  location?: string | undefined;
   /** Required. A Cloud Storage path to the template from which to create the job. Must be valid Cloud Storage URL, beginning with 'gs://'. */
-  gcsPath?: string;
+  gcsPath?: string | undefined;
   /** The view to retrieve. Defaults to METADATA_ONLY. */
-  view?: GetProjectsTemplatesViewEnum | (string & {});
+  view?: GetProjectsTemplatesViewEnum | (string & {}) | undefined;
 }
 /** Request to get worker stacktraces from debug capture. */
 export interface GetWorkerStacktracesRequest {
   /** The worker for which to get stacktraces. The returned stacktraces will be for the SDK harness running on this worker. */
-  workerId?: string;
+  workerId?: string | undefined;
   /** The end time for the stacktrace query. The returned stacktraces will be a recent stack trace at or shortly before this time. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export interface GetWorkerStacktracesProjectsLocationsJobsDebugRequest {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
@@ -1494,34 +1497,34 @@ export interface GetWorkerStacktracesProjectsLocationsJobsDebugRequest {
   /** The project id. */
   projectId: string;
   /** Request body */
-  body?: GetWorkerStacktracesRequest;
+  body?: GetWorkerStacktracesRequest | undefined;
 }
 /** A structuredstacktrace for a process running on the worker. */
 export interface Stack {
   /** Thread name. For example, "CommitThread-0,10,main" */
-  threadName?: string;
+  threadName?: string | undefined;
   /** With java thread dumps we may get collapsed stacks e.g., N threads in stack "". Instead of having to copy over the same stack trace N times, this int field captures this. */
-  threadCount?: number;
+  threadCount?: number | undefined;
   /** The raw stack trace. */
-  stackContent?: string;
+  stackContent?: string | undefined;
   /** Timestamp at which the stack was captured. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The state of the thread. For example, "WAITING". */
-  threadState?: string;
+  threadState?: string | undefined;
 }
 export type StackList = Array<Stack>;
 /** A structured representation of an SDK. */
 export interface Sdk {
   /** The stacktraces for the processes running on the SDK harness. */
-  stacks?: StackList;
+  stacks?: StackList | undefined;
   /** The SDK harness id. */
-  sdkId?: string;
+  sdkId?: string | undefined;
 }
 export type SdkList = Array<Sdk>;
 /** Response to get worker stacktraces from debug capture. */
 export interface GetWorkerStacktracesResponse {
   /** Repeated as unified worker may have multiple SDK processes. */
-  sdks?: SdkList;
+  sdks?: SdkList | undefined;
 }
 export type FlexTemplateRuntimeEnvironmentFlexrsGoalEnum =
   | "FLEXRS_UNSPECIFIED"
@@ -1542,100 +1545,103 @@ export type FlexTemplateRuntimeEnvironmentAutoscalingAlgorithmEnum =
 /** The environment values to be set at runtime for flex template. */
 export interface FlexTemplateRuntimeEnvironment {
   /** Set FlexRS goal for the job. https://cloud.google.com/dataflow/docs/guides/flexrs */
-  flexrsGoal?: FlexTemplateRuntimeEnvironmentFlexrsGoalEnum | (string & {});
+  flexrsGoal?: FlexTemplateRuntimeEnvironmentFlexrsGoalEnum | (string & {}) | undefined;
   /** If true serial port logging will be enabled for the launcher VM. */
-  enableLauncherVmSerialPortLogging?: boolean;
+  enableLauncherVmSerialPortLogging?: boolean | undefined;
   /** The maximum number of Google Compute Engine instances to be made available to your pipeline during execution, from 1 to 1000. */
-  maxWorkers?: number;
+  maxWorkers?: number | undefined;
   /** Worker disk size, in gigabytes. */
-  diskSizeGb?: number;
+  diskSizeGb?: number | undefined;
   /** Whether to enable Streaming Engine for the job. */
-  enableStreamingEngine?: boolean;
+  enableStreamingEngine?: boolean | undefined;
   /** The Compute Engine region (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1". Mutually exclusive with worker_zone. If neither worker_region nor worker_zone is specified, default to the control plane's region. */
-  workerRegion?: string;
+  workerRegion?: string | undefined;
   /** Additional experiment flags for the job. */
-  additionalExperiments?: StringList_;
+  additionalExperiments?: StringList_ | undefined;
   /** Docker registry location of container image to use for the 'worker harness. Default is the container for the version of the SDK. Note this field is only valid for portable pipelines. */
-  sdkContainerImage?: string;
+  sdkContainerImage?: string | undefined;
   /** Optional. Specifies the Streaming Engine message processing guarantees. Reduces cost and latency but might result in duplicate messages committed to storage. Designed to run simple mapping streaming ETL jobs at the lowest cost. For example, Change Data Capture (CDC) to BigQuery is a canonical use case. For more information, see [Set the pipeline streaming mode](https://cloud.google.com/dataflow/docs/guides/streaming-modes). */
-  streamingMode?: FlexTemplateRuntimeEnvironmentStreamingModeEnum | (string & {});
+  streamingMode?: FlexTemplateRuntimeEnvironmentStreamingModeEnum | (string & {}) | undefined;
   /** The machine type to use for launching the job. If not set, Dataflow will select a default machine type. */
-  launcherMachineType?: string;
+  launcherMachineType?: string | undefined;
   /** If true, when processing time is spent almost entirely on garbage collection (GC), saves a heap dump before ending the thread or process. If false, ends the thread or process without saving a heap dump. Does not save a heap dump when the Java Virtual Machine (JVM) has an out of memory error during processing. The location of the heap file is either echoed back to the user, or the user is given the opportunity to download the heap file. */
-  dumpHeapOnOom?: boolean;
+  dumpHeapOnOom?: boolean | undefined;
   /** Cloud Storage bucket (directory) to upload heap dumps to. Enabling this field implies that `dump_heap_on_oom` is set to true. */
-  saveHeapDumpsToGcsPath?: string;
+  saveHeapDumpsToGcsPath?: string | undefined;
   /** The Compute Engine zone (https://cloud.google.com/compute/docs/regions-zones/regions-zones) in which worker processing should occur, e.g. "us-west1-a". Mutually exclusive with worker_region. If neither worker_region nor worker_zone is specified, a zone in the control plane's region is chosen based on available capacity. If both `worker_zone` and `zone` are set, `worker_zone` takes precedence. */
-  workerZone?: string;
+  workerZone?: string | undefined;
   /** The initial number of Google Compute Engine instances for the job. */
-  numWorkers?: number;
+  numWorkers?: number | undefined;
   /** The Cloud Storage path to use for temporary files. Must be a valid Cloud Storage URL, beginning with `gs://`. */
-  tempLocation?: string;
+  tempLocation?: string | undefined;
   /** The Compute Engine [availability zone](https://cloud.google.com/compute/docs/regions-zones/regions-zones) for launching worker instances to run your pipeline. In the future, worker_zone will take precedence. */
-  zone?: string;
+  zone?: string | undefined;
   /** Configuration for VM IPs. */
-  ipConfiguration?: FlexTemplateRuntimeEnvironmentIpConfigurationEnum | (string & {});
+  ipConfiguration?: FlexTemplateRuntimeEnvironmentIpConfigurationEnum | (string & {}) | undefined;
   /** The algorithm to use for autoscaling */
-  autoscalingAlgorithm?: FlexTemplateRuntimeEnvironmentAutoscalingAlgorithmEnum | (string & {});
+  autoscalingAlgorithm?:
+    | FlexTemplateRuntimeEnvironmentAutoscalingAlgorithmEnum
+    | (string & {})
+    | undefined;
   /** Optional. Additional pipeline option flags for the job. */
-  additionalPipelineOptions?: StringList_;
+  additionalPipelineOptions?: StringList_ | undefined;
   /** The Cloud Storage path for staging local files. Must be a valid Cloud Storage URL, beginning with `gs://`. */
-  stagingLocation?: string;
+  stagingLocation?: string | undefined;
   /** Additional user labels to be specified for the job. Keys and values must follow the restrictions specified in the [labeling restrictions](https://cloud.google.com/compute/docs/labeling-resources#restrictions) page. An object containing a list of "key": value pairs. Example: { "name": "wrench", "mass": "1kg", "count": "3" }. */
-  additionalUserLabels?: StringMap;
+  additionalUserLabels?: StringMap | undefined;
   /** The email address of the service account to run the job as. */
-  serviceAccountEmail?: string;
+  serviceAccountEmail?: string | undefined;
   /** Name for the Cloud KMS key for the job. Key format is: projects//locations//keyRings//cryptoKeys/ */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** The machine type to use for the job. Defaults to the value from the template if not specified. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Network to which VMs will be assigned. If empty or unspecified, the service will use the network "default". */
-  network?: string;
+  network?: string | undefined;
   /** Subnetwork to which VMs will be assigned, if desired. You can specify a subnetwork using either a complete URL or an abbreviated path. Expected to be of the form "https://www.googleapis.com/compute/v1/projects/HOST_PROJECT_ID/regions/REGION/subnetworks/SUBNETWORK" or "regions/REGION/subnetworks/SUBNETWORK". If the subnetwork is located in a Shared VPC network, you must use the complete URL. */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
 }
 /** Container Spec. */
 export interface ContainerSpec {
   /** Default runtime environment for the job. */
-  defaultEnvironment?: FlexTemplateRuntimeEnvironment;
+  defaultEnvironment?: FlexTemplateRuntimeEnvironment | undefined;
   /** Metadata describing a template including description and validation rules. */
-  metadata?: TemplateMetadata;
+  metadata?: TemplateMetadata | undefined;
   /** Name of the docker container image. E.g., gcr.io/project/some-image */
-  image?: string;
+  image?: string | undefined;
   /** Required. SDK info of the Flex Template. */
-  sdkInfo?: SDKInfo;
+  sdkInfo?: SDKInfo | undefined;
   /** Secret Manager secret id for username to authenticate to private registry. */
-  imageRepositoryUsernameSecretId?: string;
+  imageRepositoryUsernameSecretId?: string | undefined;
   /** Secret Manager secret id for password to authenticate to private registry. */
-  imageRepositoryPasswordSecretId?: string;
+  imageRepositoryPasswordSecretId?: string | undefined;
   /** Cloud Storage path to self-signed certificate of private registry. */
-  imageRepositoryCertPath?: string;
+  imageRepositoryCertPath?: string | undefined;
 }
 /** Launch FlexTemplate Parameter. */
 export interface LaunchFlexTemplateParameter {
   /** The parameters for FlexTemplate. Ex. {"num_workers":"5"} */
-  parameters?: StringMap;
+  parameters?: StringMap | undefined;
   /** Required. The job name to use for the created job. For update job request, job name should be same as the existing running job. */
-  jobName?: string;
+  jobName?: string | undefined;
   /** The runtime environment for the FlexTemplate job */
-  environment?: FlexTemplateRuntimeEnvironment;
+  environment?: FlexTemplateRuntimeEnvironment | undefined;
   /** Spec about the container image to launch. */
-  containerSpec?: ContainerSpec;
+  containerSpec?: ContainerSpec | undefined;
   /** Set this to true if you are sending a request to update a running streaming job. When set, the job name should be the same as the running job. */
-  update?: boolean;
+  update?: boolean | undefined;
   /** Use this to pass transform_name_mappings for streaming update jobs. Ex:{"oldTransformName":"newTransformName",...}' */
-  transformNameMappings?: StringMap;
+  transformNameMappings?: StringMap | undefined;
   /** Launch options for this flex template job. This is a common set of options across languages and templates. This should not be used to pass job parameters. */
-  launchOptions?: StringMap;
+  launchOptions?: StringMap | undefined;
   /** Cloud Storage path to a file with json serialized ContainerSpec as content. */
-  containerSpecGcsPath?: string;
+  containerSpecGcsPath?: string | undefined;
 }
 /** A request to launch a Cloud Dataflow job from a FlexTemplate. */
 export interface LaunchFlexTemplateRequest {
   /** Required. Parameter to launch a job form Flex Template. */
-  launchParameter?: LaunchFlexTemplateParameter;
+  launchParameter?: LaunchFlexTemplateParameter | undefined;
   /** If true, the request is validated but not actually executed. Defaults to false. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface LaunchProjectsLocationsFlexTemplatesRequest {
   /** Required. The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. E.g., us-central1, us-west1. */
@@ -1643,81 +1649,81 @@ export interface LaunchProjectsLocationsFlexTemplatesRequest {
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** Request body */
-  body?: LaunchFlexTemplateRequest;
+  body?: LaunchFlexTemplateRequest | undefined;
 }
 /** Response to the request to launch a job from Flex Template. */
 export interface LaunchFlexTemplateResponse {
   /** The job that was launched, if the request was not a dry run and the job was successfully launched. */
-  job?: Job;
+  job?: Job | undefined;
 }
 /** Parameters to provide to the template being launched. Note that the [metadata in the pipeline code] (https://cloud.google.com/dataflow/docs/guides/templates/creating-templates#metadata) determines which runtime parameters are valid. */
 export interface LaunchTemplateParameters {
   /** The runtime parameters to pass to the job. */
-  parameters?: StringMap;
+  parameters?: StringMap | undefined;
   /** Only applicable when updating a pipeline. Map of transform name prefixes of the job to be replaced to the corresponding name prefixes of the new job. */
-  transformNameMapping?: StringMap;
+  transformNameMapping?: StringMap | undefined;
   /** If set, replace the existing pipeline with the name specified by jobName with this pipeline, preserving state. */
-  update?: boolean;
+  update?: boolean | undefined;
   /** The runtime environment for the job. */
-  environment?: RuntimeEnvironment;
+  environment?: RuntimeEnvironment | undefined;
   /** Required. The job name to use for the created job. The name must match the regular expression `[a-z]([-a-z0-9]{0,1022}[a-z0-9])?` */
-  jobName?: string;
+  jobName?: string | undefined;
 }
 export interface LaunchProjectsLocationsTemplatesRequest {
   /** If true, the request is validated but not actually executed. Defaults to false. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
   location: string;
   /** A Cloud Storage path to the template to use to create the job. Must be valid Cloud Storage URL, beginning with `gs://`. */
-  gcsPath?: string;
+  gcsPath?: string | undefined;
   /** Cloud Storage path for staging dependencies. Must be a valid Cloud Storage URL, beginning with `gs://`. */
-  "dynamicTemplate.stagingLocation"?: string;
+  "dynamicTemplate.stagingLocation"?: string | undefined;
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** Path to the dynamic template specification file on Cloud Storage. The file must be a JSON serialized `DynamicTemplateFileSpec` object. */
-  "dynamicTemplate.gcsPath"?: string;
+  "dynamicTemplate.gcsPath"?: string | undefined;
   /** Request body */
-  body?: LaunchTemplateParameters;
+  body?: LaunchTemplateParameters | undefined;
 }
 /** Response to the request to launch a template. */
 export interface LaunchTemplateResponse {
   /** The job that was launched, if the request was not a dry run and the job was successfully launched. */
-  job?: Job;
+  job?: Job | undefined;
 }
 export interface LaunchProjectsTemplatesRequest {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) to which to direct the request. */
-  location?: string;
+  location?: string | undefined;
   /** Required. The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** If true, the request is validated but not actually executed. Defaults to false. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Path to the dynamic template specification file on Cloud Storage. The file must be a JSON serialized `DynamicTemplateFileSpec` object. */
-  "dynamicTemplate.gcsPath"?: string;
+  "dynamicTemplate.gcsPath"?: string | undefined;
   /** Cloud Storage path for staging dependencies. Must be a valid Cloud Storage URL, beginning with `gs://`. */
-  "dynamicTemplate.stagingLocation"?: string;
+  "dynamicTemplate.stagingLocation"?: string | undefined;
   /** A Cloud Storage path to the template to use to create the job. Must be valid Cloud Storage URL, beginning with `gs://`. */
-  gcsPath?: string;
+  gcsPath?: string | undefined;
   /** Request body */
-  body?: LaunchTemplateParameters;
+  body?: LaunchTemplateParameters | undefined;
 }
 /** Request to lease WorkItems. */
 export interface LeaseWorkItemRequest {
   /** The initial lease period. */
-  requestedLeaseDuration?: string;
+  requestedLeaseDuration?: string | undefined;
   /** Worker capabilities. WorkItems might be limited to workers with specific capabilities. */
-  workerCapabilities?: StringList_;
+  workerCapabilities?: StringList_ | undefined;
   /** Untranslated bag-of-bytes WorkRequest from UnifiedWorker. */
-  unifiedWorkerRequest?: DocumentMap;
+  unifiedWorkerRequest?: DocumentMap | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
-  location?: string;
+  location?: string | undefined;
   /** Filter for WorkItem type. */
-  workItemTypes?: StringList_;
+  workItemTypes?: StringList_ | undefined;
   /** Optional. The project number of the project this worker belongs to. */
-  projectNumber?: string;
+  projectNumber?: string | undefined;
   /** The current timestamp at the worker. */
-  currentWorkerTime?: string;
+  currentWorkerTime?: string | undefined;
   /** Identifies the worker leasing work -- typically the ID of the virtual machine running the worker. */
-  workerId?: string;
+  workerId?: string | undefined;
 }
 export interface LeaseProjectsJobsWorkItemsRequest {
   /** Identifies the project this worker belongs to. */
@@ -1725,404 +1731,404 @@ export interface LeaseProjectsJobsWorkItemsRequest {
   /** Identifies the workflow job this worker belongs to. */
   jobId: string;
   /** Request body */
-  body?: LeaseWorkItemRequest;
+  body?: LeaseWorkItemRequest | undefined;
 }
 /** Operational limits imposed on streaming jobs by the backend. */
 export interface StreamingOperationalLimits {
   /** The maximum size for an element in global data. */
-  maxGlobalDataBytes?: string;
+  maxGlobalDataBytes?: string | undefined;
   /** The maximum size for a value state field. */
-  maxValueBytes?: string;
+  maxValueBytes?: string | undefined;
   /** The maximum size for a source state update. */
-  maxSourceStateBytes?: string;
+  maxSourceStateBytes?: string | undefined;
   /** The maximum size for an element in sorted list state. */
-  maxSortedListElementBytes?: string;
+  maxSortedListElementBytes?: string | undefined;
   /** The maximum size for a state tag. */
-  maxTagBytes?: string;
+  maxTagBytes?: string | undefined;
   /** The maximum size for a single output element. */
-  maxProductionOutputBytes?: string;
+  maxProductionOutputBytes?: string | undefined;
   /** The maximum size allowed for a key. */
-  maxKeyBytes?: string;
+  maxKeyBytes?: string | undefined;
   /** The maximum size for an element in bag state. */
-  maxBagElementBytes?: string;
+  maxBagElementBytes?: string | undefined;
 }
 /** An input of an instruction, as a reference to an output of a producer instruction. */
 export interface InstructionInput {
   /** The index (origin zero) of the parallel instruction that produces the output to be consumed by this input. This index is relative to the list of instructions in this input's instruction's containing MapTask. */
-  producerInstructionIndex?: number;
+  producerInstructionIndex?: number | undefined;
   /** The output index (origin zero) within the producer. */
-  outputNum?: number;
+  outputNum?: number | undefined;
 }
 /** A sink that records can be encoded and written to. */
 export interface Sink {
   /** The sink to write to, plus its parameters. */
-  spec?: DocumentMap;
+  spec?: DocumentMap | undefined;
   /** The codec to use to encode data written to the sink. */
-  codec?: DocumentMap;
+  codec?: DocumentMap | undefined;
 }
 /** An instruction that writes records. Takes one input, produces no outputs. */
 export interface WriteInstruction {
   /** The input. */
-  input?: InstructionInput;
+  input?: InstructionInput | undefined;
   /** The sink to write to. */
-  sink?: Sink;
+  sink?: Sink | undefined;
 }
 /** Metadata about a Source useful for automatically optimizing and tuning the pipeline, etc. */
 export interface SourceMetadata {
   /** Whether this source is known to produce key/value pairs with the (encoded) keys in lexicographically sorted order. */
-  producesSortedKeys?: boolean;
+  producesSortedKeys?: boolean | undefined;
   /** Specifies that the size of this source is known to be infinite (this is a streaming source). */
-  infinite?: boolean;
+  infinite?: boolean | undefined;
   /** An estimate of the total size (in bytes) of the data that would be read from this source. This estimate is in terms of external storage size, before any decompression or other processing done by the reader. */
-  estimatedSizeBytes?: string;
+  estimatedSizeBytes?: string | undefined;
 }
 /** A source that records can be read and decoded from. */
 export interface Source {
   /** The codec to use to decode data read from the source. */
-  codec?: DocumentMap;
+  codec?: DocumentMap | undefined;
   /** Setting this value to true hints to the framework that the source doesn't need splitting, and using SourceSplitRequest on it would yield SOURCE_SPLIT_OUTCOME_USE_CURRENT. E.g. a file splitter may set this to true when splitting a single file into a set of byte ranges of appropriate size, and set this to false when splitting a filepattern into individual files. However, for efficiency, a file splitter may decide to produce file subranges directly from the filepattern to avoid a splitting round-trip. See SourceSplitRequest for an overview of the splitting process. This field is meaningful only in the Source objects populated by the user (e.g. when filling in a DerivedSource). Source objects supplied by the framework to the user don't have this field populated. */
-  doesNotNeedSplitting?: boolean;
+  doesNotNeedSplitting?: boolean | undefined;
   /** The source to read from, plus its parameters. */
-  spec?: DocumentMap;
+  spec?: DocumentMap | undefined;
   /** While splitting, sources may specify the produced bundles as differences against another source, in order to save backend-side memory and allow bigger jobs. For details, see SourceSplitRequest. To support this use case, the full set of parameters of the source is logically obtained by taking the latest explicitly specified value of each parameter in the order: base_specs (later items win), spec (overrides anything in base_specs). */
-  baseSpecs?: DocumentMapList;
+  baseSpecs?: DocumentMapList | undefined;
   /** Optionally, metadata for this source can be supplied right away, avoiding a SourceGetMetadataOperation roundtrip (see SourceOperationRequest). This field is meaningful only in the Source objects populated by the user (e.g. when filling in a DerivedSource). Source objects supplied by the framework to the user don't have this field populated. */
-  metadata?: SourceMetadata;
+  metadata?: SourceMetadata | undefined;
 }
 /** An instruction that reads records. Takes no inputs, produces one output. */
 export interface ReadInstruction {
   /** The source to read from. */
-  source?: Source;
+  source?: Source | undefined;
 }
 export type SourceList = Array<Source>;
 /** Information about a side input of a DoFn or an input of a SeqDoFn. */
 export interface SideInputInfo {
   /** The source(s) to read element(s) from to get the value of this side input. If more than one source, then the elements are taken from the sources, in the specified order if order matters. At least one source is required. */
-  sources?: SourceList;
+  sources?: SourceList | undefined;
   /** How to interpret the source element(s) as a side input value. */
-  kind?: DocumentMap;
+  kind?: DocumentMap | undefined;
   /** The id of the tag the user code will access this side input by; this should correspond to the tag of some MultiOutputInfo. */
-  tag?: string;
+  tag?: string | undefined;
 }
 export type SideInputInfoList = Array<SideInputInfo>;
 /** An instruction that does a partial group-by-key. One input and one output. */
 export interface PartialGroupByKeyInstruction {
   /** If this instruction includes a combining function this is the name of the intermediate store between the GBK and the CombineValues. */
-  originalCombineValuesInputStoreName?: string;
+  originalCombineValuesInputStoreName?: string | undefined;
   /** If this instruction includes a combining function, this is the name of the CombineValues instruction lifted into this instruction. */
-  originalCombineValuesStepName?: string;
+  originalCombineValuesStepName?: string | undefined;
   /** Zero or more side inputs. */
-  sideInputs?: SideInputInfoList;
+  sideInputs?: SideInputInfoList | undefined;
   /** Describes the input to the partial group-by-key instruction. */
-  input?: InstructionInput;
+  input?: InstructionInput | undefined;
   /** The codec to use for interpreting an element in the input PTable. */
-  inputElementCodec?: DocumentMap;
+  inputElementCodec?: DocumentMap | undefined;
   /** The value combining function to invoke. */
-  valueCombiningFn?: DocumentMap;
+  valueCombiningFn?: DocumentMap | undefined;
 }
 export type InstructionInputList = Array<InstructionInput>;
 /** An instruction that copies its inputs (zero or more) to its (single) output. */
 export interface FlattenInstruction {
   /** Describes the inputs to the flatten instruction. */
-  inputs?: InstructionInputList;
+  inputs?: InstructionInputList | undefined;
 }
 /** An output of an instruction. */
 export interface InstructionOutput {
   /** The codec to use to encode data being written via this output. */
-  codec?: DocumentMap;
+  codec?: DocumentMap | undefined;
   /** System-defined name of this output. Unique across the workflow. */
-  systemName?: string;
+  systemName?: string | undefined;
   /** For system-generated byte and mean byte metrics, certain instructions should only report the value size. */
-  onlyCountValueBytes?: boolean;
+  onlyCountValueBytes?: boolean | undefined;
   /** For system-generated byte and mean byte metrics, certain instructions should only report the key size. */
-  onlyCountKeyBytes?: boolean;
+  onlyCountKeyBytes?: boolean | undefined;
   /** The user-provided name of this output. */
-  name?: string;
+  name?: string | undefined;
   /** System-defined name for this output in the original workflow graph. Outputs that do not contribute to an original instruction do not set this. */
-  originalName?: string;
+  originalName?: string | undefined;
 }
 export type InstructionOutputList = Array<InstructionOutput>;
 /** Information about an output of a multi-output DoFn. */
 export interface MultiOutputInfo {
   /** The id of the tag the user code will emit to this output by; this should correspond to the tag of some SideInputInfo. */
-  tag?: string;
+  tag?: string | undefined;
 }
 export type MultiOutputInfoList = Array<MultiOutputInfo>;
 /** An instruction that does a ParDo operation. Takes one main input and zero or more side inputs, and produces zero or more outputs. Runs user code. */
 export interface ParDoInstruction {
   /** Information about each of the outputs, if user_fn is a MultiDoFn. */
-  multiOutputInfos?: MultiOutputInfoList;
+  multiOutputInfos?: MultiOutputInfoList | undefined;
   /** The number of outputs. */
-  numOutputs?: number;
+  numOutputs?: number | undefined;
   /** The user function to invoke. */
-  userFn?: DocumentMap;
+  userFn?: DocumentMap | undefined;
   /** Zero or more side inputs. */
-  sideInputs?: SideInputInfoList;
+  sideInputs?: SideInputInfoList | undefined;
   /** The input. */
-  input?: InstructionInput;
+  input?: InstructionInput | undefined;
 }
 /** Describes a particular operation comprising a MapTask. */
 export interface ParallelInstruction {
   /** Additional information for Write instructions. */
-  write?: WriteInstruction;
+  write?: WriteInstruction | undefined;
   /** User-provided name of this operation. */
-  name?: string;
+  name?: string | undefined;
   /** Additional information for Read instructions. */
-  read?: ReadInstruction;
+  read?: ReadInstruction | undefined;
   /** Additional information for PartialGroupByKey instructions. */
-  partialGroupByKey?: PartialGroupByKeyInstruction;
+  partialGroupByKey?: PartialGroupByKeyInstruction | undefined;
   /** Additional information for Flatten instructions. */
-  flatten?: FlattenInstruction;
+  flatten?: FlattenInstruction | undefined;
   /** Describes the outputs of the instruction. */
-  outputs?: InstructionOutputList;
+  outputs?: InstructionOutputList | undefined;
   /** System-defined name of this operation. Unique across the workflow. */
-  systemName?: string;
+  systemName?: string | undefined;
   /** Additional information for ParDo instructions. */
-  parDo?: ParDoInstruction;
+  parDo?: ParDoInstruction | undefined;
   /** System-defined name for the operation in the original workflow graph. */
-  originalName?: string;
+  originalName?: string | undefined;
 }
 export type ParallelInstructionList = Array<ParallelInstruction>;
 /** Configuration information for a single streaming computation. */
 export interface StreamingComputationConfig {
   /** System defined name for this computation. */
-  systemName?: string;
+  systemName?: string | undefined;
   /** Stage name of this computation. */
-  stageName?: string;
+  stageName?: string | undefined;
   /** Map from user name of stateful transforms in this stage to their state family. */
-  transformUserNameToStateFamily?: StringMap;
+  transformUserNameToStateFamily?: StringMap | undefined;
   /** Unique identifier for this computation. */
-  computationId?: string;
+  computationId?: string | undefined;
   /** Instructions that comprise the computation. */
-  instructions?: ParallelInstructionList;
+  instructions?: ParallelInstructionList | undefined;
 }
 export type StreamingComputationConfigList = Array<StreamingComputationConfig>;
 /** A task that carries configuration information for streaming computations. */
 export interface StreamingConfigTask {
   /** Operational limits for the streaming job. Can be used by the worker to validate outputs sent to the backend. */
-  operationalLimits?: StreamingOperationalLimits;
+  operationalLimits?: StreamingOperationalLimits | undefined;
   /** If present, the worker must use this port to communicate with Windmill Service dispatchers. Only applicable when windmill_service_endpoint is specified. */
-  windmillServicePort?: string;
+  windmillServicePort?: string | undefined;
   /** Binary encoded proto to control runtime behavior of the java runner v1 user worker. */
-  userWorkerRunnerV1Settings?: string;
+  userWorkerRunnerV1Settings?: string | undefined;
   /** Maximum size for work item commit supported windmill storage layer. */
-  maxWorkItemCommitBytes?: string;
+  maxWorkItemCommitBytes?: string | undefined;
   /** Binary encoded proto to control runtime behavior of the runner v2 user worker. */
-  userWorkerRunnerV2Settings?: string;
+  userWorkerRunnerV2Settings?: string | undefined;
   /** Optional. The state tag encoding format version for streaming engine jobs. */
-  streamingEngineStateTagEncodingVersion?: number;
+  streamingEngineStateTagEncodingVersion?: number | undefined;
   /** Set of computation configuration information. */
-  streamingComputationConfigs?: StreamingComputationConfigList;
+  streamingComputationConfigs?: StreamingComputationConfigList | undefined;
   /** Map from user step names to state families. */
-  userStepToStateFamilyNameMap?: StringMap;
+  userStepToStateFamilyNameMap?: StringMap | undefined;
   /** Chunk size for commit streams from the harness to windmill. */
-  commitStreamChunkSizeBytes?: string;
+  commitStreamChunkSizeBytes?: string | undefined;
   /** Chunk size for get data streams from the harness to windmill. */
-  getDataStreamChunkSizeBytes?: string;
+  getDataStreamChunkSizeBytes?: string | undefined;
   /** If present, the worker must use this endpoint to communicate with Windmill Service dispatchers, otherwise the worker must continue to use whatever endpoint it had been using. */
-  windmillServiceEndpoint?: string;
+  windmillServiceEndpoint?: string | undefined;
 }
 /** MapTask consists of an ordered set of instructions, each of which describes one particular low-level operation for the worker to perform in order to accomplish the MapTask's WorkItem. Each instruction must appear in the list before any instructions which depends on its output. */
 export interface MapTask {
   /** The instructions in the MapTask. */
-  instructions?: ParallelInstructionList;
+  instructions?: ParallelInstructionList | undefined;
   /** System-defined name of the stage containing this MapTask. Unique across the workflow. */
-  stageName?: string;
+  stageName?: string | undefined;
   /** Counter prefix that can be used to prefix counters. Not currently used in Dataflow. */
-  counterPrefix?: string;
+  counterPrefix?: string | undefined;
   /** System-defined name of this MapTask. Unique across the workflow. */
-  systemName?: string;
+  systemName?: string | undefined;
 }
 /** Information about an output of a SeqMapTask. */
 export interface SeqMapTaskOutputInfo {
   /** The sink to write the output value to. */
-  sink?: Sink;
+  sink?: Sink | undefined;
   /** The id of the TupleTag the user code will tag the output value by. */
-  tag?: string;
+  tag?: string | undefined;
 }
 export type SeqMapTaskOutputInfoList = Array<SeqMapTaskOutputInfo>;
 /** Describes a particular function to invoke. */
 export interface SeqMapTask {
   /** System-defined name of the SeqDo operation. Unique across the workflow. */
-  systemName?: string;
+  systemName?: string | undefined;
   /** Information about each of the outputs. */
-  outputInfos?: SeqMapTaskOutputInfoList;
+  outputInfos?: SeqMapTaskOutputInfoList | undefined;
   /** System-defined name of the stage containing the SeqDo operation. Unique across the workflow. */
-  stageName?: string;
+  stageName?: string | undefined;
   /** Information about each of the inputs. */
-  inputs?: SideInputInfoList;
+  inputs?: SideInputInfoList | undefined;
   /** The user function to invoke. */
-  userFn?: DocumentMap;
+  userFn?: DocumentMap | undefined;
   /** The user-provided name of the SeqDo operation. */
-  name?: string;
+  name?: string | undefined;
 }
 /** A task which consists of a shell command for the worker to execute. */
 export interface ShellTask {
   /** The shell command to run. */
-  command?: string;
+  command?: string | undefined;
   /** Exit code for the task. */
-  exitCode?: number;
+  exitCode?: number | undefined;
 }
 /** Hints for splitting a Source into bundles (parts for parallel processing) using SourceSplitRequest. */
 export interface SourceSplitOptions {
   /** DEPRECATED in favor of desired_bundle_size_bytes. */
-  desiredShardSizeBytes?: string;
+  desiredShardSizeBytes?: string | undefined;
   /** The source should be split into a set of bundles where the estimated size of each is approximately this many bytes. */
-  desiredBundleSizeBytes?: string;
+  desiredBundleSizeBytes?: string | undefined;
 }
 /** Represents the operation to split a high-level Source specification into bundles (parts for parallel processing). At a high level, splitting of a source into bundles happens as follows: SourceSplitRequest is applied to the source. If it returns SOURCE_SPLIT_OUTCOME_USE_CURRENT, no further splitting happens and the source is used "as is". Otherwise, splitting is applied recursively to each produced DerivedSource. As an optimization, for any Source, if its does_not_need_splitting is true, the framework assumes that splitting this source would return SOURCE_SPLIT_OUTCOME_USE_CURRENT, and doesn't initiate a SourceSplitRequest. This applies both to the initial source being split and to bundles produced from it. */
 export interface SourceSplitRequest {
   /** Specification of the source to be split. */
-  source?: Source;
+  source?: Source | undefined;
   /** Hints for tuning the splitting process. */
-  options?: SourceSplitOptions;
+  options?: SourceSplitOptions | undefined;
 }
 /** A request to compute the SourceMetadata of a Source. */
 export interface SourceGetMetadataRequest {
   /** Specification of the source whose metadata should be computed. */
-  source?: Source;
+  source?: Source | undefined;
 }
 /** A work item that represents the different operations that can be performed on a user-defined Source specification. */
 export interface SourceOperationRequest {
   /** Information about a request to split a source. */
-  split?: SourceSplitRequest;
+  split?: SourceSplitRequest | undefined;
   /** System-defined name of the Read instruction for this source. Unique across the workflow. */
-  systemName?: string;
+  systemName?: string | undefined;
   /** User-provided name of the Read instruction for this source. */
-  name?: string;
+  name?: string | undefined;
   /** System-defined name of the stage containing the source operation. Unique across the workflow. */
-  stageName?: string;
+  stageName?: string | undefined;
   /** Information about a request to get metadata about a source. */
-  getMetadata?: SourceGetMetadataRequest;
+  getMetadata?: SourceGetMetadataRequest | undefined;
   /** System-defined name for the Read instruction for this source in the original workflow graph. */
-  originalName?: string;
+  originalName?: string | undefined;
 }
 /** Streaming appliance snapshot configuration. */
 export interface StreamingApplianceSnapshotConfig {
   /** If set, indicates the snapshot id for the snapshot being performed. */
-  snapshotId?: string;
+  snapshotId?: string | undefined;
   /** Indicates which endpoint is used to import appliance state. */
-  importStateEndpoint?: string;
+  importStateEndpoint?: string | undefined;
 }
 /** Data disk assignment for a given VM instance. */
 export interface DataDiskAssignment {
   /** VM instance name the data disks mounted to, for example "myproject-1014-104817-4c2-harness-0". */
-  vmInstance?: string;
+  vmInstance?: string | undefined;
   /** Mounted data disks. The order is important a data disk's 0-based index in this list defines which persistent directory the disk is mounted to, for example the list of { "myproject-1014-104817-4c2-harness-0-disk-0" }, { "myproject-1014-104817-4c2-harness-0-disk-1" }. */
-  dataDisks?: StringList_;
+  dataDisks?: StringList_ | undefined;
 }
 export type DataDiskAssignmentList = Array<DataDiskAssignment>;
 /** State family configuration. */
 export interface StateFamilyConfig {
   /** The state family value. */
-  stateFamily?: string;
+  stateFamily?: string | undefined;
   /** If true, this family corresponds to a read operation. */
-  isRead?: boolean;
+  isRead?: boolean | undefined;
 }
 export type StateFamilyConfigList = Array<StateFamilyConfig>;
 /** Location information for a specific key-range of a sharded computation. Currently we only support UTF-8 character splits to simplify encoding into JSON. */
 export interface KeyRangeLocation {
   /** The name of the data disk where data for this range is stored. This name is local to the Google Cloud Platform project and uniquely identifies the disk within that project, for example "myproject-1014-104817-4c2-harness-0-disk-1". */
-  dataDisk?: string;
+  dataDisk?: string | undefined;
   /** The start (inclusive) of the key range. */
-  start?: string;
+  start?: string | undefined;
   /** The end (exclusive) of the key range. */
-  end?: string;
+  end?: string | undefined;
   /** DEPRECATED. The location of the persistent state for this range, as a persistent directory in the worker local filesystem. */
-  deprecatedPersistentDirectory?: string;
+  deprecatedPersistentDirectory?: string | undefined;
   /** The physical location of this range assignment to be used for streaming computation cross-worker message delivery. */
-  deliveryEndpoint?: string;
+  deliveryEndpoint?: string | undefined;
 }
 export type KeyRangeLocationList = Array<KeyRangeLocation>;
 /** Identifies the location of a custom souce. */
 export interface CustomSourceLocation {
   /** Whether this source is stateful. */
-  stateful?: boolean;
+  stateful?: boolean | undefined;
 }
 /** Identifies the location of a streaming side input. */
 export interface StreamingSideInputLocation {
   /** Identifies the particular side input within the streaming Dataflow job. */
-  tag?: string;
+  tag?: string | undefined;
   /** Identifies the state family where this side input is stored. */
-  stateFamily?: string;
+  stateFamily?: string | undefined;
 }
 /** Identifies the location of a streaming computation stage, for stage-to-stage communication. */
 export interface StreamingStageLocation {
   /** Identifies the particular stream within the streaming Dataflow job. */
-  streamId?: string;
+  streamId?: string | undefined;
 }
 /** Identifies a pubsub location to use for transferring data into or out of a streaming Dataflow job. */
 export interface PubsubLocation {
   /** If true, then this location represents dynamic topics. */
-  dynamicDestinations?: boolean;
+  dynamicDestinations?: boolean | undefined;
   /** If set, contains a pubsub label from which to extract record ids. If left empty, record deduplication will be strictly best effort. */
-  idLabel?: string;
+  idLabel?: string | undefined;
   /** If set, specifies the pubsub subscription that will be used for tracking custom time timestamps for watermark estimation. */
-  trackingSubscription?: string;
+  trackingSubscription?: string | undefined;
   /** A pubsub subscription, in the form of "pubsub.googleapis.com/subscriptions//" */
-  subscription?: string;
+  subscription?: string | undefined;
   /** Indicates whether the pipeline allows late-arriving data. */
-  dropLateData?: boolean;
+  dropLateData?: boolean | undefined;
   /** If set, contains a pubsub label from which to extract record timestamps. If left empty, record timestamps will be generated upon arrival. */
-  timestampLabel?: string;
+  timestampLabel?: string | undefined;
   /** If true, then the client has requested to get pubsub attributes. */
-  withAttributes?: boolean;
+  withAttributes?: boolean | undefined;
   /** A pubsub topic, in the form of "pubsub.googleapis.com/topics//" */
-  topic?: string;
+  topic?: string | undefined;
 }
 /** Describes a stream of data, either as input to be processed or as output of a streaming Dataflow job. */
 export interface StreamLocation {
   /** The stream is a custom source. */
-  customSourceLocation?: CustomSourceLocation;
+  customSourceLocation?: CustomSourceLocation | undefined;
   /** The stream is a streaming side input. */
-  sideInputLocation?: StreamingSideInputLocation;
+  sideInputLocation?: StreamingSideInputLocation | undefined;
   /** The stream is part of another computation within the current streaming Dataflow job. */
-  streamingStageLocation?: StreamingStageLocation;
+  streamingStageLocation?: StreamingStageLocation | undefined;
   /** The stream is a pubsub stream. */
-  pubsubLocation?: PubsubLocation;
+  pubsubLocation?: PubsubLocation | undefined;
 }
 export type StreamLocationList = Array<StreamLocation>;
 /** All configuration data for a particular Computation. */
 export interface ComputationTopology {
   /** The state family values. */
-  stateFamilies?: StateFamilyConfigList;
+  stateFamilies?: StateFamilyConfigList | undefined;
   /** The ID of the computation. */
-  computationId?: string;
+  computationId?: string | undefined;
   /** The system stage name. */
-  systemStageName?: string;
+  systemStageName?: string | undefined;
   /** The key ranges processed by the computation. */
-  keyRanges?: KeyRangeLocationList;
+  keyRanges?: KeyRangeLocationList | undefined;
   /** The inputs to the computation. */
-  inputs?: StreamLocationList;
+  inputs?: StreamLocationList | undefined;
   /** The outputs from the computation. */
-  outputs?: StreamLocationList;
+  outputs?: StreamLocationList | undefined;
 }
 export type ComputationTopologyList = Array<ComputationTopology>;
 /** Global topology of the streaming Dataflow job, including all computations and their sharded locations. */
 export interface TopologyConfig {
   /** The disks assigned to a streaming Dataflow job. */
-  dataDiskAssignments?: DataDiskAssignmentList;
+  dataDiskAssignments?: DataDiskAssignmentList | undefined;
   /** Maps user stage names to stable computation names. */
-  userStageToComputationNameMap?: StringMap;
+  userStageToComputationNameMap?: StringMap | undefined;
   /** The computations associated with a streaming Dataflow job. */
-  computations?: ComputationTopologyList;
+  computations?: ComputationTopologyList | undefined;
   /** The size (in bits) of keys that will be assigned to source messages. */
-  forwardingKeyBits?: number;
+  forwardingKeyBits?: number | undefined;
   /** Version number for persistent state. */
-  persistentStateVersion?: number;
+  persistentStateVersion?: number | undefined;
 }
 /** A task which initializes part of a streaming Dataflow job. */
 export interface StreamingSetupTask {
   /** Configures streaming appliance snapshot. */
-  snapshotConfig?: StreamingApplianceSnapshotConfig;
+  snapshotConfig?: StreamingApplianceSnapshotConfig | undefined;
   /** The global topology of the streaming Dataflow job. */
-  streamingComputationTopology?: TopologyConfig;
+  streamingComputationTopology?: TopologyConfig | undefined;
   /** The TCP port used by the worker to communicate with the Dataflow worker harness. */
-  workerHarnessPort?: number;
+  workerHarnessPort?: number | undefined;
   /** The user has requested drain. */
-  drain?: boolean;
+  drain?: boolean | undefined;
   /** The TCP port on which the worker should listen for messages from other streaming computation workers. */
-  receiveWorkPort?: number;
+  receiveWorkPort?: number | undefined;
 }
 export type StreamingComputationTaskTaskTypeEnum =
   | "STREAMING_COMPUTATION_TASK_UNKNOWN"
@@ -2131,76 +2137,76 @@ export type StreamingComputationTaskTaskTypeEnum =
 /** Data disk assignment information for a specific key-range of a sharded computation. Currently we only support UTF-8 character splits to simplify encoding into JSON. */
 export interface KeyRangeDataDiskAssignment {
   /** The start (inclusive) of the key range. */
-  start?: string;
+  start?: string | undefined;
   /** The end (exclusive) of the key range. */
-  end?: string;
+  end?: string | undefined;
   /** The name of the data disk where data for this range is stored. This name is local to the Google Cloud Platform project and uniquely identifies the disk within that project, for example "myproject-1014-104817-4c2-harness-0-disk-1". */
-  dataDisk?: string;
+  dataDisk?: string | undefined;
 }
 export type KeyRangeDataDiskAssignmentList = Array<KeyRangeDataDiskAssignment>;
 /** Describes full or partial data disk assignment information of the computation ranges. */
 export interface StreamingComputationRanges {
   /** Data disk assignments for ranges from this computation. */
-  rangeAssignments?: KeyRangeDataDiskAssignmentList;
+  rangeAssignments?: KeyRangeDataDiskAssignmentList | undefined;
   /** The ID of the computation. */
-  computationId?: string;
+  computationId?: string | undefined;
 }
 export type StreamingComputationRangesList = Array<StreamingComputationRanges>;
 /** Describes mounted data disk. */
 export interface MountedDataDisk {
   /** The name of the data disk. This name is local to the Google Cloud Platform project and uniquely identifies the disk within that project, for example "myproject-1014-104817-4c2-harness-0-disk-1". */
-  dataDisk?: string;
+  dataDisk?: string | undefined;
 }
 export type MountedDataDiskList = Array<MountedDataDisk>;
 /** A task which describes what action should be performed for the specified streaming computation ranges. */
 export interface StreamingComputationTask {
   /** A type of streaming computation task. */
-  taskType?: StreamingComputationTaskTaskTypeEnum;
+  taskType?: StreamingComputationTaskTaskTypeEnum | undefined;
   /** Contains ranges of a streaming computation this task should apply to. */
-  computationRanges?: StreamingComputationRangesList;
+  computationRanges?: StreamingComputationRangesList | undefined;
   /** Describes the set of data disks this task should apply to. */
-  dataDisks?: MountedDataDiskList;
+  dataDisks?: MountedDataDiskList | undefined;
 }
 /** WorkItem represents basic information about a WorkItem to be executed in the cloud. */
 export interface WorkItem {
   /** Identifies this WorkItem. */
-  id?: string;
+  id?: string | undefined;
   /** The initial index to use when reporting the status of the WorkItem. */
-  initialReportIndex?: string;
+  initialReportIndex?: string | undefined;
   /** Additional information for StreamingConfigTask WorkItems. */
-  streamingConfigTask?: StreamingConfigTask;
+  streamingConfigTask?: StreamingConfigTask | undefined;
   /** Identifies the workflow job this WorkItem belongs to. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Additional information for MapTask WorkItems. */
-  mapTask?: MapTask;
+  mapTask?: MapTask | undefined;
   /** Work item-specific configuration as an opaque blob. */
-  configuration?: string;
+  configuration?: string | undefined;
   /** Additional information for SeqMapTask WorkItems. */
-  seqMapTask?: SeqMapTask;
+  seqMapTask?: SeqMapTask | undefined;
   /** Identifies the cloud project this WorkItem belongs to. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Any required packages that need to be fetched in order to execute this WorkItem. */
-  packages?: PackageList;
+  packages?: PackageList | undefined;
   /** Recommended reporting interval. */
-  reportStatusInterval?: string;
+  reportStatusInterval?: string | undefined;
   /** Additional information for ShellTask WorkItems. */
-  shellTask?: ShellTask;
+  shellTask?: ShellTask | undefined;
   /** Additional information for source operation WorkItems. */
-  sourceOperationTask?: SourceOperationRequest;
+  sourceOperationTask?: SourceOperationRequest | undefined;
   /** Time when the lease on this Work will expire. */
-  leaseExpireTime?: string;
+  leaseExpireTime?: string | undefined;
   /** Additional information for StreamingSetupTask WorkItems. */
-  streamingSetupTask?: StreamingSetupTask;
+  streamingSetupTask?: StreamingSetupTask | undefined;
   /** Additional information for StreamingComputationTask WorkItems. */
-  streamingComputationTask?: StreamingComputationTask;
+  streamingComputationTask?: StreamingComputationTask | undefined;
 }
 export type WorkItemList = Array<WorkItem>;
 /** Response to a request to lease WorkItems. */
 export interface LeaseWorkItemResponse {
   /** A list of the leased WorkItems. */
-  workItems?: WorkItemList;
+  workItems?: WorkItemList | undefined;
   /** Untranslated bag-of-bytes WorkResponse for UnifiedWorker. */
-  unifiedWorkerResponse?: DocumentMap;
+  unifiedWorkerResponse?: DocumentMap | undefined;
 }
 export interface LeaseProjectsLocationsJobsWorkItemsRequest {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
@@ -2210,13 +2216,13 @@ export interface LeaseProjectsLocationsJobsWorkItemsRequest {
   /** Identifies the workflow job this worker belongs to. */
   jobId: string;
   /** Request body */
-  body?: LeaseWorkItemRequest;
+  body?: LeaseWorkItemRequest | undefined;
 }
 export interface ListFoldersLocationsConfigStoreSettingsRequest {
   /** Optional. The maximum number of settings to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListConfigStoreSettings` call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent resource whose settings are being listed. */
   parent: string;
 }
@@ -2224,17 +2230,17 @@ export type ConfigStoreSettingList = Array<ConfigStoreSetting>;
 /** Response message for ListConfigStoreSettings. */
 export interface ListConfigStoreSettingsResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of ConfigStoreSettings. */
-  configStoreSettings?: ConfigStoreSettingList;
+  configStoreSettings?: ConfigStoreSettingList | undefined;
 }
 export interface ListOrganizationsLocationsConfigStoreSettingsRequest {
   /** Required. The parent resource whose settings are being listed. */
   parent: string;
   /** Optional. The maximum number of settings to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListConfigStoreSettings` call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ListProjectsJobsViewEnum =
   | "JOB_VIEW_UNKNOWN"
@@ -2244,21 +2250,21 @@ export type ListProjectsJobsViewEnum =
 export type ListProjectsJobsFilterEnum = "UNKNOWN" | "ALL" | "TERMINATED" | "ACTIVE";
 export interface ListProjectsJobsRequest {
   /** Deprecated. ListJobs always returns summaries now. Use GetJob for other JobViews. */
-  view?: ListProjectsJobsViewEnum | (string & {});
+  view?: ListProjectsJobsViewEnum | (string & {}) | undefined;
   /** The kind of filter to use. */
-  filter?: ListProjectsJobsFilterEnum | (string & {});
+  filter?: ListProjectsJobsFilterEnum | (string & {}) | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
-  location?: string;
+  location?: string | undefined;
   /** The project which owns the jobs. */
   projectId: string;
   /** Optional. The job name. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. */
-  regionalFanoutRequested?: boolean;
+  regionalFanoutRequested?: boolean | undefined;
   /** If there are many jobs, limit response to at most this many. The actual number of jobs returned will be the lesser of max_responses and an unspecified server-defined limit. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Set this to the 'next_page_token' field of a previous response to request additional results in a long list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ListProjectsJobsMessagesMinimumImportanceEnum =
   | "JOB_MESSAGE_IMPORTANCE_UNKNOWN"
@@ -2269,21 +2275,21 @@ export type ListProjectsJobsMessagesMinimumImportanceEnum =
   | "JOB_MESSAGE_ERROR";
 export interface ListProjectsJobsMessagesRequest {
   /** Return only messages with timestamps < end_time. The default is now (i.e. return up to the latest messages available). */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
-  location?: string;
+  location?: string | undefined;
   /** A project id. */
   projectId: string;
   /** The job to get messages about. */
   jobId: string;
   /** If specified, determines the maximum number of messages to return. If unspecified, the service may choose an appropriate default, or may return an arbitrarily large number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Filter to only get messages with importance >= level */
-  minimumImportance?: ListProjectsJobsMessagesMinimumImportanceEnum | (string & {});
+  minimumImportance?: ListProjectsJobsMessagesMinimumImportanceEnum | (string & {}) | undefined;
   /** If supplied, this should be the value of next_page_token returned by an earlier call. This will cause the next page of results to be returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** If specified, return only messages with timestamps >= start_time. The default is the job creation time (i.e. beginning of messages). */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export type JobMessageMessageImportanceEnum =
   | "JOB_MESSAGE_IMPORTANCE_UNKNOWN"
@@ -2295,13 +2301,13 @@ export type JobMessageMessageImportanceEnum =
 /** A particular message pertaining to a Dataflow job. */
 export interface JobMessage {
   /** Importance level of the message. */
-  messageImportance?: JobMessageMessageImportanceEnum;
+  messageImportance?: JobMessageMessageImportanceEnum | undefined;
   /** Deprecated. */
-  id?: string;
+  id?: string | undefined;
   /** The text of the message. */
-  messageText?: string;
+  messageText?: string | undefined;
   /** The timestamp of the message. */
-  time?: string;
+  time?: string | undefined;
 }
 export type JobMessageList = Array<JobMessage>;
 export type AutoscalingEventEventTypeEnum =
@@ -2313,52 +2319,52 @@ export type AutoscalingEventEventTypeEnum =
 /** Structured data associated with this message. */
 export interface Parameter {
   /** Value for this parameter. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** Key or name for this parameter. */
-  key?: string;
+  key?: string | undefined;
 }
 export type ParameterList = Array<Parameter>;
 /** A rich message format, including a human readable string, a key for identifying the message, and structured data associated with the message for programmatic consumption. */
 export interface StructuredMessage {
   /** Human-readable version of message. */
-  messageText?: string;
+  messageText?: string | undefined;
   /** The structured data associated with this message. */
-  parameters?: ParameterList;
+  parameters?: ParameterList | undefined;
   /** Identifier for this message type. Used by external systems to internationalize or personalize message. */
-  messageKey?: string;
+  messageKey?: string | undefined;
 }
 /** A structured message reporting an autoscaling decision made by the Dataflow service. */
 export interface AutoscalingEvent {
   /** The current number of workers the job has. */
-  currentNumWorkers?: string;
+  currentNumWorkers?: string | undefined;
   /** The type of autoscaling event to report. */
-  eventType?: AutoscalingEventEventTypeEnum;
+  eventType?: AutoscalingEventEventTypeEnum | undefined;
   /** A short and friendly name for the worker pool this event refers to. */
-  workerPool?: string;
+  workerPool?: string | undefined;
   /** A message describing why the system decided to adjust the current number of workers, why it failed, or why the system decided to not make any changes to the number of workers. */
-  description?: StructuredMessage;
+  description?: StructuredMessage | undefined;
   /** The time this event was emitted to indicate a new target or current num_workers value. */
-  time?: string;
+  time?: string | undefined;
   /** The target number of workers the worker pool wants to resize to use. */
-  targetNumWorkers?: string;
+  targetNumWorkers?: string | undefined;
 }
 export type AutoscalingEventList = Array<AutoscalingEvent>;
 /** Response to a request to list job messages. */
 export interface ListJobMessagesResponse {
   /** Messages in ascending timestamp order. */
-  jobMessages?: JobMessageList;
+  jobMessages?: JobMessageList | undefined;
   /** The token to obtain the next page of results if there are more. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Autoscaling events in ascending timestamp order. */
-  autoscalingEvents?: AutoscalingEventList;
+  autoscalingEvents?: AutoscalingEventList | undefined;
 }
 export interface ListProjectsLocationsConfigStoreSettingsRequest {
   /** Optional. A page token, received from a previous `ListConfigStoreSettings` call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent resource whose settings are being listed. */
   parent: string;
   /** Optional. The maximum number of settings to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ListProjectsLocationsJobsViewEnum =
   | "JOB_VIEW_UNKNOWN"
@@ -2368,21 +2374,21 @@ export type ListProjectsLocationsJobsViewEnum =
 export type ListProjectsLocationsJobsFilterEnum = "UNKNOWN" | "ALL" | "TERMINATED" | "ACTIVE";
 export interface ListProjectsLocationsJobsRequest {
   /** Deprecated. ListJobs always returns summaries now. Use GetJob for other JobViews. */
-  view?: ListProjectsLocationsJobsViewEnum | (string & {});
+  view?: ListProjectsLocationsJobsViewEnum | (string & {}) | undefined;
   /** Optional. */
-  regionalFanoutRequested?: boolean;
+  regionalFanoutRequested?: boolean | undefined;
   /** The project which owns the jobs. */
   projectId: string;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
   location: string;
   /** Optional. The job name. */
-  name?: string;
+  name?: string | undefined;
   /** The kind of filter to use. */
-  filter?: ListProjectsLocationsJobsFilterEnum | (string & {});
+  filter?: ListProjectsLocationsJobsFilterEnum | (string & {}) | undefined;
   /** If there are many jobs, limit response to at most this many. The actual number of jobs returned will be the lesser of max_responses and an unspecified server-defined limit. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Set this to the 'next_page_token' field of a previous response to request additional results in a long list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ListProjectsLocationsJobsMessagesMinimumImportanceEnum =
   | "JOB_MESSAGE_IMPORTANCE_UNKNOWN"
@@ -2393,15 +2399,18 @@ export type ListProjectsLocationsJobsMessagesMinimumImportanceEnum =
   | "JOB_MESSAGE_ERROR";
 export interface ListProjectsLocationsJobsMessagesRequest {
   /** If supplied, this should be the value of next_page_token returned by an earlier call. This will cause the next page of results to be returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** If specified, return only messages with timestamps >= start_time. The default is the job creation time (i.e. beginning of messages). */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Filter to only get messages with importance >= level */
-  minimumImportance?: ListProjectsLocationsJobsMessagesMinimumImportanceEnum | (string & {});
+  minimumImportance?:
+    | ListProjectsLocationsJobsMessagesMinimumImportanceEnum
+    | (string & {})
+    | undefined;
   /** If specified, determines the maximum number of messages to return. If unspecified, the service may choose an appropriate default, or may return an arbitrarily large number of results. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Return only messages with timestamps < end_time. The default is now (i.e. return up to the latest messages available). */
-  endTime?: string;
+  endTime?: string | undefined;
   /** A project id. */
   projectId: string;
   /** The job to get messages about. */
@@ -2421,11 +2430,11 @@ export type SnapshotList = Array<Snapshot>;
 /** List of snapshots. */
 export interface ListSnapshotsResponse {
   /** Returned snapshots. */
-  snapshots?: SnapshotList;
+  snapshots?: SnapshotList | undefined;
 }
 export interface ListProjectsLocationsSnapshotsRequest {
   /** If specified, list snapshots created from this job. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** The project ID to list snapshots for. */
   projectId: string;
   /** The location to list snapshots in. */
@@ -2433,9 +2442,9 @@ export interface ListProjectsLocationsSnapshotsRequest {
 }
 export interface ListProjectsSnapshotsRequest {
   /** If specified, list snapshots created from this job. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** The location to list snapshots in. */
-  location?: string;
+  location?: string | undefined;
   /** The project ID to list snapshots for. */
   projectId: string;
 }
@@ -2452,9 +2461,9 @@ export type DerivedSourceDerivationModeEnum =
 /** Specification of one of the bundles produced as a result of splitting a Source (e.g. when executing a SourceSplitRequest, or when splitting an active task using WorkItemStatus.dynamic_source_split), relative to the source being split. */
 export interface DerivedSource {
   /** Specification of the source. */
-  source?: Source;
+  source?: Source | undefined;
   /** What source to base the produced source on (if any). */
-  derivationMode?: DerivedSourceDerivationModeEnum | (string & {});
+  derivationMode?: DerivedSourceDerivationModeEnum | (string & {}) | undefined;
 }
 export type DerivedSourceList = Array<DerivedSource>;
 export type SourceSplitShardDerivationModeEnum =
@@ -2465,31 +2474,31 @@ export type SourceSplitShardDerivationModeEnum =
 /** DEPRECATED in favor of DerivedSource. */
 export interface SourceSplitShard {
   /** DEPRECATED */
-  derivationMode?: SourceSplitShardDerivationModeEnum | (string & {});
+  derivationMode?: SourceSplitShardDerivationModeEnum | (string & {}) | undefined;
   /** DEPRECATED */
-  source?: Source;
+  source?: Source | undefined;
 }
 export type SourceSplitShardList = Array<SourceSplitShard>;
 /** The response to a SourceSplitRequest. */
 export interface SourceSplitResponse {
   /** Indicates whether splitting happened and produced a list of bundles. If this is USE_CURRENT_SOURCE_AS_IS, the current source should be processed "as is" without splitting. "bundles" is ignored in this case. If this is SPLITTING_HAPPENED, then "bundles" contains a list of bundles into which the source was split. */
-  outcome?: SourceSplitResponseOutcomeEnum | (string & {});
+  outcome?: SourceSplitResponseOutcomeEnum | (string & {}) | undefined;
   /** If outcome is SPLITTING_HAPPENED, then this is a list of bundles into which the source was split. Otherwise this field is ignored. This list can be empty, which means the source represents an empty input. */
-  bundles?: DerivedSourceList;
+  bundles?: DerivedSourceList | undefined;
   /** DEPRECATED in favor of bundles. */
-  shards?: SourceSplitShardList;
+  shards?: SourceSplitShardList | undefined;
 }
 /** The result of a SourceGetMetadataOperation. */
 export interface SourceGetMetadataResponse {
   /** The computed metadata. */
-  metadata?: SourceMetadata;
+  metadata?: SourceMetadata | undefined;
 }
 /** The result of a SourceOperationRequest, specified in ReportWorkItemStatusRequest.source_operation when the work item is completed. */
 export interface SourceOperationResponse {
   /** A response to a request to split a source. */
-  split?: SourceSplitResponse;
+  split?: SourceSplitResponse | undefined;
   /** A response to a request to get metadata about a source. */
-  getMetadata?: SourceGetMetadataResponse;
+  getMetadata?: SourceGetMetadataResponse | undefined;
 }
 export type CounterMetadataKindEnum =
   | "INVALID"
@@ -2514,110 +2523,110 @@ export type CounterMetadataStandardUnitsEnum =
 /** CounterMetadata includes all static non-name non-value counter attributes. */
 export interface CounterMetadata {
   /** Counter aggregation kind. */
-  kind?: CounterMetadataKindEnum | (string & {});
+  kind?: CounterMetadataKindEnum | (string & {}) | undefined;
   /** A string referring to the unit type. */
-  otherUnits?: string;
+  otherUnits?: string | undefined;
   /** System defined Units, see above enum. */
-  standardUnits?: CounterMetadataStandardUnitsEnum | (string & {});
+  standardUnits?: CounterMetadataStandardUnitsEnum | (string & {}) | undefined;
   /** Human-readable description of the counter semantics. */
-  description?: string;
+  description?: string | undefined;
 }
 export type CounterStructuredNameOriginEnum = "SYSTEM" | "USER";
 export type CounterStructuredNamePortionEnum = "ALL" | "KEY" | "VALUE";
 /** Identifies a counter within a per-job namespace. Counters whose structured names are the same get merged into a single value for the job. */
 export interface CounterStructuredName {
   /** Counter name. Not necessarily globally-unique, but unique within the context of the other fields. Required. */
-  name?: string;
+  name?: string | undefined;
   /** Name of the optimized step being executed by the workers. */
-  componentStepName?: string;
+  componentStepName?: string | undefined;
   /** The step name requesting an operation, such as GBK. I.e. the ParDo causing a read/write from shuffle to occur, or a read from side inputs. */
-  originalRequestingStepName?: string;
+  originalRequestingStepName?: string | undefined;
   /** One of the standard Origins defined above. */
-  origin?: CounterStructuredNameOriginEnum | (string & {});
+  origin?: CounterStructuredNameOriginEnum | (string & {}) | undefined;
   /** Portion of this counter, either key or value. */
-  portion?: CounterStructuredNamePortionEnum | (string & {});
+  portion?: CounterStructuredNamePortionEnum | (string & {}) | undefined;
   /** ID of a particular worker. */
-  workerId?: string;
+  workerId?: string | undefined;
   /** System generated name of the original step in the user's graph, before optimization. */
-  originalStepName?: string;
+  originalStepName?: string | undefined;
   /** Name of the stage. An execution step contains multiple component steps. */
-  executionStepName?: string;
+  executionStepName?: string | undefined;
   /** A string containing a more specific namespace of the counter's origin. */
-  originNamespace?: string;
+  originNamespace?: string | undefined;
   /** Index of an input collection that's being read from/written to as a side input. The index identifies a step's side inputs starting by 1 (e.g. the first side input has input_index 1, the third has input_index 3). Side inputs are identified by a pair of (original_step_name, input_index). This field helps uniquely identify them. */
-  inputIndex?: number;
+  inputIndex?: number | undefined;
 }
 /** A single message which encapsulates structured name and metadata for a given counter. */
 export interface CounterStructuredNameAndMetadata {
   /** Metadata associated with a counter */
-  metadata?: CounterMetadata;
+  metadata?: CounterMetadata | undefined;
   /** Structured name of the counter. */
-  name?: CounterStructuredName;
+  name?: CounterStructuredName | undefined;
 }
 /** A representation of an int64, n, that is immune to precision loss when encoded in JSON. */
 export interface SplitInt64 {
   /** The low order bits: n & 0xffffffff. */
-  lowBits?: number;
+  lowBits?: number | undefined;
   /** The high order bits, including the sign: n >> 32. */
-  highBits?: number;
+  highBits?: number | undefined;
 }
 /** Histogram of value counts for a distribution. Buckets have an inclusive lower bound and exclusive upper bound and use "1,2,5 bucketing": The first bucket range is from [0,1) and all subsequent bucket boundaries are powers of ten multiplied by 1, 2, or 5. Thus, bucket boundaries are 0, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, ... Negative values are not supported. */
 export interface Histogram {
   /** Counts of values in each bucket. For efficiency, prefix and trailing buckets with count = 0 are elided. Buckets can store the full range of values of an unsigned long, with ULLONG_MAX falling into the 59th bucket with range [1e19, 2e19). */
-  bucketCounts?: StringList_;
+  bucketCounts?: StringList_ | undefined;
   /** Starting index of first stored bucket. The non-inclusive upper-bound of the ith bucket is given by: pow(10,(i-first_bucket_offset)/3) * (1,2,5)[(i-first_bucket_offset)%3] */
-  firstBucketOffset?: number;
+  firstBucketOffset?: number | undefined;
 }
 /** A metric value representing a distribution. */
 export interface DistributionUpdate {
   /** Use an int64 since we'd prefer the added precision. If overflow is a common problem we can detect it and use an additional int64 or a double. */
-  sum?: SplitInt64;
+  sum?: SplitInt64 | undefined;
   /** The count of the number of elements present in the distribution. */
-  count?: SplitInt64;
+  count?: SplitInt64 | undefined;
   /** Use a double since the sum of squares is likely to overflow int64. */
-  sumOfSquares?: number;
+  sumOfSquares?: number | undefined;
   /** The minimum value present in the distribution. */
-  min?: SplitInt64;
+  min?: SplitInt64 | undefined;
   /** The maximum value present in the distribution. */
-  max?: SplitInt64;
+  max?: SplitInt64 | undefined;
   /** (Optional) Histogram of value counts for the distribution. */
-  histogram?: Histogram;
+  histogram?: Histogram | undefined;
 }
 /** A representation of a floating point mean metric contribution. */
 export interface FloatingPointMean {
   /** The number of values being aggregated. */
-  count?: SplitInt64;
+  count?: SplitInt64 | undefined;
   /** The sum of all values being aggregated. */
-  sum?: number;
+  sum?: number | undefined;
 }
 export type BoundedTrieNodeMap = { [key: string]: BoundedTrieNode | undefined };
 /** A single node in a BoundedTrie. */
 export interface BoundedTrieNode {
   /** Children of this node. Must be empty if truncated is true. */
-  children?: BoundedTrieNodeMap;
+  children?: BoundedTrieNodeMap | undefined;
   /** Whether this node has been truncated. A truncated leaf represents possibly many children with the same prefix. */
-  truncated?: boolean;
+  truncated?: boolean | undefined;
 }
 /** The message type used for encoding metrics of type bounded trie. */
 export interface BoundedTrie {
   /** A compact representation of all the elements in this trie. */
-  root?: BoundedTrieNode;
+  root?: BoundedTrieNode | undefined;
   /** The maximum number of elements to store before truncation. */
-  bound?: number;
+  bound?: number | undefined;
   /** A more efficient representation for metrics consisting of a single value. */
-  singleton?: StringList_;
+  singleton?: StringList_ | undefined;
 }
 /** A metric value representing temporal values of a variable. */
 export interface IntegerGauge {
   /** The value of the variable represented by this gauge. */
-  value?: SplitInt64;
+  value?: SplitInt64 | undefined;
   /** The time at which this value was measured. Measured as msecs from epoch. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 /** A metric value representing a list of strings. */
 export interface StringList {
   /** Elements of the list. */
-  elements?: StringList_;
+  elements?: StringList_ | undefined;
 }
 export type NameAndKindKindEnum =
   | "INVALID"
@@ -2633,178 +2642,178 @@ export type NameAndKindKindEnum =
 /** Basic metadata about a counter. */
 export interface NameAndKind {
   /** Name of the counter. */
-  name?: string;
+  name?: string | undefined;
   /** Counter aggregation kind. */
-  kind?: NameAndKindKindEnum | (string & {});
+  kind?: NameAndKindKindEnum | (string & {}) | undefined;
 }
 /** A representation of an integer mean metric contribution. */
 export interface IntegerMean {
   /** The sum of all values being aggregated. */
-  sum?: SplitInt64;
+  sum?: SplitInt64 | undefined;
   /** The number of values being aggregated. */
-  count?: SplitInt64;
+  count?: SplitInt64 | undefined;
 }
 export type DoubleList = Array<number>;
 /** A metric value representing a list of floating point numbers. */
 export interface FloatingPointList {
   /** Elements of the list. */
-  elements?: DoubleList;
+  elements?: DoubleList | undefined;
 }
 export type SplitInt64List = Array<SplitInt64>;
 /** A metric value representing a list of integers. */
 export interface IntegerList {
   /** Elements of the list. */
-  elements?: SplitInt64List;
+  elements?: SplitInt64List | undefined;
 }
 /** An update to a Counter sent from a worker. Next ID: 17 */
 export interface CounterUpdate {
   /** Counter structured name and metadata. */
-  structuredNameAndMetadata?: CounterStructuredNameAndMetadata;
+  structuredNameAndMetadata?: CounterStructuredNameAndMetadata | undefined;
   /** The service-generated short identifier for this counter. The short_id -> (name, metadata) mapping is constant for the lifetime of a job. */
-  shortId?: string;
+  shortId?: string | undefined;
   /** Distribution data */
-  distribution?: DistributionUpdate;
+  distribution?: DistributionUpdate | undefined;
   /** Value for internally-defined counters used by the Dataflow service. */
-  internal?: unknown;
+  internal?: unknown | undefined;
   /** True if this counter is reported as the total cumulative aggregate value accumulated since the worker started working on this WorkItem. By default this is false, indicating that this counter is reported as a delta. */
-  cumulative?: boolean;
+  cumulative?: boolean | undefined;
   /** Floating point mean aggregation value for Mean. */
-  floatingPointMean?: FloatingPointMean;
+  floatingPointMean?: FloatingPointMean | undefined;
   /** Bounded trie data */
-  boundedTrie?: BoundedTrie;
+  boundedTrie?: BoundedTrie | undefined;
   /** Integer value for Sum, Max, Min. */
-  integer?: SplitInt64;
+  integer?: SplitInt64 | undefined;
   /** Boolean value for And, Or. */
-  boolean?: boolean;
+  boolean?: boolean | undefined;
   /** Gauge data */
-  integerGauge?: IntegerGauge;
+  integerGauge?: IntegerGauge | undefined;
   /** List of strings, for Set. */
-  stringList?: StringList;
+  stringList?: StringList | undefined;
   /** Floating point value for Sum, Max, Min. */
-  floatingPoint?: number;
+  floatingPoint?: number | undefined;
   /** Counter name and aggregation type. */
-  nameAndKind?: NameAndKind;
+  nameAndKind?: NameAndKind | undefined;
   /** Integer mean aggregation value for Mean. */
-  integerMean?: IntegerMean;
+  integerMean?: IntegerMean | undefined;
   /** List of floating point numbers, for Set. */
-  floatingPointList?: FloatingPointList;
+  floatingPointList?: FloatingPointList | undefined;
   /** List of integers, for Set. */
-  integerList?: IntegerList;
+  integerList?: IntegerList | undefined;
 }
 export type CounterUpdateList = Array<CounterUpdate>;
 /** A position that encapsulates an inner position and an index for the inner position. A ConcatPosition can be used by a reader of a source that encapsulates a set of other sources. */
 export interface ConcatPosition {
   /** Index of the inner source. */
-  index?: number;
+  index?: number | undefined;
   /** Position within the inner source. */
-  position?: Position;
+  position?: Position | undefined;
 }
 /** Position defines a position within a collection of data. The value can be either the end position, a key (used with ordered collections), a byte offset, or a record index. */
 export interface Position {
   /** CloudPosition is a base64 encoded BatchShufflePosition (with FIXED sharding). */
-  shufflePosition?: string;
+  shufflePosition?: string | undefined;
   /** Position is a record index. */
-  recordIndex?: string;
+  recordIndex?: string | undefined;
   /** Position is past all other positions. Also useful for the end position of an unbounded range. */
-  end?: boolean;
+  end?: boolean | undefined;
   /** Position is a string key, ordered lexicographically. */
-  key?: string;
+  key?: string | undefined;
   /** Position is a byte offset. */
-  byteOffset?: string;
+  byteOffset?: string | undefined;
   /** CloudPosition is a concat position. */
-  concatPosition?: ConcatPosition;
+  concatPosition?: ConcatPosition | undefined;
 }
 /** Represents the level of parallelism in a WorkItem's input, reported by the worker. */
 export interface ReportedParallelism {
   /** Specifies the level of parallelism in case it is finite. */
-  value?: number;
+  value?: number | undefined;
   /** Specifies whether the parallelism is infinite. If true, "value" is ignored. Infinite parallelism means the service will assume that the work item can always be split into more non-empty work items by dynamic splitting. This is a work-around for lack of support for infinity by the current JSON-based Java RPC stack. */
-  isInfinite?: boolean;
+  isInfinite?: boolean | undefined;
 }
 /** A progress measurement of a WorkItem by a worker. */
 export interface ApproximateReportedProgress {
   /** Completion as fraction of the input consumed, from 0.0 (beginning, nothing consumed), to 1.0 (end of the input, entire input consumed). */
-  fractionConsumed?: number;
+  fractionConsumed?: number | undefined;
   /** Total amount of parallelism in the input of this task that remains, (i.e. can be delegated to this task and any new tasks via dynamic splitting). Always at least 1 for non-finished work items and 0 for finished. "Amount of parallelism" refers to how many non-empty parts of the input can be read in parallel. This does not necessarily equal number of records. An input that can be read in parallel down to the individual records is called "perfectly splittable". An example of non-perfectly parallelizable input is a block-compressed file format where a block of records has to be read as a whole, but different blocks can be read in parallel. Examples: * If we are processing record #30 (starting at 1) out of 50 in a perfectly splittable 50-record input, this value should be 21 (20 remaining + 1 current). * If we are reading through block 3 in a block-compressed file consisting of 5 blocks, this value should be 3 (since blocks 4 and 5 can be processed in parallel by new tasks via dynamic splitting and the current task remains processing block 3). * If we are reading through the last block in a block-compressed file, or reading or processing the last record in a perfectly splittable input, this value should be 1, because apart from the current task, no additional remainder can be split off. */
-  remainingParallelism?: ReportedParallelism;
+  remainingParallelism?: ReportedParallelism | undefined;
   /** Total amount of parallelism in the portion of input of this task that has already been consumed and is no longer active. In the first two examples above (see remaining_parallelism), the value should be 29 or 2 respectively. The sum of remaining_parallelism and consumed_parallelism should equal the total amount of parallelism in this work item. If specified, must be finite. */
-  consumedParallelism?: ReportedParallelism;
+  consumedParallelism?: ReportedParallelism | undefined;
   /** A Position within the work to represent a progress. */
-  position?: Position;
+  position?: Position | undefined;
 }
 /** When a task splits using WorkItemStatus.dynamic_source_split, this message describes the two parts of the split relative to the description of the current task's input. */
 export interface DynamicSourceSplit {
   /** Primary part (continued to be processed by worker). Specified relative to the previously-current source. Becomes current. */
-  primary?: DerivedSource;
+  primary?: DerivedSource | undefined;
   /** Residual part (returned to the pool of work). Specified relative to the previously-current source. */
-  residual?: DerivedSource;
+  residual?: DerivedSource | undefined;
 }
 /** Obsolete in favor of ApproximateReportedProgress and ApproximateSplitRequest. */
 export interface ApproximateProgress {
   /** Obsolete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** Obsolete. */
-  position?: Position;
+  position?: Position | undefined;
   /** Obsolete. */
-  remainingTime?: string;
+  remainingTime?: string | undefined;
 }
 /** DEPRECATED in favor of DynamicSourceSplit. */
 export interface SourceFork {
   /** DEPRECATED */
-  primary?: SourceSplitShard;
+  primary?: SourceSplitShard | undefined;
   /** DEPRECATED */
-  residualSource?: DerivedSource;
+  residualSource?: DerivedSource | undefined;
   /** DEPRECATED */
-  residual?: SourceSplitShard;
+  residual?: SourceSplitShard | undefined;
   /** DEPRECATED */
-  primarySource?: DerivedSource;
+  primarySource?: DerivedSource | undefined;
 }
 /** Conveys a worker's progress through the work described by a WorkItem. */
 export interface WorkItemStatus {
   /** Specifies errors which occurred during processing. If errors are provided, and completed = true, then the WorkItem is considered to have failed. */
-  errors?: StatusList;
+  errors?: StatusList | undefined;
   /** Amount of time the worker requests for its lease. */
-  requestedLeaseDuration?: string;
+  requestedLeaseDuration?: string | undefined;
   /** If the work item represented a SourceOperationRequest, and the work is completed, contains the result of the operation. */
-  sourceOperationResponse?: SourceOperationResponse;
+  sourceOperationResponse?: SourceOperationResponse | undefined;
   /** Worker output counters for this WorkItem. */
-  counterUpdates?: CounterUpdateList;
+  counterUpdates?: CounterUpdateList | undefined;
   /** The report index. When a WorkItem is leased, the lease will contain an initial report index. When a WorkItem's status is reported to the system, the report should be sent with that report index, and the response will contain the index the worker should use for the next report. Reports received with unexpected index values will be rejected by the service. In order to preserve idempotency, the worker should not alter the contents of a report, even if the worker must submit the same report multiple times before getting back a response. The worker should not submit a subsequent report until the response for the previous report had been received from the service. */
-  reportIndex?: string;
+  reportIndex?: string | undefined;
   /** A worker may split an active map task in two parts, "primary" and "residual", continuing to process the primary part and returning the residual part into the pool of available work. This event is called a "dynamic split" and is critical to the dynamic work rebalancing feature. The two obtained sub-tasks are called "parts" of the split. The parts, if concatenated, must represent the same input as would be read by the current task if the split did not happen. The exact way in which the original task is decomposed into the two parts is specified either as a position demarcating them (stop_position), or explicitly as two DerivedSources, if this task consumes a user-defined source type (dynamic_source_split). The "current" task is adjusted as a result of the split: after a task with range [A, B) sends a stop_position update at C, its range is considered to be [A, C), e.g.: * Progress should be interpreted relative to the new range, e.g. "75% completed" means "75% of [A, C) completed" * The worker should interpret proposed_stop_position relative to the new range, e.g. "split at 68%" should be interpreted as "split at 68% of [A, C)". * If the worker chooses to split again using stop_position, only stop_positions in [A, C) will be accepted. * Etc. dynamic_source_split has similar semantics: e.g., if a task with source S splits using dynamic_source_split into {P, R} (where P and R must be together equivalent to S), then subsequent progress and proposed_stop_position should be interpreted relative to P, and in a potential subsequent dynamic_source_split into {P', R'}, P' and R' must be together equivalent to P, etc. */
-  stopPosition?: Position;
+  stopPosition?: Position | undefined;
   /** The worker's progress through this WorkItem. */
-  reportedProgress?: ApproximateReportedProgress;
+  reportedProgress?: ApproximateReportedProgress | undefined;
   /** Identifies the WorkItem. */
-  workItemId?: string;
+  workItemId?: string | undefined;
   /** See documentation of stop_position. */
-  dynamicSourceSplit?: DynamicSourceSplit;
+  dynamicSourceSplit?: DynamicSourceSplit | undefined;
   /** True if the WorkItem was completed (successfully or unsuccessfully). */
-  completed?: boolean;
+  completed?: boolean | undefined;
   /** DEPRECATED in favor of reported_progress. */
-  progress?: ApproximateProgress;
+  progress?: ApproximateProgress | undefined;
   /** DEPRECATED in favor of dynamic_source_split. */
-  sourceFork?: SourceFork;
+  sourceFork?: SourceFork | undefined;
   /** DEPRECATED in favor of counter_updates. */
-  metricUpdates?: MetricUpdateList;
+  metricUpdates?: MetricUpdateList | undefined;
   /** Total time the worker spent being throttled by external systems. */
-  totalThrottlerWaitTimeSeconds?: number;
+  totalThrottlerWaitTimeSeconds?: number | undefined;
 }
 export type WorkItemStatusList = Array<WorkItemStatus>;
 /** Request to report the status of WorkItems. */
 export interface ReportWorkItemStatusRequest {
   /** The ID of the worker reporting the WorkItem status. If this does not match the ID of the worker which the Dataflow service believes currently has the lease on the WorkItem, the report will be dropped (with an error response). */
-  workerId?: string;
+  workerId?: string | undefined;
   /** Untranslated bag-of-bytes WorkProgressUpdateRequest from UnifiedWorker. */
-  unifiedWorkerRequest?: DocumentMap;
+  unifiedWorkerRequest?: DocumentMap | undefined;
   /** The order is unimportant, except that the order of the WorkItemServiceState messages in the ReportWorkItemStatusResponse corresponds to the order of WorkItemStatus messages here. */
-  workItemStatuses?: WorkItemStatusList;
+  workItemStatuses?: WorkItemStatusList | undefined;
   /** The current timestamp at the worker. */
-  currentWorkerTime?: string;
+  currentWorkerTime?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the WorkItem's job. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. The project number of the project which owns the WorkItem's job. */
-  projectNumber?: string;
+  projectNumber?: string | undefined;
 }
 export interface ReportStatusProjectsJobsWorkItemsRequest {
   /** The project which owns the WorkItem's job. */
@@ -2812,64 +2821,64 @@ export interface ReportStatusProjectsJobsWorkItemsRequest {
   /** The job which the WorkItem is part of. */
   jobId: string;
   /** Request body */
-  body?: ReportWorkItemStatusRequest;
+  body?: ReportWorkItemStatusRequest | undefined;
 }
 /** The metric short id is returned to the user alongside an offset into ReportWorkItemStatusRequest */
 export interface MetricShortId {
   /** The service-generated short identifier for the metric. */
-  shortId?: string;
+  shortId?: string | undefined;
   /** The index of the corresponding metric in the ReportWorkItemStatusRequest. Required. */
-  metricIndex?: number;
+  metricIndex?: number | undefined;
 }
 export type MetricShortIdList = Array<MetricShortId>;
 /** A suggestion by the service to the worker to dynamically split the WorkItem. */
 export interface ApproximateSplitRequest {
   /** The fraction of the remainder of work to split the work item at, from 0.0 (split at the current position) to 1.0 (end of the input). */
-  fractionOfRemainder?: number;
+  fractionOfRemainder?: number | undefined;
   /** A Position at which to split the work item. */
-  position?: Position;
+  position?: Position | undefined;
   /** A fraction at which to split the work item, from 0.0 (beginning of the input) to 1.0 (end of the input). */
-  fractionConsumed?: number;
+  fractionConsumed?: number | undefined;
 }
 /** Proto describing a hot key detected on a given WorkItem. */
 export interface HotKeyDetection {
   /** System-defined name of the step containing this hot key. Unique across the workflow. */
-  systemName?: string;
+  systemName?: string | undefined;
   /** The age of the hot key measured from when it was first detected. */
-  hotKeyAge?: string;
+  hotKeyAge?: string | undefined;
   /** User-provided name of the step that contains this hot key. */
-  userStepName?: string;
+  userStepName?: string | undefined;
 }
 /** The Dataflow service's idea of the current state of a WorkItem being processed by a worker. */
 export interface WorkItemServiceState {
   /** Obsolete, always empty. */
-  suggestedStopPosition?: Position;
+  suggestedStopPosition?: Position | undefined;
   /** Time at which the current lease will expire. */
-  leaseExpireTime?: string;
+  leaseExpireTime?: string | undefined;
   /** New recommended reporting interval. */
-  reportStatusInterval?: string;
+  reportStatusInterval?: string | undefined;
   /** DEPRECATED in favor of split_request. */
-  suggestedStopPoint?: ApproximateProgress;
+  suggestedStopPoint?: ApproximateProgress | undefined;
   /** Other data returned by the service, specific to the particular worker harness. */
-  harnessData?: DocumentMap;
+  harnessData?: DocumentMap | undefined;
   /** The short ids that workers should use in subsequent metric updates. Workers should strive to use short ids whenever possible, but it is ok to request the short_id again if a worker lost track of it (e.g. if the worker is recovering from a crash). NOTE: it is possible that the response may have short ids for a subset of the metrics. */
-  metricShortId?: MetricShortIdList;
+  metricShortId?: MetricShortIdList | undefined;
   /** The progress point in the WorkItem where the Dataflow service suggests that the worker truncate the task. */
-  splitRequest?: ApproximateSplitRequest;
+  splitRequest?: ApproximateSplitRequest | undefined;
   /** If set, a request to complete the work item with the given status. This will not be set to OK, unless supported by the specific kind of WorkItem. It can be used for the backend to indicate a WorkItem must terminate, e.g., for aborting work. */
-  completeWorkStatus?: Status;
+  completeWorkStatus?: Status | undefined;
   /** A hot key is a symptom of poor data distribution in which there are enough elements mapped to a single key to impact pipeline performance. When present, this field includes metadata associated with any hot key. */
-  hotKeyDetection?: HotKeyDetection;
+  hotKeyDetection?: HotKeyDetection | undefined;
   /** The index value to use for the next report sent by the worker. Note: If the report call fails for whatever reason, the worker should reuse this index for subsequent report attempts. */
-  nextReportIndex?: string;
+  nextReportIndex?: string | undefined;
 }
 export type WorkItemServiceStateList = Array<WorkItemServiceState>;
 /** Response from a request to report the status of WorkItems. */
 export interface ReportWorkItemStatusResponse {
   /** A set of messages indicating the service-side state for each WorkItem whose status was reported, in the same order as the WorkItemStatus messages in the ReportWorkItemStatusRequest which resulting in this response. */
-  workItemServiceStates?: WorkItemServiceStateList;
+  workItemServiceStates?: WorkItemServiceStateList | undefined;
   /** Untranslated bag-of-bytes WorkProgressUpdateResponse for UnifiedWorker. */
-  unifiedWorkerResponse?: DocumentMap;
+  unifiedWorkerResponse?: DocumentMap | undefined;
 }
 export interface ReportStatusProjectsLocationsJobsWorkItemsRequest {
   /** The project which owns the WorkItem's job. */
@@ -2879,7 +2888,7 @@ export interface ReportStatusProjectsLocationsJobsWorkItemsRequest {
   /** The job which the WorkItem is part of. */
   jobId: string;
   /** Request body */
-  body?: ReportWorkItemStatusRequest;
+  body?: ReportWorkItemStatusRequest | undefined;
 }
 /** Request message for ResolveConfigStoreSetting. */
 export interface ResolveConfigStoreSettingRequest {}
@@ -2887,26 +2896,26 @@ export interface ResolveFoldersLocationsConfigStoreSettingsRequest {
   /** Required. The name of the setting to resolve. */
   name: string;
   /** Request body */
-  body?: ResolveConfigStoreSettingRequest;
+  body?: ResolveConfigStoreSettingRequest | undefined;
 }
 /** Response message for ResolveConfigStoreSetting. */
 export interface ResolveConfigStoreSettingResponse {
   /** The list of settings that were considered during resolution. */
-  choices?: ConfigStoreSettingList;
+  choices?: ConfigStoreSettingList | undefined;
   /** The dry-run setting result. */
-  setting?: ConfigStoreSetting;
+  setting?: ConfigStoreSetting | undefined;
 }
 export interface ResolveOrganizationsLocationsConfigStoreSettingsRequest {
   /** Required. The name of the setting to resolve. */
   name: string;
   /** Request body */
-  body?: ResolveConfigStoreSettingRequest;
+  body?: ResolveConfigStoreSettingRequest | undefined;
 }
 export interface ResolveProjectsLocationsConfigStoreSettingsRequest {
   /** Required. The name of the setting to resolve. */
   name: string;
   /** Request body */
-  body?: ResolveConfigStoreSettingRequest;
+  body?: ResolveConfigStoreSettingRequest | undefined;
 }
 export type SendDebugCaptureRequestDataFormatEnum =
   | "DATA_FORMAT_UNSPECIFIED"
@@ -2917,15 +2926,15 @@ export type SendDebugCaptureRequestDataFormatEnum =
 /** Request to send encoded debug information. Next ID: 8 */
 export interface SendDebugCaptureRequest {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job specified by job_id. */
-  location?: string;
+  location?: string | undefined;
   /** The internal component id for which debug information is sent. */
-  componentId?: string;
+  componentId?: string | undefined;
   /** The worker id, i.e., VM hostname. */
-  workerId?: string;
+  workerId?: string | undefined;
   /** The encoded debug information. */
-  data?: string;
+  data?: string | undefined;
   /** Format for the data field above (id=5). */
-  dataFormat?: SendDebugCaptureRequestDataFormatEnum | (string & {});
+  dataFormat?: SendDebugCaptureRequestDataFormatEnum | (string & {}) | undefined;
 }
 export interface SendCaptureProjectsJobsDebugRequest {
   /** The job id. */
@@ -2933,7 +2942,7 @@ export interface SendCaptureProjectsJobsDebugRequest {
   /** The project id. */
   projectId: string;
   /** Request body */
-  body?: SendDebugCaptureRequest;
+  body?: SendDebugCaptureRequest | undefined;
 }
 /** Response to a send capture request. nothing */
 export interface SendDebugCaptureResponse {}
@@ -2945,18 +2954,18 @@ export interface SendCaptureProjectsLocationsJobsDebugRequest {
   /** The project id. */
   projectId: string;
   /** Request body */
-  body?: SendDebugCaptureRequest;
+  body?: SendDebugCaptureRequest | undefined;
 }
 /** Request to create a snapshot of a job. */
 export interface SnapshotJobRequest {
   /** The location that contains this job. */
-  location?: string;
+  location?: string | undefined;
   /** If true, perform snapshots for sources which support this. */
-  snapshotSources?: boolean;
+  snapshotSources?: boolean | undefined;
   /** TTL for the snapshot. */
-  ttl?: string;
+  ttl?: string | undefined;
   /** User specified description of the snapshot. Maybe empty. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface SnapshotProjectsJobsRequest {
   /** The project which owns the job to be snapshotted. */
@@ -2964,7 +2973,7 @@ export interface SnapshotProjectsJobsRequest {
   /** The job to be snapshotted. */
   jobId: string;
   /** Request body */
-  body?: SnapshotJobRequest;
+  body?: SnapshotJobRequest | undefined;
 }
 export interface SnapshotProjectsLocationsJobsRequest {
   /** The project which owns the job to be snapshotted. */
@@ -2974,19 +2983,19 @@ export interface SnapshotProjectsLocationsJobsRequest {
   /** The job to be snapshotted. */
   jobId: string;
   /** Request body */
-  body?: SnapshotJobRequest;
+  body?: SnapshotJobRequest | undefined;
 }
 export interface UpdateProjectsJobsRequest {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
-  location?: string;
+  location?: string | undefined;
   /** The list of fields to update relative to Job. If empty, only RequestedJobState will be considered for update. If the FieldMask is not empty and RequestedJobState is none/empty, The fields specified in the update mask will be the only ones considered for update. If both RequestedJobState and update_mask are specified, an error will be returned as we cannot update both state and mask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** The job ID. */
   jobId: string;
   /** The ID of the Cloud Platform project that the job belongs to. */
   projectId: string;
   /** Request body */
-  body?: Job;
+  body?: Job | undefined;
 }
 export interface UpdateProjectsLocationsJobsRequest {
   /** The ID of the Cloud Platform project that the job belongs to. */
@@ -2994,205 +3003,205 @@ export interface UpdateProjectsLocationsJobsRequest {
   /** The job ID. */
   jobId: string;
   /** The list of fields to update relative to Job. If empty, only RequestedJobState will be considered for update. If the FieldMask is not empty and RequestedJobState is none/empty, The fields specified in the update mask will be the only ones considered for update. If both RequestedJobState and update_mask are specified, an error will be returned as we cannot update both state and mask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains this job. */
   location: string;
   /** Request body */
-  body?: Job;
+  body?: Job | undefined;
 }
 /** Contains per-user worker telemetry used in streaming autoscaling. */
 export interface StreamingScalingReport {
-  outstandingBytesCount?: number;
-  maximumBytesCount?: number;
+  outstandingBytesCount?: number | undefined;
+  maximumBytesCount?: number | undefined;
   /** Current outstanding bytes. */
-  outstandingBytes?: string;
+  outstandingBytes?: string | undefined;
   /** Current outstanding bundle count. */
-  outstandingBundleCount?: number;
+  outstandingBundleCount?: number | undefined;
   /** Maximum thread count limit. */
-  maximumThreadCount?: number;
+  maximumThreadCount?: number | undefined;
   /** Maximum bytes. */
-  maximumBytes?: string;
+  maximumBytes?: string | undefined;
   /** Maximum bundle count. */
-  maximumBundleCount?: number;
+  maximumBundleCount?: number | undefined;
   /** Current acive thread count. */
-  activeThreadCount?: number;
-  activeBundleCount?: number;
+  activeThreadCount?: number | undefined;
+  activeBundleCount?: number | undefined;
 }
 /** Information about the memory usage of a worker or a container within a worker. */
 export interface MemInfo {
   /** Total memory (RSS) usage since start up in GB * ms. */
-  totalGbMs?: string;
+  totalGbMs?: string | undefined;
   /** Instantenous memory (RSS) size in bytes. */
-  currentRssBytes?: string;
+  currentRssBytes?: string | undefined;
   /** Number of Out of Memory (OOM) events recorded since the previous measurement. */
-  currentOoms?: string;
+  currentOoms?: string | undefined;
   /** Timestamp of the measurement. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Instantenous memory limit in bytes. */
-  currentLimitBytes?: string;
+  currentLimitBytes?: string | undefined;
 }
 export type MemInfoList = Array<MemInfo>;
 export type ResourceUtilizationReportMap = { [key: string]: ResourceUtilizationReport | undefined };
 /** Utilization details about the GPU. */
 export interface GPUUtilization {
   /** Required. GPU utilization rate of any kernel over the last sample period in the range of [0, 1]. */
-  rate?: number;
+  rate?: number | undefined;
 }
 /** Information about the GPU usage on the worker. */
 export interface GPUUsage {
   /** Required. Utilization info about the GPU. */
-  utilization?: GPUUtilization;
+  utilization?: GPUUtilization | undefined;
   /** Required. Timestamp of the measurement. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 export type GPUUsageList = Array<GPUUsage>;
 /** Modeled after information exposed by /proc/stat. */
 export interface CPUTime {
   /** Total active CPU time across all cores (ie., non-idle) in milliseconds since start-up. */
-  totalMs?: string;
+  totalMs?: string | undefined;
   /** Timestamp of the measurement. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Average CPU utilization rate (% non-idle cpu / second) since previous sample. */
-  rate?: number;
+  rate?: number | undefined;
 }
 export type CPUTimeList = Array<CPUTime>;
 /** Worker metrics exported from workers. This contains resource utilization metrics accumulated from a variety of sources. For more information, see go/df-resource-signals. */
 export interface ResourceUtilizationReport {
   /** Memory utilization samples. */
-  memoryInfo?: MemInfoList;
+  memoryInfo?: MemInfoList | undefined;
   /** Per container information. Key: container name. */
-  containers?: ResourceUtilizationReportMap;
+  containers?: ResourceUtilizationReportMap | undefined;
   /** Optional. GPU usage samples. */
-  gpuUsage?: GPUUsageList;
+  gpuUsage?: GPUUsageList | undefined;
   /** CPU utilization samples. */
-  cpuTime?: CPUTimeList;
+  cpuTime?: CPUTimeList | undefined;
 }
 /** WorkerHealthReport contains information about the health of a worker. The VM should be identified by the labels attached to the WorkerMessage that this health ping belongs to. */
 export interface WorkerHealthReport {
   /** The time the VM was booted. */
-  vmStartupTime?: string;
+  vmStartupTime?: string | undefined;
   /** The pods running on the worker. See: http://kubernetes.io/v1.1/docs/api-reference/v1/definitions.html#_v1_pod This field is used by the worker to send the status of the indvidual containers running on each worker. */
-  pods?: DocumentMapList;
+  pods?: DocumentMapList | undefined;
   /** Code to describe a specific reason, if known, that a VM has reported broken state. */
-  vmBrokenCode?: string;
+  vmBrokenCode?: string | undefined;
   /** Whether the VM is in a permanently broken state. Broken VMs should be abandoned or deleted ASAP to avoid assigning or completing any work. */
-  vmIsBroken?: boolean;
+  vmIsBroken?: boolean | undefined;
   /** Message describing any unusual health reports. */
-  msg?: string;
+  msg?: string | undefined;
   /** The interval at which the worker is sending health reports. The default value of 0 should be interpreted as the field is not being explicitly set by the worker. */
-  reportInterval?: string;
+  reportInterval?: string | undefined;
   /** Whether the VM is currently healthy. */
-  vmIsHealthy?: boolean;
+  vmIsHealthy?: boolean | undefined;
 }
 /** Contains per-worker telemetry about the data sampling feature. */
 export interface DataSamplingReport {
   /** Optional. Delta of errors counts from retrieving, or translating the samples from previous report. */
-  translationErrorsCount?: string;
+  translationErrorsCount?: string | undefined;
   /** Optional. Delta of bytes sampled from previous report. */
-  elementsSampledBytes?: string;
+  elementsSampledBytes?: string | undefined;
   /** Optional. Delta of bytes written to file from previous report. */
-  bytesWrittenDelta?: string;
+  bytesWrittenDelta?: string | undefined;
   /** Optional. Delta of number of PCollections sampled from previous report. */
-  pcollectionsSampledCount?: string;
+  pcollectionsSampledCount?: string | undefined;
   /** Optional. Delta of number of elements sampled from previous report. */
-  elementsSampledCount?: string;
+  elementsSampledCount?: string | undefined;
   /** Optional. Delta of number of samples taken from user code exceptions from previous report. */
-  exceptionsSampledCount?: string;
+  exceptionsSampledCount?: string | undefined;
   /** Optional. Delta of errors counts from persisting the samples from previous report. */
-  persistenceErrorsCount?: string;
+  persistenceErrorsCount?: string | undefined;
 }
 /** The gauge value of a metric. */
 export interface DataflowGaugeValue {
   /** The value of the gauge. */
-  value?: string;
+  value?: string | undefined;
   /** The timestamp when the gauge was recorded. */
-  measuredTime?: string;
+  measuredTime?: string | undefined;
 }
 /** Linear buckets with the following boundaries for indices in 0 to n-1. - i in [0, n-1]: [start + (i)*width, start + (i+1)*width) */
 export interface Linear {
   /** Distance between bucket boundaries. Must be greater than 0. */
-  width?: number;
+  width?: number | undefined;
   /** Must be greater than 0. */
-  numberOfBuckets?: number;
+  numberOfBuckets?: number | undefined;
   /** Lower bound of the first bucket. */
-  start?: number;
+  start?: number | undefined;
 }
 /** Exponential buckets where the growth factor between buckets is `2**(2**-scale)`. e.g. for `scale=1` growth factor is `2**(2**(-1))=sqrt(2)`. `n` buckets will have the following boundaries. - 0th: [0, gf) - i in [1, n-1]: [gf^(i), gf^(i+1)) */
 export interface Base2Exponent {
   /** Must be greater than 0. */
-  numberOfBuckets?: number;
+  numberOfBuckets?: number | undefined;
   /** Must be between -3 and 3. This forces the growth factor of the bucket boundaries to be between `2^(1/8)` and `256`. */
-  scale?: number;
+  scale?: number | undefined;
 }
 /** `BucketOptions` describes the bucket boundaries used in the histogram. */
 export interface BucketOptions {
   /** Bucket boundaries grow linearly. */
-  linear?: Linear;
+  linear?: Linear | undefined;
   /** Bucket boundaries grow exponentially. */
-  exponential?: Base2Exponent;
+  exponential?: Base2Exponent | undefined;
 }
 /** Statistics for the underflow and overflow bucket. */
 export interface OutlierStats {
   /** Number of values that are smaller than the lower bound of the smallest bucket. */
-  underflowCount?: string;
+  underflowCount?: string | undefined;
   /** Mean of values in the overflow bucket. */
-  overflowMean?: number;
+  overflowMean?: number | undefined;
   /** Mean of values in the undeflow bucket. */
-  underflowMean?: number;
+  underflowMean?: number | undefined;
   /** Number of values that are larger than the upper bound of the largest bucket. */
-  overflowCount?: string;
+  overflowCount?: string | undefined;
 }
 /** Summary statistics for a population of values. HistogramValue contains a sequence of buckets and gives a count of values that fall into each bucket. Bucket boundares are defined by a formula and bucket widths are either fixed or exponentially increasing. */
 export interface DataflowHistogramValue {
   /** Optional. The number of values in each bucket of the histogram, as described in `bucket_options`. `bucket_counts` should contain N values, where N is the number of buckets specified in `bucket_options`. If `bucket_counts` has fewer than N values, the remaining values are assumed to be 0. */
-  bucketCounts?: StringList_;
+  bucketCounts?: StringList_ | undefined;
   /** Number of values recorded in this histogram. */
-  count?: string;
+  count?: string | undefined;
   /** Describes the bucket boundaries used in the histogram. */
-  bucketOptions?: BucketOptions;
+  bucketOptions?: BucketOptions | undefined;
   /** Statistics on the values recorded in the histogram that fall out of the bucket boundaries. */
-  outlierStats?: OutlierStats;
+  outlierStats?: OutlierStats | undefined;
 }
 /** The value of a metric along with its name and labels. */
 export interface MetricValue {
   /** Integer value of this metric. */
-  valueInt64?: string;
+  valueInt64?: string | undefined;
   /** Non-cumulative int64 value of this metric. */
-  valueGauge64?: DataflowGaugeValue;
+  valueGauge64?: DataflowGaugeValue | undefined;
   /** Histogram value of this metric. */
-  valueHistogram?: DataflowHistogramValue;
+  valueHistogram?: DataflowHistogramValue | undefined;
   /** Optional. Set of metric labels for this metric. */
-  metricLabels?: StringMap;
+  metricLabels?: StringMap | undefined;
   /** Base name for this metric. */
-  metric?: string;
+  metric?: string | undefined;
 }
 export type MetricValueList = Array<MetricValue>;
 /** Metrics for a particular unfused step and namespace. A metric is uniquely identified by the `metrics_namespace`, `original_step`, `metric name` and `metric_labels`. */
 export interface PerStepNamespaceMetrics {
   /** The original system name of the unfused step that these metrics are reported from. */
-  originalStep?: string;
+  originalStep?: string | undefined;
   /** Optional. Metrics that are recorded for this namespace and unfused step. */
-  metricValues?: MetricValueList;
+  metricValues?: MetricValueList | undefined;
   /** The namespace of these metrics on the worker. */
-  metricsNamespace?: string;
+  metricsNamespace?: string | undefined;
 }
 export type PerStepNamespaceMetricsList = Array<PerStepNamespaceMetrics>;
 /** Per worker metrics. */
 export interface PerWorkerMetrics {
   /** Optional. Metrics for a particular unfused step and namespace. */
-  perStepNamespaceMetrics?: PerStepNamespaceMetricsList;
+  perStepNamespaceMetrics?: PerStepNamespaceMetricsList | undefined;
 }
 /** Shutdown notification from workers. This is to be sent by the shutdown script of the worker VM so that the backend knows that the VM is being shut down. */
 export interface WorkerShutdownNotice {
   /** The reason for the worker shutdown. Current possible values are: "UNKNOWN": shutdown reason is unknown. "PREEMPTION": shutdown reason is preemption. Other possible reasons may be added in the future. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** A message code is used to report status and error messages to the service. The message codes are intended to be machine readable. The service will take care of translating these into user understandable messages if necessary. Example use cases: 1. Worker processes reporting successful startup. 2. Worker processes reporting specific errors (e.g. package staging failure). */
 export interface WorkerMessageCode {
   /** The code is a string intended for consumption by a machine that identifies the type of message being sent. Examples: 1. "HARNESS_STARTED" might be used to indicate the worker harness has started. 2. "GCS_DOWNLOAD_ERROR" might be used to indicate an error downloading a Cloud Storage file as part of the boot process of one of the worker containers. This is a string and not an enum to make it easy to add new codes without waiting for an API change. */
-  code?: string;
+  code?: string | undefined;
   /** Parameters contains specific information about the code. This is a struct to allow parameters of different types. Examples: 1. For a "HARNESS_STARTED" message parameters might provide the name of the worker and additional data like timing information. 2. For a "GCS_DOWNLOAD_ERROR" parameters might contain fields listing the Cloud Storage objects being downloaded and fields containing errors. In general complex data structures should be avoided. If a worker needs to send a specific and complicated data structure then please consider defining a new proto and adding it to the data oneof in WorkerMessageResponse. Conventions: Parameters should only be used for information that isn't typically passed as a label. hostname and other worker identifiers should almost always be passed as labels since they will be included on most messages. */
-  parameters?: DocumentMap;
+  parameters?: DocumentMap | undefined;
 }
 export type WorkerLifecycleEventEventEnum =
   | "UNKNOWN_EVENT"
@@ -3206,70 +3215,70 @@ export type WorkerLifecycleEventEventEnum =
 /** A report of an event in a worker's lifecycle. The proto contains one event, because the worker is expected to asynchronously send each message immediately after the event. Due to this asynchrony, messages may arrive out of order (or missing), and it is up to the consumer to interpret. The timestamp of the event is in the enclosing WorkerMessage proto. */
 export interface WorkerLifecycleEvent {
   /** The start time of this container. All events will report this so that events can be grouped together across container/VM restarts. */
-  containerStartTime?: string;
+  containerStartTime?: string | undefined;
   /** The event being reported. */
-  event?: WorkerLifecycleEventEventEnum | (string & {});
+  event?: WorkerLifecycleEventEventEnum | (string & {}) | undefined;
   /** Other stats that can accompany an event. E.g. { "downloaded_bytes" : "123456" } */
-  metadata?: StringMap;
+  metadata?: StringMap | undefined;
 }
 /** Contains information about the thread scaling information of a worker. */
 export interface WorkerThreadScalingReport {
   /** Current number of active threads in a worker. */
-  currentThreadCount?: number;
+  currentThreadCount?: number | undefined;
 }
 /** WorkerMessage provides information to the backend about a worker. */
 export interface WorkerMessage {
   /** The timestamp of the worker_message. */
-  time?: string;
+  time?: string | undefined;
   /** Contains per-user worker telemetry used in streaming autoscaling. */
-  streamingScalingReport?: StreamingScalingReport;
+  streamingScalingReport?: StreamingScalingReport | undefined;
   /** Resource metrics reported by workers. */
-  workerMetrics?: ResourceUtilizationReport;
+  workerMetrics?: ResourceUtilizationReport | undefined;
   /** The health of a worker. */
-  workerHealthReport?: WorkerHealthReport;
+  workerHealthReport?: WorkerHealthReport | undefined;
   /** Optional. Contains metrics related to go/dataflow-data-sampling-telemetry. */
-  dataSamplingReport?: DataSamplingReport;
+  dataSamplingReport?: DataSamplingReport | undefined;
   /** System defined metrics for this worker. */
-  perWorkerMetrics?: PerWorkerMetrics;
+  perWorkerMetrics?: PerWorkerMetrics | undefined;
   /** Shutdown notice by workers. */
-  workerShutdownNotice?: WorkerShutdownNotice;
+  workerShutdownNotice?: WorkerShutdownNotice | undefined;
   /** A worker message code. */
-  workerMessageCode?: WorkerMessageCode;
+  workerMessageCode?: WorkerMessageCode | undefined;
   /** Record of worker lifecycle events. */
-  workerLifecycleEvent?: WorkerLifecycleEvent;
+  workerLifecycleEvent?: WorkerLifecycleEvent | undefined;
   /** Labels are used to group WorkerMessages. For example, a worker_message about a particular container might have the labels: { "JOB_ID": "2015-04-22", "WORKER_ID": "wordcount-vm-2015..." "CONTAINER_TYPE": "worker", "CONTAINER_ID": "ac1234def"} Label tags typically correspond to Label enum values. However, for ease of development other strings can be used as tags. LABEL_UNSPECIFIED should not be used here. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Thread scaling information reported by workers. */
-  workerThreadScalingReport?: WorkerThreadScalingReport;
+  workerThreadScalingReport?: WorkerThreadScalingReport | undefined;
 }
 export type WorkerMessageList = Array<WorkerMessage>;
 /** A request for sending worker messages to the service. */
 export interface SendWorkerMessagesRequest {
   /** The WorkerMessages to send. */
-  workerMessages?: WorkerMessageList;
+  workerMessages?: WorkerMessageList | undefined;
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface WorkerMessagesProjectsRequest {
   /** The project to send the WorkerMessages to. */
   projectId: string;
   /** Request body */
-  body?: SendWorkerMessagesRequest;
+  body?: SendWorkerMessagesRequest | undefined;
 }
 /** Contains per-user-worker streaming scaling recommendation from the backend. */
 export interface StreamingScalingReportResponse {
   /** Maximum thread count limit; */
-  maximumThreadCount?: number;
+  maximumThreadCount?: number | undefined;
 }
 /** WorkerHealthReportResponse contains information returned to the worker in response to a health ping. */
 export interface WorkerHealthReportResponse {
   /** A positive value indicates the worker should change its reporting interval to the specified value. The default value of zero means no change in report rate is requested by the server. */
-  reportInterval?: string;
+  reportInterval?: string | undefined;
 }
 /** Contains the thread scaling recommendation for a worker from the backend. */
 export interface WorkerThreadScalingReportResponse {
   /** Recommended number of threads for a worker. */
-  recommendedThreadCount?: number;
+  recommendedThreadCount?: number | undefined;
 }
 /** Service-side response to WorkerMessage reporting resource utilization. */
 export type ResourceUtilizationReportResponse = ResolveConfigStoreSettingRequest;
@@ -3278,21 +3287,21 @@ export type WorkerShutdownNoticeResponse = ResolveConfigStoreSettingRequest;
 /** A worker_message response allows the server to pass information to the sender. */
 export interface WorkerMessageResponse {
   /** Service's streaming scaling response for workers. */
-  streamingScalingReportResponse?: StreamingScalingReportResponse;
+  streamingScalingReportResponse?: StreamingScalingReportResponse | undefined;
   /** The service's response to a worker's health report. */
-  workerHealthReportResponse?: WorkerHealthReportResponse;
+  workerHealthReportResponse?: WorkerHealthReportResponse | undefined;
   /** Service's thread scaling recommendation for workers. */
-  workerThreadScalingReportResponse?: WorkerThreadScalingReportResponse;
+  workerThreadScalingReportResponse?: WorkerThreadScalingReportResponse | undefined;
   /** Service's response to reporting worker metrics (currently empty). */
-  workerMetricsResponse?: ResolveConfigStoreSettingRequest;
+  workerMetricsResponse?: ResolveConfigStoreSettingRequest | undefined;
   /** Service's response to shutdown notice (currently empty). */
-  workerShutdownNoticeResponse?: ResolveConfigStoreSettingRequest;
+  workerShutdownNoticeResponse?: ResolveConfigStoreSettingRequest | undefined;
 }
 export type WorkerMessageResponseList = Array<WorkerMessageResponse>;
 /** The response to the worker messages. */
 export interface SendWorkerMessagesResponse {
   /** The servers response to the worker messages. */
-  workerMessageResponses?: WorkerMessageResponseList;
+  workerMessageResponses?: WorkerMessageResponseList | undefined;
 }
 export interface WorkerMessagesProjectsLocationsRequest {
   /** The project to send the WorkerMessages to. */
@@ -3300,7 +3309,7 @@ export interface WorkerMessagesProjectsLocationsRequest {
   /** The [regional endpoint] (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that contains the job. */
   location: string;
   /** Request body */
-  body?: SendWorkerMessagesRequest;
+  body?: SendWorkerMessagesRequest | undefined;
 }
 export type AggregatedProjectsJobsError = NotFound | Forbidden | GcpOpError;
 /** List the jobs of a project across all regions. **Note:** This method doesn't support filtering the list of jobs by name. # IAM Permissions Requires the `dataflow.jobs.list` permission on the project. */

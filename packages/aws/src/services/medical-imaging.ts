@@ -156,7 +156,7 @@ export interface MetadataCopies {
 }
 export interface CopySourceImageSetInformation {
   latestVersionId: string;
-  DICOMCopies?: MetadataCopies;
+  DICOMCopies?: MetadataCopies | undefined;
 }
 export interface CopyDestinationImageSet {
   imageSetId: string;
@@ -164,14 +164,14 @@ export interface CopyDestinationImageSet {
 }
 export interface CopyImageSetInformation {
   sourceImageSet: CopySourceImageSetInformation;
-  destinationImageSet?: CopyDestinationImageSet;
+  destinationImageSet?: CopyDestinationImageSet | undefined;
 }
 export interface CopyImageSetRequest {
   datastoreId: string;
   sourceImageSetId: string;
   copyImageSetInformation: CopyImageSetInformation;
-  force?: boolean;
-  promoteToPrimary?: boolean;
+  force?: boolean | undefined;
+  promoteToPrimary?: boolean | undefined;
 }
 export type ImageSetState = "ACTIVE" | "LOCKED" | "DELETED" | (string & {});
 export type ImageSetWorkflowStatus =
@@ -194,20 +194,20 @@ export type Arn = string;
 export interface CopySourceImageSetProperties {
   imageSetId: string;
   latestVersionId: string;
-  imageSetState?: ImageSetState;
-  imageSetWorkflowStatus?: ImageSetWorkflowStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  imageSetArn?: string;
+  imageSetState?: ImageSetState | undefined;
+  imageSetWorkflowStatus?: ImageSetWorkflowStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  imageSetArn?: string | undefined;
 }
 export interface CopyDestinationImageSetProperties {
   imageSetId: string;
   latestVersionId: string;
-  imageSetState?: ImageSetState;
-  imageSetWorkflowStatus?: ImageSetWorkflowStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  imageSetArn?: string;
+  imageSetState?: ImageSetState | undefined;
+  imageSetWorkflowStatus?: ImageSetWorkflowStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  imageSetArn?: string | undefined;
 }
 export interface CopyImageSetResponse {
   datastoreId: string;
@@ -223,12 +223,12 @@ export type KmsKeyArn = string;
 export type LambdaArn = string;
 export type LosslessStorageFormat = "HTJ2K" | "JPEG_2000_LOSSLESS" | (string & {});
 export interface CreateDatastoreRequest {
-  datastoreName?: string;
+  datastoreName?: string | undefined;
   clientToken: string;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
-  lambdaAuthorizerArn?: string;
-  losslessStorageFormat?: LosslessStorageFormat;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
+  lambdaAuthorizerArn?: string | undefined;
+  losslessStorageFormat?: LosslessStorageFormat | undefined;
 }
 export type DatastoreStatus =
   | "CREATING"
@@ -265,12 +265,12 @@ export interface DatastoreProperties {
   datastoreId: string;
   datastoreName: string;
   datastoreStatus: DatastoreStatus;
-  kmsKeyArn?: string;
-  lambdaAuthorizerArn?: string;
-  losslessStorageFormat?: LosslessStorageFormat;
-  datastoreArn?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  kmsKeyArn?: string | undefined;
+  lambdaAuthorizerArn?: string | undefined;
+  losslessStorageFormat?: LosslessStorageFormat | undefined;
+  datastoreArn?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetDatastoreResponse {
   datastoreProperties: DatastoreProperties;
@@ -290,7 +290,7 @@ export type DICOMSeriesInstanceUID = string | redacted.Redacted<string>;
 export type MetadataFilePath = string;
 export interface DicomMetadataMapping {
   studyInstanceUID: string | redacted.Redacted<string>;
-  seriesInstanceUID?: string | redacted.Redacted<string>;
+  seriesInstanceUID?: string | redacted.Redacted<string> | undefined;
   metadataFilePath: string;
 }
 export type DicomMetadataMappings = DicomMetadataMapping[];
@@ -306,12 +306,12 @@ export interface DICOMImportJobProperties {
   jobStatus: JobStatus;
   datastoreId: string;
   dataAccessRoleArn: string;
-  endedAt?: Date;
-  submittedAt?: Date;
+  endedAt?: Date | undefined;
+  submittedAt?: Date | undefined;
   inputS3Uri: string;
   outputS3Uri: string;
-  message?: string;
-  importConfiguration?: ImportConfiguration;
+  message?: string | undefined;
+  importConfiguration?: ImportConfiguration | undefined;
 }
 export interface GetDICOMImportJobResponse {
   jobProperties: DICOMImportJobProperties;
@@ -327,15 +327,15 @@ export interface GetImageFrameRequest {
 }
 export interface GetImageFrameResponse {
   imageFrameBlob: T.StreamingOutputBody;
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface GetImageSetRequest {
   datastoreId: string;
   imageSetId: string;
-  versionId?: string;
+  versionId?: string | undefined;
 }
 export interface Overrides {
-  forced?: boolean;
+  forced?: boolean | undefined;
 }
 export type StorageTier = "FREQUENT_ACCESS" | "ARCHIVE_INSTANT_ACCESS" | (string & {});
 export interface GetImageSetResponse {
@@ -343,89 +343,89 @@ export interface GetImageSetResponse {
   imageSetId: string;
   versionId: string;
   imageSetState: ImageSetState;
-  imageSetWorkflowStatus?: ImageSetWorkflowStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  deletedAt?: Date;
-  message?: string;
-  imageSetArn?: string;
-  overrides?: Overrides;
-  isPrimary?: boolean;
-  lastAccessedAt?: Date;
-  storageTier?: StorageTier;
+  imageSetWorkflowStatus?: ImageSetWorkflowStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  deletedAt?: Date | undefined;
+  message?: string | undefined;
+  imageSetArn?: string | undefined;
+  overrides?: Overrides | undefined;
+  isPrimary?: boolean | undefined;
+  lastAccessedAt?: Date | undefined;
+  storageTier?: StorageTier | undefined;
 }
 export interface GetImageSetMetadataRequest {
   datastoreId: string;
   imageSetId: string;
-  versionId?: string;
+  versionId?: string | undefined;
 }
 export interface GetImageSetMetadataResponse {
   imageSetMetadataBlob: T.StreamingOutputBody;
-  contentType?: string;
-  contentEncoding?: string;
+  contentType?: string | undefined;
+  contentEncoding?: string | undefined;
 }
 export type NextToken = string;
 export interface ListDatastoresRequest {
-  datastoreStatus?: DatastoreStatus;
-  nextToken?: string;
-  maxResults?: number;
+  datastoreStatus?: DatastoreStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DatastoreSummary {
   datastoreId: string;
   datastoreName: string;
   datastoreStatus: DatastoreStatus;
-  datastoreArn?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  datastoreArn?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type DatastoreSummaries = DatastoreSummary[];
 export interface ListDatastoresResponse {
-  datastoreSummaries?: DatastoreSummary[];
-  nextToken?: string;
+  datastoreSummaries?: DatastoreSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDICOMImportJobsRequest {
   datastoreId: string;
-  jobStatus?: JobStatus;
-  nextToken?: string;
-  maxResults?: number;
+  jobStatus?: JobStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DICOMImportJobSummary {
   jobId: string;
   jobName: string;
   jobStatus: JobStatus;
   datastoreId: string;
-  dataAccessRoleArn?: string;
-  endedAt?: Date;
-  submittedAt?: Date;
-  message?: string;
+  dataAccessRoleArn?: string | undefined;
+  endedAt?: Date | undefined;
+  submittedAt?: Date | undefined;
+  message?: string | undefined;
 }
 export type DICOMImportJobSummaries = DICOMImportJobSummary[];
 export interface ListDICOMImportJobsResponse {
   jobSummaries: DICOMImportJobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListImageSetVersionsRequest {
   datastoreId: string;
   imageSetId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ImageSetProperties {
   imageSetId: string;
   versionId: string;
   imageSetState: ImageSetState;
-  ImageSetWorkflowStatus?: ImageSetWorkflowStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  deletedAt?: Date;
-  message?: string;
-  overrides?: Overrides;
-  isPrimary?: boolean;
+  ImageSetWorkflowStatus?: ImageSetWorkflowStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  deletedAt?: Date | undefined;
+  message?: string | undefined;
+  overrides?: Overrides | undefined;
+  isPrimary?: boolean | undefined;
 }
 export type ImageSetPropertiesList = ImageSetProperties[];
 export interface ListImageSetVersionsResponse {
   imageSetPropertiesList: ImageSetProperties[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -440,7 +440,7 @@ export type DICOMStudyDate = string | redacted.Redacted<string>;
 export type DICOMStudyTime = string | redacted.Redacted<string>;
 export interface DICOMStudyDateAndTime {
   DICOMStudyDate: string | redacted.Redacted<string>;
-  DICOMStudyTime?: string | redacted.Redacted<string>;
+  DICOMStudyTime?: string | redacted.Redacted<string> | undefined;
 }
 export type SearchByAttributeValue =
   | {
@@ -556,14 +556,14 @@ export interface Sort {
   sortField: SortField;
 }
 export interface SearchCriteria {
-  filters?: SearchFilter[];
-  sort?: Sort;
+  filters?: SearchFilter[] | undefined;
+  sort?: Sort | undefined;
 }
 export interface SearchImageSetsRequest {
   datastoreId: string;
-  searchCriteria?: SearchCriteria;
-  maxResults?: number;
-  nextToken?: string;
+  searchCriteria?: SearchCriteria | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type DICOMPatientName = string | redacted.Redacted<string>;
 export type DICOMPatientBirthDate = string | redacted.Redacted<string>;
@@ -575,49 +575,49 @@ export type DICOMSeriesModality = string | redacted.Redacted<string>;
 export type DICOMSeriesBodyPart = string | redacted.Redacted<string>;
 export type DICOMSeriesNumber = number;
 export interface DICOMTags {
-  DICOMPatientId?: string | redacted.Redacted<string>;
-  DICOMPatientName?: string | redacted.Redacted<string>;
-  DICOMPatientBirthDate?: string | redacted.Redacted<string>;
-  DICOMPatientSex?: string | redacted.Redacted<string>;
-  DICOMStudyInstanceUID?: string | redacted.Redacted<string>;
-  DICOMStudyId?: string | redacted.Redacted<string>;
-  DICOMStudyDescription?: string | redacted.Redacted<string>;
-  DICOMNumberOfStudyRelatedSeries?: number;
-  DICOMNumberOfStudyRelatedInstances?: number;
-  DICOMAccessionNumber?: string | redacted.Redacted<string>;
-  DICOMSeriesInstanceUID?: string | redacted.Redacted<string>;
-  DICOMSeriesModality?: string | redacted.Redacted<string>;
-  DICOMSeriesBodyPart?: string | redacted.Redacted<string>;
-  DICOMSeriesNumber?: number;
-  DICOMStudyDate?: string | redacted.Redacted<string>;
-  DICOMStudyTime?: string | redacted.Redacted<string>;
+  DICOMPatientId?: string | redacted.Redacted<string> | undefined;
+  DICOMPatientName?: string | redacted.Redacted<string> | undefined;
+  DICOMPatientBirthDate?: string | redacted.Redacted<string> | undefined;
+  DICOMPatientSex?: string | redacted.Redacted<string> | undefined;
+  DICOMStudyInstanceUID?: string | redacted.Redacted<string> | undefined;
+  DICOMStudyId?: string | redacted.Redacted<string> | undefined;
+  DICOMStudyDescription?: string | redacted.Redacted<string> | undefined;
+  DICOMNumberOfStudyRelatedSeries?: number | undefined;
+  DICOMNumberOfStudyRelatedInstances?: number | undefined;
+  DICOMAccessionNumber?: string | redacted.Redacted<string> | undefined;
+  DICOMSeriesInstanceUID?: string | redacted.Redacted<string> | undefined;
+  DICOMSeriesModality?: string | redacted.Redacted<string> | undefined;
+  DICOMSeriesBodyPart?: string | redacted.Redacted<string> | undefined;
+  DICOMSeriesNumber?: number | undefined;
+  DICOMStudyDate?: string | redacted.Redacted<string> | undefined;
+  DICOMStudyTime?: string | redacted.Redacted<string> | undefined;
 }
 export interface ImageSetsMetadataSummary {
   imageSetId: string;
-  version?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
-  lastAccessedAt?: Date;
-  storageTier?: StorageTier;
-  DICOMTags?: DICOMTags;
-  isPrimary?: boolean;
+  version?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  lastAccessedAt?: Date | undefined;
+  storageTier?: StorageTier | undefined;
+  DICOMTags?: DICOMTags | undefined;
+  isPrimary?: boolean | undefined;
 }
 export type ImageSetsMetadataSummaries = ImageSetsMetadataSummary[];
 export interface SearchImageSetsResponse {
   imageSetsMetadataSummaries: ImageSetsMetadataSummary[];
-  sort?: Sort;
-  nextToken?: string;
+  sort?: Sort | undefined;
+  nextToken?: string | undefined;
 }
 export type AwsAccountId = string;
 export interface StartDICOMImportJobRequest {
-  jobName?: string;
+  jobName?: string | undefined;
   dataAccessRoleArn: string;
   clientToken: string;
   datastoreId: string;
   inputS3Uri: string;
   outputS3Uri: string;
-  inputOwnerAccountId?: string;
-  importConfiguration?: ImportConfiguration;
+  inputOwnerAccountId?: string | undefined;
+  importConfiguration?: ImportConfiguration | undefined;
 }
 export interface StartDICOMImportJobResponse {
   datastoreId: string;
@@ -638,8 +638,8 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export type DICOMAttribute = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface DICOMUpdates {
-  removableAttributes?: Uint8Array | redacted.Redacted<Uint8Array>;
-  updatableAttributes?: Uint8Array | redacted.Redacted<Uint8Array>;
+  removableAttributes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  updatableAttributes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
 }
 export type MetadataUpdates =
   | { DICOMUpdates: DICOMUpdates; revertToVersionId?: never }
@@ -648,8 +648,8 @@ export interface UpdateImageSetMetadataRequest {
   datastoreId: string;
   imageSetId: string;
   latestVersionId: string;
-  force?: boolean;
-  includeStudyImageSets?: boolean;
+  force?: boolean | undefined;
+  includeStudyImageSets?: boolean | undefined;
   updateImageSetMetadataUpdates: MetadataUpdates;
 }
 export interface UpdateImageSetMetadataResponse {
@@ -657,10 +657,10 @@ export interface UpdateImageSetMetadataResponse {
   imageSetId: string;
   latestVersionId: string;
   imageSetState: ImageSetState;
-  imageSetWorkflowStatus?: ImageSetWorkflowStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  message?: string;
+  imageSetWorkflowStatus?: ImageSetWorkflowStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  message?: string | undefined;
 }
 export type CopyImageSetError =
   | AccessDeniedException

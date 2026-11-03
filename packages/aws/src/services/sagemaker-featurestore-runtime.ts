@@ -144,37 +144,37 @@ export type RecordIdentifiers = string[];
 export type FeatureName = string;
 export type FeatureNames = string[];
 export interface BatchGetRecordIdentifier {
-  FeatureGroupName?: string;
-  RecordIdentifiersValueAsString?: string[];
-  FeatureNames?: string[];
+  FeatureGroupName?: string | undefined;
+  RecordIdentifiersValueAsString?: string[] | undefined;
+  FeatureNames?: string[] | undefined;
 }
 export type BatchGetRecordIdentifiers = BatchGetRecordIdentifier[];
 export type ExpirationTimeResponse = "Enabled" | "Disabled" | (string & {});
 export interface BatchGetRecordRequest {
-  Identifiers?: BatchGetRecordIdentifier[];
-  ExpirationTimeResponse?: ExpirationTimeResponse;
+  Identifiers?: BatchGetRecordIdentifier[] | undefined;
+  ExpirationTimeResponse?: ExpirationTimeResponse | undefined;
 }
 export type ValueAsStringList = string[];
 export interface FeatureValue {
-  FeatureName?: string;
-  ValueAsString?: string;
-  ValueAsStringList?: string[];
+  FeatureName?: string | undefined;
+  ValueAsString?: string | undefined;
+  ValueAsStringList?: string[] | undefined;
 }
 export type Record = FeatureValue[];
 export type ExpiresAt = string;
 export interface BatchGetRecordResultDetail {
-  FeatureGroupName?: string;
-  RecordIdentifierValueAsString?: string;
-  Record?: FeatureValue[];
-  ExpiresAt?: string;
+  FeatureGroupName?: string | undefined;
+  RecordIdentifierValueAsString?: string | undefined;
+  Record?: FeatureValue[] | undefined;
+  ExpiresAt?: string | undefined;
 }
 export type BatchGetRecordResultDetails = BatchGetRecordResultDetail[];
 export type Message = string;
 export interface BatchGetRecordError_ {
-  FeatureGroupName?: string;
-  RecordIdentifierValueAsString?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  FeatureGroupName?: string | undefined;
+  RecordIdentifierValueAsString?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type BatchGetRecordErrors = BatchGetRecordError_[];
 export type UnprocessedIdentifiers = BatchGetRecordIdentifier[];
@@ -200,24 +200,24 @@ export type TargetStores = TargetStore[];
 export type TtlDurationUnit = "Seconds" | "Minutes" | "Hours" | "Days" | "Weeks" | (string & {});
 export type TtlDurationValue = number;
 export interface TtlDuration {
-  Unit?: TtlDurationUnit;
-  Value?: number;
+  Unit?: TtlDurationUnit | undefined;
+  Value?: number | undefined;
 }
 export interface BatchWriteRecordEntry {
-  FeatureGroupName?: string;
-  Record?: FeatureValue[];
-  TargetStores?: TargetStore[];
-  TtlDuration?: TtlDuration;
+  FeatureGroupName?: string | undefined;
+  Record?: FeatureValue[] | undefined;
+  TargetStores?: TargetStore[] | undefined;
+  TtlDuration?: TtlDuration | undefined;
 }
 export type BatchWriteRecordEntries = BatchWriteRecordEntry[];
 export interface BatchWriteRecordRequest {
-  Entries?: BatchWriteRecordEntry[];
-  TtlDuration?: TtlDuration;
+  Entries?: BatchWriteRecordEntry[] | undefined;
+  TtlDuration?: TtlDuration | undefined;
 }
 export interface BatchWriteRecordError_ {
-  Entry?: BatchWriteRecordEntry;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  Entry?: BatchWriteRecordEntry | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type BatchWriteRecordErrors = BatchWriteRecordError_[];
 export type UnprocessedBatchWriteRecordEntries = BatchWriteRecordEntry[];
@@ -240,48 +240,48 @@ export interface BatchWriteRecordResponse {
 export type DeletionMode = "SoftDelete" | "HardDelete" | (string & {});
 export interface DeleteRecordRequest {
   FeatureGroupName: string;
-  RecordIdentifierValueAsString?: string;
-  EventTime?: string;
-  TargetStores?: TargetStore[];
-  DeletionMode?: DeletionMode;
+  RecordIdentifierValueAsString?: string | undefined;
+  EventTime?: string | undefined;
+  TargetStores?: TargetStore[] | undefined;
+  DeletionMode?: DeletionMode | undefined;
 }
 export interface DeleteRecordResponse {}
 export interface GetRecordRequest {
   FeatureGroupName: string;
-  RecordIdentifierValueAsString?: string;
-  FeatureNames?: string[];
-  ExpirationTimeResponse?: ExpirationTimeResponse;
+  RecordIdentifierValueAsString?: string | undefined;
+  FeatureNames?: string[] | undefined;
+  ExpirationTimeResponse?: ExpirationTimeResponse | undefined;
 }
 export interface GetRecordResponse {
-  Record?: (FeatureValue & { FeatureName: FeatureName })[];
-  ExpiresAt?: string;
+  Record?: (FeatureValue & { FeatureName: FeatureName })[] | undefined;
+  ExpiresAt?: string | undefined;
 }
 export type ListRecordsMaxResults = number;
 export type ListRecordsNextToken = string;
 export interface ListRecordsRequest {
   FeatureGroupName: string;
-  MaxResults?: number;
-  NextToken?: string;
-  IncludeSoftDeletedRecords?: boolean;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  IncludeSoftDeletedRecords?: boolean | undefined;
 }
 export type RecordIdentifierList = string[];
 export interface ListRecordsResponse {
   RecordIdentifiers: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface PutRecordRequest {
   FeatureGroupName: string;
-  Record?: FeatureValue[];
-  TargetStores?: TargetStore[];
-  TtlDuration?: TtlDuration;
+  Record?: FeatureValue[] | undefined;
+  TargetStores?: TargetStore[] | undefined;
+  TtlDuration?: TtlDuration | undefined;
 }
 export interface PutRecordResponse {}
 export interface UpdateRecordRequest {
   FeatureGroupName: string;
-  RecordIdentifierValueAsString?: string;
-  Features?: FeatureValue[];
-  TargetStores?: TargetStore[];
-  TtlDuration?: TtlDuration;
+  RecordIdentifierValueAsString?: string | undefined;
+  Features?: FeatureValue[] | undefined;
+  TargetStores?: TargetStore[] | undefined;
+  TtlDuration?: TtlDuration | undefined;
 }
 export interface UpdateRecordResponse {}
 export type BatchGetRecordError =

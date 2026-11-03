@@ -140,7 +140,7 @@ export type ClientToken = string;
 export interface CreateBillOfMaterialsImportJobRequest {
   instanceId: string;
   s3uri: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateBillOfMaterialsImportJobResponse {
   jobId: string;
@@ -152,12 +152,12 @@ export type S3BucketName = string;
 export type DataIntegrationFlowS3Prefix = string;
 export type DataIntegrationFlowFileType = "CSV" | "PARQUET" | "JSON" | (string & {});
 export interface DataIntegrationFlowS3Options {
-  fileType?: DataIntegrationFlowFileType;
+  fileType?: DataIntegrationFlowFileType | undefined;
 }
 export interface DataIntegrationFlowS3SourceConfiguration {
   bucketName: string;
   prefix: string;
-  options?: DataIntegrationFlowS3Options;
+  options?: DataIntegrationFlowS3Options | undefined;
 }
 export type DatasetIdentifier = string;
 export type DataIntegrationFlowLoadType = "INCREMENTAL" | "REPLACE" | (string & {});
@@ -175,22 +175,22 @@ export interface DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration {
 }
 export interface DataIntegrationFlowDedupeStrategy {
   type: DataIntegrationFlowDedupeStrategyType;
-  fieldPriority?: DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration;
+  fieldPriority?: DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration | undefined;
 }
 export interface DataIntegrationFlowDatasetOptions {
-  loadType?: DataIntegrationFlowLoadType;
-  dedupeRecords?: boolean;
-  dedupeStrategy?: DataIntegrationFlowDedupeStrategy;
+  loadType?: DataIntegrationFlowLoadType | undefined;
+  dedupeRecords?: boolean | undefined;
+  dedupeStrategy?: DataIntegrationFlowDedupeStrategy | undefined;
 }
 export interface DataIntegrationFlowDatasetSourceConfiguration {
   datasetIdentifier: string;
-  options?: DataIntegrationFlowDatasetOptions;
+  options?: DataIntegrationFlowDatasetOptions | undefined;
 }
 export interface DataIntegrationFlowSource {
   sourceType: DataIntegrationFlowSourceType;
   sourceName: string;
-  s3Source?: DataIntegrationFlowS3SourceConfiguration;
-  datasetSource?: DataIntegrationFlowDatasetSourceConfiguration;
+  s3Source?: DataIntegrationFlowS3SourceConfiguration | undefined;
+  datasetSource?: DataIntegrationFlowDatasetSourceConfiguration | undefined;
 }
 export type DataIntegrationFlowSourceList = DataIntegrationFlowSource[];
 export type DataIntegrationFlowTransformationType = "SQL" | "NONE" | (string & {});
@@ -200,22 +200,22 @@ export interface DataIntegrationFlowSQLTransformationConfiguration {
 }
 export interface DataIntegrationFlowTransformation {
   transformationType: DataIntegrationFlowTransformationType;
-  sqlTransformation?: DataIntegrationFlowSQLTransformationConfiguration;
+  sqlTransformation?: DataIntegrationFlowSQLTransformationConfiguration | undefined;
 }
 export type DataIntegrationFlowTargetType = "S3" | "DATASET" | (string & {});
 export interface DataIntegrationFlowS3TargetConfiguration {
   bucketName: string;
   prefix: string;
-  options?: DataIntegrationFlowS3Options;
+  options?: DataIntegrationFlowS3Options | undefined;
 }
 export interface DataIntegrationFlowDatasetTargetConfiguration {
   datasetIdentifier: string;
-  options?: DataIntegrationFlowDatasetOptions;
+  options?: DataIntegrationFlowDatasetOptions | undefined;
 }
 export interface DataIntegrationFlowTarget {
   targetType: DataIntegrationFlowTargetType;
-  s3Target?: DataIntegrationFlowS3TargetConfiguration;
-  datasetTarget?: DataIntegrationFlowDatasetTargetConfiguration;
+  s3Target?: DataIntegrationFlowS3TargetConfiguration | undefined;
+  datasetTarget?: DataIntegrationFlowDatasetTargetConfiguration | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -226,7 +226,7 @@ export interface CreateDataIntegrationFlowRequest {
   sources: DataIntegrationFlowSource[];
   transformation: DataIntegrationFlowTransformation;
   target: DataIntegrationFlowTarget;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDataIntegrationFlowResponse {
   instanceId: string;
@@ -256,7 +256,7 @@ export type DataLakeDatasetPrimaryKeyFieldList = DataLakeDatasetPrimaryKeyField[
 export interface DataLakeDatasetSchema {
   name: string;
   fields: DataLakeDatasetSchemaField[];
-  primaryKeys?: DataLakeDatasetPrimaryKeyField[];
+  primaryKeys?: DataLakeDatasetPrimaryKeyField[] | undefined;
 }
 export type DataLakeDatasetDescription = string;
 export type DataLakeDatasetPartitionTransformType =
@@ -281,10 +281,10 @@ export interface CreateDataLakeDatasetRequest {
   instanceId: string;
   namespace: string;
   name: string;
-  schema?: DataLakeDatasetSchema;
-  description?: string;
-  partitionSpec?: DataLakeDatasetPartitionSpec;
-  tags?: { [key: string]: string | undefined };
+  schema?: DataLakeDatasetSchema | undefined;
+  description?: string | undefined;
+  partitionSpec?: DataLakeDatasetPartitionSpec | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AscResourceArn = string;
 export interface DataLakeDataset {
@@ -293,8 +293,8 @@ export interface DataLakeDataset {
   name: string;
   arn: string;
   schema: DataLakeDatasetSchema;
-  description?: string;
-  partitionSpec?: DataLakeDatasetPartitionSpec;
+  description?: string | undefined;
+  partitionSpec?: DataLakeDatasetPartitionSpec | undefined;
   createdTime: Date;
   lastModifiedTime: Date;
 }
@@ -305,14 +305,14 @@ export type DataLakeNamespaceDescription = string;
 export interface CreateDataLakeNamespaceRequest {
   instanceId: string;
   name: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DataLakeNamespace {
   instanceId: string;
   name: string;
   arn: string;
-  description?: string;
+  description?: string | undefined;
   createdTime: Date;
   lastModifiedTime: Date;
 }
@@ -324,12 +324,12 @@ export type InstanceDescription = string;
 export type KmsKeyArn = string;
 export type InstanceWebAppDnsDomain = string;
 export interface CreateInstanceRequest {
-  instanceName?: string;
-  instanceDescription?: string;
-  kmsKeyArn?: string;
-  webAppDnsDomain?: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  instanceName?: string | undefined;
+  instanceDescription?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  webAppDnsDomain?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type AwsAccountId = string;
 export type InstanceState =
@@ -344,14 +344,14 @@ export interface Instance {
   instanceId: string;
   awsAccountId: string;
   state: InstanceState;
-  errorMessage?: string;
-  webAppDnsDomain?: string;
-  createdTime?: Date;
-  lastModifiedTime?: Date;
-  instanceName?: string;
-  instanceDescription?: string;
-  kmsKeyArn?: string;
-  versionNumber?: number;
+  errorMessage?: string | undefined;
+  webAppDnsDomain?: string | undefined;
+  createdTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
+  instanceName?: string | undefined;
+  instanceDescription?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  versionNumber?: number | undefined;
 }
 export interface CreateInstanceResponse {
   instance: Instance;
@@ -404,7 +404,7 @@ export interface BillOfMaterialsImportJob {
   jobId: string;
   status: ConfigurationJobStatus;
   s3uri: string;
-  message?: string;
+  message?: string | undefined;
 }
 export interface GetBillOfMaterialsImportJobResponse {
   job: BillOfMaterialsImportJob;
@@ -445,7 +445,7 @@ export type DataIntegrationEventDatasetLoadStatus =
   | (string & {});
 export interface DataIntegrationEventDatasetLoadExecutionDetails {
   status: DataIntegrationEventDatasetLoadStatus;
-  message?: string;
+  message?: string | undefined;
 }
 export interface DataIntegrationEventDatasetTargetDetails {
   datasetIdentifier: string;
@@ -458,7 +458,7 @@ export interface DataIntegrationEvent {
   eventType: DataIntegrationEventType;
   eventGroupId: string;
   eventTimestamp: Date;
-  datasetTargetDetails?: DataIntegrationEventDatasetTargetDetails;
+  datasetTargetDetails?: DataIntegrationEventDatasetTargetDetails | undefined;
 }
 export interface GetDataIntegrationEventResponse {
   event: DataIntegrationEvent;
@@ -499,23 +499,23 @@ export interface DataIntegrationFlowDatasetSource {
 }
 export interface DataIntegrationFlowExecutionSourceInfo {
   sourceType: DataIntegrationFlowSourceType;
-  s3Source?: DataIntegrationFlowS3Source;
-  datasetSource?: DataIntegrationFlowDatasetSource;
+  s3Source?: DataIntegrationFlowS3Source | undefined;
+  datasetSource?: DataIntegrationFlowDatasetSource | undefined;
 }
 export type DataIntegrationFlowExecutionDiagnosticReportsRootS3URI = string;
 export interface DataIntegrationFlowExecutionOutputMetadata {
-  diagnosticReportsRootS3URI?: string;
+  diagnosticReportsRootS3URI?: string | undefined;
 }
 export interface DataIntegrationFlowExecution {
   instanceId: string;
   flowName: string;
   executionId: string;
-  status?: DataIntegrationFlowExecutionStatus;
-  sourceInfo?: DataIntegrationFlowExecutionSourceInfo;
-  message?: string;
-  startTime?: Date;
-  endTime?: Date;
-  outputMetadata?: DataIntegrationFlowExecutionOutputMetadata;
+  status?: DataIntegrationFlowExecutionStatus | undefined;
+  sourceInfo?: DataIntegrationFlowExecutionSourceInfo | undefined;
+  message?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  outputMetadata?: DataIntegrationFlowExecutionOutputMetadata | undefined;
 }
 export interface GetDataIntegrationFlowExecutionResponse {
   flowExecution: DataIntegrationFlowExecution;
@@ -545,79 +545,79 @@ export type DataIntegrationEventNextToken = string;
 export type DataIntegrationEventMaxResults = number;
 export interface ListDataIntegrationEventsRequest {
   instanceId: string;
-  eventType?: DataIntegrationEventType;
-  nextToken?: string;
-  maxResults?: number;
+  eventType?: DataIntegrationEventType | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DataIntegrationEventList = DataIntegrationEvent[];
 export interface ListDataIntegrationEventsResponse {
   events: DataIntegrationEvent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type DataIntegrationFlowExecutionNextToken = string;
 export type DataIntegrationFlowExecutionMaxResults = number;
 export interface ListDataIntegrationFlowExecutionsRequest {
   instanceId: string;
   flowName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DataIntegrationFlowExecutionList = DataIntegrationFlowExecution[];
 export interface ListDataIntegrationFlowExecutionsResponse {
   flowExecutions: DataIntegrationFlowExecution[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type DataIntegrationFlowNextToken = string;
 export type DataIntegrationFlowMaxResults = number;
 export interface ListDataIntegrationFlowsRequest {
   instanceId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DataIntegrationFlowList = DataIntegrationFlow[];
 export interface ListDataIntegrationFlowsResponse {
   flows: DataIntegrationFlow[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type DataLakeDatasetNextToken = string;
 export type DataLakeDatasetMaxResults = number;
 export interface ListDataLakeDatasetsRequest {
   instanceId: string;
   namespace: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DataLakeDatasetList = DataLakeDataset[];
 export interface ListDataLakeDatasetsResponse {
   datasets: DataLakeDataset[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type DataLakeNamespaceNextToken = string;
 export type DataLakeNamespaceMaxResults = number;
 export interface ListDataLakeNamespacesRequest {
   instanceId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DataLakeNamespaceList = DataLakeNamespace[];
 export interface ListDataLakeNamespacesResponse {
   namespaces: DataLakeNamespace[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type InstanceNextToken = string;
 export type InstanceMaxResults = number;
 export type InstanceNameList = string[];
 export type InstanceStateList = InstanceState[];
 export interface ListInstancesRequest {
-  nextToken?: string;
-  maxResults?: number;
-  instanceNameFilter?: string[];
-  instanceStateFilter?: InstanceState[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  instanceNameFilter?: string[] | undefined;
+  instanceStateFilter?: InstanceState[] | undefined;
 }
 export type InstanceList = Instance[];
 export interface ListInstancesResponse {
   instances: Instance[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -635,9 +635,9 @@ export interface SendDataIntegrationEventRequest {
   eventType: DataIntegrationEventType;
   data: string | redacted.Redacted<string>;
   eventGroupId: string;
-  eventTimestamp?: Date;
-  clientToken?: string;
-  datasetTarget?: DataIntegrationEventDatasetTargetConfiguration;
+  eventTimestamp?: Date | undefined;
+  clientToken?: string | undefined;
+  datasetTarget?: DataIntegrationEventDatasetTargetConfiguration | undefined;
 }
 export interface SendDataIntegrationEventResponse {
   eventId: string;
@@ -656,9 +656,9 @@ export interface UntagResourceResponse {}
 export interface UpdateDataIntegrationFlowRequest {
   instanceId: string;
   name: string;
-  sources?: DataIntegrationFlowSource[];
-  transformation?: DataIntegrationFlowTransformation;
-  target?: DataIntegrationFlowTarget;
+  sources?: DataIntegrationFlowSource[] | undefined;
+  transformation?: DataIntegrationFlowTransformation | undefined;
+  target?: DataIntegrationFlowTarget | undefined;
 }
 export interface UpdateDataIntegrationFlowResponse {
   flow: DataIntegrationFlow;
@@ -667,7 +667,7 @@ export interface UpdateDataLakeDatasetRequest {
   instanceId: string;
   namespace: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateDataLakeDatasetResponse {
   dataset: DataLakeDataset;
@@ -675,15 +675,15 @@ export interface UpdateDataLakeDatasetResponse {
 export interface UpdateDataLakeNamespaceRequest {
   instanceId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateDataLakeNamespaceResponse {
   namespace: DataLakeNamespace;
 }
 export interface UpdateInstanceRequest {
   instanceId: string;
-  instanceName?: string;
-  instanceDescription?: string;
+  instanceName?: string | undefined;
+  instanceDescription?: string | undefined;
 }
 export interface UpdateInstanceResponse {
   instance: Instance;

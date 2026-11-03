@@ -25,78 +25,78 @@ const TELEMETRY = {
 
 export type QueryAplRequestFormat = "legacy" | "tabular" | "tabular-rows";
 export interface QueryAplRequestDefaultOrderItem {
-  desc?: boolean;
-  field?: string;
+  desc?: boolean | undefined;
+  field?: string | undefined;
 }
 /** The default order to use when no order is specified in the query. */
 export type QueryAplRequestDefaultOrderList = Array<QueryAplRequestDefaultOrderItem>;
 export type QueryAplRequestLibrariesList = Array<string>;
 export interface QueryOptions {
-  against?: string;
-  againstStart?: string;
-  againstTimestamp?: string;
-  aggChartOpts?: string;
-  caseSensitive?: string;
-  containsTimeFilter?: string;
-  datasets?: string;
-  displayNull?: string;
-  editorContent?: string;
-  endColumn?: string;
-  endLineNumber?: string;
-  endTime?: string;
-  integrationsFilter?: string;
-  nanosecondPrecision?: string;
-  openIntervals?: string;
-  overlayCharts?: string;
-  queryObject?: string;
-  quickRange?: string;
-  resolution?: string;
-  resultsHistogram?: string;
-  selection?: string;
-  shownColumns?: string;
-  startColumn?: string;
-  startLineNumber?: string;
-  startTime?: string;
-  timeSeriesVariant?: string;
-  timeSeriesView?: string;
+  against?: string | undefined;
+  againstStart?: string | undefined;
+  againstTimestamp?: string | undefined;
+  aggChartOpts?: string | undefined;
+  caseSensitive?: string | undefined;
+  containsTimeFilter?: string | undefined;
+  datasets?: string | undefined;
+  displayNull?: string | undefined;
+  editorContent?: string | undefined;
+  endColumn?: string | undefined;
+  endLineNumber?: string | undefined;
+  endTime?: string | undefined;
+  integrationsFilter?: string | undefined;
+  nanosecondPrecision?: string | undefined;
+  openIntervals?: string | undefined;
+  overlayCharts?: string | undefined;
+  queryObject?: string | undefined;
+  quickRange?: string | undefined;
+  resolution?: string | undefined;
+  resultsHistogram?: string | undefined;
+  selection?: string | undefined;
+  shownColumns?: string | undefined;
+  startColumn?: string | undefined;
+  startLineNumber?: string | undefined;
+  startTime?: string | undefined;
+  timeSeriesVariant?: string | undefined;
+  timeSeriesView?: string | undefined;
 }
 /** Variables is an optional set of additional variables that are inserted into the APL */
 export type QueryAplRequestVariablesMap = { [key: string]: unknown | undefined };
 export interface QueryAplRequest {
   format: QueryAplRequestFormat | (string & {});
-  nocache?: boolean;
-  saveAsKind?: string;
+  nocache?: boolean | undefined;
+  saveAsKind?: string | undefined;
   /** when saveAsKind is true, this parameter indicates the id of the associated dataset */
-  id?: string;
-  streaming_duration?: string;
+  id?: string | undefined;
+  streaming_duration?: string | undefined;
   /** contains the source of the APL query (for example console, dashboard, etc.) */
-  apl_source?: string;
+  apl_source?: string | undefined;
   /** contains the id of the source, for example dashboard_id */
-  apl_source_id?: string;
+  apl_source_id?: string | undefined;
   /** Include a totals table (only supported in MetricsDB) */
-  totals?: boolean;
+  totals?: boolean | undefined;
   /** APL query string */
   apl: string;
   /** Pagination cursor */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The default limit to use when no limit is specified in the query. */
-  defaultLimit?: number;
+  defaultLimit?: number | undefined;
   /** The default order to use when no order is specified in the query. */
-  defaultOrder?: QueryAplRequestDefaultOrderList;
+  defaultOrder?: QueryAplRequestDefaultOrderList | undefined;
   /** End time for the query range */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Include cursor in response */
-  includeCursor?: boolean;
+  includeCursor?: boolean | undefined;
   /** Defines if the _cursor field should be projected in the result */
-  includeCursorField?: boolean;
-  libraries?: QueryAplRequestLibrariesList;
+  includeCursorField?: boolean | undefined;
+  libraries?: QueryAplRequestLibrariesList | undefined;
   /** Maximum number of groups to automatically bin into */
-  maxBinAutoGroups?: number;
-  queryOptions?: QueryOptions;
+  maxBinAutoGroups?: number | undefined;
+  queryOptions?: QueryOptions | undefined;
   /** start and end time for the query, these must be specified as RFC3339 strings or using relative time expressions (e.g. now-1h, now-1d, now-1w, etc) */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Variables is an optional set of additional variables that are inserted into the APL */
-  variables?: QueryAplRequestVariablesMap;
+  variables?: QueryAplRequestVariablesMap | undefined;
 }
 export type QueryAplResponse = unknown;
 export type QueryAplError = AxiomOpError;

@@ -149,7 +149,7 @@ export class ThrottledRequestException
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export interface WhatsAppSignupCallback {
   accessToken: string | redacted.Redacted<string>;
-  callbackUrl?: string;
+  callbackUrl?: string | undefined;
 }
 export type AssociateInProgressToken = string | redacted.Redacted<string>;
 export type WhatsAppPhoneNumber = string;
@@ -157,14 +157,14 @@ export type TwoFactorPin = string | redacted.Redacted<string>;
 export type IsoCountryCode = string;
 export interface Tag {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface WabaPhoneNumberSetupFinalization {
   id: string;
   twoFactorPin: string | redacted.Redacted<string>;
-  dataLocalizationRegion?: string;
-  tags?: Tag[];
+  dataLocalizationRegion?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type WabaPhoneNumberSetupFinalizationList = WabaPhoneNumberSetupFinalization[];
 export type LinkedWhatsAppBusinessAccountId = string;
@@ -173,23 +173,23 @@ export type EventDestinationArn = string;
 export type RoleArn = string;
 export interface WhatsAppBusinessAccountEventDestination {
   eventDestinationArn: string;
-  roleArn?: string;
+  roleArn?: string | undefined;
 }
 export type WhatsAppBusinessAccountEventDestinations = WhatsAppBusinessAccountEventDestination[];
 export interface WabaSetupFinalization {
-  id?: string;
-  eventDestinations?: WhatsAppBusinessAccountEventDestination[];
-  tags?: Tag[];
+  id?: string | undefined;
+  eventDestinations?: WhatsAppBusinessAccountEventDestination[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface WhatsAppSetupFinalization {
   associateInProgressToken: string | redacted.Redacted<string>;
   phoneNumbers: WabaPhoneNumberSetupFinalization[];
-  phoneNumberParent?: string;
-  waba?: WabaSetupFinalization;
+  phoneNumberParent?: string | undefined;
+  waba?: WabaSetupFinalization | undefined;
 }
 export interface AssociateWhatsAppBusinessAccountInput {
-  signupCallback?: WhatsAppSignupCallback;
-  setupFinalization?: WhatsAppSetupFinalization;
+  signupCallback?: WhatsAppSignupCallback | undefined;
+  setupFinalization?: WhatsAppSetupFinalization | undefined;
 }
 export type WhatsAppBusinessAccountName = string;
 export type RegistrationStatus = "COMPLETE" | "INCOMPLETE" | (string & {});
@@ -207,28 +207,28 @@ export interface WhatsAppPhoneNumberDetail {
   displayPhoneNumberName: string;
   displayPhoneNumber: string;
   qualityRating: string;
-  dataLocalizationRegion?: string;
+  dataLocalizationRegion?: string | undefined;
 }
 export type WhatsAppPhoneNumberDetailList = WhatsAppPhoneNumberDetail[];
 export interface LinkedWhatsAppBusinessAccountIdMetaData {
-  accountName?: string;
-  registrationStatus?: RegistrationStatus;
-  unregisteredWhatsAppPhoneNumbers?: WhatsAppPhoneNumberDetail[];
-  wabaId?: string;
+  accountName?: string | undefined;
+  registrationStatus?: RegistrationStatus | undefined;
+  unregisteredWhatsAppPhoneNumbers?: WhatsAppPhoneNumberDetail[] | undefined;
+  wabaId?: string | undefined;
 }
 export type LinkedAccountWithIncompleteSetup = {
   [key: string]: LinkedWhatsAppBusinessAccountIdMetaData | undefined;
 };
 export interface WhatsAppSignupCallbackResult {
-  associateInProgressToken?: string | redacted.Redacted<string>;
-  linkedAccountsWithIncompleteSetup?: {
-    [key: string]: LinkedWhatsAppBusinessAccountIdMetaData | undefined;
-  };
+  associateInProgressToken?: string | redacted.Redacted<string> | undefined;
+  linkedAccountsWithIncompleteSetup?:
+    | { [key: string]: LinkedWhatsAppBusinessAccountIdMetaData | undefined }
+    | undefined;
 }
 export interface AssociateWhatsAppBusinessAccountOutput {
-  signupCallbackResult?: WhatsAppSignupCallbackResult;
-  statusCode?: number;
-  linkedWhatsAppBusinessAccountId?: string;
+  signupCallbackResult?: WhatsAppSignupCallbackResult | undefined;
+  statusCode?: number | undefined;
+  linkedWhatsAppBusinessAccountId?: string | undefined;
 }
 export interface CreateWhatsAppDatasetInput {
   id: string;
@@ -257,16 +257,16 @@ export interface CreateWhatsAppFlowInput {
   id: string;
   flowName: string;
   categories: MetaFlowCategory[];
-  flowJson?: Uint8Array;
-  publish?: boolean;
-  cloneFlowId?: string;
-  endpointUri?: string;
+  flowJson?: Uint8Array | undefined;
+  publish?: boolean | undefined;
+  cloneFlowId?: string | undefined;
+  endpointUri?: string | undefined;
 }
 export type MetaFlowValidationError = string;
 export type ValidationErrorList = string[];
 export interface CreateWhatsAppFlowOutput {
-  flowId?: string;
-  validationErrors?: string[];
+  flowId?: string | undefined;
+  validationErrors?: string[] | undefined;
 }
 export type MetaTemplateDefinition = Uint8Array;
 export interface CreateWhatsAppMessageTemplateInput {
@@ -276,9 +276,9 @@ export interface CreateWhatsAppMessageTemplateInput {
 export type MetaTemplateId = string;
 export type MetaTemplateCategory = string;
 export interface CreateWhatsAppMessageTemplateOutput {
-  metaTemplateId?: string;
-  templateStatus?: string;
-  category?: string;
+  metaTemplateId?: string | undefined;
+  templateStatus?: string | undefined;
+  category?: string | undefined;
 }
 export type MetaTemplateName = string;
 export type MetaTemplateLanguage = string;
@@ -289,12 +289,12 @@ export type ZeroTapTermsAccepted = boolean;
 export type SupportedApp = { [key: string]: string | undefined };
 export type SupportedApps = { [key: string]: string | undefined }[];
 export interface LibraryTemplateButtonInput {
-  type?: string;
-  phoneNumber?: string;
-  url?: { [key: string]: string | undefined };
-  otpType?: string;
-  zeroTapTermsAccepted?: boolean;
-  supportedApps?: { [key: string]: string | undefined }[];
+  type?: string | undefined;
+  phoneNumber?: string | undefined;
+  url?: { [key: string]: string | undefined } | undefined;
+  otpType?: string | undefined;
+  zeroTapTermsAccepted?: boolean | undefined;
+  supportedApps?: { [key: string]: string | undefined }[] | undefined;
 }
 export type MetaLibraryTemplateButtonInputs = LibraryTemplateButtonInput[];
 export type AddContactNumber = boolean;
@@ -303,28 +303,28 @@ export type AddSecurityRecommendation = boolean;
 export type AddTrackPackageLink = boolean;
 export type CodeExpirationMinutes = number;
 export interface LibraryTemplateBodyInputs {
-  addContactNumber?: boolean;
-  addLearnMoreLink?: boolean;
-  addSecurityRecommendation?: boolean;
-  addTrackPackageLink?: boolean;
-  codeExpirationMinutes?: number;
+  addContactNumber?: boolean | undefined;
+  addLearnMoreLink?: boolean | undefined;
+  addSecurityRecommendation?: boolean | undefined;
+  addTrackPackageLink?: boolean | undefined;
+  codeExpirationMinutes?: number | undefined;
 }
 export interface MetaLibraryTemplate {
   templateName: string;
   libraryTemplateName: string;
   templateCategory: string;
   templateLanguage: string;
-  libraryTemplateButtonInputs?: LibraryTemplateButtonInput[];
-  libraryTemplateBodyInputs?: LibraryTemplateBodyInputs;
+  libraryTemplateButtonInputs?: LibraryTemplateButtonInput[] | undefined;
+  libraryTemplateBodyInputs?: LibraryTemplateBodyInputs | undefined;
 }
 export interface CreateWhatsAppMessageTemplateFromLibraryInput {
   metaLibraryTemplate: MetaLibraryTemplate;
   id: string;
 }
 export interface CreateWhatsAppMessageTemplateFromLibraryOutput {
-  metaTemplateId?: string;
-  templateStatus?: string;
-  category?: string;
+  metaTemplateId?: string | undefined;
+  templateStatus?: string | undefined;
+  category?: string | undefined;
 }
 export interface S3File {
   bucketName: string;
@@ -332,10 +332,10 @@ export interface S3File {
 }
 export interface CreateWhatsAppMessageTemplateMediaInput {
   id: string;
-  sourceS3File?: S3File;
+  sourceS3File?: S3File | undefined;
 }
 export interface CreateWhatsAppMessageTemplateMediaOutput {
-  metaHeaderHandle?: string;
+  metaHeaderHandle?: string | undefined;
 }
 export interface DeleteWhatsAppFlowInput {
   id: string;
@@ -348,12 +348,12 @@ export interface DeleteWhatsAppMessageMediaInput {
   originationPhoneNumberId: string;
 }
 export interface DeleteWhatsAppMessageMediaOutput {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export type DeleteAllLanguages = boolean;
 export interface DeleteWhatsAppMessageTemplateInput {
-  metaTemplateId?: string;
-  deleteAllLanguages?: boolean;
+  metaTemplateId?: string | undefined;
+  deleteAllLanguages?: boolean | undefined;
   id: string;
   templateName: string;
 }
@@ -381,7 +381,7 @@ export interface WhatsAppPhoneNumberSummary {
   displayPhoneNumberName: string;
   displayPhoneNumber: string;
   qualityRating: string;
-  dataLocalizationRegion?: string;
+  dataLocalizationRegion?: string | undefined;
 }
 export type WhatsAppPhoneNumberSummaryList = WhatsAppPhoneNumberSummary[];
 export interface LinkedWhatsAppBusinessAccount {
@@ -392,12 +392,12 @@ export interface LinkedWhatsAppBusinessAccount {
   linkDate: Date;
   wabaName: string;
   eventDestinations: WhatsAppBusinessAccountEventDestination[];
-  marketingMessagesOnboardingStatus?: string;
-  datasetId?: string;
+  marketingMessagesOnboardingStatus?: string | undefined;
+  datasetId?: string | undefined;
   phoneNumbers: WhatsAppPhoneNumberSummary[];
 }
 export interface GetLinkedWhatsAppBusinessAccountOutput {
-  account?: LinkedWhatsAppBusinessAccount;
+  account?: LinkedWhatsAppBusinessAccount | undefined;
 }
 export interface GetLinkedWhatsAppBusinessAccountPhoneNumberInput {
   id: string;
@@ -433,20 +433,20 @@ export interface WhatsAppCallHours {
   enabled: boolean;
   timezone: string;
   weeklyOperatingHours: WhatsAppWeeklyOperatingHoursEntry[];
-  holidaySchedule?: WhatsAppHolidayScheduleEntry[];
+  holidaySchedule?: WhatsAppHolidayScheduleEntry[] | undefined;
 }
 export type WhatsAppCallIconVisibility = string;
 export type WhatsAppCallbackPermissionStatus = string;
 export interface WhatsAppCallSettings {
   callEnabled: boolean;
-  callHours?: WhatsAppCallHours;
-  callIconVisibility?: string;
-  callbackPermissionStatus?: string;
+  callHours?: WhatsAppCallHours | undefined;
+  callIconVisibility?: string | undefined;
+  callbackPermissionStatus?: string | undefined;
 }
 export interface GetLinkedWhatsAppBusinessAccountPhoneNumberOutput {
-  phoneNumber?: WhatsAppPhoneNumberDetail;
-  linkedWhatsAppBusinessAccountId?: string;
-  callSettings?: WhatsAppCallSettings;
+  phoneNumber?: WhatsAppPhoneNumberDetail | undefined;
+  linkedWhatsAppBusinessAccountId?: string | undefined;
+  callSettings?: WhatsAppCallSettings | undefined;
 }
 export interface GetWhatsAppBusinessPublicKeyInput {
   originationPhoneNumberId: string;
@@ -454,20 +454,20 @@ export interface GetWhatsAppBusinessPublicKeyInput {
 export type BusinessPublicKeyPem = string;
 export type BusinessPublicKeySignatureStatus = string;
 export interface GetWhatsAppBusinessPublicKeyOutput {
-  businessPublicKey?: string;
-  businessPublicKeySignatureStatus?: string;
+  businessPublicKey?: string | undefined;
+  businessPublicKeySignatureStatus?: string | undefined;
 }
 export type WhatsAppDestinationPhoneNumber = string | redacted.Redacted<string>;
 export type WhatsAppBusinessScopedUserId = string | redacted.Redacted<string>;
 export interface GetWhatsAppCallPermissionInput {
   originationPhoneNumberId: string;
-  destinationPhoneNumber?: string | redacted.Redacted<string>;
-  endUserBsuid?: string | redacted.Redacted<string>;
+  destinationPhoneNumber?: string | redacted.Redacted<string> | undefined;
+  endUserBsuid?: string | redacted.Redacted<string> | undefined;
 }
 export type WhatsAppCallPermissionStatus = string;
 export interface WhatsAppCallPermission {
   status: string;
-  expirationTime?: Date;
+  expirationTime?: Date | undefined;
 }
 export type WhatsAppCallPermissionActionName = string;
 export type Iso8601Duration = string;
@@ -475,7 +475,7 @@ export interface WhatsAppCallPermissionLimit {
   timePeriod: string;
   maxAllowed: number;
   currentUsage: number;
-  limitExpirationTime?: Date;
+  limitExpirationTime?: Date | undefined;
 }
 export type WhatsAppCallPermissionLimitList = WhatsAppCallPermissionLimit[];
 export interface WhatsAppCallPermissionAction {
@@ -507,15 +507,15 @@ export type MetaFlowWabaTemplateNamespace = string;
 export interface MetaFlowWhatsAppBusinessAccountInfo {
   id: string;
   name: string;
-  currency?: string;
-  timezoneId?: string;
-  messageTemplateNamespace?: string;
+  currency?: string | undefined;
+  timezoneId?: string | undefined;
+  messageTemplateNamespace?: string | undefined;
 }
 export type MetaFlowApplicationLink = string;
 export type MetaFlowApplicationName = string;
 export type MetaFlowApplicationId = string;
 export interface MetaFlowApplicationInfo {
-  link?: string;
+  link?: string | undefined;
   name: string;
   id: string;
 }
@@ -529,26 +529,26 @@ export interface MetaFlowHealthEntity {
 export type MetaFlowHealthEntityList = MetaFlowHealthEntity[];
 export interface MetaFlowHealthStatus {
   canSendMessage: string;
-  entities?: MetaFlowHealthEntity[];
+  entities?: MetaFlowHealthEntity[] | undefined;
 }
 export interface GetWhatsAppFlowOutput {
   flowId: string;
   flowName: string;
   flowStatus: string;
-  categories?: MetaFlowCategory[];
-  validationErrors?: string[];
-  jsonVersion?: string;
-  dataApiVersion?: string;
-  endpointUri?: string;
-  preview?: MetaFlowPreviewInfo;
-  whatsAppBusinessAccount?: MetaFlowWhatsAppBusinessAccountInfo;
-  application?: MetaFlowApplicationInfo;
-  healthStatus?: MetaFlowHealthStatus;
+  categories?: MetaFlowCategory[] | undefined;
+  validationErrors?: string[] | undefined;
+  jsonVersion?: string | undefined;
+  dataApiVersion?: string | undefined;
+  endpointUri?: string | undefined;
+  preview?: MetaFlowPreviewInfo | undefined;
+  whatsAppBusinessAccount?: MetaFlowWhatsAppBusinessAccountInfo | undefined;
+  application?: MetaFlowApplicationInfo | undefined;
+  healthStatus?: MetaFlowHealthStatus | undefined;
 }
 export interface GetWhatsAppFlowPreviewInput {
   id: string;
   flowId: string;
-  invalidate?: boolean;
+  invalidate?: boolean | undefined;
 }
 export interface GetWhatsAppFlowPreviewOutput {
   flowId: string;
@@ -562,29 +562,29 @@ export interface S3PresignedUrl {
 export interface GetWhatsAppMessageMediaInput {
   mediaId: string;
   originationPhoneNumberId: string;
-  metadataOnly?: boolean;
-  destinationS3PresignedUrl?: S3PresignedUrl;
-  destinationS3File?: S3File;
+  metadataOnly?: boolean | undefined;
+  destinationS3PresignedUrl?: S3PresignedUrl | undefined;
+  destinationS3File?: S3File | undefined;
 }
 export interface GetWhatsAppMessageMediaOutput {
-  mimeType?: string;
-  fileSize?: number;
+  mimeType?: string | undefined;
+  fileSize?: number | undefined;
 }
 export interface GetWhatsAppMessageTemplateInput {
-  metaTemplateId?: string;
+  metaTemplateId?: string | undefined;
   id: string;
-  templateName?: string;
-  templateLanguageCode?: string;
+  templateName?: string | undefined;
+  templateLanguageCode?: string | undefined;
 }
 export type MetaTemplate = string;
 export interface GetWhatsAppMessageTemplateOutput {
-  template?: string;
+  template?: string | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListLinkedWhatsAppBusinessAccountsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LinkedWhatsAppBusinessAccountSummary {
   arn: string;
@@ -594,27 +594,27 @@ export interface LinkedWhatsAppBusinessAccountSummary {
   linkDate: Date;
   wabaName: string;
   eventDestinations: WhatsAppBusinessAccountEventDestination[];
-  marketingMessagesOnboardingStatus?: string;
-  datasetId?: string;
+  marketingMessagesOnboardingStatus?: string | undefined;
+  datasetId?: string | undefined;
 }
 export type LinkedWhatsAppBusinessAccountSummaryList = LinkedWhatsAppBusinessAccountSummary[];
 export interface ListLinkedWhatsAppBusinessAccountsOutput {
-  linkedAccounts?: LinkedWhatsAppBusinessAccountSummary[];
-  nextToken?: string;
+  linkedAccounts?: LinkedWhatsAppBusinessAccountSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  statusCode?: number;
-  tags?: Tag[];
+  statusCode?: number | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface ListWhatsAppFlowAssetsInput {
   id: string;
   flowId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type MetaFlowAssetName = string;
 export type MetaFlowAssetType = string;
@@ -627,12 +627,12 @@ export interface MetaFlowAsset {
 export type MetaFlowAssetList = MetaFlowAsset[];
 export interface ListWhatsAppFlowAssetsOutput {
   flowAssets: MetaFlowAsset[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListWhatsAppFlowsInput {
   id: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface MetaFlowSummary {
   flowId: string;
@@ -644,34 +644,34 @@ export interface MetaFlowSummary {
 export type MetaFlowSummaryList = MetaFlowSummary[];
 export interface ListWhatsAppFlowsOutput {
   flows: MetaFlowSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListWhatsAppMessageTemplatesInput {
   id: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type MetaTemplateStatus = string;
 export type MetaTemplateQualityScore = string;
 export interface TemplateSummary {
-  templateName?: string;
-  metaTemplateId?: string;
-  templateStatus?: string;
-  templateQualityScore?: string;
-  templateLanguage?: string;
-  templateCategory?: string;
+  templateName?: string | undefined;
+  metaTemplateId?: string | undefined;
+  templateStatus?: string | undefined;
+  templateQualityScore?: string | undefined;
+  templateLanguage?: string | undefined;
+  templateCategory?: string | undefined;
 }
 export type TemplateSummaryList = TemplateSummary[];
 export interface ListWhatsAppMessageTemplatesOutput {
-  templates?: TemplateSummary[];
-  nextToken?: string;
+  templates?: TemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Filter = { [key: string]: string | undefined };
 export interface ListWhatsAppTemplateLibraryInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   id: string;
-  filters?: { [key: string]: string | undefined };
+  filters?: { [key: string]: string | undefined } | undefined;
 }
 export type MetaTemplateTopic = string;
 export type MetaTemplateUseCase = string;
@@ -682,41 +682,41 @@ export type MetaTemplateBody = string;
 export type MetaText = string;
 export type MetaUrl = string;
 export interface LibraryTemplateButtonList {
-  type?: string;
-  text?: string;
-  phoneNumber?: string;
-  url?: string;
-  otpType?: string;
-  zeroTapTermsAccepted?: boolean;
-  supportedApps?: { [key: string]: string | undefined }[];
+  type?: string | undefined;
+  text?: string | undefined;
+  phoneNumber?: string | undefined;
+  url?: string | undefined;
+  otpType?: string | undefined;
+  zeroTapTermsAccepted?: boolean | undefined;
+  supportedApps?: { [key: string]: string | undefined }[] | undefined;
 }
 export type MetaLibraryTemplateButtonList = LibraryTemplateButtonList[];
 export type MetaTemplateBodyExampleParams = string[];
 export interface MetaLibraryTemplateDefinition {
-  templateName?: string;
-  templateLanguage?: string;
-  templateCategory?: string;
-  templateTopic?: string;
-  templateUseCase?: string;
-  templateIndustry?: string[];
-  templateHeader?: string;
-  templateBody?: string;
-  templateButtons?: LibraryTemplateButtonList[];
-  templateId?: string;
-  templateBodyExampleParams?: string[];
+  templateName?: string | undefined;
+  templateLanguage?: string | undefined;
+  templateCategory?: string | undefined;
+  templateTopic?: string | undefined;
+  templateUseCase?: string | undefined;
+  templateIndustry?: string[] | undefined;
+  templateHeader?: string | undefined;
+  templateBody?: string | undefined;
+  templateButtons?: LibraryTemplateButtonList[] | undefined;
+  templateId?: string | undefined;
+  templateBodyExampleParams?: string[] | undefined;
 }
 export type MetaLibraryTemplatesList = MetaLibraryTemplateDefinition[];
 export interface ListWhatsAppTemplateLibraryOutput {
-  metaLibraryTemplates?: MetaLibraryTemplateDefinition[];
-  nextToken?: string;
+  metaLibraryTemplates?: MetaLibraryTemplateDefinition[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PostWhatsAppMessageMediaInput {
   originationPhoneNumberId: string;
-  sourceS3PresignedUrl?: S3PresignedUrl;
-  sourceS3File?: S3File;
+  sourceS3PresignedUrl?: S3PresignedUrl | undefined;
+  sourceS3File?: S3File | undefined;
 }
 export interface PostWhatsAppMessageMediaOutput {
-  mediaId?: string;
+  mediaId?: string | undefined;
 }
 export interface PublishWhatsAppFlowInput {
   id: string;
@@ -731,8 +731,8 @@ export interface PutWhatsAppBusinessAccountEventDestinationsOutput {}
 export type KmsKeyArn = string;
 export interface PutWhatsAppBusinessPublicKeyInput {
   originationPhoneNumberId: string;
-  businessPublicKey?: string;
-  kmsKeyArn?: string;
+  businessPublicKey?: string | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface PutWhatsAppBusinessPublicKeyOutput {}
 export type WhatsAppCallEventBlob = Uint8Array | redacted.Redacted<Uint8Array>;
@@ -760,14 +760,14 @@ export interface SendWhatsAppMessageInput {
   metaApiVersion: string;
 }
 export interface SendWhatsAppMessageOutput {
-  messageId?: string;
+  messageId?: string | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
   tags: Tag[];
 }
 export interface TagResourceOutput {
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export type StringList = string[];
 export interface UntagResourceInput {
@@ -775,7 +775,7 @@ export interface UntagResourceInput {
   tagKeys: string[];
 }
 export interface UntagResourceOutput {
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export interface UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput {
   id: string;
@@ -787,10 +787,10 @@ export interface UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput {
 export interface UpdateWhatsAppFlowInput {
   id: string;
   flowId: string;
-  flowName?: string;
-  categories?: MetaFlowCategory[];
-  endpointUri?: string;
-  metaAppId?: string;
+  flowName?: string | undefined;
+  categories?: MetaFlowCategory[] | undefined;
+  endpointUri?: string | undefined;
+  metaAppId?: string | undefined;
 }
 export interface UpdateWhatsAppFlowOutput {}
 export interface UpdateWhatsAppFlowAssetsInput {
@@ -799,20 +799,20 @@ export interface UpdateWhatsAppFlowAssetsInput {
   flowJson: Uint8Array;
 }
 export interface UpdateWhatsAppFlowAssetsOutput {
-  validationErrors?: string[];
+  validationErrors?: string[] | undefined;
 }
 export type MetaParameterFormat = string;
 export type MetaTemplateComponents = Uint8Array;
 export type MetaTemplateCtaLinkTrackingOptedOut = boolean;
 export interface UpdateWhatsAppMessageTemplateInput {
   id: string;
-  metaTemplateId?: string;
-  templateName?: string;
-  templateLanguageCode?: string;
-  parameterFormat?: string;
-  templateCategory?: string;
-  templateComponents?: Uint8Array;
-  ctaUrlLinkTrackingOptedOut?: boolean;
+  metaTemplateId?: string | undefined;
+  templateName?: string | undefined;
+  templateLanguageCode?: string | undefined;
+  parameterFormat?: string | undefined;
+  templateCategory?: string | undefined;
+  templateComponents?: Uint8Array | undefined;
+  ctaUrlLinkTrackingOptedOut?: boolean | undefined;
 }
 export interface UpdateWhatsAppMessageTemplateOutput {}
 export type ErrorMessage = string;

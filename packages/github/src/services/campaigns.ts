@@ -80,22 +80,22 @@ export interface CreateCampaignRequest {
   /** A description for the campaign */
   description: string;
   /** The logins of the users to set as the campaign managers. At this time, only a single manager can be supplied. */
-  managers?: CreateCampaignRequestManagersList;
+  managers?: CreateCampaignRequestManagersList | undefined;
   /** The slugs of the teams to set as the campaign managers. */
-  team_managers?: CreateCampaignRequestTeamManagersList;
+  team_managers?: CreateCampaignRequestTeamManagersList | undefined;
   /** The end date and time of the campaign. The date must be in the future. */
   ends_at: string;
   /** The contact link of the campaign. Must be a URI. */
-  contact_link?: string | null;
+  contact_link?: string | null | undefined;
   /** The code scanning alerts to include in this campaign */
-  code_scanning_alerts?: CreateCampaignRequestCodeScanningAlertsList | null;
+  code_scanning_alerts?: CreateCampaignRequestCodeScanningAlertsList | null | undefined;
   /** If true, will automatically generate issues for the campaign. The default is false. */
-  generate_issues?: boolean;
+  generate_issues?: boolean | undefined;
 }
 /** A GitHub user. */
 export interface SimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -114,8 +114,8 @@ export interface SimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** The campaign managers */
 export type CampaignSummaryManagersList = Array<SimpleUser>;
@@ -147,20 +147,20 @@ export interface NullableTeamSimple {
   /** Permission that the team will have for its repositories */
   permission: string;
   /** The level of privacy this team should have */
-  privacy?: string;
+  privacy?: string | undefined;
   /** The notification setting the team has set */
-  notification_setting?: string;
+  notification_setting?: string | undefined;
   html_url: string;
   repositories_url: string;
   slug: string;
   /** Distinguished Name (DN) that team maps to within LDAP environment */
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: NullableTeamSimpleType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -169,10 +169,10 @@ export interface Team {
   name: string;
   slug: string;
   description: string | null;
-  privacy?: string;
-  notification_setting?: string;
+  privacy?: string | undefined;
+  notification_setting?: string | undefined;
   permission: string;
-  permissions?: TeamPermissions;
+  permissions?: TeamPermissions | undefined;
   url: string;
   html_url: string;
   members_url: string;
@@ -180,11 +180,11 @@ export interface Team {
   /** The ownership type of the team */
   type: TeamType;
   /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
-  access_source?: TeamAccessSource;
+  access_source?: TeamAccessSource | undefined;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
   parent: NullableTeamSimple | null;
 }
 /** The campaign team managers */
@@ -208,23 +208,23 @@ export interface CampaignSummary {
   /** The date and time the campaign was last updated, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ. */
   updated_at: string;
   /** The campaign name */
-  name?: string;
+  name?: string | undefined;
   /** The campaign description */
   description: string;
   /** The campaign managers */
   managers: CampaignSummaryManagersList;
   /** The campaign team managers */
-  team_managers?: CampaignSummaryTeamManagersList;
+  team_managers?: CampaignSummaryTeamManagersList | undefined;
   /** The date and time the campaign was published, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ. */
-  published_at?: string;
+  published_at?: string | undefined;
   /** The date and time the campaign has ended, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ. */
   ends_at: string;
   /** The date and time the campaign was closed, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ. Will be null if the campaign is still open. */
-  closed_at?: string | null;
+  closed_at?: string | null | undefined;
   state: CampaignState;
   /** The contact link of the campaign. */
   contact_link: string | null;
-  alert_stats?: CampaignSummaryAlertStats;
+  alert_stats?: CampaignSummaryAlertStats | undefined;
 }
 export interface DeleteCampaignRequest {
   /** The organization name. The name is not case sensitive. */
@@ -245,15 +245,15 @@ export interface ListOrgCampaignsRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The direction to sort the results by. */
-  direction?: ListOrgCampaignsRequestDirection | (string & {});
+  direction?: ListOrgCampaignsRequestDirection | (string & {}) | undefined;
   /** If specified, only campaigns with this state will be returned. */
-  state?: CampaignState | (string & {});
+  state?: CampaignState | (string & {}) | undefined;
   /** The property by which to sort the results. */
-  sort?: ListOrgCampaignsRequestSort | (string & {});
+  sort?: ListOrgCampaignsRequestSort | (string & {}) | undefined;
 }
 export type ListOrgCampaignsResponseBodyList = Array<CampaignSummary>;
 export type ListOrgCampaignsResponse = ListOrgCampaignsResponseBodyList;
@@ -267,18 +267,18 @@ export interface UpdateCampaignRequest {
   /** The campaign number. */
   campaign_number: number;
   /** The name of the campaign */
-  name?: string;
+  name?: string | undefined;
   /** A description for the campaign */
-  description?: string;
+  description?: string | undefined;
   /** The logins of the users to set as the campaign managers. At this time, only a single manager can be supplied. */
-  managers?: UpdateCampaignRequestManagersList;
+  managers?: UpdateCampaignRequestManagersList | undefined;
   /** The slugs of the teams to set as the campaign managers. */
-  team_managers?: UpdateCampaignRequestTeamManagersList;
+  team_managers?: UpdateCampaignRequestTeamManagersList | undefined;
   /** The end date and time of the campaign, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ. */
-  ends_at?: string;
+  ends_at?: string | undefined;
   /** The contact link of the campaign. Must be a URI. */
-  contact_link?: string | null;
-  state?: CampaignState | (string & {});
+  contact_link?: string | null | undefined;
+  state?: CampaignState | (string & {}) | undefined;
 }
 export type CreateCampaignError = BadRequest | NotFound | UnprocessableEntity | GithubOpError;
 /** Create a campaign for an organization Create a campaign for an organization. The authenticated user must be an owner or security manager for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint. Fine-grained tokens must have the "Code scanning alerts" repository permissions (read) on all repositories included in the campaign. */

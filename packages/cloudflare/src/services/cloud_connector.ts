@@ -54,7 +54,7 @@ export interface ListRulesRequest {
 }
 export interface RulesListResultItemParameters {
   /** Host to perform Cloud Connection to */
-  host?: string | null;
+  host?: string | null | undefined;
 }
 export type RulesListResultItemProvider =
   | "aws_s3"
@@ -63,14 +63,14 @@ export type RulesListResultItemProvider =
   | "azure_storage"
   | "oci_storage";
 export interface RulesListResultItem {
-  id?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
-  expression?: string | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  enabled?: boolean | null | undefined;
+  expression?: string | null | undefined;
   /** Parameters of Cloud Connector Rule */
-  parameters?: RulesListResultItemParameters | null;
+  parameters?: RulesListResultItemParameters | null | undefined;
   /** Cloud Provider type */
-  provider?: RulesListResultItemProvider | null;
+  provider?: RulesListResultItemProvider | null | undefined;
 }
 export type RulesListResultList = Array<RulesListResultItem>;
 export interface ListRulesResponse {
@@ -81,7 +81,7 @@ export interface ListRulesResponse {
 }
 export interface RulesUpdateRequestRulesItemParameters {
   /** Host to perform Cloud Connection to */
-  host?: string;
+  host?: string | undefined;
 }
 export type RulesUpdateRequestRulesItemProvider =
   | "aws_s3"
@@ -90,20 +90,20 @@ export type RulesUpdateRequestRulesItemProvider =
   | "azure_storage"
   | "oci_storage";
 export interface RulesUpdateRequestRulesItem {
-  id?: string;
-  description?: string;
-  enabled?: boolean;
-  expression?: string;
+  id?: string | undefined;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
+  expression?: string | undefined;
   /** Parameters of Cloud Connector Rule */
-  parameters?: RulesUpdateRequestRulesItemParameters;
+  parameters?: RulesUpdateRequestRulesItemParameters | undefined;
   /** Cloud Provider type */
-  provider?: RulesUpdateRequestRulesItemProvider | (string & {});
+  provider?: RulesUpdateRequestRulesItemProvider | (string & {}) | undefined;
 }
 export type RulesUpdateRequestRulesList = Array<RulesUpdateRequestRulesItem>;
 export interface PutRuleRequest {
   /** Identifier. */
   zoneId: string;
-  rules?: RulesUpdateRequestRulesList;
+  rules?: RulesUpdateRequestRulesList | undefined;
 }
 export type RulesUpdateResultItemParameters = RulesListResultItemParameters;
 export type RulesUpdateResultItemProvider =
@@ -113,14 +113,14 @@ export type RulesUpdateResultItemProvider =
   | "azure_storage"
   | "oci_storage";
 export interface RulesUpdateResultItem {
-  id?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
-  expression?: string | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  enabled?: boolean | null | undefined;
+  expression?: string | null | undefined;
   /** Parameters of Cloud Connector Rule */
-  parameters?: RulesListResultItemParameters | null;
+  parameters?: RulesListResultItemParameters | null | undefined;
   /** Cloud Provider type */
-  provider?: RulesUpdateResultItemProvider | null;
+  provider?: RulesUpdateResultItemProvider | null | undefined;
 }
 export type RulesUpdateResultList = Array<RulesUpdateResultItem>;
 export interface PutRuleResponse {

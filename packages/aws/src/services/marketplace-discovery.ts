@@ -92,7 +92,7 @@ export class ResourceNotFoundException
 export type Locale = string;
 export type ListingId = string;
 export interface GetListingInput {
-  locale?: string;
+  locale?: string | undefined;
   listingId: string;
 }
 export type ProductId = string;
@@ -111,12 +111,12 @@ export type OfferId = string;
 export type NullableString = string;
 export interface OfferInformation {
   offerId: string;
-  offerName?: string;
+  offerName?: string | undefined;
   sellerOfRecord: SellerInformation;
 }
 export interface ListingAssociatedEntity {
-  product?: ProductInformation;
-  offer?: OfferInformation;
+  product?: ProductInformation | undefined;
+  offer?: OfferInformation | undefined;
 }
 export type ListingAssociatedEntityList = ListingAssociatedEntity[];
 export type ListingBadgeType =
@@ -181,14 +181,14 @@ export type PricingUnitList = PricingUnit[];
 export interface PromotionalEmbeddedImage {
   title: string;
   url: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface PromotionalEmbeddedVideo {
   title: string;
   url: string;
   preview: string;
   thumbnail: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type PromotionalMedia =
   | { embeddedImage: PromotionalEmbeddedImage; embeddedVideo?: never }
@@ -200,7 +200,7 @@ export interface Resource {
   resourceType: ResourceType;
   contentType: ResourceContentType;
   value: string;
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type ResourceList = Resource[];
 export type ReviewSourceId = "AWS_MARKETPLACE" | (string & {});
@@ -208,7 +208,7 @@ export type NonNegativeCount = number;
 export interface ReviewSourceSummary {
   sourceName: string;
   sourceId: ReviewSourceId;
-  sourceUrl?: string;
+  sourceUrl?: string | undefined;
   averageRating: string;
   totalReviews: number;
 }
@@ -234,14 +234,14 @@ export interface UseCaseEntry {
 }
 export type UseCaseList = UseCaseEntry[];
 export interface GetListingOutput {
-  locale?: string;
+  locale?: string | undefined;
   associatedEntities: ListingAssociatedEntity[];
   badges: ListingBadge[];
   catalog: string;
   categories: Category[];
   fulfillmentOptionSummaries: FulfillmentOptionSummary[];
   highlights: string[];
-  integrationGuide?: string;
+  integrationGuide?: string | undefined;
   listingId: string;
   listingName: string;
   logoThumbnailUrl: string;
@@ -251,13 +251,13 @@ export interface GetListingOutput {
   promotionalMedia: PromotionalMedia[];
   publisher: SellerInformation;
   resources: Resource[];
-  reviewSummary?: ReviewSummary;
+  reviewSummary?: ReviewSummary | undefined;
   sellerEngagements: SellerEngagement[];
   shortDescription: string;
   useCases: UseCaseEntry[];
 }
 export interface GetOfferInput {
-  locale?: string;
+  locale?: string | undefined;
   offerId: string;
 }
 export type OfferSetId = string;
@@ -267,7 +267,7 @@ export interface OfferSetInformation {
 }
 export interface OfferAssociatedEntity {
   product: ProductInformation;
-  offerSet?: OfferSetInformation;
+  offerSet?: OfferSetInformation | undefined;
 }
 export type OfferAssociatedEntityList = OfferAssociatedEntity[];
 export type AgreementResourceId = string;
@@ -283,21 +283,21 @@ export interface PurchaseOptionBadge {
 }
 export type PurchaseOptionBadgeList = PurchaseOptionBadge[];
 export interface GetOfferOutput {
-  locale?: string;
+  locale?: string | undefined;
   offerId: string;
   catalog: string;
-  offerName?: string;
-  expirationTime?: Date;
-  availableFromTime?: Date;
+  offerName?: string | undefined;
+  expirationTime?: Date | undefined;
+  availableFromTime?: Date | undefined;
   sellerOfRecord: SellerInformation;
   associatedEntities: OfferAssociatedEntity[];
   agreementProposalId: string;
-  replacementAgreementId?: string;
+  replacementAgreementId?: string | undefined;
   pricingModel: PricingModel;
   badges: PurchaseOptionBadge[];
 }
 export interface GetOfferSetInput {
-  locale?: string;
+  locale?: string | undefined;
   offerSetId: string;
 }
 export interface OfferSetAssociatedEntity {
@@ -306,23 +306,23 @@ export interface OfferSetAssociatedEntity {
 }
 export type OfferSetAssociatedEntityList = OfferSetAssociatedEntity[];
 export interface GetOfferSetOutput {
-  locale?: string;
+  locale?: string | undefined;
   offerSetId: string;
   catalog: string;
-  offerSetName?: string;
-  availableFromTime?: Date;
-  expirationTime?: Date;
-  buyerNotes?: string;
+  offerSetName?: string | undefined;
+  availableFromTime?: Date | undefined;
+  expirationTime?: Date | undefined;
+  buyerNotes?: string | undefined;
   sellerOfRecord: SellerInformation;
   badges: PurchaseOptionBadge[];
   associatedEntities: OfferSetAssociatedEntity[];
 }
 export type NextToken = string;
 export interface GetOfferTermsInput {
-  locale?: string;
+  locale?: string | undefined;
   offerId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TermId = string;
 export type TermType =
@@ -360,14 +360,14 @@ export type DimensionLabelType = "Region" | "SagemakerOption" | (string & {});
 export interface DimensionLabel {
   labelType: DimensionLabelType;
   labelValue: string;
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type DimensionLabelList = DimensionLabel[];
 export interface RateCardItem {
   dimensionKey: string;
   displayName: string;
-  description?: string;
-  dimensionLabels?: DimensionLabel[];
+  description?: string | undefined;
+  dimensionLabels?: DimensionLabel[] | undefined;
   unit: string;
   price: string;
 }
@@ -382,29 +382,29 @@ export interface ConfigurableUpfrontPricingTerm {
   id: string;
   type: TermType;
   currencyCode: string;
-  rateCards?: ConfigurableUpfrontRateCardItem[];
+  rateCards?: ConfigurableUpfrontRateCardItem[] | undefined;
 }
 export interface GrantItem {
   dimensionKey: string;
   displayName: string;
-  description?: string;
-  dimensionLabels?: DimensionLabel[];
+  description?: string | undefined;
+  dimensionLabels?: DimensionLabel[] | undefined;
   unit: string;
-  maxQuantity?: number;
+  maxQuantity?: number | undefined;
 }
 export type GrantList = GrantItem[];
 export interface FixedUpfrontPricingTerm {
   id: string;
   type: TermType;
   currencyCode: string;
-  duration?: string;
+  duration?: string | undefined;
   price: string;
   grants: GrantItem[];
 }
 export interface FreeTrialPricingTerm {
   id: string;
   type: TermType;
-  duration?: string;
+  duration?: string | undefined;
   grants: GrantItem[];
 }
 export type LegalDocumentType =
@@ -417,7 +417,7 @@ export type LegalDocumentType =
 export interface DocumentItem {
   type: LegalDocumentType;
   url: string;
-  version?: string;
+  version?: string | undefined;
 }
 export type DocumentList = DocumentItem[];
 export interface LegalTerm {
@@ -458,7 +458,7 @@ export type PriceIncrease =
 export interface PaymentScheduleEntry {
   chargeDateOffset: string;
   chargePercentage: string;
-  dayOfMonth?: number;
+  dayOfMonth?: number | undefined;
 }
 export type PaymentScheduleEntryList = PaymentScheduleEntry[];
 export interface PaymentScheduleTermTemplate {
@@ -469,11 +469,11 @@ export type TermTemplateList = TermTemplate[];
 export interface RenewalTerm {
   id: string;
   type: TermType;
-  maxRenewals?: number;
-  lockoutPeriod?: string;
-  adjustmentDeadline?: string;
-  priceIncrease?: PriceIncrease;
-  termTemplates?: TermTemplate[];
+  maxRenewals?: number | undefined;
+  lockoutPeriod?: string | undefined;
+  adjustmentDeadline?: string | undefined;
+  priceIncrease?: PriceIncrease | undefined;
+  termTemplates?: TermTemplate[] | undefined;
 }
 export interface SupportTerm {
   id: string;
@@ -493,9 +493,9 @@ export interface UsageBasedPricingTerm {
 export interface ValidityTerm {
   id: string;
   type: TermType;
-  agreementDuration?: string;
-  agreementEndDate?: Date;
-  agreementStartDate?: Date;
+  agreementDuration?: string | undefined;
+  agreementEndDate?: Date | undefined;
+  agreementStartDate?: Date | undefined;
 }
 export interface VariablePaymentTerm {
   id: string;
@@ -706,17 +706,17 @@ export type OfferTerm =
     };
 export type OfferTermsList = OfferTerm[];
 export interface GetOfferTermsOutput {
-  locale?: string;
+  locale?: string | undefined;
   offerTerms: OfferTerm[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface GetProductInput {
-  locale?: string;
+  locale?: string | undefined;
   productId: string;
 }
 export type DeployedOnAwsStatus = "DEPLOYED" | "NOT_DEPLOYED" | "NOT_APPLICABLE" | (string & {});
 export interface GetProductOutput {
-  locale?: string;
+  locale?: string | undefined;
   productId: string;
   catalog: string;
   productName: string;
@@ -734,15 +734,15 @@ export interface GetProductOutput {
   listingId: string;
 }
 export interface ListFulfillmentOptionsInput {
-  locale?: string;
+  locale?: string | undefined;
   productId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AmazonMachineImageOperatingSystem {
   operatingSystemFamilyName: string;
   operatingSystemName: string;
-  operatingSystemVersion?: string;
+  operatingSystemVersion?: string | undefined;
 }
 export type AmazonMachineImageOperatingSystemList = AmazonMachineImageOperatingSystem[];
 export type AmazonMachineImageCidrIpAddressList = string[];
@@ -755,29 +755,29 @@ export interface AmazonMachineImageSecurityGroup {
 export type AmazonMachineImageSecurityGroupList = AmazonMachineImageSecurityGroup[];
 export interface AmazonMachineImageRecommendation {
   instanceType: string;
-  securityGroups?: AmazonMachineImageSecurityGroup[];
+  securityGroups?: AmazonMachineImageSecurityGroup[] | undefined;
 }
 export type AmazonMachineImageEbsVolumeTypeList = string[];
 export interface AmazonMachineImageEbsVolume {
   volumeTypes: string[];
-  iops?: number;
+  iops?: number | undefined;
 }
 export interface AmazonMachineImageFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionName: string;
-  fulfillmentOptionVersion?: string;
+  fulfillmentOptionVersion?: string | undefined;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
   operatingSystems: AmazonMachineImageOperatingSystem[];
-  recommendation?: AmazonMachineImageRecommendation;
-  releaseNotes?: string;
-  usageInstructions?: string;
-  availableFromTime?: Date;
-  accessUrlTemplate?: string;
+  recommendation?: AmazonMachineImageRecommendation | undefined;
+  releaseNotes?: string | undefined;
+  usageInstructions?: string | undefined;
+  availableFromTime?: Date | undefined;
+  accessUrlTemplate?: string | undefined;
   architecture: string;
-  amiAlias?: string;
-  ebsVolume?: AmazonMachineImageEbsVolume;
-  shortDescription?: string;
+  amiAlias?: string | undefined;
+  ebsVolume?: AmazonMachineImageEbsVolume | undefined;
+  shortDescription?: string | undefined;
 }
 export interface AwsSupportedService {
   supportedServiceType: string;
@@ -789,7 +789,7 @@ export interface ApiFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  usageInstructions?: string;
+  usageInstructions?: string | undefined;
   awsSupportedServices: AwsSupportedService[];
 }
 export interface CloudFormationFulfillmentOption {
@@ -797,12 +797,12 @@ export interface CloudFormationFulfillmentOption {
   fulfillmentOptionName: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentOptionVersion?: string;
-  releaseNotes?: string;
-  usageInstructions?: string;
-  availableFromTime?: Date;
-  shortDescription?: string;
-  longDescription?: string;
+  fulfillmentOptionVersion?: string | undefined;
+  releaseNotes?: string | undefined;
+  usageInstructions?: string | undefined;
+  availableFromTime?: Date | undefined;
+  shortDescription?: string | undefined;
+  longDescription?: string | undefined;
 }
 export interface ContainerOperatingSystem {
   operatingSystemFamilyName: string;
@@ -814,11 +814,11 @@ export interface ContainerFulfillmentOption {
   fulfillmentOptionName: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentOptionVersion?: string;
-  operatingSystems?: ContainerOperatingSystem[];
-  awsSupportedServices?: AwsSupportedService[];
-  releaseNotes?: string;
-  usageInstructions?: string;
+  fulfillmentOptionVersion?: string | undefined;
+  operatingSystems?: ContainerOperatingSystem[] | undefined;
+  awsSupportedServices?: AwsSupportedService[] | undefined;
+  releaseNotes?: string | undefined;
+  usageInstructions?: string | undefined;
 }
 export interface HelmOperatingSystem {
   operatingSystemFamilyName: string;
@@ -830,11 +830,11 @@ export interface HelmFulfillmentOption {
   fulfillmentOptionName: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentOptionVersion?: string;
-  operatingSystems?: HelmOperatingSystem[];
-  releaseNotes?: string;
-  awsSupportedServices?: AwsSupportedService[];
-  usageInstructions?: string;
+  fulfillmentOptionVersion?: string | undefined;
+  operatingSystems?: HelmOperatingSystem[] | undefined;
+  releaseNotes?: string | undefined;
+  awsSupportedServices?: AwsSupportedService[] | undefined;
+  usageInstructions?: string | undefined;
 }
 export interface EksAddOnOperatingSystem {
   operatingSystemFamilyName: string;
@@ -846,26 +846,26 @@ export interface EksAddOnFulfillmentOption {
   fulfillmentOptionName: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentOptionVersion?: string;
-  operatingSystems?: EksAddOnOperatingSystem[];
-  releaseNotes?: string;
-  usageInstructions?: string;
-  awsSupportedServices?: AwsSupportedService[];
+  fulfillmentOptionVersion?: string | undefined;
+  operatingSystems?: EksAddOnOperatingSystem[] | undefined;
+  releaseNotes?: string | undefined;
+  usageInstructions?: string | undefined;
+  awsSupportedServices?: AwsSupportedService[] | undefined;
 }
 export interface Ec2ImageBuilderComponentFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionName: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentOptionVersion?: string;
-  operatingSystems?: ContainerOperatingSystem[];
-  awsSupportedServices?: AwsSupportedService[];
-  releaseNotes?: string;
-  usageInstructions?: string;
+  fulfillmentOptionVersion?: string | undefined;
+  operatingSystems?: ContainerOperatingSystem[] | undefined;
+  awsSupportedServices?: AwsSupportedService[] | undefined;
+  releaseNotes?: string | undefined;
+  usageInstructions?: string | undefined;
 }
 export interface DataArtifact {
-  description?: string;
-  resourceArn?: string;
+  description?: string | undefined;
+  resourceArn?: string | undefined;
   resourceType: string;
   dataClassification: string;
 }
@@ -874,7 +874,7 @@ export interface DataExchangeFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  dataArtifacts?: DataArtifact[];
+  dataArtifacts?: DataArtifact[] | undefined;
 }
 export interface ProfessionalServicesFulfillmentOption {
   fulfillmentOptionId: string;
@@ -886,29 +886,29 @@ export interface SaasFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentUrl?: string;
-  usageInstructions?: string;
-  availableFromTime?: Date;
-  launchUrl?: string;
+  fulfillmentUrl?: string | undefined;
+  usageInstructions?: string | undefined;
+  availableFromTime?: Date | undefined;
+  launchUrl?: string | undefined;
   quickLaunch: SaasQuickLaunchStatus;
 }
 export interface SageMakerAlgorithmRecommendation {
   recommendedBatchTransformInstanceType: string;
-  recommendedRealtimeInferenceInstanceType?: string;
+  recommendedRealtimeInferenceInstanceType?: string | undefined;
   recommendedTrainingInstanceType: string;
 }
 export interface SageMakerAlgorithmFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentOptionVersion?: string;
-  releaseNotes?: string;
-  usageInstructions?: string;
-  recommendation?: SageMakerAlgorithmRecommendation;
+  fulfillmentOptionVersion?: string | undefined;
+  releaseNotes?: string | undefined;
+  usageInstructions?: string | undefined;
+  recommendation?: SageMakerAlgorithmRecommendation | undefined;
 }
 export interface SageMakerModelRecommendation {
   recommendedBatchTransformInstanceType: string;
-  recommendedRealtimeInferenceInstanceType?: string;
+  recommendedRealtimeInferenceInstanceType?: string | undefined;
 }
 export type SageMakerModelContentTypeList = string[];
 export type SageMakerModelResponseMimeTypeList = string[];
@@ -916,12 +916,12 @@ export interface SageMakerModelFulfillmentOption {
   fulfillmentOptionId: string;
   fulfillmentOptionType: FulfillmentOptionType;
   fulfillmentOptionDisplayName: string;
-  fulfillmentOptionVersion?: string;
-  releaseNotes?: string;
-  usageInstructions?: string;
-  recommendation?: SageMakerModelRecommendation;
-  supportedContentTypes?: string[];
-  supportedResponseMimeTypes?: string[];
+  fulfillmentOptionVersion?: string | undefined;
+  releaseNotes?: string | undefined;
+  usageInstructions?: string | undefined;
+  recommendation?: SageMakerModelRecommendation | undefined;
+  supportedContentTypes?: string[] | undefined;
+  supportedResponseMimeTypes?: string[] | undefined;
 }
 export type FulfillmentOption =
   | {
@@ -1094,9 +1094,9 @@ export type FulfillmentOption =
     };
 export type FulfillmentOptionsList = FulfillmentOption[];
 export interface ListFulfillmentOptionsOutput {
-  locale?: string;
+  locale?: string | undefined;
   fulfillmentOptions: FulfillmentOption[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type PurchaseOptionFilterType =
   | "PRODUCT_ID"
@@ -1114,33 +1114,33 @@ export interface PurchaseOptionFilter {
 export type PurchaseOptionFilterList = PurchaseOptionFilter[];
 export type MaxResults = number;
 export interface ListPurchaseOptionsInput {
-  locale?: string;
-  filters?: PurchaseOptionFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  locale?: string | undefined;
+  filters?: PurchaseOptionFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type PurchaseOptionType = "OFFER" | "OFFERSET" | (string & {});
 export interface PurchaseOptionAssociatedEntity {
   product: ProductInformation;
   offer: OfferInformation;
-  offerSet?: OfferSetInformation;
+  offerSet?: OfferSetInformation | undefined;
 }
 export type PurchaseOptionAssociatedEntityList = PurchaseOptionAssociatedEntity[];
 export interface PurchaseOptionSummary {
   purchaseOptionId: string;
   catalog: string;
   purchaseOptionType: PurchaseOptionType;
-  purchaseOptionName?: string;
-  availableFromTime?: Date;
-  expirationTime?: Date;
+  purchaseOptionName?: string | undefined;
+  availableFromTime?: Date | undefined;
+  expirationTime?: Date | undefined;
   sellerOfRecord: SellerInformation;
-  badges?: PurchaseOptionBadge[];
+  badges?: PurchaseOptionBadge[] | undefined;
   associatedEntities: PurchaseOptionAssociatedEntity[];
 }
 export type PurchaseOptionSummaryList = PurchaseOptionSummary[];
 export interface ListPurchaseOptionsOutput {
-  purchaseOptions?: PurchaseOptionSummary[];
-  nextToken?: string;
+  purchaseOptions?: PurchaseOptionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SearchText = string;
 export type SearchFilterType =
@@ -1173,38 +1173,38 @@ export type SearchFacetType =
   | (string & {});
 export type FacetTypeList = SearchFacetType[];
 export interface SearchFacetsInput {
-  locale?: string;
-  searchText?: string;
-  filters?: SearchFilter[];
-  facetTypes?: SearchFacetType[];
-  nextToken?: string;
+  locale?: string | undefined;
+  searchText?: string | undefined;
+  filters?: SearchFilter[] | undefined;
+  facetTypes?: SearchFacetType[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListingFacet {
   value: string;
   displayName: string;
-  parent?: string;
+  parent?: string | undefined;
   count: number;
 }
 export type ListingFacetList = ListingFacet[];
-export type TypeToFacetMap = { [key in SearchFacetType]?: ListingFacet[] };
+export type TypeToFacetMap = { [key in SearchFacetType]?: ListingFacet[] | undefined };
 export interface SearchFacetsOutput {
   totalResults: number;
   listingFacets: { [key: string]: ListingFacet[] | undefined };
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type SearchListingsSortBy = "RELEVANCE" | "AVERAGE_CUSTOMER_RATING" | (string & {});
 export type SearchListingsSortOrder = "DESCENDING" | "ASCENDING" | (string & {});
 export interface SearchListingsInput {
-  locale?: string;
-  searchText?: string;
-  filters?: SearchFilter[];
-  maxResults?: number;
-  sortBy?: SearchListingsSortBy;
-  sortOrder?: SearchListingsSortOrder;
-  nextToken?: string;
+  locale?: string | undefined;
+  searchText?: string | undefined;
+  filters?: SearchFilter[] | undefined;
+  maxResults?: number | undefined;
+  sortBy?: SearchListingsSortBy | undefined;
+  sortOrder?: SearchListingsSortOrder | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListingSummaryAssociatedEntity {
-  product?: ProductInformation;
+  product?: ProductInformation | undefined;
 }
 export type ListingSummaryAssociatedEntityList = ListingSummaryAssociatedEntity[];
 export interface ListingSummary {
@@ -1226,7 +1226,7 @@ export type ListingSummaryList = ListingSummary[];
 export interface SearchListingsOutput {
   totalResults: number;
   listingSummaries: ListingSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ExceptionMessage = string;
 export type GetListingError = ResourceNotFoundException | CommonErrors;

@@ -146,11 +146,11 @@ export interface SubscriptionDescription {
   status: SubscriptionStatus;
   createdAt: Date;
   lastUpdatedAt: Date;
-  activatedAt?: Date;
-  deactivatedAt?: Date;
+  activatedAt?: Date | undefined;
+  deactivatedAt?: Date | undefined;
 }
 export interface ActivateSubscriptionOutput {
-  subscription?: SubscriptionDescription;
+  subscription?: SubscriptionDescription | undefined;
 }
 export type DomainName = string;
 export type KmsKeyArn = string;
@@ -164,15 +164,15 @@ export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateDomainInput {
   name: string;
-  kmsKeyArn?: string;
-  webAppSetupConfiguration?: CreateWebAppConfiguration;
-  tags?: { [key: string]: string | undefined };
+  kmsKeyArn?: string | undefined;
+  webAppSetupConfiguration?: CreateWebAppConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DomainArn = string;
 export type EncryptionType = "AWS_OWNED_KEY" | "CUSTOMER_MANAGED_KEY" | (string & {});
 export interface EncryptionContext {
   encryptionType: EncryptionType;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
 }
 export type DomainStatus = "ACTIVE" | "DELETING" | "DELETED" | (string & {});
 export type WebAppUrl = string;
@@ -185,11 +185,11 @@ export interface CreateDomainOutput {
   domainId: string;
   arn: string;
   name: string;
-  kmsKeyArn?: string;
-  encryptionContext?: EncryptionContext;
+  kmsKeyArn?: string | undefined;
+  encryptionContext?: EncryptionContext | undefined;
   status: DomainStatus;
-  webAppUrl?: string;
-  webAppConfiguration?: WebAppConfiguration;
+  webAppUrl?: string | undefined;
+  webAppConfiguration?: WebAppConfiguration | undefined;
   createdAt: Date;
 }
 export interface CreateSubscriptionInput {
@@ -202,15 +202,15 @@ export interface CreateSubscriptionOutput {
   status: SubscriptionStatus;
   createdAt: Date;
   lastUpdatedAt: Date;
-  activatedAt?: Date;
-  deactivatedAt?: Date;
+  activatedAt?: Date | undefined;
+  deactivatedAt?: Date | undefined;
 }
 export interface DeactivateSubscriptionInput {
   domainId: string;
   subscriptionId: string;
 }
 export interface DeactivateSubscriptionOutput {
-  subscription?: SubscriptionDescription;
+  subscription?: SubscriptionDescription | undefined;
 }
 export interface DeleteDomainInput {
   domainId: string;
@@ -227,13 +227,13 @@ export interface GetDomainOutput {
   domainId: string;
   arn: string;
   name: string;
-  kmsKeyArn?: string;
-  encryptionContext?: EncryptionContext;
+  kmsKeyArn?: string | undefined;
+  encryptionContext?: EncryptionContext | undefined;
   status: DomainStatus;
-  webAppUrl?: string;
-  webAppConfiguration?: WebAppConfiguration;
+  webAppUrl?: string | undefined;
+  webAppConfiguration?: WebAppConfiguration | undefined;
   createdAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ScribeSessionId = string;
 export interface GetMedicalScribeListeningSessionInput {
@@ -262,7 +262,7 @@ export type ManagedNoteTemplate =
   | "PHYSICAL_SOAP"
   | (string & {});
 export interface ManagedTemplateResponse {
-  templateType?: ManagedNoteTemplate;
+  templateType?: ManagedNoteTemplate | undefined;
 }
 export type CustomTemplateBase =
   | "HISTORY_AND_PHYSICAL"
@@ -273,13 +273,13 @@ export type CustomTemplateBase =
   | "BEHAVIORAL_SOAP"
   | (string & {});
 export interface CustomTemplateResponse {
-  templateType?: CustomTemplateBase;
+  templateType?: CustomTemplateBase | undefined;
 }
 export type NoteTemplateSettingsResponse =
   | { managedTemplate: ManagedTemplateResponse; customTemplate?: never }
   | { managedTemplate?: never; customTemplate: CustomTemplateResponse };
 export interface ClinicalNoteGenerationSettingsResponse {
-  noteTemplateSettings?: NoteTemplateSettingsResponse;
+  noteTemplateSettings?: NoteTemplateSettingsResponse | undefined;
 }
 export interface MedicalScribePostStreamActionSettingsResponse {
   outputS3Uri: string;
@@ -293,17 +293,17 @@ export type PostStreamArtifactGenerationStatus =
   | (string & {});
 export type ErrorMessage = string;
 export interface ArtifactDetails {
-  outputLocation?: string;
-  status?: PostStreamArtifactGenerationStatus;
-  failureReason?: string;
+  outputLocation?: string | undefined;
+  status?: PostStreamArtifactGenerationStatus | undefined;
+  failureReason?: string | undefined;
 }
 export interface ClinicalNoteGenerationResult {
-  noteResult?: ArtifactDetails;
-  transcriptResult?: ArtifactDetails;
-  afterVisitSummaryResult?: ArtifactDetails;
+  noteResult?: ArtifactDetails | undefined;
+  transcriptResult?: ArtifactDetails | undefined;
+  afterVisitSummaryResult?: ArtifactDetails | undefined;
 }
 export interface MedicalScribePostStreamActionsResult {
-  clinicalNoteGenerationResult?: ClinicalNoteGenerationResult;
+  clinicalNoteGenerationResult?: ClinicalNoteGenerationResult | undefined;
 }
 export type NonNullBoolean = boolean;
 export type MedicalScribeStreamStatus =
@@ -313,22 +313,22 @@ export type MedicalScribeStreamStatus =
   | "COMPLETED"
   | (string & {});
 export interface MedicalScribeListeningSessionDetails {
-  sessionId?: string;
-  domainId?: string;
-  subscriptionId?: string;
-  languageCode?: MedicalScribeLanguageCode;
-  mediaSampleRateHertz?: number;
-  mediaEncoding?: MedicalScribeMediaEncoding;
-  channelDefinitions?: MedicalScribeChannelDefinition[];
-  postStreamActionSettings?: MedicalScribePostStreamActionSettingsResponse;
-  postStreamActionResult?: MedicalScribePostStreamActionsResult;
-  encounterContextProvided?: boolean;
-  streamStatus?: MedicalScribeStreamStatus;
-  streamCreationTime?: Date;
-  streamEndTime?: Date;
+  sessionId?: string | undefined;
+  domainId?: string | undefined;
+  subscriptionId?: string | undefined;
+  languageCode?: MedicalScribeLanguageCode | undefined;
+  mediaSampleRateHertz?: number | undefined;
+  mediaEncoding?: MedicalScribeMediaEncoding | undefined;
+  channelDefinitions?: MedicalScribeChannelDefinition[] | undefined;
+  postStreamActionSettings?: MedicalScribePostStreamActionSettingsResponse | undefined;
+  postStreamActionResult?: MedicalScribePostStreamActionsResult | undefined;
+  encounterContextProvided?: boolean | undefined;
+  streamStatus?: MedicalScribeStreamStatus | undefined;
+  streamCreationTime?: Date | undefined;
+  streamEndTime?: Date | undefined;
 }
 export interface GetMedicalScribeListeningSessionOutput {
-  medicalScribeListeningSessionDetails?: MedicalScribeListeningSessionDetails;
+  medicalScribeListeningSessionDetails?: MedicalScribeListeningSessionDetails | undefined;
 }
 export type JobId = string;
 export interface GetPatientInsightsJobRequest {
@@ -346,8 +346,8 @@ export type SensitiveIsoDateString = string | redacted.Redacted<string>;
 export type Pronouns = "HE_HIM" | "SHE_HER" | "THEY_THEM" | (string & {});
 export interface PatientInsightsPatientContext {
   patientId: string | redacted.Redacted<string>;
-  dateOfBirth?: string | redacted.Redacted<string>;
-  pronouns?: Pronouns;
+  dateOfBirth?: string | redacted.Redacted<string> | undefined;
+  pronouns?: Pronouns | undefined;
 }
 export type InsightsType = "PRE_VISIT" | (string & {});
 export interface InsightsContext {
@@ -361,19 +361,19 @@ export type Specialty = "PRIMARY_CARE" | (string & {});
 export interface UserContext {
   role: ProviderRole;
   userId: string | redacted.Redacted<string>;
-  specialty?: Specialty;
+  specialty?: Specialty | undefined;
 }
 export interface FHIRServer {
   fhirEndpoint: string;
-  oauthToken?: string | redacted.Redacted<string>;
+  oauthToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface S3Source {
   uri: string;
 }
 export type S3Sources = S3Source[];
 export interface InputDataConfig {
-  fhirServer?: FHIRServer;
-  s3Sources?: S3Source[];
+  fhirServer?: FHIRServer | undefined;
+  s3Sources?: S3Source[] | undefined;
 }
 export interface OutputDataConfig {
   s3OutputPath: string;
@@ -382,10 +382,10 @@ export interface GetPatientInsightsJobResponse {
   jobId: string;
   jobArn: string;
   jobStatus: JobStatus;
-  creationTime?: Date;
-  updatedTime?: Date;
-  insightsOutput?: InsightsOutput;
-  statusDetails?: string;
+  creationTime?: Date | undefined;
+  updatedTime?: Date | undefined;
+  insightsOutput?: InsightsOutput | undefined;
+  statusDetails?: string | undefined;
   patientContext: PatientInsightsPatientContext;
   insightsContext: InsightsContext;
   encounterContext: PatientInsightsEncounterContext;
@@ -398,12 +398,12 @@ export interface GetSubscriptionInput {
   subscriptionId: string;
 }
 export interface GetSubscriptionOutput {
-  subscription?: SubscriptionDescription;
+  subscription?: SubscriptionDescription | undefined;
 }
 export interface ListDomainsInput {
-  status?: DomainStatus;
-  maxResults?: number;
-  nextToken?: string;
+  status?: DomainStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DomainSummary {
   domainId: string;
@@ -415,23 +415,23 @@ export interface DomainSummary {
 export type DomainSummaryList = DomainSummary[];
 export interface ListDomainsOutput {
   domains: DomainSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSubscriptionsInput {
   domainId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type SubscriptionList = SubscriptionDescription[];
 export interface ListSubscriptionsOutput {
   subscriptions: SubscriptionDescription[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AudioChunk = Uint8Array;
 export interface MedicalScribeAudioEvent {
@@ -442,7 +442,7 @@ export interface MedicalScribeBinaryAudioEvent {
 }
 export type MedicalScribeSessionControlEventType = "END_OF_SESSION" | (string & {});
 export interface MedicalScribeSessionControlEvent {
-  type?: MedicalScribeSessionControlEventType;
+  type?: MedicalScribeSessionControlEventType | undefined;
 }
 export interface ManagedTemplate {
   templateType: ManagedNoteTemplate;
@@ -469,12 +469,12 @@ export interface MedicalScribePostStreamActionSettings {
   clinicalNoteGenerationSettings: ClinicalNoteGenerationSettings;
 }
 export interface EncounterContext {
-  unstructuredContext?: string | redacted.Redacted<string>;
+  unstructuredContext?: string | redacted.Redacted<string> | undefined;
 }
 export interface MedicalScribeConfigurationEvent {
   postStreamActionSettings: MedicalScribePostStreamActionSettings;
-  channelDefinitions?: MedicalScribeChannelDefinition[];
-  encounterContext?: EncounterContext;
+  channelDefinitions?: MedicalScribeChannelDefinition[] | undefined;
+  encounterContext?: EncounterContext | undefined;
 }
 export type MedicalScribeInputStream =
   | {
@@ -508,20 +508,20 @@ export interface StartMedicalScribeListeningSessionInput {
   languageCode: MedicalScribeLanguageCode;
   mediaSampleRateHertz: number;
   mediaEncoding: MedicalScribeMediaEncoding;
-  inputStream?: stream.Stream<MedicalScribeInputStream, Error, never>;
+  inputStream?: stream.Stream<MedicalScribeInputStream, Error, never> | undefined;
 }
 export type RequestId = string;
 export type AudioOffset = number;
 export interface MedicalScribeTranscriptSegment {
-  segmentId?: string;
-  audioBeginOffset?: number;
-  audioEndOffset?: number;
-  isPartial?: boolean;
-  channelId?: string;
-  content?: string;
+  segmentId?: string | undefined;
+  audioBeginOffset?: number | undefined;
+  audioEndOffset?: number | undefined;
+  isPartial?: boolean | undefined;
+  channelId?: string | undefined;
+  content?: string | undefined;
 }
 export interface MedicalScribeTranscriptEvent {
-  transcriptSegment?: MedicalScribeTranscriptSegment;
+  transcriptSegment?: MedicalScribeTranscriptSegment | undefined;
 }
 export type MedicalScribeOutputStream =
   | {
@@ -540,14 +540,14 @@ export type MedicalScribeOutputStream =
       validationException: ValidationException;
     };
 export interface StartMedicalScribeListeningSessionOutput {
-  sessionId?: string;
-  domainId?: string;
-  subscriptionId?: string;
-  requestId?: string;
-  languageCode?: MedicalScribeLanguageCode;
-  mediaSampleRateHertz?: number;
-  mediaEncoding?: MedicalScribeMediaEncoding;
-  responseStream?: stream.Stream<MedicalScribeOutputStream, Error, never>;
+  sessionId?: string | undefined;
+  domainId?: string | undefined;
+  subscriptionId?: string | undefined;
+  requestId?: string | undefined;
+  languageCode?: MedicalScribeLanguageCode | undefined;
+  mediaSampleRateHertz?: number | undefined;
+  mediaEncoding?: MedicalScribeMediaEncoding | undefined;
+  responseStream?: stream.Stream<MedicalScribeOutputStream, Error, never> | undefined;
 }
 export interface StartPatientInsightsJobRequest {
   domainId: string;
@@ -557,12 +557,12 @@ export interface StartPatientInsightsJobRequest {
   userContext: UserContext;
   inputDataConfig: InputDataConfig;
   outputDataConfig: OutputDataConfig;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StartPatientInsightsJobResponse {
   jobArn: string;
   jobId: string;
-  creationTime?: Date;
+  creationTime?: Date | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;

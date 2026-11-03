@@ -84,22 +84,22 @@ export type RulesBulkCreateRequestBodyItemAction = "log" | "block";
 export type RulesBulkCreateRequestBodyItemSelectorExcludeItemOperationIdsList = Array<string>;
 export interface RulesBulkCreateRequestBodyItemSelectorExcludeItem {
   /** Excluded operation IDs. */
-  operationIds?: RulesBulkCreateRequestBodyItemSelectorExcludeItemOperationIdsList;
+  operationIds?: RulesBulkCreateRequestBodyItemSelectorExcludeItemOperationIdsList | undefined;
 }
 export type RulesBulkCreateRequestBodyItemSelectorExcludeList =
   Array<RulesBulkCreateRequestBodyItemSelectorExcludeItem>;
 export type RulesBulkCreateRequestBodyItemSelectorIncludeItemHostList = Array<string>;
 export interface RulesBulkCreateRequestBodyItemSelectorIncludeItem {
   /** Included hostnames. */
-  host?: RulesBulkCreateRequestBodyItemSelectorIncludeItemHostList;
+  host?: RulesBulkCreateRequestBodyItemSelectorIncludeItemHostList | undefined;
 }
 export type RulesBulkCreateRequestBodyItemSelectorIncludeList =
   Array<RulesBulkCreateRequestBodyItemSelectorIncludeItem>;
 export interface RulesBulkCreateRequestBodyItemSelector {
   /** Ignore operations that were otherwise included by `include`. */
-  exclude?: RulesBulkCreateRequestBodyItemSelectorExcludeList;
+  exclude?: RulesBulkCreateRequestBodyItemSelectorExcludeList | undefined;
   /** Select all matching operations. */
-  include?: RulesBulkCreateRequestBodyItemSelectorIncludeList;
+  include?: RulesBulkCreateRequestBodyItemSelectorIncludeList | undefined;
 }
 export interface RulesBulkCreateRequestBodyItem {
   /** Action to take on requests that match operations included in `selector` and fail `expression`. */
@@ -125,22 +125,22 @@ export type RulesBulkCreateResultItemAction = "log" | "block";
 export type RulesBulkCreateResultItemSelectorExcludeItemOperationIdsList = Array<string>;
 export interface RulesBulkCreateResultItemSelectorExcludeItem {
   /** Excluded operation IDs. */
-  operationIds?: RulesBulkCreateResultItemSelectorExcludeItemOperationIdsList | null;
+  operationIds?: RulesBulkCreateResultItemSelectorExcludeItemOperationIdsList | null | undefined;
 }
 export type RulesBulkCreateResultItemSelectorExcludeList =
   Array<RulesBulkCreateResultItemSelectorExcludeItem>;
 export type RulesBulkCreateResultItemSelectorIncludeItemHostList = Array<string>;
 export interface RulesBulkCreateResultItemSelectorIncludeItem {
   /** Included hostnames. */
-  host?: RulesBulkCreateResultItemSelectorIncludeItemHostList | null;
+  host?: RulesBulkCreateResultItemSelectorIncludeItemHostList | null | undefined;
 }
 export type RulesBulkCreateResultItemSelectorIncludeList =
   Array<RulesBulkCreateResultItemSelectorIncludeItem>;
 export interface RulesBulkCreateResultItemSelector {
   /** Ignore operations that were otherwise included by `include`. */
-  exclude?: RulesBulkCreateResultItemSelectorExcludeList | null;
+  exclude?: RulesBulkCreateResultItemSelectorExcludeList | null | undefined;
   /** Select all matching operations. */
-  include?: RulesBulkCreateResultItemSelectorIncludeList | null;
+  include?: RulesBulkCreateResultItemSelectorIncludeList | null | undefined;
 }
 export interface RulesBulkCreateResultItem {
   /** Action to take on requests that match operations included in `selector` and fail `expression`. */
@@ -156,9 +156,9 @@ export interface RulesBulkCreateResultItem {
   /** A human-readable name for the rule. */
   title: string;
   /** UUID. */
-  id?: string | null;
-  createdAt?: string | null;
-  lastUpdated?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
 }
 export type RulesBulkCreateResultList = Array<RulesBulkCreateResultItem>;
 export interface BulkCreateRulesResponse {
@@ -174,11 +174,11 @@ export interface RulesBulkEditRequestBodyItemPositionAPIShieldIndex {
 }
 export interface RulesBulkEditRequestBodyItemPositionAPIShieldBefore {
   /** Move rule to before rule with this ID. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface RulesBulkEditRequestBodyItemPositionAPIShieldAfter {
   /** Move rule to after rule with this ID. */
-  after?: string;
+  after?: string | undefined;
 }
 export type RulesBulkEditRequestBodyItemPosition =
   | RulesBulkEditRequestBodyItemPositionAPIShieldIndex
@@ -187,40 +187,40 @@ export type RulesBulkEditRequestBodyItemPosition =
 export type RulesBulkEditRequestBodyItemSelectorExcludeItemOperationIdsList = Array<string>;
 export interface RulesBulkEditRequestBodyItemSelectorExcludeItem {
   /** Excluded operation IDs. */
-  operationIds?: RulesBulkEditRequestBodyItemSelectorExcludeItemOperationIdsList;
+  operationIds?: RulesBulkEditRequestBodyItemSelectorExcludeItemOperationIdsList | undefined;
 }
 export type RulesBulkEditRequestBodyItemSelectorExcludeList =
   Array<RulesBulkEditRequestBodyItemSelectorExcludeItem>;
 export type RulesBulkEditRequestBodyItemSelectorIncludeItemHostList = Array<string>;
 export interface RulesBulkEditRequestBodyItemSelectorIncludeItem {
   /** Included hostnames. */
-  host?: RulesBulkEditRequestBodyItemSelectorIncludeItemHostList;
+  host?: RulesBulkEditRequestBodyItemSelectorIncludeItemHostList | undefined;
 }
 export type RulesBulkEditRequestBodyItemSelectorIncludeList =
   Array<RulesBulkEditRequestBodyItemSelectorIncludeItem>;
 export interface RulesBulkEditRequestBodyItemSelector {
   /** Ignore operations that were otherwise included by `include`. */
-  exclude?: RulesBulkEditRequestBodyItemSelectorExcludeList;
+  exclude?: RulesBulkEditRequestBodyItemSelectorExcludeList | undefined;
   /** Select all matching operations. */
-  include?: RulesBulkEditRequestBodyItemSelectorIncludeList;
+  include?: RulesBulkEditRequestBodyItemSelectorIncludeList | undefined;
 }
 export interface RulesBulkEditRequestBodyItem {
   /** Rule ID this patch applies to */
   id: string;
   /** Action to take on requests that match operations included in `selector` and fail `expression`. */
-  action?: RulesBulkEditRequestBodyItemAction | (string & {});
+  action?: RulesBulkEditRequestBodyItemAction | (string & {}) | undefined;
   /** A human-readable description that gives more details than `title`. */
-  description?: string;
+  description?: string | undefined;
   /** Toggle rule on or off. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Rule expression. Requests that fail to match this expression will be subject to `action`. */
-  expression?: string;
+  expression?: string | undefined;
   /** Update rule order among zone rules. */
-  position?: RulesBulkEditRequestBodyItemPosition;
+  position?: RulesBulkEditRequestBodyItemPosition | undefined;
   /** Select operations covered by this rule. */
-  selector?: RulesBulkEditRequestBodyItemSelector;
+  selector?: RulesBulkEditRequestBodyItemSelector | undefined;
   /** A human-readable name for the rule. */
-  title?: string;
+  title?: string | undefined;
 }
 export type RulesBulkEditRequestBodyList = Array<RulesBulkEditRequestBodyItem>;
 export interface BulkPatchRulesRequest {
@@ -232,22 +232,22 @@ export type RulesBulkEditResultItemAction = "log" | "block";
 export type RulesBulkEditResultItemSelectorExcludeItemOperationIdsList = Array<string>;
 export interface RulesBulkEditResultItemSelectorExcludeItem {
   /** Excluded operation IDs. */
-  operationIds?: RulesBulkEditResultItemSelectorExcludeItemOperationIdsList | null;
+  operationIds?: RulesBulkEditResultItemSelectorExcludeItemOperationIdsList | null | undefined;
 }
 export type RulesBulkEditResultItemSelectorExcludeList =
   Array<RulesBulkEditResultItemSelectorExcludeItem>;
 export type RulesBulkEditResultItemSelectorIncludeItemHostList = Array<string>;
 export interface RulesBulkEditResultItemSelectorIncludeItem {
   /** Included hostnames. */
-  host?: RulesBulkEditResultItemSelectorIncludeItemHostList | null;
+  host?: RulesBulkEditResultItemSelectorIncludeItemHostList | null | undefined;
 }
 export type RulesBulkEditResultItemSelectorIncludeList =
   Array<RulesBulkEditResultItemSelectorIncludeItem>;
 export interface RulesBulkEditResultItemSelector {
   /** Ignore operations that were otherwise included by `include`. */
-  exclude?: RulesBulkEditResultItemSelectorExcludeList | null;
+  exclude?: RulesBulkEditResultItemSelectorExcludeList | null | undefined;
   /** Select all matching operations. */
-  include?: RulesBulkEditResultItemSelectorIncludeList | null;
+  include?: RulesBulkEditResultItemSelectorIncludeList | null | undefined;
 }
 export interface RulesBulkEditResultItem {
   /** Action to take on requests that match operations included in `selector` and fail `expression`. */
@@ -263,9 +263,9 @@ export interface RulesBulkEditResultItem {
   /** A human-readable name for the rule. */
   title: string;
   /** UUID. */
-  id?: string | null;
-  createdAt?: string | null;
-  lastUpdated?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
 }
 export type RulesBulkEditResultList = Array<RulesBulkEditResultItem>;
 export interface BulkPatchRulesResponse {
@@ -478,20 +478,20 @@ export type RulesCreateRequestAction = "log" | "block";
 export type RulesCreateRequestSelectorExcludeItemOperationIdsList = Array<string>;
 export interface RulesCreateRequestSelectorExcludeItem {
   /** Excluded operation IDs. */
-  operationIds?: RulesCreateRequestSelectorExcludeItemOperationIdsList;
+  operationIds?: RulesCreateRequestSelectorExcludeItemOperationIdsList | undefined;
 }
 export type RulesCreateRequestSelectorExcludeList = Array<RulesCreateRequestSelectorExcludeItem>;
 export type RulesCreateRequestSelectorIncludeItemHostList = Array<string>;
 export interface RulesCreateRequestSelectorIncludeItem {
   /** Included hostnames. */
-  host?: RulesCreateRequestSelectorIncludeItemHostList;
+  host?: RulesCreateRequestSelectorIncludeItemHostList | undefined;
 }
 export type RulesCreateRequestSelectorIncludeList = Array<RulesCreateRequestSelectorIncludeItem>;
 export interface RulesCreateRequestSelector {
   /** Ignore operations that were otherwise included by `include`. */
-  exclude?: RulesCreateRequestSelectorExcludeList;
+  exclude?: RulesCreateRequestSelectorExcludeList | undefined;
   /** Select all matching operations. */
-  include?: RulesCreateRequestSelectorIncludeList;
+  include?: RulesCreateRequestSelectorIncludeList | undefined;
 }
 export interface CreateRuleRequest {
   /** Identifier. */
@@ -513,20 +513,20 @@ export type RulesCreateResponseAction = "log" | "block";
 export type RulesCreateResponseSelectorExcludeItemOperationIdsList = Array<string>;
 export interface RulesCreateResponseSelectorExcludeItem {
   /** Excluded operation IDs. */
-  operationIds?: RulesCreateResponseSelectorExcludeItemOperationIdsList | null;
+  operationIds?: RulesCreateResponseSelectorExcludeItemOperationIdsList | null | undefined;
 }
 export type RulesCreateResponseSelectorExcludeList = Array<RulesCreateResponseSelectorExcludeItem>;
 export type RulesCreateResponseSelectorIncludeItemHostList = Array<string>;
 export interface RulesCreateResponseSelectorIncludeItem {
   /** Included hostnames. */
-  host?: RulesCreateResponseSelectorIncludeItemHostList | null;
+  host?: RulesCreateResponseSelectorIncludeItemHostList | null | undefined;
 }
 export type RulesCreateResponseSelectorIncludeList = Array<RulesCreateResponseSelectorIncludeItem>;
 export interface RulesCreateResponseSelector {
   /** Ignore operations that were otherwise included by `include`. */
-  exclude?: RulesCreateResponseSelectorExcludeList | null;
+  exclude?: RulesCreateResponseSelectorExcludeList | null | undefined;
   /** Select all matching operations. */
-  include?: RulesCreateResponseSelectorIncludeList | null;
+  include?: RulesCreateResponseSelectorIncludeList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateRuleResponse {
@@ -543,9 +543,9 @@ export interface CreateRuleResponse {
   /** A human-readable name for the rule. */
   title: string;
   /** UUID. */
-  id?: string | null;
-  createdAt?: string | null;
-  lastUpdated?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
 }
 export interface DeleteConfigurationRequest {
   /** Identifier. */
@@ -556,7 +556,7 @@ export interface DeleteConfigurationRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteConfigurationResponse {
   /** UUID. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeleteRuleRequest {
   /** Identifier. */
@@ -639,7 +639,7 @@ export interface EditConfigurationCredentialsRequestKeysItemAPIShieldCredentials
   /** Key Type */
   kty: EditConfigurationCredentialsRequestKeysItemAPIShieldCredentialsJWTKeyOctPatchRequestKty;
   /** Symmetric key material. Optional for PATCH: omit to preserve existing secret for matching `{alg,kid}`; send a string to rotate. `k: null` is invalid. */
-  k?: string;
+  k?: string | undefined;
 }
 export type EditConfigurationCredentialsRequestKeysItem =
   | EditConfigurationCredentialsRequestKeysItemAPIShieldCredentialsJWTKeyRSA
@@ -850,20 +850,20 @@ export type RulesGetResponseAction = "log" | "block";
 export type RulesGetResponseSelectorExcludeItemOperationIdsList = Array<string>;
 export interface RulesGetResponseSelectorExcludeItem {
   /** Excluded operation IDs. */
-  operationIds?: RulesGetResponseSelectorExcludeItemOperationIdsList | null;
+  operationIds?: RulesGetResponseSelectorExcludeItemOperationIdsList | null | undefined;
 }
 export type RulesGetResponseSelectorExcludeList = Array<RulesGetResponseSelectorExcludeItem>;
 export type RulesGetResponseSelectorIncludeItemHostList = Array<string>;
 export interface RulesGetResponseSelectorIncludeItem {
   /** Included hostnames. */
-  host?: RulesGetResponseSelectorIncludeItemHostList | null;
+  host?: RulesGetResponseSelectorIncludeItemHostList | null | undefined;
 }
 export type RulesGetResponseSelectorIncludeList = Array<RulesGetResponseSelectorIncludeItem>;
 export interface RulesGetResponseSelector {
   /** Ignore operations that were otherwise included by `include`. */
-  exclude?: RulesGetResponseSelectorExcludeList | null;
+  exclude?: RulesGetResponseSelectorExcludeList | null | undefined;
   /** Select all matching operations. */
-  include?: RulesGetResponseSelectorIncludeList | null;
+  include?: RulesGetResponseSelectorIncludeList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetRuleResponse {
@@ -880,17 +880,17 @@ export interface GetRuleResponse {
   /** A human-readable name for the rule. */
   title: string;
   /** UUID. */
-  id?: string | null;
-  createdAt?: string | null;
-  lastUpdated?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
 }
 export interface ListConfigurationsRequest {
   /** Identifier. */
   zoneId: string;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ConfigurationListResultItemCredentialsKeysItemAPIShieldCredentialsJWTKeyRSAAlg =
   | "RS256"
@@ -1002,42 +1002,42 @@ export interface ListRulesRequest {
   /** Identifier. */
   zoneId: string;
   /** Select rules with these IDs. */
-  id?: string;
+  id?: string | undefined;
   /** Action to take on requests that match operations included in `selector` and fail `expression`. */
-  action?: RulesListRequestAction | (string & {});
+  action?: RulesListRequestAction | (string & {}) | undefined;
   /** Toggle rule on or off. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Select rules with this host in `include`. */
-  host?: string;
+  host?: string | undefined;
   /** Select rules with this host in `include`. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Select rules with these IDs. */
-  ruleId?: string;
+  ruleId?: string | undefined;
   /** Select rules using any of these token configurations. */
-  tokenConfiguration?: RulesListRequestTokenConfigurationList;
+  tokenConfiguration?: RulesListRequestTokenConfigurationList | undefined;
 }
 export type RulesListResultItemAction = "log" | "block";
 export type RulesListResultItemSelectorExcludeItemOperationIdsList = Array<string>;
 export interface RulesListResultItemSelectorExcludeItem {
   /** Excluded operation IDs. */
-  operationIds?: RulesListResultItemSelectorExcludeItemOperationIdsList | null;
+  operationIds?: RulesListResultItemSelectorExcludeItemOperationIdsList | null | undefined;
 }
 export type RulesListResultItemSelectorExcludeList = Array<RulesListResultItemSelectorExcludeItem>;
 export type RulesListResultItemSelectorIncludeItemHostList = Array<string>;
 export interface RulesListResultItemSelectorIncludeItem {
   /** Included hostnames. */
-  host?: RulesListResultItemSelectorIncludeItemHostList | null;
+  host?: RulesListResultItemSelectorIncludeItemHostList | null | undefined;
 }
 export type RulesListResultItemSelectorIncludeList = Array<RulesListResultItemSelectorIncludeItem>;
 export interface RulesListResultItemSelector {
   /** Ignore operations that were otherwise included by `include`. */
-  exclude?: RulesListResultItemSelectorExcludeList | null;
+  exclude?: RulesListResultItemSelectorExcludeList | null | undefined;
   /** Select all matching operations. */
-  include?: RulesListResultItemSelectorIncludeList | null;
+  include?: RulesListResultItemSelectorIncludeList | null | undefined;
 }
 export interface RulesListResultItem {
   /** Action to take on requests that match operations included in `selector` and fail `expression`. */
@@ -1053,9 +1053,9 @@ export interface RulesListResultItem {
   /** A human-readable name for the rule. */
   title: string;
   /** UUID. */
-  id?: string | null;
-  createdAt?: string | null;
-  lastUpdated?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
 }
 export type RulesListResultList = Array<RulesListResultItem>;
 export interface ListRulesResponse {
@@ -1070,18 +1070,18 @@ export interface PatchConfigurationRequest {
   zoneId: string;
   /** UUID. */
   configId: string;
-  description?: string;
-  title?: string;
-  tokenSources?: ConfigurationEditRequestTokenSourcesList;
+  description?: string | undefined;
+  title?: string | undefined;
+  tokenSources?: ConfigurationEditRequestTokenSourcesList | undefined;
 }
 export type ConfigurationEditResponseTokenSourcesList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchConfigurationResponse {
   /** UUID. */
-  id?: string | null;
-  description?: string | null;
-  title?: string | null;
-  tokenSources?: ConfigurationEditResponseTokenSourcesList | null;
+  id?: string | null | undefined;
+  description?: string | null | undefined;
+  title?: string | null | undefined;
+  tokenSources?: ConfigurationEditResponseTokenSourcesList | null | undefined;
 }
 export type RulesEditRequestAction = "log" | "block";
 export type RulesEditRequestPositionAPIShieldIndex =
@@ -1097,20 +1097,20 @@ export type RulesEditRequestPosition =
 export type RulesEditRequestSelectorExcludeItemOperationIdsList = Array<string>;
 export interface RulesEditRequestSelectorExcludeItem {
   /** Excluded operation IDs. */
-  operationIds?: RulesEditRequestSelectorExcludeItemOperationIdsList;
+  operationIds?: RulesEditRequestSelectorExcludeItemOperationIdsList | undefined;
 }
 export type RulesEditRequestSelectorExcludeList = Array<RulesEditRequestSelectorExcludeItem>;
 export type RulesEditRequestSelectorIncludeItemHostList = Array<string>;
 export interface RulesEditRequestSelectorIncludeItem {
   /** Included hostnames. */
-  host?: RulesEditRequestSelectorIncludeItemHostList;
+  host?: RulesEditRequestSelectorIncludeItemHostList | undefined;
 }
 export type RulesEditRequestSelectorIncludeList = Array<RulesEditRequestSelectorIncludeItem>;
 export interface RulesEditRequestSelector {
   /** Ignore operations that were otherwise included by `include`. */
-  exclude?: RulesEditRequestSelectorExcludeList;
+  exclude?: RulesEditRequestSelectorExcludeList | undefined;
   /** Select all matching operations. */
-  include?: RulesEditRequestSelectorIncludeList;
+  include?: RulesEditRequestSelectorIncludeList | undefined;
 }
 export interface PatchRuleRequest {
   /** Identifier. */
@@ -1118,38 +1118,38 @@ export interface PatchRuleRequest {
   /** UUID. */
   ruleId: string;
   /** Action to take on requests that match operations included in `selector` and fail `expression`. */
-  action?: RulesEditRequestAction | (string & {});
+  action?: RulesEditRequestAction | (string & {}) | undefined;
   /** A human-readable description that gives more details than `title`. */
-  description?: string;
+  description?: string | undefined;
   /** Toggle rule on or off. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Rule expression. Requests that fail to match this expression will be subject to `action`. */
-  expression?: string;
+  expression?: string | undefined;
   /** Update rule order among zone rules. */
-  position?: RulesEditRequestPosition;
+  position?: RulesEditRequestPosition | undefined;
   /** Select operations covered by this rule. */
-  selector?: RulesEditRequestSelector;
+  selector?: RulesEditRequestSelector | undefined;
   /** A human-readable name for the rule. */
-  title?: string;
+  title?: string | undefined;
 }
 export type RulesEditResponseAction = "log" | "block";
 export type RulesEditResponseSelectorExcludeItemOperationIdsList = Array<string>;
 export interface RulesEditResponseSelectorExcludeItem {
   /** Excluded operation IDs. */
-  operationIds?: RulesEditResponseSelectorExcludeItemOperationIdsList | null;
+  operationIds?: RulesEditResponseSelectorExcludeItemOperationIdsList | null | undefined;
 }
 export type RulesEditResponseSelectorExcludeList = Array<RulesEditResponseSelectorExcludeItem>;
 export type RulesEditResponseSelectorIncludeItemHostList = Array<string>;
 export interface RulesEditResponseSelectorIncludeItem {
   /** Included hostnames. */
-  host?: RulesEditResponseSelectorIncludeItemHostList | null;
+  host?: RulesEditResponseSelectorIncludeItemHostList | null | undefined;
 }
 export type RulesEditResponseSelectorIncludeList = Array<RulesEditResponseSelectorIncludeItem>;
 export interface RulesEditResponseSelector {
   /** Ignore operations that were otherwise included by `include`. */
-  exclude?: RulesEditResponseSelectorExcludeList | null;
+  exclude?: RulesEditResponseSelectorExcludeList | null | undefined;
   /** Select all matching operations. */
-  include?: RulesEditResponseSelectorIncludeList | null;
+  include?: RulesEditResponseSelectorIncludeList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchRuleResponse {
@@ -1166,9 +1166,9 @@ export interface PatchRuleResponse {
   /** A human-readable name for the rule. */
   title: string;
   /** UUID. */
-  id?: string | null;
-  createdAt?: string | null;
-  lastUpdated?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  lastUpdated?: string | null | undefined;
 }
 export type ConfigurationCredentialsUpdateRequestKeysItemAPIShieldCredentialsJWTKeyRSAAlg =
   | "RS256"

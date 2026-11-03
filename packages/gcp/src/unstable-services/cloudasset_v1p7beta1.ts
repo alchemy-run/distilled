@@ -98,77 +98,80 @@ export type GoogleCloudAssetV1p7beta1PartitionSpecPartitionKeyEnum =
 /** Specifications of BigQuery partitioned table as export destination. */
 export interface GoogleCloudAssetV1p7beta1PartitionSpec {
   /** The partition key for BigQuery partitioned table. */
-  partitionKey?: GoogleCloudAssetV1p7beta1PartitionSpecPartitionKeyEnum | (string & {});
+  partitionKey?: GoogleCloudAssetV1p7beta1PartitionSpecPartitionKeyEnum | (string & {}) | undefined;
 }
 /** A BigQuery destination for exporting assets to. */
 export interface GoogleCloudAssetV1p7beta1BigQueryDestination {
   /** If this flag is `TRUE`, the snapshot results will be written to one or multiple tables, each of which contains results of one asset type. The [force] and [partition_spec] fields will apply to each of them. Field [table] will be concatenated with "_" and the asset type names (see https://cloud.google.com/asset-inventory/docs/supported-asset-types for supported asset types) to construct per-asset-type table names, in which all non-alphanumeric characters like "." and "/" will be substituted by "_". Example: if field [table] is "mytable" and snapshot results contain "storage.googleapis.com/Bucket" assets, the corresponding table name will be "mytable_storage_googleapis_com_Bucket". If any of these tables does not exist, a new table with the concatenated name will be created. When [content_type] in the ExportAssetsRequest is `RESOURCE`, the schema of each table will include RECORD-type columns mapped to the nested fields in the Asset.resource.data field of that asset type (up to the 15 nested level BigQuery supports (https://cloud.google.com/bigquery/docs/nested-repeated#limitations)). The fields in >15 nested levels will be stored in JSON format string as a child column of its parent RECORD column. If error occurs when exporting to any table, the whole export call will return an error but the export results that already succeed will persist. Example: if exporting to table_type_A succeeds when exporting to table_type_B fails during one export call, the results in table_type_A will persist and there will not be partial results persisting in a table. */
-  separateTablesPerAssetType?: boolean;
+  separateTablesPerAssetType?: boolean | undefined;
   /** If the destination table already exists and this flag is `TRUE`, the table will be overwritten by the contents of assets snapshot. If the flag is `FALSE` or unset and the destination table already exists, the export call returns an INVALID_ARGUMENT error. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** [partition_spec] determines whether to export to partitioned table(s) and how to partition the data. If [partition_spec] is unset or [partition_spec.partition_key] is unset or `PARTITION_KEY_UNSPECIFIED`, the snapshot results will be exported to non-partitioned table(s). [force] will decide whether to overwrite existing table(s). If [partition_spec] is specified. First, the snapshot results will be written to partitioned table(s) with two additional timestamp columns, readTime and requestTime, one of which will be the partition key. Secondly, in the case when any destination table already exists, it will first try to update existing table's schema as necessary by appending additional columns. Then, if [force] is `TRUE`, the corresponding partition will be overwritten by the snapshot results (data in different partitions will remain intact); if [force] is unset or `FALSE`, it will append the data. An error will be returned if the schema update or data appension fails. */
-  partitionSpec?: GoogleCloudAssetV1p7beta1PartitionSpec;
+  partitionSpec?: GoogleCloudAssetV1p7beta1PartitionSpec | undefined;
   /** Required. The BigQuery dataset in format "projects/projectId/datasets/datasetId", to which the snapshot result should be exported. If this dataset does not exist, the export call returns an INVALID_ARGUMENT error. */
-  dataset?: string;
+  dataset?: string | undefined;
   /** Required. The BigQuery table to which the snapshot result should be written. If this table does not exist, a new table with the given name will be created. */
-  table?: string;
+  table?: string | undefined;
 }
 /** A Cloud Storage location. */
 export interface GoogleCloudAssetV1p7beta1GcsDestination {
   /** The URI prefix of all generated Cloud Storage objects. Example: "gs://bucket_name/object_name_prefix". Each object URI is in format: "gs://bucket_name/object_name_prefix/{ASSET_TYPE}/{SHARD_NUMBER} and only contains assets for that type. starts from 0. Example: "gs://bucket_name/object_name_prefix/compute.googleapis.com/Disk/0" is the first shard of output objects containing all compute.googleapis.com/Disk assets. An INVALID_ARGUMENT error will be returned if file with the same name "gs://bucket_name/object_name_prefix" already exists. */
-  uriPrefix?: string;
+  uriPrefix?: string | undefined;
   /** The URI of the Cloud Storage object. It's the same URI that is used by gcloud storage. Example: "gs://bucket_name/object_name". See [Viewing and Editing Object Metadata](https://cloud.google.com/storage/docs/viewing-editing-metadata) for more information. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Output configuration for export assets destination. */
 export interface GoogleCloudAssetV1p7beta1OutputConfig {
   /** Destination on BigQuery. The output table stores the fields in asset proto as columns in BigQuery. */
-  bigqueryDestination?: GoogleCloudAssetV1p7beta1BigQueryDestination;
+  bigqueryDestination?: GoogleCloudAssetV1p7beta1BigQueryDestination | undefined;
   /** Destination on Cloud Storage. */
-  gcsDestination?: GoogleCloudAssetV1p7beta1GcsDestination;
+  gcsDestination?: GoogleCloudAssetV1p7beta1GcsDestination | undefined;
 }
 /** Export asset request. */
 export interface GoogleCloudAssetV1p7beta1ExportAssetsRequest {
   /** Timestamp to take an asset snapshot. This can only be set to a timestamp between the current time and the current time minus 35 days (inclusive). If not specified, the current time will be used. Due to delays in resource data collection and indexing, there is a volatile window during which running the same query may get different results. */
-  readTime?: string;
+  readTime?: string | undefined;
   /** A list of asset types to take a snapshot for. For example: "compute.googleapis.com/Disk". Regular expressions are also supported. For example: * "compute.googleapis.com.*" snapshots resources whose asset type starts with "compute.googleapis.com". * ".*Instance" snapshots resources whose asset type ends with "Instance". * ".*Instance.*" snapshots resources whose asset type contains "Instance". See [RE2](https://github.com/google/re2/wiki/Syntax) for all supported regular expression syntax. If the regular expression does not match any supported asset type, an INVALID_ARGUMENT error will be returned. If specified, only matching assets will be returned, otherwise, it will snapshot all asset types. See [Introduction to Cloud Asset Inventory](https://cloud.google.com/asset-inventory/docs/overview) for all supported asset types. */
-  assetTypes?: StringList;
+  assetTypes?: StringList | undefined;
   /** Asset content type. If not specified, no content but the asset name will be returned. */
-  contentType?: GoogleCloudAssetV1p7beta1ExportAssetsRequestContentTypeEnum | (string & {});
+  contentType?:
+    | GoogleCloudAssetV1p7beta1ExportAssetsRequestContentTypeEnum
+    | (string & {})
+    | undefined;
   /** Required. Output configuration indicating where the results will be output to. */
-  outputConfig?: GoogleCloudAssetV1p7beta1OutputConfig;
+  outputConfig?: GoogleCloudAssetV1p7beta1OutputConfig | undefined;
   /** A list of relationship types to export, for example: `INSTANCE_TO_INSTANCEGROUP`. This field should only be specified if content_type=RELATIONSHIP. If specified, it will snapshot [asset_types]' specified relationships, or give errors if any relationship_types' supported types are not in [asset_types]. If not specified, it will snapshot all [asset_types]' supported relationships. An unspecified [asset_types] field means all supported asset_types. See [Introduction to Cloud Asset Inventory](https://cloud.google.com/asset-inventory/docs/overview) for all supported asset types and relationship types. */
-  relationshipTypes?: StringList;
+  relationshipTypes?: StringList | undefined;
 }
 export interface ExportAssetsV1p7beta1Request {
   /** Required. The relative name of the root asset. This can only be an organization number (such as "organizations/123"), a project ID (such as "projects/my-project-id"), or a project number (such as "projects/12345"), or a folder number (such as "folders/123"). */
   parent: string;
   /** Request body */
-  body?: GoogleCloudAssetV1p7beta1ExportAssetsRequest;
+  body?: GoogleCloudAssetV1p7beta1ExportAssetsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 export interface GetOperationsRequest {
   /** The name of the operation resource. */

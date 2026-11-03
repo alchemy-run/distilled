@@ -44,7 +44,7 @@ export interface CodeOfConduct {
   key: string;
   name: string;
   url: string;
-  body?: string;
+  body?: string | undefined;
   html_url: string | null;
 }
 export type GetAllCodesOfConductResponseBodyList = Array<CodeOfConduct>;

@@ -261,38 +261,38 @@ export interface CostCategoryValues {
   values: string[];
 }
 export interface TimeRange {
-  beginDateInclusive?: Date;
-  endDateInclusive?: Date;
+  beginDateInclusive?: Date | undefined;
+  endDateInclusive?: Date | undefined;
 }
 export interface Expression {
-  dimensions?: DimensionValues;
-  tags?: TagValues;
-  costCategories?: CostCategoryValues;
-  timeRange?: TimeRange;
+  dimensions?: DimensionValues | undefined;
+  tags?: TagValues | undefined;
+  costCategories?: CostCategoryValues | undefined;
+  timeRange?: TimeRange | undefined;
 }
 export type ClientToken = string;
 export type ResourceTagKey = string;
 export type ResourceTagValue = string;
 export interface ResourceTag {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type ResourceTagList = ResourceTag[];
 export interface CreateBillingViewRequest {
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   sourceViews: string[];
-  dataFilterExpression?: Expression;
-  clientToken?: string;
-  resourceTags?: ResourceTag[];
+  dataFilterExpression?: Expression | undefined;
+  clientToken?: string | undefined;
+  resourceTags?: ResourceTag[] | undefined;
 }
 export interface CreateBillingViewResponse {
   arn: string;
-  createdAt?: Date;
+  createdAt?: Date | undefined;
 }
 export interface DeleteBillingViewRequest {
   arn: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteBillingViewResponse {
   arn: string;
@@ -319,15 +319,15 @@ export type BillingFeatureFilterName = "PREFERENCE_KEY" | (string & {});
 export type BillingFeatureFilterValue = string;
 export type BillingFeatureFilterValues = string[];
 export interface BillingFeatureFilter {
-  name?: BillingFeatureFilterName;
-  value?: string[];
+  name?: BillingFeatureFilterName | undefined;
+  value?: string[] | undefined;
 }
 export type BillingFeatureFilters = BillingFeatureFilter[];
 export interface GetBillingPreferencesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   features: BillingFeature[];
-  filters?: BillingFeatureFilter[];
+  filters?: BillingFeatureFilter[] | undefined;
 }
 export type PreferenceKey = string;
 export type PreferenceValue = "ENABLED" | "DISABLED" | (string & {});
@@ -343,14 +343,14 @@ export interface BillingPreferenceSummary {
   feature: BillingFeature;
   key: string;
   value: PreferenceValue;
-  accountName?: string;
-  accountId?: string;
-  billingPeriod?: BillingPeriod;
+  accountName?: string | undefined;
+  accountId?: string | undefined;
+  billingPeriod?: BillingPeriod | undefined;
 }
 export type BillingPreferences = BillingPreferenceSummary[];
 export interface GetBillingPreferencesResponse {
   billingPreferences: BillingPreferenceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface GetBillingViewRequest {
   arn: string;
@@ -375,34 +375,34 @@ export type BillingViewStatusReason =
   | (string & {});
 export type BillingViewStatusReasons = BillingViewStatusReason[];
 export interface BillingViewHealthStatus {
-  statusCode?: BillingViewStatus;
-  statusReasons?: BillingViewStatusReason[];
+  statusCode?: BillingViewStatus | undefined;
+  statusReasons?: BillingViewStatusReason[] | undefined;
 }
 export interface BillingViewElement {
-  arn?: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  billingViewType?: BillingViewType;
-  ownerAccountId?: string;
-  sourceAccountId?: string;
-  dataFilterExpression?: Expression;
-  createdAt?: Date;
-  updatedAt?: Date;
-  derivedViewCount?: number;
-  sourceViewCount?: number;
-  viewDefinitionLastUpdatedAt?: Date;
-  healthStatus?: BillingViewHealthStatus;
+  arn?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  billingViewType?: BillingViewType | undefined;
+  ownerAccountId?: string | undefined;
+  sourceAccountId?: string | undefined;
+  dataFilterExpression?: Expression | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  derivedViewCount?: number | undefined;
+  sourceViewCount?: number | undefined;
+  viewDefinitionLastUpdatedAt?: Date | undefined;
+  healthStatus?: BillingViewHealthStatus | undefined;
 }
 export interface GetBillingViewResponse {
   billingView: BillingViewElement;
 }
 export interface GetCreditAllocationHistoryRequest {
   accountId: string;
-  creditId?: number;
+  creditId?: number | undefined;
   startDate: Date;
   endDate: Date;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type CreditId = string;
 export type CurrencyCode = string;
@@ -415,7 +415,7 @@ export type BillingMonth = string;
 export interface CreditAllocationHistoryEntry {
   creditId: string;
   creditAmount: Amount;
-  description?: string;
+  description?: string | undefined;
   accountId: string;
   appliedServiceName: string;
   billingMonth: string;
@@ -424,16 +424,16 @@ export interface CreditAllocationHistoryEntry {
 export type CreditAllocationHistoryList = CreditAllocationHistoryEntry[];
 export type FailedMonthsList = string[];
 export interface GetCreditAllocationHistoryResponse {
-  creditAllocationHistoryList?: CreditAllocationHistoryEntry[];
+  creditAllocationHistoryList?: CreditAllocationHistoryEntry[] | undefined;
   partialResults: boolean;
-  failedMonths?: string[];
-  nextToken?: string;
+  failedMonths?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetCreditsRequest {
   accountId: string;
   startDate: Date;
-  endDate?: Date;
-  payerAccountFlag?: boolean;
+  endDate?: Date | undefined;
+  payerAccountFlag?: boolean | undefined;
 }
 export type ProductName = string;
 export type ProductNames = string[];
@@ -454,25 +454,25 @@ export interface CreditData {
   creditType: string;
   initialAmount: Amount;
   remainingAmount: Amount;
-  estimatedAmount?: Amount;
-  applicableProductNames?: string[];
+  estimatedAmount?: Amount | undefined;
+  applicableProductNames?: string[] | undefined;
   description: string;
   startDate: Date;
-  endDate?: Date;
-  exhaustDate?: Date;
-  applicationType?: ApplicationType;
-  shareableAccounts?: string[];
-  accountHasCreditSharingEnabled?: boolean;
-  creditConsoleVisibility?: string;
-  creditSharingType?: CreditSharingType;
-  costCategoryArn?: string;
-  ruleName?: string;
-  creditStatus?: CreditStatus;
-  purchaseTypeApplications?: string[];
+  endDate?: Date | undefined;
+  exhaustDate?: Date | undefined;
+  applicationType?: ApplicationType | undefined;
+  shareableAccounts?: string[] | undefined;
+  accountHasCreditSharingEnabled?: boolean | undefined;
+  creditConsoleVisibility?: string | undefined;
+  creditSharingType?: CreditSharingType | undefined;
+  costCategoryArn?: string | undefined;
+  ruleName?: string | undefined;
+  creditStatus?: CreditStatus | undefined;
+  purchaseTypeApplications?: string[] | undefined;
 }
 export type CreditDataList = CreditData[];
 export interface GetCreditsResponse {
-  credits?: CreditData[];
+  credits?: CreditData[] | undefined;
 }
 export type EnterpriseSupportBillingMonth = string;
 export interface GetEnterpriseSupportChargeSummaryRequest {
@@ -480,25 +480,25 @@ export interface GetEnterpriseSupportChargeSummaryRequest {
 }
 export interface PricingPlanTier {
   tierMinimum: string;
-  tierMaximum?: string;
+  tierMaximum?: string | undefined;
   baseCharge: string;
   additionalPercentageOfAggregateCharges: string;
   aggregateChargesAdjustment: string;
   incremental: boolean;
-  increment?: string;
-  incrementCharge?: string;
+  increment?: string | undefined;
+  incrementCharge?: string | undefined;
 }
 export type PricingPlanTierList = PricingPlanTier[];
 export interface PricingPlan {
-  pricingPlanId?: string;
-  name?: string;
-  description?: string;
-  startDate?: Date;
-  endDate?: Date;
-  planDiscountPercent?: string;
-  discountAppliesToMinimumCharge?: boolean;
-  minimumCharge?: string;
-  tiered?: string;
+  pricingPlanId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  startDate?: Date | undefined;
+  endDate?: Date | undefined;
+  planDiscountPercent?: string | undefined;
+  discountAppliesToMinimumCharge?: boolean | undefined;
+  minimumCharge?: string | undefined;
+  tiered?: string | undefined;
   tiers: PricingPlanTier[];
 }
 export interface GetEnterpriseSupportChargeSummaryResponse {
@@ -533,23 +533,23 @@ export interface ChargeAccount {
 export type ChargeAccountList = ChargeAccount[];
 export interface AdditionalCharge {
   description: string;
-  amount?: string;
-  chargeType?: string;
+  amount?: string | undefined;
+  chargeType?: string | undefined;
 }
 export type AdditionalChargeList = AdditionalCharge[];
 export type PricingPlanList = PricingPlan[];
 export interface GetEnterpriseSupportContractDetailsResponse {
-  isContractActive?: boolean;
+  isContractActive?: boolean | undefined;
   supportAllocationMethod: string;
-  supportReservedInstanceAmortizationStartDate?: Date;
-  supportReservedInstanceTreatmentMethod?: string;
-  supportSavingsPlansAmortizationStartDate?: Date;
-  supportSavingsPlansTreatmentMethod?: string;
-  supportProrateStartDate?: Date;
+  supportReservedInstanceAmortizationStartDate?: Date | undefined;
+  supportReservedInstanceTreatmentMethod?: string | undefined;
+  supportSavingsPlansAmortizationStartDate?: Date | undefined;
+  supportSavingsPlansTreatmentMethod?: string | undefined;
+  supportProrateStartDate?: Date | undefined;
   contractPayerAccountIds: ContractAccount[];
   chargedPayerAccountIds: ChargeAccount[];
-  additionalSupportCharge?: AdditionalCharge[];
-  additionalSupportEligibleUsageSpend?: AdditionalCharge[];
+  additionalSupportCharge?: AdditionalCharge[] | undefined;
+  additionalSupportEligibleUsageSpend?: AdditionalCharge[] | undefined;
   pricingPlans: PricingPlan[];
 }
 export type ResourceArn = string;
@@ -559,7 +559,7 @@ export interface GetResourcePolicyRequest {
 export type PolicyDocument = string;
 export interface GetResourcePolicyResponse {
   resourceArn: string;
-  policy?: string;
+  policy?: string | undefined;
 }
 export interface ActiveTimeRange {
   activeAfterInclusive: Date;
@@ -576,78 +576,78 @@ export interface StringSearch {
 export type StringSearches = StringSearch[];
 export type BillingViewsMaxResults = number;
 export interface ListBillingViewsRequest {
-  activeTimeRange?: ActiveTimeRange;
-  arns?: string[];
-  billingViewTypes?: BillingViewType[];
-  names?: StringSearch[];
-  ownerAccountId?: string;
-  sourceAccountId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  activeTimeRange?: ActiveTimeRange | undefined;
+  arns?: string[] | undefined;
+  billingViewTypes?: BillingViewType[] | undefined;
+  names?: StringSearch[] | undefined;
+  ownerAccountId?: string | undefined;
+  sourceAccountId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface BillingViewListElement {
-  arn?: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  ownerAccountId?: string;
-  sourceAccountId?: string;
-  billingViewType?: BillingViewType;
-  healthStatus?: BillingViewHealthStatus;
+  arn?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  ownerAccountId?: string | undefined;
+  sourceAccountId?: string | undefined;
+  billingViewType?: BillingViewType | undefined;
+  healthStatus?: BillingViewHealthStatus | undefined;
 }
 export type BillingViewList = BillingViewListElement[];
 export interface ListBillingViewsResponse {
   billingViews: BillingViewListElement[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface BillingViewSegmentTimeRange {
-  beginDateInclusive?: Date;
-  endDateExclusive?: Date;
+  beginDateInclusive?: Date | undefined;
+  endDateExclusive?: Date | undefined;
 }
 export interface ListBillingViewSegmentsRequest {
-  timeRange?: BillingViewSegmentTimeRange;
-  arn?: string;
-  maxResults?: number;
-  nextToken?: string;
+  timeRange?: BillingViewSegmentTimeRange | undefined;
+  arn?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type BillingDomain = "BILLABLE" | "PRO_FORMA" | (string & {});
 export interface BillingViewSegmentsListElement {
-  domain?: BillingDomain;
-  timeRange?: BillingViewSegmentTimeRange;
-  billingTransferAccountId?: string;
-  managementAccountId?: string;
-  billingGroupPrimaryAccountId?: string;
+  domain?: BillingDomain | undefined;
+  timeRange?: BillingViewSegmentTimeRange | undefined;
+  billingTransferAccountId?: string | undefined;
+  managementAccountId?: string | undefined;
+  billingGroupPrimaryAccountId?: string | undefined;
 }
 export type BillingViewSegmentsList = BillingViewSegmentsListElement[];
 export interface ListBillingViewSegmentsResponse {
   items: BillingViewSegmentsListElement[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type BusinessSupportBillingMonth = string;
 export interface ListBusinessSupportAccountChargesRequest {
   billingMonth: string;
-  accountId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  accountId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface BusinessSupportTierCharge {
   tierDescription: string;
   tierRate: string;
   usageSlice: string;
   tierCharge: string;
-  chargePeriodStartDate?: Date;
-  chargePeriodEndDate?: Date;
+  chargePeriodStartDate?: Date | undefined;
+  chargePeriodEndDate?: Date | undefined;
 }
 export type BusinessSupportTierChargeList = BusinessSupportTierCharge[];
 export interface BusinessSupportDiscount {
-  discountAmount?: string;
-  discountPercentage?: string;
-  discountType?: string;
-  discountSource?: string;
+  discountAmount?: string | undefined;
+  discountPercentage?: string | undefined;
+  discountType?: string | undefined;
+  discountSource?: string | undefined;
 }
 export interface BusinessSupportServiceSpend {
   contributingService: string;
   itemType: string;
-  description?: string;
+  description?: string | undefined;
   chargeAmount: string;
   currency: string;
 }
@@ -657,9 +657,9 @@ export interface BusinessSupportAccountCharge {
   supportPlanName: string;
   totalCharge: string;
   totalUsageBasis: string;
-  tierCharges?: BusinessSupportTierCharge[];
-  supportDiscount?: BusinessSupportDiscount;
-  supportEligibleSpendByService?: BusinessSupportServiceSpend[];
+  tierCharges?: BusinessSupportTierCharge[] | undefined;
+  supportDiscount?: BusinessSupportDiscount | undefined;
+  supportEligibleSpendByService?: BusinessSupportServiceSpend[] | undefined;
 }
 export type BusinessSupportAccountChargeList = BusinessSupportAccountCharge[];
 export interface ListBusinessSupportAccountChargesResponse {
@@ -669,15 +669,15 @@ export interface ListBusinessSupportAccountChargesResponse {
   totalSupportEligibleSpend: string;
   accountCount: number;
   accountCharges: BusinessSupportAccountCharge[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListBusinessSupportSubscriptionHistoryRequest {
-  billingMonth?: string;
-  accountId?: string;
-  startDate?: Date;
-  endDate?: Date;
-  maxResults?: number;
-  nextToken?: string;
+  billingMonth?: string | undefined;
+  accountId?: string | undefined;
+  startDate?: Date | undefined;
+  endDate?: Date | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface BusinessSupportSubscriptionContract {
   accountId: string;
@@ -688,57 +688,57 @@ export interface BusinessSupportSubscriptionContract {
 export type BusinessSupportSubscriptionContractList = BusinessSupportSubscriptionContract[];
 export interface ListBusinessSupportSubscriptionHistoryResponse {
   subscriptionContracts: BusinessSupportSubscriptionContract[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListEnterpriseSupportLinkedAccountChargesRequest {
   billingMonth: string;
-  accountId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  accountId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface EnterpriseSupportTimePeriod {
   beginDate: Date;
-  endDate?: Date;
+  endDate?: Date | undefined;
 }
 export type TimePeriodList = EnterpriseSupportTimePeriod[];
 export interface ServiceLevelAccountUsage {
-  serviceCode?: string;
-  totalSupportEligibleSpend?: string;
+  serviceCode?: string | undefined;
+  totalSupportEligibleSpend?: string | undefined;
 }
 export type ServiceLevelAccountUsageList = ServiceLevelAccountUsage[];
 export interface LinkedAccountCharge {
   accountId: string;
   payerAccountId: string;
-  accountType?: string;
+  accountType?: string | undefined;
   billableSeconds: number;
   totalSeconds: number;
   totalSupportEligibleSpend: string;
   proratedTotalSupportEligibleSpend: string;
-  linkedTimePeriods?: EnterpriseSupportTimePeriod[];
-  subscriptionTimePeriods?: EnterpriseSupportTimePeriod[];
-  totalSupportEligibleReservedInstanceSpend?: string;
-  totalSupportEligibleSavingsPlanSpend?: string;
-  supportEligibleSpendByService?: ServiceLevelAccountUsage[];
+  linkedTimePeriods?: EnterpriseSupportTimePeriod[] | undefined;
+  subscriptionTimePeriods?: EnterpriseSupportTimePeriod[] | undefined;
+  totalSupportEligibleReservedInstanceSpend?: string | undefined;
+  totalSupportEligibleSavingsPlanSpend?: string | undefined;
+  supportEligibleSpendByService?: ServiceLevelAccountUsage[] | undefined;
 }
 export type LinkedAccountChargeList = LinkedAccountCharge[];
 export interface ListEnterpriseSupportLinkedAccountChargesResponse {
   linkedAccount: LinkedAccountCharge[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSourceViewsForBillingViewRequest {
   arn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSourceViewsForBillingViewResponse {
   sourceViews: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  resourceTags?: ResourceTag[];
+  resourceTags?: ResourceTag[] | undefined;
 }
 export type PromoCode = string;
 export interface RedeemCreditsRequest {
@@ -768,13 +768,13 @@ export interface UpdateBillingPreferencesRequest {
 export interface UpdateBillingPreferencesResponse {}
 export interface UpdateBillingViewRequest {
   arn: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  dataFilterExpression?: Expression;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  dataFilterExpression?: Expression | undefined;
 }
 export interface UpdateBillingViewResponse {
   arn: string;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
 }
 export type ErrorMessage = string;
 export type ResourceId = string;

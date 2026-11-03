@@ -97,14 +97,14 @@ export type IdempotencyToken = string;
 export interface ApprovePaidSubscriptionInput {
   arn: string;
   ifMatch: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type ScheduledChangeType = "DOWNGRADE" | "CANCELLATION" | (string & {});
 export interface ScheduledChange {
   changeType: ScheduledChangeType;
-  effectiveDate?: Date;
-  planTier?: string;
-  usageLevel?: string;
+  effectiveDate?: Date | undefined;
+  planTier?: string | undefined;
+  usageLevel?: string | undefined;
 }
 export type Status = "PENDING_APPROVAL" | "ACTIVE" | "SYNC_IN_PROGRESS" | "FAILED" | (string & {});
 export type ResourceArns = string[];
@@ -112,10 +112,10 @@ export interface Subscription {
   arn: string;
   planFamily: string;
   planTier: string;
-  usageLevel?: string;
-  scheduledChange?: ScheduledChange;
+  usageLevel?: string | undefined;
+  scheduledChange?: ScheduledChange | undefined;
   status: Status;
-  statusReason?: string;
+  statusReason?: string | undefined;
   resourceArns: string[];
   createdAt: Date;
   updatedAt: Date;
@@ -128,7 +128,7 @@ export interface AssociateResourcesToSubscriptionInput {
   arn: string;
   resourceArns: string[];
   ifMatch: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface AssociateResourcesToSubscriptionOutput {
   subscription: Subscription;
@@ -137,7 +137,7 @@ export interface AssociateResourcesToSubscriptionOutput {
 export interface CancelSubscriptionInput {
   arn: string;
   ifMatch: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CancelSubscriptionOutput {
   subscription: Subscription;
@@ -146,7 +146,7 @@ export interface CancelSubscriptionOutput {
 export interface CancelSubscriptionChangeInput {
   arn: string;
   ifMatch: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CancelSubscriptionChangeOutput {
   subscription: Subscription;
@@ -156,10 +156,10 @@ export type ApprovalMode = "MANUAL" | "IMMEDIATE" | (string & {});
 export interface CreateSubscriptionInput {
   planFamily: string;
   planTier: string;
-  usageLevel?: string;
+  usageLevel?: string | undefined;
   resourceArns: string[];
-  approvalMode?: ApprovalMode;
-  clientToken?: string;
+  approvalMode?: ApprovalMode | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateSubscriptionOutput {
   subscription: Subscription;
@@ -169,7 +169,7 @@ export interface DisassociateResourcesFromSubscriptionInput {
   arn: string;
   resourceArns: string[];
   ifMatch: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DisassociateResourcesFromSubscriptionOutput {
   subscription: Subscription;
@@ -183,16 +183,16 @@ export interface GetSubscriptionOutput {
   eTag: string;
 }
 export interface ListSubscriptionsInput {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface SubscriptionSummary {
   arn: string;
   planFamily: string;
   planTier: string;
-  usageLevel?: string;
-  scheduledChange?: ScheduledChange;
+  usageLevel?: string | undefined;
+  scheduledChange?: ScheduledChange | undefined;
   status: Status;
-  statusReason?: string;
+  statusReason?: string | undefined;
   resourceArns: string[];
   createdAt: Date;
   updatedAt: Date;
@@ -201,14 +201,14 @@ export interface SubscriptionSummary {
 export type SubscriptionSummaryList = SubscriptionSummary[];
 export interface ListSubscriptionsOutput {
   subscriptionSummaries: SubscriptionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface UpdateSubscriptionInput {
   arn: string;
   planTier: string;
-  usageLevel?: string;
+  usageLevel?: string | undefined;
   ifMatch: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateSubscriptionOutput {
   subscription: Subscription;

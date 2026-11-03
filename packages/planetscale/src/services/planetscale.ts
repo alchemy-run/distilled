@@ -104,15 +104,15 @@ export interface OrganizationTeamMembershipUser {
   updated_at: string;
   /** Whether or not the user has configured two factor authentication */
   two_factor_auth_configured: boolean;
-  default_organization?: OrganizationTeamMembershipUserDefaultOrganization | null;
+  default_organization?: OrganizationTeamMembershipUserDefaultOrganization | null | undefined;
   /** Whether or not the user is managed by SSO. */
-  sso?: boolean | null;
+  sso?: boolean | null | undefined;
   /** Whether or not the user is managed by an authentication provider. */
-  managed?: boolean | null;
+  managed?: boolean | null | undefined;
   /** Whether or not the user is managed by a SSO directory. */
-  directory_managed?: boolean | null;
+  directory_managed?: boolean | null | undefined;
   /** Whether or not the user is verified by email. */
-  email_verified?: boolean | null;
+  email_verified?: boolean | null | undefined;
 }
 export interface OrganizationTeamMembershipActor {
   /** The ID of the actor */
@@ -243,8 +243,8 @@ export interface ServiceTokenAccessResource {
   id: string;
   name: string;
   type: string;
-  created_at?: string;
-  updated_at?: string;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface ServiceTokenAccess {
   id: string;
@@ -281,7 +281,7 @@ export interface NekiShardAssignment {
   /** One of assigned, unchanged, or failed */
   status: string;
   /** The assignment error */
-  error?: NekiShardAssignmentErrorMap | null;
+  error?: NekiShardAssignmentErrorMap | null | undefined;
 }
 export type AssignShardConfigurationProfileShardsResponseBodyList = Array<NekiShardAssignment>;
 export type AssignShardConfigurationProfileShardsResponse =
@@ -585,7 +585,7 @@ export interface DatabaseDeployRequestDeployment {
   /** Whether or not the deployment cutover will expire soon */
   cutover_expiring: boolean;
   /** Deploy check errors for the deployment. */
-  deploy_check_errors?: string | null;
+  deploy_check_errors?: string | null | undefined;
   /** When the deployment was finished */
   finished_at: string | null;
   /** When force cutover was triggered for the deployment */
@@ -619,18 +619,21 @@ export interface DatabaseDeployRequestDeployment {
   /** Lookup Vitess index operations */
   lookup_vindex_operations: DatabaseDeployRequestDeploymentLookupVindexOperationsList;
   /** Deployment throttling configurations. */
-  throttler_configurations?: DatabaseDeployRequestDeploymentThrottlerConfigurationsMap | null;
+  throttler_configurations?:
+    | DatabaseDeployRequestDeploymentThrottlerConfigurationsMap
+    | null
+    | undefined;
   /** The request to revert the schema operations in this deployment */
   deployment_revert_request: DatabaseDeployRequestDeploymentDeploymentRevertRequestMap | null;
-  actor?: OrganizationTeamMembershipActor | null;
-  cutover_actor?: OrganizationTeamMembershipActor | null;
-  cancelled_actor?: OrganizationTeamMembershipActor | null;
+  actor?: OrganizationTeamMembershipActor | null | undefined;
+  cutover_actor?: OrganizationTeamMembershipActor | null | undefined;
+  cancelled_actor?: OrganizationTeamMembershipActor | null | undefined;
   /** When the schema was last updated for the deployment */
   schema_last_updated_at: string | null;
   /** Whether or not the deployment has a table locked */
   table_locked: boolean;
   /** The name of the table that is locked by the deployment. */
-  locked_table_name?: string | null;
+  locked_table_name?: string | null | undefined;
   /** Whether or not the deployment is an instant DDL deployment */
   instant_ddl: boolean;
   /** Whether or not the deployment is eligible for instant DDL */
@@ -646,14 +649,14 @@ export interface DatabaseDeployRequest {
   /** The number of the deploy request */
   number: number;
   actor: OrganizationTeamMembershipActor;
-  closed_by?: OrganizationTeamMembershipActor | null;
+  closed_by?: OrganizationTeamMembershipActor | null | undefined;
   /** The name of the branch the deploy request was created from */
   branch: string;
   /** The ID of the branch the deploy request was created from */
   branch_id: string;
   /** Whether or not the deploy request branch was deleted */
   branch_deleted: boolean;
-  branch_deleted_by?: OrganizationTeamMembershipActor | null;
+  branch_deleted_by?: OrganizationTeamMembershipActor | null | undefined;
   /** When the deploy request branch was deleted */
   branch_deleted_at: string | null;
   /** The name of the branch the deploy request will be merged into */
@@ -931,13 +934,13 @@ export interface CreateBackupRequest {
   /** The name of the branch */
   branch: string;
   /** Name for the backup */
-  name?: string;
+  name?: string | undefined;
   /** Unit for the retention period of the backup */
-  retention_unit?: CreateBackupRequestRetentionUnit | (string & {});
+  retention_unit?: CreateBackupRequestRetentionUnit | (string & {}) | undefined;
   /** Value between `1` and `1000` for the retention period of the backup (i.e retention_value `6` and retention_unit `hour` means 6 hours) */
-  retention_value?: number;
+  retention_value?: number | undefined;
   /** Whether the backup is an immediate backup that may affect database performance. Emergency backups are only supported for PostgreSQL databases. */
-  emergency?: boolean;
+  emergency?: boolean | undefined;
 }
 /** The current state of the backup */
 export type BackupState = "pending" | "running" | "success" | "failed" | "canceled" | "ignored";
@@ -964,7 +967,7 @@ export interface BackupBackupPolicy {
   /** The unit for the frequency of the backup policy */
   frequency_unit: string;
   /** The time of day that the backup is scheduled, in HH:MM format */
-  schedule_time?: string | null;
+  schedule_time?: string | null | undefined;
   /** Day of the week that the backup is scheduled. 0 is Sunday, 6 is Saturday */
   schedule_day: number | null;
   /** Week of the month that the backup is scheduled. 0 is the first week, 3 is the fourth week */
@@ -1028,9 +1031,9 @@ export interface Backup {
   required: boolean;
   restored_branches: BackupRestoredBranchesList;
   actor: OrganizationTeamMembershipActor | null;
-  backup_policy?: BackupBackupPolicy | null;
-  schema_snapshot?: BackupSchemaSnapshot | null;
-  database_branch?: OrganizationTeamMembershipUserDefaultOrganization | null;
+  backup_policy?: BackupBackupPolicy | null | undefined;
+  schema_snapshot?: BackupSchemaSnapshot | null | undefined;
+  database_branch?: OrganizationTeamMembershipUserDefaultOrganization | null | undefined;
 }
 /** Whether the policy is for production or development branches */
 export type CreateBackupPolicyRequestTarget = "production" | "development";
@@ -1044,23 +1047,23 @@ export interface CreateBackupPolicyRequest {
   /** Database name slug from `list_databases`. Example: `app-db`. */
   database: string;
   /** The name of the backup policy */
-  name?: string;
+  name?: string | undefined;
   /** Whether the policy is for production or development branches */
-  target?: CreateBackupPolicyRequestTarget | (string & {});
+  target?: CreateBackupPolicyRequestTarget | (string & {}) | undefined;
   /** A number value for the retention period of the backup policy */
-  retention_value?: number;
+  retention_value?: number | undefined;
   /** The unit for the retention period of the backup policy */
-  retention_unit?: CreateBackupPolicyRequestRetentionUnit | (string & {});
+  retention_unit?: CreateBackupPolicyRequestRetentionUnit | (string & {}) | undefined;
   /** A number value for the frequency of the backup policy */
-  frequency_value?: number;
+  frequency_value?: number | undefined;
   /** The unit for the frequency of the backup policy */
-  frequency_unit?: CreateBackupPolicyRequestFrequencyUnit | (string & {});
+  frequency_unit?: CreateBackupPolicyRequestFrequencyUnit | (string & {}) | undefined;
   /** The time of day that the backup is scheduled, in HH:MM format */
-  schedule_time?: string;
+  schedule_time?: string | undefined;
   /** Day of the week that the backup is scheduled. 0 is Sunday, 6 is Saturday */
-  schedule_day?: number;
+  schedule_day?: number | undefined;
   /** Week of the month that the backup is scheduled. 0 is the first week, 3 is the fourth week */
-  schedule_week?: number;
+  schedule_week?: number | undefined;
 }
 /** Whether the policy is for production or development branches */
 export type BackupPolicyTarget = "production" | "development";
@@ -1082,7 +1085,7 @@ export interface BackupPolicy {
   /** The unit for the frequency of the backup policy */
   frequency_unit: string;
   /** The time of day that the backup is scheduled, in HH:MM format */
-  schedule_time?: string | null;
+  schedule_time?: string | null | undefined;
   /** Day of the week that the backup is scheduled. 0 is Sunday, 6 is Saturday */
   schedule_day: number | null;
   /** Week of the month that the backup is scheduled. 0 is the first week, 3 is the fourth week */
@@ -1106,15 +1109,15 @@ export interface CreateBouncerRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** The bouncer name */
-  name?: string;
+  name?: string | undefined;
   /** The type of server the bouncer targets */
-  target?: string;
+  target?: string | undefined;
   /** The size SKU for the bouncer */
-  bouncer_size?: string;
+  bouncer_size?: string | undefined;
   /** The number of replica servers per cell */
-  replicas_per_cell?: number;
+  replicas_per_cell?: number | undefined;
   /** The ID of the dedicated read replica where the bouncer should run */
-  dedicated_read_replica_id?: string;
+  dedicated_read_replica_id?: string | undefined;
 }
 export interface PostgresBouncerSku {
   /** The name of the Postgres bouncer SKU */
@@ -1214,9 +1217,9 @@ export type CreateBranchRequestConfigurationProfileSizesList = Array<string>;
 export type CreateBranchRequestRouterSizesList = Array<string>;
 export interface CreateBranchRequestStorage {
   /** The minimum storage size in bytes. */
-  minimum_storage_bytes?: number;
+  minimum_storage_bytes?: number | undefined;
   /** The maximum storage size in bytes for autoscaling. */
-  maximum_storage_bytes?: number;
+  maximum_storage_bytes?: number | undefined;
 }
 /** The kind of branch to create. Required when create_database_if_missing is set. */
 export type CreateBranchRequestKind = "mysql" | "postgresql" | "neki";
@@ -1228,34 +1231,34 @@ export interface CreateBranchRequest {
   /** The name of the branch to create */
   name: string;
   /** Whether deletion protection is enabled for the branch */
-  deletion_protected?: boolean;
+  deletion_protected?: boolean | undefined;
   /** The name of the parent branch. Defaults to the database's default branch if not provided. */
-  parent_branch?: string;
+  parent_branch?: string | undefined;
   /** If provided, restores the backup's schema and data to the new branch. Must have `restore_production_branch_backup(s)` or `restore_backup(s)` access to do this. */
-  backup_id?: string;
+  backup_id?: string | undefined;
   /** The region to create the branch in. If not provided, the branch will be created in the default region for its database. */
-  region?: string;
+  region?: string | undefined;
   /** Restore from a point-in-time recovery timestamp (e.g. 2023-01-01T00:00:00Z). Available only for PostgreSQL databases. */
-  restore_point?: string;
+  restore_point?: string | undefined;
   /** For PostgreSQL backup restores and point-in-time recovery, the number of additional replicas from 0 to 8, subject to the target cluster size. 0 creates a single-node branch. If omitted, the target cluster size's minimum is used. */
-  replicas?: number;
+  replicas?: number | undefined;
   /** If provided, restores the last successful backup's schema and data to the new branch. Must have `restore_production_branch_backup(s)` or `restore_backup(s)` access to do this, in addition to Data Branching(TM) being enabled for the branch. */
-  seed_data?: CreateBranchRequestSeedData | (string & {});
+  seed_data?: CreateBranchRequestSeedData | (string & {}) | undefined;
   /** The database cluster size. Required if a backup_id is provided (unless keyspace_cluster_sizes covers every keyspace), optional otherwise. Options: PS_10, PS_20, PS_40, ..., PS_2800 */
-  cluster_size?: string;
+  cluster_size?: string | undefined;
   /** For MySQL backup restores, per-keyspace cluster sizes. Each entry is { "keyspace_name": "main", "cluster_size": "PS_40" }. When provided, each restored keyspace must have a size here or via cluster_size. */
-  keyspace_cluster_sizes?: CreateBranchRequestKeyspaceClusterSizesList;
+  keyspace_cluster_sizes?: CreateBranchRequestKeyspaceClusterSizesList | undefined;
   /** For Neki backup restores, per-configuration-profile cluster size and replica count. Each entry is { "name": "default", "cluster_size": "PS_40", "replicas": 2 }. Omitted profiles inherit the source size and replica count. */
-  configuration_profile_sizes?: CreateBranchRequestConfigurationProfileSizesList;
+  configuration_profile_sizes?: CreateBranchRequestConfigurationProfileSizesList | undefined;
   /** For Neki backup restores, per-router size and replica count. Each entry is { "name": "default", "router_size": "NKR_20", "replicas_per_cell": 1 }. Omitted routers inherit the source size and replica count. */
-  router_sizes?: CreateBranchRequestRouterSizesList;
-  storage?: CreateBranchRequestStorage;
+  router_sizes?: CreateBranchRequestRouterSizesList | undefined;
+  storage?: CreateBranchRequestStorage | undefined;
   /** For PostgreSQL and Neki databases, the PostgreSQL major version to use for the branch. Defaults to the major version of the parent branch if it exists or the database's default branch major version. Ignored for branches restored from backups. */
-  major_version?: string;
+  major_version?: string | undefined;
   /** Create a new database for the branch if the database does not exist. Defaults to false. */
-  create_database_if_missing?: boolean;
+  create_database_if_missing?: boolean | undefined;
   /** The kind of branch to create. Required when create_database_if_missing is set. */
-  kind?: CreateBranchRequestKind | (string & {});
+  kind?: CreateBranchRequestKind | (string & {}) | undefined;
 }
 /** The kind of branch */
 export type DatabaseBranchKind = "mysql" | "postgresql" | "neki";
@@ -1314,25 +1317,25 @@ export interface DatabaseBranch {
   /** The kind of branch */
   kind: DatabaseBranchKind;
   /** The MySQL address for the branch */
-  mysql_address?: string | null;
+  mysql_address?: string | null | undefined;
   /** The address of the MySQL provider for the branch */
-  mysql_edge_address?: string | null;
+  mysql_edge_address?: string | null | undefined;
   /** The current state of the branch */
   state: DatabaseBranchState;
   /** True if the branch allows passwords to connect directly to a vtgate, bypassing load balancers */
-  direct_vtgate?: boolean | null;
+  direct_vtgate?: boolean | null | undefined;
   /** The size of the vtgate cluster for the branch */
-  vtgate_size?: string | null;
+  vtgate_size?: string | null | undefined;
   /** The public SKU representing the VTGate size */
-  vtgate_name?: string | null;
+  vtgate_name?: string | null | undefined;
   /** The number of vtgate instances in the branch */
-  vtgate_count?: number | null;
+  vtgate_count?: number | null | undefined;
   /** Whether VTGate autoscaling is enabled */
-  vtgate_autoscaling?: boolean | null;
+  vtgate_autoscaling?: boolean | null | undefined;
   /** The maximum number of VTGate instances when autoscaling is enabled */
-  vtgate_max_count?: number | null;
+  vtgate_max_count?: number | null | undefined;
   /** The target CPU utilization for VTGate autoscaling */
-  vtgate_target_cpu_utilization?: number | null;
+  vtgate_target_cpu_utilization?: number | null | undefined;
   /** The SKU representing the branch's cluster size */
   cluster_name: string;
   /** IOPS for the cluster */
@@ -1340,7 +1343,7 @@ export interface DatabaseBranch {
   /** Whether or not the branch is ready to serve queries */
   ready: boolean;
   /** Whether or not the schema is ready for queries */
-  schema_ready?: boolean | null;
+  schema_ready?: boolean | null | undefined;
   /** Whether or not this is a metal database */
   metal: boolean;
   /** Whether or not the branch is a production branch */
@@ -1348,13 +1351,13 @@ export interface DatabaseBranch {
   /** Whether or not the branch has safe migrations enabled */
   safe_migrations: boolean;
   /** Whether deletion protection is enabled for the branch */
-  deletion_protected?: boolean;
+  deletion_protected?: boolean | undefined;
   /** Whether or not the branch is sharded */
-  sharded?: boolean;
+  sharded?: boolean | undefined;
   /** The number of shards in the branch */
-  shard_count?: number | null;
+  shard_count?: number | null | undefined;
   /** The number of keyspaces in the branch */
-  keyspace_count?: number;
+  keyspace_count?: number | undefined;
   /** Whether or not the branch has a stale schema */
   stale_schema: boolean;
   actor: OrganizationTeamMembershipActor | null;
@@ -1373,8 +1376,8 @@ export interface DatabaseBranch {
   /** The name of the parent branch from which the branch was created */
   parent_branch: string | null;
   /** VTGate configuration options */
-  vtgate_options?: DatabaseBranchVtgateOptionsMap | null;
-  cluster_architecture?: string;
+  vtgate_options?: DatabaseBranchVtgateOptionsMap | null | undefined;
+  cluster_architecture?: string | undefined;
 }
 /** The component to configure. Always `vtgate`. */
 export type CreateBranchConfigChangeRequestRequestChangeType = "vtgate";
@@ -1457,9 +1460,9 @@ export interface CreateBranchLogSignatureResponse {
 export type CreateDatabaseRequestKind = "mysql" | "postgresql" | "neki";
 export interface CreateDatabaseRequestStorage {
   /** The initial minimum storage size in bytes. */
-  minimum_storage_bytes?: number;
+  minimum_storage_bytes?: number | undefined;
   /** The maximum storage size in bytes for autoscaling. */
-  maximum_storage_bytes?: number;
+  maximum_storage_bytes?: number | undefined;
 }
 export interface CreateDatabaseRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -1467,16 +1470,16 @@ export interface CreateDatabaseRequest {
   /** Name of the database */
   name: string;
   /** The region the database will be deployed in. If left blank, defaults to the organization's default region. */
-  region?: string;
+  region?: string | undefined;
   /** The database cluster size name (e.g., 'PS_10', 'PS_80'). Use the 'List available cluster sizes' endpoint to get available options for your organization. /v1/organizations/:organization/cluster-size-skus */
   cluster_size: string;
   /** The number of replicas for the database. 0 for non-HA, 2+ for HA. */
-  replicas?: number;
+  replicas?: number | undefined;
   /** The kind of database to create. */
-  kind?: CreateDatabaseRequestKind | (string & {});
+  kind?: CreateDatabaseRequestKind | (string & {}) | undefined;
   /** For PostgreSQL and Neki databases, the PostgreSQL major version to use for the database. Defaults to the latest available major version. */
-  major_version?: string;
-  storage?: CreateDatabaseRequestStorage;
+  major_version?: string | undefined;
+  storage?: CreateDatabaseRequestStorage | undefined;
 }
 /** Public IP addresses for the region */
 export type DatabaseRegionPublicIpAddressesList = Array<string>;
@@ -1523,25 +1526,25 @@ export interface Database {
   /** The URL to retrieve this database's branches via the API */
   branches_url: string;
   /** The total number of database branches */
-  branches_count?: number;
+  branches_count?: number | undefined;
   /** The total number of schema recommendations */
-  open_schema_recommendations_count?: number;
+  open_schema_recommendations_count?: number | undefined;
   /** The total number of database development branches */
-  development_branches_count?: number;
+  development_branches_count?: number | undefined;
   /** The current maximum number of development branches. Change it with development_branches_limit on the database PATCH endpoint, up to 5000. */
-  development_branches_limit?: number;
+  development_branches_limit?: number | undefined;
   /** The total number of database production branches */
-  production_branches_count?: number;
+  production_branches_count?: number | undefined;
   /** The total number of ongoing issues within a database */
-  issues_count?: number | null;
+  issues_count?: number | null | undefined;
   /** If the database requires multiple admins for deletion */
-  multiple_admins_required_for_deletion?: boolean;
+  multiple_admins_required_for_deletion?: boolean | undefined;
   /** If the database is ready to be used */
   ready: boolean;
   /** If the database has reached its backup restored branch limit */
-  at_backup_restore_branches_limit?: boolean;
+  at_backup_restore_branches_limit?: boolean | undefined;
   /** If the database has reached its development branch limit */
-  at_development_branch_usage_limit?: boolean;
+  at_development_branch_usage_limit?: boolean | undefined;
   region: DatabaseRegion;
   /** The URL to see this database's branches in the web UI */
   html_url: string;
@@ -1550,55 +1553,55 @@ export interface Database {
   /** State of the database */
   state: DatabaseState;
   /** If the database is sharded */
-  sharded?: boolean;
+  sharded?: boolean | undefined;
   /** Number of shards in the default branch */
-  default_branch_shard_count?: number;
+  default_branch_shard_count?: number | undefined;
   /** Number of read only regions in the default branch */
-  default_branch_read_only_regions_count?: number;
+  default_branch_read_only_regions_count?: number | undefined;
   /** Number of tables in the default branch schema */
-  default_branch_table_count?: number;
+  default_branch_table_count?: number | undefined;
   /** The default branch for the database */
-  default_branch?: string;
+  default_branch?: string | undefined;
   /** Whether an approval is required to deploy schema changes to this database */
-  require_approval_for_deploy?: boolean;
+  require_approval_for_deploy?: boolean | undefined;
   /** Whether deletion protection is enabled for the database */
-  deletion_protected?: boolean;
+  deletion_protected?: boolean | undefined;
   /** True if a branch is currently resizing */
-  resizing?: boolean;
+  resizing?: boolean | undefined;
   /** True if a branch has a queued resize request */
-  resize_queued?: boolean;
+  resize_queued?: boolean | undefined;
   /** True if a config change is in progress */
-  config_changing?: boolean;
+  config_changing?: boolean | undefined;
   /** True if a config change is queued for maintenance window */
-  config_change_queued?: boolean;
+  config_change_queued?: boolean | undefined;
   /** Whether seeding branches with data is enabled for all branches */
-  allow_data_branching?: boolean;
+  allow_data_branching?: boolean | undefined;
   /** Whether foreign key constraints are enabled */
-  foreign_keys_enabled?: boolean;
+  foreign_keys_enabled?: boolean | undefined;
   /** Whether to automatically manage Rails migrations during deploy requests. */
-  automatic_migrations?: boolean | null;
+  automatic_migrations?: boolean | null | undefined;
   /** Whether to restrict branch creation to one region */
-  restrict_branch_region?: boolean;
+  restrict_branch_region?: boolean | undefined;
   /** Whether deploy requests default to instant deploy when it is available */
-  prefer_instant?: boolean;
+  prefer_instant?: boolean | undefined;
   /** Whether raw SQL queries are collected */
-  insights_raw_queries?: boolean;
+  insights_raw_queries?: boolean | undefined;
   /** The database plan */
-  plan?: string;
+  plan?: string | undefined;
   /** True if query insights is enabled for the database */
-  insights_enabled?: boolean;
+  insights_enabled?: boolean | undefined;
   /** Whether web console is enabled for production branches */
-  production_branch_web_console?: boolean;
+  production_branch_web_console?: boolean | undefined;
   /** Table name to use for copying schema migration data. */
-  migration_table_name?: string | null;
+  migration_table_name?: string | null | undefined;
   /** Framework used for applying migrations. */
-  migration_framework?: string | null;
+  migration_framework?: string | null | undefined;
   /** When the database was created */
   created_at: string;
   /** When the database was last updated */
   updated_at: string;
   /** When the default branch schema was last changed. */
-  schema_last_updated_at?: string | null;
+  schema_last_updated_at?: string | null | undefined;
   /** The kind of database */
   kind: DatabaseKind;
 }
@@ -1610,13 +1613,13 @@ export interface CreateDatabasePostgresCidrRequest {
   /** The name of the database */
   database: string;
   /** The PostgreSQL schema to restrict access to. Leave empty or omit to allow access to all schemas. */
-  schema?: string;
+  schema?: string | undefined;
   /** The PostgreSQL role to restrict access to. Leave empty or omit to allow access for all roles. */
-  role?: string;
+  role?: string | undefined;
   /** List of IPv4 CIDR ranges (e.g., ['192.168.1.0/24', '192.168.1.1/32']). Must contain at least one valid IPv4 address or range. */
   cidrs: CreateDatabasePostgresCidrRequestCidrsList;
   /** An optional description for the IP restriction rule. */
-  description?: string;
+  description?: string | undefined;
 }
 /** List of CIDR ranges */
 export type PostgresClusterCidrCidrsList = Array<string>;
@@ -1642,15 +1645,15 @@ export interface PostgresClusterCidr {
 }
 export interface CreateDedicatedReadReplicaRequestStorage {
   /** The minimum storage size in bytes. */
-  minimum_storage_bytes?: number;
+  minimum_storage_bytes?: number | undefined;
   /** The maximum storage size in bytes for autoscaling. */
-  maximum_storage_bytes?: number;
+  maximum_storage_bytes?: number | undefined;
   /** Whether storage autoscaling is enabled. */
-  storage_autoscaling?: boolean;
+  storage_autoscaling?: boolean | undefined;
   /** The storage IOPS. */
-  storage_iops?: number;
+  storage_iops?: number | undefined;
   /** The storage throughput in MiB/s. */
-  storage_throughput_mibs?: number;
+  storage_throughput_mibs?: number | undefined;
 }
 export interface CreateDedicatedReadReplicaRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -1664,10 +1667,10 @@ export interface CreateDedicatedReadReplicaRequest {
   /** The region slug for the dedicated read replica */
   region: string;
   /** The number of instances serving reads. Defaults to 1. */
-  replicas?: number;
+  replicas?: number | undefined;
   /** The cluster size SKU name. Defaults to the primary cluster size. */
-  cluster_size?: string;
-  storage?: CreateDedicatedReadReplicaRequestStorage;
+  cluster_size?: string | undefined;
+  storage?: CreateDedicatedReadReplicaRequestStorage | undefined;
 }
 /** The storage type */
 export type PostgresReadOnlyReplicaStorageType =
@@ -1732,7 +1735,7 @@ export interface PostgresReadOnlyReplicaParametersItem {
   /** The default value of the parameter, which is the primary's current value */
   default_value: string;
   /** Why the parameter cannot be changed */
-  disabled_reason?: string | null;
+  disabled_reason?: string | null | undefined;
   /** The configured value of the parameter */
   value: string;
   /** Whether the parameter is required */
@@ -1811,11 +1814,11 @@ export interface CreateDeployRequestRequest {
   /** The name of the branch the deploy request will be merged into */
   into_branch: string;
   /** Notes about the deploy request */
-  notes?: string;
+  notes?: string | undefined;
   /** Whether or not to enable auto_cutover for the deploy request. When enabled, will auto cutover to the new schema as soon as it is ready. */
-  auto_cutover?: boolean;
+  auto_cutover?: boolean | undefined;
   /** Whether or not to enable auto_delete_branch for the deploy request. When enabled, will delete the branch once the DR successfully completes. */
-  auto_delete_branch?: boolean;
+  auto_delete_branch?: boolean | undefined;
 }
 /** The work the Insights agent should perform */
 export type CreateInsightsAgentRunRequestType =
@@ -1835,9 +1838,9 @@ export interface CreateInsightsAgentRunRequest {
   /** The work the Insights agent should perform */
   type: CreateInsightsAgentRunRequestType | (string & {});
   /** The slow query patterns to review */
-  query_patterns_attributes?: CreateInsightsAgentRunRequestQueryPatternsAttributesList;
+  query_patterns_attributes?: CreateInsightsAgentRunRequestQueryPatternsAttributesList | undefined;
   /** The schema recommendation numbers to implement */
-  schema_numbers?: CreateInsightsAgentRunRequestSchemaNumbersList;
+  schema_numbers?: CreateInsightsAgentRunRequestSchemaNumbersList | undefined;
 }
 /** The work performed by the run */
 export type InsightsAgentRunType = "review_slow_queries" | "implement_schema_recommendation";
@@ -1908,9 +1911,9 @@ export interface CreateKeyspaceRequest {
   /** The database cluster size name (e.g., 'PS_10', 'PS_80'). Use the 'List available cluster sizes' endpoint to get available options for your organization. /v1/organizations/:organization/cluster-size-skus */
   cluster_size: string;
   /** The number of additional replicas beyond the included default */
-  extra_replicas?: number;
+  extra_replicas?: number | undefined;
   /** The number of shards. Default: 1 */
-  shards?: number;
+  shards?: number | undefined;
 }
 /** Controls when node TTL drains are allowed */
 export type DatabaseBranchKeyspaceNodeTtlStrategy =
@@ -1934,7 +1937,7 @@ export type DatabaseBranchKeyspaceReplicationDurabilityConstraintsStrategy =
   | "always";
 export interface DatabaseBranchKeyspaceReplicationDurabilityConstraints {
   /** The replication durability strategy */
-  strategy?: DatabaseBranchKeyspaceReplicationDurabilityConstraintsStrategy | null;
+  strategy?: DatabaseBranchKeyspaceReplicationDurabilityConstraintsStrategy | null | undefined;
 }
 export interface DatabaseBranchKeyspaceVreplicationFlags {
   /** Enable optimized inserts */
@@ -2094,11 +2097,11 @@ export interface CreateOauthTokenRequest {
   /** Whether an OAuth grant code or a refresh token is being exchanged for an OAuth token */
   grant_type: CreateOauthTokenRequestGrantType | (string & {});
   /** The OAuth grant code provided to your OAuth application's redirect URI. Required when grant_type is authorization_code */
-  code?: string;
+  code?: string | undefined;
   /** The OAuth application's redirect URI. Required when grant_type is authorization_code */
-  redirect_uri?: string;
+  redirect_uri?: string | undefined;
   /** The refresh token from the original OAuth token grant. Required when grant_type is refresh_token */
-  refresh_token?: Redacted.Redacted<string>;
+  refresh_token?: Redacted.Redacted<string> | undefined;
 }
 export type ServiceTokenServiceTokenAccessesItemResource =
   OrganizationTeamMembershipUserDefaultOrganization;
@@ -2208,13 +2211,13 @@ export interface ServiceToken {
   /** The ID of the service token */
   id: string;
   /** The name of the service token */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The display name of the service token */
   display_name: string;
   /** The plaintext token. Available only after create. */
-  token?: Redacted.Redacted<string> | null;
+  token?: Redacted.Redacted<string> | null | undefined;
   /** The plaintext refresh token. Available only after create. */
-  plain_text_refresh_token?: Redacted.Redacted<string> | null;
+  plain_text_refresh_token?: Redacted.Redacted<string> | null | undefined;
   /** The image source for the avatar of the service token */
   avatar_url: string;
   /** When the service token was created */
@@ -2222,17 +2225,17 @@ export interface ServiceToken {
   /** When the service token was last updated */
   updated_at: string;
   /** When the service token will expire */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
   /** When the service token was last used */
-  last_used_at?: string | null;
+  last_used_at?: string | null | undefined;
   /** The ID of the actor on whose behalf the service token was created */
   actor_id: string | null;
   /** The name of the actor on whose behalf the service token was created */
   actor_display_name: string | null;
   /** The type of the actor on whose behalf the service token was created */
   actor_type: string | null;
-  service_token_accesses?: ServiceTokenServiceTokenAccessesList | null;
-  oauth_accesses_by_resource?: ServiceTokenOauthAccessesByResource | null;
+  service_token_accesses?: ServiceTokenServiceTokenAccessesList | null | undefined;
+  oauth_accesses_by_resource?: ServiceTokenOauthAccessesByResource | null | undefined;
 }
 /** The role granted when the invitation is accepted. Defaults to member. Service tokens can only invite members; requesting another role returns 422. */
 export type CreateOrganizationInvitationRequestRole = "admin" | "analyst" | "member";
@@ -2242,7 +2245,7 @@ export interface CreateOrganizationInvitationRequest {
   /** The email address to send the invitation to */
   email: string;
   /** The role granted when the invitation is accepted. Defaults to member. Service tokens can only invite members; requesting another role returns 422. */
-  role?: CreateOrganizationInvitationRequestRole | (string & {});
+  role?: CreateOrganizationInvitationRequestRole | (string & {}) | undefined;
 }
 /** The role granted when the invitation is accepted. Invitations sent by service tokens are always member. */
 export type OrganizationInvitationRole = "admin" | "analyst" | "member";
@@ -2284,7 +2287,7 @@ export interface CreateOrganizationTeamRequest {
   /** The name of the team */
   name: string;
   /** A description of the team's purpose */
-  description?: string;
+  description?: string | undefined;
 }
 export type OrganizationTeamCreator = OrganizationTeamMembershipActor;
 export type OrganizationTeamMembersItemDefaultOrganization =
@@ -2338,17 +2341,17 @@ export interface CreatePasswordRequest {
   /** The name of the branch the password belongs to */
   branch: string;
   /** Optional name of the password */
-  name?: string;
+  name?: string | undefined;
   /** The database role of the password (i.e. admin) */
-  role?: CreatePasswordRequestRole | (string & {});
+  role?: CreatePasswordRequestRole | (string & {}) | undefined;
   /** Whether the password is for a read replica */
-  replica?: boolean;
+  replica?: boolean | undefined;
   /** Time to live (in seconds) for the password. The password will be invalid when TTL has passed */
-  ttl?: number;
+  ttl?: number | undefined;
   /** List of IP addresses or CIDR ranges that can use this password */
-  cidrs?: CreatePasswordRequestCidrsList;
+  cidrs?: CreatePasswordRequestCidrsList | undefined;
   /** Whether the password connects directly to a VTGate */
-  direct_vtgate?: boolean;
+  direct_vtgate?: boolean | undefined;
 }
 /** The role for the password */
 export type DatabaseBranchPasswordWithSecretRole = "reader" | "writer" | "admin" | "readwriter";
@@ -2485,17 +2488,17 @@ export interface CreateRoleRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** The name of the role */
-  name?: string;
+  name?: string | undefined;
   /** Time to live in seconds */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Roles to inherit from */
-  inherited_roles?: CreateRoleRequestInheritedRolesList;
+  inherited_roles?: CreateRoleRequestInheritedRolesList | undefined;
   /** Whether the role should have the REPLICATION attribute */
-  with_replication?: boolean;
+  with_replication?: boolean | undefined;
   /** Require WHERE clause on DELETE statements */
-  require_where_on_delete?: string;
+  require_where_on_delete?: string | undefined;
   /** Require WHERE clause on UPDATE statements */
-  require_where_on_update?: string;
+  require_where_on_update?: string | undefined;
 }
 export type PostgresRoleInheritedRolesItem =
   | "pg_checkpoint"
@@ -2583,9 +2586,9 @@ export interface CreateRouterRequest {
   /** The name of the router group. Letters, digits, dashes, and underscores; 1-64 characters; cannot start or end with a dash or underscore. `new`, `primary`, and `replica` are reserved. Clients connect through the group by appending it to the username, e.g. `user|my-router`. */
   name: string;
   /** The router size SKU, e.g. `NKR_1`. Defaults to the service's default size. */
-  router_size?: string;
+  router_size?: string | undefined;
   /** The number of router instances per availability zone. Defaults to the service's default count. */
-  replicas_per_cell?: number;
+  replicas_per_cell?: number | undefined;
 }
 export interface NekiRouterSku {
   /** The name of the Neki router SKU */
@@ -2634,9 +2637,9 @@ export interface CreateServiceTokenRequest {
   /** The name of the organization */
   organization: string;
   /** The name of the service token */
-  name?: string;
+  name?: string | undefined;
   /** Time to live (in seconds) for the service token. The token will be invalid when TTL has passed */
-  ttl?: number;
+  ttl?: number | undefined;
 }
 export interface CreateShardRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -2659,14 +2662,14 @@ export interface CreateShardConfigurationProfileRequest {
   /** The name of the shard configuration profile */
   name: string;
   /** The cluster size for the shard configuration profile */
-  cluster_size?: string;
+  cluster_size?: string | undefined;
   /** The number of replicas for the shard configuration profile */
-  replicas?: number;
+  replicas?: number | undefined;
   /** The PostgreSQL major version for the shard configuration profile */
-  postgres_major_version?: string;
+  postgres_major_version?: string | undefined;
   /** The PostgreSQL minor version for the shard configuration profile. Requires postgres_major_version when specified. */
-  postgres_minor_version?: string;
-  storage?: CreateDedicatedReadReplicaRequestStorage;
+  postgres_minor_version?: string | undefined;
+  storage?: CreateDedicatedReadReplicaRequestStorage | undefined;
 }
 export interface NekiShardConfigurationProfileStorage {
   /** The minimum storage size in bytes */
@@ -2729,7 +2732,7 @@ export interface CreateShardConfigurationProfileShardRequest {
   /** Name from `list_shard_configuration_profiles`. */
   configuration_profile: string;
   /** The display name of the shard */
-  display_name?: string;
+  display_name?: string | undefined;
 }
 export interface NekiShard {
   /** The ID of the shard */
@@ -2755,7 +2758,7 @@ export interface CreateSwitchoverRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** The exact `name` of the replica returned by the branch's Postgres infrastructure endpoint to promote. Omit to let the operator select an eligible replica. Only applies to branches with replicas. */
-  candidate?: string;
+  candidate?: string | undefined;
 }
 /** The state of the switchover */
 export type PostgresSwitchoverState = "pending" | "running" | "succeeded" | "failed" | "canceled";
@@ -2768,9 +2771,9 @@ export interface PostgresSwitchover {
   /** The state of the switchover */
   state: PostgresSwitchoverState;
   /** How the primary was moved. `switchover` promotes a replica on a highly available branch; `restart` restarts the single instance of a branch that has no replicas. Absent until the operator selects one. */
-  method?: PostgresSwitchoverMethod | null;
+  method?: PostgresSwitchoverMethod | null | undefined;
   /** Why the switchover failed. A failed switchover has an unconfirmed outcome and does not imply the primary stayed put. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** When the switchover was requested */
   started_at: string | null;
   /** When the switchover finished */
@@ -2793,21 +2796,21 @@ export interface CreateTrafficBudgetRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** Name of the traffic budget */
-  name?: string;
+  name?: string | undefined;
   /** The mode of the traffic budget */
-  mode?: CreateTrafficBudgetRequestMode | (string & {});
+  mode?: CreateTrafficBudgetRequestMode | (string & {}) | undefined;
   /** The maximum capacity that can be banked, measured as a percentage of seconds of full server usage (0-6000). Unlimited when not set. */
-  capacity?: number;
+  capacity?: number | undefined;
   /** The rate at which capacity refills, as a percentage of server resources (0-100). Unlimited when not set. */
-  rate?: number;
+  rate?: number | undefined;
   /** The maximum capacity a single query can consume, measured as a percentage of seconds of full server usage (0-6000). Unlimited when not set. */
-  burst?: number;
+  burst?: number | undefined;
   /** The percentage of available worker processes this policy can use (0-100). Unlimited when not set. */
-  concurrency?: number;
+  concurrency?: number | undefined;
   /** A percentage of capacity, burst, or concurrency thresholds to emit warnings for enforced budgets (0-100). */
-  warning_threshold?: number;
+  warning_threshold?: number | undefined;
   /** Array of traffic rules to apply to the budget */
-  rules?: CreateTrafficBudgetRequestRulesList;
+  rules?: CreateTrafficBudgetRequestRulesList | undefined;
 }
 /** The mode of the budget */
 export type TrafficBudgetMode = "enforce" | "warn" | "off";
@@ -2835,9 +2838,9 @@ export interface TrafficBudgetRulesItem {
   kind: TrafficBudgetRulesItemKind;
   tags: TrafficBudgetRulesItemTagsList;
   /** The query fingerprint targeted by this rule */
-  fingerprint?: string | null;
+  fingerprint?: string | null | undefined;
   /** The keyspace of the fingerprint */
-  keyspace?: string | null;
+  keyspace?: string | null | undefined;
   actor: OrganizationTeamMembershipActor;
   /** Syntax highlighted SQL for rules with SQL keys */
   syntax_highlighted_sql: string;
@@ -2855,15 +2858,15 @@ export interface TrafficBudget {
   /** The mode of the budget */
   mode: TrafficBudgetMode;
   /** The maximum capacity that can be banked, measured as a percentage of seconds of full server usage (0-6000). Unlimited when not set. */
-  capacity?: number | null;
+  capacity?: number | null | undefined;
   /** The rate at which capacity refills, as a percentage of server resources (0-100). Unlimited when not set. */
-  rate?: number | null;
+  rate?: number | null | undefined;
   /** The maximum capacity a single query can consume, measured as a percentage of seconds of full server usage (0-6000). Unlimited when not set. */
-  burst?: number | null;
+  burst?: number | null | undefined;
   /** The percentage of available worker processes this policy can use (0-100). Unlimited when not set. */
-  concurrency?: number | null;
+  concurrency?: number | null | undefined;
   /** A percentage of capacity, burst, or concurrency thresholds to emit warnings for enforced budgets (0-100). */
-  warning_threshold?: number | null;
+  warning_threshold?: number | null | undefined;
   actor: OrganizationTeamMembershipActor;
   rules: TrafficBudgetRulesList;
   /** When the budget was created */
@@ -2885,13 +2888,13 @@ export interface CreateTrafficRuleRequest {
   /** The ID of the traffic budget */
   budget_id: string;
   /** Kind of rule */
-  kind?: CreateTrafficRuleRequestKind | (string & {});
+  kind?: CreateTrafficRuleRequestKind | (string & {}) | undefined;
   /** The keyspace to apply a query pattern rule to */
-  keyspace?: string;
+  keyspace?: string | undefined;
   /** Query pattern fingerprint to apply rule to */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Optional array of tags for this rule. Each rules take exactly one tag. */
-  tags?: CreateTrafficRuleRequestTagsList;
+  tags?: CreateTrafficRuleRequestTagsList | undefined;
 }
 /** The kind of rule */
 export type TrafficRuleKind = "match" | "each";
@@ -2916,9 +2919,9 @@ export interface TrafficRule {
   kind: TrafficRuleKind;
   tags: TrafficRuleTagsList;
   /** The query fingerprint targeted by this rule */
-  fingerprint?: string | null;
+  fingerprint?: string | null | undefined;
   /** The keyspace of the fingerprint */
-  keyspace?: string | null;
+  keyspace?: string | null | undefined;
   actor: OrganizationTeamMembershipActor;
   /** Syntax highlighted SQL for rules with SQL keys */
   syntax_highlighted_sql: string;
@@ -2937,11 +2940,11 @@ export interface CreateWebhookRequest {
   /** The URL the webhook will send events to */
   url: string;
   /** The value to send in the Authorization header */
-  authorization_header?: string;
+  authorization_header?: string | undefined;
   /** Whether the webhook should be enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The events this webhook should subscribe to */
-  events?: CreateWebhookRequestEventsList;
+  events?: CreateWebhookRequestEventsList | undefined;
 }
 export type DatabaseWebhookEventsItem =
   | "branch.ready"
@@ -3008,11 +3011,11 @@ export interface CreateWorkflowRequest {
   /** Name of the target keyspace */
   target_keyspace: string;
   /** Name of the global sequence keyspace */
-  global_keyspace?: string;
+  global_keyspace?: string | undefined;
   /** Defer secondary keys */
-  defer_secondary_keys?: boolean;
+  defer_secondary_keys?: boolean | undefined;
   /** The behavior when DDL changes during the workflow */
-  on_ddl?: CreateWorkflowRequestOnDdl | (string & {});
+  on_ddl?: CreateWorkflowRequestOnDdl | (string & {}) | undefined;
   /** List of tables to move */
   tables: CreateWorkflowRequestTablesList;
 }
@@ -3055,7 +3058,7 @@ export interface DeleteBranchRequest {
   /** The name of the branch */
   branch: string;
   /** If true, recursively delete all descendant branches along with this branch */
-  delete_descendants?: boolean;
+  delete_descendants?: boolean | undefined;
 }
 export interface DeleteBranchResponse {}
 export interface DeleteDatabaseRequest {
@@ -3156,7 +3159,7 @@ export interface DeleteRoleRequest {
   /** The ID of the role */
   id: string;
   /** The optional role to reassign ownership to before dropping. Accepts the role's ID, or its username with or without the branch ID suffix. */
-  successor?: string;
+  successor?: string | undefined;
 }
 export interface DeleteRoleResponse {}
 export interface DeleteRouterRequest {
@@ -3277,19 +3280,19 @@ export interface DeployCheckRequestStorageRequest {
 }
 export interface DeployCheckRequestStorageResponseStorageReportValueValue {
   /** Current storage used in bytes */
-  used?: number;
+  used?: number | undefined;
   /** Total storage capacity in bytes */
-  capacity?: number;
+  capacity?: number | undefined;
   /** Remaining storage available in bytes */
-  remaining?: number;
+  remaining?: number | undefined;
   /** Percentage of storage capacity currently used */
-  percentage_used?: number;
+  percentage_used?: number | undefined;
   /** Estimated additional storage needed for this deployment in bytes */
-  storage_needed?: number;
+  storage_needed?: number | undefined;
   /** Whether this shard has enough remaining storage for the deployment */
-  has_enough?: boolean;
+  has_enough?: boolean | undefined;
   /** Whether this shard lacks storage only because a competing in-flight deployment is still copying */
-  blocked_by_in_flight?: boolean;
+  blocked_by_in_flight?: boolean | undefined;
 }
 /** Per-shard storage details. Keys are shard names. */
 export type DeployCheckRequestStorageResponseStorageReportValueMap = {
@@ -3319,7 +3322,7 @@ export interface DeployCloseRequestRequest {
   /** The number of the deploy request */
   number: number;
   /** The deploy request will be updated to this state */
-  state?: DeployCloseRequestRequestState | (string & {});
+  state?: DeployCloseRequestRequestState | (string & {}) | undefined;
 }
 export interface DeployCompleteErroredRequest {
   /** The name of the deploy request's organization */
@@ -3353,7 +3356,7 @@ export interface DeployQueueRequestRequest {
   /** The number of the deploy request */
   number: number;
   /** Whether or not to deploy the request with instant DDL. Defaults to false. */
-  instant_ddl?: boolean;
+  instant_ddl?: boolean | undefined;
 }
 /** Whether the review is a comment or approval. Service tokens must have corresponding access (either `approve_deploy_request` or `review_deploy_request`) */
 export type DeployReviewRequestRequestState = "commented" | "approved";
@@ -3365,9 +3368,9 @@ export interface DeployReviewRequestRequest {
   /** The number of the deploy request */
   number: number;
   /** Whether the review is a comment or approval. Service tokens must have corresponding access (either `approve_deploy_request` or `review_deploy_request`) */
-  state?: DeployReviewRequestRequestState | (string & {});
+  state?: DeployReviewRequestRequestState | (string & {}) | undefined;
   /** Deploy request review comments */
-  body?: string;
+  body?: string | undefined;
 }
 /** Whether the review is a comment or approval */
 export type DeployRequestReviewState = "commented" | "approved";
@@ -3453,7 +3456,7 @@ export interface DismissSchemaRecommendationRequest {
   /** Schema recommendation sequence number. Example: `42`. */
   number: number;
   /** The reason for dismissing the recommendation (max 500 characters) */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** The state of the recommendation */
 export type SchemaRecommendationState = "open" | "applied" | "dismissed" | "stale";
@@ -3655,7 +3658,7 @@ export interface Anomaly {
   metrics_start: string;
   /** End of the metrics window surrounding the anomaly */
   metrics_end: string;
-  correlations?: AnomalyCorrelationsList | null;
+  correlations?: AnomalyCorrelationsList | null | undefined;
 }
 export interface GetBranchChangeRequestRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -3918,43 +3921,43 @@ export interface GetBranchMetricsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** Metric names to retrieve. Pass as `metrics[]=name` (repeat for multiple), `metrics=name`, or a comma-separated list (`metrics=name,other`). Time range is `period` (for example `15m`) or ISO 8601 `from`/`to`. */
-  metrics?: GetBranchMetricsRequestMetricsList;
+  metrics?: GetBranchMetricsRequestMetricsList | undefined;
   /** Named time period to retrieve. Defaults to 12h. */
-  period?: GetBranchMetricsRequestPeriod | (string & {});
+  period?: GetBranchMetricsRequestPeriod | (string & {}) | undefined;
   /** Start of a custom time range as an ISO 8601 timestamp */
-  from?: string;
+  from?: string | undefined;
   /** End of a custom time range as an ISO 8601 timestamp */
-  to?: string;
+  to?: string | undefined;
   /** Number of data points to return */
-  steps?: number;
+  steps?: number | undefined;
   /** Filter by tablet type */
-  tablet_type?: GetBranchMetricsRequestTabletType | (string & {});
+  tablet_type?: GetBranchMetricsRequestTabletType | (string & {}) | undefined;
   /** Filter by keyspace */
-  keyspace?: string;
+  keyspace?: string | undefined;
   /** Filter by shard */
-  shard?: string;
+  shard?: string | undefined;
   /** Filter by shard configuration profile name */
-  shard_config_profile?: string;
+  shard_config_profile?: string | undefined;
   /** Filter by router */
-  router?: string;
+  router?: string | undefined;
   /** Filter by Postgres role */
-  role?: string;
+  role?: string | undefined;
   /** Filter by container */
-  container?: string;
+  container?: string | undefined;
   /** Filter by pod */
-  pod?: string;
+  pod?: string | undefined;
   /** Filter by pods */
-  pods?: GetBranchMetricsRequestPodsList;
+  pods?: GetBranchMetricsRequestPodsList | undefined;
   /** Filter by query pattern IDs */
-  query_ids?: GetBranchMetricsRequestQueryIdsList;
+  query_ids?: GetBranchMetricsRequestQueryIdsList | undefined;
   /** Filter by query fingerprint */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Filter by traffic budget ID */
-  budget_id?: string;
+  budget_id?: string | undefined;
   /** Filter by traffic rule ID */
-  rule_id?: string;
+  rule_id?: string | undefined;
   /** Filter by search terms */
-  q?: string;
+  q?: string | undefined;
 }
 /** Key/value labels, also known as tags, identifying the time series */
 export type MetricSeriesSeriesItemLabelsMap = { [key: string]: unknown | undefined };
@@ -4072,15 +4075,15 @@ export interface GetBranchQueryErrorRequest {
   /** The error fingerprint */
   fingerprint: string;
   /** Start time for filtering queries (ISO 8601 timestamp) */
-  from?: string;
+  from?: string | undefined;
   /** End time for filtering queries (ISO 8601 timestamp) */
-  to?: string;
+  to?: string | undefined;
   /** Time period for filtering queries */
-  period?: GetBranchQueryErrorRequestPeriod | (string & {});
+  period?: GetBranchQueryErrorRequestPeriod | (string & {}) | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The database password used for the query */
 export type PaginatedQueryDataItemPasswordMap = { [key: string]: unknown | undefined };
@@ -4144,17 +4147,17 @@ export interface PaginatedQuery {
   /** The response type. Always "list" for paginated responses. */
   type: string;
   /** The current page number */
-  current_page?: number | null;
+  current_page?: number | null | undefined;
   /** The maximum number of results per page */
-  per_page?: number | null;
+  per_page?: number | null | undefined;
   /** The next page number, or null when this is the last page */
   next_page: number | null;
   /** The next page of results, or null when this is the last page */
-  next_page_url?: string | null;
+  next_page_url?: string | null | undefined;
   /** The previous page number, or null when this is the first page */
   prev_page: number | null;
   /** The previous page of results, or null when this is the first page */
-  prev_page_url?: string | null;
+  prev_page_url?: string | null | undefined;
   data: PaginatedQueryDataList;
 }
 export type GetBranchQueryMetricsRequestMetricsItem =
@@ -4218,29 +4221,29 @@ export interface GetBranchQueryMetricsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** Metric names to retrieve. Pass as `metrics[]=name` (repeat for multiple), `metrics=name`, or a comma-separated list (`metrics=name,other`). Time range is `period` (for example `15m`) or ISO 8601 `from`/`to`. */
-  metrics?: GetBranchQueryMetricsRequestMetricsList;
+  metrics?: GetBranchQueryMetricsRequestMetricsList | undefined;
   /** Query pattern IDs to retrieve metrics for */
-  query_ids?: GetBranchQueryMetricsRequestQueryIdsList;
+  query_ids?: GetBranchQueryMetricsRequestQueryIdsList | undefined;
   /** Filter by query fingerprint */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Keyspace for the query fingerprint */
-  keyspace?: string;
+  keyspace?: string | undefined;
   /** Named time period to retrieve. Defaults to 12h. */
-  period?: GetBranchQueryMetricsRequestPeriod | (string & {});
+  period?: GetBranchQueryMetricsRequestPeriod | (string & {}) | undefined;
   /** Start of a custom time range as an ISO 8601 timestamp */
-  from?: string;
+  from?: string | undefined;
   /** End of a custom time range as an ISO 8601 timestamp */
-  to?: string;
+  to?: string | undefined;
   /** Number of data points to return */
-  steps?: number;
+  steps?: number | undefined;
   /** Filter by tablet type */
-  tablet_type?: GetBranchQueryMetricsRequestTabletType | (string & {});
+  tablet_type?: GetBranchQueryMetricsRequestTabletType | (string & {}) | undefined;
   /** Filter by traffic budget ID */
-  budget_id?: string;
+  budget_id?: string | undefined;
   /** Filter by traffic rule ID */
-  rule_id?: string;
+  rule_id?: string | undefined;
   /** Filter by search terms */
-  q?: string;
+  q?: string | undefined;
 }
 export type GetBranchQueryTagRequestPeriod =
   | "15m"
@@ -4263,21 +4266,21 @@ export interface GetBranchQueryTagRequest {
   /** The tag name */
   tag: string;
   /** Start time for filtering tag values (ISO 8601 timestamp) */
-  from?: string;
+  from?: string | undefined;
   /** End time for filtering tag values (ISO 8601 timestamp) */
-  to?: string;
+  to?: string | undefined;
   /** Time period for filtering tag values */
-  period?: GetBranchQueryTagRequestPeriod | (string & {});
+  period?: GetBranchQueryTagRequestPeriod | (string & {}) | undefined;
   /** Filter to tag values on queries with this fingerprint */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Filter by keyspace */
-  keyspace?: string;
+  keyspace?: string | undefined;
   /** Filter by tablet type */
-  tablet_type?: GetBranchQueryTagRequestTabletType | (string & {});
+  tablet_type?: GetBranchQueryTagRequestTabletType | (string & {}) | undefined;
   /** Maximum number of values returned (1-100) */
-  values_limit?: number;
+  values_limit?: number | undefined;
   /** Only return literal tag values, excluding overflow and collapsed values */
-  literal_values_only?: boolean;
+  literal_values_only?: boolean | undefined;
 }
 /** The source of the tag */
 export type QueryTagSource = "sql" | "system";
@@ -4372,9 +4375,9 @@ export interface GetBranchSchemaRequest {
   /** The name of the branch */
   branch: string;
   /** Return the schema for a single Vitess keyspace */
-  keyspace?: string;
+  keyspace?: string | undefined;
   /** Return the schema for a PostgreSQL catalog namespace in `<database>.<schema>` format (e.g. public.schema1) */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export interface GetBranchSchemaResponseDataItem {
   /** Name of the table */
@@ -4455,25 +4458,25 @@ export interface GetBranchTagMetricsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** Metric names to retrieve. Pass as `metrics[]=name` (repeat for multiple), `metrics=name`, or a comma-separated list (`metrics=name,other`). Time range is `period` (for example `15m`) or ISO 8601 `from`/`to`. */
-  metrics?: GetBranchTagMetricsRequestMetricsList;
+  metrics?: GetBranchTagMetricsRequestMetricsList | undefined;
   /** Tag sets to retrieve metrics for */
-  tag_sets?: GetBranchTagMetricsRequestTagSetsList;
+  tag_sets?: GetBranchTagMetricsRequestTagSetsList | undefined;
   /** Named time period to retrieve. Defaults to 12h. */
-  period?: GetBranchTagMetricsRequestPeriod | (string & {});
+  period?: GetBranchTagMetricsRequestPeriod | (string & {}) | undefined;
   /** Start of a custom time range as an ISO 8601 timestamp */
-  from?: string;
+  from?: string | undefined;
   /** End of a custom time range as an ISO 8601 timestamp */
-  to?: string;
+  to?: string | undefined;
   /** Number of data points to return */
-  steps?: number;
+  steps?: number | undefined;
   /** Filter by tablet type */
-  tablet_type?: GetBranchTagMetricsRequestTabletType | (string & {});
+  tablet_type?: GetBranchTagMetricsRequestTabletType | (string & {}) | undefined;
   /** Filter by traffic budget ID */
-  budget_id?: string;
+  budget_id?: string | undefined;
   /** Filter by traffic rule ID */
-  rule_id?: string;
+  rule_id?: string | undefined;
   /** Filter by search terms */
-  q?: string;
+  q?: string | undefined;
 }
 export interface GetCurrentUserRequest {}
 export type UserDefaultOrganization = OrganizationTeamMembershipUserDefaultOrganization;
@@ -4483,7 +4486,7 @@ export interface User {
   /** The display name of the user */
   display_name: string;
   /** The name of the user */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The email of the user */
   email: string;
   /** The URL source of the user's avatar */
@@ -4494,15 +4497,15 @@ export interface User {
   updated_at: string;
   /** Whether or not the user has configured two factor authentication */
   two_factor_auth_configured: boolean;
-  default_organization?: OrganizationTeamMembershipUserDefaultOrganization | null;
+  default_organization?: OrganizationTeamMembershipUserDefaultOrganization | null | undefined;
   /** Whether or not the user is managed by SSO. */
-  sso?: boolean | null;
+  sso?: boolean | null | undefined;
   /** Whether or not the user is managed by an authentication provider. */
-  managed?: boolean | null;
+  managed?: boolean | null | undefined;
   /** Whether or not the user is managed by a SSO directory. */
-  directory_managed?: boolean | null;
+  directory_managed?: boolean | null | undefined;
   /** Whether or not the user is verified by email. */
-  email_verified?: boolean | null;
+  email_verified?: boolean | null | undefined;
 }
 export interface GetDatabaseRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -4774,7 +4777,7 @@ export interface Deployment {
   /** Whether or not the deployment cutover will expire soon */
   cutover_expiring: boolean;
   /** Deploy check errors for the deployment. */
-  deploy_check_errors?: string | null;
+  deploy_check_errors?: string | null | undefined;
   /** When the deployment was finished */
   finished_at: string | null;
   /** When force cutover was triggered for the deployment */
@@ -4808,18 +4811,18 @@ export interface Deployment {
   /** Lookup Vitess index operations */
   lookup_vindex_operations: DeploymentLookupVindexOperationsList;
   /** Deployment throttling configurations. */
-  throttler_configurations?: DeploymentThrottlerConfigurationsMap | null;
+  throttler_configurations?: DeploymentThrottlerConfigurationsMap | null | undefined;
   /** The request to revert the schema operations in this deployment */
   deployment_revert_request: DeploymentDeploymentRevertRequestMap | null;
-  actor?: OrganizationTeamMembershipActor | null;
-  cutover_actor?: OrganizationTeamMembershipActor | null;
-  cancelled_actor?: OrganizationTeamMembershipActor | null;
+  actor?: OrganizationTeamMembershipActor | null | undefined;
+  cutover_actor?: OrganizationTeamMembershipActor | null | undefined;
+  cancelled_actor?: OrganizationTeamMembershipActor | null | undefined;
   /** When the schema was last updated for the deployment */
   schema_last_updated_at: string | null;
   /** Whether or not the deployment has a table locked */
   table_locked: boolean;
   /** The name of the table that is locked by the deployment. */
-  locked_table_name?: string | null;
+  locked_table_name?: string | null | undefined;
   /** Whether or not the deployment is an instant DDL deployment */
   instant_ddl: boolean;
   /** Whether or not the deployment is eligible for instant DDL */
@@ -4835,9 +4838,9 @@ export interface GetDeployQueueRequest {
   /** The name of the deploy request's database */
   database: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The state the deployment is in */
 export type PaginatedDeploymentDataItemState =
@@ -5038,7 +5041,7 @@ export interface PaginatedDeploymentDataItem {
   /** Whether or not the deployment cutover will expire soon */
   cutover_expiring: boolean;
   /** Deploy check errors for the deployment. */
-  deploy_check_errors?: string | null;
+  deploy_check_errors?: string | null | undefined;
   /** When the deployment was finished */
   finished_at: string | null;
   /** When force cutover was triggered for the deployment */
@@ -5072,18 +5075,21 @@ export interface PaginatedDeploymentDataItem {
   /** Lookup Vitess index operations */
   lookup_vindex_operations: PaginatedDeploymentDataItemLookupVindexOperationsList;
   /** Deployment throttling configurations. */
-  throttler_configurations?: PaginatedDeploymentDataItemThrottlerConfigurationsMap | null;
+  throttler_configurations?:
+    | PaginatedDeploymentDataItemThrottlerConfigurationsMap
+    | null
+    | undefined;
   /** The request to revert the schema operations in this deployment */
   deployment_revert_request: PaginatedDeploymentDataItemDeploymentRevertRequestMap | null;
-  actor?: OrganizationTeamMembershipActor | null;
-  cutover_actor?: OrganizationTeamMembershipActor | null;
-  cancelled_actor?: OrganizationTeamMembershipActor | null;
+  actor?: OrganizationTeamMembershipActor | null | undefined;
+  cutover_actor?: OrganizationTeamMembershipActor | null | undefined;
+  cancelled_actor?: OrganizationTeamMembershipActor | null | undefined;
   /** When the schema was last updated for the deployment */
   schema_last_updated_at: string | null;
   /** Whether or not the deployment has a table locked */
   table_locked: boolean;
   /** The name of the table that is locked by the deployment. */
-  locked_table_name?: string | null;
+  locked_table_name?: string | null | undefined;
   /** Whether or not the deployment is an instant DDL deployment */
   instant_ddl: boolean;
   /** Whether or not the deployment is eligible for instant DDL */
@@ -5166,17 +5172,17 @@ export interface GetInstantBranchMetricsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** Metric names to retrieve. Pass as `metrics[]=name` (repeat for multiple), `metrics=name`, or a comma-separated list (`metrics=name,other`). */
-  metrics?: GetInstantBranchMetricsRequestMetricsList;
+  metrics?: GetInstantBranchMetricsRequestMetricsList | undefined;
   /** Filter by Postgres role */
-  role?: string;
+  role?: string | undefined;
   /** Filter by shard */
-  shard?: string;
+  shard?: string | undefined;
   /** Filter by shard configuration profile name */
-  shard_config_profile?: string;
+  shard_config_profile?: string | undefined;
   /** Filter by container */
-  container?: string;
+  container?: string | undefined;
   /** Filter by pod */
-  pod?: string;
+  pod?: string | undefined;
 }
 export type GetInstantBranchMetricsResponseBranch =
   OrganizationTeamMembershipUserDefaultOrganization;
@@ -5222,11 +5228,11 @@ export interface GetInstantTabletMetricsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** Metric names to retrieve. Pass as `metrics[]=name` (repeat for multiple), `metrics=name`, or a comma-separated list (`metrics=name,other`). */
-  metrics?: GetInstantTabletMetricsRequestMetricsList;
+  metrics?: GetInstantTabletMetricsRequestMetricsList | undefined;
   /** Filter by keyspace */
-  keyspace?: string;
+  keyspace?: string | undefined;
   /** Filter by shard */
-  shard?: string;
+  shard?: string | undefined;
 }
 export type GetInstantTabletMetricsResponseBranch =
   OrganizationTeamMembershipUserDefaultOrganization;
@@ -5275,9 +5281,9 @@ export interface GetInvoiceLineItemsRequest {
   /** Invoice public ID from `list_invoices`. Example: `aabb12123434`. */
   id: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type PaginatedLineItemDataItemResource = OrganizationTeamMembershipUserDefaultOrganization;
 export interface PaginatedLineItemDataItem {
@@ -5477,13 +5483,13 @@ export interface BranchMaintenanceSchedule {
   /** Whether the maintenance schedule is required */
   required: boolean;
   /** Whether there is a pending Vitess version update */
-  pending_vitess_version_update?: boolean | null;
+  pending_vitess_version_update?: boolean | null | undefined;
   /** The pending Vitess version, if any */
-  pending_vitess_version?: string | null;
+  pending_vitess_version?: string | null | undefined;
   /** Whether there is a pending MySQL version update */
-  pending_mysql_version_update?: boolean | null;
+  pending_mysql_version_update?: boolean | null | undefined;
   /** The pending MySQL version, if any */
-  pending_mysql_version?: string | null;
+  pending_mysql_version?: string | null | undefined;
 }
 export interface GetMoveTablesWorkflowRequest {
   /** Organization name */
@@ -5505,7 +5511,7 @@ export type GetMoveTablesWorkflowResponseDataWorkflowsList =
   Array<GetMoveTablesWorkflowResponseDataWorkflowsItemMap>;
 export interface GetMoveTablesWorkflowResponseData {
   /** The workflows Vitess reports for the target keyspace */
-  workflows?: GetMoveTablesWorkflowResponseDataWorkflowsList;
+  workflows?: GetMoveTablesWorkflowResponseDataWorkflowsList | undefined;
 }
 export interface GetMoveTablesWorkflowResponse {
   data: GetMoveTablesWorkflowResponseData;
@@ -5523,12 +5529,12 @@ export interface GetMoveTablesWorkflowStatusRequest {
   target_keyspace: string;
 }
 export interface GetMoveTablesWorkflowStatusResponseDataTableCopyStateValue {
-  rows_copied?: number;
-  rows_total?: number;
-  rows_percentage?: number;
-  bytes_copied?: number;
-  bytes_total?: number;
-  bytes_percentage?: number;
+  rows_copied?: number | undefined;
+  rows_total?: number | undefined;
+  rows_percentage?: number | undefined;
+  bytes_copied?: number | undefined;
+  bytes_total?: number | undefined;
+  bytes_percentage?: number | undefined;
 }
 /** VReplication table copy progress, keyed by table name */
 export type GetMoveTablesWorkflowStatusResponseDataTableCopyStateMap = {
@@ -5540,11 +5546,11 @@ export type GetMoveTablesWorkflowStatusResponseDataShardStreamsMap = {
 };
 export interface GetMoveTablesWorkflowStatusResponseData {
   /** Human-readable summary of the workflow's current traffic state */
-  traffic_state?: string;
+  traffic_state?: string | undefined;
   /** VReplication table copy progress, keyed by table name */
-  table_copy_state?: GetMoveTablesWorkflowStatusResponseDataTableCopyStateMap;
+  table_copy_state?: GetMoveTablesWorkflowStatusResponseDataTableCopyStateMap | undefined;
   /** VReplication stream status, keyed by Vitess keyspace/shard */
-  shard_streams?: GetMoveTablesWorkflowStatusResponseDataShardStreamsMap;
+  shard_streams?: GetMoveTablesWorkflowStatusResponseDataShardStreamsMap | undefined;
 }
 export interface GetMoveTablesWorkflowStatusResponse {
   data: GetMoveTablesWorkflowStatusResponseData;
@@ -5613,87 +5619,87 @@ export interface NekiChangeRequest {
   /** The name of the resource being changed */
   target_name: string;
   /** The name of the admin size SKU */
-  admin_size?: string | null;
+  admin_size?: string | null | undefined;
   /** The display name of the admin size SKU */
-  admin_size_display_name?: string | null;
+  admin_size_display_name?: string | null | undefined;
   /** The parameters requested for the target resource */
-  parameters?: NekiChangeRequestParametersMap | null;
+  parameters?: NekiChangeRequestParametersMap | null | undefined;
   /** The previous name of the admin size SKU */
-  previous_admin_size?: string | null;
+  previous_admin_size?: string | null | undefined;
   /** The previous display name of the admin size SKU */
-  previous_admin_size_display_name?: string | null;
+  previous_admin_size_display_name?: string | null | undefined;
   /** The target resource parameters before the change */
-  previous_parameters?: NekiChangeRequestPreviousParametersMap | null;
+  previous_parameters?: NekiChangeRequestPreviousParametersMap | null | undefined;
   /** The cluster flags */
-  flags?: NekiChangeRequestFlagsList | null;
+  flags?: NekiChangeRequestFlagsList | null | undefined;
   /** The Neki image version */
-  neki_image_version?: string | null;
+  neki_image_version?: string | null | undefined;
   /** The previous cluster flags */
-  previous_flags?: NekiChangeRequestPreviousFlagsList | null;
+  previous_flags?: NekiChangeRequestPreviousFlagsList | null | undefined;
   /** The previous Neki image version */
-  previous_neki_image_version?: string | null;
+  previous_neki_image_version?: string | null | undefined;
   /** The number of replicas */
-  replicas?: number | null;
+  replicas?: number | null | undefined;
   /** The previous number of replicas */
-  previous_replicas?: number | null;
+  previous_replicas?: number | null | undefined;
   /** The SKU representing the external sidecar size */
-  cluster_name?: string | null;
+  cluster_name?: string | null | undefined;
   /** The display name of the cluster size SKU */
-  cluster_display_name?: string | null;
+  cluster_display_name?: string | null | undefined;
   /** The SKU representing the previous external sidecar size */
-  previous_cluster_name?: string | null;
+  previous_cluster_name?: string | null | undefined;
   /** The previous display name of the cluster size SKU */
-  previous_cluster_display_name?: string | null;
+  previous_cluster_display_name?: string | null | undefined;
   /** The name of the router size SKU */
-  router_size?: string | null;
+  router_size?: string | null | undefined;
   /** The display name of the router size SKU */
-  router_size_display_name?: string | null;
+  router_size_display_name?: string | null | undefined;
   /** The number of replicas in each cell */
-  replicas_per_cell?: number | null;
+  replicas_per_cell?: number | null | undefined;
   /** Whether the router scales horizontally within each cell */
-  autoscaling?: boolean | null;
+  autoscaling?: boolean | null | undefined;
   /** The maximum number of replicas in each cell when autoscaling */
-  max_replicas_per_cell?: number | null;
+  max_replicas_per_cell?: number | null | undefined;
   /** The target average CPU utilization percentage when autoscaling, one of 40, 50, 60 or 70 */
-  target_cpu_utilization?: number | null;
+  target_cpu_utilization?: number | null | undefined;
   /** The previous name of the router size SKU */
-  previous_router_size?: string | null;
+  previous_router_size?: string | null | undefined;
   /** The previous display name of the router size SKU */
-  previous_router_size_display_name?: string | null;
+  previous_router_size_display_name?: string | null | undefined;
   /** The previous number of replicas in each cell */
-  previous_replicas_per_cell?: number | null;
+  previous_replicas_per_cell?: number | null | undefined;
   /** The previous autoscaling state of the router */
-  previous_autoscaling?: boolean | null;
+  previous_autoscaling?: boolean | null | undefined;
   /** The previous maximum number of replicas in each cell */
-  previous_max_replicas_per_cell?: number | null;
+  previous_max_replicas_per_cell?: number | null | undefined;
   /** The previous target average CPU utilization percentage */
-  previous_target_cpu_utilization?: number | null;
+  previous_target_cpu_utilization?: number | null | undefined;
   /** The name of the shard configuration profile */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The previous name of the shard configuration profile */
-  previous_name?: string | null;
+  previous_name?: string | null | undefined;
   /** The name of the cluster size SKU */
-  cluster_size?: string | null;
+  cluster_size?: string | null | undefined;
   /** Whether the cluster size SKU uses metal instances */
-  metal?: boolean | null;
+  metal?: boolean | null | undefined;
   /** The display order of the cluster size SKU */
-  cluster_rank?: number | null;
+  cluster_rank?: number | null | undefined;
   /** The number of shards */
-  shards?: number | null;
+  shards?: number | null | undefined;
   /** The PostgreSQL image */
-  postgres_image_version?: string | null;
-  storage?: NekiShardConfigurationProfileStorage | null;
+  postgres_image_version?: string | null | undefined;
+  storage?: NekiShardConfigurationProfileStorage | null | undefined;
   /** The previous name of the cluster size SKU */
-  previous_cluster_size?: string | null;
+  previous_cluster_size?: string | null | undefined;
   /** Whether the previous cluster size SKU used metal instances */
-  previous_metal?: boolean | null;
+  previous_metal?: boolean | null | undefined;
   /** The previous display order of the cluster size SKU */
-  previous_cluster_rank?: number | null;
+  previous_cluster_rank?: number | null | undefined;
   /** The previous number of shards */
-  previous_shards?: number | null;
+  previous_shards?: number | null | undefined;
   /** The previous PostgreSQL image */
-  previous_postgres_image_version?: string | null;
-  previous_storage?: NekiShardConfigurationProfileStorage | null;
+  previous_postgres_image_version?: string | null | undefined;
+  previous_storage?: NekiShardConfigurationProfileStorage | null | undefined;
 }
 export interface GetOauthApplicationRequest {
   /** The name of the organization the OAuth application belongs to */
@@ -5740,7 +5746,7 @@ export interface OauthApplication {
   /** All available scopes grouped by resource type with scope, description, selected, and admin flags */
   all_scopes_by_resource: OauthApplicationAllScopesByResourceMap;
   /** MCP tool groups (id, label, section, tools, scopes, parent_id, default_enabled, roles) selectable when authorizing a DCR app; only present for DCR apps. Database-section groups also carry org_scopes (the organization-tier scope names granting the group across all databases in an organization) and org_roles (the organization roles allowed to grant them); both are null for organization-section groups */
-  mcp_tool_groups?: OauthApplicationMcpToolGroupsList | null;
+  mcp_tool_groups?: OauthApplicationMcpToolGroupsList | null | undefined;
 }
 export interface GetOauthTokenRequest {
   /** The name of the organization the OAuth application belongs to */
@@ -5780,11 +5786,11 @@ export interface Organization {
   /** Whether or not the organization has managed tenancy enabled */
   managed_tenancy: boolean;
   /** Whether or not the organization has past due billing invoices. */
-  has_past_due_invoices?: boolean | null;
+  has_past_due_invoices?: boolean | null | undefined;
   /** The number of databases in the organization */
   database_count: number;
   /** The URL of the organization's SSO portal. */
-  sso_portal_url?: string | null;
+  sso_portal_url?: string | null | undefined;
   /** Features that can be enabled on the organization */
   features: OrganizationFeaturesMap;
   /** Whether or not the IdP provider is be responsible for managing roles in PlanetScale */
@@ -5836,7 +5842,7 @@ export interface OrganizationMembershipUser {
   /** The display name of the user */
   display_name: string;
   /** The name of the user */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The email of the user */
   email: string;
   /** The URL source of the user's avatar */
@@ -5847,15 +5853,15 @@ export interface OrganizationMembershipUser {
   updated_at: string;
   /** Whether or not the user has configured two factor authentication */
   two_factor_auth_configured: boolean;
-  default_organization?: OrganizationTeamMembershipUserDefaultOrganization | null;
+  default_organization?: OrganizationTeamMembershipUserDefaultOrganization | null | undefined;
   /** Whether or not the user is managed by SSO. */
-  sso?: boolean | null;
+  sso?: boolean | null | undefined;
   /** Whether or not the user is managed by an authentication provider. */
-  managed?: boolean | null;
+  managed?: boolean | null | undefined;
   /** Whether or not the user is managed by a SSO directory. */
-  directory_managed?: boolean | null;
+  directory_managed?: boolean | null | undefined;
   /** Whether or not the user is verified by email. */
-  email_verified?: boolean | null;
+  email_verified?: boolean | null | undefined;
 }
 /** The role of the user in the organization */
 export type OrganizationMembershipRole = "member" | "admin";
@@ -6079,15 +6085,15 @@ export interface GetQueryStatisticsRequest {
   /** The keyspace to filter by */
   keyspace: string;
   /** Start time for filtering query statistics (ISO 8601 timestamp) */
-  from?: string;
+  from?: string | undefined;
   /** End time for filtering query statistics (ISO 8601 timestamp) */
-  to?: string;
+  to?: string | undefined;
   /** Time period for filtering query statistics */
-  period?: GetQueryStatisticsRequestPeriod | (string & {});
+  period?: GetQueryStatisticsRequestPeriod | (string & {}) | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type GetQuerySummaryRequestPeriod =
   | "15m"
@@ -6111,11 +6117,11 @@ export interface GetQuerySummaryRequest {
   /** The keyspace to filter by */
   keyspace: string;
   /** Start time for filtering query statistics (ISO 8601 timestamp) */
-  from?: string;
+  from?: string | undefined;
   /** End time for filtering query statistics (ISO 8601 timestamp) */
-  to?: string;
+  to?: string | undefined;
   /** Time period for filtering query statistics */
-  period?: GetQuerySummaryRequestPeriod | (string & {});
+  period?: GetQuerySummaryRequestPeriod | (string & {}) | undefined;
 }
 /** Tables accessed by the query */
 export type QuerySummaryTablesList = Array<string>;
@@ -6241,15 +6247,15 @@ export interface GetRoleRequest {
   /** The ID of the role */
   id: string;
   /** Return connection details for a replica */
-  replica?: boolean;
+  replica?: boolean | undefined;
   /** Return connection details for this dedicated read replica */
-  dedicated_read_replica?: string;
+  dedicated_read_replica?: string | undefined;
   /** Return connection details for this bouncer */
-  bouncer?: string;
+  bouncer?: string | undefined;
   /** Return connection details for this Neki router group */
-  router?: string;
+  router?: string | undefined;
   /** Return libpq options that pin this Neki shard */
-  shard?: string;
+  shard?: string | undefined;
 }
 export interface GetRouterRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -6418,23 +6424,23 @@ export interface GetTabletMetricsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** Metric names to retrieve. Pass as `metrics[]=name` (repeat for multiple), `metrics=name`, or a comma-separated list (`metrics=name,other`). Time range is `period` (for example `15m`) or ISO 8601 `from`/`to`. */
-  metrics?: GetTabletMetricsRequestMetricsList;
+  metrics?: GetTabletMetricsRequestMetricsList | undefined;
   /** Named time period to retrieve. Defaults to 12h. */
-  period?: GetTabletMetricsRequestPeriod | (string & {});
+  period?: GetTabletMetricsRequestPeriod | (string & {}) | undefined;
   /** Start of a custom time range as an ISO 8601 timestamp */
-  from?: string;
+  from?: string | undefined;
   /** End of a custom time range as an ISO 8601 timestamp */
-  to?: string;
+  to?: string | undefined;
   /** Number of data points to return */
-  steps?: number;
+  steps?: number | undefined;
   /** Filter by keyspace */
-  keyspace?: string;
+  keyspace?: string | undefined;
   /** Filter by shard */
-  shard?: string;
+  shard?: string | undefined;
   /** Filter by pod */
-  pod?: string;
+  pod?: string | undefined;
   /** Filter by workflow ID */
-  workflow?: string;
+  workflow?: string | undefined;
 }
 export interface GetTrafficBudgetRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -6485,11 +6491,11 @@ export interface GetVtctldOperationResponse {
   /** Whether the operation has reached a terminal state */
   completed: string;
   /** Operation-specific metadata captured when the operation started */
-  metadata?: GetVtctldOperationResponseMetadataMap;
+  metadata?: GetVtctldOperationResponseMetadataMap | undefined;
   /** Operation-specific result payload, present once the operation succeeds */
-  result?: GetVtctldOperationResponseResultMap;
+  result?: GetVtctldOperationResponseResultMap | undefined;
   /** The error message, present when the operation fails or its status could not be checked */
-  error?: string;
+  error?: string | undefined;
 }
 export interface GetWebhookRequest {
   /** The name of the organization */
@@ -6515,9 +6521,9 @@ export interface LintBranchSchemaRequest {
   /** The name of the branch */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The subject for the errors */
 export type PaginatedSchemaLintErrorDataItemSubjectType =
@@ -6600,13 +6606,13 @@ export interface ListAdminChangeRequestsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter change requests by named period */
-  period?: ListAdminChangeRequestsRequestPeriod | (string & {});
+  period?: ListAdminChangeRequestsRequestPeriod | (string & {}) | undefined;
   /** Filter change requests completed between two ISO 8601 timestamps */
-  completed_at?: string;
+  completed_at?: string | undefined;
 }
 export interface ListAdminChangeRequestsResponse {}
 export interface ListAdminParametersRequest {
@@ -6664,13 +6670,13 @@ export interface NekiParameter {
   /** Whether processes require a server restart after the parameter changes */
   restart: boolean;
   /** The maximum value of the parameter */
-  max?: number | null;
+  max?: number | null | undefined;
   /** The minimum value of the parameter */
-  min?: number | null;
+  min?: number | null | undefined;
   /** Valid options for the parameter value. Null represents an unset value */
-  options?: NekiParameterOptionsList | null;
+  options?: NekiParameterOptionsList | null | undefined;
   /** The units of the parameter value */
-  units?: NekiParameterUnitsList | null;
+  units?: NekiParameterUnitsList | null | undefined;
   /** The URL of the parameter */
   url: string;
   actor: OrganizationTeamMembershipActor;
@@ -6692,11 +6698,11 @@ export interface ListAuditLogsRequest {
   /** The name of the organization */
   organization: string;
   /** If provided, returns results after the specified cursor */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** If provided, returns results before the specified cursor */
-  ending_before?: string;
+  ending_before?: string | undefined;
   /** If provided, specifies the number of returned results (max 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Additional metadata containing details about the change */
 export type PaginatedAuditLogEventDataItemMetadataMap = { [key: string]: unknown | undefined };
@@ -6756,9 +6762,9 @@ export interface ListBackupPoliciesRequest {
   /** Database name slug from `list_databases`. Example: `app-db`. */
   database: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Whether the policy is for production or development branches */
 export type PaginatedBackupPolicyDataItemTarget = "production" | "development";
@@ -6780,7 +6786,7 @@ export interface PaginatedBackupPolicyDataItem {
   /** The unit for the frequency of the backup policy */
   frequency_unit: string;
   /** The time of day that the backup is scheduled, in HH:MM format */
-  schedule_time?: string | null;
+  schedule_time?: string | null | undefined;
   /** Day of the week that the backup is scheduled. 0 is Sunday, 6 is Saturday */
   schedule_day: number | null;
   /** Week of the month that the backup is scheduled. 0 is the first week, 3 is the fourth week */
@@ -6829,23 +6835,23 @@ export interface ListBackupsRequest {
   /** The name of the branch */
   branch: string;
   /** Whether to include all backups, including deleted ones */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Filter backups by state */
-  state?: ListBackupsRequestState | (string & {});
+  state?: ListBackupsRequestState | (string & {}) | undefined;
   /** Filter backups by backup policy ID */
-  policy?: string;
+  policy?: string | undefined;
   /** Filter backups started after this date (e.g. 2023-01-01T00:00:00Z) */
-  from?: string;
+  from?: string | undefined;
   /** Filter backups started before this date (e.g. 2023-01-31T23:59:59Z) */
-  to?: string;
+  to?: string | undefined;
   /** Filter backups that are running during a specific time (e.g. 2023-01-01T00:00:00Z..2023-01-01T23:59:59Z) */
-  running_at?: string;
+  running_at?: string | undefined;
   /** Filter backups by production branch */
-  production?: boolean;
+  production?: boolean | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The current state of the backup */
 export type PaginatedBackupDataItemState =
@@ -6880,7 +6886,7 @@ export interface PaginatedBackupDataItemBackupPolicy {
   /** The unit for the frequency of the backup policy */
   frequency_unit: string;
   /** The time of day that the backup is scheduled, in HH:MM format */
-  schedule_time?: string | null;
+  schedule_time?: string | null | undefined;
   /** Day of the week that the backup is scheduled. 0 is Sunday, 6 is Saturday */
   schedule_day: number | null;
   /** Week of the month that the backup is scheduled. 0 is the first week, 3 is the fourth week */
@@ -6932,9 +6938,9 @@ export interface PaginatedBackupDataItem {
   required: boolean;
   restored_branches: PaginatedBackupDataItemRestoredBranchesList;
   actor: OrganizationTeamMembershipActor | null;
-  backup_policy?: PaginatedBackupDataItemBackupPolicy | null;
-  schema_snapshot?: BackupSchemaSnapshot | null;
-  database_branch?: OrganizationTeamMembershipUserDefaultOrganization | null;
+  backup_policy?: PaginatedBackupDataItemBackupPolicy | null | undefined;
+  schema_snapshot?: BackupSchemaSnapshot | null | undefined;
+  database_branch?: OrganizationTeamMembershipUserDefaultOrganization | null | undefined;
 }
 export type PaginatedBackupDataList = Array<PaginatedBackupDataItem>;
 export interface PaginatedBackup {
@@ -6968,9 +6974,9 @@ export interface ListBouncerResizeRequestsRequest {
   /** The name of the bouncer */
   bouncer: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The state of the bouncer resize */
 export type PaginatedPostgresBouncerResizeRequestDataItemState =
@@ -7058,9 +7064,9 @@ export interface ListBouncersRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type PaginatedPostgresBouncerDataItemSku = PostgresBouncerSku;
 /** The instance type the bouncer targets */
@@ -7177,15 +7183,15 @@ export interface ListBranchAnomaliesRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** Start time for filtering anomalies (ISO 8601 timestamp) */
-  from?: string;
+  from?: string | undefined;
   /** End time for filtering anomalies (ISO 8601 timestamp) */
-  to?: string;
+  to?: string | undefined;
   /** Time period for filtering anomalies */
-  period?: ListBranchAnomaliesRequestPeriod | (string & {});
+  period?: ListBranchAnomaliesRequestPeriod | (string & {}) | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The tablet type the query ran against */
 export type PaginatedAnomalyDataItemCorrelationsItemTabletType = "primary" | "replica" | "rdonly";
@@ -7224,7 +7230,7 @@ export interface PaginatedAnomalyDataItem {
   metrics_start: string;
   /** End of the metrics window surrounding the anomaly */
   metrics_end: string;
-  correlations?: PaginatedAnomalyDataItemCorrelationsList | null;
+  correlations?: PaginatedAnomalyDataItemCorrelationsList | null | undefined;
 }
 export type PaginatedAnomalyDataList = Array<PaginatedAnomalyDataItem>;
 export interface PaginatedAnomaly {
@@ -7252,9 +7258,9 @@ export interface ListBranchBouncerResizeRequestsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface ListBranchChangeRequestsRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -7264,9 +7270,9 @@ export interface ListBranchChangeRequestsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The state of the branch change request */
 export type PaginatedPostgresClusterResizeRequestDataItemState =
@@ -7387,9 +7393,9 @@ export interface ListBranchConfigChangeRequestsRequest {
   /** The name of the branch */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The state of the config change request */
 export type PaginatedConfigChangeRequestDataItemState =
@@ -7463,17 +7469,17 @@ export interface ListBranchesRequest {
   /** Database name slug from `list_databases`. Example: `app-db`. */
   database: string;
   /** Search branches by name */
-  q?: string;
+  q?: string | undefined;
   /** Filter branches by production status */
-  production?: boolean;
+  production?: boolean | undefined;
   /** Filter branches by safe migrations (DDL protection) */
-  safe_migrations?: boolean;
+  safe_migrations?: boolean | undefined;
   /** Order branches by created_at time */
-  order?: ListBranchesRequestOrder | (string & {});
+  order?: ListBranchesRequestOrder | (string & {}) | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The kind of branch */
 export type PaginatedDatabaseBranchDataItemKind = "mysql" | "postgresql" | "neki";
@@ -7535,25 +7541,25 @@ export interface PaginatedDatabaseBranchDataItem {
   /** The kind of branch */
   kind: PaginatedDatabaseBranchDataItemKind;
   /** The MySQL address for the branch */
-  mysql_address?: string | null;
+  mysql_address?: string | null | undefined;
   /** The address of the MySQL provider for the branch */
-  mysql_edge_address?: string | null;
+  mysql_edge_address?: string | null | undefined;
   /** The current state of the branch */
   state: PaginatedDatabaseBranchDataItemState;
   /** True if the branch allows passwords to connect directly to a vtgate, bypassing load balancers */
-  direct_vtgate?: boolean | null;
+  direct_vtgate?: boolean | null | undefined;
   /** The size of the vtgate cluster for the branch */
-  vtgate_size?: string | null;
+  vtgate_size?: string | null | undefined;
   /** The public SKU representing the VTGate size */
-  vtgate_name?: string | null;
+  vtgate_name?: string | null | undefined;
   /** The number of vtgate instances in the branch */
-  vtgate_count?: number | null;
+  vtgate_count?: number | null | undefined;
   /** Whether VTGate autoscaling is enabled */
-  vtgate_autoscaling?: boolean | null;
+  vtgate_autoscaling?: boolean | null | undefined;
   /** The maximum number of VTGate instances when autoscaling is enabled */
-  vtgate_max_count?: number | null;
+  vtgate_max_count?: number | null | undefined;
   /** The target CPU utilization for VTGate autoscaling */
-  vtgate_target_cpu_utilization?: number | null;
+  vtgate_target_cpu_utilization?: number | null | undefined;
   /** The SKU representing the branch's cluster size */
   cluster_name: string;
   /** IOPS for the cluster */
@@ -7561,7 +7567,7 @@ export interface PaginatedDatabaseBranchDataItem {
   /** Whether or not the branch is ready to serve queries */
   ready: boolean;
   /** Whether or not the schema is ready for queries */
-  schema_ready?: boolean | null;
+  schema_ready?: boolean | null | undefined;
   /** Whether or not this is a metal database */
   metal: boolean;
   /** Whether or not the branch is a production branch */
@@ -7569,13 +7575,13 @@ export interface PaginatedDatabaseBranchDataItem {
   /** Whether or not the branch has safe migrations enabled */
   safe_migrations: boolean;
   /** Whether deletion protection is enabled for the branch */
-  deletion_protected?: boolean;
+  deletion_protected?: boolean | undefined;
   /** Whether or not the branch is sharded */
-  sharded?: boolean;
+  sharded?: boolean | undefined;
   /** The number of shards in the branch */
-  shard_count?: number | null;
+  shard_count?: number | null | undefined;
   /** The number of keyspaces in the branch */
-  keyspace_count?: number;
+  keyspace_count?: number | undefined;
   /** Whether or not the branch has a stale schema */
   stale_schema: boolean;
   actor: OrganizationTeamMembershipActor | null;
@@ -7594,8 +7600,8 @@ export interface PaginatedDatabaseBranchDataItem {
   /** The name of the parent branch from which the branch was created */
   parent_branch: string | null;
   /** VTGate configuration options */
-  vtgate_options?: PaginatedDatabaseBranchDataItemVtgateOptionsMap | null;
-  cluster_architecture?: string;
+  vtgate_options?: PaginatedDatabaseBranchDataItemVtgateOptionsMap | null | undefined;
+  cluster_architecture?: string | undefined;
 }
 export type PaginatedDatabaseBranchDataList = Array<PaginatedDatabaseBranchDataItem>;
 export interface PaginatedDatabaseBranch {
@@ -7687,27 +7693,27 @@ export interface ListBranchQueriesRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** Search query statistics by SQL pattern */
-  q?: string;
+  q?: string | undefined;
   /** Start time for filtering query statistics (ISO 8601 timestamp) */
-  from?: string;
+  from?: string | undefined;
   /** End time for filtering query statistics (ISO 8601 timestamp) */
-  to?: string;
+  to?: string | undefined;
   /** Time period for filtering query statistics */
-  period?: ListBranchQueriesRequestPeriod | (string & {});
+  period?: ListBranchQueriesRequestPeriod | (string & {}) | undefined;
   /** Field to sort by */
-  sort?: ListBranchQueriesRequestSort | (string & {});
+  sort?: ListBranchQueriesRequestSort | (string & {}) | undefined;
   /** Sort direction */
-  dir?: ListBranchQueriesRequestDir | (string & {});
+  dir?: ListBranchQueriesRequestDir | (string & {}) | undefined;
   /** Filter by tablet type */
-  tablet_type?: ListBranchQueriesRequestTabletType | (string & {});
+  tablet_type?: ListBranchQueriesRequestTabletType | (string & {}) | undefined;
   /** Filter by statement type */
-  type?: ListBranchQueriesRequestType | (string & {});
+  type?: ListBranchQueriesRequestType | (string & {}) | undefined;
   /** Specific fields to include in the response */
-  fields?: ListBranchQueriesRequestFieldsList;
+  fields?: ListBranchQueriesRequestFieldsList | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Tables accessed by the query */
 export type PaginatedQuerySummaryDataItemTablesList = Array<string>;
@@ -7834,17 +7840,17 @@ export interface PaginatedQuerySummary {
   /** The response type. Always "list" for paginated responses. */
   type: string;
   /** The current page number */
-  current_page?: number | null;
+  current_page?: number | null | undefined;
   /** The maximum number of results per page */
-  per_page?: number | null;
+  per_page?: number | null | undefined;
   /** The next page number, or null when this is the last page */
   next_page: number | null;
   /** The next page of results, or null when this is the last page */
-  next_page_url?: string | null;
+  next_page_url?: string | null | undefined;
   /** The previous page number, or null when this is the first page */
   prev_page: number | null;
   /** The previous page of results, or null when this is the first page */
-  prev_page_url?: string | null;
+  prev_page_url?: string | null | undefined;
   data: PaginatedQuerySummaryDataList;
 }
 export type ListBranchQueryErrorsRequestPeriod =
@@ -7873,23 +7879,23 @@ export interface ListBranchQueryErrorsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** Search query errors by error message */
-  q?: string;
+  q?: string | undefined;
   /** Start time for filtering query errors (ISO 8601 timestamp) */
-  from?: string;
+  from?: string | undefined;
   /** End time for filtering query errors (ISO 8601 timestamp) */
-  to?: string;
+  to?: string | undefined;
   /** Time period for filtering query errors */
-  period?: ListBranchQueryErrorsRequestPeriod | (string & {});
+  period?: ListBranchQueryErrorsRequestPeriod | (string & {}) | undefined;
   /** Field to sort by */
-  sort?: ListBranchQueryErrorsRequestSort | (string & {});
+  sort?: ListBranchQueryErrorsRequestSort | (string & {}) | undefined;
   /** Sort direction */
-  dir?: ListBranchQueryErrorsRequestDir | (string & {});
+  dir?: ListBranchQueryErrorsRequestDir | (string & {}) | undefined;
   /** Filter by tablet type */
-  tablet_type?: ListBranchQueryErrorsRequestTabletType | (string & {});
+  tablet_type?: ListBranchQueryErrorsRequestTabletType | (string & {}) | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface PaginatedErrorSummaryDataItem {
   /** The ID of the error summary */
@@ -7912,17 +7918,17 @@ export interface PaginatedErrorSummary {
   /** The response type. Always "list" for paginated responses. */
   type: string;
   /** The current page number */
-  current_page?: number | null;
+  current_page?: number | null | undefined;
   /** The maximum number of results per page */
-  per_page?: number | null;
+  per_page?: number | null | undefined;
   /** The next page number, or null when this is the last page */
   next_page: number | null;
   /** The next page of results, or null when this is the last page */
-  next_page_url?: string | null;
+  next_page_url?: string | null | undefined;
   /** The previous page number, or null when this is the first page */
   prev_page: number | null;
   /** The previous page of results, or null when this is the first page */
-  prev_page_url?: string | null;
+  prev_page_url?: string | null | undefined;
   data: PaginatedErrorSummaryDataList;
 }
 export type ListBranchQueryTagsRequestPeriod =
@@ -7944,27 +7950,27 @@ export interface ListBranchQueryTagsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** Search tags by name */
-  q?: string;
+  q?: string | undefined;
   /** Start time for filtering tags (ISO 8601 timestamp) */
-  from?: string;
+  from?: string | undefined;
   /** End time for filtering tags (ISO 8601 timestamp) */
-  to?: string;
+  to?: string | undefined;
   /** Time period for filtering tags */
-  period?: ListBranchQueryTagsRequestPeriod | (string & {});
+  period?: ListBranchQueryTagsRequestPeriod | (string & {}) | undefined;
   /** Filter to tags on queries with this fingerprint */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Filter by keyspace */
-  keyspace?: string;
+  keyspace?: string | undefined;
   /** Filter by tablet type */
-  tablet_type?: ListBranchQueryTagsRequestTabletType | (string & {});
+  tablet_type?: ListBranchQueryTagsRequestTabletType | (string & {}) | undefined;
   /** Maximum number of values returned per tag (1-100) */
-  values_limit?: number;
+  values_limit?: number | undefined;
   /** Only return literal tag values, excluding overflow and collapsed values */
-  literal_values_only?: boolean;
+  literal_values_only?: boolean | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The source of the tag */
 export type PaginatedQueryTagDataItemSource = "sql" | "system";
@@ -7995,17 +8001,17 @@ export interface PaginatedQueryTag {
   /** The response type. Always "list" for paginated responses. */
   type: string;
   /** The current page number */
-  current_page?: number | null;
+  current_page?: number | null | undefined;
   /** The maximum number of results per page */
-  per_page?: number | null;
+  per_page?: number | null | undefined;
   /** The next page number, or null when this is the last page */
   next_page: number | null;
   /** The next page of results, or null when this is the last page */
-  next_page_url?: string | null;
+  next_page_url?: string | null | undefined;
   /** The previous page number, or null when this is the first page */
   prev_page: number | null;
   /** The previous page of results, or null when this is the first page */
-  prev_page_url?: string | null;
+  prev_page_url?: string | null | undefined;
   data: PaginatedQueryTagDataList;
 }
 export type ListBranchQueryTagSummariesRequestTagsList = Array<string>;
@@ -8076,29 +8082,29 @@ export interface ListBranchQueryTagSummariesRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** Tag ids returned by the tags list endpoint */
-  tags?: ListBranchQueryTagSummariesRequestTagsList;
+  tags?: ListBranchQueryTagSummariesRequestTagsList | undefined;
   /** Search query statistics by SQL pattern */
-  q?: string;
+  q?: string | undefined;
   /** Start time for filtering query statistics (ISO 8601 timestamp) */
-  from?: string;
+  from?: string | undefined;
   /** End time for filtering query statistics (ISO 8601 timestamp) */
-  to?: string;
+  to?: string | undefined;
   /** Time period for filtering query statistics */
-  period?: ListBranchQueryTagSummariesRequestPeriod | (string & {});
+  period?: ListBranchQueryTagSummariesRequestPeriod | (string & {}) | undefined;
   /** Field to sort by */
-  sort?: ListBranchQueryTagSummariesRequestSort | (string & {});
+  sort?: ListBranchQueryTagSummariesRequestSort | (string & {}) | undefined;
   /** Sort direction */
-  dir?: ListBranchQueryTagSummariesRequestDir | (string & {});
+  dir?: ListBranchQueryTagSummariesRequestDir | (string & {}) | undefined;
   /** Filter by tablet type */
-  tablet_type?: ListBranchQueryTagSummariesRequestTabletType | (string & {});
+  tablet_type?: ListBranchQueryTagSummariesRequestTabletType | (string & {}) | undefined;
   /** Filter by statement type */
-  type?: ListBranchQueryTagSummariesRequestType | (string & {});
+  type?: ListBranchQueryTagSummariesRequestType | (string & {}) | undefined;
   /** Specific fields to include in the response */
-  fields?: ListBranchQueryTagSummariesRequestFieldsList;
+  fields?: ListBranchQueryTagSummariesRequestFieldsList | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The tag names and values this summary is grouped by */
 export type PaginatedDimensionsQuerySummaryDataItemDimensionsMap = {
@@ -8218,17 +8224,17 @@ export interface PaginatedDimensionsQuerySummary {
   /** The response type. Always "list" for paginated responses. */
   type: string;
   /** The current page number */
-  current_page?: number | null;
+  current_page?: number | null | undefined;
   /** The maximum number of results per page */
-  per_page?: number | null;
+  per_page?: number | null | undefined;
   /** The next page number, or null when this is the last page */
   next_page: number | null;
   /** The next page of results, or null when this is the last page */
-  next_page_url?: string | null;
+  next_page_url?: string | null | undefined;
   /** The previous page number, or null when this is the first page */
   prev_page: number | null;
   /** The previous page of results, or null when this is the first page */
-  prev_page_url?: string | null;
+  prev_page_url?: string | null | undefined;
   data: PaginatedDimensionsQuerySummaryDataList;
 }
 export interface ListBranchResizeRequestsRequest {
@@ -8239,9 +8245,9 @@ export interface ListBranchResizeRequestsRequest {
   /** The name of the branch */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The state of the branch resize request */
 export type PaginatedMysqlClusterResizeRequestDataItemState =
@@ -8334,7 +8340,7 @@ export interface ListBranchVitessParametersResponseVtgateItem {
   /** The name of the parameter */
   name: string;
   /** The display name of the parameter */
-  title?: string;
+  title?: string | undefined;
   /** The component the parameter configures */
   component: ListBranchVitessParametersResponseVtgateItemComponent;
   /** The description of the parameter */
@@ -8350,7 +8356,7 @@ export interface ListBranchVitessParametersResponseVtgateItem {
   /** Whether the parameter has been set explicitly instead of using its default */
   override: boolean;
   /** The allowed values for `select` parameters */
-  options?: ListBranchVitessParametersResponseVtgateItemOptionsList;
+  options?: ListBranchVitessParametersResponseVtgateItemOptionsList | undefined;
 }
 export type ListBranchVitessParametersResponseVtgateList =
   Array<ListBranchVitessParametersResponseVtgateItem>;
@@ -8360,9 +8366,9 @@ export type ListBranchVitessParametersResponseKeyspacesValueVttabletList = Array
 export type ListBranchVitessParametersResponseKeyspacesValueMysqldList = Array<unknown>;
 export interface ListBranchVitessParametersResponseKeyspacesValue {
   /** The VTTablet parameters for the keyspace */
-  vttablet?: ListBranchVitessParametersResponseKeyspacesValueVttabletList;
+  vttablet?: ListBranchVitessParametersResponseKeyspacesValueVttabletList | undefined;
   /** The MySQL parameters for the keyspace */
-  mysqld?: ListBranchVitessParametersResponseKeyspacesValueMysqldList;
+  mysqld?: ListBranchVitessParametersResponseKeyspacesValueMysqldList | undefined;
 }
 /** The parameters for each keyspace, keyed by keyspace name. Each value has `vttablet` and `mysqld` arrays of parameters in the same format as `vtgate`. */
 export type ListBranchVitessParametersResponseKeyspacesMap = {
@@ -8380,15 +8386,15 @@ export interface ListClusterSizeSkusRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
   /** The database engine to filter by. Defaults to 'mysql'. */
-  engine?: ListClusterSizeSkusRequestEngine | (string & {});
+  engine?: ListClusterSizeSkusRequestEngine | (string & {}) | undefined;
   /** Whether to include pricing rates in the response. Defaults to false. */
-  rates?: boolean;
+  rates?: boolean | undefined;
   /** The region slug to get rates for. If not specified, uses the organization's default region. */
-  region?: string;
+  region?: string | undefined;
   /** The database name to resolve rates for. When specified, database-level custom rates take precedence over organization rates. */
-  database?: string;
+  database?: string | undefined;
   /** When true, list cluster sizes for external keyspaces. Defaults to false. */
-  external?: boolean;
+  external?: boolean | undefined;
 }
 export interface ClusterSizeSku {
   /** The name of the cluster SKU */
@@ -8398,7 +8404,7 @@ export interface ClusterSizeSku {
   /** The number of CPUs */
   cpu: string;
   /** The amount of storage in bytes */
-  storage?: number | null;
+  storage?: number | null | undefined;
   /** The amount of memory in bytes */
   ram: number;
   /** Whether or not the cluster SKU is Metal */
@@ -8408,23 +8414,23 @@ export interface ClusterSizeSku {
   /** Whether or not the cluster SKU is enabled for the organization */
   enabled: boolean;
   /** The provider of the cluster SKU (nil, AWS or GCP) */
-  provider?: string | null;
+  provider?: string | null | undefined;
   /** The default vtgate size for the cluster SKU */
   default_vtgate: string;
   /** The default vtgate rate for the cluster SKU */
-  default_vtgate_rate?: number | null;
+  default_vtgate_rate?: number | null | undefined;
   /** The recommended Neki router size for the cluster SKU */
-  default_neki_router?: string | null;
+  default_neki_router?: string | null | undefined;
   /** The default Neki router rate for the cluster SKU */
-  default_neki_router_rate?: number | null;
+  default_neki_router_rate?: number | null | undefined;
   /** The replica rate for the cluster SKU */
-  replica_rate?: number | null;
+  replica_rate?: number | null | undefined;
   /** The rate for the cluster SKU */
-  rate?: number | null;
+  rate?: number | null | undefined;
   /** The sort order of the cluster SKU */
   sort_order: number;
   /** The architecture of the cluster SKU (null, x86_64 or arm64) */
-  architecture?: string | null;
+  architecture?: string | null | undefined;
   /** Whether or not the cluster SKU is a development SKU */
   development: boolean;
   /** Whether or not the cluster SKU is a production SKU */
@@ -8438,9 +8444,9 @@ export interface ListDatabasePostgresCidrsRequest {
   /** The name of the database */
   database: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** List of CIDR ranges */
 export type PaginatedPostgresClusterCidrDataItemCidrsList = Array<string>;
@@ -8492,9 +8498,9 @@ export interface ListDatabaseRegionsRequest {
   /** Database name slug from `list_databases`. Example: `app-db`. */
   database: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Public IP addresses for the region */
 export type PaginatedPlanetscaleRegionDataItemPublicIpAddressesList = Array<string>;
@@ -8544,11 +8550,11 @@ export interface ListDatabasesRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
   /** Search term to filter databases by name */
-  q?: string;
+  q?: string | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Public IP addresses for the region */
 export type PaginatedDatabaseDataItemRegionPublicIpAddressesList = Array<string>;
@@ -8595,25 +8601,25 @@ export interface PaginatedDatabaseDataItem {
   /** The URL to retrieve this database's branches via the API */
   branches_url: string;
   /** The total number of database branches */
-  branches_count?: number;
+  branches_count?: number | undefined;
   /** The total number of schema recommendations */
-  open_schema_recommendations_count?: number;
+  open_schema_recommendations_count?: number | undefined;
   /** The total number of database development branches */
-  development_branches_count?: number;
+  development_branches_count?: number | undefined;
   /** The current maximum number of development branches. Change it with development_branches_limit on the database PATCH endpoint, up to 5000. */
-  development_branches_limit?: number;
+  development_branches_limit?: number | undefined;
   /** The total number of database production branches */
-  production_branches_count?: number;
+  production_branches_count?: number | undefined;
   /** The total number of ongoing issues within a database */
-  issues_count?: number | null;
+  issues_count?: number | null | undefined;
   /** If the database requires multiple admins for deletion */
-  multiple_admins_required_for_deletion?: boolean;
+  multiple_admins_required_for_deletion?: boolean | undefined;
   /** If the database is ready to be used */
   ready: boolean;
   /** If the database has reached its backup restored branch limit */
-  at_backup_restore_branches_limit?: boolean;
+  at_backup_restore_branches_limit?: boolean | undefined;
   /** If the database has reached its development branch limit */
-  at_development_branch_usage_limit?: boolean;
+  at_development_branch_usage_limit?: boolean | undefined;
   region: PaginatedDatabaseDataItemRegion;
   /** The URL to see this database's branches in the web UI */
   html_url: string;
@@ -8622,55 +8628,55 @@ export interface PaginatedDatabaseDataItem {
   /** State of the database */
   state: PaginatedDatabaseDataItemState;
   /** If the database is sharded */
-  sharded?: boolean;
+  sharded?: boolean | undefined;
   /** Number of shards in the default branch */
-  default_branch_shard_count?: number;
+  default_branch_shard_count?: number | undefined;
   /** Number of read only regions in the default branch */
-  default_branch_read_only_regions_count?: number;
+  default_branch_read_only_regions_count?: number | undefined;
   /** Number of tables in the default branch schema */
-  default_branch_table_count?: number;
+  default_branch_table_count?: number | undefined;
   /** The default branch for the database */
-  default_branch?: string;
+  default_branch?: string | undefined;
   /** Whether an approval is required to deploy schema changes to this database */
-  require_approval_for_deploy?: boolean;
+  require_approval_for_deploy?: boolean | undefined;
   /** Whether deletion protection is enabled for the database */
-  deletion_protected?: boolean;
+  deletion_protected?: boolean | undefined;
   /** True if a branch is currently resizing */
-  resizing?: boolean;
+  resizing?: boolean | undefined;
   /** True if a branch has a queued resize request */
-  resize_queued?: boolean;
+  resize_queued?: boolean | undefined;
   /** True if a config change is in progress */
-  config_changing?: boolean;
+  config_changing?: boolean | undefined;
   /** True if a config change is queued for maintenance window */
-  config_change_queued?: boolean;
+  config_change_queued?: boolean | undefined;
   /** Whether seeding branches with data is enabled for all branches */
-  allow_data_branching?: boolean;
+  allow_data_branching?: boolean | undefined;
   /** Whether foreign key constraints are enabled */
-  foreign_keys_enabled?: boolean;
+  foreign_keys_enabled?: boolean | undefined;
   /** Whether to automatically manage Rails migrations during deploy requests. */
-  automatic_migrations?: boolean | null;
+  automatic_migrations?: boolean | null | undefined;
   /** Whether to restrict branch creation to one region */
-  restrict_branch_region?: boolean;
+  restrict_branch_region?: boolean | undefined;
   /** Whether deploy requests default to instant deploy when it is available */
-  prefer_instant?: boolean;
+  prefer_instant?: boolean | undefined;
   /** Whether raw SQL queries are collected */
-  insights_raw_queries?: boolean;
+  insights_raw_queries?: boolean | undefined;
   /** The database plan */
-  plan?: string;
+  plan?: string | undefined;
   /** True if query insights is enabled for the database */
-  insights_enabled?: boolean;
+  insights_enabled?: boolean | undefined;
   /** Whether web console is enabled for production branches */
-  production_branch_web_console?: boolean;
+  production_branch_web_console?: boolean | undefined;
   /** Table name to use for copying schema migration data. */
-  migration_table_name?: string | null;
+  migration_table_name?: string | null | undefined;
   /** Framework used for applying migrations. */
-  migration_framework?: string | null;
+  migration_framework?: string | null | undefined;
   /** When the database was created */
   created_at: string;
   /** When the database was last updated */
   updated_at: string;
   /** When the default branch schema was last changed. */
-  schema_last_updated_at?: string | null;
+  schema_last_updated_at?: string | null | undefined;
   /** The kind of database */
   kind: PaginatedDatabaseDataItemKind;
 }
@@ -8714,13 +8720,13 @@ export interface ListDedicatedReadReplicaChangeRequestsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter change requests by named period */
-  period?: ListDedicatedReadReplicaChangeRequestsRequestPeriod | (string & {});
+  period?: ListDedicatedReadReplicaChangeRequestsRequestPeriod | (string & {}) | undefined;
   /** Filter change requests completed between two ISO 8601 timestamps */
-  completed_at?: string;
+  completed_at?: string | undefined;
 }
 /** The state of the change request */
 export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemState =
@@ -8844,9 +8850,9 @@ export interface ListDeployOperationsRequest {
   /** The number of the deploy request */
   number: number;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The state of the deploy operation */
 export type PaginatedDeployOperationDataItemState =
@@ -8924,9 +8930,9 @@ export interface ListDeployRequestReviewsRequest {
   /** The number of the deploy request */
   number: number;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Whether the review is a comment or approval */
 export type PaginatedDeployRequestReviewDataItemState = "commented" | "approved";
@@ -8970,19 +8976,19 @@ export interface ListDeployRequestsRequest {
   /** The name of the deploy request's database */
   database: string;
   /** Filter by state of the deploy request (open, closed, deployed) */
-  state?: string;
+  state?: string | undefined;
   /** Filter by the name of the branch the deploy request is created from */
-  branch?: string;
+  branch?: string | undefined;
   /** Filter by the name of the branch the deploy request will be merged into */
-  into_branch?: string;
+  into_branch?: string | undefined;
   /** Filter deploy requests by the date they were deployed. (e.g. 2023-01-01T00:00:00Z..2023-01-31T23:59:59Z) */
-  deployed_at?: string;
+  deployed_at?: string | undefined;
   /** Filter deploy requests by the date they were running. (e.g. 2023-01-01T00:00:00Z..2023-01-31T23:59:59Z) */
-  running_at?: string;
+  running_at?: string | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type PaginatedDatabaseDeployRequestDataItemActor = OrganizationTeamMembershipActor;
 export type PaginatedDatabaseDeployRequestDataItemClosedBy = OrganizationTeamMembershipActor;
@@ -9215,7 +9221,7 @@ export interface PaginatedDatabaseDeployRequestDataItemDeployment {
   /** Whether or not the deployment cutover will expire soon */
   cutover_expiring: boolean;
   /** Deploy check errors for the deployment. */
-  deploy_check_errors?: string | null;
+  deploy_check_errors?: string | null | undefined;
   /** When the deployment was finished */
   finished_at: string | null;
   /** When force cutover was triggered for the deployment */
@@ -9249,18 +9255,21 @@ export interface PaginatedDatabaseDeployRequestDataItemDeployment {
   /** Lookup Vitess index operations */
   lookup_vindex_operations: PaginatedDatabaseDeployRequestDataItemDeploymentLookupVindexOperationsList;
   /** Deployment throttling configurations. */
-  throttler_configurations?: PaginatedDatabaseDeployRequestDataItemDeploymentThrottlerConfigurationsMap | null;
+  throttler_configurations?:
+    | PaginatedDatabaseDeployRequestDataItemDeploymentThrottlerConfigurationsMap
+    | null
+    | undefined;
   /** The request to revert the schema operations in this deployment */
   deployment_revert_request: PaginatedDatabaseDeployRequestDataItemDeploymentDeploymentRevertRequestMap | null;
-  actor?: OrganizationTeamMembershipActor | null;
-  cutover_actor?: OrganizationTeamMembershipActor | null;
-  cancelled_actor?: OrganizationTeamMembershipActor | null;
+  actor?: OrganizationTeamMembershipActor | null | undefined;
+  cutover_actor?: OrganizationTeamMembershipActor | null | undefined;
+  cancelled_actor?: OrganizationTeamMembershipActor | null | undefined;
   /** When the schema was last updated for the deployment */
   schema_last_updated_at: string | null;
   /** Whether or not the deployment has a table locked */
   table_locked: boolean;
   /** The name of the table that is locked by the deployment. */
-  locked_table_name?: string | null;
+  locked_table_name?: string | null | undefined;
   /** Whether or not the deployment is an instant DDL deployment */
   instant_ddl: boolean;
   /** Whether or not the deployment is eligible for instant DDL */
@@ -9276,14 +9285,14 @@ export interface PaginatedDatabaseDeployRequestDataItem {
   /** The number of the deploy request */
   number: number;
   actor: OrganizationTeamMembershipActor;
-  closed_by?: OrganizationTeamMembershipActor | null;
+  closed_by?: OrganizationTeamMembershipActor | null | undefined;
   /** The name of the branch the deploy request was created from */
   branch: string;
   /** The ID of the branch the deploy request was created from */
   branch_id: string;
   /** Whether or not the deploy request branch was deleted */
   branch_deleted: boolean;
-  branch_deleted_by?: OrganizationTeamMembershipActor | null;
+  branch_deleted_by?: OrganizationTeamMembershipActor | null | undefined;
   /** When the deploy request branch was deleted */
   branch_deleted_at: string | null;
   /** The name of the branch the deploy request will be merged into */
@@ -9350,7 +9359,7 @@ export interface ListExtensionsRequest {
 }
 export interface PostgresExtensionDefinitionRequirements {
   /** The Postgres image version required to use the extension */
-  postgres_image_version?: string | null;
+  postgres_image_version?: string | null | undefined;
 }
 /** The namespace of the parameter */
 export type PostgresExtensionDefinitionParametersItemNamespace = "patroni" | "pgconf" | "pgbouncer";
@@ -9417,7 +9426,7 @@ export interface PostgresExtensionDefinition {
   /** The description of the extension */
   description: string;
   /** Whether the extension is enabled by the cluster */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The internal state of the extension */
   internal: boolean;
   requirements: PostgresExtensionDefinitionRequirements;
@@ -9435,11 +9444,11 @@ export interface ListGeneratedQueryPatternsReportsRequest {
   /** The name of the branch */
   branch: string;
   /** If provided, returns results after the specified cursor */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** If provided, returns results before the specified cursor */
-  ending_before?: string;
+  ending_before?: string | undefined;
   /** If provided, specifies the number of returned results (max 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** The state of the download */
 export type PaginatedQueryPatternsDownloadDataItemState = "pending" | "completed" | "failed";
@@ -9481,9 +9490,9 @@ export interface ListInsightsAgentRunsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The work performed by the run */
 export type PaginatedInsightsAgentRunDataItemType =
@@ -9610,9 +9619,9 @@ export interface ListInvoicesRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface PaginatedInvoiceDataItem {
   /** The ID of the invoice */
@@ -9656,9 +9665,9 @@ export interface ListKeyspaceConfigChangeRequestsRequest {
   /** The name of the keyspace */
   keyspace: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The state of the config change request */
 export type PaginatedKeyspaceConfigChangeRequestDataItemState =
@@ -9736,11 +9745,11 @@ export interface ListKeyspaceResizeRequestsRequest {
   /** The name of the keyspace */
   keyspace: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter resize requests completed between two dates (e.g. 2023-01-01T:00:00:00Z..2023-01-31T:23:59:59Z) */
-  completed_at?: string;
+  completed_at?: string | undefined;
 }
 /** The state of the resize request */
 export type PaginatedKeyspaceResizeRequestDataItemState =
@@ -9809,9 +9818,9 @@ export interface ListKeyspacesRequest {
   /** The name of the branch */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Controls when node TTL drains are allowed */
 export type PaginatedDatabaseBranchKeyspaceDataItemNodeTtlStrategy =
@@ -9838,7 +9847,10 @@ export type PaginatedDatabaseBranchKeyspaceDataItemReplicationDurabilityConstrai
   | "always";
 export interface PaginatedDatabaseBranchKeyspaceDataItemReplicationDurabilityConstraints {
   /** The replication durability strategy */
-  strategy?: PaginatedDatabaseBranchKeyspaceDataItemReplicationDurabilityConstraintsStrategy | null;
+  strategy?:
+    | PaginatedDatabaseBranchKeyspaceDataItemReplicationDurabilityConstraintsStrategy
+    | null
+    | undefined;
 }
 export type PaginatedDatabaseBranchKeyspaceDataItemVreplicationFlags =
   DatabaseBranchKeyspaceVreplicationFlags;
@@ -9930,9 +9942,9 @@ export interface ListMaintenanceSchedulesRequest {
   /** Database name slug from `list_databases`. Example: `app-db`. */
   database: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The frequency unit of the maintenance schedule */
 export type PaginatedBranchMaintenanceScheduleDataItemFrequencyUnit =
@@ -9974,13 +9986,13 @@ export interface PaginatedBranchMaintenanceScheduleDataItem {
   /** Whether the maintenance schedule is required */
   required: boolean;
   /** Whether there is a pending Vitess version update */
-  pending_vitess_version_update?: boolean | null;
+  pending_vitess_version_update?: boolean | null | undefined;
   /** The pending Vitess version, if any */
-  pending_vitess_version?: string | null;
+  pending_vitess_version?: string | null | undefined;
   /** Whether there is a pending MySQL version update */
-  pending_mysql_version_update?: boolean | null;
+  pending_mysql_version_update?: boolean | null | undefined;
   /** The pending MySQL version, if any */
-  pending_mysql_version?: string | null;
+  pending_mysql_version?: string | null | undefined;
 }
 export type PaginatedBranchMaintenanceScheduleDataList =
   Array<PaginatedBranchMaintenanceScheduleDataItem>;
@@ -10009,9 +10021,9 @@ export interface ListMaintenanceWindowsRequest {
   /** The ID of the maintenance schedule */
   id: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface PaginatedBranchMaintenanceWindowDataItem {
   /** The ID of the maintenance window */
@@ -10052,7 +10064,7 @@ export interface ListMoveTablesWorkflowsRequest {
   /** Branch name */
   branch: string;
   /** Filter by target keyspace (returns workflows from all kept keyspaces if omitted) */
-  target_keyspace?: string;
+  target_keyspace?: string | undefined;
 }
 export type ListMoveTablesWorkflowsResponseDataWorkflowsItemMap = {
   [key: string]: unknown | undefined;
@@ -10087,19 +10099,19 @@ export interface ListNekiChangeRequestsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter change requests by state */
-  state?: ListNekiChangeRequestsRequestStateList;
+  state?: ListNekiChangeRequestsRequestStateList | undefined;
   /** Filter change requests by target type. Must contain one or more of: NekiAdmin, NekiCluster, NekiConfigurationProfile, NekiExternalShard, NekiRouter, or NekiSidecar */
-  target_types?: ListNekiChangeRequestsRequestTargetTypesList;
+  target_types?: ListNekiChangeRequestsRequestTargetTypesList | undefined;
   /** Filter change requests by target ID. Requires target_types */
-  target_id?: string;
+  target_id?: string | undefined;
   /** Filter change requests by named period */
-  period?: ListNekiChangeRequestsRequestPeriod | (string & {});
+  period?: ListNekiChangeRequestsRequestPeriod | (string & {}) | undefined;
   /** Filter change requests completed between two ISO 8601 timestamps */
-  completed_at?: string;
+  completed_at?: string | undefined;
 }
 /** The type of change request */
 export type PaginatedNekiChangeRequestDataItemType =
@@ -10165,87 +10177,87 @@ export interface PaginatedNekiChangeRequestDataItem {
   /** The name of the resource being changed */
   target_name: string;
   /** The name of the admin size SKU */
-  admin_size?: string | null;
+  admin_size?: string | null | undefined;
   /** The display name of the admin size SKU */
-  admin_size_display_name?: string | null;
+  admin_size_display_name?: string | null | undefined;
   /** The parameters requested for the target resource */
-  parameters?: PaginatedNekiChangeRequestDataItemParametersMap | null;
+  parameters?: PaginatedNekiChangeRequestDataItemParametersMap | null | undefined;
   /** The previous name of the admin size SKU */
-  previous_admin_size?: string | null;
+  previous_admin_size?: string | null | undefined;
   /** The previous display name of the admin size SKU */
-  previous_admin_size_display_name?: string | null;
+  previous_admin_size_display_name?: string | null | undefined;
   /** The target resource parameters before the change */
-  previous_parameters?: PaginatedNekiChangeRequestDataItemPreviousParametersMap | null;
+  previous_parameters?: PaginatedNekiChangeRequestDataItemPreviousParametersMap | null | undefined;
   /** The cluster flags */
-  flags?: PaginatedNekiChangeRequestDataItemFlagsList | null;
+  flags?: PaginatedNekiChangeRequestDataItemFlagsList | null | undefined;
   /** The Neki image version */
-  neki_image_version?: string | null;
+  neki_image_version?: string | null | undefined;
   /** The previous cluster flags */
-  previous_flags?: PaginatedNekiChangeRequestDataItemPreviousFlagsList | null;
+  previous_flags?: PaginatedNekiChangeRequestDataItemPreviousFlagsList | null | undefined;
   /** The previous Neki image version */
-  previous_neki_image_version?: string | null;
+  previous_neki_image_version?: string | null | undefined;
   /** The number of replicas */
-  replicas?: number | null;
+  replicas?: number | null | undefined;
   /** The previous number of replicas */
-  previous_replicas?: number | null;
+  previous_replicas?: number | null | undefined;
   /** The SKU representing the external sidecar size */
-  cluster_name?: string | null;
+  cluster_name?: string | null | undefined;
   /** The display name of the cluster size SKU */
-  cluster_display_name?: string | null;
+  cluster_display_name?: string | null | undefined;
   /** The SKU representing the previous external sidecar size */
-  previous_cluster_name?: string | null;
+  previous_cluster_name?: string | null | undefined;
   /** The previous display name of the cluster size SKU */
-  previous_cluster_display_name?: string | null;
+  previous_cluster_display_name?: string | null | undefined;
   /** The name of the router size SKU */
-  router_size?: string | null;
+  router_size?: string | null | undefined;
   /** The display name of the router size SKU */
-  router_size_display_name?: string | null;
+  router_size_display_name?: string | null | undefined;
   /** The number of replicas in each cell */
-  replicas_per_cell?: number | null;
+  replicas_per_cell?: number | null | undefined;
   /** Whether the router scales horizontally within each cell */
-  autoscaling?: boolean | null;
+  autoscaling?: boolean | null | undefined;
   /** The maximum number of replicas in each cell when autoscaling */
-  max_replicas_per_cell?: number | null;
+  max_replicas_per_cell?: number | null | undefined;
   /** The target average CPU utilization percentage when autoscaling, one of 40, 50, 60 or 70 */
-  target_cpu_utilization?: number | null;
+  target_cpu_utilization?: number | null | undefined;
   /** The previous name of the router size SKU */
-  previous_router_size?: string | null;
+  previous_router_size?: string | null | undefined;
   /** The previous display name of the router size SKU */
-  previous_router_size_display_name?: string | null;
+  previous_router_size_display_name?: string | null | undefined;
   /** The previous number of replicas in each cell */
-  previous_replicas_per_cell?: number | null;
+  previous_replicas_per_cell?: number | null | undefined;
   /** The previous autoscaling state of the router */
-  previous_autoscaling?: boolean | null;
+  previous_autoscaling?: boolean | null | undefined;
   /** The previous maximum number of replicas in each cell */
-  previous_max_replicas_per_cell?: number | null;
+  previous_max_replicas_per_cell?: number | null | undefined;
   /** The previous target average CPU utilization percentage */
-  previous_target_cpu_utilization?: number | null;
+  previous_target_cpu_utilization?: number | null | undefined;
   /** The name of the shard configuration profile */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The previous name of the shard configuration profile */
-  previous_name?: string | null;
+  previous_name?: string | null | undefined;
   /** The name of the cluster size SKU */
-  cluster_size?: string | null;
+  cluster_size?: string | null | undefined;
   /** Whether the cluster size SKU uses metal instances */
-  metal?: boolean | null;
+  metal?: boolean | null | undefined;
   /** The display order of the cluster size SKU */
-  cluster_rank?: number | null;
+  cluster_rank?: number | null | undefined;
   /** The number of shards */
-  shards?: number | null;
+  shards?: number | null | undefined;
   /** The PostgreSQL image */
-  postgres_image_version?: string | null;
-  storage?: NekiShardConfigurationProfileStorage | null;
+  postgres_image_version?: string | null | undefined;
+  storage?: NekiShardConfigurationProfileStorage | null | undefined;
   /** The previous name of the cluster size SKU */
-  previous_cluster_size?: string | null;
+  previous_cluster_size?: string | null | undefined;
   /** Whether the previous cluster size SKU used metal instances */
-  previous_metal?: boolean | null;
+  previous_metal?: boolean | null | undefined;
   /** The previous display order of the cluster size SKU */
-  previous_cluster_rank?: number | null;
+  previous_cluster_rank?: number | null | undefined;
   /** The previous number of shards */
-  previous_shards?: number | null;
+  previous_shards?: number | null | undefined;
   /** The previous PostgreSQL image */
-  previous_postgres_image_version?: string | null;
-  previous_storage?: NekiShardConfigurationProfileStorage | null;
+  previous_postgres_image_version?: string | null | undefined;
+  previous_storage?: NekiShardConfigurationProfileStorage | null | undefined;
 }
 export type PaginatedNekiChangeRequestDataList = Array<PaginatedNekiChangeRequestDataItem>;
 export interface PaginatedNekiChangeRequest {
@@ -10269,9 +10281,9 @@ export interface ListOauthApplicationsRequest {
   /** The name of the organization the OAuth applications belong to */
   organization: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Scopes grouped by resource type (database, organization, branch, user) with scope, description, and admin flag */
 export type PaginatedOauthApplicationDataItemScopesByResourceMap = {
@@ -10319,7 +10331,7 @@ export interface PaginatedOauthApplicationDataItem {
   /** All available scopes grouped by resource type with scope, description, selected, and admin flags */
   all_scopes_by_resource: PaginatedOauthApplicationDataItemAllScopesByResourceMap;
   /** MCP tool groups (id, label, section, tools, scopes, parent_id, default_enabled, roles) selectable when authorizing a DCR app; only present for DCR apps. Database-section groups also carry org_scopes (the organization-tier scope names granting the group across all databases in an organization) and org_roles (the organization roles allowed to grant them); both are null for organization-section groups */
-  mcp_tool_groups?: PaginatedOauthApplicationDataItemMcpToolGroupsList | null;
+  mcp_tool_groups?: PaginatedOauthApplicationDataItemMcpToolGroupsList | null | undefined;
 }
 export type PaginatedOauthApplicationDataList = Array<PaginatedOauthApplicationDataItem>;
 export interface PaginatedOauthApplication {
@@ -10349,9 +10361,9 @@ export interface ListOauthTokensRequest {
   /** The ID of the OAuth application */
   application_id: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type PaginatedServiceTokenDataItemServiceTokenAccessesItemResource =
   OrganizationTeamMembershipUserDefaultOrganization;
@@ -10417,13 +10429,13 @@ export interface PaginatedServiceTokenDataItem {
   /** The ID of the service token */
   id: string;
   /** The name of the service token */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The display name of the service token */
   display_name: string;
   /** The plaintext token. Available only after create. */
-  token?: string | null;
+  token?: string | null | undefined;
   /** The plaintext refresh token. Available only after create. */
-  plain_text_refresh_token?: Redacted.Redacted<string> | null;
+  plain_text_refresh_token?: Redacted.Redacted<string> | null | undefined;
   /** The image source for the avatar of the service token */
   avatar_url: string;
   /** When the service token was created */
@@ -10431,17 +10443,20 @@ export interface PaginatedServiceTokenDataItem {
   /** When the service token was last updated */
   updated_at: string;
   /** When the service token will expire */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
   /** When the service token was last used */
-  last_used_at?: string | null;
+  last_used_at?: string | null | undefined;
   /** The ID of the actor on whose behalf the service token was created */
   actor_id: string | null;
   /** The name of the actor on whose behalf the service token was created */
   actor_display_name: string | null;
   /** The type of the actor on whose behalf the service token was created */
   actor_type: string | null;
-  service_token_accesses?: PaginatedServiceTokenDataItemServiceTokenAccessesList | null;
-  oauth_accesses_by_resource?: PaginatedServiceTokenDataItemOauthAccessesByResource | null;
+  service_token_accesses?: PaginatedServiceTokenDataItemServiceTokenAccessesList | null | undefined;
+  oauth_accesses_by_resource?:
+    | PaginatedServiceTokenDataItemOauthAccessesByResource
+    | null
+    | undefined;
 }
 export type PaginatedServiceTokenDataList = Array<PaginatedServiceTokenDataItem>;
 export interface PaginatedServiceToken {
@@ -10469,9 +10484,9 @@ export interface ListOrganizationInvitationsRequest {
   /** The name of the organization */
   organization: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The role granted when the invitation is accepted. Invitations sent by service tokens are always member. */
 export type PaginatedOrganizationInvitationDataItemRole = "admin" | "analyst" | "member";
@@ -10526,11 +10541,11 @@ export interface ListOrganizationMembersRequest {
   /** The name of the organization */
   organization: string;
   /** Search term to filter members by name or email */
-  q?: string;
+  q?: string | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type PaginatedOrganizationMembershipDataItemUserDefaultOrganization =
   OrganizationTeamMembershipUserDefaultOrganization;
@@ -10573,9 +10588,9 @@ export interface PaginatedOrganizationMembership {
 }
 export interface ListOrganizationsRequest {
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Features that can be enabled on the organization */
 export type PaginatedOrganizationDataItemFeaturesMap = { [key: string]: unknown | undefined };
@@ -10603,11 +10618,11 @@ export interface PaginatedOrganizationDataItem {
   /** Whether or not the organization has managed tenancy enabled */
   managed_tenancy: boolean;
   /** Whether or not the organization has past due billing invoices. */
-  has_past_due_invoices?: boolean | null;
+  has_past_due_invoices?: boolean | null | undefined;
   /** The number of databases in the organization */
   database_count: number;
   /** The URL of the organization's SSO portal. */
-  sso_portal_url?: string | null;
+  sso_portal_url?: string | null | undefined;
   /** Features that can be enabled on the organization */
   features: PaginatedOrganizationDataItemFeaturesMap;
   /** Whether or not the IdP provider is be responsible for managing roles in PlanetScale */
@@ -10653,9 +10668,9 @@ export interface ListOrganizationTeamMembersRequest {
   /** The slug of the team */
   team: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type PaginatedOrganizationTeamMembershipDataItemUserDefaultOrganization =
   OrganizationTeamMembershipUserDefaultOrganization;
@@ -10791,11 +10806,11 @@ export interface ListOrganizationTeamsRequest {
   /** The name of the organization */
   organization: string;
   /** Search term to filter teams by name */
-  q?: string;
+  q?: string | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type PaginatedOrganizationTeamDataItemCreator = OrganizationTeamMembershipActor;
 export type PaginatedOrganizationTeamDataItemMembersItemDefaultOrganization =
@@ -10924,15 +10939,15 @@ export interface ListPasswordsRequest {
   /** The name of the branch the password belongs to */
   branch: string;
   /** A read-only region of the database branch. If present, the password results will be filtered to only those in the region */
-  read_only_region_id?: string;
+  read_only_region_id?: string | undefined;
   /** Filter passwords by status */
-  status?: string;
+  status?: string | undefined;
   /** Search passwords by name */
-  q?: string;
+  q?: string | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The role for the password */
 export type PaginatedDatabaseBranchPasswordDataItemRole =
@@ -11064,9 +11079,9 @@ export type ListPostgresVersionsResponseBodyList = Array<NekiPostgresVersion>;
 export type ListPostgresVersionsResponse = ListPostgresVersionsResponseBodyList;
 export interface ListPublicRegionsRequest {
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** List of public IP addresses for the region */
 export type PaginatedPublicPlanetscaleRegionSerializerDataItemPublicIpAddressesList = Array<string>;
@@ -11111,9 +11126,9 @@ export interface ListReadOnlyRegionsRequest {
   /** Database name slug from `list_databases`. Example: `app-db`. */
   database: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type PaginatedDatabaseBranchReadOnlyRegionDataItemActor = OrganizationTeamMembershipActor;
 /** Public IP addresses for the region */
@@ -11182,9 +11197,9 @@ export interface ListRegionsForOrganizationRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface ListRolesRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -11194,13 +11209,13 @@ export interface ListRolesRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter roles by status */
-  status?: string;
+  status?: string | undefined;
   /** Search roles by name or username */
-  q?: string;
+  q?: string | undefined;
 }
 export type PaginatedPostgresRoleDataItemInheritedRolesItem =
   | "pg_checkpoint"
@@ -11327,13 +11342,13 @@ export interface ListRouterChangeRequestsRequest {
   /** Name from `list_routers`. */
   router: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter change requests by named period */
-  period?: ListRouterChangeRequestsRequestPeriod | (string & {});
+  period?: ListRouterChangeRequestsRequestPeriod | (string & {}) | undefined;
   /** Filter change requests completed between two ISO 8601 timestamps */
-  completed_at?: string;
+  completed_at?: string | undefined;
 }
 export interface ListRouterChangeRequestsResponse {}
 export interface ListRouterParametersRequest {
@@ -11376,11 +11391,11 @@ export interface ListSchemaRecommendationsRequest {
   /** Database name slug from `list_databases`. Example: `app-db`. */
   database: string;
   /** Filter by recommendation state */
-  state?: ListSchemaRecommendationsRequestState | (string & {});
+  state?: ListSchemaRecommendationsRequestState | (string & {}) | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The state of the recommendation */
 export type PaginatedSchemaRecommendationDataItemState = "open" | "applied" | "dismissed" | "stale";
@@ -11458,9 +11473,9 @@ export interface ListServiceTokensRequest {
   /** The name of the organization */
   organization: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListShardConfigurationProfileChangeRequestsRequestPeriod =
   | "15m"
@@ -11482,13 +11497,13 @@ export interface ListShardConfigurationProfileChangeRequestsRequest {
   /** Name from `list_shard_configuration_profiles`. */
   configuration_profile: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter change requests by named period */
-  period?: ListShardConfigurationProfileChangeRequestsRequestPeriod | (string & {});
+  period?: ListShardConfigurationProfileChangeRequestsRequestPeriod | (string & {}) | undefined;
   /** Filter change requests completed between two ISO 8601 timestamps */
-  completed_at?: string;
+  completed_at?: string | undefined;
 }
 export interface ListShardConfigurationProfileChangeRequestsResponse {}
 export interface ListShardConfigurationProfileExtensionsRequest {
@@ -11553,13 +11568,13 @@ export interface NekiExtensionDefinitionParametersItem {
   /** Whether processes require a server restart after the parameter changes */
   restart: boolean;
   /** The maximum value of the parameter */
-  max?: number | null;
+  max?: number | null | undefined;
   /** The minimum value of the parameter */
-  min?: number | null;
+  min?: number | null | undefined;
   /** Valid options for the parameter value. Null represents an unset value */
-  options?: NekiExtensionDefinitionParametersItemOptionsList | null;
+  options?: NekiExtensionDefinitionParametersItemOptionsList | null | undefined;
   /** The units of the parameter value */
-  units?: NekiExtensionDefinitionParametersItemUnitsList | null;
+  units?: NekiExtensionDefinitionParametersItemUnitsList | null | undefined;
   /** The URL of the parameter */
   url: string;
   actor: OrganizationTeamMembershipActor;
@@ -11574,7 +11589,7 @@ export interface NekiExtensionDefinition {
   /** The description of the extension */
   description: string;
   /** Whether the extension is enabled by the configuration profile */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The internal state of the extension */
   internal: boolean;
   parameters: NekiExtensionDefinitionParametersList;
@@ -11619,11 +11634,11 @@ export interface ListShardConfigurationProfileShardsRequest {
   /** Name from `list_shard_configuration_profiles`. */
   configuration_profile: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Search shards by name or display name */
-  q?: string;
+  q?: string | undefined;
 }
 export interface PaginatedNekiShardDataItem {
   /** The ID of the shard */
@@ -11671,13 +11686,13 @@ export interface ListShardsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Exclude shards in this shard configuration profile */
-  exclude_configuration_profile?: string;
+  exclude_configuration_profile?: string | undefined;
   /** Search shards by name, display name, or configuration profile */
-  q?: string;
+  q?: string | undefined;
 }
 export type ListSidecarChangeRequestsRequestPeriod =
   | "15m"
@@ -11699,13 +11714,13 @@ export interface ListSidecarChangeRequestsRequest {
   /** ID from `list_sidecars`, or the configuration profile name. */
   sidecar: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter change requests by named period */
-  period?: ListSidecarChangeRequestsRequestPeriod | (string & {});
+  period?: ListSidecarChangeRequestsRequestPeriod | (string & {}) | undefined;
   /** Filter change requests completed between two ISO 8601 timestamps */
-  completed_at?: string;
+  completed_at?: string | undefined;
 }
 export interface ListSidecarChangeRequestsResponse {}
 export interface ListSidecarParametersRequest {
@@ -11738,9 +11753,9 @@ export interface ListSwitchoversRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The state of the switchover */
 export type PaginatedPostgresSwitchoverDataItemState =
@@ -11758,9 +11773,9 @@ export interface PaginatedPostgresSwitchoverDataItem {
   /** The state of the switchover */
   state: PaginatedPostgresSwitchoverDataItemState;
   /** How the primary was moved. `switchover` promotes a replica on a highly available branch; `restart` restarts the single instance of a branch that has no replicas. Absent until the operator selects one. */
-  method?: PaginatedPostgresSwitchoverDataItemMethod | null;
+  method?: PaginatedPostgresSwitchoverDataItemMethod | null | undefined;
   /** Why the switchover failed. A failed switchover has an unconfirmed outcome and does not imply the primary stayed put. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** When the switchover was requested */
   started_at: string | null;
   /** When the switchover finished */
@@ -11807,15 +11822,15 @@ export interface ListTrafficBudgetsRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Time period filter */
-  period?: ListTrafficBudgetsRequestPeriod | (string & {});
+  period?: ListTrafficBudgetsRequestPeriod | (string & {}) | undefined;
   /** Filter by creation date range (format: 'start..end') */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Filter budgets by query fingerprint */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
 }
 /** The mode of the budget */
 export type PaginatedTrafficBudgetDataItemMode = "enforce" | "warn" | "off";
@@ -11844,9 +11859,9 @@ export interface PaginatedTrafficBudgetDataItemRulesItem {
   kind: PaginatedTrafficBudgetDataItemRulesItemKind;
   tags: PaginatedTrafficBudgetDataItemRulesItemTagsList;
   /** The query fingerprint targeted by this rule */
-  fingerprint?: string | null;
+  fingerprint?: string | null | undefined;
   /** The keyspace of the fingerprint */
-  keyspace?: string | null;
+  keyspace?: string | null | undefined;
   actor: OrganizationTeamMembershipActor;
   /** Syntax highlighted SQL for rules with SQL keys */
   syntax_highlighted_sql: string;
@@ -11865,15 +11880,15 @@ export interface PaginatedTrafficBudgetDataItem {
   /** The mode of the budget */
   mode: PaginatedTrafficBudgetDataItemMode;
   /** The maximum capacity that can be banked, measured as a percentage of seconds of full server usage (0-6000). Unlimited when not set. */
-  capacity?: number | null;
+  capacity?: number | null | undefined;
   /** The rate at which capacity refills, as a percentage of server resources (0-100). Unlimited when not set. */
-  rate?: number | null;
+  rate?: number | null | undefined;
   /** The maximum capacity a single query can consume, measured as a percentage of seconds of full server usage (0-6000). Unlimited when not set. */
-  burst?: number | null;
+  burst?: number | null | undefined;
   /** The percentage of available worker processes this policy can use (0-100). Unlimited when not set. */
-  concurrency?: number | null;
+  concurrency?: number | null | undefined;
   /** A percentage of capacity, burst, or concurrency thresholds to emit warnings for enforced budgets (0-100). */
-  warning_threshold?: number | null;
+  warning_threshold?: number | null | undefined;
   actor: OrganizationTeamMembershipActor;
   rules: PaginatedTrafficBudgetDataItemRulesList;
   /** When the budget was created */
@@ -11909,11 +11924,11 @@ export interface ListTrafficBudgetsForQueryRequest {
   /** The query fingerprint */
   fingerprint: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Optional keyspace filter */
-  keyspace?: string;
+  keyspace?: string | undefined;
 }
 export interface ListWebhooksRequest {
   /** The name of the organization */
@@ -11921,9 +11936,9 @@ export interface ListWebhooksRequest {
   /** The name of the database */
   database: string;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type PaginatedDatabaseWebhookDataItemEventsItem =
   | "branch.ready"
@@ -11999,11 +12014,11 @@ export interface ListWorkflowsRequest {
   /** The name of the database the workflow belongs to */
   database: string;
   /** Filter workflows to those active during a time range (e.g. 2025-01-01T00:00:00Z..2025-01-01T23:59:59) */
-  between?: string;
+  between?: string | undefined;
   /** If provided, specifies the page offset of returned results */
-  page?: number;
+  page?: number | undefined;
   /** If provided, specifies the number of returned results */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The state of the workflow */
 export type PaginatedWorkflowDataItemState =
@@ -12195,9 +12210,9 @@ export interface RemoveOrganizationMemberRequest {
   /** The ID of the user */
   id: string;
   /** Whether to delete all passwords associated with the member. Only available when removing other members (not yourself). */
-  delete_passwords?: boolean;
+  delete_passwords?: boolean | undefined;
   /** Whether to delete all service tokens associated with the member. Only available when removing other members (not yourself). */
-  delete_service_tokens?: boolean;
+  delete_service_tokens?: boolean | undefined;
 }
 export interface RemoveOrganizationMemberResponse {}
 export interface RemoveOrganizationTeamMemberRequest {
@@ -12208,7 +12223,7 @@ export interface RemoveOrganizationTeamMemberRequest {
   /** The ID of the team membership or the ID of the member to remove */
   id: string;
   /** Whether to delete the member's passwords created through this team */
-  delete_passwords?: boolean;
+  delete_passwords?: boolean | undefined;
 }
 export interface RemoveOrganizationTeamMemberResponse {}
 export interface RemoveServiceTokenAccessRequest {
@@ -12273,7 +12288,7 @@ export interface RunBranchMaintenanceRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** Whether to upgrade the branch to the latest PostgreSQL minor version during maintenance. */
-  update_postgres_minor_version?: boolean;
+  update_postgres_minor_version?: boolean | undefined;
 }
 export interface RunBranchMaintenanceResponse {}
 export interface RunShardConfigurationProfileMaintenanceRequest {
@@ -12331,7 +12346,7 @@ export interface StartMoveTablesWorkflowRequest {
 }
 export interface StartMoveTablesWorkflowResponseData {
   /** Human-readable summary of the start result */
-  summary?: string;
+  summary?: string | undefined;
 }
 export interface StartMoveTablesWorkflowResponse {
   data: StartMoveTablesWorkflowResponseData;
@@ -12348,7 +12363,7 @@ export interface StopMoveTablesWorkflowRequest {
 }
 export interface StopMoveTablesWorkflowResponseData {
   /** Human-readable summary of the stop result */
-  summary?: string;
+  summary?: string | undefined;
 }
 export interface StopMoveTablesWorkflowResponse {
   data: StopMoveTablesWorkflowResponseData;
@@ -12388,9 +12403,9 @@ export interface UpdateAdminRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** The admin size SKU, e.g. `NKA_0`. */
-  admin_size?: string;
+  admin_size?: string | undefined;
   /** Admin parameters nested by namespace (e.g., {"admin": {"recovery-poll-interval": "10s"}}) */
-  parameters?: UpdateAdminRequestParametersMap;
+  parameters?: UpdateAdminRequestParametersMap | undefined;
 }
 export interface UpdateAutoApplyRequest {
   /** The name of the deploy request's organization */
@@ -12400,7 +12415,7 @@ export interface UpdateAutoApplyRequest {
   /** The number of the deploy request */
   number: number;
   /** Whether or not to enable auto-apply for the deploy request */
-  enable?: boolean;
+  enable?: boolean | undefined;
 }
 export interface UpdateAutoDeleteBranchRequest {
   /** The name of the deploy request's organization */
@@ -12410,7 +12425,7 @@ export interface UpdateAutoDeleteBranchRequest {
   /** The number of the deploy request */
   number: number;
   /** Whether or not to enable auto-delete branch for the deploy request */
-  enable?: boolean;
+  enable?: boolean | undefined;
 }
 export interface UpdateBackupRequest {
   /** The name of the organization the branch belongs to */
@@ -12422,7 +12437,7 @@ export interface UpdateBackupRequest {
   /** The ID of the backup */
   id: string;
   /** Whether the backup is protected from deletion or not */
-  protected?: boolean;
+  protected?: boolean | undefined;
 }
 /** Whether the policy is for production or development branches */
 export type UpdateBackupPolicyRequestTarget = "production" | "development";
@@ -12438,23 +12453,23 @@ export interface UpdateBackupPolicyRequest {
   /** The ID of the backup policy */
   id: string;
   /** The name of the backup policy */
-  name?: string;
+  name?: string | undefined;
   /** Whether the policy is for production or development branches */
-  target?: UpdateBackupPolicyRequestTarget | (string & {});
+  target?: UpdateBackupPolicyRequestTarget | (string & {}) | undefined;
   /** A number value for the retention period of the backup policy */
-  retention_value?: number;
+  retention_value?: number | undefined;
   /** The unit for the retention period of the backup policy */
-  retention_unit?: UpdateBackupPolicyRequestRetentionUnit | (string & {});
+  retention_unit?: UpdateBackupPolicyRequestRetentionUnit | (string & {}) | undefined;
   /** A number value for the frequency of the backup policy */
-  frequency_value?: number;
+  frequency_value?: number | undefined;
   /** The unit for the frequency of the backup policy */
-  frequency_unit?: UpdateBackupPolicyRequestFrequencyUnit | (string & {});
+  frequency_unit?: UpdateBackupPolicyRequestFrequencyUnit | (string & {}) | undefined;
   /** The time of day that the backup is scheduled, in HH:MM format */
-  schedule_time?: string;
+  schedule_time?: string | undefined;
   /** Day of the week that the backup is scheduled. 0 is Sunday, 6 is Saturday */
-  schedule_day?: number;
+  schedule_day?: number | undefined;
   /** Week of the month that the backup is scheduled. 0 is the first week, 3 is the fourth week */
-  schedule_week?: number;
+  schedule_week?: number | undefined;
 }
 /** Bouncer configuration parameters nested by namespace (e.g., {"pgbouncer": {"default_pool_size": "100"}}). Use the 'List cluster parameters' endpoint to retrieve available parameters. Only parameters with namespace 'pgbouncer' can be updated. */
 export type UpdateBouncerResizeRequestRequestParametersMap = { [key: string]: unknown | undefined };
@@ -12468,13 +12483,13 @@ export interface UpdateBouncerResizeRequestRequest {
   /** The name of the bouncer */
   bouncer: string;
   /** The bouncer size SKU name (e.g., 'PGB_5', 'PGB_10', 'PGB_20', 'PGB_40', 'PGB_80', 'PGB_160'). Defaults to 'PGB_5'. */
-  bouncer_size?: string;
+  bouncer_size?: string | undefined;
   /** The number of PgBouncers per availability zone. Defaults to 1. */
-  replicas_per_cell?: number;
+  replicas_per_cell?: number | undefined;
   /** The type of server the bouncer targets. */
-  target?: string;
+  target?: string | undefined;
   /** Bouncer configuration parameters nested by namespace (e.g., {"pgbouncer": {"default_pool_size": "100"}}). Use the 'List cluster parameters' endpoint to retrieve available parameters. Only parameters with namespace 'pgbouncer' can be updated. */
-  parameters?: UpdateBouncerResizeRequestRequestParametersMap;
+  parameters?: UpdateBouncerResizeRequestRequestParametersMap | undefined;
 }
 /** The state of the bouncer resize */
 export type PostgresBouncerResizeRequestState = "pending" | "resizing" | "canceled" | "completed";
@@ -12533,9 +12548,9 @@ export interface UpdateBranchRequest {
   /** The name of the branch */
   branch: string;
   /** The name to update the branch */
-  new_name?: string;
+  new_name?: string | undefined;
   /** Whether deletion protection is enabled for the branch */
-  deletion_protected?: boolean;
+  deletion_protected?: boolean | undefined;
 }
 /** Extensions to enable. This replaces the current set; omit it to leave them unchanged. */
 export type UpdateBranchChangeRequestRequestExtensionsList = Array<string>;
@@ -12543,17 +12558,17 @@ export type UpdateBranchChangeRequestRequestExtensionsList = Array<string>;
 export type UpdateBranchChangeRequestRequestParametersMap = { [key: string]: unknown | undefined };
 export interface UpdateBranchChangeRequestRequestStorage {
   /** The minimum storage size in bytes. */
-  minimum_storage_bytes?: number;
+  minimum_storage_bytes?: number | undefined;
   /** The maximum storage size in bytes for autoscaling. */
-  maximum_storage_bytes?: number;
+  maximum_storage_bytes?: number | undefined;
   /** Whether storage autoscaling is enabled. */
-  storage_autoscaling?: boolean;
+  storage_autoscaling?: boolean | undefined;
   /** The storage IOPS. */
-  storage_iops?: number;
+  storage_iops?: number | undefined;
   /** The storage throughput in MiB/s. */
-  storage_throughput_mibs?: number;
+  storage_throughput_mibs?: number | undefined;
   /** Re-apply the current minimum disk size to shrink the provisioned disk. */
-  confirm_shrink?: boolean;
+  confirm_shrink?: boolean | undefined;
 }
 export interface UpdateBranchChangeRequestRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -12563,14 +12578,14 @@ export interface UpdateBranchChangeRequestRequest {
   /** Branch name from `list_branches`. Example: `main`. */
   branch: string;
   /** The size of the cluster. Available sizes can be found using the 'List cluster sizes' endpoint. */
-  cluster_size?: string;
+  cluster_size?: string | undefined;
   /** The total number of replicas */
-  replicas?: number;
+  replicas?: number | undefined;
   /** Extensions to enable. This replaces the current set; omit it to leave them unchanged. */
-  extensions?: UpdateBranchChangeRequestRequestExtensionsList;
+  extensions?: UpdateBranchChangeRequestRequestExtensionsList | undefined;
   /** Cluster configuration parameters nested by namespace (e.g., {"pgconf": {"max_connections": "200"}}). Use the 'List cluster parameters' endpoint to retrieve available parameters. Supported namespaces include 'patroni', 'pgconf', and 'pgbouncer'. */
-  parameters?: UpdateBranchChangeRequestRequestParametersMap;
-  storage?: UpdateBranchChangeRequestRequestStorage;
+  parameters?: UpdateBranchChangeRequestRequestParametersMap | undefined;
+  storage?: UpdateBranchChangeRequestRequestStorage | undefined;
 }
 export interface UpdateBranchClusterConfigRequest {
   /** The name of the organization the branch belongs to */
@@ -12591,15 +12606,15 @@ export interface UpdateBranchResizeRequestRequest {
   /** The name of the branch */
   branch: string;
   /** The size of the vtgate cluster: VTG_5, VTG_10,... */
-  vtgate_size?: string;
+  vtgate_size?: string | undefined;
   /** The number of vtgates in an availability zone */
-  vtgate_count?: number;
+  vtgate_count?: number | undefined;
   /** The maximum number of vtgates in an availability zone when autoscaling is enabled */
-  vtgate_max_count?: number;
+  vtgate_max_count?: number | undefined;
   /** If autoscaling is enabled for the vtgate cluster */
-  vtgate_autoscaling?: boolean;
+  vtgate_autoscaling?: boolean | undefined;
   /** The target CPU utilization for the vtgate cluster when autoscaling is enabled */
-  vtgate_target_cpu_utilization?: number;
+  vtgate_target_cpu_utilization?: number | undefined;
 }
 /** List of IPv4 CIDR ranges (e.g., ['192.168.1.0/24', '192.168.1.1/32']). Only provided fields will be updated. */
 export type UpdateDatabasePostgresCidrRequestCidrsList = Array<string>;
@@ -12611,13 +12626,13 @@ export interface UpdateDatabasePostgresCidrRequest {
   /** The ID of the IP restriction entry */
   id: string;
   /** The PostgreSQL schema to restrict access to. Leave empty to allow access to all schemas. */
-  schema?: string;
+  schema?: string | undefined;
   /** The PostgreSQL role to restrict access to. Leave empty to allow access for all roles. */
-  role?: string;
+  role?: string | undefined;
   /** List of IPv4 CIDR ranges (e.g., ['192.168.1.0/24', '192.168.1.1/32']). Only provided fields will be updated. */
-  cidrs?: UpdateDatabasePostgresCidrRequestCidrsList;
+  cidrs?: UpdateDatabasePostgresCidrRequestCidrsList | undefined;
   /** An optional description for the IP restriction rule. Pass an empty string to clear. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateDatabaseSettingsRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -12625,31 +12640,31 @@ export interface UpdateDatabaseSettingsRequest {
   /** Database name slug from `list_databases`. Example: `app-db`. */
   database: string;
   /** The name to update the database to */
-  new_name?: string;
+  new_name?: string | undefined;
   /** Whether or not to copy migration data to new branches and in deploy requests. (Vitess only) */
-  automatic_migrations?: boolean;
+  automatic_migrations?: boolean | undefined;
   /** A migration framework to use on the database. (Vitess only) */
-  migration_framework?: string;
+  migration_framework?: string | undefined;
   /** Name of table to use as migration table for the database. (Vitess only) */
-  migration_table_name?: string;
+  migration_table_name?: string | undefined;
   /** Whether or not deploy requests must be approved by a database administrator other than the request creator */
-  require_approval_for_deploy?: boolean;
+  require_approval_for_deploy?: boolean | undefined;
   /** Whether or not to limit branch creation to the same region as the one selected during database creation. */
-  restrict_branch_region?: boolean;
+  restrict_branch_region?: boolean | undefined;
   /** Whether or not data branching is allowed on the database. (Vitess only) */
-  allow_data_branching?: boolean;
+  allow_data_branching?: boolean | undefined;
   /** Whether or not foreign key constraints are allowed on the database. (Vitess only) */
-  allow_foreign_key_constraints?: boolean;
+  allow_foreign_key_constraints?: boolean | undefined;
   /** Whether or not full queries should be collected from the database */
-  insights_raw_queries?: boolean;
+  insights_raw_queries?: boolean | undefined;
   /** Whether deletion protection is enabled for the database */
-  deletion_protected?: boolean;
+  deletion_protected?: boolean | undefined;
   /** Whether or not the web console can be used on the production branch of the database */
-  production_branch_web_console?: boolean;
+  production_branch_web_console?: boolean | undefined;
   /** The default branch of the database */
-  default_branch?: string;
+  default_branch?: string | undefined;
   /** The number of development branches this database can have, up to 5000. */
-  development_branches_limit?: number;
+  development_branches_limit?: number | undefined;
 }
 /** If specifying throttler ratios per keyspace, an array of { "keyspace_name": "mykeyspace", "ratio": 10 }, one for each eligible keyspace */
 export type UpdateDatabaseThrottlerRequestConfigurationsList = Array<string>;
@@ -12659,9 +12674,9 @@ export interface UpdateDatabaseThrottlerRequest {
   /** The name of the database that the throttled deploy requests belong to */
   database: string;
   /** A throttler ratio between 0 and 95 that will apply to all keyspaces in the database. 0 effectively disables throttler, while 95 drastically slows down deploy request migrations */
-  ratio?: number;
+  ratio?: number | undefined;
   /** If specifying throttler ratios per keyspace, an array of { "keyspace_name": "mykeyspace", "ratio": 10 }, one for each eligible keyspace */
-  configurations?: UpdateDatabaseThrottlerRequestConfigurationsList;
+  configurations?: UpdateDatabaseThrottlerRequestConfigurationsList | undefined;
 }
 /** The data topology JSON to set for the branch */
 export type UpdateDataTopologyRequestDataTopologyMap = { [key: string]: unknown | undefined };
@@ -12688,12 +12703,12 @@ export interface UpdateDedicatedReadReplicaRequest {
   /** The name of the dedicated read replica */
   dedicated_read_replica: string;
   /** The number of instances serving reads */
-  replicas?: number;
+  replicas?: number | undefined;
   /** The cluster size SKU name */
-  cluster_size?: string;
+  cluster_size?: string | undefined;
   /** Configuration parameters nested by namespace (e.g., {"pgconf": {"max_connections": "300"}}). Values must be greater than or equal to the primary's. */
-  parameters?: UpdateDedicatedReadReplicaRequestParametersMap;
-  storage?: CreateDedicatedReadReplicaRequestStorage;
+  parameters?: UpdateDedicatedReadReplicaRequestParametersMap | undefined;
+  storage?: CreateDedicatedReadReplicaRequestStorage | undefined;
 }
 /** If specifying throttler ratios per keyspace, an array of { "keyspace_name": "mykeyspace", "ratio": 10 }, one for each eligible keyspace */
 export type UpdateDeployRequestThrottlerRequestConfigurationsList = Array<string>;
@@ -12705,9 +12720,9 @@ export interface UpdateDeployRequestThrottlerRequest {
   /** The number of the deploy request */
   number: number;
   /** A throttler ratio between 0 and 95 that will apply to all keyspaces affected by the deploy request. 0 effectively disables throttler, while 95 drastically slows down migrations in the deploy request */
-  ratio?: number;
+  ratio?: number | undefined;
   /** If specifying throttler ratios per keyspace, an array of { "keyspace_name": "mykeyspace", "ratio": 10 }, one for each eligible keyspace */
-  configurations?: UpdateDeployRequestThrottlerRequestConfigurationsList;
+  configurations?: UpdateDeployRequestThrottlerRequestConfigurationsList | undefined;
 }
 export type UpdateInsightsAgentScheduleRequestRunType =
   | "review_slow_queries"
@@ -12724,35 +12739,35 @@ export interface UpdateInsightsAgentScheduleRequest {
   /** The scheduled run type */
   run_type: UpdateInsightsAgentScheduleRequestRunType | (string & {});
   /** Whether the schedule is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The cadence unit */
-  frequency_unit?: UpdateInsightsAgentScheduleRequestFrequencyUnit | (string & {});
+  frequency_unit?: UpdateInsightsAgentScheduleRequestFrequencyUnit | (string & {}) | undefined;
   /** The local time of day in HH:MM format */
-  schedule_time?: string;
+  schedule_time?: string | undefined;
   /** The IANA time zone */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** The weekday for weekly schedules */
-  day_of_week?: number;
+  day_of_week?: number | undefined;
   /** The day of month for monthly schedules */
-  day_of_month?: number;
+  day_of_month?: number | undefined;
 }
 export interface UpdateKeyspaceRequestReplicationDurabilityConstraints {
   /** The replication durability strategy */
-  strategy?: string;
+  strategy?: string | undefined;
 }
 export interface UpdateKeyspaceRequestVreplicationFlags {
   /** Enable optimized inserts */
-  optimize_inserts?: boolean;
+  optimize_inserts?: boolean | undefined;
   /** Allow no blob binlog row image */
-  allow_no_blob_binlog_row_image?: boolean;
+  allow_no_blob_binlog_row_image?: boolean | undefined;
   /** Enable VPlayer batching */
-  vplayer_batching?: boolean;
+  vplayer_batching?: boolean | undefined;
 }
 export interface UpdateKeyspaceRequestThrottler {
   /** Whether the keyspace throttler is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Replication lag in seconds that trips the throttler. Must be >= 0 */
-  threshold?: number;
+  threshold?: number | undefined;
 }
 export interface UpdateKeyspaceRequest {
   /** The name of the organization the branch belongs to */
@@ -12763,11 +12778,13 @@ export interface UpdateKeyspaceRequest {
   branch: string;
   /** The name of the keyspace */
   keyspace: string;
-  replication_durability_constraints?: UpdateKeyspaceRequestReplicationDurabilityConstraints;
-  vreplication_flags?: UpdateKeyspaceRequestVreplicationFlags;
+  replication_durability_constraints?:
+    | UpdateKeyspaceRequestReplicationDurabilityConstraints
+    | undefined;
+  vreplication_flags?: UpdateKeyspaceRequestVreplicationFlags | undefined;
   /** The maximum number of shards rolled out in parallel, from 1 to 32. Set to null to use the infrastructure default of 1. */
-  max_rollout?: number | null;
-  throttler?: UpdateKeyspaceRequestThrottler;
+  max_rollout?: number | null | undefined;
+  throttler?: UpdateKeyspaceRequestThrottler | undefined;
 }
 export interface UpdateKeyspaceResizeRequestRequest {
   /** The name of the organization the branch belongs to */
@@ -12779,11 +12796,11 @@ export interface UpdateKeyspaceResizeRequestRequest {
   /** The name of the keyspace */
   keyspace: string;
   /** The size of the keyspace cluster: PS_10, PS_20,... */
-  cluster_size?: string;
+  cluster_size?: string | undefined;
   /** The number of additional replicas beyond the included default */
-  extra_replicas?: number;
+  extra_replicas?: number | undefined;
   /** The percentage of the buffer pool allocated to vector indexes */
-  vector_pool_allocation?: number;
+  vector_pool_allocation?: number | undefined;
 }
 export interface UpdateKeyspaceVschemaRequest {
   /** The name of the organization the branch belongs to */
@@ -12805,11 +12822,11 @@ export interface UpdateOrganizationRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
   /** The billing email for the organization */
-  billing_email?: string;
+  billing_email?: string | undefined;
   /** Whether or not the IdP provider is be responsible for managing roles in PlanetScale */
-  idp_managed_roles?: boolean;
+  idp_managed_roles?: boolean | undefined;
   /** The expected monthly budget for the organization */
-  invoice_budget_amount?: number;
+  invoice_budget_amount?: number | undefined;
 }
 export interface UpdateOrganizationMembershipRequest {
   /** The name of the organization */
@@ -12825,9 +12842,9 @@ export interface UpdateOrganizationTeamRequest {
   /** The slug of the team */
   team: string;
   /** The new name for the team */
-  name?: string;
+  name?: string | undefined;
   /** The new description for the team */
-  description?: string;
+  description?: string | undefined;
 }
 /** List of IP addresses or CIDR ranges that can use this password */
 export type UpdatePasswordRequestCidrsList = Array<string>;
@@ -12841,9 +12858,9 @@ export interface UpdatePasswordRequest {
   /** The ID of the password */
   id: string;
   /** The name for the password */
-  name?: string;
+  name?: string | undefined;
   /** List of IP addresses or CIDR ranges that can use this password */
-  cidrs?: UpdatePasswordRequestCidrsList;
+  cidrs?: UpdatePasswordRequestCidrsList | undefined;
 }
 export interface UpdatePaymentMethodRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -12859,11 +12876,11 @@ export interface UpdateRoleRequest {
   /** The ID of the role */
   id: string;
   /** The new name of the role */
-  name?: string;
+  name?: string | undefined;
   /** Require WHERE clause on DELETE statements */
-  require_where_on_delete?: string;
+  require_where_on_delete?: string | undefined;
   /** Require WHERE clause on UPDATE statements */
-  require_where_on_update?: string;
+  require_where_on_update?: string | undefined;
 }
 /** Router parameters nested by namespace (e.g., {"router": {"replication-lag-tolerable-max": "15m"}}) */
 export type UpdateRouterRequestParametersMap = { [key: string]: unknown | undefined };
@@ -12877,17 +12894,17 @@ export interface UpdateRouterRequest {
   /** Name from `list_routers`. */
   router: string;
   /** The new router size for the router */
-  router_size?: string;
+  router_size?: string | undefined;
   /** The new number of replicas in each cell */
-  replicas_per_cell?: number;
+  replicas_per_cell?: number | undefined;
   /** Whether the router scales horizontally within each cell */
-  autoscaling?: boolean;
+  autoscaling?: boolean | undefined;
   /** The maximum number of replicas in each cell when autoscaling */
-  max_replicas_per_cell?: number;
+  max_replicas_per_cell?: number | undefined;
   /** The target average CPU utilization percentage when autoscaling */
-  target_cpu_utilization?: number;
+  target_cpu_utilization?: number | undefined;
   /** Router parameters nested by namespace (e.g., {"router": {"replication-lag-tolerable-max": "15m"}}) */
-  parameters?: UpdateRouterRequestParametersMap;
+  parameters?: UpdateRouterRequestParametersMap | undefined;
 }
 export interface UpdateSafeMigrationsRequest {
   /** The name of the organization the branch belongs to */
@@ -12928,20 +12945,20 @@ export interface UpdateShardConfigurationProfileRequest {
   /** Name from `list_shard_configuration_profiles`. */
   configuration_profile: string;
   /** The new name for the shard configuration profile */
-  name?: string;
+  name?: string | undefined;
   /** The new cluster size for the shard configuration profile */
-  cluster_size?: string;
+  cluster_size?: string | undefined;
   /** Extensions to enable. This replaces the current set; omit it to leave them unchanged. */
-  extensions?: UpdateShardConfigurationProfileRequestExtensionsList;
+  extensions?: UpdateShardConfigurationProfileRequestExtensionsList | undefined;
   /** The new number of replicas for the shard configuration profile */
-  replicas?: number;
+  replicas?: number | undefined;
   /** Configuration profile parameters nested by namespace (e.g., {"pgconf": {"max_connections": "200"}}). */
-  parameters?: UpdateShardConfigurationProfileRequestParametersMap;
+  parameters?: UpdateShardConfigurationProfileRequestParametersMap | undefined;
   /** The PostgreSQL major version for the shard configuration profile */
-  postgres_major_version?: string;
+  postgres_major_version?: string | undefined;
   /** The PostgreSQL minor version for the shard configuration profile. Requires postgres_major_version when specified. */
-  postgres_minor_version?: string;
-  storage?: CreateDedicatedReadReplicaRequestStorage;
+  postgres_minor_version?: string | undefined;
+  storage?: CreateDedicatedReadReplicaRequestStorage | undefined;
 }
 export interface UpdateShardConfigurationProfileShardRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -12955,7 +12972,7 @@ export interface UpdateShardConfigurationProfileShardRequest {
   /** The ID of the shard */
   id: string;
   /** The display name of the shard */
-  display_name?: string;
+  display_name?: string | undefined;
 }
 /** Sidecar parameters nested by namespace (e.g., {"sidecar": {"pool-capacity": "100"}}) */
 export type UpdateSidecarRequestParametersMap = { [key: string]: unknown | undefined };
@@ -12969,7 +12986,7 @@ export interface UpdateSidecarRequest {
   /** ID from `list_sidecars`, or the configuration profile name. */
   sidecar: string;
   /** Sidecar parameters nested by namespace (e.g., {"sidecar": {"pool-capacity": "100"}}) */
-  parameters?: UpdateSidecarRequestParametersMap;
+  parameters?: UpdateSidecarRequestParametersMap | undefined;
 }
 /** The mode of the traffic budget */
 export type UpdateTrafficBudgetRequestMode = "enforce" | "warn" | "off";
@@ -12985,21 +13002,21 @@ export interface UpdateTrafficBudgetRequest {
   /** The ID of the traffic budget */
   id: string;
   /** Name of the traffic budget */
-  name?: string;
+  name?: string | undefined;
   /** The mode of the traffic budget */
-  mode?: UpdateTrafficBudgetRequestMode | (string & {});
+  mode?: UpdateTrafficBudgetRequestMode | (string & {}) | undefined;
   /** The maximum capacity that can be banked, measured as a percentage of seconds of full server usage (0-6000). Unlimited when not set. */
-  capacity?: number;
+  capacity?: number | undefined;
   /** The rate at which capacity refills, as a percentage of server resources (0-100). Unlimited when not set. */
-  rate?: number;
+  rate?: number | undefined;
   /** The maximum capacity a single query can consume, measured as a percentage of seconds of full server usage (0-6000). Unlimited when not set. */
-  burst?: number;
+  burst?: number | undefined;
   /** The percentage of available worker processes this policy can use (0-100). Unlimited when not set. */
-  concurrency?: number;
+  concurrency?: number | undefined;
   /** A percentage of capacity, burst, or concurrency thresholds to emit warnings for enforced budgets (0-100). */
-  warning_threshold?: number;
+  warning_threshold?: number | undefined;
   /** Array of traffic rules to apply to the budget */
-  rules?: UpdateTrafficBudgetRequestRulesList;
+  rules?: UpdateTrafficBudgetRequestRulesList | undefined;
 }
 /** The events this webhook should subscribe to */
 export type UpdateWebhookRequestEventsList = Array<string>;
@@ -13011,13 +13028,13 @@ export interface UpdateWebhookRequest {
   /** The ID of the webhook */
   id: string;
   /** The URL the webhook will send events to */
-  url?: string;
+  url?: string | undefined;
   /** The value to send in the Authorization header */
-  authorization_header?: string;
+  authorization_header?: string | undefined;
   /** Whether the webhook should be enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The events this webhook should subscribe to */
-  events?: UpdateWebhookRequestEventsList;
+  events?: UpdateWebhookRequestEventsList | undefined;
 }
 export interface VerifyWorkflowRequest {
   /** The name of the organization the workflow belongs to */

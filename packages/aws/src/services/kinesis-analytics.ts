@@ -192,7 +192,7 @@ export interface KinesisFirehoseInput {
 }
 export type InputParallelismCount = number;
 export interface InputParallelism {
-  Count?: number;
+  Count?: number | undefined;
 }
 export type RecordFormatType = "JSON" | "CSV" | (string & {});
 export type RecordRowPath = string;
@@ -206,12 +206,12 @@ export interface CSVMappingParameters {
   RecordColumnDelimiter: string;
 }
 export interface MappingParameters {
-  JSONMappingParameters?: JSONMappingParameters;
-  CSVMappingParameters?: CSVMappingParameters;
+  JSONMappingParameters?: JSONMappingParameters | undefined;
+  CSVMappingParameters?: CSVMappingParameters | undefined;
 }
 export interface RecordFormat {
   RecordFormatType: RecordFormatType;
-  MappingParameters?: MappingParameters;
+  MappingParameters?: MappingParameters | undefined;
 }
 export type RecordEncoding = string;
 export type RecordColumnName = string;
@@ -219,21 +219,21 @@ export type RecordColumnMapping = string;
 export type RecordColumnSqlType = string;
 export interface RecordColumn {
   Name: string;
-  Mapping?: string;
+  Mapping?: string | undefined;
   SqlType: string;
 }
 export type RecordColumns = RecordColumn[];
 export interface SourceSchema {
   RecordFormat: RecordFormat;
-  RecordEncoding?: string;
+  RecordEncoding?: string | undefined;
   RecordColumns: RecordColumn[];
 }
 export interface Input {
   NamePrefix: string;
-  InputProcessingConfiguration?: InputProcessingConfiguration;
-  KinesisStreamsInput?: KinesisStreamsInput;
-  KinesisFirehoseInput?: KinesisFirehoseInput;
-  InputParallelism?: InputParallelism;
+  InputProcessingConfiguration?: InputProcessingConfiguration | undefined;
+  KinesisStreamsInput?: KinesisStreamsInput | undefined;
+  KinesisFirehoseInput?: KinesisFirehoseInput | undefined;
+  InputParallelism?: InputParallelism | undefined;
   InputSchema: SourceSchema;
 }
 export interface AddApplicationInputRequest {
@@ -267,9 +267,9 @@ export interface DestinationSchema {
 }
 export interface Output {
   Name: string;
-  KinesisStreamsOutput?: KinesisStreamsOutput;
-  KinesisFirehoseOutput?: KinesisFirehoseOutput;
-  LambdaOutput?: LambdaOutput;
+  KinesisStreamsOutput?: KinesisStreamsOutput | undefined;
+  KinesisFirehoseOutput?: KinesisFirehoseOutput | undefined;
+  LambdaOutput?: LambdaOutput | undefined;
   DestinationSchema: DestinationSchema;
 }
 export interface AddApplicationOutputRequest {
@@ -288,7 +288,7 @@ export interface S3ReferenceDataSource {
 }
 export interface ReferenceDataSource {
   TableName: string;
-  S3ReferenceDataSource?: S3ReferenceDataSource;
+  S3ReferenceDataSource?: S3ReferenceDataSource | undefined;
   ReferenceSchema: SourceSchema;
 }
 export interface AddApplicationReferenceDataSourceRequest {
@@ -306,17 +306,17 @@ export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type Tags = Tag[];
 export interface CreateApplicationRequest {
   ApplicationName: string;
-  ApplicationDescription?: string;
-  Inputs?: Input[];
-  Outputs?: Output[];
-  CloudWatchLoggingOptions?: CloudWatchLoggingOption[];
-  ApplicationCode?: string;
-  Tags?: Tag[];
+  ApplicationDescription?: string | undefined;
+  Inputs?: Input[] | undefined;
+  Outputs?: Output[] | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOption[] | undefined;
+  ApplicationCode?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ApplicationStatus =
   | "DELETING"
@@ -368,55 +368,55 @@ export interface DescribeApplicationRequest {
 }
 export type InAppStreamNames = string[];
 export interface InputLambdaProcessorDescription {
-  ResourceARN?: string;
-  RoleARN?: string;
+  ResourceARN?: string | undefined;
+  RoleARN?: string | undefined;
 }
 export interface InputProcessingConfigurationDescription {
-  InputLambdaProcessorDescription?: InputLambdaProcessorDescription;
+  InputLambdaProcessorDescription?: InputLambdaProcessorDescription | undefined;
 }
 export interface KinesisStreamsInputDescription {
-  ResourceARN?: string;
-  RoleARN?: string;
+  ResourceARN?: string | undefined;
+  RoleARN?: string | undefined;
 }
 export interface KinesisFirehoseInputDescription {
-  ResourceARN?: string;
-  RoleARN?: string;
+  ResourceARN?: string | undefined;
+  RoleARN?: string | undefined;
 }
 export type InputStartingPosition = "NOW" | "TRIM_HORIZON" | "LAST_STOPPED_POINT" | (string & {});
 export interface InputStartingPositionConfiguration {
-  InputStartingPosition?: InputStartingPosition;
+  InputStartingPosition?: InputStartingPosition | undefined;
 }
 export interface InputDescription {
-  InputId?: string;
-  NamePrefix?: string;
-  InAppStreamNames?: string[];
-  InputProcessingConfigurationDescription?: InputProcessingConfigurationDescription;
-  KinesisStreamsInputDescription?: KinesisStreamsInputDescription;
-  KinesisFirehoseInputDescription?: KinesisFirehoseInputDescription;
-  InputSchema?: SourceSchema;
-  InputParallelism?: InputParallelism;
-  InputStartingPositionConfiguration?: InputStartingPositionConfiguration;
+  InputId?: string | undefined;
+  NamePrefix?: string | undefined;
+  InAppStreamNames?: string[] | undefined;
+  InputProcessingConfigurationDescription?: InputProcessingConfigurationDescription | undefined;
+  KinesisStreamsInputDescription?: KinesisStreamsInputDescription | undefined;
+  KinesisFirehoseInputDescription?: KinesisFirehoseInputDescription | undefined;
+  InputSchema?: SourceSchema | undefined;
+  InputParallelism?: InputParallelism | undefined;
+  InputStartingPositionConfiguration?: InputStartingPositionConfiguration | undefined;
 }
 export type InputDescriptions = InputDescription[];
 export interface KinesisStreamsOutputDescription {
-  ResourceARN?: string;
-  RoleARN?: string;
+  ResourceARN?: string | undefined;
+  RoleARN?: string | undefined;
 }
 export interface KinesisFirehoseOutputDescription {
-  ResourceARN?: string;
-  RoleARN?: string;
+  ResourceARN?: string | undefined;
+  RoleARN?: string | undefined;
 }
 export interface LambdaOutputDescription {
-  ResourceARN?: string;
-  RoleARN?: string;
+  ResourceARN?: string | undefined;
+  RoleARN?: string | undefined;
 }
 export interface OutputDescription {
-  OutputId?: string;
-  Name?: string;
-  KinesisStreamsOutputDescription?: KinesisStreamsOutputDescription;
-  KinesisFirehoseOutputDescription?: KinesisFirehoseOutputDescription;
-  LambdaOutputDescription?: LambdaOutputDescription;
-  DestinationSchema?: DestinationSchema;
+  OutputId?: string | undefined;
+  Name?: string | undefined;
+  KinesisStreamsOutputDescription?: KinesisStreamsOutputDescription | undefined;
+  KinesisFirehoseOutputDescription?: KinesisFirehoseOutputDescription | undefined;
+  LambdaOutputDescription?: LambdaOutputDescription | undefined;
+  DestinationSchema?: DestinationSchema | undefined;
 }
 export type OutputDescriptions = OutputDescription[];
 export interface S3ReferenceDataSourceDescription {
@@ -428,27 +428,27 @@ export interface ReferenceDataSourceDescription {
   ReferenceId: string;
   TableName: string;
   S3ReferenceDataSourceDescription: S3ReferenceDataSourceDescription;
-  ReferenceSchema?: SourceSchema;
+  ReferenceSchema?: SourceSchema | undefined;
 }
 export type ReferenceDataSourceDescriptions = ReferenceDataSourceDescription[];
 export interface CloudWatchLoggingOptionDescription {
-  CloudWatchLoggingOptionId?: string;
+  CloudWatchLoggingOptionId?: string | undefined;
   LogStreamARN: string;
   RoleARN: string;
 }
 export type CloudWatchLoggingOptionDescriptions = CloudWatchLoggingOptionDescription[];
 export interface ApplicationDetail {
   ApplicationName: string;
-  ApplicationDescription?: string;
+  ApplicationDescription?: string | undefined;
   ApplicationARN: string;
   ApplicationStatus: ApplicationStatus;
-  CreateTimestamp?: Date;
-  LastUpdateTimestamp?: Date;
-  InputDescriptions?: InputDescription[];
-  OutputDescriptions?: OutputDescription[];
-  ReferenceDataSourceDescriptions?: ReferenceDataSourceDescription[];
-  CloudWatchLoggingOptionDescriptions?: CloudWatchLoggingOptionDescription[];
-  ApplicationCode?: string;
+  CreateTimestamp?: Date | undefined;
+  LastUpdateTimestamp?: Date | undefined;
+  InputDescriptions?: InputDescription[] | undefined;
+  OutputDescriptions?: OutputDescription[] | undefined;
+  ReferenceDataSourceDescriptions?: ReferenceDataSourceDescription[] | undefined;
+  CloudWatchLoggingOptionDescriptions?: CloudWatchLoggingOptionDescription[] | undefined;
+  ApplicationCode?: string | undefined;
   ApplicationVersionId: number;
 }
 export interface DescribeApplicationResponse {
@@ -460,11 +460,11 @@ export interface S3Configuration {
   FileKey: string;
 }
 export interface DiscoverInputSchemaRequest {
-  ResourceARN?: string;
-  RoleARN?: string;
-  InputStartingPositionConfiguration?: InputStartingPositionConfiguration;
-  S3Configuration?: S3Configuration;
-  InputProcessingConfiguration?: InputProcessingConfiguration;
+  ResourceARN?: string | undefined;
+  RoleARN?: string | undefined;
+  InputStartingPositionConfiguration?: InputStartingPositionConfiguration | undefined;
+  S3Configuration?: S3Configuration | undefined;
+  InputProcessingConfiguration?: InputProcessingConfiguration | undefined;
 }
 export type ParsedInputRecordField = string;
 export type ParsedInputRecord = string[];
@@ -474,15 +474,15 @@ export type ProcessedInputRecords = string[];
 export type RawInputRecord = string;
 export type RawInputRecords = string[];
 export interface DiscoverInputSchemaResponse {
-  InputSchema?: SourceSchema;
-  ParsedInputRecords?: string[][];
-  ProcessedInputRecords?: string[];
-  RawInputRecords?: string[];
+  InputSchema?: SourceSchema | undefined;
+  ParsedInputRecords?: string[][] | undefined;
+  ProcessedInputRecords?: string[] | undefined;
+  RawInputRecords?: string[] | undefined;
 }
 export type ListApplicationsInputLimit = number;
 export interface ListApplicationsRequest {
-  Limit?: number;
-  ExclusiveStartApplicationName?: string;
+  Limit?: number | undefined;
+  ExclusiveStartApplicationName?: string | undefined;
 }
 export type ApplicationSummaries = ApplicationSummary[];
 export interface ListApplicationsResponse {
@@ -494,7 +494,7 @@ export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface InputConfiguration {
   Id: string;
@@ -522,83 +522,83 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface InputLambdaProcessorUpdate {
-  ResourceARNUpdate?: string;
-  RoleARNUpdate?: string;
+  ResourceARNUpdate?: string | undefined;
+  RoleARNUpdate?: string | undefined;
 }
 export interface InputProcessingConfigurationUpdate {
   InputLambdaProcessorUpdate: InputLambdaProcessorUpdate;
 }
 export interface KinesisStreamsInputUpdate {
-  ResourceARNUpdate?: string;
-  RoleARNUpdate?: string;
+  ResourceARNUpdate?: string | undefined;
+  RoleARNUpdate?: string | undefined;
 }
 export interface KinesisFirehoseInputUpdate {
-  ResourceARNUpdate?: string;
-  RoleARNUpdate?: string;
+  ResourceARNUpdate?: string | undefined;
+  RoleARNUpdate?: string | undefined;
 }
 export interface InputSchemaUpdate {
-  RecordFormatUpdate?: RecordFormat;
-  RecordEncodingUpdate?: string;
-  RecordColumnUpdates?: RecordColumn[];
+  RecordFormatUpdate?: RecordFormat | undefined;
+  RecordEncodingUpdate?: string | undefined;
+  RecordColumnUpdates?: RecordColumn[] | undefined;
 }
 export interface InputParallelismUpdate {
-  CountUpdate?: number;
+  CountUpdate?: number | undefined;
 }
 export interface InputUpdate {
   InputId: string;
-  NamePrefixUpdate?: string;
-  InputProcessingConfigurationUpdate?: InputProcessingConfigurationUpdate;
-  KinesisStreamsInputUpdate?: KinesisStreamsInputUpdate;
-  KinesisFirehoseInputUpdate?: KinesisFirehoseInputUpdate;
-  InputSchemaUpdate?: InputSchemaUpdate;
-  InputParallelismUpdate?: InputParallelismUpdate;
+  NamePrefixUpdate?: string | undefined;
+  InputProcessingConfigurationUpdate?: InputProcessingConfigurationUpdate | undefined;
+  KinesisStreamsInputUpdate?: KinesisStreamsInputUpdate | undefined;
+  KinesisFirehoseInputUpdate?: KinesisFirehoseInputUpdate | undefined;
+  InputSchemaUpdate?: InputSchemaUpdate | undefined;
+  InputParallelismUpdate?: InputParallelismUpdate | undefined;
 }
 export type InputUpdates = InputUpdate[];
 export interface KinesisStreamsOutputUpdate {
-  ResourceARNUpdate?: string;
-  RoleARNUpdate?: string;
+  ResourceARNUpdate?: string | undefined;
+  RoleARNUpdate?: string | undefined;
 }
 export interface KinesisFirehoseOutputUpdate {
-  ResourceARNUpdate?: string;
-  RoleARNUpdate?: string;
+  ResourceARNUpdate?: string | undefined;
+  RoleARNUpdate?: string | undefined;
 }
 export interface LambdaOutputUpdate {
-  ResourceARNUpdate?: string;
-  RoleARNUpdate?: string;
+  ResourceARNUpdate?: string | undefined;
+  RoleARNUpdate?: string | undefined;
 }
 export interface OutputUpdate {
   OutputId: string;
-  NameUpdate?: string;
-  KinesisStreamsOutputUpdate?: KinesisStreamsOutputUpdate;
-  KinesisFirehoseOutputUpdate?: KinesisFirehoseOutputUpdate;
-  LambdaOutputUpdate?: LambdaOutputUpdate;
-  DestinationSchemaUpdate?: DestinationSchema;
+  NameUpdate?: string | undefined;
+  KinesisStreamsOutputUpdate?: KinesisStreamsOutputUpdate | undefined;
+  KinesisFirehoseOutputUpdate?: KinesisFirehoseOutputUpdate | undefined;
+  LambdaOutputUpdate?: LambdaOutputUpdate | undefined;
+  DestinationSchemaUpdate?: DestinationSchema | undefined;
 }
 export type OutputUpdates = OutputUpdate[];
 export interface S3ReferenceDataSourceUpdate {
-  BucketARNUpdate?: string;
-  FileKeyUpdate?: string;
-  ReferenceRoleARNUpdate?: string;
+  BucketARNUpdate?: string | undefined;
+  FileKeyUpdate?: string | undefined;
+  ReferenceRoleARNUpdate?: string | undefined;
 }
 export interface ReferenceDataSourceUpdate {
   ReferenceId: string;
-  TableNameUpdate?: string;
-  S3ReferenceDataSourceUpdate?: S3ReferenceDataSourceUpdate;
-  ReferenceSchemaUpdate?: SourceSchema;
+  TableNameUpdate?: string | undefined;
+  S3ReferenceDataSourceUpdate?: S3ReferenceDataSourceUpdate | undefined;
+  ReferenceSchemaUpdate?: SourceSchema | undefined;
 }
 export type ReferenceDataSourceUpdates = ReferenceDataSourceUpdate[];
 export interface CloudWatchLoggingOptionUpdate {
   CloudWatchLoggingOptionId: string;
-  LogStreamARNUpdate?: string;
-  RoleARNUpdate?: string;
+  LogStreamARNUpdate?: string | undefined;
+  RoleARNUpdate?: string | undefined;
 }
 export type CloudWatchLoggingOptionUpdates = CloudWatchLoggingOptionUpdate[];
 export interface ApplicationUpdate {
-  InputUpdates?: InputUpdate[];
-  ApplicationCodeUpdate?: string;
-  OutputUpdates?: OutputUpdate[];
-  ReferenceDataSourceUpdates?: ReferenceDataSourceUpdate[];
-  CloudWatchLoggingOptionUpdates?: CloudWatchLoggingOptionUpdate[];
+  InputUpdates?: InputUpdate[] | undefined;
+  ApplicationCodeUpdate?: string | undefined;
+  OutputUpdates?: OutputUpdate[] | undefined;
+  ReferenceDataSourceUpdates?: ReferenceDataSourceUpdate[] | undefined;
+  CloudWatchLoggingOptionUpdates?: CloudWatchLoggingOptionUpdate[] | undefined;
 }
 export interface UpdateApplicationRequest {
   ApplicationName: string;

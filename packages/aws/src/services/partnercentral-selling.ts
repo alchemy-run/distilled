@@ -160,7 +160,7 @@ export interface AssigneeContact {
   Email: string | redacted.Redacted<string>;
   FirstName: string | redacted.Redacted<string>;
   LastName: string | redacted.Redacted<string>;
-  Phone?: string | redacted.Redacted<string>;
+  Phone?: string | redacted.Redacted<string> | undefined;
   BusinessTitle: string | redacted.Redacted<string>;
 }
 export interface AssignOpportunityRequest {
@@ -490,31 +490,31 @@ export interface EngagementCustomerProjectDetails {
   TargetCompletionDate: string;
 }
 export interface CustomerProjectsContext {
-  Customer?: EngagementCustomer;
-  Project?: EngagementCustomerProjectDetails;
+  Customer?: EngagementCustomer | undefined;
+  Project?: EngagementCustomerProjectDetails | undefined;
 }
 export interface LeadInsights {
-  LeadReadinessScore?: string;
+  LeadReadinessScore?: string | undefined;
 }
 export type LeadQualificationStatus = string;
 export type LeadIndustry = string;
 export type LeadWebsiteUrl = string | redacted.Redacted<string>;
 export type LeadCountryCode = string | redacted.Redacted<string>;
 export interface LeadAddress {
-  City?: string;
-  PostalCode?: string;
-  StateOrRegion?: string;
-  CountryCode?: string | redacted.Redacted<string>;
+  City?: string | undefined;
+  PostalCode?: string | undefined;
+  StateOrRegion?: string | undefined;
+  CountryCode?: string | redacted.Redacted<string> | undefined;
 }
 export type AwsMaturity = string;
 export type LeadMarketSegment = string;
 export interface LeadCustomer {
-  Industry?: string;
+  Industry?: string | undefined;
   CompanyName: string | redacted.Redacted<string>;
-  WebsiteUrl?: string | redacted.Redacted<string>;
-  Address?: LeadAddress;
-  AwsMaturity?: string;
-  MarketSegment?: string;
+  WebsiteUrl?: string | redacted.Redacted<string> | undefined;
+  Address?: LeadAddress | undefined;
+  AwsMaturity?: string | undefined;
+  MarketSegment?: string | undefined;
 }
 export type LeadSourceType = string;
 export type LeadSourceId = string;
@@ -530,22 +530,22 @@ export interface LeadContact {
   Email: string | redacted.Redacted<string>;
   FirstName: string | redacted.Redacted<string>;
   LastName: string | redacted.Redacted<string>;
-  Phone?: string | redacted.Redacted<string>;
+  Phone?: string | redacted.Redacted<string> | undefined;
 }
 export interface LeadInteraction {
-  SourceType?: string;
-  SourceId?: string;
-  SourceName?: string;
-  Usecase?: string;
-  InteractionDate?: Date;
-  CustomerAction?: string;
-  BusinessProblem?: string | redacted.Redacted<string>;
+  SourceType?: string | undefined;
+  SourceId?: string | undefined;
+  SourceName?: string | undefined;
+  Usecase?: string | undefined;
+  InteractionDate?: Date | undefined;
+  CustomerAction?: string | undefined;
+  BusinessProblem?: string | redacted.Redacted<string> | undefined;
   Contact: LeadContact;
 }
 export type LeadInteractionList = LeadInteraction[];
 export interface LeadContext {
-  Insights?: LeadInsights;
-  QualificationStatus?: string;
+  Insights?: LeadInsights | undefined;
+  QualificationStatus?: string | undefined;
   Customer: LeadCustomer;
   Interactions: LeadInteraction[];
 }
@@ -559,63 +559,63 @@ export type ProspectingCompanySize = string;
 export type EligibleProgramsList = string[];
 export type ProspectingPublicProfileSummary = string;
 export interface ProspectingResultCustomer {
-  AccountName?: string;
-  Geo?: string;
-  Region?: string;
-  SubRegion?: string;
-  Country?: CountryCode;
-  Industry?: Industry;
-  SubIndustry?: string;
-  Segment?: string;
-  CompanySize?: string;
-  EligiblePrograms?: string[];
-  PublicProfileSummary?: string;
+  AccountName?: string | undefined;
+  Geo?: string | undefined;
+  Region?: string | undefined;
+  SubRegion?: string | undefined;
+  Country?: CountryCode | undefined;
+  Industry?: Industry | undefined;
+  SubIndustry?: string | undefined;
+  Segment?: string | undefined;
+  CompanySize?: string | undefined;
+  EligiblePrograms?: string[] | undefined;
+  PublicProfileSummary?: string | undefined;
 }
 export type EngagementScoreLevel = string;
 export interface ProspectingInsights {
-  MarketplaceEngagementScore?: string;
-  SolutionScore?: string;
-  SolutionCategory?: string;
-  SolutionSubCategory?: string;
+  MarketplaceEngagementScore?: string | undefined;
+  SolutionScore?: string | undefined;
+  SolutionCategory?: string | undefined;
+  SolutionSubCategory?: string | undefined;
 }
 export type ProspectingTaskIdentifier = string;
 export type TaskArn = string;
 export type TaskName = string;
 export interface ProspectingResultAws {
-  Customer?: ProspectingResultCustomer;
-  Insights?: ProspectingInsights;
-  StartTime?: Date;
-  EndTime?: Date;
-  TaskId?: string;
-  TaskArn?: string;
-  TaskName?: string;
+  Customer?: ProspectingResultCustomer | undefined;
+  Insights?: ProspectingInsights | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  TaskId?: string | undefined;
+  TaskArn?: string | undefined;
+  TaskName?: string | undefined;
 }
 export interface ProspectingResult {
-  Aws?: ProspectingResultAws;
+  Aws?: ProspectingResultAws | undefined;
 }
 export type EngagementContextPayload =
   | { CustomerProject: CustomerProjectsContext; Lead?: never; ProspectingResult?: never }
   | { CustomerProject?: never; Lead: LeadContext; ProspectingResult?: never }
   | { CustomerProject?: never; Lead?: never; ProspectingResult: ProspectingResult };
 export interface EngagementContextDetails {
-  Id?: string;
+  Id?: string | undefined;
   Type: EngagementContextType;
-  Payload?: EngagementContextPayload;
+  Payload?: EngagementContextPayload | undefined;
 }
 export type EngagementContexts = EngagementContextDetails[];
 export interface CreateEngagementRequest {
   Catalog: string;
   ClientToken: string;
-  Title?: string;
-  Description?: string;
-  Contexts?: EngagementContextDetails[];
+  Title?: string | undefined;
+  Description?: string | undefined;
+  Contexts?: EngagementContextDetails[] | undefined;
 }
 export type EngagementIdentifier = string;
 export type EngagementArn = string;
 export interface CreateEngagementResponse {
-  Id?: string;
-  Arn?: string;
-  ModifiedAt?: Date;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  ModifiedAt?: Date | undefined;
 }
 export type EngagementArnOrIdentifier = string;
 export interface CreateEngagementContextRequest {
@@ -626,26 +626,26 @@ export interface CreateEngagementContextRequest {
   Payload: EngagementContextPayload;
 }
 export interface CreateEngagementContextResponse {
-  EngagementId?: string;
-  EngagementArn?: string;
-  EngagementLastModifiedAt?: Date;
-  ContextId?: string;
+  EngagementId?: string | undefined;
+  EngagementArn?: string | undefined;
+  EngagementLastModifiedAt?: Date | undefined;
+  ContextId?: string | undefined;
 }
 export type InvitationMessage = string | redacted.Redacted<string>;
 export type Alias = string | redacted.Redacted<string>;
 export type AwsAccount = string | redacted.Redacted<string>;
 export interface AccountReceiver {
-  Alias?: string | redacted.Redacted<string>;
+  Alias?: string | redacted.Redacted<string> | undefined;
   AwsAccountId: string | redacted.Redacted<string>;
 }
 export type Receiver = { Account: AccountReceiver };
 export type SenderContactEmail = string | redacted.Redacted<string>;
 export interface SenderContact {
   Email: string | redacted.Redacted<string>;
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  BusinessTitle?: string | redacted.Redacted<string>;
-  Phone?: string | redacted.Redacted<string>;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  BusinessTitle?: string | redacted.Redacted<string> | undefined;
+  Phone?: string | redacted.Redacted<string> | undefined;
 }
 export type SenderContactList = SenderContact[];
 export type ReceiverResponsibility =
@@ -834,11 +834,11 @@ export type CurrencyCode =
 export type PaymentFrequency = "Monthly" | (string & {});
 export type EstimationUrl = string;
 export interface ExpectedCustomerSpend {
-  Amount?: string | redacted.Redacted<string>;
+  Amount?: string | redacted.Redacted<string> | undefined;
   CurrencyCode: CurrencyCode;
   Frequency: PaymentFrequency;
   TargetCompany: string;
-  EstimationUrl?: string;
+  EstimationUrl?: string | undefined;
 }
 export type ExpectedCustomerSpendList = ExpectedCustomerSpend[];
 export interface ProjectDetails {
@@ -848,24 +848,24 @@ export interface ProjectDetails {
   ExpectedCustomerSpend: ExpectedCustomerSpend[];
 }
 export interface OpportunityInvitationPayload {
-  SenderContacts?: SenderContact[];
+  SenderContacts?: SenderContact[] | undefined;
   ReceiverResponsibilities: ReceiverResponsibility[];
   Customer: EngagementCustomer;
   Project: ProjectDetails;
 }
 export interface LeadInvitationCustomer {
-  Industry?: string;
+  Industry?: string | undefined;
   CompanyName: string | redacted.Redacted<string>;
-  WebsiteUrl?: string | redacted.Redacted<string>;
-  CountryCode?: string | redacted.Redacted<string>;
-  AwsMaturity?: string;
-  MarketSegment?: string;
+  WebsiteUrl?: string | redacted.Redacted<string> | undefined;
+  CountryCode?: string | redacted.Redacted<string> | undefined;
+  AwsMaturity?: string | undefined;
+  MarketSegment?: string | undefined;
 }
 export interface LeadInvitationInteraction {
-  SourceType?: string;
-  SourceId?: string;
-  SourceName?: string;
-  Usecase?: string;
+  SourceType?: string | undefined;
+  SourceId?: string | undefined;
+  SourceName?: string | undefined;
+  Usecase?: string | undefined;
   ContactBusinessTitle: string | redacted.Redacted<string>;
 }
 export interface LeadInvitationPayload {
@@ -907,33 +907,33 @@ export type NationalSecurity = "Yes" | "No" | (string & {});
 export type WebsiteUrl = string | redacted.Redacted<string>;
 export type AddressPart = string | redacted.Redacted<string>;
 export interface Address {
-  City?: string | redacted.Redacted<string>;
-  PostalCode?: string | redacted.Redacted<string>;
-  StateOrRegion?: string | redacted.Redacted<string>;
-  CountryCode?: CountryCode;
-  StreetAddress?: string | redacted.Redacted<string>;
+  City?: string | redacted.Redacted<string> | undefined;
+  PostalCode?: string | redacted.Redacted<string> | undefined;
+  StateOrRegion?: string | redacted.Redacted<string> | undefined;
+  CountryCode?: CountryCode | undefined;
+  StreetAddress?: string | redacted.Redacted<string> | undefined;
 }
 export type DunsNumber = string | redacted.Redacted<string>;
 export interface Account {
-  Industry?: Industry;
-  OtherIndustry?: string;
+  Industry?: Industry | undefined;
+  OtherIndustry?: string | undefined;
   CompanyName: string | redacted.Redacted<string>;
-  WebsiteUrl?: string | redacted.Redacted<string>;
-  AwsAccountId?: string | redacted.Redacted<string>;
-  Address?: Address;
-  Duns?: string | redacted.Redacted<string>;
+  WebsiteUrl?: string | redacted.Redacted<string> | undefined;
+  AwsAccountId?: string | redacted.Redacted<string> | undefined;
+  Address?: Address | undefined;
+  Duns?: string | redacted.Redacted<string> | undefined;
 }
 export interface Contact {
-  Email?: string | redacted.Redacted<string>;
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  BusinessTitle?: string | redacted.Redacted<string>;
-  Phone?: string | redacted.Redacted<string>;
+  Email?: string | redacted.Redacted<string> | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  BusinessTitle?: string | redacted.Redacted<string> | undefined;
+  Phone?: string | redacted.Redacted<string> | undefined;
 }
 export type CustomerContactsList = Contact[];
 export interface Customer {
-  Account?: Account;
-  Contacts?: Contact[];
+  Account?: Account | undefined;
+  Contacts?: Contact[] | undefined;
 }
 export type DeliveryModel =
   | "SaaS or PaaS"
@@ -977,20 +977,20 @@ export type CompetitorName =
   | (string & {});
 export type AwsPartition = "aws-eusc" | (string & {});
 export interface Project {
-  DeliveryModels?: DeliveryModel[];
-  ExpectedCustomerSpend?: ExpectedCustomerSpend[];
-  ExpectedContractDuration?: ExpectedContractDuration;
-  Title?: string | redacted.Redacted<string>;
-  ApnPrograms?: string[];
-  CustomerBusinessProblem?: string | redacted.Redacted<string>;
-  CustomerUseCase?: string;
-  RelatedOpportunityIdentifier?: string;
-  SalesActivities?: SalesActivity[];
-  CompetitorName?: CompetitorName;
-  OtherCompetitorNames?: string;
-  OtherSolutionDescription?: string | redacted.Redacted<string>;
-  AdditionalComments?: string;
-  AwsPartition?: AwsPartition;
+  DeliveryModels?: DeliveryModel[] | undefined;
+  ExpectedCustomerSpend?: ExpectedCustomerSpend[] | undefined;
+  ExpectedContractDuration?: ExpectedContractDuration | undefined;
+  Title?: string | redacted.Redacted<string> | undefined;
+  ApnPrograms?: string[] | undefined;
+  CustomerBusinessProblem?: string | redacted.Redacted<string> | undefined;
+  CustomerUseCase?: string | undefined;
+  RelatedOpportunityIdentifier?: string | undefined;
+  SalesActivities?: SalesActivity[] | undefined;
+  CompetitorName?: CompetitorName | undefined;
+  OtherCompetitorNames?: string | undefined;
+  OtherSolutionDescription?: string | redacted.Redacted<string> | undefined;
+  AdditionalComments?: string | undefined;
+  AwsPartition?: AwsPartition | undefined;
 }
 export type OpportunityType = "Net New Business" | "Flat Renewal" | "Expansion" | (string & {});
 export type MarketingSource = "Marketing Activity" | "None" | (string & {});
@@ -1013,11 +1013,11 @@ export type Channel =
 export type Channels = Channel[];
 export type AwsFundingUsed = "Yes" | "No" | (string & {});
 export interface Marketing {
-  CampaignName?: string;
-  Source?: MarketingSource;
-  UseCases?: string[];
-  Channels?: Channel[];
-  AwsFundingUsed?: AwsFundingUsed;
+  CampaignName?: string | undefined;
+  Source?: MarketingSource | undefined;
+  UseCases?: string[] | undefined;
+  Channels?: Channel[] | undefined;
+  AwsFundingUsed?: AwsFundingUsed | undefined;
 }
 export type RevenueModel = "Contract" | "Pay-as-you-go" | "Subscription" | (string & {});
 export interface MonetaryValue {
@@ -1025,10 +1025,10 @@ export interface MonetaryValue {
   CurrencyCode: CurrencyCode;
 }
 export interface SoftwareRevenue {
-  DeliveryModel?: RevenueModel;
-  Value?: MonetaryValue;
-  EffectiveDate?: string;
-  ExpirationDate?: string;
+  DeliveryModel?: RevenueModel | undefined;
+  Value?: MonetaryValue | undefined;
+  EffectiveDate?: string | undefined;
+  ExpirationDate?: string | undefined;
 }
 export type Stage =
   | "Prospect"
@@ -1074,14 +1074,14 @@ export interface NextStepsHistory {
 }
 export type NextStepsHistories = NextStepsHistory[];
 export interface LifeCycle {
-  Stage?: Stage;
-  ClosedLostReason?: ClosedLostReason;
-  NextSteps?: string | redacted.Redacted<string>;
-  TargetCloseDate?: string;
-  ReviewStatus?: ReviewStatus;
-  ReviewComments?: string;
-  ReviewStatusReason?: string;
-  NextStepsHistory?: NextStepsHistory[];
+  Stage?: Stage | undefined;
+  ClosedLostReason?: ClosedLostReason | undefined;
+  NextSteps?: string | redacted.Redacted<string> | undefined;
+  TargetCloseDate?: string | undefined;
+  ReviewStatus?: ReviewStatus | undefined;
+  ReviewComments?: string | undefined;
+  ReviewStatusReason?: string | undefined;
+  NextStepsHistory?: NextStepsHistory[] | undefined;
 }
 export type OpportunityOrigin = "AWS Referral" | "Partner Referral" | (string & {});
 export type PartnerOpportunityTeamMembersList = Contact[];
@@ -1094,24 +1094,24 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateOpportunityRequest {
   Catalog: string;
-  PrimaryNeedsFromAws?: PrimaryNeedFromAws[];
-  NationalSecurity?: NationalSecurity;
-  PartnerOpportunityIdentifier?: string;
-  Customer?: Customer;
-  Project?: Project;
-  OpportunityType?: OpportunityType;
-  Marketing?: Marketing;
-  SoftwareRevenue?: SoftwareRevenue;
+  PrimaryNeedsFromAws?: PrimaryNeedFromAws[] | undefined;
+  NationalSecurity?: NationalSecurity | undefined;
+  PartnerOpportunityIdentifier?: string | undefined;
+  Customer?: Customer | undefined;
+  Project?: Project | undefined;
+  OpportunityType?: OpportunityType | undefined;
+  Marketing?: Marketing | undefined;
+  SoftwareRevenue?: SoftwareRevenue | undefined;
   ClientToken: string;
-  LifeCycle?: LifeCycle;
-  Origin?: OpportunityOrigin;
-  OpportunityTeam?: Contact[];
-  Tags?: Tag[];
+  LifeCycle?: LifeCycle | undefined;
+  Origin?: OpportunityOrigin | undefined;
+  OpportunityTeam?: Contact[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateOpportunityResponse {
   Id: string;
-  PartnerOpportunityIdentifier?: string;
-  LastModifiedDate?: Date;
+  PartnerOpportunityIdentifier?: string | undefined;
+  LastModifiedDate?: Date | undefined;
 }
 export type ResourceType = "Opportunity" | (string & {});
 export type ResourceIdentifier = string;
@@ -1127,8 +1127,8 @@ export interface CreateResourceSnapshotRequest {
 export type ResourceArn = string;
 export type ResourceSnapshotRevision = number;
 export interface CreateResourceSnapshotResponse {
-  Arn?: string;
-  Revision?: number;
+  Arn?: string | undefined;
+  Revision?: number | undefined;
 }
 export interface CreateResourceSnapshotJobRequest {
   Catalog: string;
@@ -1137,13 +1137,13 @@ export interface CreateResourceSnapshotJobRequest {
   ResourceType: ResourceType;
   ResourceIdentifier: string;
   ResourceSnapshotTemplateIdentifier: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ResourceSnapshotJobIdentifier = string;
 export type ResourceSnapshotJobArn = string;
 export interface CreateResourceSnapshotJobResponse {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface DeleteResourceSnapshotJobRequest {
   Catalog: string;
@@ -1245,11 +1245,11 @@ export interface ProfileNextStepsHistory {
 }
 export type ProfileNextStepsHistories = ProfileNextStepsHistory[];
 export interface AwsOpportunityLifeCycle {
-  TargetCloseDate?: string;
-  ClosedLostReason?: AwsClosedLostReason;
-  Stage?: AwsOpportunityStage;
-  NextSteps?: string | redacted.Redacted<string>;
-  NextStepsHistory?: ProfileNextStepsHistory[];
+  TargetCloseDate?: string | undefined;
+  ClosedLostReason?: AwsClosedLostReason | undefined;
+  Stage?: AwsOpportunityStage | undefined;
+  NextSteps?: string | redacted.Redacted<string> | undefined;
+  NextStepsHistory?: ProfileNextStepsHistory[] | undefined;
 }
 export type AwsMemberBusinessTitle =
   | "AWSSalesRep"
@@ -1261,10 +1261,10 @@ export type AwsMemberBusinessTitle =
   | "Signatory"
   | (string & {});
 export interface AwsTeamMember {
-  Email?: string | redacted.Redacted<string>;
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  BusinessTitle?: AwsMemberBusinessTitle;
+  Email?: string | redacted.Redacted<string> | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  BusinessTitle?: AwsMemberBusinessTitle | undefined;
 }
 export type AwsOpportunityTeamMembersList = AwsTeamMember[];
 export type EngagementScore = "High" | "Medium" | "Low" | (string & {});
@@ -1278,44 +1278,44 @@ export interface AwsProductOptimization {
 export type AwsProductOptimizationsList = AwsProductOptimization[];
 export interface AwsProductDetails {
   ProductCode: string;
-  ServiceCode?: string;
+  ServiceCode?: string | undefined;
   Categories: string[];
-  Amount?: string | redacted.Redacted<string>;
-  OptimizedAmount?: string | redacted.Redacted<string>;
-  PotentialSavingsAmount?: string | redacted.Redacted<string>;
+  Amount?: string | redacted.Redacted<string> | undefined;
+  OptimizedAmount?: string | redacted.Redacted<string> | undefined;
+  PotentialSavingsAmount?: string | redacted.Redacted<string> | undefined;
   Optimizations: AwsProductOptimization[];
 }
 export type AwsProductsList = AwsProductDetails[];
 export interface AwsProductInsights {
   CurrencyCode: CurrencyCode;
   Frequency: PaymentFrequency;
-  TotalAmount?: string | redacted.Redacted<string>;
-  TotalOptimizedAmount?: string | redacted.Redacted<string>;
-  TotalPotentialSavingsAmount?: string | redacted.Redacted<string>;
+  TotalAmount?: string | redacted.Redacted<string> | undefined;
+  TotalOptimizedAmount?: string | redacted.Redacted<string> | undefined;
+  TotalPotentialSavingsAmount?: string | redacted.Redacted<string> | undefined;
   TotalAmountByCategory: { [key: string]: string | redacted.Redacted<string> | undefined };
   AwsProducts: AwsProductDetails[];
 }
 export interface AwsProductsSpendInsightsBySource {
-  Partner?: AwsProductInsights;
-  AWS?: AwsProductInsights;
+  Partner?: AwsProductInsights | undefined;
+  AWS?: AwsProductInsights | undefined;
 }
 export interface OpportunityQuality {
-  Score?: number;
-  Trend?: string;
+  Score?: number | undefined;
+  Trend?: string | undefined;
 }
 export type RecommendationAttributeMap = { [key: string]: string | undefined };
 export interface Recommendation {
   Type: string;
   Details: string;
-  Attributes?: { [key: string]: string | undefined };
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export type RecommendationList = Recommendation[];
 export interface AwsOpportunityInsights {
-  NextBestActions?: string;
-  EngagementScore?: EngagementScore;
-  AwsProductsSpendInsightsBySource?: AwsProductsSpendInsightsBySource;
-  OpportunityQuality?: OpportunityQuality;
-  Recommendations?: Recommendation[];
+  NextBestActions?: string | undefined;
+  EngagementScore?: EngagementScore | undefined;
+  AwsProductsSpendInsightsBySource?: AwsProductsSpendInsightsBySource | undefined;
+  OpportunityQuality?: OpportunityQuality | undefined;
+  Recommendations?: Recommendation[] | undefined;
 }
 export type InvolvementTypeChangeReason =
   | "Expansion Opportunity"
@@ -1333,38 +1333,38 @@ export type AwsMarketplaceSolutionIdentifiers = string[];
 export type AwsMarketplaceProductArn = string;
 export type AwsMarketplaceProductIdentifiers = string[];
 export interface AwsOpportunityRelatedEntities {
-  AwsProducts?: string[];
-  Solutions?: string[];
-  AwsMarketplaceSolutions?: string[];
-  AwsMarketplaceProducts?: string[];
+  AwsProducts?: string[] | undefined;
+  Solutions?: string[] | undefined;
+  AwsMarketplaceSolutions?: string[] | undefined;
+  AwsMarketplaceProducts?: string[] | undefined;
 }
 export interface AwsOpportunityCustomer {
-  Contacts?: Contact[];
+  Contacts?: Contact[] | undefined;
 }
 export interface AwsOpportunityProject {
-  ExpectedCustomerSpend?: ExpectedCustomerSpend[];
-  AwsPartition?: AwsPartition;
+  ExpectedCustomerSpend?: ExpectedCustomerSpend[] | undefined;
+  AwsPartition?: AwsPartition | undefined;
 }
 export interface AwsSoftwareRevenue {
-  Value?: MonetaryValue;
-  Discount?: string;
-  EffectiveDate?: string;
-  ExpirationDate?: string;
+  Value?: MonetaryValue | undefined;
+  Discount?: string | undefined;
+  EffectiveDate?: string | undefined;
+  ExpirationDate?: string | undefined;
 }
 export interface GetAwsOpportunitySummaryResponse {
-  RelatedOpportunityId?: string;
-  Origin?: OpportunityOrigin;
-  InvolvementType?: SalesInvolvementType;
-  Visibility?: Visibility;
-  LifeCycle?: AwsOpportunityLifeCycle;
-  OpportunityTeam?: AwsTeamMember[];
-  Insights?: AwsOpportunityInsights;
-  InvolvementTypeChangeReason?: InvolvementTypeChangeReason;
-  RelatedEntityIds?: AwsOpportunityRelatedEntities;
-  Customer?: AwsOpportunityCustomer;
-  Project?: AwsOpportunityProject;
-  CosellMotion?: string;
-  SoftwareRevenue?: AwsSoftwareRevenue;
+  RelatedOpportunityId?: string | undefined;
+  Origin?: OpportunityOrigin | undefined;
+  InvolvementType?: SalesInvolvementType | undefined;
+  Visibility?: Visibility | undefined;
+  LifeCycle?: AwsOpportunityLifeCycle | undefined;
+  OpportunityTeam?: AwsTeamMember[] | undefined;
+  Insights?: AwsOpportunityInsights | undefined;
+  InvolvementTypeChangeReason?: InvolvementTypeChangeReason | undefined;
+  RelatedEntityIds?: AwsOpportunityRelatedEntities | undefined;
+  Customer?: AwsOpportunityCustomer | undefined;
+  Project?: AwsOpportunityProject | undefined;
+  CosellMotion?: string | undefined;
+  SoftwareRevenue?: AwsSoftwareRevenue | undefined;
   Catalog: string;
 }
 export interface GetEngagementRequest {
@@ -1372,16 +1372,16 @@ export interface GetEngagementRequest {
   Identifier: string;
 }
 export interface GetEngagementResponse {
-  Id?: string;
-  Arn?: string;
-  Title?: string;
-  Description?: string;
-  CreatedAt?: Date;
-  CreatedBy?: string | redacted.Redacted<string>;
-  MemberCount?: number;
-  ModifiedAt?: Date;
-  ModifiedBy?: string | redacted.Redacted<string>;
-  Contexts?: EngagementContextDetails[];
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Title?: string | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  CreatedBy?: string | redacted.Redacted<string> | undefined;
+  MemberCount?: number | undefined;
+  ModifiedAt?: Date | undefined;
+  ModifiedBy?: string | redacted.Redacted<string> | undefined;
+  Contexts?: EngagementContextDetails[] | undefined;
 }
 export interface GetEngagementInvitationRequest {
   Catalog: string;
@@ -1395,37 +1395,37 @@ export type InvitationStatus = "ACCEPTED" | "PENDING" | "REJECTED" | "EXPIRED" |
 export type RejectionReasonString = string;
 export type MemberCompanyName = string | redacted.Redacted<string>;
 export interface EngagementMemberSummary {
-  CompanyName?: string | redacted.Redacted<string>;
-  WebsiteUrl?: string;
+  CompanyName?: string | redacted.Redacted<string> | undefined;
+  WebsiteUrl?: string | undefined;
 }
 export type EngagementMemberSummaries = EngagementMemberSummary[];
 export interface InvitationProspectingResultAws {
-  Customer?: ProspectingResultCustomer;
-  Insights?: ProspectingInsights;
+  Customer?: ProspectingResultCustomer | undefined;
+  Insights?: ProspectingInsights | undefined;
 }
 export interface EnrichmentContext {
-  ProspectingResultAws?: InvitationProspectingResultAws;
-  LeadInsights?: LeadInsights;
+  ProspectingResultAws?: InvitationProspectingResultAws | undefined;
+  LeadInsights?: LeadInsights | undefined;
 }
 export interface GetEngagementInvitationResponse {
-  Arn?: string;
-  PayloadType?: EngagementInvitationPayloadType;
+  Arn?: string | undefined;
+  PayloadType?: EngagementInvitationPayloadType | undefined;
   Id: string;
-  EngagementId?: string;
-  EngagementTitle?: string;
-  Status?: InvitationStatus;
-  InvitationDate?: Date;
-  ExpirationDate?: Date;
-  SenderAwsAccountId?: string | redacted.Redacted<string>;
-  SenderCompanyName?: string;
-  Receiver?: Receiver;
+  EngagementId?: string | undefined;
+  EngagementTitle?: string | undefined;
+  Status?: InvitationStatus | undefined;
+  InvitationDate?: Date | undefined;
+  ExpirationDate?: Date | undefined;
+  SenderAwsAccountId?: string | redacted.Redacted<string> | undefined;
+  SenderCompanyName?: string | undefined;
+  Receiver?: Receiver | undefined;
   Catalog: string;
-  RejectionReason?: string;
-  Payload?: Payload;
-  InvitationMessage?: string | redacted.Redacted<string>;
-  EngagementDescription?: string;
-  ExistingMembers?: EngagementMemberSummary[];
-  EnrichmentContext?: EnrichmentContext;
+  RejectionReason?: string | undefined;
+  Payload?: Payload | undefined;
+  InvitationMessage?: string | redacted.Redacted<string> | undefined;
+  EngagementDescription?: string | undefined;
+  ExistingMembers?: EngagementMemberSummary[] | undefined;
+  EnrichmentContext?: EnrichmentContext | undefined;
 }
 export interface GetOpportunityRequest {
   Catalog: string;
@@ -1437,30 +1437,30 @@ export type AwsMarketplaceOfferIdentifiers = string[];
 export type AwsMarketplaceOfferSetIdentifier = string;
 export type AwsMarketplaceOfferSetIdentifiers = string[];
 export interface RelatedEntityIdentifiers {
-  AwsMarketplaceOffers?: string[];
-  AwsMarketplaceOfferSets?: string[];
-  Solutions?: string[];
-  AwsProducts?: string[];
-  AwsMarketplaceSolutions?: string[];
-  AwsMarketplaceProducts?: string[];
+  AwsMarketplaceOffers?: string[] | undefined;
+  AwsMarketplaceOfferSets?: string[] | undefined;
+  Solutions?: string[] | undefined;
+  AwsProducts?: string[] | undefined;
+  AwsMarketplaceSolutions?: string[] | undefined;
+  AwsMarketplaceProducts?: string[] | undefined;
 }
 export interface GetOpportunityResponse {
   Catalog: string;
-  PrimaryNeedsFromAws?: PrimaryNeedFromAws[];
-  NationalSecurity?: NationalSecurity;
-  PartnerOpportunityIdentifier?: string;
-  Customer?: Customer;
-  Project?: Project;
-  OpportunityType?: OpportunityType;
-  Marketing?: Marketing;
-  SoftwareRevenue?: SoftwareRevenue;
+  PrimaryNeedsFromAws?: PrimaryNeedFromAws[] | undefined;
+  NationalSecurity?: NationalSecurity | undefined;
+  PartnerOpportunityIdentifier?: string | undefined;
+  Customer?: Customer | undefined;
+  Project?: Project | undefined;
+  OpportunityType?: OpportunityType | undefined;
+  Marketing?: Marketing | undefined;
+  SoftwareRevenue?: SoftwareRevenue | undefined;
   Id: string;
-  Arn?: string;
+  Arn?: string | undefined;
   LastModifiedDate: Date;
   CreatedDate: Date;
   RelatedEntityIdentifiers: RelatedEntityIdentifiers;
-  LifeCycle?: LifeCycle;
-  OpportunityTeam?: Contact[];
+  LifeCycle?: LifeCycle | undefined;
+  OpportunityTeam?: Contact[] | undefined;
 }
 export interface GetProspectingFromEngagementTaskRequest {
   Catalog: string;
@@ -1475,10 +1475,10 @@ export type ProspectingTaskStatus =
   | (string & {});
 export interface EngagementProspectingResult {
   EngagementIdentifier: string;
-  EngagementContextId?: string;
+  EngagementContextId?: string | undefined;
   Status: ProspectingTaskStatus;
-  ReasonCode?: string;
-  Message?: string;
+  ReasonCode?: string | undefined;
+  Message?: string | undefined;
 }
 export type EngagementProspectingResultList = EngagementProspectingResult[];
 export interface GetProspectingFromEngagementTaskResponse {
@@ -1486,7 +1486,7 @@ export interface GetProspectingFromEngagementTaskResponse {
   TaskArn: string;
   TaskName: string;
   StartTime: Date;
-  EndTime?: Date;
+  EndTime?: Date | undefined;
   Engagements: EngagementProspectingResult[];
 }
 export interface GetResourceSnapshotRequest {
@@ -1495,45 +1495,45 @@ export interface GetResourceSnapshotRequest {
   ResourceType: ResourceType;
   ResourceIdentifier: string;
   ResourceSnapshotTemplateIdentifier: string;
-  Revision?: number;
+  Revision?: number | undefined;
 }
 export interface LifeCycleForView {
-  TargetCloseDate?: string;
-  ReviewStatus?: ReviewStatus;
-  Stage?: Stage;
-  NextSteps?: string | redacted.Redacted<string>;
+  TargetCloseDate?: string | undefined;
+  ReviewStatus?: ReviewStatus | undefined;
+  Stage?: Stage | undefined;
+  NextSteps?: string | redacted.Redacted<string> | undefined;
 }
 export interface ProjectView {
-  DeliveryModels?: DeliveryModel[];
-  ExpectedCustomerSpend?: ExpectedCustomerSpend[];
-  ExpectedContractDuration?: ExpectedContractDuration;
-  CustomerUseCase?: string;
-  SalesActivities?: SalesActivity[];
-  OtherSolutionDescription?: string | redacted.Redacted<string>;
+  DeliveryModels?: DeliveryModel[] | undefined;
+  ExpectedCustomerSpend?: ExpectedCustomerSpend[] | undefined;
+  ExpectedContractDuration?: ExpectedContractDuration | undefined;
+  CustomerUseCase?: string | undefined;
+  SalesActivities?: SalesActivity[] | undefined;
+  OtherSolutionDescription?: string | redacted.Redacted<string> | undefined;
 }
 export interface OpportunitySummaryView {
-  OpportunityType?: OpportunityType;
-  Lifecycle?: LifeCycleForView;
-  OpportunityTeam?: Contact[];
-  PrimaryNeedsFromAws?: PrimaryNeedFromAws[];
-  Customer?: Customer;
-  Project?: ProjectView;
-  RelatedEntityIdentifiers?: RelatedEntityIdentifiers;
+  OpportunityType?: OpportunityType | undefined;
+  Lifecycle?: LifeCycleForView | undefined;
+  OpportunityTeam?: Contact[] | undefined;
+  PrimaryNeedsFromAws?: PrimaryNeedFromAws[] | undefined;
+  Customer?: Customer | undefined;
+  Project?: ProjectView | undefined;
+  RelatedEntityIdentifiers?: RelatedEntityIdentifiers | undefined;
 }
 export interface AwsOpportunitySummaryFullView {
-  RelatedOpportunityId?: string;
-  Origin?: OpportunityOrigin;
-  InvolvementType?: SalesInvolvementType;
-  Visibility?: Visibility;
-  LifeCycle?: AwsOpportunityLifeCycle;
-  OpportunityTeam?: AwsTeamMember[];
-  Insights?: AwsOpportunityInsights;
-  InvolvementTypeChangeReason?: InvolvementTypeChangeReason;
-  RelatedEntityIds?: AwsOpportunityRelatedEntities;
-  Customer?: AwsOpportunityCustomer;
-  Project?: AwsOpportunityProject;
-  CosellMotion?: string;
-  SoftwareRevenue?: AwsSoftwareRevenue;
+  RelatedOpportunityId?: string | undefined;
+  Origin?: OpportunityOrigin | undefined;
+  InvolvementType?: SalesInvolvementType | undefined;
+  Visibility?: Visibility | undefined;
+  LifeCycle?: AwsOpportunityLifeCycle | undefined;
+  OpportunityTeam?: AwsTeamMember[] | undefined;
+  Insights?: AwsOpportunityInsights | undefined;
+  InvolvementTypeChangeReason?: InvolvementTypeChangeReason | undefined;
+  RelatedEntityIds?: AwsOpportunityRelatedEntities | undefined;
+  Customer?: AwsOpportunityCustomer | undefined;
+  Project?: AwsOpportunityProject | undefined;
+  CosellMotion?: string | undefined;
+  SoftwareRevenue?: AwsSoftwareRevenue | undefined;
 }
 export type ResourceSnapshotPayload =
   | { OpportunitySummary: OpportunitySummaryView; AwsOpportunitySummaryFullView?: never }
@@ -1541,16 +1541,16 @@ export type ResourceSnapshotPayload =
 export type AwsAccountIdOrAliasList = (string | redacted.Redacted<string>)[];
 export interface GetResourceSnapshotResponse {
   Catalog: string;
-  Arn?: string;
-  CreatedBy?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
-  EngagementId?: string;
-  ResourceType?: ResourceType;
-  ResourceId?: string;
-  ResourceSnapshotTemplateName?: string;
-  Revision?: number;
-  Payload?: ResourceSnapshotPayload;
-  TargetMemberAccounts?: (string | redacted.Redacted<string>)[];
+  Arn?: string | undefined;
+  CreatedBy?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
+  EngagementId?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceId?: string | undefined;
+  ResourceSnapshotTemplateName?: string | undefined;
+  Revision?: number | undefined;
+  Payload?: ResourceSnapshotPayload | undefined;
+  TargetMemberAccounts?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface GetResourceSnapshotJobRequest {
   Catalog: string;
@@ -1559,17 +1559,17 @@ export interface GetResourceSnapshotJobRequest {
 export type ResourceSnapshotJobStatus = "Running" | "Stopped" | (string & {});
 export interface GetResourceSnapshotJobResponse {
   Catalog: string;
-  Id?: string;
-  Arn?: string;
-  EngagementId?: string;
-  ResourceType?: ResourceType;
-  ResourceId?: string;
-  ResourceArn?: string;
-  ResourceSnapshotTemplateName?: string;
-  CreatedAt?: Date;
-  Status?: ResourceSnapshotJobStatus;
-  LastSuccessfulExecutionDate?: Date;
-  LastFailure?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  EngagementId?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceId?: string | undefined;
+  ResourceArn?: string | undefined;
+  ResourceSnapshotTemplateName?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Status?: ResourceSnapshotJobStatus | undefined;
+  LastSuccessfulExecutionDate?: Date | undefined;
+  LastFailure?: string | undefined;
 }
 export interface GetSellingSystemSettingsRequest {
   Catalog: string;
@@ -1577,7 +1577,7 @@ export interface GetSellingSystemSettingsRequest {
 export type ResourceSnapshotJobRoleArn = string;
 export interface GetSellingSystemSettingsResponse {
   Catalog: string;
-  ResourceSnapshotJobRoleArn?: string;
+  ResourceSnapshotJobRoleArn?: string | undefined;
 }
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export type ListTasksSortName = "StartTime" | (string & {});
@@ -1592,14 +1592,14 @@ export type EngagementInvitationIdentifiers = string[];
 export type TaskArnOrIdentifier = string;
 export type TaskIdentifiers = string[];
 export interface ListEngagementByAcceptingInvitationTasksRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Sort?: ListTasksSortBase;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Sort?: ListTasksSortBase | undefined;
   Catalog: string;
-  TaskStatus?: TaskStatus[];
-  OpportunityIdentifier?: string[];
-  EngagementInvitationIdentifier?: string[];
-  TaskIdentifier?: string[];
+  TaskStatus?: TaskStatus[] | undefined;
+  OpportunityIdentifier?: string[] | undefined;
+  EngagementInvitationIdentifier?: string[] | undefined;
+  TaskIdentifier?: string[] | undefined;
 }
 export type TaskIdentifier = string;
 export type ReasonCode =
@@ -1627,49 +1627,49 @@ export type ReasonCode =
   | "DisqualifiedLeadNotPermitted"
   | (string & {});
 export interface ListEngagementByAcceptingInvitationTaskSummary {
-  TaskId?: string;
-  TaskArn?: string;
-  StartTime?: Date;
-  TaskStatus?: TaskStatus;
-  Message?: string;
-  ReasonCode?: ReasonCode;
-  OpportunityId?: string;
-  ResourceSnapshotJobId?: string;
-  EngagementInvitationId?: string;
+  TaskId?: string | undefined;
+  TaskArn?: string | undefined;
+  StartTime?: Date | undefined;
+  TaskStatus?: TaskStatus | undefined;
+  Message?: string | undefined;
+  ReasonCode?: ReasonCode | undefined;
+  OpportunityId?: string | undefined;
+  ResourceSnapshotJobId?: string | undefined;
+  EngagementInvitationId?: string | undefined;
 }
 export type ListEngagementByAcceptingInvitationTaskSummaries =
   ListEngagementByAcceptingInvitationTaskSummary[];
 export interface ListEngagementByAcceptingInvitationTasksResponse {
-  TaskSummaries?: ListEngagementByAcceptingInvitationTaskSummary[];
-  NextToken?: string;
+  TaskSummaries?: ListEngagementByAcceptingInvitationTaskSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type EngagementIdentifiers = string[];
 export interface ListEngagementFromOpportunityTasksRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Sort?: ListTasksSortBase;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Sort?: ListTasksSortBase | undefined;
   Catalog: string;
-  TaskStatus?: TaskStatus[];
-  TaskIdentifier?: string[];
-  OpportunityIdentifier?: string[];
-  EngagementIdentifier?: string[];
+  TaskStatus?: TaskStatus[] | undefined;
+  TaskIdentifier?: string[] | undefined;
+  OpportunityIdentifier?: string[] | undefined;
+  EngagementIdentifier?: string[] | undefined;
 }
 export interface ListEngagementFromOpportunityTaskSummary {
-  TaskId?: string;
-  TaskArn?: string;
-  StartTime?: Date;
-  TaskStatus?: TaskStatus;
-  Message?: string;
-  ReasonCode?: ReasonCode;
-  OpportunityId?: string;
-  ResourceSnapshotJobId?: string;
-  EngagementId?: string;
-  EngagementInvitationId?: string;
+  TaskId?: string | undefined;
+  TaskArn?: string | undefined;
+  StartTime?: Date | undefined;
+  TaskStatus?: TaskStatus | undefined;
+  Message?: string | undefined;
+  ReasonCode?: ReasonCode | undefined;
+  OpportunityId?: string | undefined;
+  ResourceSnapshotJobId?: string | undefined;
+  EngagementId?: string | undefined;
+  EngagementInvitationId?: string | undefined;
 }
 export type ListEngagementFromOpportunityTaskSummaries = ListEngagementFromOpportunityTaskSummary[];
 export interface ListEngagementFromOpportunityTasksResponse {
-  TaskSummaries?: ListEngagementFromOpportunityTaskSummary[];
-  NextToken?: string;
+  TaskSummaries?: ListEngagementFromOpportunityTaskSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PageSize = number;
 export type OpportunityEngagementInvitationSortName = "InvitationDate" | (string & {});
@@ -1682,72 +1682,72 @@ export type ParticipantType = "SENDER" | "RECEIVER" | (string & {});
 export type InvitationStatusList = InvitationStatus[];
 export interface ListEngagementInvitationsRequest {
   Catalog: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Sort?: OpportunityEngagementInvitationSort;
-  PayloadType?: EngagementInvitationPayloadType[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Sort?: OpportunityEngagementInvitationSort | undefined;
+  PayloadType?: EngagementInvitationPayloadType[] | undefined;
   ParticipantType: ParticipantType;
-  Status?: InvitationStatus[];
-  EngagementIdentifier?: string[];
-  SenderAwsAccountId?: (string | redacted.Redacted<string>)[];
+  Status?: InvitationStatus[] | undefined;
+  EngagementIdentifier?: string[] | undefined;
+  SenderAwsAccountId?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface EngagementInvitationSummary {
-  Arn?: string;
-  PayloadType?: EngagementInvitationPayloadType;
+  Arn?: string | undefined;
+  PayloadType?: EngagementInvitationPayloadType | undefined;
   Id: string;
-  EngagementId?: string;
-  EngagementTitle?: string;
-  Status?: InvitationStatus;
-  InvitationDate?: Date;
-  ExpirationDate?: Date;
-  SenderAwsAccountId?: string | redacted.Redacted<string>;
-  SenderCompanyName?: string;
-  Receiver?: Receiver;
+  EngagementId?: string | undefined;
+  EngagementTitle?: string | undefined;
+  Status?: InvitationStatus | undefined;
+  InvitationDate?: Date | undefined;
+  ExpirationDate?: Date | undefined;
+  SenderAwsAccountId?: string | redacted.Redacted<string> | undefined;
+  SenderCompanyName?: string | undefined;
+  Receiver?: Receiver | undefined;
   Catalog: string;
-  ParticipantType?: ParticipantType;
+  ParticipantType?: ParticipantType | undefined;
 }
 export type EngagementInvitationSummaries = EngagementInvitationSummary[];
 export interface ListEngagementInvitationsResponse {
-  EngagementInvitationSummaries?: EngagementInvitationSummary[];
-  NextToken?: string;
+  EngagementInvitationSummaries?: EngagementInvitationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MemberPageSize = number;
 export interface ListEngagementMembersRequest {
   Catalog: string;
   Identifier: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface EngagementMember {
-  CompanyName?: string | redacted.Redacted<string>;
-  WebsiteUrl?: string;
-  AccountId?: string | redacted.Redacted<string>;
+  CompanyName?: string | redacted.Redacted<string> | undefined;
+  WebsiteUrl?: string | undefined;
+  AccountId?: string | redacted.Redacted<string> | undefined;
 }
 export type EngagementMembers = EngagementMember[];
 export interface ListEngagementMembersResponse {
   EngagementMemberList: EngagementMember[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListEngagementResourceAssociationsRequest {
   Catalog: string;
-  MaxResults?: number;
-  NextToken?: string;
-  EngagementIdentifier?: string;
-  ResourceType?: ResourceType;
-  ResourceIdentifier?: string;
-  CreatedBy?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  EngagementIdentifier?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceIdentifier?: string | undefined;
+  CreatedBy?: string | redacted.Redacted<string> | undefined;
 }
 export interface EngagementResourceAssociationSummary {
   Catalog: string;
-  EngagementId?: string;
-  ResourceType?: ResourceType;
-  ResourceId?: string;
-  CreatedBy?: string | redacted.Redacted<string>;
+  EngagementId?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceId?: string | undefined;
+  CreatedBy?: string | redacted.Redacted<string> | undefined;
 }
 export type EngagementResourceAssociationSummaryList = EngagementResourceAssociationSummary[];
 export interface ListEngagementResourceAssociationsResponse {
   EngagementResourceAssociationSummaries: EngagementResourceAssociationSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type AwsAccountList = (string | redacted.Redacted<string>)[];
 export type EngagementContextTypeList = EngagementContextType[];
@@ -1759,30 +1759,30 @@ export interface EngagementSort {
 export type EngagementPageSize = number;
 export interface ListEngagementsRequest {
   Catalog: string;
-  CreatedBy?: (string | redacted.Redacted<string>)[];
-  ExcludeCreatedBy?: (string | redacted.Redacted<string>)[];
-  ContextTypes?: EngagementContextType[];
-  ExcludeContextTypes?: EngagementContextType[];
-  Sort?: EngagementSort;
-  MaxResults?: number;
-  NextToken?: string;
-  EngagementIdentifier?: string[];
+  CreatedBy?: (string | redacted.Redacted<string>)[] | undefined;
+  ExcludeCreatedBy?: (string | redacted.Redacted<string>)[] | undefined;
+  ContextTypes?: EngagementContextType[] | undefined;
+  ExcludeContextTypes?: EngagementContextType[] | undefined;
+  Sort?: EngagementSort | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  EngagementIdentifier?: string[] | undefined;
 }
 export interface EngagementSummary {
-  Arn?: string;
-  Id?: string;
-  Title?: string;
-  CreatedAt?: Date;
-  CreatedBy?: string | redacted.Redacted<string>;
-  MemberCount?: number;
-  ModifiedAt?: Date;
-  ModifiedBy?: string | redacted.Redacted<string>;
-  ContextTypes?: EngagementContextType[];
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Title?: string | undefined;
+  CreatedAt?: Date | undefined;
+  CreatedBy?: string | redacted.Redacted<string> | undefined;
+  MemberCount?: number | undefined;
+  ModifiedAt?: Date | undefined;
+  ModifiedBy?: string | redacted.Redacted<string> | undefined;
+  ContextTypes?: EngagementContextType[] | undefined;
 }
 export type EngagementSummaryList = EngagementSummary[];
 export interface ListEngagementsResponse {
   EngagementSummaryList: EngagementSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type OpportunitySortName =
   | "LastModifiedDate"
@@ -1796,109 +1796,109 @@ export interface OpportunitySort {
   SortBy: OpportunitySortName;
 }
 export interface LastModifiedDate {
-  AfterLastModifiedDate?: Date;
-  BeforeLastModifiedDate?: Date;
+  AfterLastModifiedDate?: Date | undefined;
+  BeforeLastModifiedDate?: Date | undefined;
 }
 export type FilterIdentifier = string[];
 export type FilterLifeCycleStage = Stage[];
 export type FilterLifeCycleReviewStatus = ReviewStatus[];
 export interface CreatedDateFilter {
-  AfterCreatedDate?: Date;
-  BeforeCreatedDate?: Date;
+  AfterCreatedDate?: Date | undefined;
+  BeforeCreatedDate?: Date | undefined;
 }
 export interface TargetCloseDateFilter {
-  AfterTargetCloseDate?: string;
-  BeforeTargetCloseDate?: string;
+  AfterTargetCloseDate?: string | undefined;
+  BeforeTargetCloseDate?: string | undefined;
 }
 export interface ListOpportunitiesRequest {
   Catalog: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Sort?: OpportunitySort;
-  LastModifiedDate?: LastModifiedDate;
-  Identifier?: string[];
-  LifeCycleStage?: Stage[];
-  LifeCycleReviewStatus?: ReviewStatus[];
-  CustomerCompanyName?: string[];
-  CreatedDate?: CreatedDateFilter;
-  TargetCloseDate?: TargetCloseDateFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Sort?: OpportunitySort | undefined;
+  LastModifiedDate?: LastModifiedDate | undefined;
+  Identifier?: string[] | undefined;
+  LifeCycleStage?: Stage[] | undefined;
+  LifeCycleReviewStatus?: ReviewStatus[] | undefined;
+  CustomerCompanyName?: string[] | undefined;
+  CreatedDate?: CreatedDateFilter | undefined;
+  TargetCloseDate?: TargetCloseDateFilter | undefined;
 }
 export interface LifeCycleSummary {
-  Stage?: Stage;
-  ClosedLostReason?: ClosedLostReason;
-  NextSteps?: string | redacted.Redacted<string>;
-  TargetCloseDate?: string;
-  ReviewStatus?: ReviewStatus;
-  ReviewComments?: string;
-  ReviewStatusReason?: string;
+  Stage?: Stage | undefined;
+  ClosedLostReason?: ClosedLostReason | undefined;
+  NextSteps?: string | redacted.Redacted<string> | undefined;
+  TargetCloseDate?: string | undefined;
+  ReviewStatus?: ReviewStatus | undefined;
+  ReviewComments?: string | undefined;
+  ReviewStatusReason?: string | undefined;
 }
 export interface AddressSummary {
-  City?: string | redacted.Redacted<string>;
-  PostalCode?: string | redacted.Redacted<string>;
-  StateOrRegion?: string | redacted.Redacted<string>;
-  CountryCode?: CountryCode;
+  City?: string | redacted.Redacted<string> | undefined;
+  PostalCode?: string | redacted.Redacted<string> | undefined;
+  StateOrRegion?: string | redacted.Redacted<string> | undefined;
+  CountryCode?: CountryCode | undefined;
 }
 export interface AccountSummary {
-  Industry?: Industry;
-  OtherIndustry?: string;
+  Industry?: Industry | undefined;
+  OtherIndustry?: string | undefined;
   CompanyName: string | redacted.Redacted<string>;
-  WebsiteUrl?: string | redacted.Redacted<string>;
-  Address?: AddressSummary;
+  WebsiteUrl?: string | redacted.Redacted<string> | undefined;
+  Address?: AddressSummary | undefined;
 }
 export interface CustomerSummary {
-  Account?: AccountSummary;
+  Account?: AccountSummary | undefined;
 }
 export interface ProjectSummary {
-  DeliveryModels?: DeliveryModel[];
-  ExpectedCustomerSpend?: ExpectedCustomerSpend[];
-  ExpectedContractDuration?: ExpectedContractDuration;
+  DeliveryModels?: DeliveryModel[] | undefined;
+  ExpectedCustomerSpend?: ExpectedCustomerSpend[] | undefined;
+  ExpectedContractDuration?: ExpectedContractDuration | undefined;
 }
 export interface OpportunitySummary {
   Catalog: string;
-  Id?: string;
-  Arn?: string;
-  PartnerOpportunityIdentifier?: string;
-  OpportunityType?: OpportunityType;
-  LastModifiedDate?: Date;
-  CreatedDate?: Date;
-  LifeCycle?: LifeCycleSummary;
-  Customer?: CustomerSummary;
-  Project?: ProjectSummary;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  PartnerOpportunityIdentifier?: string | undefined;
+  OpportunityType?: OpportunityType | undefined;
+  LastModifiedDate?: Date | undefined;
+  CreatedDate?: Date | undefined;
+  LifeCycle?: LifeCycleSummary | undefined;
+  Customer?: CustomerSummary | undefined;
+  Project?: ProjectSummary | undefined;
 }
 export type OpportunitySummaries = OpportunitySummary[];
 export interface ListOpportunitiesResponse {
   OpportunitySummaries: OpportunitySummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ContextIdentifier = string;
 export type ContextIdentifiers = string[];
 export interface ListOpportunityFromEngagementTasksRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Sort?: ListTasksSortBase;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Sort?: ListTasksSortBase | undefined;
   Catalog: string;
-  TaskStatus?: TaskStatus[];
-  TaskIdentifier?: string[];
-  OpportunityIdentifier?: string[];
-  EngagementIdentifier?: string[];
-  ContextIdentifier?: string[];
+  TaskStatus?: TaskStatus[] | undefined;
+  TaskIdentifier?: string[] | undefined;
+  OpportunityIdentifier?: string[] | undefined;
+  EngagementIdentifier?: string[] | undefined;
+  ContextIdentifier?: string[] | undefined;
 }
 export interface ListOpportunityFromEngagementTaskSummary {
-  TaskId?: string;
-  TaskArn?: string;
-  StartTime?: Date;
-  TaskStatus?: TaskStatus;
-  Message?: string;
-  ReasonCode?: ReasonCode;
-  OpportunityId?: string;
-  ResourceSnapshotJobId?: string;
-  EngagementId?: string;
-  ContextId?: string;
+  TaskId?: string | undefined;
+  TaskArn?: string | undefined;
+  StartTime?: Date | undefined;
+  TaskStatus?: TaskStatus | undefined;
+  Message?: string | undefined;
+  ReasonCode?: ReasonCode | undefined;
+  OpportunityId?: string | undefined;
+  ResourceSnapshotJobId?: string | undefined;
+  EngagementId?: string | undefined;
+  ContextId?: string | undefined;
 }
 export type ListOpportunityFromEngagementTaskSummaries = ListOpportunityFromEngagementTaskSummary[];
 export interface ListOpportunityFromEngagementTasksResponse {
-  TaskSummaries?: ListOpportunityFromEngagementTaskSummary[];
-  NextToken?: string;
+  TaskSummaries?: ListOpportunityFromEngagementTaskSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TaskIdentifierList = string[];
 export type TaskNameList = string[];
@@ -1913,76 +1913,76 @@ export interface ProspectingFromEngagementTaskSort {
 }
 export interface ListProspectingFromEngagementTasksRequest {
   Catalog: string;
-  MaxResults?: number;
-  NextToken?: string;
-  TaskIdentifier?: string[];
-  TaskName?: string[];
-  StartAfter?: Date;
-  StartBefore?: Date;
-  Sort?: ProspectingFromEngagementTaskSort;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  TaskIdentifier?: string[] | undefined;
+  TaskName?: string[] | undefined;
+  StartAfter?: Date | undefined;
+  StartBefore?: Date | undefined;
+  Sort?: ProspectingFromEngagementTaskSort | undefined;
 }
 export interface ProspectingTaskSummary {
   TaskId: string;
   TaskArn: string;
   TaskName: string;
   StartTime: Date;
-  EndTime?: Date;
+  EndTime?: Date | undefined;
   TotalEngagementCount: number;
   CompletedEngagementCount: number;
   FailedEngagementCount: number;
 }
 export type ProspectingTaskSummaryList = ProspectingTaskSummary[];
 export interface ListProspectingFromEngagementTasksResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   TaskSummaries: ProspectingTaskSummary[];
 }
 export type SortBy = "CreatedDate" | (string & {});
 export interface SortObject {
-  SortBy?: SortBy;
-  SortOrder?: SortOrder;
+  SortBy?: SortBy | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export interface ListResourceSnapshotJobsRequest {
   Catalog: string;
-  MaxResults?: number;
-  NextToken?: string;
-  EngagementIdentifier?: string;
-  Status?: ResourceSnapshotJobStatus;
-  Sort?: SortObject;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  EngagementIdentifier?: string | undefined;
+  Status?: ResourceSnapshotJobStatus | undefined;
+  Sort?: SortObject | undefined;
 }
 export interface ResourceSnapshotJobSummary {
-  Id?: string;
-  Arn?: string;
-  EngagementId?: string;
-  Status?: ResourceSnapshotJobStatus;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  EngagementId?: string | undefined;
+  Status?: ResourceSnapshotJobStatus | undefined;
 }
 export type ResourceSnapshotJobSummaryList = ResourceSnapshotJobSummary[];
 export interface ListResourceSnapshotJobsResponse {
   ResourceSnapshotJobSummaries: ResourceSnapshotJobSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListResourceSnapshotsRequest {
   Catalog: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   EngagementIdentifier: string;
-  ResourceType?: ResourceType;
-  ResourceIdentifier?: string;
-  ResourceSnapshotTemplateIdentifier?: string;
-  CreatedBy?: string | redacted.Redacted<string>;
+  ResourceType?: ResourceType | undefined;
+  ResourceIdentifier?: string | undefined;
+  ResourceSnapshotTemplateIdentifier?: string | undefined;
+  CreatedBy?: string | redacted.Redacted<string> | undefined;
 }
 export type ResourceSnapshotArn = string;
 export interface ResourceSnapshotSummary {
-  Arn?: string;
-  Revision?: number;
-  ResourceType?: ResourceType;
-  ResourceId?: string;
-  ResourceSnapshotTemplateName?: string;
-  CreatedBy?: string | redacted.Redacted<string>;
+  Arn?: string | undefined;
+  Revision?: number | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceId?: string | undefined;
+  ResourceSnapshotTemplateName?: string | undefined;
+  CreatedBy?: string | redacted.Redacted<string> | undefined;
 }
 export type ResourceSnapshotSummaryList = ResourceSnapshotSummary[];
 export interface ListResourceSnapshotsResponse {
   ResourceSnapshotSummaries: ResourceSnapshotSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type SolutionSortName =
   | "Identifier"
@@ -2001,29 +2001,29 @@ export type AwsMarketplaceSolutionArn = string;
 export type AwsMarketplaceSolutionArnList = string[];
 export interface ListSolutionsRequest {
   Catalog: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Sort?: SolutionSort;
-  Status?: SolutionStatus[];
-  Identifier?: string[];
-  Category?: string[];
-  AwsMarketplaceSolutionArn?: string[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Sort?: SolutionSort | undefined;
+  Status?: SolutionStatus[] | undefined;
+  Identifier?: string[] | undefined;
+  Category?: string[] | undefined;
+  AwsMarketplaceSolutionArn?: string[] | undefined;
 }
 export type SolutionArn = string;
 export interface SolutionBase {
   Catalog: string;
   Id: string;
-  Arn?: string;
+  Arn?: string | undefined;
   Name: string;
   Status: SolutionStatus;
   Category: string;
   CreatedDate: Date;
-  AwsMarketplaceSolutionArn?: string;
+  AwsMarketplaceSolutionArn?: string | undefined;
 }
 export type SolutionList = SolutionBase[];
 export interface ListSolutionsResponse {
   SolutionSummaries: SolutionBase[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
@@ -2035,76 +2035,76 @@ export interface ListTagsForResourceResponse {
 export type ResourceSnapshotJobRoleIdentifier = string;
 export interface PutSellingSystemSettingsRequest {
   Catalog: string;
-  ResourceSnapshotJobRoleIdentifier?: string;
+  ResourceSnapshotJobRoleIdentifier?: string | undefined;
 }
 export interface PutSellingSystemSettingsResponse {
   Catalog: string;
-  ResourceSnapshotJobRoleArn?: string;
+  ResourceSnapshotJobRoleArn?: string | undefined;
 }
 export interface RejectEngagementInvitationRequest {
   Catalog: string;
   Identifier: string;
-  RejectionReason?: string;
+  RejectionReason?: string | undefined;
 }
 export interface RejectEngagementInvitationResponse {}
 export interface StartEngagementByAcceptingInvitationTaskRequest {
   Catalog: string;
   ClientToken: string;
   Identifier: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface StartEngagementByAcceptingInvitationTaskResponse {
-  TaskId?: string;
-  TaskArn?: string;
-  StartTime?: Date;
-  TaskStatus?: TaskStatus;
-  Message?: string;
-  ReasonCode?: ReasonCode;
-  OpportunityId?: string;
-  ResourceSnapshotJobId?: string;
-  EngagementInvitationId?: string;
+  TaskId?: string | undefined;
+  TaskArn?: string | undefined;
+  StartTime?: Date | undefined;
+  TaskStatus?: TaskStatus | undefined;
+  Message?: string | undefined;
+  ReasonCode?: ReasonCode | undefined;
+  OpportunityId?: string | undefined;
+  ResourceSnapshotJobId?: string | undefined;
+  EngagementInvitationId?: string | undefined;
 }
 export interface AwsSubmission {
   InvolvementType: SalesInvolvementType;
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export interface StartEngagementFromOpportunityTaskRequest {
   Catalog: string;
   ClientToken: string;
   Identifier: string;
   AwsSubmission: AwsSubmission;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface StartEngagementFromOpportunityTaskResponse {
-  TaskId?: string;
-  TaskArn?: string;
-  StartTime?: Date;
-  TaskStatus?: TaskStatus;
-  Message?: string;
-  ReasonCode?: ReasonCode;
-  OpportunityId?: string;
-  ResourceSnapshotJobId?: string;
-  EngagementId?: string;
-  EngagementInvitationId?: string;
+  TaskId?: string | undefined;
+  TaskArn?: string | undefined;
+  StartTime?: Date | undefined;
+  TaskStatus?: TaskStatus | undefined;
+  Message?: string | undefined;
+  ReasonCode?: ReasonCode | undefined;
+  OpportunityId?: string | undefined;
+  ResourceSnapshotJobId?: string | undefined;
+  EngagementId?: string | undefined;
+  EngagementInvitationId?: string | undefined;
 }
 export interface StartOpportunityFromEngagementTaskRequest {
   Catalog: string;
   ClientToken: string;
   Identifier: string;
   ContextIdentifier: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface StartOpportunityFromEngagementTaskResponse {
-  TaskId?: string;
-  TaskArn?: string;
-  StartTime?: Date;
-  TaskStatus?: TaskStatus;
-  Message?: string;
-  ReasonCode?: ReasonCode;
-  OpportunityId?: string;
-  ResourceSnapshotJobId?: string;
-  EngagementId?: string;
-  ContextId?: string;
+  TaskId?: string | undefined;
+  TaskArn?: string | undefined;
+  StartTime?: Date | undefined;
+  TaskStatus?: TaskStatus | undefined;
+  Message?: string | undefined;
+  ReasonCode?: ReasonCode | undefined;
+  OpportunityId?: string | undefined;
+  ResourceSnapshotJobId?: string | undefined;
+  EngagementId?: string | undefined;
+  ContextId?: string | undefined;
 }
 export type EngagementIdentifierList = string[];
 export interface StartProspectingFromEngagementTaskRequest {
@@ -2116,11 +2116,11 @@ export interface StartProspectingFromEngagementTaskRequest {
 export interface StartProspectingFromEngagementTaskResponse {
   Identifiers: string[];
   TaskName: string;
-  Message?: string;
-  ReasonCode?: string;
+  Message?: string | undefined;
+  ReasonCode?: string | undefined;
   StartTime: Date;
-  TaskId?: string;
-  TaskArn?: string;
+  TaskId?: string | undefined;
+  TaskArn?: string | undefined;
   TaskStatus: ProspectingTaskStatus;
 }
 export interface StartResourceSnapshotJobRequest {
@@ -2137,7 +2137,7 @@ export interface SubmitOpportunityRequest {
   Catalog: string;
   Identifier: string;
   InvolvementType: SalesInvolvementType;
-  Visibility?: Visibility;
+  Visibility?: Visibility | undefined;
 }
 export interface SubmitOpportunityResponse {}
 export interface TagResourceRequest {
@@ -2152,10 +2152,10 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateLeadContext {
-  QualificationStatus?: string;
+  QualificationStatus?: string | undefined;
   Customer: LeadCustomer;
-  Interaction?: LeadInteraction;
-  Insights?: LeadInsights;
+  Interaction?: LeadInteraction | undefined;
+  Insights?: LeadInsights | undefined;
 }
 export type UpdateEngagementContextPayload =
   | { Lead: UpdateLeadContext; CustomerProject?: never; ProspectingResult?: never }
@@ -2177,17 +2177,17 @@ export interface UpdateEngagementContextResponse {
 }
 export interface UpdateOpportunityRequest {
   Catalog: string;
-  PrimaryNeedsFromAws?: PrimaryNeedFromAws[];
-  NationalSecurity?: NationalSecurity;
-  PartnerOpportunityIdentifier?: string;
-  Customer?: Customer;
-  Project?: Project;
-  OpportunityType?: OpportunityType;
-  Marketing?: Marketing;
-  SoftwareRevenue?: SoftwareRevenue;
+  PrimaryNeedsFromAws?: PrimaryNeedFromAws[] | undefined;
+  NationalSecurity?: NationalSecurity | undefined;
+  PartnerOpportunityIdentifier?: string | undefined;
+  Customer?: Customer | undefined;
+  Project?: Project | undefined;
+  OpportunityType?: OpportunityType | undefined;
+  Marketing?: Marketing | undefined;
+  SoftwareRevenue?: SoftwareRevenue | undefined;
   LastModifiedDate: Date;
   Identifier: string;
-  LifeCycle?: LifeCycle;
+  LifeCycle?: LifeCycle | undefined;
 }
 export interface UpdateOpportunityResponse {
   Id: string;
@@ -2213,7 +2213,7 @@ export type ValidationExceptionErrorCode =
   | "ACTION_NOT_PERMITTED"
   | (string & {});
 export interface ValidationExceptionError {
-  FieldName?: string;
+  FieldName?: string | undefined;
   Message: string;
   Code: ValidationExceptionErrorCode;
 }

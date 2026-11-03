@@ -150,8 +150,8 @@ export type NotificationRuleResource = string;
 export type TargetType = string;
 export type TargetAddress = string | redacted.Redacted<string>;
 export interface Target {
-  TargetType?: string;
-  TargetAddress?: string | redacted.Redacted<string>;
+  TargetType?: string | undefined;
+  TargetAddress?: string | redacted.Redacted<string> | undefined;
 }
 export type Targets = Target[];
 export type DetailType = "BASIC" | "FULL" | (string & {});
@@ -166,24 +166,24 @@ export interface CreateNotificationRuleRequest {
   Resource: string;
   Targets: Target[];
   DetailType: DetailType;
-  ClientRequestToken?: string;
-  Tags?: { [key: string]: string | undefined };
-  Status?: NotificationRuleStatus;
+  ClientRequestToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Status?: NotificationRuleStatus | undefined;
 }
 export type NotificationRuleArn = string;
 export interface CreateNotificationRuleResult {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface DeleteNotificationRuleRequest {
   Arn: string;
 }
 export interface DeleteNotificationRuleResult {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type ForceUnsubscribeAll = boolean;
 export interface DeleteTargetRequest {
   TargetAddress: string | redacted.Redacted<string>;
-  ForceUnsubscribeAll?: boolean;
+  ForceUnsubscribeAll?: boolean | undefined;
 }
 export interface DeleteTargetResult {}
 export interface DescribeNotificationRuleRequest {
@@ -193,10 +193,10 @@ export type ServiceName = string;
 export type EventTypeName = string;
 export type ResourceType = string;
 export interface EventTypeSummary {
-  EventTypeId?: string;
-  ServiceName?: string;
-  EventTypeName?: string;
-  ResourceType?: string;
+  EventTypeId?: string | undefined;
+  ServiceName?: string | undefined;
+  EventTypeName?: string | undefined;
+  ResourceType?: string | undefined;
 }
 export type EventTypeBatch = EventTypeSummary[];
 export type TargetStatus =
@@ -207,9 +207,9 @@ export type TargetStatus =
   | "DEACTIVATED"
   | (string & {});
 export interface TargetSummary {
-  TargetAddress?: string | redacted.Redacted<string>;
-  TargetType?: string;
-  TargetStatus?: TargetStatus;
+  TargetAddress?: string | redacted.Redacted<string> | undefined;
+  TargetType?: string | undefined;
+  TargetStatus?: TargetStatus | undefined;
 }
 export type TargetsBatch = TargetSummary[];
 export type NotificationRuleCreatedBy = string;
@@ -217,16 +217,16 @@ export type CreatedTimestamp = Date;
 export type LastModifiedTimestamp = Date;
 export interface DescribeNotificationRuleResult {
   Arn: string;
-  Name?: string | redacted.Redacted<string>;
-  EventTypes?: EventTypeSummary[];
-  Resource?: string;
-  Targets?: TargetSummary[];
-  DetailType?: DetailType;
-  CreatedBy?: string;
-  Status?: NotificationRuleStatus;
-  CreatedTimestamp?: Date;
-  LastModifiedTimestamp?: Date;
-  Tags?: { [key: string]: string | undefined };
+  Name?: string | redacted.Redacted<string> | undefined;
+  EventTypes?: EventTypeSummary[] | undefined;
+  Resource?: string | undefined;
+  Targets?: TargetSummary[] | undefined;
+  DetailType?: DetailType | undefined;
+  CreatedBy?: string | undefined;
+  Status?: NotificationRuleStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastModifiedTimestamp?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ListEventTypesFilterName = "RESOURCE_TYPE" | "SERVICE_NAME" | (string & {});
 export type ListEventTypesFilterValue = string;
@@ -238,13 +238,13 @@ export type ListEventTypesFilters = ListEventTypesFilter[];
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListEventTypesRequest {
-  Filters?: ListEventTypesFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: ListEventTypesFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListEventTypesResult {
-  EventTypes?: EventTypeSummary[];
-  NextToken?: string;
+  EventTypes?: EventTypeSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListNotificationRulesFilterName =
   | "EVENT_TYPE_ID"
@@ -259,25 +259,25 @@ export interface ListNotificationRulesFilter {
 }
 export type ListNotificationRulesFilters = ListNotificationRulesFilter[];
 export interface ListNotificationRulesRequest {
-  Filters?: ListNotificationRulesFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: ListNotificationRulesFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type NotificationRuleId = string;
 export interface NotificationRuleSummary {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export type NotificationRuleBatch = NotificationRuleSummary[];
 export interface ListNotificationRulesResult {
-  NextToken?: string;
-  NotificationRules?: NotificationRuleSummary[];
+  NextToken?: string | undefined;
+  NotificationRules?: NotificationRuleSummary[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   Arn: string;
 }
 export interface ListTagsForResourceResult {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ListTargetsFilterName =
   | "TARGET_TYPE"
@@ -291,28 +291,28 @@ export interface ListTargetsFilter {
 }
 export type ListTargetsFilters = ListTargetsFilter[];
 export interface ListTargetsRequest {
-  Filters?: ListTargetsFilter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: ListTargetsFilter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListTargetsResult {
-  Targets?: TargetSummary[];
-  NextToken?: string;
+  Targets?: TargetSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface SubscribeRequest {
   Arn: string;
   Target: Target;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export interface SubscribeResult {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface TagResourceRequest {
   Arn: string;
   Tags: { [key: string]: string | undefined };
 }
 export interface TagResourceResult {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UnsubscribeRequest {
   Arn: string;
@@ -329,11 +329,11 @@ export interface UntagResourceRequest {
 export interface UntagResourceResult {}
 export interface UpdateNotificationRuleRequest {
   Arn: string;
-  Name?: string | redacted.Redacted<string>;
-  Status?: NotificationRuleStatus;
-  EventTypeIds?: string[];
-  Targets?: Target[];
-  DetailType?: DetailType;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Status?: NotificationRuleStatus | undefined;
+  EventTypeIds?: string[] | undefined;
+  Targets?: Target[] | undefined;
+  DetailType?: DetailType | undefined;
 }
 export interface UpdateNotificationRuleResult {}
 export type Message = string;

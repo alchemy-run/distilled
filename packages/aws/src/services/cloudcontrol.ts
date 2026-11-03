@@ -316,57 +316,57 @@ export type Properties = string | redacted.Redacted<string>;
 export type StatusMessage = string;
 export type HandlerErrorCode = string;
 export interface ProgressEvent {
-  TypeName?: string;
-  Identifier?: string;
-  RequestToken?: string;
-  HooksRequestToken?: string;
-  Operation?: string;
-  OperationStatus?: string;
-  EventTime?: Date;
-  ResourceModel?: string | redacted.Redacted<string>;
-  StatusMessage?: string;
-  ErrorCode?: string;
-  RetryAfter?: Date;
+  TypeName?: string | undefined;
+  Identifier?: string | undefined;
+  RequestToken?: string | undefined;
+  HooksRequestToken?: string | undefined;
+  Operation?: string | undefined;
+  OperationStatus?: string | undefined;
+  EventTime?: Date | undefined;
+  ResourceModel?: string | redacted.Redacted<string> | undefined;
+  StatusMessage?: string | undefined;
+  ErrorCode?: string | undefined;
+  RetryAfter?: Date | undefined;
 }
 export interface CancelResourceRequestOutput {
-  ProgressEvent?: ProgressEvent;
+  ProgressEvent?: ProgressEvent | undefined;
 }
 export type TypeVersionId = string;
 export type RoleArn = string;
 export type ClientToken = string;
 export interface CreateResourceInput {
   TypeName: string;
-  TypeVersionId?: string;
-  RoleArn?: string;
-  ClientToken?: string;
+  TypeVersionId?: string | undefined;
+  RoleArn?: string | undefined;
+  ClientToken?: string | undefined;
   DesiredState: string | redacted.Redacted<string>;
 }
 export interface CreateResourceOutput {
-  ProgressEvent?: ProgressEvent;
+  ProgressEvent?: ProgressEvent | undefined;
 }
 export interface DeleteResourceInput {
   TypeName: string;
-  TypeVersionId?: string;
-  RoleArn?: string;
-  ClientToken?: string;
+  TypeVersionId?: string | undefined;
+  RoleArn?: string | undefined;
+  ClientToken?: string | undefined;
   Identifier: string;
 }
 export interface DeleteResourceOutput {
-  ProgressEvent?: ProgressEvent;
+  ProgressEvent?: ProgressEvent | undefined;
 }
 export interface GetResourceInput {
   TypeName: string;
-  TypeVersionId?: string;
-  RoleArn?: string;
+  TypeVersionId?: string | undefined;
+  RoleArn?: string | undefined;
   Identifier: string;
 }
 export interface ResourceDescription {
-  Identifier?: string;
-  Properties?: string | redacted.Redacted<string>;
+  Identifier?: string | undefined;
+  Properties?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetResourceOutput {
-  TypeName?: string;
-  ResourceDescription?: ResourceDescription;
+  TypeName?: string | undefined;
+  ResourceDescription?: ResourceDescription | undefined;
 }
 export interface GetResourceRequestStatusInput {
   RequestToken: string;
@@ -376,64 +376,64 @@ export type HookInvocationPoint = string;
 export type HookStatus = string;
 export type HookFailureMode = string;
 export interface HookProgressEvent {
-  HookTypeName?: string;
-  HookTypeVersionId?: string;
-  HookTypeArn?: string;
-  InvocationPoint?: string;
-  HookStatus?: string;
-  HookEventTime?: Date;
-  HookStatusMessage?: string;
-  FailureMode?: string;
+  HookTypeName?: string | undefined;
+  HookTypeVersionId?: string | undefined;
+  HookTypeArn?: string | undefined;
+  InvocationPoint?: string | undefined;
+  HookStatus?: string | undefined;
+  HookEventTime?: Date | undefined;
+  HookStatusMessage?: string | undefined;
+  FailureMode?: string | undefined;
 }
 export type HooksProgressEvent = HookProgressEvent[];
 export interface GetResourceRequestStatusOutput {
-  ProgressEvent?: ProgressEvent;
-  HooksProgressEvent?: HookProgressEvent[];
+  ProgressEvent?: ProgressEvent | undefined;
+  HooksProgressEvent?: HookProgressEvent[] | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export type Operations = string[];
 export type OperationStatuses = string[];
 export interface ResourceRequestStatusFilter {
-  Operations?: string[];
-  OperationStatuses?: string[];
+  Operations?: string[] | undefined;
+  OperationStatuses?: string[] | undefined;
 }
 export interface ListResourceRequestsInput {
-  MaxResults?: number;
-  NextToken?: string;
-  ResourceRequestStatusFilter?: ResourceRequestStatusFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ResourceRequestStatusFilter?: ResourceRequestStatusFilter | undefined;
 }
 export type ResourceRequestStatusSummaries = ProgressEvent[];
 export interface ListResourceRequestsOutput {
-  ResourceRequestStatusSummaries?: ProgressEvent[];
-  NextToken?: string;
+  ResourceRequestStatusSummaries?: ProgressEvent[] | undefined;
+  NextToken?: string | undefined;
 }
 export type HandlerNextToken = string;
 export interface ListResourcesInput {
   TypeName: string;
-  TypeVersionId?: string;
-  RoleArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  ResourceModel?: string | redacted.Redacted<string>;
+  TypeVersionId?: string | undefined;
+  RoleArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ResourceModel?: string | redacted.Redacted<string> | undefined;
 }
 export type ResourceDescriptions = ResourceDescription[];
 export interface ListResourcesOutput {
-  TypeName?: string;
-  ResourceDescriptions?: ResourceDescription[];
-  NextToken?: string;
+  TypeName?: string | undefined;
+  ResourceDescriptions?: ResourceDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PatchDocument = string | redacted.Redacted<string>;
 export interface UpdateResourceInput {
   TypeName: string;
-  TypeVersionId?: string;
-  RoleArn?: string;
-  ClientToken?: string;
+  TypeVersionId?: string | undefined;
+  RoleArn?: string | undefined;
+  ClientToken?: string | undefined;
   Identifier: string;
   PatchDocument: string | redacted.Redacted<string>;
 }
 export interface UpdateResourceOutput {
-  ProgressEvent?: ProgressEvent;
+  ProgressEvent?: ProgressEvent | undefined;
 }
 export type ErrorMessage = string;
 export type CancelResourceRequestError =

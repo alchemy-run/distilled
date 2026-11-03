@@ -184,8 +184,8 @@ export type StringValue256 = string;
 export type TimeUnit = "MILLISECONDS" | "SECONDS" | "MICROSECONDS" | "NANOSECONDS" | (string & {});
 export type SchemaName = string;
 export interface DimensionMapping {
-  SourceColumn?: string;
-  DestinationColumn?: string;
+  SourceColumn?: string | undefined;
+  DestinationColumn?: string | undefined;
 }
 export type DimensionMappings = DimensionMapping[];
 export type ScalarMeasureValueType =
@@ -197,12 +197,12 @@ export type ScalarMeasureValueType =
   | (string & {});
 export interface MultiMeasureAttributeMapping {
   SourceColumn: string;
-  TargetMultiMeasureAttributeName?: string;
-  MeasureValueType?: ScalarMeasureValueType;
+  TargetMultiMeasureAttributeName?: string | undefined;
+  MeasureValueType?: ScalarMeasureValueType | undefined;
 }
 export type MultiMeasureAttributeMappingList = MultiMeasureAttributeMapping[];
 export interface MultiMeasureMappings {
-  TargetMultiMeasureName?: string;
+  TargetMultiMeasureName?: string | undefined;
   MultiMeasureAttributeMappings: MultiMeasureAttributeMapping[];
 }
 export type MeasureValueType =
@@ -214,47 +214,47 @@ export type MeasureValueType =
   | "MULTI"
   | (string & {});
 export interface MixedMeasureMapping {
-  MeasureName?: string;
-  SourceColumn?: string;
-  TargetMeasureName?: string;
+  MeasureName?: string | undefined;
+  SourceColumn?: string | undefined;
+  TargetMeasureName?: string | undefined;
   MeasureValueType: MeasureValueType;
-  MultiMeasureAttributeMappings?: MultiMeasureAttributeMapping[];
+  MultiMeasureAttributeMappings?: MultiMeasureAttributeMapping[] | undefined;
 }
 export type MixedMeasureMappingList = MixedMeasureMapping[];
 export interface DataModel {
-  TimeColumn?: string;
-  TimeUnit?: TimeUnit;
+  TimeColumn?: string | undefined;
+  TimeUnit?: TimeUnit | undefined;
   DimensionMappings: DimensionMapping[];
-  MultiMeasureMappings?: MultiMeasureMappings;
-  MixedMeasureMappings?: MixedMeasureMapping[];
-  MeasureNameColumn?: string;
+  MultiMeasureMappings?: MultiMeasureMappings | undefined;
+  MixedMeasureMappings?: MixedMeasureMapping[] | undefined;
+  MeasureNameColumn?: string | undefined;
 }
 export type S3BucketName = string;
 export type S3ObjectKey = string;
 export interface DataModelS3Configuration {
-  BucketName?: string;
-  ObjectKey?: string;
+  BucketName?: string | undefined;
+  ObjectKey?: string | undefined;
 }
 export interface DataModelConfiguration {
-  DataModel?: DataModel;
-  DataModelS3Configuration?: DataModelS3Configuration;
+  DataModel?: DataModel | undefined;
+  DataModelS3Configuration?: DataModelS3Configuration | undefined;
 }
 export interface DataSourceS3Configuration {
   BucketName: string;
-  ObjectKeyPrefix?: string;
+  ObjectKeyPrefix?: string | undefined;
 }
 export type StringValue1 = string;
 export interface CsvConfiguration {
-  ColumnSeparator?: string;
-  EscapeChar?: string;
-  QuoteChar?: string;
-  NullValue?: string;
-  TrimWhiteSpace?: boolean;
+  ColumnSeparator?: string | undefined;
+  EscapeChar?: string | undefined;
+  QuoteChar?: string | undefined;
+  NullValue?: string | undefined;
+  TrimWhiteSpace?: boolean | undefined;
 }
 export type BatchLoadDataFormat = "CSV" | (string & {});
 export interface DataSourceConfiguration {
   DataSourceS3Configuration: DataSourceS3Configuration;
-  CsvConfiguration?: CsvConfiguration;
+  CsvConfiguration?: CsvConfiguration | undefined;
   DataFormat: BatchLoadDataFormat;
 }
 export type S3ObjectKeyPrefix = string;
@@ -262,23 +262,23 @@ export type S3EncryptionOption = "SSE_S3" | "SSE_KMS" | (string & {});
 export type StringValue2048 = string;
 export interface ReportS3Configuration {
   BucketName: string;
-  ObjectKeyPrefix?: string;
-  EncryptionOption?: S3EncryptionOption;
-  KmsKeyId?: string;
+  ObjectKeyPrefix?: string | undefined;
+  EncryptionOption?: S3EncryptionOption | undefined;
+  KmsKeyId?: string | undefined;
 }
 export interface ReportConfiguration {
-  ReportS3Configuration?: ReportS3Configuration;
+  ReportS3Configuration?: ReportS3Configuration | undefined;
 }
 export type ResourceCreateAPIName = string;
 export type RecordVersion = number;
 export interface CreateBatchLoadTaskRequest {
-  ClientToken?: string | redacted.Redacted<string>;
-  DataModelConfiguration?: DataModelConfiguration;
+  ClientToken?: string | redacted.Redacted<string> | undefined;
+  DataModelConfiguration?: DataModelConfiguration | undefined;
   DataSourceConfiguration: DataSourceConfiguration;
   ReportConfiguration: ReportConfiguration;
   TargetDatabaseName: string;
   TargetTableName: string;
-  RecordVersion?: number;
+  RecordVersion?: number | undefined;
 }
 export type BatchLoadTaskId = string;
 export interface CreateBatchLoadTaskResponse {
@@ -293,20 +293,20 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateDatabaseRequest {
   DatabaseName: string;
-  KmsKeyId?: string;
-  Tags?: Tag[];
+  KmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ResourceName = string;
 export interface Database {
-  Arn?: string;
-  DatabaseName?: string;
-  TableCount?: number;
-  KmsKeyId?: string;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
+  Arn?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableCount?: number | undefined;
+  KmsKeyId?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export interface CreateDatabaseResponse {
-  Database?: Database;
+  Database?: Database | undefined;
 }
 export type MemoryStoreRetentionPeriodInHours = number;
 export type MagneticStoreRetentionPeriodInDays = number;
@@ -315,51 +315,51 @@ export interface RetentionProperties {
   MagneticStoreRetentionPeriodInDays: number;
 }
 export interface S3Configuration {
-  BucketName?: string;
-  ObjectKeyPrefix?: string;
-  EncryptionOption?: S3EncryptionOption;
-  KmsKeyId?: string;
+  BucketName?: string | undefined;
+  ObjectKeyPrefix?: string | undefined;
+  EncryptionOption?: S3EncryptionOption | undefined;
+  KmsKeyId?: string | undefined;
 }
 export interface MagneticStoreRejectedDataLocation {
-  S3Configuration?: S3Configuration;
+  S3Configuration?: S3Configuration | undefined;
 }
 export interface MagneticStoreWriteProperties {
   EnableMagneticStoreWrites: boolean;
-  MagneticStoreRejectedDataLocation?: MagneticStoreRejectedDataLocation;
+  MagneticStoreRejectedDataLocation?: MagneticStoreRejectedDataLocation | undefined;
 }
 export type PartitionKeyType = "DIMENSION" | "MEASURE" | (string & {});
 export type PartitionKeyEnforcementLevel = "REQUIRED" | "OPTIONAL" | (string & {});
 export interface PartitionKey {
   Type: PartitionKeyType;
-  Name?: string;
-  EnforcementInRecord?: PartitionKeyEnforcementLevel;
+  Name?: string | undefined;
+  EnforcementInRecord?: PartitionKeyEnforcementLevel | undefined;
 }
 export type PartitionKeyList = PartitionKey[];
 export interface Schema {
-  CompositePartitionKey?: PartitionKey[];
+  CompositePartitionKey?: PartitionKey[] | undefined;
 }
 export interface CreateTableRequest {
   DatabaseName: string;
   TableName: string;
-  RetentionProperties?: RetentionProperties;
-  Tags?: Tag[];
-  MagneticStoreWriteProperties?: MagneticStoreWriteProperties;
-  Schema?: Schema;
+  RetentionProperties?: RetentionProperties | undefined;
+  Tags?: Tag[] | undefined;
+  MagneticStoreWriteProperties?: MagneticStoreWriteProperties | undefined;
+  Schema?: Schema | undefined;
 }
 export type TableStatus = "ACTIVE" | "DELETING" | "RESTORING" | (string & {});
 export interface Table {
-  Arn?: string;
-  TableName?: string;
-  DatabaseName?: string;
-  TableStatus?: TableStatus;
-  RetentionProperties?: RetentionProperties;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
-  MagneticStoreWriteProperties?: MagneticStoreWriteProperties;
-  Schema?: Schema;
+  Arn?: string | undefined;
+  TableName?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableStatus?: TableStatus | undefined;
+  RetentionProperties?: RetentionProperties | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  MagneticStoreWriteProperties?: MagneticStoreWriteProperties | undefined;
+  Schema?: Schema | undefined;
 }
 export interface CreateTableResponse {
-  Table?: Table;
+  Table?: Table | undefined;
 }
 export interface DeleteDatabaseRequest {
   DatabaseName: string;
@@ -374,12 +374,12 @@ export interface DescribeBatchLoadTaskRequest {
   TaskId: string;
 }
 export interface BatchLoadProgressReport {
-  RecordsProcessed?: number;
-  RecordsIngested?: number;
-  ParseFailures?: number;
-  RecordIngestionFailures?: number;
-  FileFailures?: number;
-  BytesMetered?: number;
+  RecordsProcessed?: number | undefined;
+  RecordsIngested?: number | undefined;
+  ParseFailures?: number | undefined;
+  RecordIngestionFailures?: number | undefined;
+  FileFailures?: number | undefined;
+  BytesMetered?: number | undefined;
 }
 export type BatchLoadStatus =
   | "CREATED"
@@ -390,19 +390,19 @@ export type BatchLoadStatus =
   | "PENDING_RESUME"
   | (string & {});
 export interface BatchLoadTaskDescription {
-  TaskId?: string;
-  ErrorMessage?: string;
-  DataSourceConfiguration?: DataSourceConfiguration;
-  ProgressReport?: BatchLoadProgressReport;
-  ReportConfiguration?: ReportConfiguration;
-  DataModelConfiguration?: DataModelConfiguration;
-  TargetDatabaseName?: string;
-  TargetTableName?: string;
-  TaskStatus?: BatchLoadStatus;
-  RecordVersion?: number;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
-  ResumableUntil?: Date;
+  TaskId?: string | undefined;
+  ErrorMessage?: string | undefined;
+  DataSourceConfiguration?: DataSourceConfiguration | undefined;
+  ProgressReport?: BatchLoadProgressReport | undefined;
+  ReportConfiguration?: ReportConfiguration | undefined;
+  DataModelConfiguration?: DataModelConfiguration | undefined;
+  TargetDatabaseName?: string | undefined;
+  TargetTableName?: string | undefined;
+  TaskStatus?: BatchLoadStatus | undefined;
+  RecordVersion?: number | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  ResumableUntil?: Date | undefined;
 }
 export interface DescribeBatchLoadTaskResponse {
   BatchLoadTaskDescription: BatchLoadTaskDescription;
@@ -411,7 +411,7 @@ export interface DescribeDatabaseRequest {
   DatabaseName: string;
 }
 export interface DescribeDatabaseResponse {
-  Database?: Database;
+  Database?: Database | undefined;
 }
 export interface DescribeEndpointsRequest {}
 export interface Endpoint {
@@ -428,54 +428,54 @@ export interface DescribeTableRequest {
   TableName: string;
 }
 export interface DescribeTableResponse {
-  Table?: Table;
+  Table?: Table | undefined;
 }
 export type PageLimit = number;
 export interface ListBatchLoadTasksRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  TaskStatus?: BatchLoadStatus;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  TaskStatus?: BatchLoadStatus | undefined;
 }
 export interface BatchLoadTask {
-  TaskId?: string;
-  TaskStatus?: BatchLoadStatus;
-  DatabaseName?: string;
-  TableName?: string;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
-  ResumableUntil?: Date;
+  TaskId?: string | undefined;
+  TaskStatus?: BatchLoadStatus | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  ResumableUntil?: Date | undefined;
 }
 export type BatchLoadTaskList = BatchLoadTask[];
 export interface ListBatchLoadTasksResponse {
-  NextToken?: string;
-  BatchLoadTasks?: BatchLoadTask[];
+  NextToken?: string | undefined;
+  BatchLoadTasks?: BatchLoadTask[] | undefined;
 }
 export type PaginationLimit = number;
 export interface ListDatabasesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DatabaseList = Database[];
 export interface ListDatabasesResponse {
-  Databases?: Database[];
-  NextToken?: string;
+  Databases?: Database[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTablesRequest {
-  DatabaseName?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  DatabaseName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type TableList = Table[];
 export interface ListTablesResponse {
-  Tables?: Table[];
-  NextToken?: string;
+  Tables?: Table[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ResumeBatchLoadTaskRequest {
   TaskId: string;
@@ -497,24 +497,24 @@ export interface UpdateDatabaseRequest {
   KmsKeyId: string;
 }
 export interface UpdateDatabaseResponse {
-  Database?: Database;
+  Database?: Database | undefined;
 }
 export interface UpdateTableRequest {
   DatabaseName: string;
   TableName: string;
-  RetentionProperties?: RetentionProperties;
-  MagneticStoreWriteProperties?: MagneticStoreWriteProperties;
-  Schema?: Schema;
+  RetentionProperties?: RetentionProperties | undefined;
+  MagneticStoreWriteProperties?: MagneticStoreWriteProperties | undefined;
+  Schema?: Schema | undefined;
 }
 export interface UpdateTableResponse {
-  Table?: Table;
+  Table?: Table | undefined;
 }
 export type SchemaValue = string;
 export type DimensionValueType = "VARCHAR" | (string & {});
 export interface Dimension {
   Name: string;
   Value: string;
-  DimensionValueType?: DimensionValueType;
+  DimensionValueType?: DimensionValueType | undefined;
 }
 export type Dimensions = Dimension[];
 export interface MeasureValue {
@@ -524,36 +524,36 @@ export interface MeasureValue {
 }
 export type MeasureValues = MeasureValue[];
 export interface Record {
-  Dimensions?: Dimension[];
-  MeasureName?: string;
-  MeasureValue?: string;
-  MeasureValueType?: MeasureValueType;
-  Time?: string;
-  TimeUnit?: TimeUnit;
-  Version?: number;
-  MeasureValues?: MeasureValue[];
+  Dimensions?: Dimension[] | undefined;
+  MeasureName?: string | undefined;
+  MeasureValue?: string | undefined;
+  MeasureValueType?: MeasureValueType | undefined;
+  Time?: string | undefined;
+  TimeUnit?: TimeUnit | undefined;
+  Version?: number | undefined;
+  MeasureValues?: MeasureValue[] | undefined;
 }
 export type Records = Record[];
 export interface WriteRecordsRequest {
   DatabaseName: string;
   TableName: string;
-  CommonAttributes?: Record;
+  CommonAttributes?: Record | undefined;
   Records: Record[];
 }
 export interface RecordsIngested {
-  Total?: number;
-  MemoryStore?: number;
-  MagneticStore?: number;
+  Total?: number | undefined;
+  MemoryStore?: number | undefined;
+  MagneticStore?: number | undefined;
 }
 export interface WriteRecordsResponse {
-  RecordsIngested?: RecordsIngested;
+  RecordsIngested?: RecordsIngested | undefined;
 }
 export type ErrorMessage = string;
 export type RecordIndex = number;
 export interface RejectedRecord {
-  RecordIndex?: number;
-  Reason?: string;
-  ExistingVersion?: number;
+  RecordIndex?: number | undefined;
+  Reason?: string | undefined;
+  ExistingVersion?: number | undefined;
 }
 export type RejectedRecords = RejectedRecord[];
 export type CreateBatchLoadTaskError =

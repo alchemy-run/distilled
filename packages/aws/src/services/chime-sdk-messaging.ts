@@ -204,23 +204,23 @@ export type MemberArns = string[];
 export type SubChannelId = string;
 export interface BatchCreateChannelMembershipRequest {
   ChannelArn: string;
-  Type?: ChannelMembershipType;
+  Type?: ChannelMembershipType | undefined;
   MemberArns: string[];
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export type ResourceName = string | redacted.Redacted<string>;
 export interface Identity {
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 export type Members = Identity[];
 export interface BatchChannelMemberships {
-  InvitedBy?: Identity;
-  Type?: ChannelMembershipType;
-  Members?: Identity[];
-  ChannelArn?: string;
-  SubChannelId?: string;
+  InvitedBy?: Identity | undefined;
+  Type?: ChannelMembershipType | undefined;
+  Members?: Identity[] | undefined;
+  ChannelArn?: string | undefined;
+  SubChannelId?: string | undefined;
 }
 export type ErrorCode =
   | "BadRequest"
@@ -240,14 +240,14 @@ export type ErrorCode =
   | "PhoneNumberAssociationsExist"
   | (string & {});
 export interface BatchCreateChannelMembershipError_ {
-  MemberArn?: string;
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  MemberArn?: string | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type BatchCreateChannelMembershipErrors = BatchCreateChannelMembershipError_[];
 export interface BatchCreateChannelMembershipResponse {
-  BatchChannelMemberships?: BatchChannelMemberships;
-  Errors?: BatchCreateChannelMembershipError_[];
+  BatchChannelMemberships?: BatchChannelMemberships | undefined;
+  Errors?: BatchCreateChannelMembershipError_[] | undefined;
 }
 export type CallbackIdType = string;
 export type NonNullableBoolean = boolean;
@@ -258,36 +258,36 @@ export type PushNotificationTitle = string | redacted.Redacted<string>;
 export type PushNotificationBody = string | redacted.Redacted<string>;
 export type PushNotificationType = "DEFAULT" | "VOIP" | (string & {});
 export interface PushNotificationConfiguration {
-  Title?: string | redacted.Redacted<string>;
-  Body?: string | redacted.Redacted<string>;
-  Type?: PushNotificationType;
+  Title?: string | redacted.Redacted<string> | undefined;
+  Body?: string | redacted.Redacted<string> | undefined;
+  Type?: PushNotificationType | undefined;
 }
 export type MessageAttributeName = string | redacted.Redacted<string>;
 export type MessageAttributeStringValue = string | redacted.Redacted<string>;
 export type MessageAttributeStringValues = (string | redacted.Redacted<string>)[];
 export interface MessageAttributeValue {
-  StringValues?: (string | redacted.Redacted<string>)[];
+  StringValues?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type MessageAttributeMap = { [key: string]: MessageAttributeValue | undefined };
 export type ContentType = string | redacted.Redacted<string>;
 export interface ChannelMessageCallback {
   MessageId: string;
-  Content?: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
-  PushNotification?: PushNotificationConfiguration;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  SubChannelId?: string;
-  ContentType?: string | redacted.Redacted<string>;
+  Content?: string | redacted.Redacted<string> | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
+  PushNotification?: PushNotificationConfiguration | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
+  SubChannelId?: string | undefined;
+  ContentType?: string | redacted.Redacted<string> | undefined;
 }
 export interface ChannelFlowCallbackRequest {
   CallbackId: string;
   ChannelArn: string;
-  DeleteResource?: boolean;
+  DeleteResource?: boolean | undefined;
   ChannelMessage: ChannelMessageCallback;
 }
 export interface ChannelFlowCallbackResponse {
-  ChannelArn?: string;
-  CallbackId?: string;
+  ChannelArn?: string | undefined;
+  CallbackId?: string | undefined;
 }
 export type NonEmptyResourceName = string | redacted.Redacted<string>;
 export type ChannelMode = "UNRESTRICTED" | "RESTRICTED" | (string & {});
@@ -320,20 +320,20 @@ export interface ExpirationSettings {
 export interface CreateChannelRequest {
   AppInstanceArn: string;
   Name: string | redacted.Redacted<string>;
-  Mode?: ChannelMode;
-  Privacy?: ChannelPrivacy;
-  Metadata?: string | redacted.Redacted<string>;
+  Mode?: ChannelMode | undefined;
+  Privacy?: ChannelPrivacy | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
   ClientRequestToken: string | redacted.Redacted<string>;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   ChimeBearer: string;
-  ChannelId?: string | redacted.Redacted<string>;
-  MemberArns?: string[];
-  ModeratorArns?: string[];
-  ElasticChannelConfiguration?: ElasticChannelConfiguration;
-  ExpirationSettings?: ExpirationSettings;
+  ChannelId?: string | redacted.Redacted<string> | undefined;
+  MemberArns?: string[] | undefined;
+  ModeratorArns?: string[] | undefined;
+  ElasticChannelConfiguration?: ElasticChannelConfiguration | undefined;
+  ExpirationSettings?: ExpirationSettings | undefined;
 }
 export interface CreateChannelResponse {
-  ChannelArn?: string;
+  ChannelArn?: string | undefined;
 }
 export interface CreateChannelBanRequest {
   ChannelArn: string;
@@ -341,8 +341,8 @@ export interface CreateChannelBanRequest {
   ChimeBearer: string;
 }
 export interface CreateChannelBanResponse {
-  ChannelArn?: string;
-  Member?: Identity;
+  ChannelArn?: string | undefined;
+  Member?: Identity | undefined;
 }
 export type LambdaFunctionArn = string;
 export type InvocationType = "ASYNC" | (string & {});
@@ -366,23 +366,23 @@ export interface CreateChannelFlowRequest {
   AppInstanceArn: string;
   Processors: Processor[];
   Name: string | redacted.Redacted<string>;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   ClientRequestToken: string | redacted.Redacted<string>;
 }
 export interface CreateChannelFlowResponse {
-  ChannelFlowArn?: string;
+  ChannelFlowArn?: string | undefined;
 }
 export interface CreateChannelMembershipRequest {
   ChannelArn: string;
   MemberArn: string;
   Type: ChannelMembershipType;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface CreateChannelMembershipResponse {
-  ChannelArn?: string;
-  Member?: Identity;
-  SubChannelId?: string;
+  ChannelArn?: string | undefined;
+  Member?: Identity | undefined;
+  SubChannelId?: string | undefined;
 }
 export interface CreateChannelModeratorRequest {
   ChannelArn: string;
@@ -390,8 +390,8 @@ export interface CreateChannelModeratorRequest {
   ChimeBearer: string;
 }
 export interface CreateChannelModeratorResponse {
-  ChannelArn?: string;
-  ChannelModerator?: Identity;
+  ChannelArn?: string | undefined;
+  ChannelModerator?: Identity | undefined;
 }
 export interface DeleteChannelRequest {
   ChannelArn: string;
@@ -412,14 +412,14 @@ export interface DeleteChannelMembershipRequest {
   ChannelArn: string;
   MemberArn: string;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface DeleteChannelMembershipResponse {}
 export interface DeleteChannelMessageRequest {
   ChannelArn: string;
   MessageId: string;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface DeleteChannelMessageResponse {}
 export interface DeleteChannelModeratorRequest {
@@ -437,21 +437,21 @@ export interface DescribeChannelRequest {
   ChimeBearer: string;
 }
 export interface Channel {
-  Name?: string | redacted.Redacted<string>;
-  ChannelArn?: string;
-  Mode?: ChannelMode;
-  Privacy?: ChannelPrivacy;
-  Metadata?: string | redacted.Redacted<string>;
-  CreatedBy?: Identity;
-  CreatedTimestamp?: Date;
-  LastMessageTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  ChannelFlowArn?: string;
-  ElasticChannelConfiguration?: ElasticChannelConfiguration;
-  ExpirationSettings?: ExpirationSettings;
+  Name?: string | redacted.Redacted<string> | undefined;
+  ChannelArn?: string | undefined;
+  Mode?: ChannelMode | undefined;
+  Privacy?: ChannelPrivacy | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
+  CreatedBy?: Identity | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastMessageTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  ChannelFlowArn?: string | undefined;
+  ElasticChannelConfiguration?: ElasticChannelConfiguration | undefined;
+  ExpirationSettings?: ExpirationSettings | undefined;
 }
 export interface DescribeChannelResponse {
-  Channel?: Channel;
+  Channel?: Channel | undefined;
 }
 export interface DescribeChannelBanRequest {
   ChannelArn: string;
@@ -459,44 +459,44 @@ export interface DescribeChannelBanRequest {
   ChimeBearer: string;
 }
 export interface ChannelBan {
-  Member?: Identity;
-  ChannelArn?: string;
-  CreatedTimestamp?: Date;
-  CreatedBy?: Identity;
+  Member?: Identity | undefined;
+  ChannelArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  CreatedBy?: Identity | undefined;
 }
 export interface DescribeChannelBanResponse {
-  ChannelBan?: ChannelBan;
+  ChannelBan?: ChannelBan | undefined;
 }
 export interface DescribeChannelFlowRequest {
   ChannelFlowArn: string;
 }
 export interface ChannelFlow {
-  ChannelFlowArn?: string;
-  Processors?: Processor[];
-  Name?: string | redacted.Redacted<string>;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
+  ChannelFlowArn?: string | undefined;
+  Processors?: Processor[] | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
 }
 export interface DescribeChannelFlowResponse {
-  ChannelFlow?: ChannelFlow;
+  ChannelFlow?: ChannelFlow | undefined;
 }
 export interface DescribeChannelMembershipRequest {
   ChannelArn: string;
   MemberArn: string;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface ChannelMembership {
-  InvitedBy?: Identity;
-  Type?: ChannelMembershipType;
-  Member?: Identity;
-  ChannelArn?: string;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  SubChannelId?: string;
+  InvitedBy?: Identity | undefined;
+  Type?: ChannelMembershipType | undefined;
+  Member?: Identity | undefined;
+  ChannelArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  SubChannelId?: string | undefined;
 }
 export interface DescribeChannelMembershipResponse {
-  ChannelMembership?: ChannelMembership;
+  ChannelMembership?: ChannelMembership | undefined;
 }
 export interface DescribeChannelMembershipForAppInstanceUserRequest {
   ChannelArn: string;
@@ -504,24 +504,24 @@ export interface DescribeChannelMembershipForAppInstanceUserRequest {
   ChimeBearer: string;
 }
 export interface ChannelSummary {
-  Name?: string | redacted.Redacted<string>;
-  ChannelArn?: string;
-  Mode?: ChannelMode;
-  Privacy?: ChannelPrivacy;
-  Metadata?: string | redacted.Redacted<string>;
-  LastMessageTimestamp?: Date;
+  Name?: string | redacted.Redacted<string> | undefined;
+  ChannelArn?: string | undefined;
+  Mode?: ChannelMode | undefined;
+  Privacy?: ChannelPrivacy | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
+  LastMessageTimestamp?: Date | undefined;
 }
 export interface AppInstanceUserMembershipSummary {
-  Type?: ChannelMembershipType;
-  ReadMarkerTimestamp?: Date;
-  SubChannelId?: string;
+  Type?: ChannelMembershipType | undefined;
+  ReadMarkerTimestamp?: Date | undefined;
+  SubChannelId?: string | undefined;
 }
 export interface ChannelMembershipForAppInstanceUserSummary {
-  ChannelSummary?: ChannelSummary;
-  AppInstanceUserMembershipSummary?: AppInstanceUserMembershipSummary;
+  ChannelSummary?: ChannelSummary | undefined;
+  AppInstanceUserMembershipSummary?: AppInstanceUserMembershipSummary | undefined;
 }
 export interface DescribeChannelMembershipForAppInstanceUserResponse {
-  ChannelMembership?: ChannelMembershipForAppInstanceUserSummary;
+  ChannelMembership?: ChannelMembershipForAppInstanceUserSummary | undefined;
 }
 export interface DescribeChannelModeratedByAppInstanceUserRequest {
   ChannelArn: string;
@@ -529,10 +529,10 @@ export interface DescribeChannelModeratedByAppInstanceUserRequest {
   ChimeBearer: string;
 }
 export interface ChannelModeratedByAppInstanceUserSummary {
-  ChannelSummary?: ChannelSummary;
+  ChannelSummary?: ChannelSummary | undefined;
 }
 export interface DescribeChannelModeratedByAppInstanceUserResponse {
-  Channel?: ChannelModeratedByAppInstanceUserSummary;
+  Channel?: ChannelModeratedByAppInstanceUserSummary | undefined;
 }
 export interface DescribeChannelModeratorRequest {
   ChannelArn: string;
@@ -540,13 +540,13 @@ export interface DescribeChannelModeratorRequest {
   ChimeBearer: string;
 }
 export interface ChannelModerator {
-  Moderator?: Identity;
-  ChannelArn?: string;
-  CreatedTimestamp?: Date;
-  CreatedBy?: Identity;
+  Moderator?: Identity | undefined;
+  ChannelArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  CreatedBy?: Identity | undefined;
 }
 export interface DescribeChannelModeratorResponse {
-  ChannelModerator?: ChannelModerator;
+  ChannelModerator?: ChannelModerator | undefined;
 }
 export interface DisassociateChannelFlowRequest {
   ChannelArn: string;
@@ -563,21 +563,21 @@ export type AllowNotifications = "ALL" | "NONE" | "FILTERED" | (string & {});
 export type FilterRule = string | redacted.Redacted<string>;
 export interface PushNotificationPreferences {
   AllowNotifications: AllowNotifications;
-  FilterRule?: string | redacted.Redacted<string>;
+  FilterRule?: string | redacted.Redacted<string> | undefined;
 }
 export interface ChannelMembershipPreferences {
-  PushNotifications?: PushNotificationPreferences;
+  PushNotifications?: PushNotificationPreferences | undefined;
 }
 export interface GetChannelMembershipPreferencesResponse {
-  ChannelArn?: string;
-  Member?: Identity;
-  Preferences?: ChannelMembershipPreferences;
+  ChannelArn?: string | undefined;
+  Member?: Identity | undefined;
+  Preferences?: ChannelMembershipPreferences | undefined;
 }
 export interface GetChannelMessageRequest {
   ChannelArn: string;
   MessageId: string;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export type Content = string | redacted.Redacted<string>;
 export type ChannelMessageType = "STANDARD" | "CONTROL" | (string & {});
@@ -585,53 +585,53 @@ export type ChannelMessagePersistenceType = "PERSISTENT" | "NON_PERSISTENT" | (s
 export type ChannelMessageStatus = "SENT" | "PENDING" | "FAILED" | "DENIED" | (string & {});
 export type StatusDetail = string;
 export interface ChannelMessageStatusStructure {
-  Value?: ChannelMessageStatus;
-  Detail?: string;
+  Value?: ChannelMessageStatus | undefined;
+  Detail?: string | undefined;
 }
 export interface Target {
-  MemberArn?: string;
+  MemberArn?: string | undefined;
 }
 export type TargetList = Target[];
 export interface ChannelMessage {
-  ChannelArn?: string;
-  MessageId?: string;
-  Content?: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
-  Type?: ChannelMessageType;
-  CreatedTimestamp?: Date;
-  LastEditedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  Sender?: Identity;
-  Redacted?: boolean;
-  Persistence?: ChannelMessagePersistenceType;
-  Status?: ChannelMessageStatusStructure;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  SubChannelId?: string;
-  ContentType?: string | redacted.Redacted<string>;
-  Target?: Target[];
+  ChannelArn?: string | undefined;
+  MessageId?: string | undefined;
+  Content?: string | redacted.Redacted<string> | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
+  Type?: ChannelMessageType | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastEditedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  Sender?: Identity | undefined;
+  Redacted?: boolean | undefined;
+  Persistence?: ChannelMessagePersistenceType | undefined;
+  Status?: ChannelMessageStatusStructure | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
+  SubChannelId?: string | undefined;
+  ContentType?: string | redacted.Redacted<string> | undefined;
+  Target?: Target[] | undefined;
 }
 export interface GetChannelMessageResponse {
-  ChannelMessage?: ChannelMessage;
+  ChannelMessage?: ChannelMessage | undefined;
 }
 export interface GetChannelMessageStatusRequest {
   ChannelArn: string;
   MessageId: string;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface GetChannelMessageStatusResponse {
-  Status?: ChannelMessageStatusStructure;
+  Status?: ChannelMessageStatusStructure | undefined;
 }
 export type NetworkType = "IPV4_ONLY" | "DUAL_STACK" | (string & {});
 export interface GetMessagingSessionEndpointRequest {
-  NetworkType?: NetworkType;
+  NetworkType?: NetworkType | undefined;
 }
 export type UrlType = string;
 export interface MessagingSessionEndpoint {
-  Url?: string;
+  Url?: string | undefined;
 }
 export interface GetMessagingSessionEndpointResponse {
-  Endpoint?: MessagingSessionEndpoint;
+  Endpoint?: MessagingSessionEndpoint | undefined;
 }
 export interface GetMessagingStreamingConfigurationsRequest {
   AppInstanceArn: string;
@@ -643,189 +643,189 @@ export interface StreamingConfiguration {
 }
 export type StreamingConfigurationList = StreamingConfiguration[];
 export interface GetMessagingStreamingConfigurationsResponse {
-  StreamingConfigurations?: StreamingConfiguration[];
+  StreamingConfigurations?: StreamingConfiguration[] | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string | redacted.Redacted<string>;
 export interface ListChannelBansRequest {
   ChannelArn: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
 }
 export interface ChannelBanSummary {
-  Member?: Identity;
+  Member?: Identity | undefined;
 }
 export type ChannelBanSummaryList = ChannelBanSummary[];
 export interface ListChannelBansResponse {
-  ChannelArn?: string;
-  NextToken?: string | redacted.Redacted<string>;
-  ChannelBans?: ChannelBanSummary[];
+  ChannelArn?: string | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  ChannelBans?: ChannelBanSummary[] | undefined;
 }
 export interface ListChannelFlowsRequest {
   AppInstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ChannelFlowSummary {
-  ChannelFlowArn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Processors?: Processor[];
+  ChannelFlowArn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Processors?: Processor[] | undefined;
 }
 export type ChannelFlowSummaryList = ChannelFlowSummary[];
 export interface ListChannelFlowsResponse {
-  ChannelFlows?: ChannelFlowSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  ChannelFlows?: ChannelFlowSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListChannelMembershipsRequest {
   ChannelArn: string;
-  Type?: ChannelMembershipType;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  Type?: ChannelMembershipType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface ChannelMembershipSummary {
-  Member?: Identity;
+  Member?: Identity | undefined;
 }
 export type ChannelMembershipSummaryList = ChannelMembershipSummary[];
 export interface ListChannelMembershipsResponse {
-  ChannelArn?: string;
-  ChannelMemberships?: ChannelMembershipSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  ChannelArn?: string | undefined;
+  ChannelMemberships?: ChannelMembershipSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListChannelMembershipsForAppInstanceUserRequest {
-  AppInstanceUserArn?: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  AppInstanceUserArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
 }
 export type ChannelMembershipForAppInstanceUserSummaryList =
   ChannelMembershipForAppInstanceUserSummary[];
 export interface ListChannelMembershipsForAppInstanceUserResponse {
-  ChannelMemberships?: ChannelMembershipForAppInstanceUserSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  ChannelMemberships?: ChannelMembershipForAppInstanceUserSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface ListChannelMessagesRequest {
   ChannelArn: string;
-  SortOrder?: SortOrder;
-  NotBefore?: Date;
-  NotAfter?: Date;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  SortOrder?: SortOrder | undefined;
+  NotBefore?: Date | undefined;
+  NotAfter?: Date | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface ChannelMessageSummary {
-  MessageId?: string;
-  Content?: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
-  Type?: ChannelMessageType;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  LastEditedTimestamp?: Date;
-  Sender?: Identity;
-  Redacted?: boolean;
-  Status?: ChannelMessageStatusStructure;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  ContentType?: string | redacted.Redacted<string>;
-  Target?: Target[];
+  MessageId?: string | undefined;
+  Content?: string | redacted.Redacted<string> | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
+  Type?: ChannelMessageType | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  LastEditedTimestamp?: Date | undefined;
+  Sender?: Identity | undefined;
+  Redacted?: boolean | undefined;
+  Status?: ChannelMessageStatusStructure | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
+  ContentType?: string | redacted.Redacted<string> | undefined;
+  Target?: Target[] | undefined;
 }
 export type ChannelMessageSummaryList = ChannelMessageSummary[];
 export interface ListChannelMessagesResponse {
-  ChannelArn?: string;
-  NextToken?: string | redacted.Redacted<string>;
-  ChannelMessages?: ChannelMessageSummary[];
-  SubChannelId?: string;
+  ChannelArn?: string | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  ChannelMessages?: ChannelMessageSummary[] | undefined;
+  SubChannelId?: string | undefined;
 }
 export interface ListChannelModeratorsRequest {
   ChannelArn: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
 }
 export interface ChannelModeratorSummary {
-  Moderator?: Identity;
+  Moderator?: Identity | undefined;
 }
 export type ChannelModeratorSummaryList = ChannelModeratorSummary[];
 export interface ListChannelModeratorsResponse {
-  ChannelArn?: string;
-  NextToken?: string | redacted.Redacted<string>;
-  ChannelModerators?: ChannelModeratorSummary[];
+  ChannelArn?: string | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  ChannelModerators?: ChannelModeratorSummary[] | undefined;
 }
 export interface ListChannelsRequest {
   AppInstanceArn: string;
-  Privacy?: ChannelPrivacy;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  Privacy?: ChannelPrivacy | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
 }
 export type ChannelSummaryList = ChannelSummary[];
 export interface ListChannelsResponse {
-  Channels?: ChannelSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  Channels?: ChannelSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListChannelsAssociatedWithChannelFlowRequest {
   ChannelFlowArn: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ChannelAssociatedWithFlowSummary {
-  Name?: string | redacted.Redacted<string>;
-  ChannelArn?: string;
-  Mode?: ChannelMode;
-  Privacy?: ChannelPrivacy;
-  Metadata?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string> | undefined;
+  ChannelArn?: string | undefined;
+  Mode?: ChannelMode | undefined;
+  Privacy?: ChannelPrivacy | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
 }
 export type ChannelAssociatedWithFlowSummaryList = ChannelAssociatedWithFlowSummary[];
 export interface ListChannelsAssociatedWithChannelFlowResponse {
-  Channels?: ChannelAssociatedWithFlowSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  Channels?: ChannelAssociatedWithFlowSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListChannelsModeratedByAppInstanceUserRequest {
-  AppInstanceUserArn?: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  AppInstanceUserArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
 }
 export type ChannelModeratedByAppInstanceUserSummaryList =
   ChannelModeratedByAppInstanceUserSummary[];
 export interface ListChannelsModeratedByAppInstanceUserResponse {
-  Channels?: ChannelModeratedByAppInstanceUserSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  Channels?: ChannelModeratedByAppInstanceUserSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListSubChannelsRequest {
   ChannelArn: string;
   ChimeBearer: string;
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export type MembershipCount = number;
 export interface SubChannelSummary {
-  SubChannelId?: string;
-  MembershipCount?: number;
+  SubChannelId?: string | undefined;
+  MembershipCount?: number | undefined;
 }
 export type SubChannelSummaryList = SubChannelSummary[];
 export interface ListSubChannelsResponse {
-  ChannelArn?: string;
-  SubChannels?: SubChannelSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  ChannelArn?: string | undefined;
+  SubChannels?: SubChannelSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutChannelExpirationSettingsRequest {
   ChannelArn: string;
-  ChimeBearer?: string;
-  ExpirationSettings?: ExpirationSettings;
+  ChimeBearer?: string | undefined;
+  ExpirationSettings?: ExpirationSettings | undefined;
 }
 export interface PutChannelExpirationSettingsResponse {
-  ChannelArn?: string;
-  ExpirationSettings?: ExpirationSettings;
+  ChannelArn?: string | undefined;
+  ExpirationSettings?: ExpirationSettings | undefined;
 }
 export interface PutChannelMembershipPreferencesRequest {
   ChannelArn: string;
@@ -834,27 +834,27 @@ export interface PutChannelMembershipPreferencesRequest {
   Preferences: ChannelMembershipPreferences;
 }
 export interface PutChannelMembershipPreferencesResponse {
-  ChannelArn?: string;
-  Member?: Identity;
-  Preferences?: ChannelMembershipPreferences;
+  ChannelArn?: string | undefined;
+  Member?: Identity | undefined;
+  Preferences?: ChannelMembershipPreferences | undefined;
 }
 export interface PutMessagingStreamingConfigurationsRequest {
   AppInstanceArn: string;
   StreamingConfigurations: StreamingConfiguration[];
 }
 export interface PutMessagingStreamingConfigurationsResponse {
-  StreamingConfigurations?: StreamingConfiguration[];
+  StreamingConfigurations?: StreamingConfiguration[] | undefined;
 }
 export interface RedactChannelMessageRequest {
   ChannelArn: string;
   MessageId: string;
   ChimeBearer: string;
-  SubChannelId?: string;
+  SubChannelId?: string | undefined;
 }
 export interface RedactChannelMessageResponse {
-  ChannelArn?: string;
-  MessageId?: string;
-  SubChannelId?: string;
+  ChannelArn?: string | undefined;
+  MessageId?: string | undefined;
+  SubChannelId?: string | undefined;
 }
 export type SearchFieldKey = "MEMBERS" | (string & {});
 export type SearchFieldValue = string;
@@ -867,34 +867,34 @@ export interface SearchField {
 }
 export type SearchFields = SearchField[];
 export interface SearchChannelsRequest {
-  ChimeBearer?: string;
+  ChimeBearer?: string | undefined;
   Fields: SearchField[];
-  MaxResults?: number;
-  NextToken?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface SearchChannelsResponse {
-  Channels?: ChannelSummary[];
-  NextToken?: string | redacted.Redacted<string>;
+  Channels?: ChannelSummary[] | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface SendChannelMessageRequest {
   ChannelArn: string;
   Content: string | redacted.Redacted<string>;
   Type: ChannelMessageType;
   Persistence: ChannelMessagePersistenceType;
-  Metadata?: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string> | undefined;
   ClientRequestToken: string | redacted.Redacted<string>;
   ChimeBearer: string;
-  PushNotification?: PushNotificationConfiguration;
-  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined };
-  SubChannelId?: string;
-  ContentType?: string | redacted.Redacted<string>;
-  Target?: Target[];
+  PushNotification?: PushNotificationConfiguration | undefined;
+  MessageAttributes?: { [key: string]: MessageAttributeValue | undefined } | undefined;
+  SubChannelId?: string | undefined;
+  ContentType?: string | redacted.Redacted<string> | undefined;
+  Target?: Target[] | undefined;
 }
 export interface SendChannelMessageResponse {
-  ChannelArn?: string;
-  MessageId?: string;
-  Status?: ChannelMessageStatusStructure;
-  SubChannelId?: string;
+  ChannelArn?: string | undefined;
+  MessageId?: string | undefined;
+  Status?: ChannelMessageStatusStructure | undefined;
+  SubChannelId?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -909,13 +909,13 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateChannelRequest {
   ChannelArn: string;
-  Name?: string | redacted.Redacted<string>;
-  Mode?: ChannelMode;
-  Metadata?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Mode?: ChannelMode | undefined;
+  Metadata?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
 }
 export interface UpdateChannelResponse {
-  ChannelArn?: string;
+  ChannelArn?: string | undefined;
 }
 export interface UpdateChannelFlowRequest {
   ChannelFlowArn: string;
@@ -923,29 +923,29 @@ export interface UpdateChannelFlowRequest {
   Name: string | redacted.Redacted<string>;
 }
 export interface UpdateChannelFlowResponse {
-  ChannelFlowArn?: string;
+  ChannelFlowArn?: string | undefined;
 }
 export interface UpdateChannelMessageRequest {
   ChannelArn: string;
   MessageId: string;
   Content: string | redacted.Redacted<string>;
-  Metadata?: string | redacted.Redacted<string>;
+  Metadata?: string | redacted.Redacted<string> | undefined;
   ChimeBearer: string;
-  SubChannelId?: string;
-  ContentType?: string | redacted.Redacted<string>;
+  SubChannelId?: string | undefined;
+  ContentType?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateChannelMessageResponse {
-  ChannelArn?: string;
-  MessageId?: string;
-  Status?: ChannelMessageStatusStructure;
-  SubChannelId?: string;
+  ChannelArn?: string | undefined;
+  MessageId?: string | undefined;
+  Status?: ChannelMessageStatusStructure | undefined;
+  SubChannelId?: string | undefined;
 }
 export interface UpdateChannelReadMarkerRequest {
   ChannelArn: string;
   ChimeBearer: string;
 }
 export interface UpdateChannelReadMarkerResponse {
-  ChannelArn?: string;
+  ChannelArn?: string | undefined;
 }
 export type AssociateChannelFlowError =
   | BadRequestException
