@@ -1,5 +1,5 @@
 {
-  "description": "Type each operation's 404/409 by what it means for that operation (DiskNotFound, SandboxNotFound, DiskAlreadyExists, SandboxStateConflict, ...) instead of the generic NotFound/Conflict, so callers catch the resource-specific tag. Statuses come from the published spec, plus 404 on addDiskUser/removeDiskUser, which the spec omits (the official SDK documents both against unknown disks).",
+  "description": "Type each operation's 404/409 by what it means for that operation (DiskNotFound, SandboxNotFound, DiskAlreadyExists, SandboxStateConflict, ...) instead of the generic NotFound/Conflict, so callers catch the resource-specific tag. Statuses come from the published spec, plus 404 on addDiskUser/removeDiskUser, which the spec omits (the official SDK documents both against unknown disks). CreateApiToken's 401 is typed ApiTokenCreationForbidden: Archil only mints API keys from a console session, and answers an API key with a bare 401 even though the spec lists ApiKeyAuth.",
   "patches": [
     {
       "op": "add",
@@ -735,6 +735,35 @@
           "target": "com.archil.api#SandboxStateConflict"
         }
       ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#ApiTokenCreationForbidden",
+      "value": {
+        "type": "structure",
+        "members": {
+          "error": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 401,
+          "smithy.api#documentation": "Archil only creates API keys from a console session; an API key cannot mint another.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 401
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#CreateApiToken/errors/-",
+      "value": {
+        "target": "com.archil.api#ApiTokenCreationForbidden"
+      }
     }
   ]
 }

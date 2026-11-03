@@ -26,6 +26,15 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** Archil only creates API keys from a console session; an API key cannot mint another. */
+export class ApiTokenCreationForbidden
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ApiTokenCreationForbidden>()("ApiTokenCreationForbidden", {
+      error: S.String,
+    }).pipe(C.withAuthError),
+    [{ status: 401 }],
+  ) {}
+
 /** The API token does not exist. */
 export class ApiTokenNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -1325,7 +1334,7 @@ export const addDiskUser: API.OperationMethod<
   span: "AddDiskUser",
 }));
 
-export type CreateApiTokenError = BadRequest | ArchilOpError;
+export type CreateApiTokenError = BadRequest | ApiTokenCreationForbidden | ArchilOpError;
 /** Create API token Creates a new API token for programmatic access. The full token value is only returned once at creation time. */
 export const createApiToken: API.OperationMethod<
   CreateApiTokenRequest,
@@ -1335,7 +1344,7 @@ export const createApiToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CreateApiTokenRequest>,
   output: __S(34, __c2, 2) as any as S.Schema<ApiResponseTokenCreated>,
-  errors: [BadRequest, UnknownArchilError],
+  errors: [BadRequest, ApiTokenCreationForbidden, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
