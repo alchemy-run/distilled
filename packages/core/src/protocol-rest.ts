@@ -8,7 +8,6 @@ import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
 import { rawResponseRootSymbol } from "./annotations.ts";
 import * as API from "./api.ts";
-import { debugHttp } from "./debug.ts";
 import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
 import { recordPageHeaders } from "./pagination.ts";
 import { isOpaqueValue, unwrapRedactedDeep } from "./plain-values.ts";
@@ -482,9 +481,6 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     errorClasses: ReadonlyArray<unknown>,
   ): Decoded => {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${status}`);
-    }
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {

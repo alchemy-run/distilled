@@ -291,6 +291,6 @@ do not use it never bundle it.
 
 | Layer | Adds |
 | --- | --- |
-| `TelemetryDebug.layer` (`core/telemetry-debug`) | spans for distilled's internals; `layerWith({ logRequests: true })` also logs each request to stderr |
+| `TelemetryDebug.layer` (`core/telemetry-debug`) | spans for distilled's internals, and `Effect.logDebug` lines for each call and HTTP exchange |
 | `TelemetryMetrics.layer` (`core/telemetry-metrics`) | the `rpc.client.call.duration` histogram (seconds) per call, with `rpc.system.name`, `rpc.method`, `error.type` |
 | `TelemetryHooks.layer({ onStart, onEnd })` (`core/telemetry-hooks`) | app callbacks on each recorded operation span |

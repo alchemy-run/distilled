@@ -15,7 +15,6 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as AST from "effect/SchemaAST";
 import { getAnn, getProps } from "./annotations.ts";
 import * as Category from "./category.ts";
-import { debugHttp } from "./debug.ts";
 import { isOpaqueValue } from "./plain-values.ts";
 import * as Schema from "./schema-lite-typed.ts";
 import { restoreStack, suppressStack } from "./telemetry.ts";
@@ -759,9 +758,6 @@ const requestOrInvalid = ({
 
   const qs = query === undefined ? "" : query.toString();
   const url = qs ? `${baseUrl}${uri}?${qs}` : `${baseUrl}${uri}`;
-  if (debugHttp()) {
-    console.error(`[distilled] -> ${http.method} ${http.uri}`);
-  }
 
   const request = makeRequest(http.method, url, headers);
   const bodied = !BODYLESS.has(http.method);

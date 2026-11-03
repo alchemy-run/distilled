@@ -1,5 +1,4 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import { HTTP_STATUS_MAP, type ConfigError } from "@distilled.cloud/core/errors";
 import { getAnn } from "@distilled.cloud/core/protocol-http";
 import { failUnlessLenient, validateResponse } from "@distilled.cloud/core/response-validation";
@@ -233,11 +232,6 @@ const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAs
     }
 
     const url = `${creds.apiBaseUrl}${http?.uri ?? "/graphql"}`;
-    if (debugHttp()) {
-      console.error(
-        `[distilled] POST ${url} op=${op.operationName} variables=${JSON.stringify(variables).slice(0, 400)}`,
-      );
-    }
     return HttpClientRequest.make("POST")(url).pipe(
       HttpClientRequest.setHeaders({
         Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,
@@ -261,9 +255,6 @@ const decode = ({
 }) =>
   Effect.gen(function* () {
     const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
     const status = response.status;
     const headers = response.headers as Record<string, string | undefined>;
 

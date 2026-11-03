@@ -14,7 +14,9 @@
  *   debug (opt in):  spans for distilled's internals too, INTERNAL spans
  *               at trace level `Debug`: first-call setup, serialize, sign,
  *               deserialize, one `Attempt` per try, backoff sleeps, and the
- *               caller's `code.*` attributes. Its code lives in
+ *               caller's `code.*` attributes; and `Effect.logDebug` lines
+ *               for each call and HTTP exchange, the same for every SDK,
+ *               with or without an exporter. Its code lives in
  *               `./telemetry-debug.ts`, so only programs that import it
  *               bundle it:
  *
@@ -61,8 +63,19 @@ export interface DebugHooks {
     parent: Tracer.Span,
     member: string,
   ) => Stream.Stream<A, E, R>;
-  /** Log each request and response line to stderr (`./debug.ts`). */
-  readonly logRequests: boolean;
+  /**
+   * The operation call with its debug log lines: `Effect.logDebug` at the
+   * start and on exit, every line inside annotated with the operation.
+   */
+  readonly call: <A, E, R>(
+    info: OperationInfo,
+    effect: Effect.Effect<A, E, R>,
+  ) => Effect.Effect<A, E, R>;
+  /** One HTTP exchange (`sent`) with its debug log lines. */
+  readonly http: (
+    request: HttpClientRequest.HttpClientRequest,
+    sent: Effect.Effect<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError>,
+  ) => Effect.Effect<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError>;
   /** OTel `code.*` attributes for the caller's line. */
   readonly callSite: (
     callSite: (() => string | undefined) | undefined,
@@ -494,6 +507,16 @@ export const execute = (
   client: HttpClient.HttpClient,
   request: HttpClientRequest.HttpClientRequest,
 ): Effect.Effect<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError> => {
+  const debug = Context.get(context, Debug);
+  const sent = tracedExecute(context, client, request);
+  return debug === undefined ? sent : debug.http(request, sent);
+};
+
+const tracedExecute = (
+  context: Context.Context<any>,
+  client: HttpClient.HttpClient,
+  request: HttpClientRequest.HttpClientRequest,
+): Effect.Effect<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError> => {
   const call = Context.get(context, OperationSpan);
   if (call === undefined) return client.execute(request);
   annotateRequest(context, request.method, request.url);
@@ -685,7 +708,8 @@ export const operationSpan = <A, E, R>(
   run: (input: unknown) => Effect.Effect<A, E, R>,
 ): Effect.Effect<A, E, R> => {
   const measure = fiber.getRef(Metrics);
-  const traced = traceCall(fiber, debug, info, callSite, input, run);
+  let traced = traceCall(fiber, debug, info, callSite, input, run);
+  if (debug !== undefined) traced = debug.call(info, traced);
   return measure === undefined ? traced : measure(info, traced);
 };
 
