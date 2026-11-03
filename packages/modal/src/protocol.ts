@@ -26,10 +26,12 @@ import { descriptors } from "./descriptors.ts";
 import { UnknownModalError, type DefaultErrors, ModalParseError } from "./errors.ts";
 
 /**
- * Behaves like this Python SDK version, matching the official JS client's
- * `x-modal-client-version` pin.
+ * The Python SDK version this client reports in `x-modal-client-version`.
+ * Modal gates features on it (the input plane needs 1.1.3 or later), so it
+ * matches the `modal` client a deployed Function's container runs
+ * (`modal-client-mount-1.6.3`).
  */
-export const CLIENT_VERSION = "1.0.0";
+export const CLIENT_VERSION = "1.6.3";
 
 /** `CLIENT_TYPE_LIBMODAL_JS` in modal_proto. */
 export const CLIENT_TYPE_LIBMODAL_JS = "8";
