@@ -441,6 +441,23 @@ describe("Presign", () => {
     );
   });
 
+  test("presignS3Url uses the DNS suffix of the region's partition", async () => {
+    for (const [region, host] of [
+      ["us-west-2", "examplebucket.s3.us-west-2.amazonaws.com"],
+      ["eusc-de-east-1", "examplebucket.s3.eusc-de-east-1.amazonaws.eu"],
+      ["cn-north-1", "examplebucket.s3.cn-north-1.amazonaws.com.cn"],
+    ] as const) {
+      const signed = await Effect.runPromise(
+        Presign.presignS3Url({ bucket: "examplebucket", key: "a.txt", region, datetime }).pipe(
+          Effect.provide(layer),
+        ),
+      );
+      const parsed = new URL(signed);
+      expect(parsed.hostname).toBe(host);
+      expect(parsed.searchParams.get("X-Amz-Credential")).toContain(`/${region}/s3/aws4_request`);
+    }
+  });
+
   test("presignS3Url signs versions under a custom path-style endpoint", async () => {
     const signed = await Effect.runPromise(
       Presign.presignS3Url({
