@@ -37,6 +37,7 @@ import {
   E2BParseError,
   Forbidden,
   NotFound,
+  SandboxNotRunning,
   Unauthorized,
   UnknownE2BError,
 } from "./errors.ts";
@@ -125,6 +126,7 @@ export type ConnectStreamError =
   | Forbidden
   | NotFound
   | Conflict
+  | SandboxNotRunning
   | UnknownE2BError
   | E2BParseError
   | ConfigError
@@ -220,6 +222,13 @@ export const connectError = (
   }
 };
 
+/** E2B's proxy body for a paused or killed sandbox: `{ sandboxId, message: "The sandbox was not found", code: 502 }`. */
+const notRunning = (body: unknown): boolean =>
+  body !== null &&
+  typeof body === "object" &&
+  typeof (body as { message?: unknown }).message === "string" &&
+  (body as { message: string }).message.includes("sandbox was not found");
+
 const errorOf = (json: unknown): { code?: string; message?: string } | undefined => {
   if (json === null || typeof json !== "object") return undefined;
   const error = (json as { error?: unknown }).error;
@@ -270,6 +279,15 @@ export const serverStream = (
         // A failure before the stream starts is a unary Connect error body.
         const body = yield* response.json.pipe(Effect.orElseSucceed(() => undefined));
         const error = errorOf({ error: body }) ?? {};
+        if (response.status === 502 && notRunning(body)) {
+          return yield* Effect.fail(
+            new SandboxNotRunning({
+              sandboxId: sandbox.sandboxId,
+              message: (body as { message: string }).message,
+              code: 502,
+            }),
+          );
+        }
         return yield* Effect.fail(
           error.code === undefined && response.status === 404
             ? new NotFound({ message: `envd ${method} not found` })

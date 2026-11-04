@@ -54,6 +54,19 @@ export class E2BParseError
     cause: Schema.Unknown,
   }).pipe(Category.withParseError) {}
 
+/**
+ * The sandbox is paused or no longer exists: E2B's proxy answers every envd
+ * call with 502 "The sandbox was not found". Resume a paused sandbox
+ * (`sandboxes.connectSandbox`) before calling envd. The generated envd
+ * operations carry the same tag; this class is the streaming calls' copy.
+ */
+export class SandboxNotRunning
+  extends /*@__PURE__*/ Schema.TaggedError<SandboxNotRunning>()("SandboxNotRunning", {
+    sandboxId: Schema.String,
+    message: Schema.String,
+    code: Schema.Number,
+  }).pipe(Category.withServerError) {}
+
 /** Errors any E2B operation may surface in addition to the shared HTTP status errors. */
 export type ClientErrors = UnknownE2BError | E2BParseError;
 

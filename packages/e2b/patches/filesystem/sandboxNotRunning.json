@@ -1,0 +1,108 @@
+{
+  "description": "Type the 502 E2B's proxy returns for envd calls on a paused (or killed) sandbox: {\"sandboxId\", \"message\": \"The sandbox was not found\", \"code\": 502}. Observed live 2026-11-04.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.filesystem#SandboxNotRunning",
+      "value": {
+        "type": "structure",
+        "members": {
+          "sandboxId": {
+            "target": "smithy.api#String"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          },
+          "code": {
+            "target": "smithy.api#Integer"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "server",
+          "smithy.api#httpError": 502,
+          "smithy.api#documentation": "The sandbox is paused or no longer exists: E2B's proxy answers every envd call with 502 \"The sandbox was not found\". Resume a paused sandbox (sandboxes.connectSandbox) before calling envd.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 502,
+              "message": {
+                "includes": "sandbox was not found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.filesystem#MakeDir/errors",
+      "value": [
+        {
+          "target": "com.e2b.filesystem#SandboxNotRunning"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.filesystem#ListDir/errors",
+      "value": [
+        {
+          "target": "com.e2b.filesystem#SandboxNotRunning"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.filesystem#CreateWatcher/errors",
+      "value": [
+        {
+          "target": "com.e2b.filesystem#SandboxNotRunning"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.filesystem#GetWatcherEvents/errors",
+      "value": [
+        {
+          "target": "com.e2b.filesystem#SandboxNotRunning"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.filesystem#RemoveWatcher/errors",
+      "value": [
+        {
+          "target": "com.e2b.filesystem#SandboxNotRunning"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.filesystem#StatPath/errors",
+      "value": [
+        {
+          "target": "com.e2b.filesystem#SandboxNotRunning"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.filesystem#MovePath/errors",
+      "value": [
+        {
+          "target": "com.e2b.filesystem#SandboxNotRunning"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.filesystem#RemovePath/errors",
+      "value": [
+        {
+          "target": "com.e2b.filesystem#SandboxNotRunning"
+        }
+      ]
+    }
+  ]
+}
